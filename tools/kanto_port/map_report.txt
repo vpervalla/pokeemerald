@@ -1,0 +1,25 @@
+Maps renamed because the name already exists in Emerald:
+    BirthIsland_Exterior -> KantoBirthIsland_Exterior
+    BirthIsland_Harbor -> KantoBirthIsland_Harbor
+    NavelRock_B1F -> KantoNavelRock_B1F
+    NavelRock_Exterior -> KantoNavelRock_Exterior
+    NavelRock_Fork -> KantoNavelRock_Fork
+    NavelRock_Harbor -> KantoNavelRock_Harbor
+    SafariZone_North -> KantoSafariZone_North
+    VictoryRoad_1F -> KantoVictoryRoad_1F
+
+FRLG link maps not ported (Emerald's own are used):
+    BattleColosseum_2P
+    BattleColosseum_4P
+    RecordCorner
+    TradeCenter
+    UnionRoom
+
+Notes:
+    LAYOUT_KANTO_SAFARI_ZONE_NORTH: 3x2 border cropped to 2x2
+    LAYOUT_SAFARI_ZONE_CENTER: 3x2 border cropped to 2x2
+    LAYOUT_SAFARI_ZONE_EAST: 3x2 border cropped to 2x2
+    LAYOUT_SAFARI_ZONE_WEST: 3x2 border cropped to 2x2
+    LAYOUT_SIX_ISLAND_PATTERN_BUSH: 3x2 border cropped to 2x2
+    LAYOUT_THREE_ISLAND_BERRY_FOREST: 3x2 border cropped to 2x2
+    LAYOUT_VIRIDIAN_FOREST: 3x2 border cropped to 2x2
