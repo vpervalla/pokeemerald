@@ -252,6 +252,7 @@ tidymodern:
 
 # Other rules
 include graphics_file_rules.mk
+include tileset_rules_kanto.mk
 include map_data_rules.mk
 include json_data_rules.mk
 include audio_rules.mk

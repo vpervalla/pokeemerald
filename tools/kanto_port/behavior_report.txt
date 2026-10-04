@@ -1,0 +1,150 @@
+Metatile behaviour conversions (FRLG -> Emerald). Entries are tileset:metatile index.
+
+MB_NORMAL + land encounters -> MB_CAVE: 425 metatiles
+    secondary/cave (34), secondary/cerulean_cave (30), secondary/digletts_cave (34), secondary/mt_ember (31), secondary/navel_rock (47), secondary/pokemon_mansion (111), secondary/pokemon_tower (47), secondary/rock_tunnel (30), secondary/seafoam_islands (53), secondary/tanoby_ruins (8)
+MB_FAST_WATER -> MB_INTERIOR_DEEP_WATER: 51 metatiles
+    primary/general (40), secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (3), secondary/sevii_islands_67 (2)
+MB_JUMP_SOUTH + land encounters -> MB_JUMP_SOUTH (land encounters LOST): 42 metatiles
+    secondary/cave (6), secondary/cerulean_cave (6), secondary/digletts_cave (6), secondary/mt_ember (6), secondary/navel_rock (6), secondary/rock_tunnel (6), secondary/seafoam_islands (6)
+MB_CAVE_DOOR -> MB_NON_ANIMATED_DOOR: 39 metatiles
+    primary/building (3), primary/general (2), secondary/burgled_house (1), secondary/cave (1), secondary/cerulean_cave (1), secondary/cerulean_city (1), secondary/cinnabar_island (1), secondary/condominiums (2), secondary/digletts_cave (1), secondary/fan_club_daycare (1), secondary/game_corner (1), secondary/generic_building_2 (2), secondary/hoenn_building (3), secondary/island_harbor (1), secondary/lab (1), secondary/lavender_town (2), secondary/mt_ember (1), secondary/navel_rock (1), secondary/pewter_city (1), secondary/pokemon_center (1), secondary/pokemon_league (1), secondary/rock_tunnel (1), secondary/safari_zone_building (1), secondary/saffron_city (1), secondary/seafoam_islands (1), secondary/sevii_islands_123 (1), secondary/sevii_islands_67 (5)
+MB_CYCLING_ROAD_PULL_DOWN -> MB_NORMAL (no Emerald equivalent): 38 metatiles
+    secondary/celadon_city (38)
+MB_WARP_DOOR -> MB_ANIMATED_DOOR: 36 metatiles
+    primary/general (3), secondary/celadon_city (1), secondary/cerulean_city (2), secondary/cinnabar_island (1), secondary/department_store (1), secondary/fuchsia_city (2), secondary/lavender_town (1), secondary/pallet_town (2), secondary/pewter_city (1), secondary/pokemon_center (1), secondary/saffron_city (2), secondary/sea_cottage (3), secondary/sevii_islands_123 (3), secondary/sevii_islands_45 (3), secondary/sevii_islands_67 (2), secondary/silph_co (2), secondary/ss_anne (1), secondary/trainer_tower (2), secondary/vermilion_city (1), secondary/viridian_city (2)
+MB_SIGNPOST -> MB_NORMAL (no Emerald equivalent): 32 metatiles
+    primary/building (1), primary/general (4), secondary/celadon_city (2), secondary/celadon_gym (1), secondary/cerulean_gym (1), secondary/cinnabar_gym (1), secondary/cinnabar_island (2), secondary/condominiums (4), secondary/department_store (3), secondary/fuchsia_gym (1), secondary/lab (2), secondary/pallet_town (1), secondary/pewter_gym (2), secondary/restaurant_hotel (1), secondary/saffron_city (3), secondary/saffron_gym (1), secondary/vermilion_gym (1), secondary/viridian_gym (1)
+MB_POKEMART_SHELF -> MB_SHOP_SHELF: 26 metatiles
+    secondary/department_store (11), secondary/game_corner (4), secondary/lab (2), secondary/mart (9)
+MB_STRENGTH_BUTTON -> MB_NORMAL (no Emerald equivalent): 24 metatiles
+    secondary/cable_club (23), secondary/digletts_cave (1)
+MB_POWER_PLANT_MACHINE -> MB_NORMAL (no Emerald equivalent): 22 metatiles
+    secondary/island_harbor (9), secondary/lab (11), secondary/silph_co (2)
+MB_IMPASSABLE_NORTH + land encounters -> MB_IMPASSABLE_NORTH (land encounters LOST): 21 metatiles
+    secondary/cave (4), secondary/cerulean_cave (2), secondary/digletts_cave (4), secondary/mt_ember (2), secondary/navel_rock (4), secondary/rock_tunnel (1), secondary/seafoam_islands (4)
+MB_SOUTH_ARROW_WARP + land encounters -> MB_SOUTH_ARROW_WARP (land encounters LOST): 20 metatiles
+    secondary/cave (2), secondary/cerulean_cave (2), secondary/digletts_cave (2), secondary/mt_ember (3), secondary/navel_rock (2), secondary/pokemon_mansion (2), secondary/pokemon_tower (1), secondary/power_plant (1), secondary/rock_tunnel (2), secondary/seafoam_islands (2), secondary/tanoby_ruins (1)
+MB_UP_RIGHT_STAIR_WARP -> MB_EAST_ARROW_WARP: 16 metatiles
+    primary/building (4), secondary/condominiums (1), secondary/department_store (1), secondary/generic_building_2 (1), secondary/museum (1), secondary/silph_co (2), secondary/ss_anne (3), secondary/trainer_tower (1), secondary/underground_path (2)
+MB_PAINTING -> MB_NORMAL (no Emerald equivalent): 16 metatiles
+    primary/building (7), secondary/condominiums (3), secondary/lab (1), secondary/museum (2), secondary/silph_co (3)
+MB_DOWN_LEFT_STAIR_WARP -> MB_WEST_ARROW_WARP: 15 metatiles
+    primary/building (3), secondary/condominiums (1), secondary/department_store (1), secondary/generic_building_2 (1), secondary/museum (1), secondary/silph_co (2), secondary/ss_anne (4), secondary/trainer_tower (2)
+MB_ROCK_STAIRS -> MB_NORMAL (no Emerald equivalent): 15 metatiles
+    primary/general (3), secondary/cerulean_city (5), secondary/indigo_plateau (5), secondary/sevii_islands_67 (2)
+MB_KITCHEN -> MB_NORMAL (no Emerald equivalent): 14 metatiles
+    primary/building (6), secondary/fan_club_daycare (2), secondary/restaurant_hotel (2), secondary/ss_anne (4)
+MB_COMPUTER -> MB_NORMAL (no Emerald equivalent): 14 metatiles
+    primary/building (3), secondary/lab (5), secondary/museum (1), secondary/safari_zone_building (1), secondary/silph_co (4)
+MB_BLINKING_LIGHTS -> MB_NORMAL (no Emerald equivalent): 14 metatiles
+    secondary/lab (6), secondary/sea_cottage (1), secondary/silph_co (6), secondary/vermilion_gym (1)
+MB_SAND_CAVE + land encounters -> MB_DEEP_SAND: 13 metatiles
+    secondary/cave (3), secondary/digletts_cave (3), secondary/mt_ember (7)
+MB_PORTHOLE -> MB_NORMAL (no Emerald equivalent): 12 metatiles
+    primary/building (3), secondary/fan_club_daycare (2), secondary/generic_building_2 (1), secondary/lab (1), secondary/museum (1), secondary/ss_anne (4)
+MB_POWER_PLANT_MACHINE + land encounters -> MB_CAVE: 12 metatiles
+    secondary/power_plant (12)
+MB_BLUEPRINTS -> MB_BLUEPRINT: 12 metatiles
+    secondary/sea_cottage (1), secondary/silph_co (11)
+MB_WINDOW -> MB_NORMAL (no Emerald equivalent): 11 metatiles
+    primary/building (2), secondary/celadon_gym (1), secondary/condominiums (1), secondary/generic_building_2 (3), secondary/pokemon_mansion (2), secondary/safari_zone_building (1), secondary/school (1)
+MB_BURGLARY -> MB_NORMAL (no Emerald equivalent): 11 metatiles
+    secondary/burgled_house (11)
+MB_CABINET -> MB_NORMAL (no Emerald equivalent): 10 metatiles
+    primary/building (6), secondary/fan_club_daycare (4)
+MB_UP_LEFT_STAIR_WARP -> MB_WEST_ARROW_WARP: 10 metatiles
+    primary/building (2), secondary/condominiums (1), secondary/department_store (1), secondary/generic_building_2 (1), secondary/ss_anne (2), secondary/trainer_tower (1), secondary/underground_path (2)
+MB_NEATLY_LINED_UP_TOOLS -> MB_NORMAL (no Emerald equivalent): 10 metatiles
+    secondary/bike_shop (2), secondary/condominiums (2), secondary/department_store (3), secondary/mart (3)
+MB_CYCLING_ROAD_WATER -> MB_OCEAN_WATER: 10 metatiles
+    secondary/celadon_city (10)
+MB_DOWN_RIGHT_STAIR_WARP -> MB_EAST_ARROW_WARP: 9 metatiles
+    primary/building (2), secondary/condominiums (2), secondary/department_store (1), secondary/game_corner (1), secondary/ss_anne (2), secondary/underground_path (1)
+MB_FALL_WARP -> MB_CRACKED_FLOOR_HOLE: 9 metatiles
+    secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (2), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (2)
+MB_JUMP_WEST + land encounters -> MB_JUMP_WEST (land encounters LOST): 9 metatiles
+    secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (3)
+MB_EAST_ARROW_WARP + land encounters -> MB_EAST_ARROW_WARP (land encounters LOST): 8 metatiles
+    secondary/cave (2), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (1)
+MB_JUMP_EAST + land encounters -> MB_JUMP_EAST (land encounters LOST): 7 metatiles
+    secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (1)
+MB_STRENGTH_BUTTON + land encounters -> MB_CAVE: 7 metatiles
+    secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (1)
+MB_SIGNPOST + land encounters -> MB_CAVE: 7 metatiles
+    secondary/cave (1), secondary/cerulean_cave (1), secondary/digletts_cave (1), secondary/mt_ember (1), secondary/navel_rock (1), secondary/rock_tunnel (1), secondary/seafoam_islands (1)
+MB_DRESSER -> MB_NORMAL (no Emerald equivalent): 6 metatiles
+    primary/building (3), secondary/fan_club_daycare (1), secondary/restaurant_hotel (2)
+MB_ROCK_STAIRS + land encounters -> MB_CAVE: 6 metatiles
+    secondary/cave (1), secondary/mt_ember (1), secondary/navel_rock (2), secondary/rock_tunnel (1), secondary/seafoam_islands (1)
+unknown 0xE1 -> MB_NORMAL (no Emerald equivalent): 6 metatiles
+    secondary/hoenn_building (6)
+MB_BLINKING_LIGHTS + land encounters -> MB_CAVE: 6 metatiles
+    secondary/pokemon_mansion (3), secondary/power_plant (3)
+MB_CUP -> MB_NORMAL (no Emerald equivalent): 5 metatiles
+    primary/building (1), secondary/restaurant_hotel (1), secondary/ss_anne (3)
+MB_TELEPHONE -> MB_NORMAL (no Emerald equivalent): 5 metatiles
+    secondary/condominiums (1), secondary/department_store (1), secondary/silph_co (3)
+unknown 0xE0 -> MB_NORMAL (no Emerald equivalent): 4 metatiles
+    secondary/hoenn_building (4)
+MB_INDIGO_PLATEAU_SIGN_1 -> MB_NORMAL (no Emerald equivalent): 4 metatiles
+    secondary/indigo_plateau (3), secondary/pokemon_center (1)
+MB_UP_RIGHT_STAIR_WARP + land encounters -> MB_EAST_ARROW_WARP (land encounters LOST): 4 metatiles
+    secondary/pokemon_mansion (3), secondary/pokemon_tower (1)
+MB_FOOD_SMELLS_TASTY -> MB_NORMAL (no Emerald equivalent): 4 metatiles
+    secondary/restaurant_hotel (2), secondary/ss_anne (2)
+MB_TRASH_BIN -> MB_TRASH_CAN: 4 metatiles
+    secondary/sevii_islands_123 (2), secondary/ss_anne (2)
+MB_SPIN_RIGHT -> MB_NORMAL (no Emerald equivalent): 4 metatiles
+    secondary/silph_co (1), secondary/viridian_gym (3)
+MB_POKEMART_SIGN -> MB_NORMAL (no Emerald equivalent): 3 metatiles
+    primary/general (2), secondary/saffron_city (1)
+MB_POKEMON_CENTER_SIGN -> MB_NORMAL (no Emerald equivalent): 3 metatiles
+    primary/general (2), secondary/saffron_city (1)
+unknown 0xE3 -> MB_NORMAL (no Emerald equivalent): 3 metatiles
+    secondary/hoenn_building (3)
+MB_INDIGO_PLATEAU_SIGN_2 -> MB_NORMAL (no Emerald equivalent): 3 metatiles
+    secondary/indigo_plateau (2), secondary/pokemon_center (1)
+MB_FALL_WARP + land encounters -> MB_CRACKED_FLOOR_HOLE (land encounters LOST): 3 metatiles
+    secondary/pokemon_mansion (3)
+MB_STOP_SPINNING -> MB_NORMAL (no Emerald equivalent): 3 metatiles
+    secondary/silph_co (1), secondary/viridian_gym (2)
+MB_FOOD -> MB_NORMAL (no Emerald equivalent): 2 metatiles
+    primary/building (2)
+MB_WEST_ARROW_WARP + land encounters -> MB_WEST_ARROW_WARP (land encounters LOST): 2 metatiles
+    secondary/cave (1), secondary/power_plant (1)
+MB_BATTLE_RECORDS -> MB_CABLE_BOX_RESULTS_1: 2 metatiles
+    secondary/pokemon_center (2)
+MB_CABLE_CLUB_WIRELESS_MONITOR -> MB_WIRELESS_BOX_RESULTS: 2 metatiles
+    secondary/pokemon_center (2)
+MB_DOWN_LEFT_STAIR_WARP + land encounters -> MB_WEST_ARROW_WARP (land encounters LOST): 2 metatiles
+    secondary/pokemon_mansion (1), secondary/pokemon_tower (1)
+MB_DOWN_RIGHT_STAIR_WARP + land encounters -> MB_EAST_ARROW_WARP (land encounters LOST): 2 metatiles
+    secondary/pokemon_mansion (1), secondary/pokemon_tower (1)
+MB_REGULAR_WARP -> MB_AQUA_HIDEOUT_WARP: 2 metatiles
+    secondary/saffron_gym (1), secondary/silph_co (1)
+MB_PUDDLE + land encounters -> MB_PUDDLE (land encounters LOST): 2 metatiles
+    secondary/seafoam_islands (2)
+MB_SPIN_UP -> MB_NORMAL (no Emerald equivalent): 2 metatiles
+    secondary/silph_co (1), secondary/viridian_gym (1)
+MB_SPIN_LEFT -> MB_NORMAL (no Emerald equivalent): 2 metatiles
+    secondary/silph_co (1), secondary/viridian_gym (1)
+MB_SPIN_DOWN -> MB_NORMAL (no Emerald equivalent): 2 metatiles
+    secondary/silph_co (1), secondary/viridian_gym (1)
+MB_TRAINER_TOWER_MONITOR -> MB_NORMAL (no Emerald equivalent): 2 metatiles
+    secondary/silph_co (1), secondary/trainer_tower (1)
+MB_CYCLING_ROAD_PULL_DOWN_GRASS + land encounters -> MB_TALL_GRASS: 1 metatiles
+    secondary/celadon_city (1)
+MB_UNION_ROOM_WARP -> MB_NORMAL (no Emerald equivalent): 1 metatiles
+    secondary/hall_of_fame (1)
+unknown 0xC0 -> MB_NORMAL (no Emerald equivalent): 1 metatiles
+    secondary/hoenn_building (1)
+MB_ADVERTISING_POSTER -> MB_NORMAL (no Emerald equivalent): 1 metatiles
+    secondary/mart (1)
+MB_UP_LEFT_STAIR_WARP + land encounters -> MB_WEST_ARROW_WARP (land encounters LOST): 1 metatiles
+    secondary/pokemon_tower (1)
+MB_COUNTER + land encounters -> MB_COUNTER (land encounters LOST): 1 metatiles
+    secondary/pokemon_tower (1)
+MB_THIN_ICE + land encounters -> MB_THIN_ICE (land encounters LOST): 1 metatiles
+    secondary/seafoam_islands (1)
+MB_CRACKED_ICE + land encounters -> MB_CRACKED_ICE (land encounters LOST): 1 metatiles
+    secondary/seafoam_islands (1)
