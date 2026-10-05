@@ -2,13 +2,16 @@
 """Cut the Poke Ball emblems of the Pokemon Center and Mart out of kanto_general into 32x32 sprites,
 which src/day_night.c lays over the emblems at night so they glow. Run from the pokeemerald root.
 
-The emblem plate is taken row by row between the leftmost and rightmost pixel of its outline
-(palette colour 6); rows without outline pixels reuse the previous row's span."""
+Only the ball's red (Pokemon Center) or blue (Mart) pixels go in the sprite, so the grey plate and
+the ball's white band stay part of the tinted building. They are taken from inside the emblem plate,
+row by row between the leftmost and rightmost pixel of its outline (palette colour 6; rows without
+outline pixels reuse the previous row's span), since the roof shares the ball's colours."""
 import struct
 from PIL import Image
 
 P = "data/tilesets/primary/kanto_general/"
 OUTLINE = 6
+BALL_COLORS = {11, 12, 13, 14}
 # name: (palette, metatiles in 2 rows, pixel x of the sprite's left edge within those rows)
 SIGNS = {
     "pokemon_center": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8),
@@ -57,7 +60,7 @@ for name, (pal, rows, left) in SIGNS.items():
             continue
         for x in range(span[0], span[1] + 1):
             c = grid[y][x]
-            if c > 0 and left <= x < left + 32:
+            if c in BALL_COLORS and left <= x < left + 32:
                 out.putpixel((x - left, y), c)
     colors = jasc(f"{P}palettes/{pal:02d}.pal")
     colors[0] = (255, 0, 255)  # transparent
