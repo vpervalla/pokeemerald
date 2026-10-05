@@ -18,7 +18,7 @@ tilesets: copies every FRLG tileset to data/tilesets/<kind>/kanto_<name>, conver
 maps:     ports layouts and maps with their warps and connections into gMapGroup_Kanto* groups.
           Maps and layouts that already exist are left alone unless --force is given, so
           edits made afterwards (by hand or in Porymap) survive a re-run.
-          NPCs, triggers and signs are stripped until their scripts are ported. Maps and layouts
+          NPCs, triggers and signs are stripped (port_npcs.py objects adds the NPCs). Maps and layouts
           whose name already exists in Emerald get a Kanto prefix (see map_report.txt).
 encounters: replaces the wild encounter tables of every ported map with FireRed's (LeafGreen's are skipped).
 regionmap: converts the Kanto and Sevii Islands region maps to Emerald's 8bpp affine format
@@ -332,7 +332,7 @@ def cmd_maps(args):
             dict(c, map=map_id.get(c["map"], c["map"])) for c in fj["connections"]]
         m["warp_events"] = [] if args.no_warps else [
             dict(w, dest_map=map_id.get(w["dest_map"], w["dest_map"])) for w in fj["warp_events"]]
-        # NPCs, triggers and signs need their scripts ported first.
+        # NPCs are added by port_npcs.py; triggers and signs need their scripts ported first.
         m["object_events"], m["coord_events"], m["bg_events"] = [], [], []
         write(f"data/maps/{new_name}/map.json", json.dumps(m, indent=2) + "\n")
         scripts = f"data/maps/{new_name}/scripts.inc"
@@ -632,6 +632,7 @@ FLY_FLAGS = {
     "FLAG_WORLD_MAP_SEVEN_ISLAND": "FLAG_VISITED_SEVEN_ISLAND",
 }
 HEAL_JSON = "src/data/heal_locations.json"
+NPC_BLOCK_BEGIN = "@ BEGIN KANTO NPCS"
 
 def cmd_heal(args):
     """Port FRLG's heal locations, and the map scripts that set the respawn point and unlock fly destinations."""
@@ -657,6 +658,10 @@ def cmd_heal(args):
             continue
         path = f"data/maps/{new}/scripts.inc"
         cur = read(path)
+        npcs = ""  # the NPC scripts port_npcs.py appends to the file are kept as they are
+        if NPC_BLOCK_BEGIN in cur:
+            npcs = "\n" + cur[cur.index(NPC_BLOCK_BEGIN):]
+            cur = cur[:cur.index(NPC_BLOCK_BEGIN)].rstrip("\n") + "\n"
         label = f"{new}_OnTransition"
         body = (f"{new}_MapScripts::\n\tmap_script MAP_SCRIPT_ON_TRANSITION, {label}\n\t.byte 0\n\n"
                 f"{label}:\n" + "\n".join(cmds) + "\n\tend\n")
@@ -665,7 +670,7 @@ def cmd_heal(args):
         if cur != f"{new}_MapScripts::\n\t.byte 0\n":
             skipped.append(new)  # scripts were edited since the map was ported; add the commands by hand
             continue
-        write(path, body)
+        write(path, body + npcs)
         done.append(new)
     print(f"ported {len(fheal)} heal locations; added map scripts to {len(done)} maps"
           + (f"; scripts already edited, add by hand: {', '.join(skipped)}" if skipped else ""))

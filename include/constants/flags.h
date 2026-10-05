@@ -43,54 +43,54 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
-#define FLAG_UNUSED_0x027    0x27 // Unused Flag
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
-#define FLAG_UNUSED_0x02D    0x2D // Unused Flag
-#define FLAG_UNUSED_0x02E    0x2E // Unused Flag
-#define FLAG_UNUSED_0x02F    0x2F // Unused Flag
-#define FLAG_UNUSED_0x030    0x30 // Unused Flag
-#define FLAG_UNUSED_0x031    0x31 // Unused Flag
-#define FLAG_UNUSED_0x032    0x32 // Unused Flag
-#define FLAG_UNUSED_0x033    0x33 // Unused Flag
-#define FLAG_UNUSED_0x034    0x34 // Unused Flag
-#define FLAG_UNUSED_0x035    0x35 // Unused Flag
-#define FLAG_UNUSED_0x036    0x36 // Unused Flag
-#define FLAG_UNUSED_0x037    0x37 // Unused Flag
-#define FLAG_UNUSED_0x038    0x38 // Unused Flag
-#define FLAG_UNUSED_0x039    0x39 // Unused Flag
-#define FLAG_UNUSED_0x03A    0x3A // Unused Flag
-#define FLAG_UNUSED_0x03B    0x3B // Unused Flag
-#define FLAG_UNUSED_0x03C    0x3C // Unused Flag
-#define FLAG_UNUSED_0x03D    0x3D // Unused Flag
-#define FLAG_UNUSED_0x03E    0x3E // Unused Flag
-#define FLAG_UNUSED_0x03F    0x3F // Unused Flag
-#define FLAG_UNUSED_0x040    0x40 // Unused Flag
-#define FLAG_UNUSED_0x041    0x41 // Unused Flag
-#define FLAG_UNUSED_0x042    0x42 // Unused Flag
-#define FLAG_UNUSED_0x043    0x43 // Unused Flag
-#define FLAG_UNUSED_0x044    0x44 // Unused Flag
-#define FLAG_UNUSED_0x045    0x45 // Unused Flag
-#define FLAG_UNUSED_0x046    0x46 // Unused Flag
-#define FLAG_UNUSED_0x047    0x47 // Unused Flag
-#define FLAG_UNUSED_0x048    0x48 // Unused Flag
-#define FLAG_UNUSED_0x049    0x49 // Unused Flag
-#define FLAG_UNUSED_0x04A    0x4A // Unused Flag
-#define FLAG_UNUSED_0x04B    0x4B // Unused Flag
-#define FLAG_UNUSED_0x04C    0x4C // Unused Flag
-#define FLAG_UNUSED_0x04D    0x4D // Unused Flag
-#define FLAG_UNUSED_0x04E    0x4E // Unused Flag
-#define FLAG_UNUSED_0x04F    0x4F // Unused Flag
+#define FLAG_HIDE_ARTICUNO   0x20 // Kanto (FRLG)
+#define FLAG_HIDE_BILL_CLEFAIRY 0x21 // Kanto (FRLG)
+#define FLAG_HIDE_BILL_HUMAN_SEA_COTTAGE 0x22 // Kanto (FRLG)
+#define FLAG_HIDE_BIRTH_ISLAND_METEORITE 0x23 // Kanto (FRLG)
+#define FLAG_HIDE_BULBASAUR_BALL 0x24 // Kanto (FRLG)
+#define FLAG_HIDE_CELADON_CITY_ETHER 0x25 // Kanto (FRLG)
+#define FLAG_HIDE_CELADON_ROCKETS 0x26 // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_1F_FULL_RESTORE 0x27 // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_1F_MAX_ELIXIR 0x28 // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_1F_NUGGET 0x29 // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_2F_FULL_RESTORE 0x2A // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_2F_PP_UP 0x2B // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_2F_ULTRA_BALL 0x2C // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_B1F_MAX_REVIVE 0x2D // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_B1F_ULTRA_BALL 0x2E // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_CAVE_GUARD 0x2F // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_RIVAL 0x30 // Kanto (FRLG)
+#define FLAG_HIDE_CERULEAN_ROCKET 0x31 // Kanto (FRLG)
+#define FLAG_HIDE_CHARMANDER_BALL 0x32 // Kanto (FRLG)
+#define FLAG_HIDE_CINNABAR_BILL 0x33 // Kanto (FRLG)
+#define FLAG_HIDE_CINNABAR_POKECENTER_BILL 0x34 // Kanto (FRLG)
+#define FLAG_HIDE_CINNABAR_SEAGALLOP 0x35 // Kanto (FRLG)
+#define FLAG_HIDE_CREDITS_OAK 0x36 // Kanto (FRLG)
+#define FLAG_HIDE_CREDITS_RIVAL 0x37 // Kanto (FRLG)
+#define FLAG_HIDE_DOJO_HITMONCHAN_BALL 0x38 // Kanto (FRLG)
+#define FLAG_HIDE_DOJO_HITMONLEE_BALL 0x39 // Kanto (FRLG)
+#define FLAG_HIDE_DOME_FOSSIL 0x3A // Kanto (FRLG)
+#define FLAG_HIDE_DOTTED_HOLE_SCIENTIST 0x3B // Kanto (FRLG)
+#define FLAG_HIDE_EEVEE_BALL 0x3C // Kanto (FRLG)
+#define FLAG_HIDE_FAME_CHECKER_ERIKA_JOURNALS 0x3D // Kanto (FRLG)
+#define FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL 0x3E // Kanto (FRLG)
+#define FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL 0x3F // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM10_SILK_SCARF 0x40 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM11_LAX_INCENSE 0x41 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM12_SEA_INCENSE 0x42 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM13_MAX_REVIVE 0x43 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM14_RARE_CANDY 0x44 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_MEADOW_MAX_POTION 0x45 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_MEADOW_PP_UP 0x46 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_MEMORIAL_PILLAR_METAL_COAT 0x47 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_ROCKETS 0x48 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_BIG_PEARL 0x49 // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_PEARL 0x4A // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_TM36 0x4B // Kanto (FRLG)
+#define FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_UP_GRADE 0x4C // Kanto (FRLG)
+#define FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_1F_HM07 0x4D // Kanto (FRLG)
+#define FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_1F_ULTRA_BALL 0x4E // Kanto (FRLG)
+#define FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_B1F_FULL_RESTORE 0x4F // Kanto (FRLG)
 
 // Scripts
 #define FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA_STILL  0x50
@@ -98,8 +98,8 @@
 #define FLAG_RESCUED_BIRCH                       0x52
 #define FLAG_LEGENDARIES_IN_SOOTOPOLIS           0x53
 
-#define FLAG_UNUSED_0x054                    0x54  // Unused Flag
-#define FLAG_UNUSED_0x055                    0x55  // Unused Flag
+#define FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_B1F_NEVER_MELT_ICE 0x54 // Kanto (FRLG)
+#define FLAG_HIDE_FOUR_ISLAND_RIVAL          0x55 // Kanto (FRLG)
 
 #define FLAG_HIDE_CONTEST_POKE_BALL          0x56  // Always set after new game, object it hides is added directly
 #define FLAG_MET_RIVAL_MOM                   0x57
@@ -120,7 +120,7 @@
 #define FLAG_MOSSDEEP_GYM_SWITCH_3           0x66 //
 #define FLAG_MOSSDEEP_GYM_SWITCH_4           0x67 //
 
-#define FLAG_UNUSED_0x068                    0x68  // Unused Flag
+#define FLAG_HIDE_FOUR_ISLAND_STARDUST       0x68 // Kanto (FRLG)
 
 #define FLAG_OCEANIC_MUSEUM_MET_REPORTER     0x69
 #define FLAG_RECEIVED_HM_STRENGTH            0x6A
@@ -255,7 +255,7 @@
 #define FLAG_RECEIVED_TM_ROAR                0xE7
 #define FLAG_RECEIVED_TM_GIGA_DRAIN          0xE8
 
-#define FLAG_UNUSED_0x0E9                    0xE9 // Unused Flag
+#define FLAG_HIDE_FOUR_ISLAND_STAR_PIECE     0xE9 // Kanto (FRLG)
 
 #define FLAG_RECEIVED_TM_REST                0xEA
 #define FLAG_RECEIVED_TM_ATTRACT             0xEB
@@ -460,8 +460,8 @@
 #define FLAG_REGISTERED_DRAKE                (TRAINER_REGISTERED_FLAGS_START + REMATCH_DRAKE)
 #define FLAG_REGISTERED_WALLACE              (TRAINER_REGISTERED_FLAGS_START + REMATCH_WALLACE)
 
-#define FLAG_UNUSED_0x1AA                    0x1AA // Unused Flag
-#define FLAG_UNUSED_0x1AB                    0x1AB // Unused Flag
+#define FLAG_HIDE_FUCHSIA_CITY_WARDENS_HOUSE_RARE_CANDY 0x1AA // Kanto (FRLG)
+#define FLAG_HIDE_GAME_CORNER_ROCKET         0x1AB // Kanto (FRLG)
 
 #define FLAG_DEFEATED_DEOXYS                 0x1AC
 #define FLAG_BATTLED_DEOXYS                  0x1AD
@@ -510,18 +510,18 @@
 #define FLAG_ENABLE_TATE_AND_LIZA_MATCH_CALL 0x1D8
 #define FLAG_ENABLE_JUAN_MATCH_CALL          0x1D9
 
-#define FLAG_UNUSED_0x1DA                    0x1DA // Unused Flag
+#define FLAG_HIDE_HELIX_FOSSIL               0x1DA // Kanto (FRLG)
 
 #define FLAG_SHOWN_MYSTIC_TICKET             0x1DB
 #define FLAG_DEFEATED_HO_OH                  0x1DC
 #define FLAG_DEFEATED_LUGIA                  0x1DD
 
-#define FLAG_UNUSED_0x1DE                    0x1DE // Unused Flag
-#define FLAG_UNUSED_0x1DF                    0x1DF // Unused Flag
-#define FLAG_UNUSED_0x1E0                    0x1E0 // Unused Flag
-#define FLAG_UNUSED_0x1E1                    0x1E1 // Unused Flag
-#define FLAG_UNUSED_0x1E2                    0x1E2 // Unused Flag
-#define FLAG_UNUSED_0x1E3                    0x1E3 // Unused Flag
+#define FLAG_HIDE_HIDEOUT_GIOVANNI           0x1DE // Kanto (FRLG)
+#define FLAG_HIDE_ICEFALL_CAVE_LORELEI       0x1DF // Kanto (FRLG)
+#define FLAG_HIDE_ICEFALL_CAVE_ROCKETS       0x1E0 // Kanto (FRLG)
+#define FLAG_HIDE_LIFT_KEY                   0x1E1 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEIS_HOUSE_FEAROW_DOLL 0x1E2 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEIS_HOUSE_LAPRAS_DOLL 0x1E3 // Kanto (FRLG)
 
 // Mystery Gift Flags (Unknown)
 #define FLAG_MYSTERY_GIFT_DONE               0x1E4
@@ -656,94 +656,94 @@
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
 
-#define FLAG_UNUSED_0x264  0x264 // Unused Flag
-#define FLAG_UNUSED_0x265  0x265 // Unused Flag
-#define FLAG_UNUSED_0x266  0x266 // Unused Flag
-#define FLAG_UNUSED_0x267  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
-#define FLAG_UNUSED_0x26C  0x26C // Unused Flag
-#define FLAG_UNUSED_0x26D  0x26D // Unused Flag
-#define FLAG_UNUSED_0x26E  0x26E // Unused Flag
-#define FLAG_UNUSED_0x26F  0x26F // Unused Flag
-#define FLAG_UNUSED_0x270  0x270 // Unused Flag
-#define FLAG_UNUSED_0x271  0x271 // Unused Flag
-#define FLAG_UNUSED_0x272  0x272 // Unused Flag
-#define FLAG_UNUSED_0x273  0x273 // Unused Flag
-#define FLAG_UNUSED_0x274  0x274 // Unused Flag
-#define FLAG_UNUSED_0x275  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
-#define FLAG_UNUSED_0x278  0x278 // Unused Flag
-#define FLAG_UNUSED_0x279  0x279 // Unused Flag
-#define FLAG_UNUSED_0x27A  0x27A // Unused Flag
-#define FLAG_UNUSED_0x27B  0x27B // Unused Flag
-#define FLAG_UNUSED_0x27C  0x27C // Unused Flag
-#define FLAG_UNUSED_0x27D  0x27D // Unused Flag
-#define FLAG_UNUSED_0x27E  0x27E // Unused Flag
-#define FLAG_UNUSED_0x27F  0x27F // Unused Flag
-#define FLAG_UNUSED_0x280  0x280 // Unused Flag
-#define FLAG_UNUSED_0x281  0x281 // Unused Flag
-#define FLAG_UNUSED_0x282  0x282 // Unused Flag
-#define FLAG_UNUSED_0x283  0x283 // Unused Flag
-#define FLAG_UNUSED_0x284  0x284 // Unused Flag
-#define FLAG_UNUSED_0x285  0x285 // Unused Flag
-#define FLAG_UNUSED_0x286  0x286 // Unused Flag
-#define FLAG_UNUSED_0x287  0x287 // Unused Flag
-#define FLAG_UNUSED_0x288  0x288 // Unused Flag
-#define FLAG_UNUSED_0x289  0x289 // Unused Flag
-#define FLAG_UNUSED_0x28A  0x28A // Unused Flag
-#define FLAG_UNUSED_0x28B  0x28B // Unused Flag
-#define FLAG_UNUSED_0x28C  0x28C // Unused Flag
-#define FLAG_UNUSED_0x28D  0x28D // Unused Flag
-#define FLAG_UNUSED_0x28E  0x28E // Unused Flag
-#define FLAG_UNUSED_0x28F  0x28F // Unused Flag
-#define FLAG_UNUSED_0x290  0x290 // Unused Flag
-#define FLAG_UNUSED_0x291  0x291 // Unused Flag
-#define FLAG_UNUSED_0x292  0x292 // Unused Flag
-#define FLAG_UNUSED_0x293  0x293 // Unused Flag
-#define FLAG_UNUSED_0x294  0x294 // Unused Flag
-#define FLAG_UNUSED_0x295  0x295 // Unused Flag
-#define FLAG_UNUSED_0x296  0x296 // Unused Flag
-#define FLAG_UNUSED_0x297  0x297 // Unused Flag
-#define FLAG_UNUSED_0x298  0x298 // Unused Flag
-#define FLAG_UNUSED_0x299  0x299 // Unused Flag
-#define FLAG_UNUSED_0x29A  0x29A // Unused Flag
-#define FLAG_UNUSED_0x29B  0x29B // Unused Flag
-#define FLAG_UNUSED_0x29C  0x29C // Unused Flag
-#define FLAG_UNUSED_0x29D  0x29D // Unused Flag
-#define FLAG_UNUSED_0x29E  0x29E // Unused Flag
-#define FLAG_UNUSED_0x29F  0x29F // Unused Flag
-#define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag
-#define FLAG_UNUSED_0x2A1  0x2A1 // Unused Flag
-#define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
-#define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
-#define FLAG_UNUSED_0x2A4  0x2A4 // Unused Flag
-#define FLAG_UNUSED_0x2A5  0x2A5 // Unused Flag
-#define FLAG_UNUSED_0x2A6  0x2A6 // Unused Flag
-#define FLAG_UNUSED_0x2A7  0x2A7 // Unused Flag
-#define FLAG_UNUSED_0x2A8  0x2A8 // Unused Flag
-#define FLAG_UNUSED_0x2A9  0x2A9 // Unused Flag
-#define FLAG_UNUSED_0x2AA  0x2AA // Unused Flag
-#define FLAG_UNUSED_0x2AB  0x2AB // Unused Flag
-#define FLAG_UNUSED_0x2AC  0x2AC // Unused Flag
-#define FLAG_UNUSED_0x2AD  0x2AD // Unused Flag
-#define FLAG_UNUSED_0x2AE  0x2AE // Unused Flag
-#define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
-#define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag
-#define FLAG_UNUSED_0x2B1  0x2B1 // Unused Flag
-#define FLAG_UNUSED_0x2B2  0x2B2 // Unused Flag
-#define FLAG_UNUSED_0x2B3  0x2B3 // Unused Flag
-#define FLAG_UNUSED_0x2B4  0x2B4 // Unused Flag
-#define FLAG_UNUSED_0x2B5  0x2B5 // Unused Flag
-#define FLAG_UNUSED_0x2B6  0x2B6 // Unused Flag
-#define FLAG_UNUSED_0x2B7  0x2B7 // Unused Flag
-#define FLAG_UNUSED_0x2B8  0x2B8 // Unused Flag
-#define FLAG_UNUSED_0x2B9  0x2B9 // Unused Flag
-#define FLAG_UNUSED_0x2BA  0x2BA // Unused Flag
-#define FLAG_UNUSED_0x2BB  0x2BB // Unused Flag
+#define FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_F_DOLL 0x264 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_M_DOLL 0x265 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEIS_HOUSE_PIDGEOT_DOLL 0x266 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEI_HOUSE_CHANSEY_DOLL 0x267 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEI_HOUSE_JIGGLYPUFF_DOLL 0x268 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEI_HOUSE_MEOWTH_DOLL 0x269 // Kanto (FRLG)
+#define FLAG_HIDE_LORELEI_IN_HER_HOUSE 0x26A // Kanto (FRLG)
+#define FLAG_HIDE_LOSTELLE_IN_BERRY_FOREST 0x26B // Kanto (FRLG)
+#define FLAG_HIDE_LOSTELLE_IN_HER_HOME 0x26C // Kanto (FRLG)
+#define FLAG_HIDE_LOST_CAVE_SELPHY 0x26D // Kanto (FRLG)
+#define FLAG_HIDE_MEWTWO   0x26E // Kanto (FRLG)
+#define FLAG_HIDE_MG_DELIVERYMEN 0x26F // Kanto (FRLG)
+#define FLAG_HIDE_MISC_KANTO_ROCKETS 0x270 // Kanto (FRLG)
+#define FLAG_HIDE_MOLTRES  0x271 // Kanto (FRLG)
+#define FLAG_HIDE_MT_EMBER_EXTERIOR_DIRE_HIT 0x272 // Kanto (FRLG)
+#define FLAG_HIDE_MT_EMBER_EXTERIOR_FIRE_STONE 0x273 // Kanto (FRLG)
+#define FLAG_HIDE_MT_EMBER_EXTERIOR_ROCKETS 0x274 // Kanto (FRLG)
+#define FLAG_HIDE_MT_EMBER_EXTERIOR_ULTRA_BALL 0x275 // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_ESCAPE_ROPE 0x276 // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_MOON_STONE 0x277 // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_PARALYZE_HEAL 0x278 // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_POTION 0x279 // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_RARE_CANDY 0x27A // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_1F_TM09 0x27B // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_B2F_ANTIDOTE 0x27C // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_B2F_REVIVE 0x27D // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_B2F_STAR_PIECE 0x27E // Kanto (FRLG)
+#define FLAG_HIDE_MT_MOON_B2F_TM46 0x27F // Kanto (FRLG)
+#define FLAG_HIDE_NUGGET_BRIDGE_ROCKET 0x280 // Kanto (FRLG)
+#define FLAG_HIDE_OAK_IN_CHAMP_ROOM 0x281 // Kanto (FRLG)
+#define FLAG_HIDE_OAK_IN_HIS_LAB 0x282 // Kanto (FRLG)
+#define FLAG_HIDE_OAK_IN_PALLET_TOWN 0x283 // Kanto (FRLG)
+#define FLAG_HIDE_OLD_AMBER 0x284 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_BILL 0x285 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_CARBOS 0x286 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_ETHER 0x287 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_MAX_REPEL 0x288 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_POKECENTER_BILL 0x289 // Kanto (FRLG)
+#define FLAG_HIDE_ONE_ISLAND_POKECENTER_CELIO 0x28A // Kanto (FRLG)
+#define FLAG_HIDE_PEWTER_CITY_GYM_GUIDE 0x28B // Kanto (FRLG)
+#define FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY 0x28C // Kanto (FRLG)
+#define FLAG_HIDE_PEWTER_MUSEUM_GUIDE 0x28D // Kanto (FRLG)
+#define FLAG_HIDE_POKEDEX  0x28E // Kanto (FRLG)
+#define FLAG_HIDE_POKEHOUSE_FUJI 0x28F // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_1F_CARBOS 0x290 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_1F_ESCAPE_ROPE 0x291 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_1F_PROTEIN 0x292 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_2F_CALCIUM 0x293 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_2F_HP_UP 0x294 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_2F_ZINC 0x295 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_3F_IRON 0x296 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_3F_MAX_POTION 0x297 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_B1F_FULL_RESTORE 0x298 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_B1F_SECRET_KEY 0x299 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_B1F_TM14 0x29A // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_MANSION_B1F_TM22 0x29B // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_3F_ESCAPE_ROPE 0x29C // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_4F_AWAKENING 0x29D // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_4F_ELIXIR 0x29E // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_4F_GREAT_BALL 0x29F // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_5F_CLEANSE_TAG 0x2A0 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_5F_NUGGET 0x2A1 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_6F_RARE_CANDY 0x2A2 // Kanto (FRLG)
+#define FLAG_HIDE_POKEMON_TOWER_6F_X_ACCURACY 0x2A3 // Kanto (FRLG)
+#define FLAG_HIDE_POSTGAME_GOSSIPERS 0x2A4 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_ELECTRODE_1 0x2A5 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_ELECTRODE_2 0x2A6 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_ELIXIR 0x2A7 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_MAX_POTION 0x2A8 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_THUNDER_STONE 0x2A9 // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_TM17 0x2AA // Kanto (FRLG)
+#define FLAG_HIDE_POWER_PLANT_TM25 0x2AB // Kanto (FRLG)
+#define FLAG_HIDE_RESORT_GORGEOUS_INSIDE_SELPHY 0x2AC // Kanto (FRLG)
+#define FLAG_HIDE_RESORT_GORGEOUS_SELPHY 0x2AD // Kanto (FRLG)
+#define FLAG_HIDE_RIVAL_IN_LAB 0x2AE // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B1F_ESCAPE_ROPE 0x2AF // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B1F_HYPER_POTION 0x2B0 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B2F_MOON_STONE 0x2B1 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B2F_SUPER_POTION 0x2B2 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B2F_TM12 0x2B3 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B2F_X_SPEED 0x2B4 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B3F_BLACK_GLASSES 0x2B5 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B3F_RARE_CANDY 0x2B6 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B3F_TM21 0x2B7 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B4F_CALCIUM 0x2B8 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B4F_MAX_ETHER 0x2B9 // Kanto (FRLG)
+#define FLAG_HIDE_ROCKET_HIDEOUT_B4F_TM49 0x2BA // Kanto (FRLG)
+#define FLAG_HIDE_ROCK_TUNNEL_1F_ESCAPE_ROPE 0x2BB // Kanto (FRLG)
 
 // Event Flags
 #define FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG                      0x2BC
@@ -776,7 +776,7 @@
 #define FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_INVISIBLE_NINJA_BOY   0x2D7
 #define FLAG_HIDE_PETALBURG_CITY_WALLYS_MOM                         0x2D8
 
-#define FLAG_UNUSED_0x2D9                                           0x2D9 // Unused Flag
+#define FLAG_HIDE_ROCK_TUNNEL_1F_PEARL                              0x2D9 // Kanto (FRLG)
 
 #define FLAG_HIDE_LILYCOVE_FAN_CLUB_INTERVIEWER                     0x2DA
 #define FLAG_HIDE_RUSTBORO_CITY_AQUA_GRUNT                          0x2DB
@@ -1178,7 +1178,7 @@
 #define FLAG_ITEM_OLD_MAGMA_HIDEOUT_B1F_MASTER_BALL                 0x465 // Unused Flag, leftover from the Ruby Magma hideout
 #define FLAG_ITEM_OLD_MAGMA_HIDEOUT_B1F_MAX_ELIXIR                  0x466 // Unused Flag, leftover from the Ruby Magma hideout
 #define FLAG_ITEM_OLD_MAGMA_HIDEOUT_B2F_NEST_BALL                   0x467 // Unused Flag, leftover from the Ruby Magma hideout
-#define FLAG_UNUSED_0x468                                           0x468 // Unused Flag
+#define FLAG_HIDE_ROCK_TUNNEL_1F_REPEL                              0x468 // Kanto (FRLG)
 #define FLAG_ITEM_MT_PYRE_2F_ULTRA_BALL                             0x469
 #define FLAG_ITEM_MT_PYRE_4F_SEA_INCENSE                            0x46A
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_WEST_MAX_REVIVE                 0x46B
@@ -1186,16 +1186,16 @@
 #define FLAG_ITEM_MOSSDEEP_STEVENS_HOUSE_HM08                       0x46D // Unused Flag, leftover from R/S. HM08 is given to the player directly in Emerald
 #define FLAG_ITEM_ROUTE_119_NUGGET                                  0x46E
 #define FLAG_ITEM_ROUTE_104_POTION                                  0x46F
-#define FLAG_UNUSED_0x470                                           0x470 // Unused Flag
+#define FLAG_HIDE_ROCK_TUNNEL_B1F_MAX_ETHER                         0x470 // Kanto (FRLG)
 #define FLAG_ITEM_ROUTE_103_PP_UP                                   0x471
-#define FLAG_UNUSED_0x472                                           0x472 // Unused Flag
+#define FLAG_HIDE_ROCK_TUNNEL_B1F_REVIVE                            0x472 // Kanto (FRLG)
 #define FLAG_ITEM_ROUTE_108_STAR_PIECE                              0x473
 #define FLAG_ITEM_ROUTE_109_POTION                                  0x474
 #define FLAG_ITEM_ROUTE_110_ELIXIR                                  0x475
 #define FLAG_ITEM_ROUTE_111_ELIXIR                                  0x476
 #define FLAG_ITEM_ROUTE_113_HYPER_POTION                            0x477
 #define FLAG_ITEM_ROUTE_115_HEAL_POWDER                             0x478
-#define FLAG_UNUSED_0x479                                           0x479 // Unused Flag
+#define FLAG_HIDE_ROUTE11_AWAKENING                                 0x479 // Kanto (FRLG)
 #define FLAG_ITEM_ROUTE_116_POTION                                  0x47A
 #define FLAG_ITEM_ROUTE_119_ELIXIR_2                                0x47B
 #define FLAG_ITEM_ROUTE_120_REVIVE                                  0x47C
@@ -1222,99 +1222,99 @@
 #define FLAG_ITEM_SAFARI_ZONE_NORTH_EAST_NUGGET                     0x491
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL                  0x492
 
-#define FLAG_UNUSED_0x493                                           0x493 // Unused Flag
-#define FLAG_UNUSED_0x494                                           0x494 // Unused Flag
-#define FLAG_UNUSED_0x495                                           0x495 // Unused Flag
-#define FLAG_UNUSED_0x496                                           0x496 // Unused Flag
-#define FLAG_UNUSED_0x497                                           0x497 // Unused Flag
-#define FLAG_UNUSED_0x498                                           0x498 // Unused Flag
-#define FLAG_UNUSED_0x499                                           0x499 // Unused Flag
-#define FLAG_UNUSED_0x49A                                           0x49A // Unused Flag
-#define FLAG_UNUSED_0x49B                                           0x49B // Unused Flag
-#define FLAG_UNUSED_0x49C                                           0x49C // Unused Flag
-#define FLAG_UNUSED_0x49D                                           0x49D // Unused Flag
-#define FLAG_UNUSED_0x49E                                           0x49E // Unused Flag
-#define FLAG_UNUSED_0x49F                                           0x49F // Unused Flag
-#define FLAG_UNUSED_0x4A0                                           0x4A0 // Unused Flag
-#define FLAG_UNUSED_0x4A1                                           0x4A1 // Unused Flag
-#define FLAG_UNUSED_0x4A2                                           0x4A2 // Unused Flag
-#define FLAG_UNUSED_0x4A3                                           0x4A3 // Unused Flag
-#define FLAG_UNUSED_0x4A4                                           0x4A4 // Unused Flag
-#define FLAG_UNUSED_0x4A5                                           0x4A5 // Unused Flag
-#define FLAG_UNUSED_0x4A6                                           0x4A6 // Unused Flag
-#define FLAG_UNUSED_0x4A7                                           0x4A7 // Unused Flag
-#define FLAG_UNUSED_0x4A8                                           0x4A8 // Unused Flag
-#define FLAG_UNUSED_0x4A9                                           0x4A9 // Unused Flag
-#define FLAG_UNUSED_0x4AA                                           0x4AA // Unused Flag
-#define FLAG_UNUSED_0x4AB                                           0x4AB // Unused Flag
-#define FLAG_UNUSED_0x4AC                                           0x4AC // Unused Flag
-#define FLAG_UNUSED_0x4AD                                           0x4AD // Unused Flag
-#define FLAG_UNUSED_0x4AE                                           0x4AE // Unused Flag
-#define FLAG_UNUSED_0x4AF                                           0x4AF // Unused Flag
-#define FLAG_UNUSED_0x4B0                                           0x4B0 // Unused Flag
-#define FLAG_UNUSED_0x4B1                                           0x4B1 // Unused Flag
-#define FLAG_UNUSED_0x4B2                                           0x4B2 // Unused Flag
-#define FLAG_UNUSED_0x4B3                                           0x4B3 // Unused Flag
-#define FLAG_UNUSED_0x4B4                                           0x4B4 // Unused Flag
-#define FLAG_UNUSED_0x4B5                                           0x4B5 // Unused Flag
-#define FLAG_UNUSED_0x4B6                                           0x4B6 // Unused Flag
-#define FLAG_UNUSED_0x4B7                                           0x4B7 // Unused Flag
-#define FLAG_UNUSED_0x4B8                                           0x4B8 // Unused Flag
-#define FLAG_UNUSED_0x4B9                                           0x4B9 // Unused Flag
-#define FLAG_UNUSED_0x4BA                                           0x4BA // Unused Flag
-#define FLAG_UNUSED_0x4BB                                           0x4BB // Unused Flag
-#define FLAG_UNUSED_0x4BC                                           0x4BC // Unused Flag
-#define FLAG_UNUSED_0x4BD                                           0x4BD // Unused Flag
-#define FLAG_UNUSED_0x4BE                                           0x4BE // Unused Flag
-#define FLAG_UNUSED_0x4BF                                           0x4BF // Unused Flag
-#define FLAG_UNUSED_0x4C0                                           0x4C0 // Unused Flag
-#define FLAG_UNUSED_0x4C1                                           0x4C1 // Unused Flag
-#define FLAG_UNUSED_0x4C2                                           0x4C2 // Unused Flag
-#define FLAG_UNUSED_0x4C3                                           0x4C3 // Unused Flag
-#define FLAG_UNUSED_0x4C4                                           0x4C4 // Unused Flag
-#define FLAG_UNUSED_0x4C5                                           0x4C5 // Unused Flag
-#define FLAG_UNUSED_0x4C6                                           0x4C6 // Unused Flag
-#define FLAG_UNUSED_0x4C7                                           0x4C7 // Unused Flag
-#define FLAG_UNUSED_0x4C8                                           0x4C8 // Unused Flag
-#define FLAG_UNUSED_0x4C9                                           0x4C9 // Unused Flag
-#define FLAG_UNUSED_0x4CA                                           0x4CA // Unused Flag
-#define FLAG_UNUSED_0x4CB                                           0x4CB // Unused Flag
-#define FLAG_UNUSED_0x4CC                                           0x4CC // Unused Flag
-#define FLAG_UNUSED_0x4CD                                           0x4CD // Unused Flag
-#define FLAG_UNUSED_0x4CE                                           0x4CE // Unused Flag
-#define FLAG_UNUSED_0x4CF                                           0x4CF // Unused Flag
-#define FLAG_UNUSED_0x4D0                                           0x4D0 // Unused Flag
-#define FLAG_UNUSED_0x4D1                                           0x4D1 // Unused Flag
-#define FLAG_UNUSED_0x4D2                                           0x4D2 // Unused Flag
-#define FLAG_UNUSED_0x4D3                                           0x4D3 // Unused Flag
-#define FLAG_UNUSED_0x4D4                                           0x4D4 // Unused Flag
-#define FLAG_UNUSED_0x4D5                                           0x4D5 // Unused Flag
-#define FLAG_UNUSED_0x4D6                                           0x4D6 // Unused Flag
-#define FLAG_UNUSED_0x4D7                                           0x4D7 // Unused Flag
-#define FLAG_UNUSED_0x4D8                                           0x4D8 // Unused Flag
-#define FLAG_UNUSED_0x4D9                                           0x4D9 // Unused Flag
-#define FLAG_UNUSED_0x4DA                                           0x4DA // Unused Flag
-#define FLAG_UNUSED_0x4DB                                           0x4DB // Unused Flag
-#define FLAG_UNUSED_0x4DC                                           0x4DC // Unused Flag
-#define FLAG_UNUSED_0x4DD                                           0x4DD // Unused Flag
-#define FLAG_UNUSED_0x4DE                                           0x4DE // Unused Flag
-#define FLAG_UNUSED_0x4DF                                           0x4DF // Unused Flag
-#define FLAG_UNUSED_0x4E0                                           0x4E0 // Unused Flag
-#define FLAG_UNUSED_0x4E1                                           0x4E1 // Unused Flag
-#define FLAG_UNUSED_0x4E2                                           0x4E2 // Unused Flag
-#define FLAG_UNUSED_0x4E3                                           0x4E3 // Unused Flag
-#define FLAG_UNUSED_0x4E4                                           0x4E4 // Unused Flag
-#define FLAG_UNUSED_0x4E5                                           0x4E5 // Unused Flag
-#define FLAG_UNUSED_0x4E6                                           0x4E6 // Unused Flag
-#define FLAG_UNUSED_0x4E7                                           0x4E7 // Unused Flag
-#define FLAG_UNUSED_0x4E8                                           0x4E8 // Unused Flag
-#define FLAG_UNUSED_0x4E9                                           0x4E9 // Unused Flag
-#define FLAG_UNUSED_0x4EA                                           0x4EA // Unused Flag
-#define FLAG_UNUSED_0x4EB                                           0x4EB // Unused Flag
-#define FLAG_UNUSED_0x4EC                                           0x4EC // Unused Flag
-#define FLAG_UNUSED_0x4ED                                           0x4ED // Unused Flag
-#define FLAG_UNUSED_0x4EE                                           0x4EE // Unused Flag
-#define FLAG_UNUSED_0x4EF                                           0x4EF // Unused Flag
+#define FLAG_HIDE_ROUTE11_GREAT_BALL                                0x493 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE11_X_DEFEND                                  0x494 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE12_IRON                                      0x495 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE12_TM48                                      0x496 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE15_TM18                                      0x497 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE24_TM45                                      0x498 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE25_TM43                                      0x499 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE2_ETHER                                      0x49A // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE2_PARALYZE_HEAL                              0x49B // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE4_TM05                                       0x49C // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE9_BURN_HEAL                                  0x49D // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE9_TM40                                       0x49E // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE_12_SNORLAX                                  0x49F // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE_16_SNORLAX                                  0x4A0 // Kanto (FRLG)
+#define FLAG_HIDE_ROUTE_22_RIVAL                                    0x4A1 // Kanto (FRLG)
+#define FLAG_HIDE_RUBY                                              0x4A2 // Kanto (FRLG)
+#define FLAG_HIDE_RUIN_VALLEY_SCIENTIST                             0x4A3 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_CENTER_NUGGET                         0x4A4 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_EAST_FULL_RESTORE                     0x4A5 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_EAST_LEAF_STONE                       0x4A6 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_EAST_MAX_POTION                       0x4A7 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_EAST_TM11                             0x4A8 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_NORTH_PROTEIN                         0x4A9 // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_NORTH_QUICK_CLAW                      0x4AA // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_NORTH_TM47                            0x4AB // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_WEST_GOLD_TEETH                       0x4AC // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_WEST_MAX_POTION                       0x4AD // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_WEST_MAX_REVIVE                       0x4AE // Kanto (FRLG)
+#define FLAG_HIDE_SAFARI_ZONE_WEST_TM32                             0x4AF // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS          0x4B0 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_CIVILIANS                                 0x4B1 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_FAN_CLUB_BEAUTY                           0x4B2 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_FAN_CLUB_BLACK_BELT                       0x4B3 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_FAN_CLUB_ROCKER                           0x4B4 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_FAN_CLUB_WOMAN                            0x4B5 // Kanto (FRLG)
+#define FLAG_HIDE_SAFFRON_ROCKETS                                   0x4B6 // Kanto (FRLG)
+#define FLAG_HIDE_SAPPHIRE                                          0x4B7 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_1F_BOULDER_1                              0x4B8 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_1F_BOULDER_2                              0x4B9 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B1F_BOULDER_1                             0x4BA // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B1F_BOULDER_2                             0x4BB // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B2F_BOULDER_1                             0x4BC // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B2F_BOULDER_2                             0x4BD // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_1                             0x4BE // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_2                             0x4BF // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_3                             0x4C0 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_4                             0x4C1 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_5                             0x4C2 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B3F_BOULDER_6                             0x4C3 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B4F_BOULDER_1                             0x4C4 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_B4F_BOULDER_2                             0x4C5 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_ISLANDS_1F_ICE_HEAL                       0x4C6 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_ISLANDS_B1F_REVIVE                        0x4C7 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_ISLANDS_B1F_WATER_STONE                   0x4C8 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_ISLANDS_B2F_BIG_PEARL                     0x4C9 // Kanto (FRLG)
+#define FLAG_HIDE_SEAFOAM_ISLANDS_B4F_ULTRA_BALL                    0x4CA // Kanto (FRLG)
+#define FLAG_HIDE_SELPHYS_BUTLER                                    0x4CB // Kanto (FRLG)
+#define FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_HOUSE_LUCKY_PUNCH     0x4CC // Kanto (FRLG)
+#define FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_KINGS_ROCK            0x4CD // Kanto (FRLG)
+#define FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_MAX_ELIXIR            0x4CE // Kanto (FRLG)
+#define FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_NUGGET                0x4CF // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_10F_CARBOS                               0x4D0 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_10F_RARE_CANDY                           0x4D1 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_10F_ULTRA_BALL                           0x4D2 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_11F_ZINC                                 0x4D3 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_3F_HYPER_POTION                          0x4D4 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_4F_ESCAPE_ROPE                           0x4D5 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_4F_FULL_HEAL                             0x4D6 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_4F_MAX_REVIVE                            0x4D7 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_4F_TM41                                  0x4D8 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_5F_CARD_KEY                              0x4D9 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_5F_PROTEIN                               0x4DA // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_5F_TM01                                  0x4DB // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_6F_HP_UP                                 0x4DC // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_6F_X_SPECIAL                             0x4DD // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_7F_CALCIUM                               0x4DE // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_7F_TM08                                  0x4DF // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_CO_8F_IRON                                  0x4E0 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_RIVAL                                       0x4E1 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_ROCKETS                                     0x4E2 // Kanto (FRLG)
+#define FLAG_HIDE_SILPH_SCOPE                                       0x4E3 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_OUTCAST_ISLAND_PP_UP                   0x4E4 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_POKECENTER_RIVAL                       0x4E5 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_FULL_RESTORE               0x4E6 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_HP_UP                      0x4E7 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_SUN_STONE                  0x4E8 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_WATER_PATH_DRAGON_SCALE                0x4E9 // Kanto (FRLG)
+#define FLAG_HIDE_SIX_ISLAND_WATER_PATH_ELIXIR                      0x4EA // Kanto (FRLG)
+#define FLAG_HIDE_SQUIRTLE_BALL                                     0x4EB // Kanto (FRLG)
+#define FLAG_HIDE_SSANNE_1F_ROOM2_TM31                              0x4EC // Kanto (FRLG)
+#define FLAG_HIDE_SSANNE_2F_ROOM2_STARDUST                          0x4ED // Kanto (FRLG)
+#define FLAG_HIDE_SSANNE_2F_ROOM4_X_ATTACK                          0x4EE // Kanto (FRLG)
+#define FLAG_HIDE_SSANNE_B1F_ROOM2_TM44                             0x4EF // Kanto (FRLG)
 
 #define FLAG_DEFEATED_RUSTBORO_GYM                                  0x4F0
 #define FLAG_DEFEATED_DEWFORD_GYM                                   0x4F1
@@ -1326,15 +1326,15 @@
 #define FLAG_DEFEATED_SOOTOPOLIS_GYM                                0x4F7
 #define FLAG_DEFEATED_METEOR_FALLS_STEVEN                           0x4F8
 
-#define FLAG_UNUSED_0x4F9                                           0x4F9 // Unused Flag
-#define FLAG_UNUSED_0x4FA                                           0x4FA // Unused Flag
+#define FLAG_HIDE_SSANNE_B1F_ROOM3_ETHER                            0x4F9 // Kanto (FRLG)
+#define FLAG_HIDE_SSANNE_B1F_ROOM5_SUPER_POTION                     0x4FA // Kanto (FRLG)
 
 #define FLAG_DEFEATED_ELITE_4_SIDNEY                                0x4FB
 #define FLAG_DEFEATED_ELITE_4_PHOEBE                                0x4FC
 #define FLAG_DEFEATED_ELITE_4_GLACIA                                0x4FD
 #define FLAG_DEFEATED_ELITE_4_DRAKE                                 0x4FE
 
-#define FLAG_UNUSED_0x4FF                                           0x4FF // Unused Flag
+#define FLAG_HIDE_SSANNE_KITCHEN_GREAT_BALL                         0x4FF // Kanto (FRLG)
 
 // Trainer Flags
 // Trainer flags occupy 0x500 - 0x85F, the last 9 of which are unused
@@ -1350,7 +1350,7 @@
 #define FLAG_SYS_POKEMON_GET                         (SYSTEM_FLAGS + 0x0) // FLAG_0x860
 #define FLAG_SYS_POKEDEX_GET                         (SYSTEM_FLAGS + 0x1)
 #define FLAG_SYS_POKENAV_GET                         (SYSTEM_FLAGS + 0x2)
-#define FLAG_UNUSED_0x863                            (SYSTEM_FLAGS + 0x3) // Unused Flag
+#define FLAG_HIDE_SS_ANNE                            (SYSTEM_FLAGS + 0x3) // Kanto (FRLG)
 #define FLAG_SYS_GAME_CLEAR                          (SYSTEM_FLAGS + 0x4)
 #define FLAG_SYS_CHAT_USED                           (SYSTEM_FLAGS + 0x5)
 #define FLAG_UNLOCKED_TRENDY_SAYINGS                 (SYSTEM_FLAGS + 0x6)
@@ -1387,13 +1387,13 @@
 #define FLAG_IS_CHAMPION                            (SYSTEM_FLAGS + 0x1F) // Seems to be related to linking.
 #define FLAG_NURSE_UNION_ROOM_REMINDER              (SYSTEM_FLAGS + 0x20)
 
-#define FLAG_UNUSED_0x881                           (SYSTEM_FLAGS + 0x21) // Unused Flag
-#define FLAG_UNUSED_0x882                           (SYSTEM_FLAGS + 0x22) // Unused Flag
-#define FLAG_UNUSED_0x883                           (SYSTEM_FLAGS + 0x23) // Unused Flag
-#define FLAG_UNUSED_0x884                           (SYSTEM_FLAGS + 0x24) // Unused Flag
-#define FLAG_UNUSED_0x885                           (SYSTEM_FLAGS + 0x25) // Unused Flag
-#define FLAG_UNUSED_0x886                           (SYSTEM_FLAGS + 0x26) // Unused Flag
-#define FLAG_UNUSED_0x887                           (SYSTEM_FLAGS + 0x27) // Unused Flag
+#define FLAG_HIDE_SS_ANNE_RIVAL                     (SYSTEM_FLAGS + 0x21) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_ANTIBIKERS           (SYSTEM_FLAGS + 0x22) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_FULL_HEAL (SYSTEM_FLAGS + 0x23) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_MAX_ELIXIR (SYSTEM_FLAGS + 0x24) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_MAX_ETHER (SYSTEM_FLAGS + 0x25) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_BIKERS               (SYSTEM_FLAGS + 0x26) // Kanto (FRLG)
+#define FLAG_HIDE_THREE_ISLAND_LONE_BIKER           (SYSTEM_FLAGS + 0x27) // Kanto (FRLG)
 
 #define FLAG_SYS_USE_FLASH                          (SYSTEM_FLAGS + 0x28)
 #define FLAG_SYS_USE_STRENGTH                       (SYSTEM_FLAGS + 0x29)
@@ -1402,8 +1402,8 @@
 #define FLAG_SYS_SAFARI_MODE                        (SYSTEM_FLAGS + 0x2C)
 #define FLAG_SYS_CRUISE_MODE                        (SYSTEM_FLAGS + 0x2D)
 
-#define FLAG_UNUSED_0x88E                           (SYSTEM_FLAGS + 0x2E) // Unused Flag
-#define FLAG_UNUSED_0x88F                           (SYSTEM_FLAGS + 0x2F) // Unused Flag
+#define FLAG_HIDE_THREE_ISLAND_ZINC                 (SYSTEM_FLAGS + 0x2E) // Kanto (FRLG)
+#define FLAG_HIDE_TOWER_FUJI                        (SYSTEM_FLAGS + 0x2F) // Kanto (FRLG)
 
 #define FLAG_SYS_TV_HOME                            (SYSTEM_FLAGS + 0x30)
 #define FLAG_SYS_TV_WATCH                           (SYSTEM_FLAGS + 0x31)
@@ -1502,7 +1502,7 @@
 #define FLAG_ARRIVED_AT_NAVEL_ROCK                  (SYSTEM_FLAGS + 0x81)
 #define FLAG_LANDMARK_TRAINER_HILL                  (SYSTEM_FLAGS + 0x82)
 
-#define FLAG_UNUSED_0x8E3                           (SYSTEM_FLAGS + 0x83) // Unused Flag
+#define FLAG_HIDE_TOWER_RIVAL                       (SYSTEM_FLAGS + 0x83) // Kanto (FRLG)
 
 #define FLAG_RECEIVED_POKEDEX_FROM_BIRCH            (SYSTEM_FLAGS + 0x84)
 
@@ -1526,34 +1526,34 @@
 #define FLAG_VISITED_FIVE_ISLAND                    (SYSTEM_FLAGS + 0x96)
 #define FLAG_VISITED_SIX_ISLAND                     (SYSTEM_FLAGS + 0x97)
 #define FLAG_VISITED_SEVEN_ISLAND                   (SYSTEM_FLAGS + 0x98)
-#define FLAG_UNUSED_0x8F9                           (SYSTEM_FLAGS + 0x99) // Unused Flag
-#define FLAG_UNUSED_0x8FA                           (SYSTEM_FLAGS + 0x9A) // Unused Flag
-#define FLAG_UNUSED_0x8FB                           (SYSTEM_FLAGS + 0x9B) // Unused Flag
-#define FLAG_UNUSED_0x8FC                           (SYSTEM_FLAGS + 0x9C) // Unused Flag
-#define FLAG_UNUSED_0x8FD                           (SYSTEM_FLAGS + 0x9D) // Unused Flag
-#define FLAG_UNUSED_0x8FE                           (SYSTEM_FLAGS + 0x9E) // Unused Flag
-#define FLAG_UNUSED_0x8FF                           (SYSTEM_FLAGS + 0x9F) // Unused Flag
-#define FLAG_UNUSED_0x900                           (SYSTEM_FLAGS + 0xA0) // Unused Flag
-#define FLAG_UNUSED_0x901                           (SYSTEM_FLAGS + 0xA1) // Unused Flag
-#define FLAG_UNUSED_0x902                           (SYSTEM_FLAGS + 0xA2) // Unused Flag
-#define FLAG_UNUSED_0x903                           (SYSTEM_FLAGS + 0xA3) // Unused Flag
-#define FLAG_UNUSED_0x904                           (SYSTEM_FLAGS + 0xA4) // Unused Flag
-#define FLAG_UNUSED_0x905                           (SYSTEM_FLAGS + 0xA5) // Unused Flag
-#define FLAG_UNUSED_0x906                           (SYSTEM_FLAGS + 0xA6) // Unused Flag
-#define FLAG_UNUSED_0x907                           (SYSTEM_FLAGS + 0xA7) // Unused Flag
-#define FLAG_UNUSED_0x908                           (SYSTEM_FLAGS + 0xA8) // Unused Flag
-#define FLAG_UNUSED_0x909                           (SYSTEM_FLAGS + 0xA9) // Unused Flag
-#define FLAG_UNUSED_0x90A                           (SYSTEM_FLAGS + 0xAA) // Unused Flag
-#define FLAG_UNUSED_0x90B                           (SYSTEM_FLAGS + 0xAB) // Unused Flag
-#define FLAG_UNUSED_0x90C                           (SYSTEM_FLAGS + 0xAC) // Unused Flag
-#define FLAG_UNUSED_0x90D                           (SYSTEM_FLAGS + 0xAD) // Unused Flag
-#define FLAG_UNUSED_0x90E                           (SYSTEM_FLAGS + 0xAE) // Unused Flag
-#define FLAG_UNUSED_0x90F                           (SYSTEM_FLAGS + 0xAF) // Unused Flag
-#define FLAG_UNUSED_0x910                           (SYSTEM_FLAGS + 0xB0) // Unused Flag
-#define FLAG_UNUSED_0x911                           (SYSTEM_FLAGS + 0xB1) // Unused Flag
-#define FLAG_UNUSED_0x912                           (SYSTEM_FLAGS + 0xB2) // Unused Flag
-#define FLAG_UNUSED_0x913                           (SYSTEM_FLAGS + 0xB3) // Unused Flag
-#define FLAG_UNUSED_0x914                           (SYSTEM_FLAGS + 0xB4) // Unused Flag
+#define FLAG_HIDE_TOWER_ROCKET_1                    (SYSTEM_FLAGS + 0x99) // Kanto (FRLG)
+#define FLAG_HIDE_TOWER_ROCKET_2                    (SYSTEM_FLAGS + 0x9A) // Kanto (FRLG)
+#define FLAG_HIDE_TOWER_ROCKET_3                    (SYSTEM_FLAGS + 0x9B) // Kanto (FRLG)
+#define FLAG_HIDE_TOWN_MAP                          (SYSTEM_FLAGS + 0x9C) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_BEAUTY                 (SYSTEM_FLAGS + 0x9D) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_GAME_CORNER_BIKER      (SYSTEM_FLAGS + 0x9E) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_GAME_CORNER_LOSTELLE   (SYSTEM_FLAGS + 0x9F) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_POKE_MANIAC            (SYSTEM_FLAGS + 0xA0) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_REVIVE                 (SYSTEM_FLAGS + 0xA1) // Kanto (FRLG)
+#define FLAG_HIDE_TWO_ISLAND_WOMAN                  (SYSTEM_FLAGS + 0xA2) // Kanto (FRLG)
+#define FLAG_HIDE_VERMILION_CITY_OAKS_AIDE          (SYSTEM_FLAGS + 0xA3) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_1F_RARE_CANDY        (SYSTEM_FLAGS + 0xA4) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_1F_TM02              (SYSTEM_FLAGS + 0xA5) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_2F_BOULDER           (SYSTEM_FLAGS + 0xA6) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_2F_FULL_HEAL         (SYSTEM_FLAGS + 0xA7) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_2F_GUARD_SPEC        (SYSTEM_FLAGS + 0xA8) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_2F_TM07              (SYSTEM_FLAGS + 0xA9) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_2F_TM37              (SYSTEM_FLAGS + 0xAA) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_3F_BOULDER           (SYSTEM_FLAGS + 0xAB) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_3F_MAX_REVIVE        (SYSTEM_FLAGS + 0xAC) // Kanto (FRLG)
+#define FLAG_HIDE_VICTORY_ROAD_3F_TM50              (SYSTEM_FLAGS + 0xAD) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_CITY_POTION              (SYSTEM_FLAGS + 0xAE) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_FOREST_ANTIDOTE          (SYSTEM_FLAGS + 0xAF) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_FOREST_POKE_BALL         (SYSTEM_FLAGS + 0xB0) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_FOREST_POTION            (SYSTEM_FLAGS + 0xB1) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_FOREST_POTION_2          (SYSTEM_FLAGS + 0xB2) // Kanto (FRLG)
+#define FLAG_HIDE_VIRIDIAN_GIOVANNI                 (SYSTEM_FLAGS + 0xB3) // Kanto (FRLG)
+#define FLAG_HIDE_ZAPDOS                            (SYSTEM_FLAGS + 0xB4) // Kanto (FRLG)
 #define FLAG_UNUSED_0x915                           (SYSTEM_FLAGS + 0xB5) // Unused Flag
 #define FLAG_UNUSED_0x916                           (SYSTEM_FLAGS + 0xB6) // Unused Flag
 #define FLAG_UNUSED_0x917                           (SYSTEM_FLAGS + 0xB7) // Unused Flag

@@ -277,6 +277,8 @@
 #define OBJ_EVENT_GFX_VAR_E  (OBJ_EVENT_GFX_VARS + 0xE)
 #define OBJ_EVENT_GFX_VAR_F  (OBJ_EVENT_GFX_VARS + 0xF) // 255
 
+#define IS_OBJ_EVENT_GFX_VAR(id) ((id) >= OBJ_EVENT_GFX_VAR_0 && (id) <= OBJ_EVENT_GFX_VAR_F)
+
 #define SHADOW_SIZE_S   0
 #define SHADOW_SIZE_M   1
 #define SHADOW_SIZE_L   2
@@ -307,5 +309,7 @@
 // Aliases for old names. "object event id" normally refers to an index into gObjectEvents, which these are not.
 #define OBJ_EVENT_ID_CAMERA LOCALID_CAMERA
 #define OBJ_EVENT_ID_PLAYER LOCALID_PLAYER
+
+#include "constants/event_objects_kanto.h"
 
 #endif  // GUARD_CONSTANTS_EVENT_OBJECTS_H

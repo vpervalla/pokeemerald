@@ -4,6 +4,7 @@
     python3 tools/edit_save.py pokeemerald.sav ITEM_POKE_BALL=10 ITEM_POTION=10
     python3 tools/edit_save.py pokeemerald.sav --add-mon=SPECIES_HAUNTER:25   # species[:level], level defaults to 5
     python3 tools/edit_save.py pokeemerald.sav --running-shoes
+    python3 tools/edit_save.py pokeemerald.sav --badges   # all 8 badges, so HMs work outside battle
     python3 tools/edit_save.py pokeemerald.sav --layout-id=442   # see include/constants/layouts.h
 
 Run from the pokeemerald root (item ids, pockets and Pokemon data are read from the source).
@@ -20,6 +21,7 @@ SECTION1_SIZE = 3968                 # bytes of SaveBlock1 held in section 1 (co
 KEY_OFFSET = 0xAC                    # SaveBlock2.encryptionKey, in section 0
 FLAGS_OFFSET = 0x1270                # SaveBlock1.flags
 FLAG_SYS_B_DASH = 0x8C0              # "received Running Shoes" (SYSTEM_FLAGS 0x860 + 0x60)
+FLAG_BADGE01_GET = 0x867             # SYSTEM_FLAGS + 0x7; the 8 badge flags follow
 POCKETS = {                          # pocket -> (offset in SaveBlock1, capacity)
     "POCKET_ITEMS": (0x560, 30), "POCKET_KEY_ITEMS": (0x5D8, 30), "POCKET_POKE_BALLS": (0x650, 16),
     "POCKET_TM_HM": (0x690, 64), "POCKET_BERRIES": (0x790, 46),
@@ -121,6 +123,7 @@ def main():
         sys.exit(__doc__)
     args = sys.argv[2:]
     shoes = "--running-shoes" in args
+    badges = "--badges" in args
     new_mons = [a.split("=", 1)[1] for a in args if a.startswith("--add-mon=")]
     layout = next((int(a.split("=")[1]) for a in args if a.startswith("--layout-id=")), None)
     path, wanted = sys.argv[1], [a.split("=") for a in args if not a.startswith("--")]
@@ -180,17 +183,25 @@ def main():
         print(f"party slot {count + 1}: {nickname} Lv. {level}")
     struct.pack_into("<H", d, o1 + FOOTER + 2, checksum(d[o1:o1 + SECTION1_SIZE]))
 
-    if shoes:
+    def set_flags(flags, what):
         # SaveBlock1 is split across sections 1-4 in 3968-byte chunks; the flags start in section 2.
-        byte = FLAGS_OFFSET + FLAG_SYS_B_DASH // 8
-        sec, rel = 1 + byte // SECTION1_SIZE, byte % SECTION1_SIZE
-        o = best[sec][0]
-        if sec == 4 or checksum(d[o:o + SECTION1_SIZE]) != struct.unpack_from("<H", d, o + FOOTER + 2)[0]:
-            sys.exit("unexpected save layout; refusing to set the flag")
-        had = bool(d[o + rel] & (1 << (FLAG_SYS_B_DASH % 8)))
-        d[o + rel] |= 1 << (FLAG_SYS_B_DASH % 8)
-        struct.pack_into("<H", d, o + FOOTER + 2, checksum(d[o:o + SECTION1_SIZE]))
-        print("running shoes: " + ("already owned" if had else "added"))
+        added = 0
+        for flag in flags:
+            byte = FLAGS_OFFSET + flag // 8
+            sec, rel = 1 + byte // SECTION1_SIZE, byte % SECTION1_SIZE
+            o = best[sec][0]
+            if sec == 4 or checksum(d[o:o + SECTION1_SIZE]) != struct.unpack_from("<H", d, o + FOOTER + 2)[0]:
+                sys.exit("unexpected save layout; refusing to set the flag")
+            if not d[o + rel] & (1 << (flag % 8)):
+                added += 1
+            d[o + rel] |= 1 << (flag % 8)
+            struct.pack_into("<H", d, o + FOOTER + 2, checksum(d[o:o + SECTION1_SIZE]))
+        print(f"{what}: " + ("added" if added else "already owned"))
+
+    if shoes:
+        set_flags([FLAG_SYS_B_DASH], "running shoes")
+    if badges:
+        set_flags(range(FLAG_BADGE01_GET, FLAG_BADGE01_GET + 8), "badges")
     if not os.path.exists(path + ".bak"):
         shutil.copyfile(path, path + ".bak")
     open(path, "wb").write(d)

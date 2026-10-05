@@ -92,9 +92,9 @@ struct BackupMapLayout
 struct ObjectEventTemplate
 {
     /*0x00*/ u8 localId;
-    /*0x01*/ u8 graphicsId;
+    /*0x01*/ u8 graphicsIdLowerByte; // Use GetTemplateGraphicsId
     /*0x02*/ u8 kind; // Always OBJ_KIND_NORMAL in Emerald.
-    /*0x03*/ //u8 padding1;
+    /*0x03*/ u8 graphicsIdUpperByte; // Was padding; graphics ids are 16-bit so FRLG's sprites fit
     /*0x04*/ s16 x;
     /*0x06*/ s16 y;
     /*0x08*/ u8 elevation;
@@ -223,7 +223,7 @@ struct ObjectEvent
              u32 hideReflection:1;
              //u32 padding:4;
     /*0x04*/ u8 spriteId;
-    /*0x05*/ u8 graphicsId;
+    /*0x05*/ u8 graphicsIdLowerByte; // Use GetObjectEventGraphicsId
     /*0x06*/ u8 movementType;
     /*0x07*/ u8 trainerType;
     /*0x08*/ u8 localId;
@@ -250,9 +250,33 @@ struct ObjectEvent
     /*0x20*/ u8 previousMovementDirection;
     /*0x21*/ u8 directionSequenceIndex;
     /*0x22*/ u8 playerCopyableMovement; // COPY_MOVE_*
-    /*0x23*/ //u8 padding2;
+    /*0x23*/ u8 graphicsIdUpperByte; // Was padding, so saves made before 16-bit graphics ids load unchanged
     /*size = 0x24*/
 };
+
+// Graphics ids are 16-bit, but stored as two bytes so that the layout of these structs
+// (which are kept in the save file) is unchanged.
+static inline u16 GetObjectEventGraphicsId(const struct ObjectEvent *objectEvent)
+{
+    return objectEvent->graphicsIdLowerByte | (objectEvent->graphicsIdUpperByte << 8);
+}
+
+static inline void SetObjectEventGraphicsIdField(struct ObjectEvent *objectEvent, u16 graphicsId)
+{
+    objectEvent->graphicsIdLowerByte = graphicsId;
+    objectEvent->graphicsIdUpperByte = graphicsId >> 8;
+}
+
+static inline u16 GetTemplateGraphicsId(const struct ObjectEventTemplate *template)
+{
+    return template->graphicsIdLowerByte | (template->graphicsIdUpperByte << 8);
+}
+
+static inline void SetTemplateGraphicsId(struct ObjectEventTemplate *template, u16 graphicsId)
+{
+    template->graphicsIdLowerByte = graphicsId;
+    template->graphicsIdUpperByte = graphicsId >> 8;
+}
 
 struct ObjectEventGraphicsInfo
 {
