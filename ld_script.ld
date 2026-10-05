@@ -83,6 +83,7 @@ SECTIONS {
         src/minigame_countdown.o(.text);
         src/rtc.o(.text);
         src/main_menu.o(.text);
+        src/oak_speech.o(.text);
         src/battle_controllers.o(.text);
         src/decompress.o(.text);
         src/digit_obj_util.o(.text);
@@ -472,6 +473,7 @@ SECTIONS {
         src/minigame_countdown.o(.rodata);
         src/rtc.o(.rodata);
         src/main_menu.o(.rodata);
+        src/oak_speech.o(.rodata);
         src/battle_controllers.o(.rodata);
         src/digit_obj_util.o(.rodata);
         src/data.o(.rodata);

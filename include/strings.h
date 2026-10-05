@@ -350,10 +350,6 @@ extern const u8 gText_ContinueMenuPlayer[];
 extern const u8 gText_ContinueMenuTime[];
 extern const u8 gText_ContinueMenuPokedex[];
 extern const u8 gText_ContinueMenuBadges[];
-extern const u8 gText_BirchBrendan[];
-extern const u8 gText_BirchMay[];
-extern const u8 gText_BirchRed[];
-extern const u8 gText_BirchLeaf[];
 extern const u8 gText_DefaultNameStu[];
 extern const u8 gText_DefaultNameMilton[];
 extern const u8 gText_DefaultNameTom[];
@@ -3024,6 +3020,7 @@ extern const u8 gText_Cancel3[];
 // Naming Screen
 extern const u8 gText_MoveOkBack[];
 extern const u8 gText_YourName[];
+extern const u8 gText_RivalsName[];
 extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_TellHimTheWords[];
