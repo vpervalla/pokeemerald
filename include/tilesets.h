@@ -14,5 +14,7 @@ extern const struct Tileset gTileset_KantoVermilionCity;
 extern const struct Tileset gTileset_KantoSaffronCity;
 extern const struct Tileset gTileset_KantoCinnabarIsland;
 extern const struct Tileset gTileset_KantoIndigoPlateau;
+extern const struct Tileset gTileset_KantoSeviiIslands123;
+extern const struct Tileset gTileset_KantoSeviiIslands45;
 
 #endif //GUARD_tilesets_H
