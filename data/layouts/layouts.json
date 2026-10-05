@@ -7460,6 +7460,16 @@
       "secondary_tileset": "gTileset_KantoPalletTown",
       "border_filepath": "data/layouts/TestArea/border.bin",
       "blockdata_filepath": "data/layouts/TestArea/map.bin"
+    },
+    {
+      "id": "LAYOUT_TEST_AREA_HOUSE",
+      "name": "TestArea_House_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_KantoBuilding",
+      "secondary_tileset": "gTileset_KantoGenericBuilding2",
+      "border_filepath": "data/layouts/TestArea_House/border.bin",
+      "blockdata_filepath": "data/layouts/TestArea_House/map.bin"
     }
   ]
 }

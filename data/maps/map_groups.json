@@ -1169,6 +1169,7 @@
     "SevenIsland_SevaultCanyon_House"
   ],
   "gMapGroup_Custom": [
-    "TestArea"
+    "TestArea",
+    "TestArea_House"
   ]
 }
