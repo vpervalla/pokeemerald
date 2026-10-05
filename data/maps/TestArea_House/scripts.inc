@@ -31,6 +31,8 @@ TestArea_House_EventScript_Trader::
 	copyvar VAR_0x8005, VAR_0x800A
 	special CreateDoubleExchangeReturnPokemon
 	special DoInGameTradeScene
+	copyvar VAR_0x8005, VAR_0x800A
+	special RestoreDoubleExchangeFriendship
 	msgbox TestArea_House_Text_DoubleExchangeDone, MSGBOX_DEFAULT
 	release
 	end

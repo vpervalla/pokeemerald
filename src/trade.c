@@ -4663,6 +4663,14 @@ void CreateDoubleExchangeReturnPokemon(void)
     }
 }
 
+// After the second half of a double exchange: the trade set the returned Pokémon's friendship
+// to the traded-Pokémon default, so give it back the friendship it had before the exchange.
+void RestoreDoubleExchangeFriendship(void)
+{
+    u8 friendship = GetMonData(&sDoubleExchangeMon, MON_DATA_FRIENDSHIP);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_FRIENDSHIP, &friendship);
+}
+
 static void CB2_UpdateLinkTrade(void)
 {
     if (DoTradeAnim() == TRUE)

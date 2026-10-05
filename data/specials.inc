@@ -542,3 +542,4 @@ gSpecials::
 	def_special TrySetBattleTowerLinkType
 	def_special CreateDoubleExchangeTradePokemon
 	def_special CreateDoubleExchangeReturnPokemon
+	def_special RestoreDoubleExchangeFriendship
