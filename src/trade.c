@@ -174,6 +174,10 @@ static EWRAM_DATA u8 *sMenuTextTileBuffers[NUM_MENU_TEXT_SPRITES] = {NULL};
 
 EWRAM_DATA struct Mail gTradeMail[PARTY_SIZE] = {0};
 EWRAM_DATA u8 gSelectedTradeMonPositions[2] = {0};
+// The player's Pokémon (and its mail, if any) as it was before the first half of a double exchange,
+// so the second half can trade it back to them.
+static EWRAM_DATA struct Pokemon sDoubleExchangeMon = {0};
+static EWRAM_DATA struct Mail sDoubleExchangeMail = {0};
 static EWRAM_DATA struct {
     u8 bg2hofs;
     u8 bg3hofs;
@@ -3346,7 +3350,10 @@ static void BufferTradeSceneStrings(void)
     {
         ingameTrade = &sIngameTrades[gSpecialVar_0x8004];
         StringCopy(gStringVar1, ingameTrade->otName);
-        StringCopy_Nickname(gStringVar3, ingameTrade->nickname);
+        // Read the partner's nickname from the Pokémon itself (rather than the in-game trade data), so the
+        // return half of a double exchange shows the name of the Pokémon being given back.
+        GetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, name);
+        StringCopy_Nickname(gStringVar3, name);
         GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar2, name);
     }
@@ -4622,6 +4629,38 @@ u16 GetTradeSpecies(void)
 void CreateInGameTradePokemon(void)
 {
     CreateInGameTradePokemonInternal(gSpecialVar_0x8005, gSpecialVar_0x8004);
+}
+
+// First half of a double exchange: remembers the Pokémon the player is about to send,
+// then creates the in-game trade Pokémon they will receive for it, like CreateInGameTradePokemon.
+void CreateDoubleExchangeTradePokemon(void)
+{
+    struct Pokemon *playerMon = &gPlayerParty[gSpecialVar_0x8005];
+    u8 mailId = GetMonData(playerMon, MON_DATA_MAIL);
+
+    sDoubleExchangeMon = *playerMon;
+    // The sent Pokémon's mail is erased from the save during the trade, so keep a copy of it.
+    if (mailId != MAIL_NONE)
+        sDoubleExchangeMail = gSaveBlock1Ptr->mail[mailId];
+    CreateInGameTradePokemonInternal(gSpecialVar_0x8005, gSpecialVar_0x8004);
+}
+
+// Second half of a double exchange: sets up the Pokémon the player sent in the first half
+// as the one the partner gives back, so DoInGameTradeScene returns it to the player.
+void CreateDoubleExchangeReturnPokemon(void)
+{
+    struct Pokemon *returnMon = &gEnemyParty[0];
+    u8 mailId;
+
+    *returnMon = sDoubleExchangeMon;
+    mailId = GetMonData(returnMon, MON_DATA_MAIL);
+    if (mailId != MAIL_NONE)
+    {
+        // TradeMons gives the received Pokémon its mail from gTradeMail[MON_DATA_MAIL].
+        gTradeMail[0] = sDoubleExchangeMail;
+        mailId = 0;
+        SetMonData(returnMon, MON_DATA_MAIL, &mailId);
+    }
 }
 
 static void CB2_UpdateLinkTrade(void)
