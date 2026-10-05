@@ -8,6 +8,7 @@
 #include "contest_link.h"
 #include "data.h"
 #include "decompress.h"
+#include "field_player_avatar.h"
 #include "graphics.h"
 #include "link.h"
 #include "m4a.h"
@@ -2788,7 +2789,9 @@ void CreateContestMonFromParty(u8 partyIndex)
     if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
         StripPlayerNameForLinkContest(name);
     memcpy(gContestMons[gContestPlayerMonIndex].trainerName, name, PLAYER_NAME_LENGTH + 1);
-    if (gSaveBlock2Ptr->playerGender == MALE)
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        gContestMons[gContestPlayerMonIndex].trainerGfxId = GetFRLGAvatarGraphicsIdByGender(gSaveBlock2Ptr->playerGender);
+    else if (gSaveBlock2Ptr->playerGender == MALE)
         gContestMons[gContestPlayerMonIndex].trainerGfxId = OBJ_EVENT_GFX_LINK_BRENDAN;
     else
         gContestMons[gContestPlayerMonIndex].trainerGfxId = OBJ_EVENT_GFX_LINK_MAY;

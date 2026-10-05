@@ -22,6 +22,7 @@
 #define TAG_MAY     1003
 #define TAG_FLYGON_LATIOS  1004
 #define TAG_FLYGON_LATIAS  1005
+#define TAG_FRLG_PLAYER    1006
 
 // Used for the Clouds/Trees/Houses sprites that pass by in the background
 #define TAG_MOVING_SCENERY 2000
@@ -62,6 +63,10 @@ static const u32 sHouses_Tilemap[]        = INCGFX_U32("graphics/intro/scene_2/h
 static const u32 sHouseSilhouette_Gfx[]   = INCGFX_U32("graphics/intro/scene_2/house_silhouette.png", ".4bpp.lz");
 static const u16 sBrendanCredits_Pal[]    = INCGFX_U16("graphics/intro/scene_2/brendan_credits.png", ".gbapal");
 static const u32 sBrendanCredits_Gfx[]    = INCGFX_U32("graphics/intro/scene_2/brendan_credits.png", ".4bpp.lz");
+static const u16 sRedCredits_Pal[]        = INCGFX_U16("graphics/credits/red_running.png", ".gbapal");
+static const u32 sRedCredits_Gfx[]        = INCGFX_U32("graphics/credits/red_running.png", ".4bpp.lz");
+static const u16 sLeafCredits_Pal[]       = INCGFX_U16("graphics/credits/leaf_running.png", ".gbapal");
+static const u32 sLeafCredits_Gfx[]       = INCGFX_U32("graphics/credits/leaf_running.png", ".4bpp.lz");
 static const u16 sMayCredits_Pal[]        = INCGFX_U16("graphics/intro/scene_2/may_credits.png", ".gbapal");
 static const u16 sUnused[0xF0]            = {0};
 static const u32 sMayCredits_Gfx[]        = INCGFX_U32("graphics/intro/scene_2/may_credits.png", ".4bpp.lz");
@@ -1121,6 +1126,67 @@ u8 CreateIntroBrendanSprite(s16 x, s16 y)
     u8 bicycleSpriteId = CreateSprite(&sSpriteTemplate_BrendanBicycle, x, y + 8, 3);
     gSprites[bicycleSpriteId].sPlayerSpriteId = playerSpriteId;
     return playerSpriteId;
+}
+
+// Red and Leaf have no bicycle art, so in the credits they run instead, using FRLG's credits sprites
+static const union AnimCmd sAnim_FRLGPlayer_Slow[] =
+{
+    ANIMCMD_FRAME(  0, 8),
+    ANIMCMD_FRAME( 64, 8),
+    ANIMCMD_FRAME(128, 8),
+    ANIMCMD_FRAME(192, 8),
+    ANIMCMD_FRAME(256, 8),
+    ANIMCMD_FRAME(320, 8),
+    ANIMCMD_JUMP(0)
+};
+
+static const union AnimCmd sAnim_FRLGPlayer_Fast[] =
+{
+    ANIMCMD_FRAME(  0, 4),
+    ANIMCMD_FRAME( 64, 4),
+    ANIMCMD_FRAME(128, 4),
+    ANIMCMD_FRAME(192, 4),
+    ANIMCMD_FRAME(256, 4),
+    ANIMCMD_FRAME(320, 4),
+    ANIMCMD_JUMP(0)
+};
+
+// Same order as the credits' player animations. Red and Leaf have no frames
+// for looking back, so they keep running instead.
+const union AnimCmd *const gAnims_CreditsFRLGPlayer[] =
+{
+    sAnim_FRLGPlayer_Slow,
+    sAnim_FRLGPlayer_Fast,
+    sAnim_FRLGPlayer_Fast,
+    sAnim_FRLGPlayer_Slow,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_FRLGPlayer =
+{
+    .tileTag = TAG_FRLG_PLAYER,
+    .paletteTag = TAG_FRLG_PLAYER,
+    .oam = &sOamData_Player,
+    .anims = gAnims_CreditsFRLGPlayer,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Player
+};
+
+u8 CreateCreditsFRLGPlayerSprite(s16 x, s16 y, u8 gender)
+{
+    struct CompressedSpriteSheet sheet = {
+        .data = gender == MALE ? sRedCredits_Gfx : sLeafCredits_Gfx,
+        .size = 0x3000,
+        .tag = TAG_FRLG_PLAYER,
+    };
+    struct SpritePalette palette = {
+        .data = gender == MALE ? sRedCredits_Pal : sLeafCredits_Pal,
+        .tag = TAG_FRLG_PLAYER,
+    };
+
+    LoadCompressedSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    return CreateSprite(&sSpriteTemplate_FRLGPlayer, x, y, 2);
 }
 
 u8 CreateIntroMaySprite(s16 x, s16 y)

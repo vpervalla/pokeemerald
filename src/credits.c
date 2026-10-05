@@ -1207,7 +1207,30 @@ static bool8 LoadBikeScene(u8 scene, u8 taskId)
         gMain.state++;
         break;
     case 2:
-        if (gSaveBlock2Ptr->playerGender == MALE)
+        if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        {
+            // Red or Leaf runs alongside the rival on their bike
+            if (gSaveBlock2Ptr->playerGender == MALE)
+                LoadCompressedSpriteSheet(gSpriteSheet_CreditsRivalMay);
+            else
+                LoadCompressedSpriteSheet(gSpriteSheet_CreditsRivalBrendan);
+            LoadCompressedSpriteSheet(gSpriteSheet_CreditsBicycle);
+            LoadSpritePalettes(gSpritePalettes_Credits);
+
+            spriteId = CreateCreditsFRLGPlayerSprite(120, 46, gSaveBlock2Ptr->playerGender);
+            gTasks[taskId].tPlayerSpriteId = spriteId;
+            gSprites[spriteId].callback = SpriteCB_Player;
+            gSprites[spriteId].anims = gAnims_CreditsFRLGPlayer;
+
+            if (gSaveBlock2Ptr->playerGender == MALE)
+                spriteId = CreateIntroMaySprite(DISPLAY_WIDTH + 32, 46);
+            else
+                spriteId = CreateIntroBrendanSprite(DISPLAY_WIDTH + 32, 46);
+            gTasks[taskId].tRivalSpriteId = spriteId;
+            gSprites[spriteId].callback = SpriteCB_Rival;
+            gSprites[spriteId].anims = sAnims_Rival;
+        }
+        else if (gSaveBlock2Ptr->playerGender == MALE)
         {
             LoadCompressedSpriteSheet(gSpriteSheet_CreditsBrendan);
             LoadCompressedSpriteSheet(gSpriteSheet_CreditsRivalMay);

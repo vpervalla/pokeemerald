@@ -95,6 +95,8 @@ enum {
     TAG_MEDAL_GOLD,
     TAG_HEAD_MALE,
     TAG_HEAD_FEMALE,
+    TAG_HEAD_RED,
+    TAG_HEAD_LEAF,
 };
 
 // Error return codes. Never read
@@ -181,6 +183,10 @@ static const u16 sFemaleHead_Pal[]               = INCGFX_U16("graphics/frontier
 static const u32 sMapScreen_Gfx[]                = INCGFX_U32("graphics/frontier_pass/map_screen.png", ".4bpp.lz");
 static const u32 sCursor_Gfx[]                   = INCGFX_U32("graphics/frontier_pass/cursor.png", ".4bpp.lz");
 static const u32 sHeads_Gfx[]                    = INCGFX_U32("graphics/frontier_pass/map_heads.png", ".4bpp.lz");
+static const u16 sRedHead_Pal[]                  = INCGFX_U16("graphics/pokenav/region_map/red_icon.png", ".gbapal");
+static const u32 sRedHead_Gfx[]                  = INCGFX_U32("graphics/pokenav/region_map/red_icon.png", ".4bpp");
+static const u16 sLeafHead_Pal[]                 = INCGFX_U16("graphics/pokenav/region_map/leaf_icon.png", ".gbapal");
+static const u32 sLeafHead_Gfx[]                 = INCGFX_U32("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
 static const u32 sMapCursor_Gfx[]                = INCGFX_U32("graphics/frontier_pass/map_cursor.png", ".4bpp.lz");
 static const u32 sMapScreen_Tilemap[]            = INCGFX_U32("graphics/frontier_pass/map_screen.bin", ".lz");
 static const u32 sMapAndCard_ZoomedOut_Tilemap[] = INCGFX_U32("graphics/frontier_pass/small_map_and_card.bin", ".lz");
@@ -381,6 +387,8 @@ static const struct SpritePalette sSpritePalettes[] =
     {gFrontierPassMedalsGold_Pal,   TAG_MEDAL_GOLD},
     {sMaleHead_Pal,                 TAG_HEAD_MALE},
     {sFemaleHead_Pal,               TAG_HEAD_FEMALE},
+    {sRedHead_Pal,                  TAG_HEAD_RED},
+    {sLeafHead_Pal,                 TAG_HEAD_LEAF},
     {}
 };
 
@@ -1693,9 +1701,23 @@ static void InitFrontierMapSprites(void)
             }
         }
 
-        LoadCompressedSpriteSheet(sHeadsSpriteSheet);
         sprite = sSpriteTemplate_PlayerHead;
-        sprite.paletteTag = gSaveBlock2Ptr->playerGender + TAG_HEAD_MALE; // TAG_HEAD_FEMALE if gender is FEMALE
+        if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        {
+            // Red's or Leaf's head, from the region map player icons
+            struct SpriteSheet sheet = {
+                .data = gSaveBlock2Ptr->playerGender == MALE ? sRedHead_Gfx : sLeafHead_Gfx,
+                .size = 0x80,
+                .tag = TAG_HEAD_MALE,
+            };
+            LoadSpriteSheet(&sheet);
+            sprite.paletteTag = gSaveBlock2Ptr->playerGender + TAG_HEAD_RED; // TAG_HEAD_LEAF if gender is FEMALE
+        }
+        else
+        {
+            LoadCompressedSpriteSheet(sHeadsSpriteSheet);
+            sprite.paletteTag = gSaveBlock2Ptr->playerGender + TAG_HEAD_MALE; // TAG_HEAD_FEMALE if gender is FEMALE
+        }
         if (id != 0)
         {
             spriteId = CreateSprite(&sprite, x, y, 0);
@@ -1709,7 +1731,7 @@ static void InitFrontierMapSprites(void)
 
         sMapData->playerHeadSprite = &gSprites[spriteId];
         sMapData->playerHeadSprite->oam.priority = 0;
-        if (gSaveBlock2Ptr->playerGender != MALE)
+        if (gSaveBlock2Ptr->playerGender != MALE && gSaveBlock2Ptr->playerCostume != PLAYER_COSTUME_FRLG)
             StartSpriteAnim(sMapData->playerHeadSprite, 1);
     }
 }
