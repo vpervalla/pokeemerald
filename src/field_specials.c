@@ -2380,12 +2380,39 @@ void ShowScrollableMultichoice(void)
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
         break;
+    case SCROLL_MULTI_TEST_AREA_WEATHER:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 16;
+        task->tLeft = 17;
+        task->tTop = 1;
+        task->tWidth = 12;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     default:
         gSpecialVar_Result = MULTI_B_PRESSED;
         DestroyTask(taskId);
         break;
     }
 }
+
+// TestArea's weather menu. Item i is weather i (WEATHER_NONE to WEATHER_UNDERWATER_BUBBLES), then EXIT.
+static const u8 sText_WeatherNone[] = _("CLEAR");
+static const u8 sText_WeatherSunnyClouds[] = _("SUNNY CLOUDS");
+static const u8 sText_WeatherSunny[] = _("SUNNY");
+static const u8 sText_WeatherRain[] = _("RAIN");
+static const u8 sText_WeatherSnow[] = _("SNOW");
+static const u8 sText_WeatherRainThunderstorm[] = _("THUNDERSTORM");
+static const u8 sText_WeatherFogHorizontal[] = _("FOG");
+static const u8 sText_WeatherVolcanicAsh[] = _("VOLCANIC ASH");
+static const u8 sText_WeatherSandstorm[] = _("SANDSTORM");
+static const u8 sText_WeatherFogDiagonal[] = _("DIAGONAL FOG");
+static const u8 sText_WeatherUnderwater[] = _("UNDERWATER");
+static const u8 sText_WeatherShade[] = _("SHADE");
+static const u8 sText_WeatherDrought[] = _("DROUGHT");
+static const u8 sText_WeatherDownpour[] = _("DOWNPOUR");
+static const u8 sText_WeatherUnderwaterBubbles[] = _("BUBBLES");
 
 static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] =
 {
@@ -2539,6 +2566,25 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         gText_PokemonMoves,
         gText_Underpowered,
         gText_WhenInDanger,
+        gText_Exit
+    },
+    [SCROLL_MULTI_TEST_AREA_WEATHER] =
+    {
+        [WEATHER_NONE] = sText_WeatherNone,
+        [WEATHER_SUNNY_CLOUDS] = sText_WeatherSunnyClouds,
+        [WEATHER_SUNNY] = sText_WeatherSunny,
+        [WEATHER_RAIN] = sText_WeatherRain,
+        [WEATHER_SNOW] = sText_WeatherSnow,
+        [WEATHER_RAIN_THUNDERSTORM] = sText_WeatherRainThunderstorm,
+        [WEATHER_FOG_HORIZONTAL] = sText_WeatherFogHorizontal,
+        [WEATHER_VOLCANIC_ASH] = sText_WeatherVolcanicAsh,
+        [WEATHER_SANDSTORM] = sText_WeatherSandstorm,
+        [WEATHER_FOG_DIAGONAL] = sText_WeatherFogDiagonal,
+        [WEATHER_UNDERWATER] = sText_WeatherUnderwater,
+        [WEATHER_SHADE] = sText_WeatherShade,
+        [WEATHER_DROUGHT] = sText_WeatherDrought,
+        [WEATHER_DOWNPOUR] = sText_WeatherDownpour,
+        [WEATHER_UNDERWATER_BUBBLES] = sText_WeatherUnderwaterBubbles,
         gText_Exit
     }
 };
