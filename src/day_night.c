@@ -12,6 +12,9 @@
 #include "sprite.h"
 #include "tilesets.h"
 #include "constants/field_weather.h"
+#include "battle.h"
+#include "battle_bg.h"
+#include "battle_interface.h"
 #include "decompress.h"
 #include "constants/battle.h"
 #include "constants/rgb.h"
@@ -421,25 +424,32 @@ static u16 EaseChannel(u16 current, u16 target)
     return target;
 }
 
-// Bit n of a palette mask is BG palette n (0-15); bit 16 + n is OBJ palette n.
-#define BG_PAL_BIT(n)  (1 << (n))
-#define OBJ_PAL_BIT(n) (1 << (16 + (n)))
+// Which colours get tinted: one u16 per palette (BG 0-15, then OBJ 0-15), bit n for colour n.
+#define NUM_TINT_PALETTES (PLTT_BUFFER_SIZE / 16)
+#define OBJ_PAL(n)        (16 + (n))
+#define ALL_COLORS        0xFFFF
 
-// The field tints the map's BG palettes (the rest are UI: text boxes, menus, the map name popup)
-// and every sprite.
-#define FIELD_TINTED_PALS (((1 << NUM_PALS_TOTAL) - 1) | 0xFFFF0000)
+// The ground patches the battlers stand on, per battle environment: colours of BG palettes 2 and 3
+// that only the patches use (the backdrop uses colours 1 and 15, its stripes, and slot 3 copies of
+// those). Taken from graphics/battle_environment by comparing the patches with the rest of the scene.
+static const u16 sBattlePlatformColors[][2] =
+{
+    [BATTLE_ENVIRONMENT_GRASS]      = {0x00FC, 0x00FC},
+    [BATTLE_ENVIRONMENT_LONG_GRASS] = {0x01FC, 0x00FC},
+    [BATTLE_ENVIRONMENT_SAND]       = {0x01FC, 0x0000},
+    [BATTLE_ENVIRONMENT_UNDERWATER] = {0x01FC, 0x01FC},
+    [BATTLE_ENVIRONMENT_WATER]      = {0x01FC, 0x01FC},
+    [BATTLE_ENVIRONMENT_POND]       = {0x03FC, 0x03FC},
+    [BATTLE_ENVIRONMENT_MOUNTAIN]   = {0x03FC, 0x03FC},
+    [BATTLE_ENVIRONMENT_CAVE]       = {0x07FC, 0x07FC},
+    [BATTLE_ENVIRONMENT_BUILDING]   = {0x01FC, 0x0000},
+    [BATTLE_ENVIRONMENT_PLAIN]      = {0x01FC, 0x0000},
+};
 
-// Battles tint the scene but not the UI or the move animations: the battle environment
-// (BG 2-4), the battlers' palettes (OBJ 0-3, which hold the Pokemon and the player's back
-// pic, plus their BG 8-11 copies used by some animations), and the opposing trainers' pics.
-#define BATTLE_ENVIRONMENT_PALS (BG_PAL_BIT(2) | BG_PAL_BIT(3) | BG_PAL_BIT(4))
-#define BATTLE_MON_PALS         (BG_PAL_BIT(8) | BG_PAL_BIT(9) | BG_PAL_BIT(10) | BG_PAL_BIT(11) \
-                                 | OBJ_PAL_BIT(0) | OBJ_PAL_BIT(1) | OBJ_PAL_BIT(2) | OBJ_PAL_BIT(3))
-
-static EWRAM_DATA u32 sTintedPals = 0;    // Palette mask that sTintedPltt was made with
+static EWRAM_DATA u16 sTintedColors[NUM_TINT_PALETTES] = {0}; // Masks that sTintedPltt was made with
 static EWRAM_DATA bool8 sLitColorsUsed = FALSE;
 
-static void TintPalettes(bool8 all, u32 tintedPals, bool8 useLitColors)
+static void TintPalettes(bool8 all, const u16 *tintedColors, bool8 useLitColors)
 {
     u32 i;
 
@@ -447,13 +457,14 @@ static void TintPalettes(bool8 all, u32 tintedPals, bool8 useLitColors)
     {
         u16 color = gPlttBufferFaded[i];
         u32 pal = i / 16;
+        u16 bit = 1 << (i % 16);
 
         if (!all && color == sTintSource[i])
             continue;
         sTintSource[i] = color;
 
-        if (!(tintedPals & (1 << pal))
-         || (useLitColors && pal < NUM_PALS_TOTAL && (sUntintedColors[pal] & (1 << (i % 16)))))
+        if (!(tintedColors[pal] & bit)
+         || (useLitColors && pal < NUM_PALS_TOTAL && (sUntintedColors[pal] & bit)))
             sTintedPltt[i] = color;
         else
             sTintedPltt[i] = TintColor(color);
@@ -475,11 +486,13 @@ static bool8 StartTintUpdate(void)
     return reentered;
 }
 
-static void UpdateTint(bool8 reentered, u32 tintedPals, bool8 useLitColors)
+static void UpdateTint(bool8 reentered, const u16 *tintedColors, bool8 useLitColors)
 {
     const struct TintMultipliers *target;
     struct TintMultipliers prevTint = sTint;
     u8 phase = IsMapTinted() ? DayNight_GetPhase() : DAY_NIGHT_PHASE_DAY;
+    bool8 masksChanged = FALSE;
+    u32 i;
 
     target = &sPhaseTints[phase];
     if (reentered)
@@ -499,24 +512,33 @@ static void UpdateTint(bool8 reentered, u32 tintedPals, bool8 useLitColors)
         return;
     }
 
+    for (i = 0; i < NUM_TINT_PALETTES; i++)
+    {
+        if (tintedColors[i] != sTintedColors[i])
+        {
+            sTintedColors[i] = tintedColors[i];
+            masksChanged = TRUE;
+        }
+    }
+
     // A new tint or a change to which colours are tinted redoes every colour; otherwise only
     // the colours that changed in gPlttBufferFaded since the last frame are tinted again.
-    TintPalettes(!sTintActive || reentered || sRetintAll
-                 || tintedPals != sTintedPals || useLitColors != sLitColorsUsed
+    TintPalettes(!sTintActive || reentered || sRetintAll || masksChanged || useLitColors != sLitColorsUsed
                  || sTint.r != prevTint.r || sTint.g != prevTint.g || sTint.b != prevTint.b,
-                 tintedPals, useLitColors);
-    sTintedPals = tintedPals;
+                 tintedColors, useLitColors);
     sLitColorsUsed = useLitColors;
     sRetintAll = FALSE;
     sTintActive = TRUE;
 }
 
-// Runs once per overworld frame, after the palette fade has been updated.
+// Runs once per overworld frame, after the palette fade has been updated. The field tints the
+// map's BG palettes (the others are UI: text boxes, menus, the map name popup) and every sprite
+// but the glowing emblems.
 void DayNight_UpdateField(void)
 {
     bool8 reentered = StartTintUpdate();
     bool8 lit = ShouldLightWindows();
-    u32 tintedPals = FIELD_TINTED_PALS;
+    u16 tintedColors[NUM_TINT_PALETTES];
     u32 i;
 
     if (lit != sWindowsLit)
@@ -527,30 +549,51 @@ void DayNight_UpdateField(void)
     {
         u16 tag = GetSpritePaletteTagByPaletteNum(i);
 
-        if (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART)
-            tintedPals &= ~OBJ_PAL_BIT(i);
+        tintedColors[i] = (i < NUM_PALS_TOTAL) ? ALL_COLORS : 0;
+        tintedColors[OBJ_PAL(i)] = (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART) ? 0 : ALL_COLORS;
     }
-    UpdateTint(reentered, tintedPals, TRUE);
+    UpdateTint(reentered, tintedColors, TRUE);
 }
 
-// Runs once per battle frame. The battle takes the tint of the map it was started on.
+// Runs once per battle frame. The battle takes the tint of the map it was started on, but only
+// on what stands in the scene: the Pokemon, the trainers and the ground patches under the
+// battlers. The backdrop, the UI and the move animations keep their colours.
 void DayNight_UpdateBattle(void)
 {
     bool8 reentered = StartTintUpdate();
-    u32 tintedPals = BATTLE_ENVIRONMENT_PALS | BATTLE_MON_PALS;
+    u16 tintedColors[NUM_TINT_PALETTES];
     u32 i;
+
+    for (i = 0; i < NUM_TINT_PALETTES; i++)
+        tintedColors[i] = 0;
+
+    // The ground patches, while the environment's own background is shown (not a move's).
+    if (gBattleBgShowsEnvironment && gBattleEnvironment < ARRAY_COUNT(sBattlePlatformColors))
+    {
+        tintedColors[2] = sBattlePlatformColors[gBattleEnvironment][0];
+        tintedColors[3] = sBattlePlatformColors[gBattleEnvironment][1];
+    }
+
+    // The battlers' palettes hold the Pokemon (and the player's back pic during the intro);
+    // BG 8-11 are copies of them that some move animations draw the Pokemon with.
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+    {
+        tintedColors[OBJ_PAL(i)] = ALL_COLORS;
+        tintedColors[8 + i] = ALL_COLORS;
+    }
 
     // Trainer front pics get a free sprite palette tagged with their TRAINER_PIC_* id, and the
     // player's (or partner's) back pic moves to one tagged 0xD6F8 (0xD6F9) while throwing the
-    // first Poke Ball, so the Pokemon can take over the battler's palette.
+    // first Poke Ball, so the Pokemon can take over the battler's palette. The opponents' shadows
+    // have a palette of their own too.
     for (i = MAX_BATTLERS_COUNT; i < 16; i++)
     {
         u16 tag = GetSpritePaletteTagByPaletteNum(i);
 
-        if (tag < TRAINER_PIC_COUNT || tag == 0xD6F8 || tag == 0xD6F9)
-            tintedPals |= OBJ_PAL_BIT(i);
+        if (tag < TRAINER_PIC_COUNT || tag == 0xD6F8 || tag == 0xD6F9 || tag == TAG_ENEMY_SHADOW_PAL)
+            tintedColors[OBJ_PAL(i)] = ALL_COLORS;
     }
-    UpdateTint(reentered, tintedPals, FALSE);
+    UpdateTint(reentered, tintedColors, FALSE);
 }
 
 // Replaces TransferPlttBuffer in the field and battle VBlanks. The tinted buffer is only used

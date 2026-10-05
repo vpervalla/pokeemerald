@@ -4,6 +4,8 @@
 void BattleInitBgsAndWindows(void);
 void InitBattleBgsVideo(void);
 void LoadBattleMenuWindowGfx(void);
+extern bool8 gBattleBgShowsEnvironment;
+
 void DrawMainBattleBackground(void);
 void LoadBattleTextboxAndBackground(void);
 void InitLinkBattleVsScreen(u8 taskId);

@@ -1,5 +1,7 @@
 #include "global.h"
+#include "battle.h"
 #include "battle_gfx_sfx_util.h"
+#include "battle_interface.h"
 #include "data.h"
 #include "decompress.h"
 #include "graphics.h"
@@ -9,7 +11,6 @@
 
 #define TAG_SMOKESCREEN 55019
 
-#define PALTAG_SHADOW 55039
 #define GFXTAG_SHADOW 55129
 
 static void SpriteCB_SmokescreenImpactMain(struct Sprite *);
@@ -149,7 +150,7 @@ static const struct OamData sOamData_EnemyShadow =
 const struct SpriteTemplate gSpriteTemplate_EnemyShadow =
 {
     .tileTag = GFXTAG_SHADOW,
-    .paletteTag = PALTAG_SHADOW,
+    .paletteTag = TAG_ENEMY_SHADOW_PAL,
     .oam = &sOamData_EnemyShadow,
     .anims = gDummySpriteAnimTable,
     .images = NULL,

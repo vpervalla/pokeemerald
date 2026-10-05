@@ -757,8 +757,13 @@ void LoadBattleMenuWindowGfx(void)
     }
 }
 
+// Whether the battle background is the battle environment's own (not a special background or a move's),
+// for day/night to tint the ground patches under the battlers.
+EWRAM_DATA bool8 gBattleBgShowsEnvironment = FALSE;
+
 void DrawMainBattleBackground(void)
 {
+    gBattleBgShowsEnvironment = FALSE;
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK))
     {
         LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -811,6 +816,7 @@ void DrawMainBattleBackground(void)
             LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].tileset, (void *)(BG_CHAR_ADDR(2)));
             LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].tilemap, (void *)(BG_SCREEN_ADDR(26)));
             LoadCompressedPalette(sBattleEnvironmentTable[gBattleEnvironment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            gBattleBgShowsEnvironment = TRUE;
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -1344,6 +1350,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         break;
     case 5:
+        gBattleBgShowsEnvironment = FALSE;
         if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
         {
             LoadCompressedPalette(gBattleEnvironmentPalette_Frontier, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
@@ -1377,6 +1384,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
             default:
             case MAP_BATTLE_SCENE_NORMAL:
                 LoadCompressedPalette(sBattleEnvironmentTable[gBattleEnvironment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+                gBattleBgShowsEnvironment = TRUE;
                 break;
             case MAP_BATTLE_SCENE_GYM:
                 LoadCompressedPalette(gBattleEnvironmentPalette_BuildingGym, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);

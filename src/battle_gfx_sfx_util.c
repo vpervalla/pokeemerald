@@ -77,6 +77,10 @@ static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_C
     {gBlankGfxCompressed, 0x0120, TAG_HEALTHBAR_OPPONENT2_TILE}
 };
 
+// The shadows used to share the healthbox palette; they get their own copy so day/night can tint
+// them without the healthboxes.
+static const struct SpritePalette sSpritePalette_EnemyShadow = {gBattleInterface_BallStatusBarPal, TAG_ENEMY_SHADOW_PAL};
+
 static const struct SpritePalette sSpritePalettes_HealthBoxHealthBar[2] =
 {
     {gBattleInterface_BallStatusBarPal, TAG_HEALTHBOX_PAL},
@@ -1181,6 +1185,7 @@ void LoadAndCreateEnemyShadowSprites(void)
     u8 battler;
 
     LoadCompressedSpriteSheet(&gSpriteSheet_EnemyShadow);
+    LoadSpritePalette(&sSpritePalette_EnemyShadow);
 
     battler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
     gBattleSpritesDataPtr->healthBoxesData[battler].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow,

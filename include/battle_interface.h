@@ -47,6 +47,9 @@ enum
 #define TAG_HEALTHBAR_PAL               TAG_HEALTHBAR_PLAYER1_TILE
 #define TAG_HEALTHBOX_PAL               TAG_HEALTHBOX_PLAYER1_TILE
 
+// A copy of the healthbox palette for the opponents' shadows, so day/night can tint them
+#define TAG_ENEMY_SHADOW_PAL            0xD716
+
 enum
 {
     HEALTHBOX_ALL,

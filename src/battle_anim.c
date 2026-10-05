@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_bg.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "bg.h"
@@ -1184,6 +1185,7 @@ static void Task_FadeToBg(u8 taskId)
 
 static void LoadMoveBg(u16 bgId)
 {
+    gBattleBgShowsEnvironment = FALSE;
     if (IsContest())
     {
         const u32 *tilemap = gBattleAnimBackgroundTable[bgId].tilemap;
