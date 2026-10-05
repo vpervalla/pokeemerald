@@ -1,4 +1,5 @@
 #include "global.h"
+#include "day_night.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_ai_script_commands.h"
@@ -958,6 +959,7 @@ static void CB2_HandleStartBattle(void)
     RunTasks();
     AnimateSprites();
     BuildOamBuffer();
+    DayNight_UpdateBattle();
 
     playerMultiplayerId = GetMultiplayerId();
     gBattleScripting.multiplayerId = playerMultiplayerId;
@@ -1166,6 +1168,7 @@ static void CB2_HandleStartMultiPartnerBattle(void)
     RunTasks();
     AnimateSprites();
     BuildOamBuffer();
+    DayNight_UpdateBattle();
 
     playerMultiplayerId = GetMultiplayerId();
     gBattleScripting.multiplayerId = playerMultiplayerId;
@@ -1573,6 +1576,7 @@ static void CB2_HandleStartMultiBattle(void)
     RunTasks();
     AnimateSprites();
     BuildOamBuffer();
+    DayNight_UpdateBattle();
 
     switch (gBattleCommunication[MULTIUSE_STATE])
     {
@@ -1866,6 +1870,7 @@ void BattleMainCB2(void)
     BuildOamBuffer();
     RunTextPrinters();
     UpdatePaletteFade();
+    DayNight_UpdateBattle();
     RunTasks();
 
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
@@ -2101,7 +2106,7 @@ void VBlankCB_Battle(void)
     SetGpuReg(REG_OFFSET_WIN1V, gBattle_WIN1V);
     LoadOam();
     ProcessSpriteCopyRequests();
-    TransferPlttBuffer();
+    DayNight_TransferPlttBuffer();
     ScanlineEffect_InitHBlankDmaTransfer();
 }
 

@@ -7,17 +7,20 @@
 #include "overworld.h"
 #include "palette.h"
 #include "rtc.h"
+#include "sprite.h"
 #include "tilesets.h"
 #include "constants/field_weather.h"
+#include "constants/battle.h"
 #include "constants/rgb.h"
+#include "constants/trainers.h"
 
-// Day/night tinting for outdoor maps.
+// Day/night tinting for outdoor maps, and for battles started on them.
 //
 // The tint is applied to the final palettes, after weather and fades have
-// written gPlttBufferFaded: each overworld frame DayNight_UpdateField tints
-// that buffer into sTintedPltt, and the field VBlank copies sTintedPltt to
-// palette RAM instead. The UI palettes (BG palettes past the map's) are
-// left alone so text boxes and popups keep their colours.
+// written gPlttBufferFaded: each overworld (or battle) frame tints that buffer
+// into sTintedPltt, and the field (or battle) VBlank copies sTintedPltt to
+// palette RAM instead. UI palettes are left alone so text boxes, menus and
+// popups keep their colours.
 //
 // Lit windows: in the evening and at night, some tileset palette colours that
 // only window glass uses are swapped for warm light and left untinted, so the
@@ -211,45 +214,50 @@ static u16 EaseChannel(u16 current, u16 target)
     return target;
 }
 
-static void TintPalettes(bool8 all)
+// Bit n of a palette mask is BG palette n (0-15); bit 16 + n is OBJ palette n.
+#define BG_PAL_BIT(n)  (1 << (n))
+#define OBJ_PAL_BIT(n) (1 << (16 + (n)))
+
+// The field tints the map's BG palettes (the rest are UI: text boxes, menus, the map name popup)
+// and every sprite.
+#define FIELD_TINTED_PALS (((1 << NUM_PALS_TOTAL) - 1) | 0xFFFF0000)
+
+// Battles tint the scene but not the UI or the move animations: the battle environment
+// (BG 2-4), the battlers' palettes (OBJ 0-3, which hold the Pokemon and the player's back
+// pic, plus their BG 8-11 copies used by some animations), and the opposing trainers' pics.
+#define BATTLE_ENVIRONMENT_PALS (BG_PAL_BIT(2) | BG_PAL_BIT(3) | BG_PAL_BIT(4))
+#define BATTLE_MON_PALS         (BG_PAL_BIT(8) | BG_PAL_BIT(9) | BG_PAL_BIT(10) | BG_PAL_BIT(11) \
+                                 | OBJ_PAL_BIT(0) | OBJ_PAL_BIT(1) | OBJ_PAL_BIT(2) | OBJ_PAL_BIT(3))
+
+static EWRAM_DATA u32 sTintedPals = 0;    // Palette mask that sTintedPltt was made with
+static EWRAM_DATA bool8 sLitColorsUsed = FALSE;
+
+static void TintPalettes(bool8 all, u32 tintedPals, bool8 useLitColors)
 {
     u32 i;
 
     for (i = 0; i < PLTT_BUFFER_SIZE; i++)
     {
         u16 color = gPlttBufferFaded[i];
+        u32 pal = i / 16;
 
         if (!all && color == sTintSource[i])
             continue;
         sTintSource[i] = color;
 
-        if (i < BG_PLTT_ID(NUM_PALS_TOTAL))
-        {
-            if (sUntintedColors[i / 16] & (1 << (i % 16)))
-                sTintedPltt[i] = color;
-            else
-                sTintedPltt[i] = TintColor(color);
-        }
-        else if (i < OBJ_PLTT_OFFSET)
-        {
-            // UI palettes: text boxes, menus, the map name popup
+        if (!(tintedPals & (1 << pal))
+         || (useLitColors && pal < NUM_PALS_TOTAL && (sUntintedColors[pal] & (1 << (i % 16)))))
             sTintedPltt[i] = color;
-        }
         else
-        {
             sTintedPltt[i] = TintColor(color);
-        }
     }
 }
 
-// Runs once per overworld frame, after the palette fade has been updated.
-void DayNight_UpdateField(void)
+// Start of a frame's update; returns whether the tint was out of use (e.g. during a map load
+// or a screen without the tint), in which case the clock is read again and the tint snaps.
+static bool8 StartTintUpdate(void)
 {
-    const struct TintMultipliers *target;
-    struct TintMultipliers prevTint = sTint;
     bool8 reentered = (gMain.vblankCounter1 - sLastTintFrame > 2);
-    bool8 lit;
-    u8 phase;
 
     sLastTintFrame = gMain.vblankCounter1;
     if (reentered || ++sClockTimer >= CLOCK_CHECK_FRAMES)
@@ -257,12 +265,15 @@ void DayNight_UpdateField(void)
         sClockTimer = 0;
         sClockPhase = ReadClockPhase();
     }
+    return reentered;
+}
 
-    lit = ShouldLightWindows();
-    if (lit != sWindowsLit)
-        SetWindowsLit(lit, FALSE);
+static void UpdateTint(bool8 reentered, u32 tintedPals, bool8 useLitColors)
+{
+    const struct TintMultipliers *target;
+    struct TintMultipliers prevTint = sTint;
+    u8 phase = IsMapTinted() ? DayNight_GetPhase() : DAY_NIGHT_PHASE_DAY;
 
-    phase = IsMapTinted() ? DayNight_GetPhase() : DAY_NIGHT_PHASE_DAY;
     target = &sPhaseTints[phase];
     if (reentered)
     {
@@ -281,17 +292,52 @@ void DayNight_UpdateField(void)
         return;
     }
 
-    // A new tint or a change to which colours are lit redoes every colour; otherwise only
+    // A new tint or a change to which colours are tinted redoes every colour; otherwise only
     // the colours that changed in gPlttBufferFaded since the last frame are tinted again.
     TintPalettes(!sTintActive || reentered || sRetintAll
-                 || sTint.r != prevTint.r || sTint.g != prevTint.g || sTint.b != prevTint.b);
+                 || tintedPals != sTintedPals || useLitColors != sLitColorsUsed
+                 || sTint.r != prevTint.r || sTint.g != prevTint.g || sTint.b != prevTint.b,
+                 tintedPals, useLitColors);
+    sTintedPals = tintedPals;
+    sLitColorsUsed = useLitColors;
     sRetintAll = FALSE;
     sTintActive = TRUE;
 }
 
-// Replaces TransferPlttBuffer in the field VBlank. The tinted buffer is only used while
-// the overworld keeps it up to date, so a screen that borrows the field VBlank while the
-// overworld isn't running (e.g. during a map load) gets the plain palettes.
+// Runs once per overworld frame, after the palette fade has been updated.
+void DayNight_UpdateField(void)
+{
+    bool8 reentered = StartTintUpdate();
+    bool8 lit = ShouldLightWindows();
+
+    if (lit != sWindowsLit)
+        SetWindowsLit(lit, FALSE);
+    UpdateTint(reentered, FIELD_TINTED_PALS, TRUE);
+}
+
+// Runs once per battle frame. The battle takes the tint of the map it was started on.
+void DayNight_UpdateBattle(void)
+{
+    bool8 reentered = StartTintUpdate();
+    u32 tintedPals = BATTLE_ENVIRONMENT_PALS | BATTLE_MON_PALS;
+    u32 i;
+
+    // Trainer front pics get a free sprite palette tagged with their TRAINER_PIC_* id, and the
+    // player's (or partner's) back pic moves to one tagged 0xD6F8 (0xD6F9) while throwing the
+    // first Poke Ball, so the Pokemon can take over the battler's palette.
+    for (i = MAX_BATTLERS_COUNT; i < 16; i++)
+    {
+        u16 tag = GetSpritePaletteTagByPaletteNum(i);
+
+        if (tag < TRAINER_PIC_COUNT || tag == 0xD6F8 || tag == 0xD6F9)
+            tintedPals |= OBJ_PAL_BIT(i);
+    }
+    UpdateTint(reentered, tintedPals, FALSE);
+}
+
+// Replaces TransferPlttBuffer in the field and battle VBlanks. The tinted buffer is only used
+// while the field or battle keeps it up to date, so a screen that borrows their VBlank without
+// updating the tint (e.g. during a map load) gets the plain palettes.
 void DayNight_TransferPlttBuffer(void)
 {
     if (sTintActive && gMain.vblankCounter1 - sLastTintFrame <= 2)
