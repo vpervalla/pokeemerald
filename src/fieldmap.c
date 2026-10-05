@@ -2,6 +2,7 @@
 #include "battle_pyramid.h"
 #include "bg.h"
 #include "fieldmap.h"
+#include "day_night.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
 #include "frontier_util.h"
@@ -876,6 +877,7 @@ static void LoadPrimaryTilesetPalette(struct MapLayout const *mapLayout)
 void LoadSecondaryTilesetPalette(struct MapLayout const *mapLayout)
 {
     LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * PLTT_SIZE_4BPP);
+    DayNight_OnTilesetPalettesLoaded();
 }
 
 void CopyMapTilesetsToVram(struct MapLayout const *mapLayout)

@@ -56,6 +56,7 @@
 #include "trainer_hill.h"
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
+#include "day_night.h"
 #include "scanline_effect.h"
 #include "wild_encounter.h"
 #include "frontier_util.h"
@@ -1471,6 +1472,7 @@ static void OverworldBasic(void)
     UpdateCameraPanning();
     BuildOamBuffer();
     UpdatePaletteFade();
+    DayNight_UpdateField();
     UpdateTilesetAnimations();
     DoScheduledBgTilemapCopiesToVram();
 }
@@ -1787,7 +1789,7 @@ static void VBlankCB_Field(void)
     ProcessSpriteCopyRequests();
     ScanlineEffect_InitHBlankDmaTransfer();
     FieldUpdateBgTilemapScroll();
-    TransferPlttBuffer();
+    DayNight_TransferPlttBuffer();
     TransferTilesetAnimsBuffer();
 }
 

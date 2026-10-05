@@ -63,6 +63,7 @@
 #include "constants/party_menu.h"
 #include "constants/battle_frontier.h"
 #include "constants/weather.h"
+#include "constants/day_night.h"
 #include "constants/metatile_labels.h"
 #include "palette.h"
 
@@ -2390,6 +2391,16 @@ void ShowScrollableMultichoice(void)
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
         break;
+    case SCROLL_MULTI_TEST_AREA_TIME:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 6;
+        task->tLeft = 17;
+        task->tTop = 1;
+        task->tWidth = 12;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     default:
         gSpecialVar_Result = MULTI_B_PRESSED;
         DestroyTask(taskId);
@@ -2413,6 +2424,13 @@ static const u8 sText_WeatherShade[] = _("SHADE");
 static const u8 sText_WeatherDrought[] = _("DROUGHT");
 static const u8 sText_WeatherDownpour[] = _("DOWNPOUR");
 static const u8 sText_WeatherUnderwaterBubbles[] = _("BUBBLES");
+
+// TestArea's time of day menu. Item i is the DAY_NIGHT_OVERRIDE_* value i, then EXIT.
+static const u8 sText_TimeRealClock[] = _("REAL CLOCK");
+static const u8 sText_TimeMorning[] = _("MORNING");
+static const u8 sText_TimeDay[] = _("DAY");
+static const u8 sText_TimeEvening[] = _("EVENING");
+static const u8 sText_TimeNight[] = _("NIGHT");
 
 static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] =
 {
@@ -2585,6 +2603,15 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         [WEATHER_DROUGHT] = sText_WeatherDrought,
         [WEATHER_DOWNPOUR] = sText_WeatherDownpour,
         [WEATHER_UNDERWATER_BUBBLES] = sText_WeatherUnderwaterBubbles,
+        gText_Exit
+    },
+    [SCROLL_MULTI_TEST_AREA_TIME] =
+    {
+        [DAY_NIGHT_OVERRIDE_NONE] = sText_TimeRealClock,
+        [DAY_NIGHT_OVERRIDE_MORNING] = sText_TimeMorning,
+        [DAY_NIGHT_OVERRIDE_DAY] = sText_TimeDay,
+        [DAY_NIGHT_OVERRIDE_EVENING] = sText_TimeEvening,
+        [DAY_NIGHT_OVERRIDE_NIGHT] = sText_TimeNight,
         gText_Exit
     }
 };

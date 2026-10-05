@@ -33,6 +33,7 @@
 #include "constants/item.h"
 #include "constants/items.h"
 #include "constants/heal_locations.h"
+#include "constants/day_night.h"
 #include "constants/layouts.h"
 #include "constants/lilycove_lady.h"
 #include "constants/map_scripts.h"

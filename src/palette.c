@@ -102,9 +102,15 @@ void FillPalette(u16 value, u16 offset, u16 size)
 
 void TransferPlttBuffer(void)
 {
+    TransferPlttBufferFrom(gPlttBufferFaded);
+}
+
+// Like TransferPlttBuffer, but copies the given buffer (e.g. the day/night tinted palettes) to palette RAM.
+void TransferPlttBufferFrom(const u16 *src)
+{
     if (!gPaletteFade.bufferTransferDisabled)
     {
-        DmaCopy16Defvars(3, gPlttBufferFaded, (void *)PLTT, PLTT_SIZE);
+        DmaCopy16Defvars(3, src, (void *)PLTT, PLTT_SIZE);
         sPlttBufferTransferPending = FALSE;
         if (gPaletteFade.mode == HARDWARE_FADE && gPaletteFade.active)
             UpdateBlendRegisters();
