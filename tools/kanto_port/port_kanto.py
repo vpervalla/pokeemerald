@@ -183,8 +183,8 @@ def cmd_tilesets(args):
     met = rename_symbols(read(f"{frlg}/src/data/tilesets/metatiles.h"))
     met = re.sub(r"const u32 (gMetatileAttributes_\w+\[\]) = INCBIN_U32", r"const u16 \1 = INCBIN_U16", met)
     heads = rename_symbols(read(f"{frlg}/src/data/tilesets/headers.h"))
-    # Tile animations are not ported yet.
-    heads = re.sub(r"\.callback = (InitTilesetAnim_\w+),", r".callback = NULL, // TODO: port \1 from pokefirered", heads)
+    # The tile animations are ported in src/tileset_anims.c with a Kanto prefix.
+    heads = re.sub(r"\.callback = InitTilesetAnim_(\w+),", r".callback = InitTilesetAnim_Kanto\1,", heads)
     for fname, body in (("graphics.h", rename_symbols(gfx)), ("metatiles.h", met), ("headers.h", heads)):
         path = f"src/data/tilesets/{fname}"
         block = f"{BLOCK_BEGIN}\n\n{body.strip()}\n\n{BLOCK_END}\n"
