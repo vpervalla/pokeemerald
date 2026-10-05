@@ -57,7 +57,7 @@ static const struct TintMultipliers sPhaseTints[DAY_NIGHT_PHASE_COUNT] =
     [DAY_NIGHT_PHASE_MORNING] = {248, 236, 228},
     [DAY_NIGHT_PHASE_DAY]     = {TINT_FULL, TINT_FULL, TINT_FULL},
     [DAY_NIGHT_PHASE_EVENING] = {256, 208, 176},
-    [DAY_NIGHT_PHASE_NIGHT]   = {104, 120, 168},
+    [DAY_NIGHT_PHASE_NIGHT]   = {144, 156, 200},
 };
 
 // Window glass lit in the evening and at night. Most Kanto windows use colours 9-13 of kanto_general's
