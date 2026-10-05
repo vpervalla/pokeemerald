@@ -59,7 +59,7 @@ if not any(l and l["id"] == "LAYOUT_TEST_AREA_HOUSE" for l in lj["layouts"]):
         border_filepath=f"data/layouts/{HOUSE}/border.bin", blockdata_filepath=f"data/layouts/{HOUSE}/map.bin"))
     dump("data/layouts/layouts.json", lj)
 h = json.load(open("data/maps/PalletTown_RivalsHouse/map.json"))
-h.update(id="MAP_TEST_AREA_HOUSE", name=HOUSE, layout="LAYOUT_TEST_AREA_HOUSE", music="MUS_RG_ROUTE1",
+h.update(id="MAP_TEST_AREA_HOUSE", name=HOUSE, layout="LAYOUT_TEST_AREA_HOUSE", music="MUS_RG_ROUTE1", region_map_section="MAPSEC_TEST_AREA",
          object_events=[], coord_events=[], bg_events=[])
 for w in h["warp_events"]:
     w.update(dest_map="MAP_TEST_AREA", dest_warp_id="0")

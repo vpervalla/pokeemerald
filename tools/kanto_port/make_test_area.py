@@ -14,7 +14,7 @@ if not any(l and l["id"] == "LAYOUT_TEST_AREA" for l in lj["layouts"]):
         "border_filepath": f"data/layouts/{NAME}/border.bin", "blockdata_filepath": f"data/layouts/{NAME}/map.bin"})
     open("data/layouts/layouts.json", "w", newline="\n").write(json.dumps(lj, indent=2) + "\n")
 m = {"id": "MAP_TEST_AREA", "name": NAME, "layout": "LAYOUT_TEST_AREA", "music": "MUS_RG_ROUTE1",
-     "region_map_section": "MAPSEC_PALLET_TOWN", "requires_flash": False, "weather": "WEATHER_SUNNY",
+     "region_map_section": "MAPSEC_TEST_AREA", "requires_flash": False, "weather": "WEATHER_SUNNY",
      "map_type": "MAP_TYPE_ROUTE", "allow_cycling": True, "allow_escaping": False, "allow_running": True,
      "show_map_name": False, "battle_scene": "MAP_BATTLE_SCENE_NORMAL", "connections": None,
      "object_events": [], "warp_events": [], "coord_events": [], "bg_events": []}
