@@ -6958,6 +6958,28 @@ u16 PlayerGenderToFrontTrainerPicId(u8 playerGender)
         return FacilityClassToPicIndex(FACILITY_CLASS_BRENDAN);
 }
 
+// Front pic of the player's own character, taking the chosen costume into account
+u16 GetPlayerFrontTrainerPicId(void)
+{
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+    {
+        if (gSaveBlock2Ptr->playerGender != MALE)
+            return FacilityClassToPicIndex(FACILITY_CLASS_LEAF);
+        else
+            return FacilityClassToPicIndex(FACILITY_CLASS_RED);
+    }
+    return PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
+}
+
+// Back pic of the player's own character, taking the chosen costume into account
+u8 GetPlayerBackTrainerPicId(void)
+{
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        return gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_RED;
+    else
+        return gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_BRENDAN;
+}
+
 void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
 {
     u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;

@@ -2025,6 +2025,220 @@ static const struct SpriteFrameImage sPicTable_Leaf[] = {
     overworld_frame(gObjectEventPic_Leaf, 2, 4, 8),
 };
 
+// Walking frames, then the running frames rearranged into Brendan's running layout.
+static const struct SpriteFrameImage sPicTable_RedPlayerNormal[] = {
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 2),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 3),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 4),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 5),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 6),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 7),
+    overworld_frame(gObjectEventPic_RedNormal, 2, 4, 8),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 3),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 6),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 9),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 4),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 5),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 7),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 8),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 10),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 11),
+};
+
+static const struct SpriteFrameImage sPicTable_RedPlayerBike[] = {
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 8),
+};
+
+// FRLG has no Acro Bike, so its wheelie and bunny hop frames reuse the regular bike frames.
+static const struct SpriteFrameImage sPicTable_RedPlayerAcroBike[] = {
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 8),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_RedBike, 4, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_RedPlayerSurfing[] = {
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedSurfRun, 2, 4, 2),
+};
+
+static const struct SpriteFrameImage sPicTable_RedPlayerFieldMove[] = {
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 2),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 3),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 4),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 5),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 6),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 7),
+    overworld_frame(gObjectEventPic_RedItem, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_RedPlayerFishing[] = {
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 0),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 1),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 2),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 3),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 4),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 5),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 6),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 7),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 8),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 9),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 10),
+    overworld_frame(gObjectEventPic_RedFish, 4, 4, 11),
+};
+
+// Walking frames, then the running frames rearranged into Brendan's running layout.
+static const struct SpriteFrameImage sPicTable_LeafPlayerNormal[] = {
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 2),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 3),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 4),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 5),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 6),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 7),
+    overworld_frame(gObjectEventPic_LeafNormal, 2, 4, 8),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 3),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 6),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 9),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 4),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 5),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 7),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 8),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 10),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 11),
+};
+
+static const struct SpriteFrameImage sPicTable_LeafPlayerBike[] = {
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 8),
+};
+
+// FRLG has no Acro Bike, so its wheelie and bunny hop frames reuse the regular bike frames.
+static const struct SpriteFrameImage sPicTable_LeafPlayerAcroBike[] = {
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 8),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 3),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 4),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 5),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 6),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 7),
+    overworld_frame(gObjectEventPic_LeafBike, 4, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_LeafPlayerSurfing[] = {
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafSurfRun, 2, 4, 2),
+};
+
+static const struct SpriteFrameImage sPicTable_LeafPlayerFieldMove[] = {
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 0),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 1),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 2),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 3),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 4),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 5),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 6),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 7),
+    overworld_frame(gObjectEventPic_LeafItem, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_LeafPlayerFishing[] = {
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 0),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 1),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 2),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 3),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 4),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 5),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 6),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 7),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 8),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 9),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 10),
+    overworld_frame(gObjectEventPic_LeafFish, 4, 4, 11),
+};
+
 static const struct SpriteFrameImage sPicTable_Deoxys[] = {
     overworld_frame(gObjectEventPic_Deoxys, 4, 4, 0),
     overworld_frame(gObjectEventPic_Deoxys, 4, 4, 0),

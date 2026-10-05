@@ -345,6 +345,20 @@ const u32 gObjectEventPic_Mew[] = INCGFX_U32("graphics/object_events/pics/pokemo
 const u16 gObjectEventPal_RedLeaf[] = INCGFX_U16("graphics/object_events/palettes/red_leaf.pal", ".gbapal");
 const u32 gObjectEventPic_Red[] = INCGFX_U32("graphics/object_events/pics/people/red.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Leaf[] = INCGFX_U32("graphics/object_events/pics/people/leaf.png", ".4bpp", "-mwidth 2 -mheight 4");
+
+// Red and Leaf as the player, for the FireRed/LeafGreen player costume
+const u16 gObjectEventPal_PlayerRedLeaf[] = INCGFX_U16("graphics/object_events/palettes/player_red_leaf.pal", ".gbapal");
+const u16 gObjectEventPal_PlayerRedLeafReflection[] = INCGFX_U16("graphics/object_events/palettes/player_red_leaf_reflection.pal", ".gbapal");
+const u32 gObjectEventPic_RedNormal[] = INCGFX_U32("graphics/object_events/pics/people/red/normal.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_RedSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/red/surf_run.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_RedBike[] = INCGFX_U32("graphics/object_events/pics/people/red/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_RedItem[] = INCGFX_U32("graphics/object_events/pics/people/red/item.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_RedFish[] = INCGFX_U32("graphics/object_events/pics/people/red/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_LeafNormal[] = INCGFX_U32("graphics/object_events/pics/people/leaf/normal.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_LeafSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/leaf/surf_run.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_LeafBike[] = INCGFX_U32("graphics/object_events/pics/people/leaf/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_LeafItem[] = INCGFX_U32("graphics/object_events/pics/people/leaf/item.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_LeafFish[] = INCGFX_U32("graphics/object_events/pics/people/leaf/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u16 gObjectEventPal_BirthIslandStone[] = INCGFX_U16("graphics/object_events/palettes/birth_island_stone.pal", ".gbapal");
 const u32 gObjectEventPic_BirthIslandStone[] = INCGFX_U32("graphics/object_events/pics/misc/birth_island_stone.png", ".4bpp");
 const u16 gObjectEventPal_Deoxys[] = INCGFX_U16("graphics/object_events/palettes/deoxys.pal", ".gbapal");

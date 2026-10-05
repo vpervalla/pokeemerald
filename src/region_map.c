@@ -126,6 +126,10 @@ static const u16 sRegionMapPlayerIcon_BrendanPal[] = INCGFX_U16("graphics/pokena
 static const u8 sRegionMapPlayerIcon_BrendanGfx[] = INCGFX_U8("graphics/pokenav/region_map/brendan_icon.png", ".4bpp");
 static const u16 sRegionMapPlayerIcon_MayPal[] = INCGFX_U16("graphics/pokenav/region_map/may_icon.png", ".gbapal");
 static const u8 sRegionMapPlayerIcon_MayGfx[] = INCGFX_U8("graphics/pokenav/region_map/may_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_RedPal[] = INCGFX_U16("graphics/pokenav/region_map/red_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_RedGfx[] = INCGFX_U8("graphics/pokenav/region_map/red_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_LeafPal[] = INCGFX_U16("graphics/pokenav/region_map/leaf_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_LeafGfx[] = INCGFX_U8("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
 
 #include "data/region_map/region_map_layout.h"
 #include "data/region_map/region_map_entries.h"
@@ -1456,7 +1460,20 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sRegionMap->playerIconSprite = NULL;
         return;
     }
-    if (gSaveBlock2Ptr->playerGender == FEMALE)
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+    {
+        if (gSaveBlock2Ptr->playerGender == FEMALE)
+        {
+            sheet.data = sRegionMapPlayerIcon_LeafGfx;
+            palette.data = sRegionMapPlayerIcon_LeafPal;
+        }
+        else
+        {
+            sheet.data = sRegionMapPlayerIcon_RedGfx;
+            palette.data = sRegionMapPlayerIcon_RedPal;
+        }
+    }
+    else if (gSaveBlock2Ptr->playerGender == FEMALE)
     {
         sheet.data = sRegionMapPlayerIcon_MayGfx;
         palette.data = sRegionMapPlayerIcon_MayPal;

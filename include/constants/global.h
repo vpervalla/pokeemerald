@@ -114,6 +114,10 @@
 #define FEMALE 1
 #define GENDER_COUNT 2
 
+// Which game's player characters the player chose in the new game menu.
+#define PLAYER_COSTUME_EMERALD 0 // Brendan / May
+#define PLAYER_COSTUME_FRLG    1 // Red / Leaf
+
 #define NUM_BARD_SONG_WORDS    6
 #define NUM_STORYTELLER_TALES  4
 #define NUM_TRADER_ITEMS       4

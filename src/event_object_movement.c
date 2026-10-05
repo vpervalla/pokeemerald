@@ -468,6 +468,8 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
 #define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
+#define OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF         0x1124
+#define OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION 0x1125
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -514,6 +516,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Lugia,                 OBJ_EVENT_PAL_TAG_LUGIA},
     {gObjectEventPal_RubySapphireBrendan,   OBJ_EVENT_PAL_TAG_RS_BRENDAN},
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
+    {gObjectEventPal_PlayerRedLeaf,         OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF},
+    {gObjectEventPal_PlayerRedLeafReflection, OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION},
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
@@ -536,6 +540,13 @@ static const u16 sReflectionPaletteTags_May[] = {
     OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
 };
 
+static const u16 sReflectionPaletteTags_PlayerRedLeaf[] = {
+    OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION,
+};
+
 static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
     OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
     OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
@@ -546,6 +557,7 @@ static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
 static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_BRENDAN,           sReflectionPaletteTags_Brendan},
     {OBJ_EVENT_PAL_TAG_MAY,               sReflectionPaletteTags_May},
+    {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,   sReflectionPaletteTags_PlayerRedLeaf},
     {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
     {OBJ_EVENT_PAL_TAG_NONE,              NULL},
 };
@@ -630,6 +642,7 @@ static const u16 sReflectionPaletteTags_RedLeaf[] = {
 static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_BRENDAN,          sReflectionPaletteTags_Brendan},
     {OBJ_EVENT_PAL_TAG_MAY,              sReflectionPaletteTags_May},
+    {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,  sReflectionPaletteTags_PlayerRedLeaf},
     {OBJ_EVENT_PAL_TAG_QUINTY_PLUMP,     sReflectionPaletteTags_QuintyPlump},
     {OBJ_EVENT_PAL_TAG_TRUCK,            sReflectionPaletteTags_Truck},
     {OBJ_EVENT_PAL_TAG_VIGOROTH,         sReflectionPaletteTags_VigorothMover},
@@ -1911,6 +1924,30 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
     }
 }
 
+// The player's graphics ids are shared by both costumes. When playing as
+// Red or Leaf, they are drawn with the FRLG sprites instead of Brendan's and May's.
+// FRLG has no sprites for diving, watering berries or decorating, so those keep
+// Brendan's and May's.
+static const struct ObjectEventGraphicsInfo *GetFRLGPlayerGraphicsInfo(u8 graphicsId)
+{
+    switch (graphicsId)
+    {
+    case OBJ_EVENT_GFX_BRENDAN_NORMAL:     return &gObjectEventGraphicsInfo_RedPlayerNormal;
+    case OBJ_EVENT_GFX_BRENDAN_MACH_BIKE:  return &gObjectEventGraphicsInfo_RedPlayerMachBike;
+    case OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE:  return &gObjectEventGraphicsInfo_RedPlayerAcroBike;
+    case OBJ_EVENT_GFX_BRENDAN_SURFING:    return &gObjectEventGraphicsInfo_RedPlayerSurfing;
+    case OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE: return &gObjectEventGraphicsInfo_RedPlayerFieldMove;
+    case OBJ_EVENT_GFX_BRENDAN_FISHING:    return &gObjectEventGraphicsInfo_RedPlayerFishing;
+    case OBJ_EVENT_GFX_MAY_NORMAL:         return &gObjectEventGraphicsInfo_LeafPlayerNormal;
+    case OBJ_EVENT_GFX_MAY_MACH_BIKE:      return &gObjectEventGraphicsInfo_LeafPlayerMachBike;
+    case OBJ_EVENT_GFX_MAY_ACRO_BIKE:      return &gObjectEventGraphicsInfo_LeafPlayerAcroBike;
+    case OBJ_EVENT_GFX_MAY_SURFING:        return &gObjectEventGraphicsInfo_LeafPlayerSurfing;
+    case OBJ_EVENT_GFX_MAY_FIELD_MOVE:     return &gObjectEventGraphicsInfo_LeafPlayerFieldMove;
+    case OBJ_EVENT_GFX_MAY_FISHING:        return &gObjectEventGraphicsInfo_LeafPlayerFishing;
+    default:                               return NULL;
+    }
+}
+
 const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u8 graphicsId)
 {
     u8 bard;
@@ -1926,6 +1963,13 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u8 graphicsId)
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
+
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+    {
+        const struct ObjectEventGraphicsInfo *frlgInfo = GetFRLGPlayerGraphicsInfo(graphicsId);
+        if (frlgInfo != NULL)
+            return frlgInfo;
+    }
 
     return gObjectEventGraphicsInfoPointers[graphicsId];
 }

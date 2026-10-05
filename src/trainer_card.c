@@ -1892,7 +1892,12 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
+        u8 cardType = sData->cardType;
+
+        // Show Red or Leaf on the player's own card if they chose them
+        if (!sData->isLink && gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+            cardType = CARD_TYPE_FRLG;
+        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[cardType][sData->trainerCard.gender]),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
