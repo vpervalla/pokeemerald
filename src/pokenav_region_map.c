@@ -63,7 +63,7 @@ static bool32 IsDma3ManagerBusyWithBgCopy_(struct Pokenav_RegionMapGfx *);
 static void ChangeBgYForZoom(bool32);
 static bool32 IsChangeBgYForZoomActive(void);
 static void CreateCityZoomTextSprites(void);
-static void DrawCityMap(struct Pokenav_RegionMapGfx *, mapsec_s32_t, int);
+static bool32 DrawCityMap(struct Pokenav_RegionMapGfx *, mapsec_s32_t, int);
 static void PrintLandmarkNames(struct Pokenav_RegionMapGfx *, mapsec_s32_t, int);
 static void SetCityZoomTextInvisibility(bool32);
 static void Task_ChangeBgYForZoom(u8 taskId);
@@ -539,9 +539,17 @@ static void UpdateMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
         FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));
         PutWindowRectTilemap(state->infoWindowId, 0, 0, 12, 2);
         AddTextPrinterParameterized(state->infoWindowId, FONT_NARROW, regionMap->mapSecName, 0, 1, TEXT_SKIP_DRAW, NULL);
-        DrawCityMap(state, regionMap->mapSecId, regionMap->posWithinMapSec);
         CopyWindowToVram(state->infoWindowId, COPYWIN_FULL);
-        SetCityZoomTextInvisibility(FALSE);
+        if (DrawCityMap(state, regionMap->mapSecId, regionMap->posWithinMapSec))
+        {
+            SetCityZoomTextInvisibility(FALSE);
+        }
+        else
+        {
+            // Kanto cities have no zoomed-in picture
+            FillBgTilemapBufferRect(1, 0x1041, 17, 6, 12, 11, 17);
+            SetCityZoomTextInvisibility(TRUE);
+        }
         break;
     case MAPSECTYPE_CITY_CANTFLY:
         FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));
@@ -634,17 +642,18 @@ static u32 LoopedTask_DecompressCityMaps(s32 taskState)
     return LT_FINISH;
 }
 
-static void DrawCityMap(struct Pokenav_RegionMapGfx *state, mapsec_s32_t mapSecId, int pos)
+static bool32 DrawCityMap(struct Pokenav_RegionMapGfx *state, mapsec_s32_t mapSecId, int pos)
 {
     int i;
     for (i = 0; i < NUM_CITY_MAPS && (sPokenavCityMaps[i].mapSecId != mapSecId || sPokenavCityMaps[i].index != pos); i++)
         ;
 
     if (i == NUM_CITY_MAPS)
-        return;
+        return FALSE;
 
     FillBgTilemapBufferRect_Palette0(1, 0x1041, 17, 6, 12, 11);
     CopyToBgTilemapBufferRect(1, state->cityZoomPics[i], 18, 6, 10, 10);
+    return TRUE;
 }
 
 static void PrintLandmarkNames(struct Pokenav_RegionMapGfx *state, mapsec_s32_t mapSecId, int pos)

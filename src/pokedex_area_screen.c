@@ -89,6 +89,7 @@ struct
     /*0xF70*/ u8 charBuffer[64];
     /*0xFB0*/ struct Sprite *areaUnknownSprites[3];
     /*0xFBC*/ u8 areaUnknownGraphicsBuffer[0x600];
+    /*0x15BC*/ u16 kantoAlteringCaveCounter;
 } static EWRAM_DATA *sPokedexAreaScreen = NULL;
 
 static void FindMapsWithMon(u16);
@@ -96,6 +97,7 @@ static void BuildAreaGlowTilemap(void);
 static void SetAreaHasMon(u16, u16);
 static void SetSpecialMapHasMon(u16, u16);
 static mapsec_u16_t GetRegionMapSectionId(u8, u8);
+static bool8 IsMapSecOnPokedexAreaMap(mapsec_u16_t);
 static bool8 MapHasSpecies(const struct WildPokemonHeader *, u16);
 static bool8 MonListHasSpecies(const struct WildPokemonInfo *, u16, u16);
 static void DoAreaGlow(void);
@@ -245,6 +247,7 @@ static void FindMapsWithMon(u16 species)
     struct Roamer *roamer;
 
     sPokedexAreaScreen->alteringCaveCounter = 0;
+    sPokedexAreaScreen->kantoAlteringCaveCounter = 0;
     sPokedexAreaScreen->alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
     if (sPokedexAreaScreen->alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
         sPokedexAreaScreen->alteringCaveId = 0;
@@ -267,7 +270,7 @@ static void FindMapsWithMon(u16 species)
         // in the regular wild encounter table) to the area map.
         // This only applies to Feebas on Route 119, but it was clearly set
         // up to allow handling others.
-        for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
+        for (i = 0; sFeebasData[i][0] != NUM_SPECIES && sPokedexAreaScreen->regionMap.region == REGION_HOENN; i++)
         {
             if (species == sFeebasData[i][0])
             {
@@ -289,6 +292,20 @@ static void FindMapsWithMon(u16 species)
         {
             if (MapHasSpecies(&gWildMonHeaders[i], species))
             {
+                mapsec_u16_t mapSecId = GetRegionMapSectionId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                if (GetMapSecRegion(mapSecId) != sPokedexAreaScreen->regionMap.region)
+                    continue;
+
+                if (sPokedexAreaScreen->regionMap.region != REGION_HOENN)
+                {
+                    // Kanto maps are not grouped by kind: glow the sections drawn on the map, mark the others
+                    if (IsMapSecOnPokedexAreaMap(mapSecId))
+                        SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                    else
+                        SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                    continue;
+                }
+
                 switch (gWildMonHeaders[i].mapGroup)
                 {
                 case MAP_GROUP_TOWNS_AND_ROUTES:
@@ -306,7 +323,7 @@ static void FindMapsWithMon(u16 species)
     {
         // This is the roamer's species, show where the roamer is currently
         sPokedexAreaScreen->numSpecialAreas = 0;
-        if (roamer->active)
+        if (roamer->active && sPokedexAreaScreen->regionMap.region == REGION_HOENN)
         {
             GetRoamerLocation(&sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, &sPokedexAreaScreen->overworldAreasWithMons[0].mapNum);
             sPokedexAreaScreen->overworldAreasWithMons[0].regionMapSectionId = Overworld_GetMapHeaderByGroupAndId(sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, sPokedexAreaScreen->overworldAreasWithMons[0].mapNum)->regionMapSectionId;
@@ -375,6 +392,21 @@ static mapsec_u16_t GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
+static bool8 IsMapSecOnPokedexAreaMap(mapsec_u16_t mapSecId)
+{
+    u16 x, y;
+
+    for (y = 0; y < AREA_SCREEN_HEIGHT; y++)
+    {
+        for (x = 0; x < AREA_SCREEN_WIDTH; x++)
+        {
+            if (GetRegionMapSecIdAt(x, y) == mapSecId)
+                return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 static bool8 MapHasSpecies(const struct WildPokemonHeader *info, u16 species)
 {
     // If this is a header for Altering Cave, skip it if it's not the current Altering Cave encounter set
@@ -382,6 +414,13 @@ static bool8 MapHasSpecies(const struct WildPokemonHeader *info, u16 species)
     {
         sPokedexAreaScreen->alteringCaveCounter++;
         if (sPokedexAreaScreen->alteringCaveCounter != sPokedexAreaScreen->alteringCaveId + 1)
+            return FALSE;
+    }
+    // Six Island's Altering Cave uses the same encounter sets
+    if (GetRegionMapSectionId(info->mapGroup, info->mapNum) == MAPSEC_ALTERING_CAVE_FRLG)
+    {
+        sPokedexAreaScreen->kantoAlteringCaveCounter++;
+        if (sPokedexAreaScreen->kantoAlteringCaveCounter != sPokedexAreaScreen->alteringCaveId + 1)
             return FALSE;
     }
 
@@ -587,6 +626,7 @@ void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
     sPokedexAreaScreen = AllocZeroed(sizeof(*sPokedexAreaScreen));
     sPokedexAreaScreen->species = species;
     sPokedexAreaScreen->screenSwitchState = screenSwitchState;
+    SetRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap, GetPlayerRegion());
     screenSwitchState[0] = 0;
     taskId = CreateTask(Task_ShowPokedexAreaScreen, 0);
     gTasks[taskId].tState = 0;
@@ -605,7 +645,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
         break;
     case 1:
         SetBgAttribute(3, BG_ATTR_CHARBASEINDEX, 3);
-        LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate);
+        LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate, sPokedexAreaScreen->regionMap.region);
         StringFill(sPokedexAreaScreen->charBuffer, CHAR_SPACE, 16);
         break;
     case 2:

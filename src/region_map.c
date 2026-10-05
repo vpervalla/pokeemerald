@@ -77,6 +77,7 @@ static EWRAM_DATA struct {
     u8 tileBuffer[0x1c0];
     u8 nameBuffer[0x26]; // never read
     bool8 choseFlyLocation;
+    u8 nextRegion;
 } *sFlyMap = NULL;
 
 static bool32 sDrawFlyDestTextWindow;
@@ -115,6 +116,12 @@ static void SpriteCB_FlyDestIcon(struct Sprite *sprite);
 static void CB_FadeInFlyMap(void);
 static void CB_HandleFlyMapInput(void);
 static void CB_ExitFlyMap(void);
+static void CB_SwitchFlyMapRegion(void);
+static void CreateKantoFlyDestIcons(void);
+static u8 GetNextVisitedRegion(u8 region, s8 delta);
+static void DrawFlyToWhereWindow(void);
+
+static const u8 sText_SwitchRegion[] = _("{L_BUTTON}{R_BUTTON}");
 
 static const u16 sRegionMapCursorPal[] = INCGFX_U16("graphics/pokenav/region_map/cursor.pal", ".gbapal");
 static const u32 sRegionMapCursorSmallGfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/cursor_small.png", ".4bpp.lz");
@@ -122,6 +129,18 @@ static const u32 sRegionMapCursorLargeGfxLZ[] = INCGFX_U32("graphics/pokenav/reg
 static const u16 sRegionMapBg_Pal[] = INCGFX_U16("graphics/pokenav/region_map/map.pal", ".gbapal");
 static const u32 sRegionMapBg_GfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/map.png", ".8bpp.lz", "-num_tiles 233 -Wnum_tiles");
 static const u32 sRegionMapBg_TilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/map.bin", ".lz");
+static const u16 sRegionMapBg_KantoPal[] = INCGFX_U16("graphics/pokenav/region_map/kanto/map.pal", ".gbapal");
+static const u32 sRegionMapBg_KantoGfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/kanto/map.png", ".8bpp.lz");
+static const u32 sRegionMapBg_KantoTilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/kanto/map.bin", ".lz");
+static const u16 sRegionMapBg_Sevii123Pal[] = INCGFX_U16("graphics/pokenav/region_map/sevii_123/map.pal", ".gbapal");
+static const u32 sRegionMapBg_Sevii123GfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_123/map.png", ".8bpp.lz");
+static const u32 sRegionMapBg_Sevii123TilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_123/map.bin", ".lz");
+static const u16 sRegionMapBg_Sevii45Pal[] = INCGFX_U16("graphics/pokenav/region_map/sevii_45/map.pal", ".gbapal");
+static const u32 sRegionMapBg_Sevii45GfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_45/map.png", ".8bpp.lz");
+static const u32 sRegionMapBg_Sevii45TilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_45/map.bin", ".lz");
+static const u16 sRegionMapBg_Sevii67Pal[] = INCGFX_U16("graphics/pokenav/region_map/sevii_67/map.pal", ".gbapal");
+static const u32 sRegionMapBg_Sevii67GfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_67/map.png", ".8bpp.lz");
+static const u32 sRegionMapBg_Sevii67TilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/sevii_67/map.bin", ".lz");
 static const u16 sRegionMapPlayerIcon_BrendanPal[] = INCGFX_U16("graphics/pokenav/region_map/brendan_icon.png", ".gbapal");
 static const u8 sRegionMapPlayerIcon_BrendanGfx[] = INCGFX_U8("graphics/pokenav/region_map/brendan_icon.png", ".4bpp");
 static const u16 sRegionMapPlayerIcon_MayPal[] = INCGFX_U16("graphics/pokenav/region_map/may_icon.png", ".gbapal");
@@ -132,7 +151,77 @@ static const u16 sRegionMapPlayerIcon_LeafPal[] = INCGFX_U16("graphics/pokenav/r
 static const u8 sRegionMapPlayerIcon_LeafGfx[] = INCGFX_U8("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
 
 #include "data/region_map/region_map_layout.h"
+#include "data/region_map/region_map_layout_kanto.h"
 #include "data/region_map/region_map_entries.h"
+
+struct RegionMapGraphics
+{
+    const u32 *gfx;
+    const u32 *tilemap;
+    const u16 *palette;
+    const mapsec_u8_t (*layout)[MAP_WIDTH];
+};
+
+static const struct RegionMapGraphics sRegionMaps[REGION_COUNT] =
+{
+    [REGION_HOENN]     = {sRegionMapBg_GfxLZ,          sRegionMapBg_TilemapLZ,          sRegionMapBg_Pal,          sRegionMap_MapSectionLayout},
+    [REGION_KANTO]     = {sRegionMapBg_KantoGfxLZ,     sRegionMapBg_KantoTilemapLZ,     sRegionMapBg_KantoPal,     sRegionMap_MapSectionLayout_Kanto},
+    [REGION_SEVII_123] = {sRegionMapBg_Sevii123GfxLZ,  sRegionMapBg_Sevii123TilemapLZ,  sRegionMapBg_Sevii123Pal,  sRegionMap_MapSectionLayout_Sevii123},
+    [REGION_SEVII_45]  = {sRegionMapBg_Sevii45GfxLZ,   sRegionMapBg_Sevii45TilemapLZ,   sRegionMapBg_Sevii45Pal,   sRegionMap_MapSectionLayout_Sevii45},
+    [REGION_SEVII_67]  = {sRegionMapBg_Sevii67GfxLZ,   sRegionMapBg_Sevii67TilemapLZ,   sRegionMapBg_Sevii67Pal,   sRegionMap_MapSectionLayout_Sevii67},
+};
+
+struct KantoFlyDestination
+{
+    mapsec_u16_t mapSecId;
+    u16 flag;
+    u8 healLocation;
+};
+
+// Kanto and Sevii Islands fly destinations (FRLG's sMapFlyDestinations).
+static const struct KantoFlyDestination sKantoFlyDestinations[] =
+{
+    {MAPSEC_PALLET_TOWN,         FLAG_VISITED_PALLET_TOWN,            HEAL_LOCATION_PALLET_TOWN},
+    {MAPSEC_VIRIDIAN_CITY,       FLAG_VISITED_VIRIDIAN_CITY,          HEAL_LOCATION_VIRIDIAN_CITY},
+    {MAPSEC_PEWTER_CITY,         FLAG_VISITED_PEWTER_CITY,            HEAL_LOCATION_PEWTER_CITY},
+    {MAPSEC_CERULEAN_CITY,       FLAG_VISITED_CERULEAN_CITY,          HEAL_LOCATION_CERULEAN_CITY},
+    {MAPSEC_LAVENDER_TOWN,       FLAG_VISITED_LAVENDER_TOWN,          HEAL_LOCATION_LAVENDER_TOWN},
+    {MAPSEC_VERMILION_CITY,      FLAG_VISITED_VERMILION_CITY,         HEAL_LOCATION_VERMILION_CITY},
+    {MAPSEC_CELADON_CITY,        FLAG_VISITED_CELADON_CITY,           HEAL_LOCATION_CELADON_CITY},
+    {MAPSEC_FUCHSIA_CITY,        FLAG_VISITED_FUCHSIA_CITY,           HEAL_LOCATION_FUCHSIA_CITY},
+    {MAPSEC_CINNABAR_ISLAND,     FLAG_VISITED_CINNABAR_ISLAND,        HEAL_LOCATION_CINNABAR_ISLAND},
+    {MAPSEC_INDIGO_PLATEAU,      FLAG_VISITED_INDIGO_PLATEAU,         HEAL_LOCATION_INDIGO_PLATEAU},
+    {MAPSEC_SAFFRON_CITY,        FLAG_VISITED_SAFFRON_CITY,           HEAL_LOCATION_SAFFRON_CITY},
+    {MAPSEC_ROUTE_4_POKECENTER,  FLAG_VISITED_ROUTE4_POKEMON_CENTER,  HEAL_LOCATION_ROUTE4},
+    {MAPSEC_ROUTE_10_POKECENTER, FLAG_VISITED_ROUTE10_POKEMON_CENTER, HEAL_LOCATION_ROUTE10},
+    {MAPSEC_ONE_ISLAND,          FLAG_VISITED_ONE_ISLAND,             HEAL_LOCATION_ONE_ISLAND},
+    {MAPSEC_TWO_ISLAND,          FLAG_VISITED_TWO_ISLAND,             HEAL_LOCATION_TWO_ISLAND},
+    {MAPSEC_THREE_ISLAND,        FLAG_VISITED_THREE_ISLAND,           HEAL_LOCATION_THREE_ISLAND},
+    {MAPSEC_FOUR_ISLAND,         FLAG_VISITED_FOUR_ISLAND,            HEAL_LOCATION_FOUR_ISLAND},
+    {MAPSEC_FIVE_ISLAND,         FLAG_VISITED_FIVE_ISLAND,            HEAL_LOCATION_FIVE_ISLAND},
+    {MAPSEC_SIX_ISLAND,          FLAG_VISITED_SIX_ISLAND,             HEAL_LOCATION_SIX_ISLAND},
+    {MAPSEC_SEVEN_ISLAND,        FLAG_VISITED_SEVEN_ISLAND,           HEAL_LOCATION_SEVEN_ISLAND},
+};
+
+static const struct KantoFlyDestination *GetKantoFlyDestination(mapsec_u16_t mapSecId);
+static bool8 IsRegionVisited(u8 region);
+
+const u32 *GetRegionMapTilesGfx(u8 region)
+{
+    return sRegionMaps[region].gfx;
+}
+
+const u16 *GetRegionMapPalette(u8 region)
+{
+    return sRegionMaps[region].palette;
+}
+
+// The Pokédex area screen looks up map sections before showing the map, so it sets the region early
+void SetRegionMapForPokedexAreaScreen(struct RegionMap *regionMap, u8 region)
+{
+    sRegionMap = regionMap;
+    sRegionMap->region = region;
+}
 
 static const mapsec_u16_t sRegionMap_SpecialPlaceLocations[][2] =
 {
@@ -519,6 +608,7 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
 {
     sRegionMap = regionMap;
     sRegionMap->initStep = 0;
+    sRegionMap->region = GetPlayerRegion();
     sRegionMap->zoomed = zoomed;
     sRegionMap->inputCallback = zoomed == TRUE ? ProcessRegionMapInput_Zoomed : ProcessRegionMapInput_Full;
     if (template != NULL)
@@ -539,7 +629,7 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
 
 void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
 {
-    sRegionMap = regionMap;
+    sRegionMap = regionMap; // region was set by SetRegionMapForPokedexAreaScreen
     InitMapBasedOnPlayerLocation();
     sRegionMap->playerIconSpritePosX = sRegionMap->cursorPosX;
     sRegionMap->playerIconSpritePosY = sRegionMap->cursorPosY;
@@ -551,24 +641,24 @@ bool8 LoadRegionMapGfx(void)
     {
     case 0:
         if (sRegionMap->bgManaged)
-            DecompressAndCopyTileDataToVram(sRegionMap->bgNum, sRegionMapBg_GfxLZ, 0, 0, 0);
+            DecompressAndCopyTileDataToVram(sRegionMap->bgNum, sRegionMaps[sRegionMap->region].gfx, 0, 0, 0);
         else
-            LZ77UnCompVram(sRegionMapBg_GfxLZ, (u16 *)BG_CHAR_ADDR(2));
+            LZ77UnCompVram(sRegionMaps[sRegionMap->region].gfx, (u16 *)BG_CHAR_ADDR(2));
         break;
     case 1:
         if (sRegionMap->bgManaged)
         {
             if (!FreeTempTileDataBuffersIfPossible())
-                DecompressAndCopyTileDataToVram(sRegionMap->bgNum, sRegionMapBg_TilemapLZ, 0, 0, 1);
+                DecompressAndCopyTileDataToVram(sRegionMap->bgNum, sRegionMaps[sRegionMap->region].tilemap, 0, 0, 1);
         }
         else
         {
-            LZ77UnCompVram(sRegionMapBg_TilemapLZ, (u16 *)BG_SCREEN_ADDR(28));
+            LZ77UnCompVram(sRegionMaps[sRegionMap->region].tilemap, (u16 *)BG_SCREEN_ADDR(28));
         }
         break;
     case 2:
         if (!FreeTempTileDataBuffersIfPossible())
-            LoadPalette(sRegionMapBg_Pal, BG_PLTT_ID(7), 3 * PLTT_SIZE_4BPP);
+            LoadPalette(sRegionMaps[sRegionMap->region].palette, BG_PLTT_ID(7), 3 * PLTT_SIZE_4BPP);
         break;
     case 3:
         LZ77UnCompWram(sRegionMapCursorSmallGfxLZ, sRegionMap->cursorSmallImage);
@@ -966,7 +1056,7 @@ static mapsec_u16_t GetMapSecIdAt(u16 x, u16 y)
     }
     y -= MAPCURSOR_Y_MIN;
     x -= MAPCURSOR_X_MIN;
-    return sRegionMap_MapSectionLayout[y][x];
+    return sRegionMaps[sRegionMap->region].layout[y][x];
 }
 
 static void InitMapBasedOnPlayerLocation(void)
@@ -1219,8 +1309,68 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
     case MAPSEC_SOUTHERN_ISLAND:
         return FlagGet(FLAG_LANDMARK_SOUTHERN_ISLAND) ? MAPSECTYPE_ROUTE : MAPSECTYPE_NONE;
     default:
+    {
+        const struct KantoFlyDestination *dest = GetKantoFlyDestination(mapSecId);
+        if (dest != NULL)
+            return FlagGet(dest->flag) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
         return MAPSECTYPE_ROUTE;
     }
+    }
+}
+
+static const struct KantoFlyDestination *GetKantoFlyDestination(mapsec_u16_t mapSecId)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sKantoFlyDestinations); i++)
+    {
+        if (sKantoFlyDestinations[i].mapSecId == mapSecId)
+            return &sKantoFlyDestinations[i];
+    }
+    return NULL;
+}
+
+u8 GetMapSecRegion(mapsec_u16_t mapSecId)
+{
+    if (mapSecId >= KANTO_MAPSEC_START && mapSecId <= KANTO_MAPSEC_END)
+        return sKantoMapSecRegions[mapSecId - KANTO_MAPSEC_START];
+    if (mapSecId == MAPSEC_TEST_AREA)
+        return REGION_KANTO;
+    return REGION_HOENN;
+}
+
+// The region whose map shows the player's current location
+u8 GetPlayerRegion(void)
+{
+    mapsec_u16_t mapSecId = gMapHeader.regionMapSectionId;
+
+    if (mapSecId == MAPSEC_DYNAMIC || mapSecId == MAPSEC_SECRET_BASE)
+        mapSecId = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->dynamicWarp.mapGroup, gSaveBlock1Ptr->dynamicWarp.mapNum)->regionMapSectionId;
+    return GetMapSecRegion(mapSecId);
+}
+
+// Whether the region can be picked on the fly map: the player is there or has visited one of its fly destinations
+static bool8 IsRegionVisited(u8 region)
+{
+    u32 i;
+
+    if (region == GetPlayerRegion())
+        return TRUE;
+    if (region == REGION_HOENN)
+    {
+        for (i = FLAG_VISITED_LITTLEROOT_TOWN; i <= FLAG_VISITED_EVER_GRANDE_CITY; i++)
+        {
+            if (FlagGet(i))
+                return TRUE;
+        }
+        return FALSE;
+    }
+    for (i = 0; i < ARRAY_COUNT(sKantoFlyDestinations); i++)
+    {
+        if (GetMapSecRegion(sKantoFlyDestinations[i].mapSecId) == region && FlagGet(sKantoFlyDestinations[i].flag))
+            return TRUE;
+    }
+    return FALSE;
 }
 
 mapsec_u16_t GetRegionMapSecIdAt(u16 x, u16 y)
@@ -1455,7 +1605,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     struct SpritePalette palette = {sRegionMapPlayerIcon_BrendanPal, paletteTag};
     struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, sRegionMapPlayerIconAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
 
-    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
+    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId) || sRegionMap->region != GetPlayerRegion())
     {
         sRegionMap->playerIconSprite = NULL;
         return;
@@ -1726,9 +1876,7 @@ void CB2_OpenFlyMap(void)
     case 7:
         LoadPalette(sRegionMapFramePal, BG_PLTT_ID(1), sizeof(sRegionMapFramePal));
         PutWindowTilemap(WIN_FLY_TO_WHERE);
-        FillWindowPixelBuffer(WIN_FLY_TO_WHERE, PIXEL_FILL(0));
-        AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, gText_FlyToWhere, 0, 1, 0, NULL);
-        ScheduleBgCopyTilemapToVram(0);
+        DrawFlyToWhereWindow();
         gMain.state++;
         break;
     case 8:
@@ -1864,6 +2012,12 @@ static void CreateFlyDestIcons(void)
     u16 shape;
     u8 spriteId;
 
+    if (sFlyMap->regionMap.region != REGION_HOENN)
+    {
+        CreateKantoFlyDestIcons();
+        return;
+    }
+
     canFlyFlag = FLAG_VISITED_LITTLEROOT_TOWN;
     for (mapSecId = MAPSEC_LITTLEROOT_TOWN; mapSecId <= MAPSEC_EVER_GRANDE_CITY; mapSecId++)
     {
@@ -1895,6 +2049,48 @@ static void CreateFlyDestIcons(void)
     }
 }
 
+static void CreateKantoFlyDestIcons(void)
+{
+    u32 i;
+    u16 x, y, width, height;
+    u8 spriteId;
+
+    for (i = 0; i < ARRAY_COUNT(sKantoFlyDestinations); i++)
+    {
+        if (GetMapSecRegion(sKantoFlyDestinations[i].mapSecId) != sFlyMap->regionMap.region)
+            continue;
+
+        GetMapSecDimensions(sKantoFlyDestinations[i].mapSecId, &x, &y, &width, &height);
+        x = (x + MAPCURSOR_X_MIN) * 8 + 4;
+        y = (y + MAPCURSOR_Y_MIN) * 8 + 4;
+        spriteId = CreateSprite(&sFlyDestIconSpriteTemplate, x, y, 10);
+        if (spriteId != MAX_SPRITES)
+        {
+            if (FlagGet(sKantoFlyDestinations[i].flag))
+            {
+                gSprites[spriteId].callback = SpriteCB_FlyDestIcon;
+                StartSpriteAnim(&gSprites[spriteId], SPRITE_SHAPE(8x8));
+            }
+            else
+            {
+                StartSpriteAnim(&gSprites[spriteId], SPRITE_SHAPE(8x8) + 3);
+            }
+            gSprites[spriteId].sIconMapSec = sKantoFlyDestinations[i].mapSecId;
+        }
+    }
+}
+
+static void DestroyFlyDestIcons(void)
+{
+    u32 i;
+
+    for (i = 0; i < MAX_SPRITES; i++)
+    {
+        if (gSprites[i].inUse && gSprites[i].template == &sFlyDestIconSpriteTemplate)
+            DestroySprite(&gSprites[i]);
+    }
+}
+
 // Draw a red outline box on the mapsec if its corresponding flag has been set
 // Only used for Battle Frontier, but set up to handle more
 static void TryCreateRedOutlineFlyDestIcons(void)
@@ -1906,6 +2102,9 @@ static void TryCreateRedOutlineFlyDestIcons(void)
     u16 height;
     mapsec_u16_t mapSecId;
     u8 spriteId;
+
+    if (sFlyMap->regionMap.region != REGION_HOENN)
+        return;
 
     for (i = 0; sRedOutlineFlyDestinations[i][1] != MAPSEC_NONE; i++)
     {
@@ -1969,6 +2168,17 @@ static void CB_HandleFlyMapInput(void)
 {
     if (sFlyMap->state == 0)
     {
+        if (sFlyMap->regionMap.inputCallback == ProcessRegionMapInput_Full && JOY_NEW(L_BUTTON | R_BUTTON))
+        {
+            u8 region = GetNextVisitedRegion(sFlyMap->regionMap.region, JOY_NEW(R_BUTTON) ? 1 : -1);
+            if (region != sFlyMap->regionMap.region)
+            {
+                m4aSongNumStart(SE_SELECT);
+                sFlyMap->nextRegion = region;
+                SetFlyMapCallback(CB_SwitchFlyMapRegion);
+                return;
+            }
+        }
         switch (DoRegionMapInputCallback())
         {
         case MAP_INPUT_NONE:
@@ -1992,6 +2202,117 @@ static void CB_HandleFlyMapInput(void)
             SetFlyMapCallback(CB_ExitFlyMap);
             break;
         }
+    }
+}
+
+static u8 GetNextVisitedRegion(u8 region, s8 delta)
+{
+    u32 i;
+
+    for (i = 0; i < REGION_COUNT; i++)
+    {
+        region = (region + REGION_COUNT + delta) % REGION_COUNT;
+        if (IsRegionVisited(region))
+            break;
+    }
+    return region;
+}
+
+static void DrawFlyToWhereWindow(void)
+{
+    FillWindowPixelBuffer(WIN_FLY_TO_WHERE, PIXEL_FILL(0));
+    AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, gText_FlyToWhere, 0, 1, 0, NULL);
+    if (GetNextVisitedRegion(sFlyMap->regionMap.region, 1) != sFlyMap->regionMap.region)
+        AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, sText_SwitchRegion, GetStringRightAlignXOffset(FONT_NORMAL, sText_SwitchRegion, 14 * 8), 1, 0, NULL);
+    ScheduleBgCopyTilemapToVram(0);
+}
+
+// Moves the cursor to the player, or to the first fly destination of the region
+static void SetFlyMapCursorForRegion(void)
+{
+    struct RegionMap *regionMap = &sFlyMap->regionMap;
+    u32 i;
+    u16 x = MAPCURSOR_X_MIN + MAP_WIDTH / 2, y = MAPCURSOR_Y_MIN + MAP_HEIGHT / 2;
+    bool8 found = FALSE;
+
+    if (regionMap->region == GetPlayerRegion())
+    {
+        x = regionMap->playerIconSpritePosX;
+        y = regionMap->playerIconSpritePosY;
+    }
+    else if (regionMap->region == REGION_HOENN)
+    {
+        for (i = 0; i <= MAPSEC_EVER_GRANDE_CITY - MAPSEC_LITTLEROOT_TOWN; i++)
+        {
+            if (FlagGet(FLAG_VISITED_LITTLEROOT_TOWN + i))
+            {
+                x = gRegionMapEntries[MAPSEC_LITTLEROOT_TOWN + i].x + MAPCURSOR_X_MIN;
+                y = gRegionMapEntries[MAPSEC_LITTLEROOT_TOWN + i].y + MAPCURSOR_Y_MIN;
+                break;
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < ARRAY_COUNT(sKantoFlyDestinations) && !found; i++)
+        {
+            if (GetMapSecRegion(sKantoFlyDestinations[i].mapSecId) == regionMap->region)
+            {
+                x = gRegionMapEntries[sKantoFlyDestinations[i].mapSecId].x + MAPCURSOR_X_MIN;
+                y = gRegionMapEntries[sKantoFlyDestinations[i].mapSecId].y + MAPCURSOR_Y_MIN;
+                found = FlagGet(sKantoFlyDestinations[i].flag);
+            }
+        }
+    }
+    regionMap->cursorPosX = x;
+    regionMap->cursorPosY = y;
+    if (regionMap->cursorSprite != NULL)
+    {
+        regionMap->cursorSprite->x = 8 * x + 4;
+        regionMap->cursorSprite->y = 8 * y + 4;
+    }
+    regionMap->mapSecId = GetMapSecIdAt(x, y);
+    regionMap->mapSecType = GetMapsecType(regionMap->mapSecId);
+    GetMapName(regionMap->mapSecName, regionMap->mapSecId, MAP_NAME_LENGTH);
+    GetPositionOfCursorWithinMapSec();
+}
+
+static void CB_SwitchFlyMapRegion(void)
+{
+    switch (sFlyMap->state)
+    {
+    case 0:
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        sFlyMap->state++;
+        break;
+    case 1:
+        if (!UpdatePaletteFade())
+        {
+            sFlyMap->regionMap.region = sFlyMap->nextRegion;
+            LZ77UnCompVram(sRegionMaps[sFlyMap->regionMap.region].gfx, (u16 *)BG_CHAR_ADDR(2));
+            LZ77UnCompVram(sRegionMaps[sFlyMap->regionMap.region].tilemap, (u16 *)BG_SCREEN_ADDR(28));
+            LoadPalette(sRegionMaps[sFlyMap->regionMap.region].palette, BG_PLTT_ID(7), 3 * PLTT_SIZE_4BPP);
+            DestroyFlyDestIcons();
+            CreateFlyDestIcons();
+            TryCreateRedOutlineFlyDestIcons();
+            if (sFlyMap->regionMap.region == GetPlayerRegion())
+                UnhideRegionMapPlayerIcon();
+            else
+                HideRegionMapPlayerIcon();
+            SetFlyMapCursorForRegion();
+            DrawFlyDestTextWindow();
+            DrawFlyToWhereWindow();
+            sFlyMap->state++;
+        }
+        break;
+    case 2:
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+        sFlyMap->state++;
+        break;
+    case 3:
+        if (!UpdatePaletteFade())
+            SetFlyMapCallback(CB_HandleFlyMapInput);
+        break;
     }
 }
 
@@ -2024,7 +2345,9 @@ static void CB_ExitFlyMap(void)
                     SetWarpDestinationToHealLocation(FlagGet(FLAG_LANDMARK_POKEMON_LEAGUE) && sFlyMap->regionMap.posWithinMapSec == 0 ? HEAL_LOCATION_EVER_GRANDE_CITY_POKEMON_LEAGUE : HEAL_LOCATION_EVER_GRANDE_CITY);
                     break;
                 default:
-                    if (sMapHealLocations[sFlyMap->regionMap.mapSecId][2] != HEAL_LOCATION_NONE)
+                    if (GetKantoFlyDestination(sFlyMap->regionMap.mapSecId) != NULL)
+                        SetWarpDestinationToHealLocation(GetKantoFlyDestination(sFlyMap->regionMap.mapSecId)->healLocation);
+                    else if (sMapHealLocations[sFlyMap->regionMap.mapSecId][2] != HEAL_LOCATION_NONE)
                         SetWarpDestinationToHealLocation(sMapHealLocations[sFlyMap->regionMap.mapSecId][2]);
                     else
                         SetWarpDestinationToMapWarp(sMapHealLocations[sFlyMap->regionMap.mapSecId][0], sMapHealLocations[sFlyMap->regionMap.mapSecId][1], WARP_ID_NONE);

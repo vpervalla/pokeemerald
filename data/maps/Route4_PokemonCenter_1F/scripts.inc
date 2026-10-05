@@ -1,2 +1,8 @@
 Route4_PokemonCenter_1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route4_PokemonCenter_1F_OnTransition
 	.byte 0
+
+Route4_PokemonCenter_1F_OnTransition:
+	setflag FLAG_VISITED_ROUTE4_POKEMON_CENTER
+	setrespawn HEAL_LOCATION_ROUTE4
+	end

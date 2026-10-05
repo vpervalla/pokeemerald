@@ -47,6 +47,34 @@ enum {
 
 #define HEADER_NONE 0xFFFF
 
+// Unown letters found in each Tanoby Ruins chamber, by land encounter slot (from FRLG).
+static const u8 sUnownLetterSlots[][12] = {
+  //  A   A   A   A   A   A   A   A   A   A   A   ?
+    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 27},
+  //  C   C   C   D   D   D   H   H   H   U   U   O
+    { 2,  2,  2,  3,  3,  3,  7,  7,  7, 20, 20, 14},
+  //  N   N   N   N   S   S   S   S   I   I   E   E
+    {13, 13, 13, 13, 18, 18, 18, 18,  8,  8,  4,  4},
+  //  P   P   L   L   J   J   R   R   R   Q   Q   Q
+    {15, 15, 11, 11,  9,  9, 17, 17, 17, 16, 16, 16},
+  //  Y   Y   T   T   G   G   G   F   F   F   K   K
+    {24, 24, 19, 19,  6,  6,  6,  5,  5,  5, 10, 10},
+  //  V   V   V   W   W   W   X   X   M   M   B   B
+    {21, 21, 21, 22, 22, 22, 23, 23, 12, 12,  1,  1},
+  //  Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   !
+    {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26},
+};
+
+static const u16 sTanobyChambers[] = {
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER,
+    MAP_SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER,
+};
+
 static u16 FeebasRandom(void);
 static void FeebasSeedRng(u16 seed);
 static bool8 IsWildLevelAllowedByRepel(u8 level);
@@ -315,8 +343,10 @@ static u16 GetCurrentMapWildMonHeaderId(void)
         if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
             gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
         {
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ALTERING_CAVE) &&
-                gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ALTERING_CAVE))
+            if ((gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ALTERING_CAVE) &&
+                 gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ALTERING_CAVE))
+             || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SIX_ISLAND_ALTERING_CAVE) &&
+                 gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SIX_ISLAND_ALTERING_CAVE)))
             {
                 u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
                 if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
@@ -413,6 +443,27 @@ static void CreateWildMon(u16 species, u8 level)
 
     CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
 }
+// In the Tanoby Ruins chambers each encounter slot gives a specific Unown letter.
+static bool8 TryCreateTanobyUnown(u16 species, u8 level, u8 slot)
+{
+    u32 i;
+
+    if (species != SPECIES_UNOWN)
+        return FALSE;
+
+    for (i = 0; i < ARRAY_COUNT(sTanobyChambers); i++)
+    {
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(sTanobyChambers[i])
+         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(sTanobyChambers[i]))
+        {
+            ZeroEnemyPartyMons();
+            CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, MON_GENDERLESS, PickWildMonNature(), sUnownLetterSlots[i][slot] + 1);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 #ifdef BUGFIX
 #define TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildPokemon, type, ability, ptr, count) TryGetAbilityInfluencedWildMonIndex(wildPokemon, type, ability, ptr, count)
 #else
@@ -450,6 +501,9 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         return FALSE;
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
+
+    if (area == WILD_AREA_LAND && TryCreateTanobyUnown(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex))
+        return TRUE;
 
     CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
     return TRUE;

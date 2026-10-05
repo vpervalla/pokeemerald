@@ -23,6 +23,7 @@
 #include "coins.h"
 #include "text.h"
 #include "overworld.h"
+#include "constants/heal_locations.h"
 #include "mail.h"
 #include "battle_records.h"
 #include "item.h"
@@ -194,6 +195,7 @@ void NewGameInitData(void)
     ResetFanClub();
     ResetLotteryCorner();
     WarpToTruck();
+    SetLastHealLocationWarp(HEAL_LOCATION_PALLET_TOWN);
     RunScriptImmediately(EventScript_ResetAllMapFlags);
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();

@@ -4,6 +4,9 @@
     python3 tools/kanto_port/port_kanto.py tilesets --frlg ../pokefirered
     python3 tools/kanto_port/port_kanto.py maps --frlg ../pokefirered            # every map
     python3 tools/kanto_port/port_kanto.py maps PalletTown Route1 --frlg ../pokefirered
+    python3 tools/kanto_port/port_kanto.py encounters --frlg ../pokefirered
+    python3 tools/kanto_port/port_kanto.py regionmap --frlg ../pokefirered
+    python3 tools/kanto_port/port_kanto.py heal --frlg ../pokefirered
 
 Run from the pokeemerald root. Both commands are idempotent.
 
@@ -17,6 +20,15 @@ maps:     ports layouts and maps with their warps and connections into gMapGroup
           edits made afterwards (by hand or in Porymap) survive a re-run.
           NPCs, triggers and signs are stripped until their scripts are ported. Maps and layouts
           whose name already exists in Emerald get a Kanto prefix (see map_report.txt).
+encounters: replaces the wild encounter tables of every ported map with FireRed's (LeafGreen's are skipped).
+regionmap: converts the Kanto and Sevii Islands region maps to Emerald's 8bpp affine format
+          (graphics/pokenav/region_map/<region>/), writes their layouts and the region of each map
+          section to src/data/region_map/region_map_layout_kanto.h, and sets the map section positions
+          in region_map_sections.json (FRLG grid x + 3, so Kanto sits in the middle of Emerald's wider grid).
+heal:     adds FRLG's heal locations and gives the ported towns and Pokémon Centers map scripts that set
+          the respawn point and the FLAG_VISITED_* flag that unlocks them as fly destinations. Maps whose
+          scripts were edited since they were ported are listed instead of overwritten.
+Needs Pillow for regionmap.
 """
 import argparse, json, os, re, shutil, struct, sys
 from collections import Counter, defaultdict
@@ -207,6 +219,10 @@ def cmd_tilesets(args):
 MANIFEST = "tools/kanto_port/manifest.json"
 BATTLE_SCENES = {"MAP_BATTLE_SCENE_NORMAL", "MAP_BATTLE_SCENE_GYM"}  # FRLG scenes that also exist in Emerald
 
+# FRLG map sections whose name Emerald uses for its own (Hoenn) location.
+MAPSEC_MAP = {"MAPSEC_NAVEL_ROCK": "MAPSEC_NAVEL_ROCK_FRLG", "MAPSEC_ALTERING_CAVE": "MAPSEC_ALTERING_CAVE_FRLG",
+              "MAPSEC_BIRTH_ISLAND": "MAPSEC_BIRTH_ISLAND_FRLG"}
+
 def load_manifest():
     if os.path.exists(MANIFEST):
         return json.loads(read(MANIFEST))
@@ -307,6 +323,7 @@ def cmd_maps(args):
         m.pop("connections_no_include", None)
         rg = fj["music"].replace("MUS_", "MUS_RG_", 1)
         m["music"] = rg if rg in songs else fj["music"]
+        m["region_map_section"] = MAPSEC_MAP.get(fj["region_map_section"], fj["region_map_section"])
         if m["music"] not in songs:
             notes.append(f"{new_name}: music {fj['music']} not in Emerald")
         if fj["battle_scene"] not in BATTLE_SCENES:
@@ -360,6 +377,299 @@ def cmd_maps(args):
     print(f"ported {len(wanted) - len(skipped_existing)} maps, left {len(skipped_existing)} existing maps untouched "
           f"(use --force to overwrite them); see tools/kanto_port/map_report.txt")
 
+def ported_map_ids(frlg):
+    """FRLG map constant -> constant of the ported map, for every map in the manifest."""
+    out = {}
+    for fname, new in load_manifest()["maps"].items():
+        fid = json.loads(read(f"{frlg}/data/maps/{fname}/map.json"))["id"]
+        out[fid] = json.loads(read(f"data/maps/{new}/map.json"))["id"]
+    return out
+
+WILD_JSON = "src/data/wild_encounters.json"
+
+def cmd_encounters(args):
+    """Port FireRed's wild encounter tables for every ported map (LeafGreen's are skipped)."""
+    frlg = args.frlg
+    ids = ported_map_ids(frlg)
+    fgroup = json.loads(read(f"{frlg}/src/data/wild_encounters.json"))["wild_encounter_groups"][0]
+    wj = json.loads(read(WILD_JSON))
+    group = next(g for g in wj["wild_encounter_groups"] if g["label"] == "gWildMonHeaders")
+    for a, b in zip(fgroup["fields"], group["fields"]):
+        if a != b:
+            sys.exit(f"FRLG encounter field {a['type']} differs from Emerald's")
+    kanto = set(ids.values())
+    group["encounters"] = [e for e in group["encounters"] if e["map"] not in kanto]
+    missing, count, seen = [], 0, Counter()
+    for e in fgroup["encounters"]:
+        if not e["base_label"].endswith("_FireRed"):
+            continue
+        if e["map"] not in ids:
+            missing.append(e["map"])
+            continue
+        new = dict(e, map=ids[e["map"]])
+        # Labels follow Emerald's style (gRoute101); a map with several tables (Altering Cave) gets _2, _3...
+        base = "g" + e["base_label"][1:-len("_FireRed")]
+        base = re.sub(r"_\d+$", "", base)
+        seen[base] += 1
+        new["base_label"] = base if seen[base] == 1 else f"{base}_{seen[base]}"
+        if new["base_label"] in {x.get("base_label") for x in group["encounters"]}:
+            new["base_label"] = "gKanto" + new["base_label"][1:]
+        group["encounters"].append(new)
+        count += 1
+    write(WILD_JSON, json.dumps(wj, indent=2) + "\n")
+    print(f"ported {count} FireRed encounter tables" + (f"; maps not ported: {', '.join(missing)}" if missing else ""))
+
+# ---------------------------------------------------------------------------------------------
+# Region map
+
+REGIONS = ["kanto", "sevii_123", "sevii_45", "sevii_67"]  # FRLG region maps, in FRLG's order
+REGION_ENUM = {"kanto": "REGION_KANTO", "sevii_123": "REGION_SEVII_123", "sevii_45": "REGION_SEVII_45", "sevii_67": "REGION_SEVII_67"}
+RM_GFX = "graphics/pokenav/region_map"
+FR_MAP_W, FR_MAP_H = 22, 15       # FRLG region map grid
+EM_MAP_W, EM_MAP_H = 28, 15       # Emerald region map grid
+RM_X_OFFSET = 3                   # FRLG grid x -> Emerald grid x (both are drawn at the same screen tile)
+FR_GRID_ROW = 4                   # FRLG draws its grid from screen tile row 4, Emerald from row 2
+EM_GRID_ROW = 2
+# Where FRLG puts the player for map sections that are not on the map itself
+# (GetPlayerPositionOnRegionMap_HandleOverrides), in FRLG grid coordinates.
+RM_POSITION_OVERRIDES = {
+    "MAPSEC_KANTO_SAFARI_ZONE": (12, 12), "MAPSEC_SILPH_CO": (14, 6), "MAPSEC_POKEMON_MANSION": (4, 14),
+    "MAPSEC_POKEMON_TOWER": (18, 6), "MAPSEC_POWER_PLANT": (18, 4), "MAPSEC_S_S_ANNE": (14, 9),
+    "MAPSEC_POKEMON_LEAGUE": (2, 3), "MAPSEC_ROCKET_HIDEOUT": (11, 6), "MAPSEC_UNDERGROUND_PATH": (14, 7),
+    "MAPSEC_UNDERGROUND_PATH_2": (12, 6), "MAPSEC_BIRTH_ISLAND": (18, 13), "MAPSEC_NAVEL_ROCK": (10, 8),
+    "MAPSEC_TRAINER_TOWER_2": (5, 6), "MAPSEC_MT_EMBER": (2, 3), "MAPSEC_BERRY_FOREST": (14, 12),
+    "MAPSEC_PATTERN_BUSH": (17, 3), "MAPSEC_ROCKET_WAREHOUSE": (17, 11), "MAPSEC_DILFORD_CHAMBER": (9, 12),
+    "MAPSEC_LIPTOO_CHAMBER": (9, 12), "MAPSEC_MONEAN_CHAMBER": (9, 12), "MAPSEC_RIXY_CHAMBER": (9, 12),
+    "MAPSEC_SCUFIB_CHAMBER": (9, 12), "MAPSEC_TANOBY_CHAMBERS": (9, 12), "MAPSEC_VIAPOIS_CHAMBER": (9, 12),
+    "MAPSEC_WEEPTH_CHAMBER": (9, 12), "MAPSEC_DOTTED_HOLE": (16, 8), "MAPSEC_VIRIDIAN_FOREST": (4, 6),
+    "MAPSEC_SPECIAL_AREA": (11, 6),  # Celadon Dept. Store
+    # Not placed by FRLG at all; put them where their entrances are.
+    "MAPSEC_THREE_ISLE_PATH": (18, 13), "MAPSEC_EMBER_SPA": (2, 4), "MAPSEC_TANOBY_KEY": (6, 11),
+}
+
+def read_jasc(path):
+    lines = read(path).split("\n")
+    return [tuple(int(v) for v in l.split()) for l in lines[3:] if l.strip()]
+
+def render_frlg_region_map(frlg, name):
+    """Render an FRLG region map (4bpp tiles + text tilemap) to rows of RGB pixels (None = transparent)."""
+    from PIL import Image
+    tiles = Image.open(f"{frlg}/graphics/region_map/region_map.png")
+    pal = read_jasc(f"{frlg}/graphics/region_map/region_map.pal")
+    tw = tiles.size[0] // 8
+    px = tiles.load()
+    with open(f"{frlg}/graphics/region_map/{name}.bin", "rb") as fh:
+        tmap = struct.unpack("<600H", fh.read())
+    out = [[None] * 240 for _ in range(160)]
+    for i, e in enumerate(tmap):
+        ti, hf, vf, pl = e & 0x3FF, e & 0x400, e & 0x800, e >> 12
+        tx, ty = (ti % tw) * 8, (ti // tw) * 8
+        for y in range(8):
+            for x in range(8):
+                sx, sy = (7 - x if hf else x), (7 - y if vf else y)
+                c = px[tx + sx, ty + sy] & 15 if ty + sy < tiles.size[1] else 0
+                out[(i // 30) * 8 + y][(i % 30) * 8 + x] = pal[pl * 16 + c][:3] if c else None
+    return out
+
+def parse_frlg_layout(frlg, name):
+    """FRLG region map layout -> (map layer, dungeon layer), each [y][x] of MAPSEC names."""
+    src = read(f"{frlg}/src/data/region_map/region_map_layout_{name}.h")
+    secs = [MAPSEC_MAP.get(m, m) for m in re.findall(r"\bMAPSEC_\w+", src)]
+    n = FR_MAP_W * FR_MAP_H
+    if len(secs) != 2 * n:
+        sys.exit(f"unexpected layout size in region_map_layout_{name}.h")
+    grid = lambda l: [l[y * FR_MAP_W:(y + 1) * FR_MAP_W] for y in range(FR_MAP_H)]
+    return grid(secs[:n]), grid(secs[n:])
+
+def convert_region_map_gfx(frlg, name):
+    """Write the FRLG region map as an Emerald 8bpp affine background (tiles, 64x64 tilemap, palette)."""
+    from PIL import Image
+    img = render_frlg_region_map(frlg, name)
+    # FRLG covers the transparent edge columns with a separate map edge layer; Emerald has no such layer,
+    # so draw them in the white of FRLG's map border instead.
+    img = [[(255, 255, 255) if c is None else c for c in row] for row in img]
+    shift = FR_GRID_ROW - EM_GRID_ROW
+    colors = []
+    for row in img:
+        for c in row:
+            if c is not None and c not in colors:
+                colors.append(c)
+    # Emerald loads the region map palette into BG palettes 7-9 (indices 112-159).
+    # Colour 0 of each of those palettes is left unused, like Emerald's own map.
+    slots = [i for i in range(113, 160) if i % 16]
+    if len(colors) > len(slots):
+        sys.exit(f"{name}: {len(colors)} colours do not fit in the region map palette")
+    index = {c: slots[i] for i, c in enumerate(colors)}
+    tiles, tile_ids = [bytes(64)], {bytes(64): 0}
+    tilemap = bytearray(64 * 64)
+    for r in range(20):
+        for c in range(30):
+            sr = r + shift
+            if sr >= 20:
+                continue
+            t = bytes(0 if img[sr * 8 + y][c * 8 + x] is None else index[img[sr * 8 + y][c * 8 + x]]
+                      for y in range(8) for x in range(8))
+            if t not in tile_ids:
+                tile_ids[t] = len(tiles)
+                tiles.append(t)
+            tilemap[r * 64 + c] = tile_ids[t]
+    if len(tiles) > 256:
+        sys.exit(f"{name}: {len(tiles)} tiles do not fit in an affine background")
+    rows = (len(tiles) + 15) // 16
+    sheet = Image.new("P", (128, rows * 8))
+    flat = [0] * (256 * 3)
+    for c, i in index.items():
+        flat[i * 3:i * 3 + 3] = c
+    sheet.putpalette(flat)
+    spx = sheet.load()
+    for i, t in enumerate(tiles):
+        for y in range(8):
+            for x in range(8):
+                spx[(i % 16) * 8 + x, (i // 16) * 8 + y] = t[y * 8 + x]
+    out = f"{RM_GFX}/{name}"
+    os.makedirs(out, exist_ok=True)
+    sheet.save(f"{out}/map.png", bits=8)
+    with open(f"{out}/map.bin", "wb") as fh:
+        fh.write(bytes(tilemap))
+    # The Pokédex area screen shows the same map on a regular (32x32, 16-bit entries) 8bpp background.
+    with open(f"{out}/dex.bin", "wb") as fh:
+        fh.write(b"".join(struct.pack("<H", tilemap[r * 64 + c]) for r in range(32) for c in range(32)))
+    pal = [(0, 0, 0)] * 48
+    for c, i in index.items():
+        pal[i - 112] = c
+    write(f"{out}/map.pal", "JASC-PAL\n0100\n48\n" + "".join(f"{r} {g} {b}\n" for r, g, b in pal))
+    return len(tiles)
+
+def cmd_regionmap(args):
+    """Port the FRLG region maps: graphics, layouts, map section positions and regions."""
+    frlg = args.frlg
+    ftable = [m for m in json.loads(read(f"{frlg}/src/data/region_map/region_map_sections.json"))["map_sections"]]
+    path = "src/data/region_map/region_map_sections.json"
+    ej = json.loads(read(path))
+    eids = [m["id"] for m in ej["map_sections"]]
+    start = eids.index("MAPSEC_PALLET_TOWN")
+    fstart = [m["id"] for m in ftable].index("MAPSEC_PALLET_TOWN")
+    kanto = ftable[fstart:]
+    for i, fm in enumerate(kanto):  # Emerald mirrors FRLG's Kanto map sections in the same order
+        if eids[start + i] != MAPSEC_MAP.get(fm["id"], fm["id"]):
+            sys.exit(f"map section mismatch: {eids[start + i]} vs {fm['id']}")
+
+    layouts = {n: parse_frlg_layout(frlg, n) for n in REGIONS}
+    region_of, first_pos = {}, {}
+    for n in REGIONS:
+        for layer in layouts[n]:
+            for y, row in enumerate(layer):
+                for x, sec in enumerate(row):
+                    if sec != "MAPSEC_NONE":
+                        region_of.setdefault(sec, n)
+                        first_pos.setdefault(sec, (x, y))
+    rm = read(f"{frlg}/src/region_map.c")
+    sevii = re.search(r"sSeviiMapsecs\[3\]\[30\] = \{(.*?)\n\};", rm, re.S).group(1)
+    for n, block in zip(REGIONS[1:], re.findall(r"\{(.*?)\}", sevii, re.S)):
+        for sec in re.findall(r"MAPSEC_\w+", block):
+            if sec != "MAPSEC_NONE":
+                region_of.setdefault(MAPSEC_MAP.get(sec, sec), n)
+
+    # Map section positions, in Emerald grid coordinates.
+    for i, fm in enumerate(kanto):
+        sec = eids[start + i]
+        em = ej["map_sections"][start + i]
+        if fm.get("width", 0) and (fm.get("x", 0) or fm.get("y", 0)):
+            x, y, w, h = fm["x"], fm["y"], fm["width"], fm["height"]
+        elif fm["id"] in RM_POSITION_OVERRIDES or sec in first_pos:
+            (x, y), w, h = RM_POSITION_OVERRIDES.get(fm["id"]) or first_pos[sec], 1, 1
+        else:
+            continue
+        for k in ("x", "y", "width", "height"):
+            em.pop(k, None)
+        em.update(x=x + RM_X_OFFSET, y=y, width=w, height=h)
+    write(path, json.dumps(ej, indent=2, ensure_ascii=False) + "\n")
+
+    lines = ["// Generated by tools/kanto_port/port_kanto.py regionmap from pokefirered. Do not edit by hand.", ""]
+    for n in REGIONS:
+        lines.append(f"static const mapsec_u8_t sRegionMap_MapSectionLayout_{''.join(p.capitalize() for p in n.split('_'))}[MAP_HEIGHT][MAP_WIDTH] = {{")
+        for row in layouts[n][0]:
+            cells = ["MAPSEC_NONE"] * RM_X_OFFSET + row
+            cells += ["MAPSEC_NONE"] * (EM_MAP_W - len(cells))
+            lines.append("    {" + ", ".join(cells) + "},")
+        lines.append("};")
+        lines.append("")
+    lines.append("// Which region map each Kanto map section is drawn on.")
+    lines.append("static const u8 sKantoMapSecRegions[KANTO_MAPSEC_COUNT] = {")
+    for i, fm in enumerate(kanto):
+        sec = eids[start + i]
+        lines.append(f"    [{sec} - KANTO_MAPSEC_START] = {REGION_ENUM[region_of.get(sec, 'kanto')]},")
+    lines.append("};")
+    write("src/data/region_map/region_map_layout_kanto.h", "\n".join(lines) + "\n")
+
+    counts = {n: convert_region_map_gfx(frlg, n) for n in REGIONS}
+    print("ported region maps: " + ", ".join(f"{n} ({c} tiles)" for n, c in counts.items()))
+
+# ---------------------------------------------------------------------------------------------
+# Heal locations and fly destinations
+
+# FRLG world map flags that unlock a fly destination -> the Emerald flag used for it.
+FLY_FLAGS = {
+    "FLAG_WORLD_MAP_PALLET_TOWN": "FLAG_VISITED_PALLET_TOWN",
+    "FLAG_WORLD_MAP_VIRIDIAN_CITY": "FLAG_VISITED_VIRIDIAN_CITY",
+    "FLAG_WORLD_MAP_PEWTER_CITY": "FLAG_VISITED_PEWTER_CITY",
+    "FLAG_WORLD_MAP_CERULEAN_CITY": "FLAG_VISITED_CERULEAN_CITY",
+    "FLAG_WORLD_MAP_LAVENDER_TOWN": "FLAG_VISITED_LAVENDER_TOWN",
+    "FLAG_WORLD_MAP_VERMILION_CITY": "FLAG_VISITED_VERMILION_CITY",
+    "FLAG_WORLD_MAP_CELADON_CITY": "FLAG_VISITED_CELADON_CITY",
+    "FLAG_WORLD_MAP_FUCHSIA_CITY": "FLAG_VISITED_FUCHSIA_CITY",
+    "FLAG_WORLD_MAP_CINNABAR_ISLAND": "FLAG_VISITED_CINNABAR_ISLAND",
+    "FLAG_WORLD_MAP_INDIGO_PLATEAU_EXTERIOR": "FLAG_VISITED_INDIGO_PLATEAU",
+    "FLAG_WORLD_MAP_SAFFRON_CITY": "FLAG_VISITED_SAFFRON_CITY",
+    "FLAG_WORLD_MAP_ROUTE4_POKEMON_CENTER_1F": "FLAG_VISITED_ROUTE4_POKEMON_CENTER",
+    "FLAG_WORLD_MAP_ROUTE10_POKEMON_CENTER_1F": "FLAG_VISITED_ROUTE10_POKEMON_CENTER",
+    "FLAG_WORLD_MAP_ONE_ISLAND": "FLAG_VISITED_ONE_ISLAND",
+    "FLAG_WORLD_MAP_TWO_ISLAND": "FLAG_VISITED_TWO_ISLAND",
+    "FLAG_WORLD_MAP_THREE_ISLAND": "FLAG_VISITED_THREE_ISLAND",
+    "FLAG_WORLD_MAP_FOUR_ISLAND": "FLAG_VISITED_FOUR_ISLAND",
+    "FLAG_WORLD_MAP_FIVE_ISLAND": "FLAG_VISITED_FIVE_ISLAND",
+    "FLAG_WORLD_MAP_SIX_ISLAND": "FLAG_VISITED_SIX_ISLAND",
+    "FLAG_WORLD_MAP_SEVEN_ISLAND": "FLAG_VISITED_SEVEN_ISLAND",
+}
+HEAL_JSON = "src/data/heal_locations.json"
+
+def cmd_heal(args):
+    """Port FRLG's heal locations, and the map scripts that set the respawn point and unlock fly destinations."""
+    frlg = args.frlg
+    ids = ported_map_ids(frlg)
+    man = load_manifest()["maps"]
+    fheal = json.loads(read(f"{frlg}/src/data/heal_locations.json"))["heal_locations"]
+    hj = json.loads(read(HEAL_JSON))
+    new_ids = {h["id"] for h in fheal}
+    hj["heal_locations"] = [h for h in hj["heal_locations"] if h["id"] not in new_ids]
+    for h in fheal:
+        # Emerald respawns the player outside the Pokémon Center, so the respawn map and nurse are not needed.
+        hj["heal_locations"].append({"id": h["id"], "map": ids[h["map"]], "x": h["x"], "y": h["y"]})
+    write(HEAL_JSON, json.dumps(hj, indent=2, ensure_ascii=False) + "\n")
+
+    done, skipped = [], []
+    for fname, new in sorted(man.items()):
+        src = read(f"{frlg}/data/maps/{fname}/scripts.inc")
+        cmds = [f"\tsetflag {FLY_FLAGS[f]}" for f in re.findall(r"setworldmapflag (\w+)", src) if f in FLY_FLAGS]
+        if fname.endswith("_PokemonCenter_1F") or fname == "PalletTown_PlayersHouse_2F":
+            cmds += [f"\tsetrespawn {h}" for h in re.findall(r"setrespawn (HEAL_LOCATION_\w+)", src)]
+        if not cmds:
+            continue
+        path = f"data/maps/{new}/scripts.inc"
+        cur = read(path)
+        label = f"{new}_OnTransition"
+        body = (f"{new}_MapScripts::\n\tmap_script MAP_SCRIPT_ON_TRANSITION, {label}\n\t.byte 0\n\n"
+                f"{label}:\n" + "\n".join(cmds) + "\n\tend\n")
+        if cur == body:
+            continue
+        if cur != f"{new}_MapScripts::\n\t.byte 0\n":
+            skipped.append(new)  # scripts were edited since the map was ported; add the commands by hand
+            continue
+        write(path, body)
+        done.append(new)
+    print(f"ported {len(fheal)} heal locations; added map scripts to {len(done)} maps"
+          + (f"; scripts already edited, add by hand: {', '.join(skipped)}" if skipped else ""))
+
 def main():
     if not os.path.exists("include/constants/metatile_behaviors.h"):
         sys.exit("run from the pokeemerald root")
@@ -370,6 +680,9 @@ def main():
     m.add_argument("--no-warps", action="store_true"); m.add_argument("--no-connections", action="store_true")
     m.add_argument("--force", action="store_true", help="overwrite maps and layouts that were already ported")
     m.set_defaults(fn=cmd_maps)
+    e = sub.add_parser("encounters"); e.add_argument("--frlg", default="../pokefirered"); e.set_defaults(fn=cmd_encounters)
+    r = sub.add_parser("regionmap"); r.add_argument("--frlg", default="../pokefirered"); r.set_defaults(fn=cmd_regionmap)
+    h = sub.add_parser("heal"); h.add_argument("--frlg", default="../pokefirered"); h.set_defaults(fn=cmd_heal)
     args = ap.parse_args(); args.fn(args)
 
 if __name__ == "__main__":

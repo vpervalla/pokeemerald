@@ -1,2 +1,8 @@
 Route10_PokemonCenter_1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route10_PokemonCenter_1F_OnTransition
 	.byte 0
+
+Route10_PokemonCenter_1F_OnTransition:
+	setflag FLAG_VISITED_ROUTE10_POKEMON_CENTER
+	setrespawn HEAL_LOCATION_ROUTE10
+	end

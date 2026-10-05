@@ -5,6 +5,7 @@
 #include "malloc.h"
 #include "palette.h"
 #include "pokedex_area_region_map.h"
+#include "region_map.h"
 
 static EWRAM_DATA u8 *sPokedexAreaMapBgNum = NULL;
 
@@ -13,13 +14,39 @@ static const u32 sPokedexAreaMap_Gfx[] = INCGFX_U32("graphics/pokedex/region_map
 static const u32 sPokedexAreaMap_Tilemap[] = INCGFX_U32("graphics/pokedex/region_map.bin", ".lz");
 static const u32 sPokedexAreaMapAffine_Gfx[] = INCGFX_U32("graphics/pokedex/region_map_affine.png", ".8bpp.lz", "-num_tiles 233 -Wnum_tiles");
 static const u32 sPokedexAreaMapAffine_Tilemap[] = INCGFX_U32("graphics/pokedex/region_map_affine.bin", ".lz");
+static const u32 sPokedexAreaMapKanto_Tilemap[] = INCGFX_U32("graphics/pokenav/region_map/kanto/dex.bin", ".lz");
+static const u32 sPokedexAreaMapSevii123_Tilemap[] = INCGFX_U32("graphics/pokenav/region_map/sevii_123/dex.bin", ".lz");
+static const u32 sPokedexAreaMapSevii45_Tilemap[] = INCGFX_U32("graphics/pokenav/region_map/sevii_45/dex.bin", ".lz");
+static const u32 sPokedexAreaMapSevii67_Tilemap[] = INCGFX_U32("graphics/pokenav/region_map/sevii_67/dex.bin", ".lz");
 
-void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
+// The Kanto and Sevii maps share their tiles and palette with the region map
+static const u32 *const sPokedexAreaMapRegion_Tilemaps[REGION_COUNT] =
+{
+    [REGION_KANTO]     = sPokedexAreaMapKanto_Tilemap,
+    [REGION_SEVII_123] = sPokedexAreaMapSevii123_Tilemap,
+    [REGION_SEVII_45]  = sPokedexAreaMapSevii45_Tilemap,
+    [REGION_SEVII_67]  = sPokedexAreaMapSevii67_Tilemap,
+};
+
+void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template, u8 region)
 {
     u8 mode;
     void *tilemap;
     sPokedexAreaMapBgNum = Alloc(sizeof(sPokedexAreaMapBgNum));
     mode = template->mode;
+
+    if (region != REGION_HOENN)
+    {
+        SetBgAttribute(template->bg, BG_ATTR_METRIC, 0);
+        DecompressAndCopyTileDataToVram(template->bg, GetRegionMapTilesGfx(region), 0, template->offset, 0);
+        DecompressAndCopyTileDataToVram(template->bg, sPokedexAreaMapRegion_Tilemaps[region], 0, 0, 1);
+        ChangeBgX(template->bg, 0, BG_COORD_SET);
+        ChangeBgY(template->bg, 0, BG_COORD_SET);
+        SetBgAttribute(template->bg, BG_ATTR_PALETTEMODE, 1);
+        CpuCopy32(GetRegionMapPalette(region), &gPlttBufferUnfaded[BG_PLTT_ID(7)], 3 * PLTT_SIZE_4BPP);
+        *sPokedexAreaMapBgNum = template->bg;
+        return;
+    }
 
     if (mode == 0)
     {

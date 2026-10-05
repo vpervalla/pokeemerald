@@ -16,6 +16,16 @@ enum
     MAP_INPUT_B_BUTTON,
 };
 
+// The region maps that can be shown. Kanto and the Sevii Islands are ported from FRLG.
+enum {
+    REGION_HOENN,
+    REGION_KANTO,
+    REGION_SEVII_123,
+    REGION_SEVII_45,
+    REGION_SEVII_67,
+    REGION_COUNT
+};
+
 enum {
     MAPSECTYPE_NONE,
     MAPSECTYPE_ROUTE,
@@ -75,7 +85,8 @@ struct RegionMap {
     /*0x081*/ u8 charBaseIdx;
     /*0x082*/ u8 mapBaseIdx;
     /*0x083*/ bool8 bgManaged;
-    /*0x084*/ u8 filler_084[0x100];
+    /*0x084*/ u8 region; // REGION_*
+    /*0x085*/ u8 filler_085[0xFF];
     /*0x184*/ u8 cursorSmallImage[0x100];
     /*0x284*/ u8 cursorLargeImage[0x600];
 }; // size = 0x884
@@ -103,6 +114,11 @@ mapsec_u16_t GetRegionMapSecIdAt(u16 x, u16 y);
 void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag);
 void CreateRegionMapCursor(u16 tileTag, u16 paletteTag);
 bool32 IsEventIslandMapSecId(mapsec_u8_t mapSecId);
+u8 GetMapSecRegion(mapsec_u16_t mapSecId);
+u8 GetPlayerRegion(void);
+const u32 *GetRegionMapTilesGfx(u8 region);
+const u16 *GetRegionMapPalette(u8 region);
+void SetRegionMapForPokedexAreaScreen(struct RegionMap *regionMap, u8 region);
 u8 *GetMapName(u8 *dest, mapsec_u16_t regionMapId, u16 padLength);
 u8 *GetMapNameGeneric(u8 *dest, mapsec_u16_t mapSecId);
 u8 *GetMapNameHandleAquaHideout(u8 *dest, mapsec_u16_t mapSecId);
