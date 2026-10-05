@@ -37,12 +37,14 @@ struct TintMultipliers
 
 struct LitPalette
 {
-    const struct Tileset *tileset;
+    const struct Tileset *tileset; // Applies to maps using this tileset
     u8 paletteNum;
-    u8 firstColor;
-    u8 numColors;
-    const u16 *colors;
+    u8 copyOf;                     // If not NO_COPY, only when paletteNum holds a copy of this palette's lit colours
+    u16 colors;                    // Bit n: colour n is window glass
 };
+
+#define NO_COPY 0xFF
+#define COLORS(first, last) (((1 << ((last) + 1)) - 1) & ~((1 << (first)) - 1))
 
 static const struct TintMultipliers sPhaseTints[DAY_NIGHT_PHASE_COUNT] =
 {
@@ -52,28 +54,20 @@ static const struct TintMultipliers sPhaseTints[DAY_NIGHT_PHASE_COUNT] =
     [DAY_NIGHT_PHASE_NIGHT]   = {104, 120, 168},
 };
 
-// The houses' window glass: colours 9-12 of palette 7 (see split_pallet_window_palette.py),
-// from the bright bottom row of the glass to its dark top row.
-static const u16 sPalletTownHouseWindowLight[] =
-{
-    RGB(31, 30, 20),
-    RGB(31, 27, 14),
-    RGB(30, 24, 10),
-    RGB(28, 20, 8),
-};
-
-// Oak's lab's window and door glass: colours 8-10 of palette 9, light to dark.
-static const u16 sPalletTownLabWindowLight[] =
-{
-    RGB(31, 29, 18),
-    RGB(31, 25, 12),
-    RGB(29, 21, 9),
-};
-
+// Window glass lit in the evening and at night. Most Kanto windows use colours 9-13 of kanto_general's
+// palette 3, which roofs and water share, so tools/kanto_port/split_window_palettes.py moved the window
+// tiles to a copy of that palette in each Kanto secondary tileset's slot 7. Glass in a town's own
+// palettes is listed where nothing but windows uses its colours.
 static const struct LitPalette sLitPalettes[] =
 {
-    {&gTileset_KantoPalletTown, 7, 9, ARRAY_COUNT(sPalletTownHouseWindowLight), sPalletTownHouseWindowLight},
-    {&gTileset_KantoPalletTown, 9, 8, ARRAY_COUNT(sPalletTownLabWindowLight), sPalletTownLabWindowLight},
+    {&gTileset_KantoGeneral,        7,  3,       COLORS(9, 13)},
+    {&gTileset_KantoPalletTown,     9,  NO_COPY, COLORS(8, 10)},                // Oak's lab
+    {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum
+    {&gTileset_KantoVermilionCity,  9,  NO_COPY, COLORS(8, 9) | COLORS(14, 15)},
+    {&gTileset_KantoSaffronCity,    9,  NO_COPY, COLORS(13, 14)},               // Silph Co.
+    {&gTileset_KantoSaffronCity,    12, NO_COPY, (1 << 13) | (1 << 15)},
+    {&gTileset_KantoCinnabarIsland, 8,  NO_COPY, 1 << 5},
+    {&gTileset_KantoIndigoPlateau,  10, NO_COPY, COLORS(12, 14)},               // Pokemon League
 };
 
 static EWRAM_DATA u16 sTintedPltt[PLTT_BUFFER_SIZE] = {0};
@@ -123,6 +117,48 @@ static bool8 ShouldLightWindows(void)
     return IsMapTinted() && (phase == DAY_NIGHT_PHASE_EVENING || phase == DAY_NIGHT_PHASE_NIGHT);
 }
 
+// Warm light for a glass colour: brighter glass gives paler light.
+static u16 LitGlassColor(u16 glass)
+{
+    u32 v = ((glass & 0x1F) + ((glass >> 5) & 0x1F) + ((glass >> 10) & 0x1F)) / 3;
+    u32 r = 24 + v / 4;
+
+    if (r > 31)
+        r = 31;
+    return RGB(r, 12 + v * 18 / 31, 2 + v * 16 / 31);
+}
+
+static const struct Tileset *GetPaletteOwner(const struct MapLayout *layout, u8 paletteNum)
+{
+    return paletteNum < NUM_PALS_IN_PRIMARY ? layout->primaryTileset : layout->secondaryTileset;
+}
+
+static bool8 LitPaletteApplies(const struct MapLayout *layout, const struct LitPalette *lp)
+{
+    const struct Tileset *owner;
+    const struct Tileset *source;
+    u32 j;
+
+    if (lp->tileset != layout->primaryTileset && lp->tileset != layout->secondaryTileset)
+        return FALSE;
+    owner = GetPaletteOwner(layout, lp->paletteNum);
+    // Tilesets whose isSecondary is neither TRUE nor FALSE have compressed palettes (see LoadTilesetPalette).
+    if (owner == NULL || (owner->isSecondary != FALSE && owner->isSecondary != TRUE))
+        return FALSE;
+    if (lp->copyOf == NO_COPY)
+        return TRUE;
+
+    source = GetPaletteOwner(layout, lp->copyOf);
+    if (source == NULL)
+        return FALSE;
+    for (j = 0; j < 16; j++)
+    {
+        if ((lp->colors & (1 << j)) && owner->palettes[lp->paletteNum][j] != source->palettes[lp->copyOf][j])
+            return FALSE;
+    }
+    return TRUE;
+}
+
 // Swaps the lit colours of the current map's tilesets in or out. On a palette load the colours
 // go straight into both buffers, like LoadPalette does; otherwise they go into
 // gPlttBufferUnfaded and reach gPlttBufferFaded through the weather (or a running fade).
@@ -141,23 +177,27 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
     for (i = 0; i < ARRAY_COUNT(sLitPalettes); i++)
     {
         const struct LitPalette *lp = &sLitPalettes[i];
+        const u16 *original;
 
-        if (lp->tileset != layout->primaryTileset && lp->tileset != layout->secondaryTileset)
+        if (!LitPaletteApplies(layout, lp))
             continue;
 
-        for (j = 0; j < lp->numColors; j++)
+        original = GetPaletteOwner(layout, lp->paletteNum)->palettes[lp->paletteNum];
+        for (j = 0; j < 16; j++)
         {
-            u16 index = BG_PLTT_ID(lp->paletteNum) + lp->firstColor + j;
+            u16 index = BG_PLTT_ID(lp->paletteNum) + j;
             u16 color;
 
+            if (!(lp->colors & (1 << j)))
+                continue;
             if (lit)
             {
-                color = lp->colors[j];
-                sUntintedColors[lp->paletteNum] |= 1 << (lp->firstColor + j);
+                color = LitGlassColor(original[j]);
+                sUntintedColors[lp->paletteNum] |= 1 << j;
             }
             else
             {
-                color = lp->tileset->palettes[lp->paletteNum][lp->firstColor + j];
+                color = original[j];
             }
             gPlttBufferUnfaded[index] = color;
             if (onLoad)
@@ -172,10 +212,11 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
             }
             else
             {
-                for (j = 0; j < lp->numColors; j++)
+                for (j = 0; j < 16; j++)
                 {
-                    u16 index = BG_PLTT_ID(lp->paletteNum) + lp->firstColor + j;
-                    gPlttBufferFaded[index] = gPlttBufferUnfaded[index];
+                    u16 index = BG_PLTT_ID(lp->paletteNum) + j;
+                    if (lp->colors & (1 << j))
+                        gPlttBufferFaded[index] = gPlttBufferUnfaded[index];
                 }
             }
         }

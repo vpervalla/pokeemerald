@@ -7,6 +7,12 @@ extern const u16 gTilesetPalettes_General[][16];
 extern const struct Tileset *const gTilesetPointer_SecretBase;
 extern const struct Tileset *const gTilesetPointer_SecretBaseRedCave;
 
+extern const struct Tileset gTileset_KantoGeneral;
 extern const struct Tileset gTileset_KantoPalletTown;
+extern const struct Tileset gTileset_KantoPewterCity;
+extern const struct Tileset gTileset_KantoVermilionCity;
+extern const struct Tileset gTileset_KantoSaffronCity;
+extern const struct Tileset gTileset_KantoCinnabarIsland;
+extern const struct Tileset gTileset_KantoIndigoPlateau;
 
 #endif //GUARD_tilesets_H
