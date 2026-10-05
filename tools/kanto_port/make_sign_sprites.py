@@ -5,13 +5,17 @@ which src/day_night.c lays over the emblems at night so they glow. Run from the 
 Only the ball's red (Pokemon Center) or blue (Mart) pixels go in the sprite, so the grey plate and
 the ball's white band stay part of the tinted building. They are taken from inside the emblem plate,
 row by row between the leftmost and rightmost pixel of its outline (palette colour 6; rows without
-outline pixels reuse the previous row's span), since the roof shares the ball's colours."""
+outline pixels reuse the previous row's span), since the roof shares the ball's colours.
+The sprites only show while the lights are on, so their palettes hold brightened ball colours."""
 import struct
 from PIL import Image
 
 P = "data/tilesets/primary/kanto_general/"
 OUTLINE = 6
 BALL_COLORS = {11, 12, 13, 14}
+
+def brighten(c):
+    return tuple(min(255, round(v * 1.25 + 24)) for v in c)
 # name: (palette, metatiles in 2 rows, pixel x of the sprite's left edge within those rows)
 SIGNS = {
     "pokemon_center": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8),
@@ -64,6 +68,7 @@ for name, (pal, rows, left) in SIGNS.items():
                 out.putpixel((x - left, y), c)
     colors = jasc(f"{P}palettes/{pal:02d}.pal")
     colors[0] = (255, 0, 255)  # transparent
+    colors = [brighten(c) if i in BALL_COLORS else c for i, c in enumerate(colors)]
     out.putpalette([v for c in colors for v in c])
     out.save(f"graphics/day_night/{name}_sign.png")
     print("wrote", name)
