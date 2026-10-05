@@ -1,6 +1,8 @@
 #include "global.h"
 #include "day_night.h"
 #include "event_data.h"
+#include "event_object_movement.h"
+#include "field_camera.h"
 #include "field_weather.h"
 #include "fieldmap.h"
 #include "main.h"
@@ -10,6 +12,7 @@
 #include "sprite.h"
 #include "tilesets.h"
 #include "constants/field_weather.h"
+#include "decompress.h"
 #include "constants/battle.h"
 #include "constants/rgb.h"
 #include "constants/trainers.h"
@@ -225,12 +228,173 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
     }
 }
 
+// The Poke Ball emblems on Pokemon Centers and Marts glow while the windows are lit. Their colours are
+// shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
+// of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
+#define TAG_SIGN_POKEMON_CENTER 0x2E00
+#define TAG_SIGN_MART           0x2E01
+#define MAX_SIGN_SPRITES        4
+#define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
+#define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
+#define METATILE_KANTO_MART_EMBLEM_LEFT      0x039
+
+static const u32 sPokemonCenterSign_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_sign.png", ".4bpp");
+static const u16 sPokemonCenterSign_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
+static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png", ".4bpp");
+static const u16 sMartSign_Pal[] = INCGFX_U16("graphics/day_night/mart_sign.png", ".gbapal");
+
+static const struct OamData sOam_Sign =
+{
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 2, // The emblem metatiles draw below objects, like the bottom/middle BG layers
+};
+
+static void SpriteCB_Sign(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_PokemonCenterSign =
+{
+    .tileTag = TAG_SIGN_POKEMON_CENTER,
+    .paletteTag = TAG_SIGN_POKEMON_CENTER,
+    .oam = &sOam_Sign,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_MartSign =
+{
+    .tileTag = TAG_SIGN_MART,
+    .paletteTag = TAG_SIGN_MART,
+    .oam = &sOam_Sign,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
+struct GlowingSign
+{
+    u16 metatileId;
+    s16 x, y; // Sprite's top-left corner, in pixels from the metatile's top-left corner
+    const struct SpriteTemplate *template;
+    struct SpriteSheet sheet;
+    struct SpritePalette palette;
+};
+
+static const struct GlowingSign sGlowingSigns[] =
+{
+    {METATILE_KANTO_POKEMON_CENTER_EMBLEM, -8, -16, &sSpriteTemplate_PokemonCenterSign,
+     {sPokemonCenterSign_Gfx, 32 * 32 / 2, TAG_SIGN_POKEMON_CENTER}, {sPokemonCenterSign_Pal, TAG_SIGN_POKEMON_CENTER}},
+    {METATILE_KANTO_MART_EMBLEM_LEFT, 0, -16, &sSpriteTemplate_MartSign,
+     {sMartSign_Gfx, 32 * 32 / 2, TAG_SIGN_MART}, {sMartSign_Pal, TAG_SIGN_MART}},
+};
+
+static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
+static EWRAM_DATA u8 sNumSignSprites = 0;
+static EWRAM_DATA bool8 sSignsShown = FALSE;
+static EWRAM_DATA bool8 sSignsDirty = FALSE;
+
+// Hides the sprite while it's off screen, so its coordinates can't wrap around into view.
+static void SpriteCB_Sign(struct Sprite *sprite)
+{
+    s16 x = sprite->x + sprite->x2 + gSpriteCoordOffsetX;
+    s16 y = sprite->y + sprite->y2 + gSpriteCoordOffsetY;
+
+    sprite->invisible = (x < -32 || x > DISPLAY_WIDTH + 32 || y < -32 || y > DISPLAY_HEIGHT + 32);
+}
+
+static void DestroySignSprites(void)
+{
+    u32 i;
+
+    for (i = 0; i < sNumSignSprites; i++)
+    {
+        struct Sprite *sprite = &gSprites[sSignSpriteIds[i]];
+
+        // A warp resets every sprite, after which the ids may belong to other sprites.
+        if (sprite->inUse && sprite->callback == SpriteCB_Sign && sprite->data[7] == SIGN_MAGIC)
+            DestroySprite(sprite);
+    }
+    sNumSignSprites = 0;
+    for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
+    {
+        FreeSpriteTilesByTag(sGlowingSigns[i].sheet.tag);
+        FreeSpritePaletteByTag(sGlowingSigns[i].palette.tag);
+    }
+}
+
+static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
+{
+    s16 x, y;
+    u8 spriteId;
+
+    if (GetSpriteTileStartByTag(sign->sheet.tag) == 0xFFFF)
+        LoadSpriteSheet(&sign->sheet);
+    if (IndexOfSpritePaletteTag(sign->palette.tag) == 0xFF)
+    {
+        u8 paletteNum = LoadSpritePalette(&sign->palette);
+
+        if (paletteNum == 0xFF)
+            return;
+        UpdateSpritePaletteWithWeather(paletteNum);
+    }
+
+    SetSpritePosToMapCoords(mapX + MAP_OFFSET, mapY + MAP_OFFSET, &x, &y);
+    spriteId = CreateSprite(sign->template, x + sign->x + 16, y + sign->y + 16, 0xFF);
+    if (spriteId == MAX_SPRITES)
+        return;
+    gSprites[spriteId].coordOffsetEnabled = TRUE;
+    gSprites[spriteId].data[7] = SIGN_MAGIC;
+    SpriteCB_Sign(&gSprites[spriteId]);
+    sSignSpriteIds[sNumSignSprites++] = spriteId;
+}
+
+static void CreateSignSprites(void)
+{
+    const struct MapLayout *layout = gMapHeader.mapLayout;
+    s32 x, y;
+    u32 i;
+
+    // The metatile ids are kanto_general's.
+    if (layout == NULL || layout->primaryTileset != &gTileset_KantoGeneral)
+        return;
+
+    for (y = 0; y < layout->height; y++)
+    {
+        for (x = 0; x < layout->width; x++)
+        {
+            u16 metatileId = layout->map[x + y * layout->width] & MAPGRID_METATILE_ID_MASK;
+
+            for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
+            {
+                if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES)
+                    CreateSignSprite(&sGlowingSigns[i], x, y);
+            }
+        }
+    }
+}
+
+static void UpdateSigns(bool8 lit)
+{
+    if (sSignsDirty || lit != sSignsShown)
+    {
+        DestroySignSprites();
+        if (lit)
+            CreateSignSprites();
+        sSignsShown = lit;
+        sSignsDirty = FALSE;
+    }
+}
+
 // Called after the map's tileset palettes are (re)loaded.
 void DayNight_OnTilesetPalettesLoaded(void)
 {
     sClockPhase = ReadClockPhase();
     sClockTimer = 0;
     SetWindowsLit(ShouldLightWindows(), TRUE);
+    sSignsDirty = TRUE;
 }
 
 static u16 TintColor(u16 color)
@@ -352,10 +516,21 @@ void DayNight_UpdateField(void)
 {
     bool8 reentered = StartTintUpdate();
     bool8 lit = ShouldLightWindows();
+    u32 tintedPals = FIELD_TINTED_PALS;
+    u32 i;
 
     if (lit != sWindowsLit)
         SetWindowsLit(lit, FALSE);
-    UpdateTint(reentered, FIELD_TINTED_PALS, TRUE);
+    UpdateSigns(lit);
+
+    for (i = 0; i < 16; i++)
+    {
+        u16 tag = GetSpritePaletteTagByPaletteNum(i);
+
+        if (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART)
+            tintedPals &= ~OBJ_PAL_BIT(i);
+    }
+    UpdateTint(reentered, tintedPals, TRUE);
 }
 
 // Runs once per battle frame. The battle takes the tint of the map it was started on.
