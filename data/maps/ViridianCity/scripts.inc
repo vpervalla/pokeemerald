@@ -26,7 +26,9 @@ ViridianCity_EventScript_CitySign::
 ViridianCity_EventScript_DoTutorialBattle::
 	msgbox ViridianCity_Text_ShowYouHowToCatchMons
 	closemessage
-	waitstate
+	@ FRLG's old man catching demo battle isn't ported, and nothing would end a
+	@ waitstate here (the game soft-locked), so the demo is skipped
+	nop
 	lock
 	faceplayer
 	msgbox ViridianCity_Text_ThatWasEducationalTakeThis
