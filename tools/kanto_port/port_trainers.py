@@ -33,12 +33,23 @@ CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "MULTICHOICE_RIGHT_LEFT": 
                  "MULTICHOICE_YES_NO_INFO": "MULTI_YESNOINFO", "SCR_MENU_CANCEL": "MULTI_B_PRESSED",
                  "STDSTRING_ITEMS_POCKET": "STDSTRING_ITEMS", "STDSTRING_KEY_ITEMS_POCKET": "STDSTRING_KEYITEMS",
                  "STDSTRING_POKEBALLS_POCKET": "STDSTRING_POKEBALLS", "STDSTRING_TM_CASE": "STDSTRING_TMHMS",
-                 "STDSTRING_BERRY_POUCH": "STDSTRING_BERRIES"}
+                 "STDSTRING_BERRY_POUCH": "STDSTRING_BERRIES",
+                 # FRLG's elevator and Seagallop menus, see MULTI_KANTO_* in include/constants/script_menu.h
+                 **{f"MULTICHOICE_{m}": f"MULTI_KANTO_{m}" for m in (
+                     "DEPT_STORE_ELEVATOR", "ROCKET_HIDEOUT_ELEVATOR", "ROOFTOP_B1F", "ISLAND_23", "ISLAND_13",
+                     "ISLAND_12", "SEAGALLOP_123", "SEAGALLOP_V23", "SEAGALLOP_V13", "SEAGALLOP_V12",
+                     "SEAGALLOP_VERMILION", "SEVII_NAVEL", "SEVII_BIRTH", "SEVII_NAVEL_BIRTH")},
+                 "LISTMENU_SILPHCO_FLOORS": "SCROLL_MULTI_KANTO_SILPH_CO_FLOORS",
+                 "LISTMENU_BADGES": "SCROLL_MULTI_NONE", "LISTMENU_BERRY_POWDER": "SCROLL_MULTI_NONE"}
 # FRLG movements Emerald lacks -> the closest Emerald movement
 MOVEMENT_RENAMES = [(r"walk_slowe(r|st)_(\w+)", r"walk_slow_\2"), (r"face_(\w+)_fast", r"face_\1"),
                     (r"glide_(\w+)", r"walk_fast_\1"), (r"player_run_(\w+)_slow", r"player_run_\1"),
                     (r"spin_(\w+)", r"face_\1"), (r"emote_double_exclamation_mark", "emote_exclamation_mark")]
-SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBattle": "BattleSetup_StartLegendaryBattle"}
+SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBattle": "BattleSetup_StartLegendaryBattle",
+                   # FRLG's elevators work like Emerald's
+                   "DrawElevatorCurrentFloorWindow": "ShowDeptStoreElevatorFloorSelect",
+                   "CloseElevatorCurrentFloorWindow": "CloseDeptStoreElevatorWindow",
+                   "AnimateElevator": "MoveElevator", "ListMenu": "ShowScrollableMultichoice"}
 # Vars FRLG scripts set that mean nothing in Emerald: lines using them are left out
 IGNORED_VARS = {"VAR_TEXT_COLOR"}
 

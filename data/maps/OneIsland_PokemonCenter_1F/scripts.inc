@@ -242,6 +242,8 @@ OneIsland_PokemonCenter_1F_EventScript_LeaveOneIslandScene::
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3
 	clearflag FLAG_HIDE_CINNABAR_BILL
 	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 3
+	setvar VAR_0x8004, SEAGALLOP_ONE_ISLAND
+	setvar VAR_0x8006, SEAGALLOP_CINNABAR_ISLAND
 	goto Kanto_EventScript_SetSail
 	end
 

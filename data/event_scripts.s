@@ -46,6 +46,7 @@
 #include "constants/pokemon_size_record.h"
 #include "constants/roulette.h"
 #include "constants/script_menu.h"
+#include "constants/seagallop.h"
 #include "constants/secret_bases.h"
 #include "constants/songs.h"
 #include "constants/sound.h"

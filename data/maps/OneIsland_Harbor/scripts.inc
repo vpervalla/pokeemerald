@@ -20,6 +20,7 @@ OneIsland_Harbor_EventScript_Sailor::
 	faceplayer
 	message Kanto_Text_WhereDoYouWantToSail
 	waitmessage
+	setvar VAR_0x8004, SEAGALLOP_ONE_ISLAND
 	goto Kanto_EventScript_ChooseDestFromOneIsland
 	end
 

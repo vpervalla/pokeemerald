@@ -13,6 +13,7 @@ RocketHideout_Elevator_EventScript_ChooseFloor::
 	end
 
 RocketHideout_Elevator_EventScript_ExitFloorSelect::
+	special CloseDeptStoreElevatorWindow
 	releaseall
 	end
 
@@ -22,29 +23,37 @@ RocketHideout_Elevator_EventScript_FloorSelect::
 	setvar VAR_0x8004, 2
 	call_if_unset FLAG_TEMP_2, Kanto_EventScript_GetElevatorFloor
 	copyvar VAR_0x8005, VAR_ELEVATOR_FLOOR
+	special ShowDeptStoreElevatorFloorSelect
 	message Kanto_Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 2
+	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
+	switch VAR_RESULT
 	case 0, RocketHideout_Elevator_EventScript_FloorSelectFromB1F
 	case 1, RocketHideout_Elevator_EventScript_FloorSelectFromB2F
 	case 2, RocketHideout_Elevator_EventScript_FloorSelectFromB4F
 	end
 
 RocketHideout_Elevator_EventScript_FloorSelectFromB1F::
+	multichoicedefault 0, 0, MULTI_KANTO_ROCKET_HIDEOUT_ELEVATOR, 0, FALSE
 	goto RocketHideout_Elevator_EventScript_ChooseFloor
 	end
 
 RocketHideout_Elevator_EventScript_FloorSelectFromB2F::
+	multichoicedefault 0, 0, MULTI_KANTO_ROCKET_HIDEOUT_ELEVATOR, 1, FALSE
 	goto RocketHideout_Elevator_EventScript_ChooseFloor
 	end
 
 RocketHideout_Elevator_EventScript_FloorSelectFromB4F::
+	multichoicedefault 0, 0, MULTI_KANTO_ROCKET_HIDEOUT_ELEVATOR, 2, FALSE
 	goto RocketHideout_Elevator_EventScript_ChooseFloor
 	end
 
 RocketHideout_Elevator_EventScript_MoveElevator::
+	special CloseDeptStoreElevatorWindow
 	closemessage
 	waitse
+	special MoveElevator
 	waitstate
 	setflag FLAG_TEMP_2
 	return

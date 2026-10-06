@@ -15,6 +15,7 @@ CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor::
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_ExitFloorSelect::
+	special CloseDeptStoreElevatorWindow
 	releaseall
 	end
 
@@ -23,9 +24,12 @@ CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelect::
 	setvar VAR_0x8004, 3
 	call_if_unset FLAG_TEMP_2, Kanto_EventScript_GetElevatorFloor
 	copyvar VAR_0x8005, VAR_ELEVATOR_FLOOR
+	special ShowDeptStoreElevatorFloorSelect
 	message Kanto_Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 3
+	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
+	switch VAR_RESULT
 	case 0, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom5F
 	case 1, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom4F
 	case 2, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom3F
@@ -34,28 +38,35 @@ CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelect::
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom1F::
+	multichoicedefault 0, 0, MULTI_KANTO_DEPT_STORE_ELEVATOR, 4, FALSE
 	goto CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom2F::
+	multichoicedefault 0, 0, MULTI_KANTO_DEPT_STORE_ELEVATOR, 3, FALSE
 	goto CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom3F::
+	multichoicedefault 0, 0, MULTI_KANTO_DEPT_STORE_ELEVATOR, 2, FALSE
 	goto CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom4F::
+	multichoicedefault 0, 0, MULTI_KANTO_DEPT_STORE_ELEVATOR, 1, FALSE
 	goto CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom5F::
+	multichoicedefault 0, 0, MULTI_KANTO_DEPT_STORE_ELEVATOR, 0, FALSE
 	goto CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_MoveElevator::
+	special CloseDeptStoreElevatorWindow
 	closemessage
 	waitse
+	special MoveElevator
 	waitstate
 	setflag FLAG_TEMP_2
 	return

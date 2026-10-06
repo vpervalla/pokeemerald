@@ -20,6 +20,7 @@ VermilionCity_EventScript_CheckHasMysticTicket::
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresent::
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
@@ -27,6 +28,7 @@ VermilionCity_EventScript_CheckSeagallopPresent::
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresentTrigger::
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
@@ -61,6 +63,7 @@ VermilionCity_EventScript_ChooseSeagallopDestRainbowPass::
 	goto_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_HasMysticTicket
 	call VermilionCity_EventScript_CheckHasAuroraTicket
 	goto_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_HasAuroraTicket
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	message VermilionCity_Text_BoardSeagallopRainbowPass
 	waitmessage
 	goto Kanto_EventScript_SeviiDestinationsPage1
@@ -69,6 +72,9 @@ VermilionCity_EventScript_ChooseSeagallopDestRainbowPass::
 VermilionCity_EventScript_ChooseSeagallopDestTriPass::
 	message VermilionCity_Text_BoardSeagallopTriPass
 	waitmessage
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
+	multichoice 19, 5, MULTI_KANTO_SEAGALLOP_123, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_SailToOneIsland2
 	case 1, Kanto_EventScript_SailToTwoIsland2
 	case 2, Kanto_EventScript_SailToThreeIsland2
@@ -122,6 +128,8 @@ VermilionCity_EventScript_HasAuroraTicket::
 	call_if_unset FLAG_SHOWN_AURORA_TICKET, VermilionCity_EventScript_ShowAuroraTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
+	multichoice 13, 6, MULTI_KANTO_SEVII_BIRTH, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_SeviiDestinationsPage1
 	case 1, Kanto_EventScript_SailToBirthIsland
 	case 2, Kanto_EventScript_CancelSail
@@ -133,6 +141,8 @@ VermilionCity_EventScript_HasMysticAndAuroraTickets::
 	call_if_unset FLAG_SHOWN_AURORA_TICKET, VermilionCity_EventScript_ShowAuroraTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
+	multichoice 13, 5, MULTI_KANTO_SEVII_NAVEL_BIRTH, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_SeviiDestinationsPage1
 	case 1, Kanto_EventScript_SailToNavelRock
 	case 2, Kanto_EventScript_SailToBirthIsland
@@ -146,6 +156,8 @@ VermilionCity_EventScript_HasMysticTicket::
 	call_if_unset FLAG_SHOWN_MYSTIC_TICKET, VermilionCity_EventScript_ShowMysticTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
+	multichoice 17, 6, MULTI_KANTO_SEVII_NAVEL, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_SeviiDestinationsPage1
 	case 1, Kanto_EventScript_SailToNavelRock
 	case 2, Kanto_EventScript_CancelSail
@@ -351,6 +363,11 @@ VermilionCity_Text_Seagallop12Departing:
     .string "Okay, everything's in order for you\n"
     .string "to board a special ferry.\p"
     .string "SEAGALLOP HI-SPEED 12 will be\n"
+    .string "departing immediately.$"
+
+VermilionCity_Text_Seagallop7Departing:
+    .string "Okay, everything's in order.\p"
+    .string "SEAGALLOP HI-SPEED 7 will be\n"
     .string "departing immediately.$"
 
 VermilionCity_Text_SnorlaxBlockingRoute12:

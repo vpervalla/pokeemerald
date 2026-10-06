@@ -8,6 +8,7 @@ FourIsland_Harbor_EventScript_Sailor::
 	faceplayer
 	message Kanto_Text_WhereDoYouWantToSail
 	waitmessage
+	setvar VAR_0x8004, SEAGALLOP_FOUR_ISLAND
 	goto Kanto_EventScript_ChooseDestFromIsland
 	end
 

@@ -14,6 +14,7 @@ TrainerTower_Elevator_EventScript_ChooseFloor::
 	end
 
 TrainerTower_Elevator_EventScript_CloseFloorSelect::
+	special CloseDeptStoreElevatorWindow
 	releaseall
 	end
 
@@ -22,24 +23,31 @@ TrainerTower_Elevator_EventScript_FloorSelect::
 	setvar VAR_0x8004, 6
 	call_if_unset FLAG_TEMP_2, Kanto_EventScript_GetElevatorFloor
 	copyvar VAR_0x8005, VAR_ELEVATOR_FLOOR
+	special ShowDeptStoreElevatorFloorSelect
 	message Kanto_Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 6
+	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
+	switch VAR_RESULT
 	case 0, TrainerTower_Elevator_EventScript_FloorSelectFromRoof
 	case 1, TrainerTower_Elevator_EventScript_FloorSelectFromLobby
 	end
 
 TrainerTower_Elevator_EventScript_FloorSelectFromLobby::
+	multichoicedefault 0, 0, MULTI_KANTO_ROOFTOP_B1F, 1, FALSE
 	goto TrainerTower_Elevator_EventScript_ChooseFloor
 	end
 
 TrainerTower_Elevator_EventScript_FloorSelectFromRoof::
+	multichoicedefault 0, 0, MULTI_KANTO_ROOFTOP_B1F, 0, FALSE
 	goto TrainerTower_Elevator_EventScript_ChooseFloor
 	end
 
 TrainerTower_Elevator_EventScript_MoveElevator::
+	special CloseDeptStoreElevatorWindow
 	closemessage
 	waitse
+	special MoveElevator
 	waitstate
 	setflag FLAG_TEMP_2
 	return
@@ -50,6 +58,7 @@ TrainerTower_Elevator_EventScript_SelectLobby::
 	goto_if_eq VAR_ELEVATOR_FLOOR, 3, TrainerTower_Elevator_EventScript_CloseFloorSelect
 	call TrainerTower_Elevator_EventScript_MoveElevator
 	setvar VAR_ELEVATOR_FLOOR, 3
+	special CloseDeptStoreElevatorWindow
 	delay 25
 	applymovement LOCALID_PLAYER, TrainerTower_Elevator_Movement_ExitElevator
 	waitmovement 0

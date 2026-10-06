@@ -543,3 +543,11 @@ gSpecials::
 	def_special CreateDoubleExchangeTradePokemon
 	def_special CreateDoubleExchangeReturnPokemon
 	def_special RestoreDoubleExchangeFriendship
+	@ From FRLG, used by the Kanto maps
+	def_special GetElevatorFloor
+	def_special InitElevatorFloorSelectMenuPos
+	def_special DrawSeagallopDestinationMenu
+	def_special GetSelectedSeagallopDestination
+	def_special DoSeagallopFerryScene
+	def_special GetSeagallopNumber
+	def_special IsPlayerLeftOfVermilionSailor
