@@ -4,6 +4,7 @@
 // The player can be Brendan, May, Red or Leaf, and names Oak's grandson, their rival.
 #include "global.h"
 #include "bg.h"
+#include "data.h"
 #include "decompress.h"
 #include "gpu_regs.h"
 #include "main.h"
@@ -653,10 +654,16 @@ static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8 taskId)
 {
     u8 spriteId;
 
-    if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
+    spriteId = gTasks[taskId].tNidoranFSpriteId;
+    // Wait for Nidoran's front animation to finish so it doesn't fight the return anim
+    if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX) && gSprites[spriteId].callback == SpriteCallbackDummy)
     {
         ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
-        spriteId = gTasks[taskId].tNidoranFSpriteId;
+        // Emerald's release plays the front animation, which leaves the sprite with the
+        // animation's own affine anims, paused. Restore the battle sprite affine anims
+        // so the shrink back into the Poke Ball plays.
+        gSprites[spriteId].affineAnims = gAffineAnims_BattleSpriteOpponentSide;
+        gSprites[spriteId].affineAnimPaused = FALSE;
         gTasks[taskId].tPokeBallSpriteId = CreateTradePokeballSprite(spriteId, gSprites[spriteId].oam.paletteNum, 100, 66, 0, 0, 32, 0xFFFF1F3F);
         gTasks[taskId].tTimer = 48;
         gTasks[taskId].tSpriteTimer = 64;

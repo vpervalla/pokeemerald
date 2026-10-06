@@ -836,7 +836,7 @@ const struct Tileset gTileset_KantoGeneral =
     .palettes = gTilesetPalettes_KantoGeneral,
     .metatiles = gMetatiles_KantoGeneral,
     .metatileAttributes = gMetatileAttributes_KantoGeneral,
-    .callback = NULL, // TODO: port InitTilesetAnim_General from pokefirered
+    .callback = InitTilesetAnim_KantoGeneral,
 };
 
 const struct Tileset gTileset_KantoPalletTown =
@@ -913,7 +913,7 @@ const struct Tileset gTileset_KantoCeladonCity =
     .palettes = gTilesetPalettes_KantoCeladonCity,
     .metatiles = gMetatiles_KantoCeladonCity,
     .metatileAttributes = gMetatileAttributes_KantoCeladonCity,
-    .callback = NULL, // TODO: port InitTilesetAnim_CeladonCity from pokefirered
+    .callback = InitTilesetAnim_KantoCeladonCity,
 };
 
 const struct Tileset gTileset_KantoFuchsiaCity =
@@ -1144,7 +1144,7 @@ const struct Tileset gTileset_KantoVermilionGym =
     .palettes = gTilesetPalettes_KantoVermilionGym,
     .metatiles = gMetatiles_KantoVermilionGym,
     .metatileAttributes = gMetatileAttributes_KantoVermilionGym,
-    .callback = NULL, // TODO: port InitTilesetAnim_VermilionGym from pokefirered
+    .callback = InitTilesetAnim_KantoVermilionGym,
 };
 
 const struct Tileset gTileset_KantoCeladonGym =
@@ -1155,7 +1155,7 @@ const struct Tileset gTileset_KantoCeladonGym =
     .palettes = gTilesetPalettes_KantoCeladonGym,
     .metatiles = gMetatiles_KantoCeladonGym,
     .metatileAttributes = gMetatileAttributes_KantoCeladonGym,
-    .callback = NULL, // TODO: port InitTilesetAnim_CeladonGym from pokefirered
+    .callback = InitTilesetAnim_KantoCeladonGym,
 };
 
 const struct Tileset gTileset_KantoSaffronGym =
@@ -1331,7 +1331,7 @@ const struct Tileset gTileset_KantoSilphCo =
     .palettes = gTilesetPalettes_KantoCondominiums,
     .metatiles = gMetatiles_KantoSilphCo,
     .metatileAttributes = gMetatileAttributes_KantoSilphCo,
-    .callback = NULL, // TODO: port InitTilesetAnim_SilphCo from pokefirered
+    .callback = InitTilesetAnim_KantoSilphCo,
 };
 
 const struct Tileset gTileset_KantoUndergroundPath =
@@ -1463,7 +1463,7 @@ const struct Tileset gTileset_KantoMtEmber =
     .palettes = gTilesetPalettes_KantoMtEmber,
     .metatiles = gMetatiles_KantoMtEmber,
     .metatileAttributes = gMetatileAttributes_KantoMtEmber,
-    .callback = NULL, // TODO: port InitTilesetAnim_MtEmber from pokefirered
+    .callback = InitTilesetAnim_KantoMtEmber,
 };
 
 const struct Tileset gTileset_KantoBerryForest =
