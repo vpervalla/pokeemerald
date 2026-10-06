@@ -28,6 +28,7 @@ tools/compresSmol/
 *.bat
 *.dump
 *.sa*
+!saves/*.sav
 Thumbs.db
 build/
 .DS_Store
