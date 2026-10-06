@@ -51,7 +51,7 @@ FuchsiaCity_Gym_EventScript_GiveTM06::
 	msgbox FuchsiaCity_Gym_Text_KogaExplainSoulBadge
 	checkitemspace ITEM_TM06
 	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_Gym_EventScript_NoRoomForTM06
-	giveitem ITEM_TM06
+	kanto_giveitem_msg FuchsiaCity_Gym_Text_ReceivedTM06FromKoga, ITEM_TM06
 	setflag FLAG_GOT_TM06_FROM_KOGA
 	msgbox FuchsiaCity_Gym_Text_KogaExplainTM06
 	release
@@ -223,6 +223,10 @@ FuchsiaCity_Gym_Text_PhilPostBattle:
     .string "Here's a hint!\p"
     .string "Look very closely for gaps in the\n"
     .string "invisible walls!$"
+
+FuchsiaCity_Gym_Text_ReceivedTM06FromKoga:
+    .string "{PLAYER} received TM06\n"
+    .string "from KOGA.$"
 
 FuchsiaCity_Gym_Text_ShawnDefeat:
     .string "You're more skilled than I'd\n"

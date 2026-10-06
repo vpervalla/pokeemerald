@@ -1478,6 +1478,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/scripts/trainer_hill.inc"
 	.include "data/scripts/test_signpost.inc"
 	.include "data/scripts/kanto_npcs.inc"
+	.include "data/scripts/kanto_received_item.inc"
 	.include "data/text/frontier_brain.inc"
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"

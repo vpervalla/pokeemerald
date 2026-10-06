@@ -54,7 +54,7 @@ Route24_EventScript_AliRematch::
 	end
 
 Route24_EventScript_BattleRocket::
-	giveitem ITEM_NUGGET
+	kanto_giveitem_msg Route24_Text_ReceivedNuggetFromMysteryTrainer, ITEM_NUGGET
 	message Route24_Text_JoinTeamRocket
 	waitmessage
 	playbgm MUS_RG_ENCOUNTER_ROCKET, 0
@@ -219,6 +219,10 @@ Route24_Text_JustEarnedFabulousPrize:
     .string "Congratulations! You beat our\n"
     .string "five contest TRAINERS!\p"
     .string "You just earned a fabulous prize!$"
+
+Route24_Text_ReceivedNuggetFromMysteryTrainer:
+    .string "{PLAYER} received a NUGGET\n"
+    .string "from the mystery TRAINER!$"
 
 Route24_Text_ReliDefeat:
     .string "I lost, too!$"

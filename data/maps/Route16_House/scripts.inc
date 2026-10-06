@@ -30,7 +30,7 @@ Route16_House_EventScript_Woman::
 	msgbox Route16_House_Text_FoundMySecretRetreat
 	checkitemspace ITEM_HM02
 	goto_if_eq VAR_RESULT, FALSE, Route16_House_EventScript_NoRoomForHM02
-	giveitem ITEM_HM02
+	kanto_giveitem_msg Route16_House_Text_ReceivedHM02FromGirl, ITEM_HM02
 	msgbox Route16_House_Text_ExplainHM02
 	setflag FLAG_GOT_HM02
 	release
@@ -52,5 +52,9 @@ Route16_House_Text_FoundMySecretRetreat:
     .string "You've found my secret retreat.\p"
     .string "Please don't tell anyone I'm here.\n"
     .string "I'll make it up to you with this!$"
+
+Route16_House_Text_ReceivedHM02FromGirl:
+    .string "{PLAYER} received HM02\n"
+    .string "from the girl.$"
 
 @ END KANTO NPCS

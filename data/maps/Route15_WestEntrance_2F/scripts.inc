@@ -18,7 +18,7 @@ Route15_WestEntrance_2F_EventScript_Aide::
 	msgbox Route15_WestEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_EXP_SHARE
 	goto_if_eq VAR_RESULT, FALSE, Kanto_Aide_EventScript_NoRoomForItem
-	giveitem ITEM_EXP_SHARE
+	kanto_giveitem_msg Route15_WestEntrance_2F_Text_ReceivedItemFromAide, ITEM_EXP_SHARE
 	setflag FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE
 	msgbox Route15_WestEntrance_2F_Text_ExplainExpShare
 	release
@@ -79,6 +79,10 @@ Route15_WestEntrance_2F_Text_LargeShiningBird:
     .string "to show…\p"
     .string "A large, shining bird is flying\n"
     .string "toward the sea.$"
+
+Route15_WestEntrance_2F_Text_ReceivedItemFromAide:
+    .string "{PLAYER} received the {STR_VAR_2}\n"
+    .string "from the AIDE.$"
 
 Route15_WestEntrance_2F_Text_SmallIslandOnHorizon:
     .string "Let's see what the binoculars have\n"

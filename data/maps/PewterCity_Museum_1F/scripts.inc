@@ -103,7 +103,7 @@ PewterCity_Museum_1F_EventScript_OldAmberScientist::
 	goto_if_eq VAR_RESULT, FALSE, PewterCity_Museum_1F_EventScript_NoRoomForOldAmber
 	setflag FLAG_GOT_OLD_AMBER
 	removeobject LOCALID_OLD_AMBER
-	giveitem ITEM_OLD_AMBER, 1
+	kanto_giveitem_msg PewterCity_Museum_1F_Text_ReceivedOldAmberFromMan, ITEM_OLD_AMBER, 1, MUS_RG_OBTAIN_KEY_ITEM
 	release
 	end
 
@@ -258,6 +258,10 @@ PewterCity_Museum_1F_Text_KabutopsFossil:
 
 PewterCity_Museum_1F_Text_PleaseEnjoyYourself:
     .string "Please enjoy yourself.$"
+
+PewterCity_Museum_1F_Text_ReceivedOldAmberFromMan:
+    .string "{PLAYER} received the OLD AMBER\n"
+    .string "from the man.$"
 
 PewterCity_Museum_1F_Text_Right50YThankYou:
     .string "Right, ¥50!\n"

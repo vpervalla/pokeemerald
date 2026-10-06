@@ -18,7 +18,7 @@ Route2_EastBuilding_EventScript_Aide::
 	msgbox Route2_EastBuilding_Text_GreatHereYouGo
 	checkitemspace ITEM_HM05
 	goto_if_eq VAR_RESULT, FALSE, Kanto_Aide_EventScript_NoRoomForItem
-	giveitem ITEM_HM05
+	kanto_giveitem_msg Route2_EastBuilding_Text_ReceivedHM05FromAide, ITEM_HM05
 	setflag FLAG_GOT_HM05
 	msgbox Route2_EastBuilding_Text_ExplainHM05
 	release
@@ -65,5 +65,9 @@ Route2_EastBuilding_Text_GreatHereYouGo:
     .string "{STR_VAR_3} kinds of POKéMON!\p"
     .string "Congratulations!\n"
     .string "Here you go!$"
+
+Route2_EastBuilding_Text_ReceivedHM05FromAide:
+    .string "{PLAYER} received HM05\n"
+    .string "from the AIDE.$"
 
 @ END KANTO NPCS

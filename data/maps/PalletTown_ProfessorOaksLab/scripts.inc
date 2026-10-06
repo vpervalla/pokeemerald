@@ -294,7 +294,7 @@ PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle::
 
 PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakAddedNothingToPokedex
-	giveitem ITEM_POKE_BALL, 5
+	kanto_giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
 	setflag FLAG_GOT_POKEBALLS_FROM_OAK_AFTER_22_RIVAL
 	release
 	end
@@ -618,7 +618,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese
-	giveitem ITEM_POKE_BALL, 5
+	kanto_giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
 	msgbox PalletTown_ProfessorOaksLab_Text_OakExplainCatching
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCompleteMonGuideWasMyDream
 	msgbox PalletTown_ProfessorOaksLab_Text_RivalLeaveItToMeGramps
@@ -1458,6 +1458,9 @@ PalletTown_ProfessorOaksLab_Text_PlayersPokedexWasUpgraded:
 
 PalletTown_ProfessorOaksLab_Text_PressStartToOpenMenu:
     .string "Press START to open the MENU!$"
+
+PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls:
+    .string "{PLAYER} received five POKé BALLS.$"
 
 PalletTown_ProfessorOaksLab_Text_ReceivedMonFromOak:
     .string "{PLAYER} received the {STR_VAR_1}\n"

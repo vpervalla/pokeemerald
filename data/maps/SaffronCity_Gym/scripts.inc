@@ -56,7 +56,7 @@ SaffronCity_Gym_EventScript_GiveTM04::
 	msgbox SaffronCity_Gym_Text_ExplainMarshBadgeTakeThis
 	checkitemspace ITEM_TM04
 	goto_if_eq VAR_RESULT, FALSE, SaffronCity_Gym_EventScript_NoRoomForTM04
-	giveitem ITEM_TM04
+	kanto_giveitem_msg SaffronCity_Gym_Text_ReceivedTM04FromSabrina, ITEM_TM04
 	setflag FLAG_GOT_TM04_FROM_SABRINA
 	msgbox SaffronCity_Gym_Text_SabrinaPostBattle
 	release
@@ -188,6 +188,10 @@ SaffronCity_Gym_Text_PrestonIntro:
 SaffronCity_Gym_Text_PrestonPostBattle:
     .string "That's right! I used telepathy to\n"
     .string "read your mind!$"
+
+SaffronCity_Gym_Text_ReceivedTM04FromSabrina:
+    .string "{PLAYER} received TM04 from\n"
+    .string "SABRINA.$"
 
 SaffronCity_Gym_Text_SabrinaDefeat:
     .string "This loss shocks me!\n"

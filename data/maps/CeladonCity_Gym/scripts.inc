@@ -56,7 +56,7 @@ CeladonCity_Gym_EventScript_GiveTM19::
 	msgbox CeladonCity_Gym_Text_ExplainRainbowBadgeTakeThis
 	checkitemspace ITEM_TM19
 	goto_if_eq VAR_RESULT, FALSE, CeladonCity_Gym_EventScript_NoRoomForTM19
-	giveitem ITEM_TM19
+	kanto_giveitem_msg CeladonCity_Gym_Text_ReceivedTM19FromErika, ITEM_TM19
 	setflag FLAG_GOT_TM19_FROM_ERIKA
 	msgbox CeladonCity_Gym_Text_ExplainTM19
 	release
@@ -197,6 +197,10 @@ CeladonCity_Gym_Text_MaryIntro:
 CeladonCity_Gym_Text_MaryPostBattle:
     .string "I didn't bring my best POKéMON.\n"
     .string "Wait until next time!$"
+
+CeladonCity_Gym_Text_ReceivedTM19FromErika:
+    .string "{PLAYER} received TM19\n"
+    .string "from ERIKA.$"
 
 CeladonCity_Gym_Text_ShouldMakeRoomForThis:
     .string "You should make room for this.$"

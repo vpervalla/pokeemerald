@@ -17,7 +17,7 @@ Route12_NorthEntrance_2F_EventScript_Lass::
 	call_if_eq VAR_RESULT, FEMALE, Route12_NorthEntrance_2F_EventScript_TakeTMFemale
 	checkitemspace ITEM_TM27
 	goto_if_eq VAR_RESULT, FALSE, Route12_NorthEntrance_2F_EventScript_NoRoomForTM27
-	giveitem ITEM_TM27
+	kanto_giveitem_msg Route12_NorthEntrance_2F_Text_ReceivedTM27FromLittleGirl, ITEM_TM27
 	msgbox Route12_NorthEntrance_2F_Text_ExplainTM27
 	setflag FLAG_GOT_TM27
 	release
@@ -57,6 +57,10 @@ Route12_NorthEntrance_2F_Text_ItsPokemonTower:
     .string "Let's see what the binoculars have\n"
     .string "to show…\p"
     .string "It's POKéMON TOWER!$"
+
+Route12_NorthEntrance_2F_Text_ReceivedTM27FromLittleGirl:
+    .string "{PLAYER} received TM27\n"
+    .string "from the little girl.$"
 
 Route12_NorthEntrance_2F_Text_TakeTMDontNeedAnymoreFemale:
     .string "My POKéMON's ashes are stored in\n"

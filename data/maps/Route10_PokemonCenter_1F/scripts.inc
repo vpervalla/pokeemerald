@@ -28,7 +28,7 @@ Route10_PokemonCenter_1F_EventScript_Aide::
 	msgbox Route10_PokemonCenter_1F_Text_GreatHereYouGo
 	checkitemspace ITEM_EVERSTONE
 	goto_if_eq VAR_RESULT, FALSE, Kanto_Aide_EventScript_NoRoomForItem
-	giveitem ITEM_EVERSTONE
+	kanto_giveitem_msg Route10_PokemonCenter_1F_Text_ReceivedEverstoneFromAide, ITEM_EVERSTONE
 	setflag FLAG_GOT_EVERSTONE_FROM_OAKS_AIDE
 	msgbox Route10_PokemonCenter_1F_Text_ExplainEverstone
 	release
@@ -104,5 +104,9 @@ Route10_PokemonCenter_1F_Text_HeardGhostsHauntLavender:
 Route10_PokemonCenter_1F_Text_NuggetUselessSoldFor5000:
     .string "A NUGGET is totally useless.\n"
     .string "So I sold it for ¥5000.$"
+
+Route10_PokemonCenter_1F_Text_ReceivedEverstoneFromAide:
+    .string "{PLAYER} received the EVERSTONE\n"
+    .string "from the AIDE.$"
 
 @ END KANTO NPCS

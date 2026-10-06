@@ -36,7 +36,7 @@ CeruleanCity_EventScript_GruntDefeated::
 	msgbox CeruleanCity_Text_OkayIllReturnStolenTM
 	checkitemspace ITEM_TM28
 	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_EventScript_NoRoomForTM28
-	giveitem ITEM_TM28
+	kanto_giveitem_msg CeruleanCity_Text_RecoveredTM28FromGrunt, ITEM_TM28
 	msgbox CeruleanCity_Text_BetterGetMovingBye
 	closemessage
 	fadescreen FADE_TO_BLACK
@@ -430,6 +430,10 @@ CeruleanCity_Text_PeopleHereWereRobbed:
 CeruleanCity_Text_PokemonEncyclopediaAmusing:
     .string "You're making an encyclopedia on\n"
     .string "POKéMON? That sounds amusing.$"
+
+CeruleanCity_Text_RecoveredTM28FromGrunt:
+    .string "{PLAYER} recovered TM28 from\n"
+    .string "the TEAM ROCKET GRUNT.$"
 
 CeruleanCity_Text_RivalDefeat:
     .string "Hey!\n"

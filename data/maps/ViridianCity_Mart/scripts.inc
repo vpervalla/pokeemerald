@@ -41,7 +41,7 @@ ViridianCity_Mart_EventScript_ParcelScene::
 	waitmovement 0
 	msgbox ViridianCity_Mart_Text_TakeThisToProfOak
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1
-	giveitem ITEM_OAKS_PARCEL, 1
+	kanto_giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
 	releaseall
 	end
@@ -82,6 +82,10 @@ ViridianCity_Mart_Text_GotToBuySomePotions:
     .string "I've got to buy some POTIONS.\p"
     .string "You never know when your POKéMON\n"
     .string "will need quick healing.$"
+
+ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk:
+    .string "{PLAYER} received OAK'S PARCEL\n"
+    .string "from the POKéMON MART clerk.$"
 
 ViridianCity_Mart_Text_ShopDoesGoodBusinessInAntidotes:
     .string "This shop does good business in\n"

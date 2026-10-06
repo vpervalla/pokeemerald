@@ -19,7 +19,7 @@ CeladonCity_Restaurant_EventScript_CoinCaseMan::
 	msgbox CeladonCity_Restaurant_Text_TakeThisImBusted
 	checkitemspace ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, CeladonCity_Restaurant_EventScript_NoRoomForCoinCase
-	giveitem ITEM_COIN_CASE
+	kanto_giveitem_msg CeladonCity_Restaurant_Text_ReceivedCoinCaseFromMan, ITEM_COIN_CASE
 	setflag FLAG_GOT_COIN_CASE
 	release
 	end
@@ -56,6 +56,10 @@ CeladonCity_Restaurant_Text_OftenGoToDrugstore:
 CeladonCity_Restaurant_Text_PsstBasementUnderGameCorner:
     .string "Psst! There's a basement under the\n"
     .string "GAME CORNER, I hear.$"
+
+CeladonCity_Restaurant_Text_ReceivedCoinCaseFromMan:
+    .string "{PLAYER} received a COIN CASE\n"
+    .string "from the man.$"
 
 CeladonCity_Restaurant_Text_TakeThisImBusted:
     .string "Go ahead! Laugh!\n"

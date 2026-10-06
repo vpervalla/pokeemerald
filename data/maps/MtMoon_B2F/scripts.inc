@@ -57,7 +57,7 @@ MtMoon_B2F_EventScript_DomeFossil::
 	msgbox MtMoon_B2F_Text_YouWantDomeFossil, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
 	removeobject LOCALID_DOME_FOSSIL
-	giveitem ITEM_DOME_FOSSIL, 1
+	kanto_giveitem_msg MtMoon_B2F_Text_ObtainedDomeFossil, ITEM_DOME_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
 	delay 10
 	applymovement LOCALID_MIGUEL, MtMoon_B2F_Movement_MiguelToHelixFossil
@@ -83,7 +83,7 @@ MtMoon_B2F_EventScript_HelixFossil::
 	msgbox MtMoon_B2F_Text_YouWantHelixFossil, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
 	removeobject LOCALID_HELIX_FOSSIL
-	giveitem ITEM_HELIX_FOSSIL, 1
+	kanto_giveitem_msg MtMoon_B2F_Text_ObtainedHelixFossil, ITEM_HELIX_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
 	delay 10
 	applymovement LOCALID_MIGUEL, MtMoon_B2F_Movement_MiguelToDomeFossil
@@ -211,6 +211,12 @@ MtMoon_B2F_Text_MiguelIntro:
     .string "Hey, stop!\p"
     .string "I found these fossils!\n"
     .string "They're both mine!$"
+
+MtMoon_B2F_Text_ObtainedDomeFossil:
+    .string "Obtained the DOME FOSSIL!$"
+
+MtMoon_B2F_Text_ObtainedHelixFossil:
+    .string "Obtained the HELIX FOSSIL!$"
 
 MtMoon_B2F_Text_ThenThisFossilIsMine:
     .string "All right.\n"

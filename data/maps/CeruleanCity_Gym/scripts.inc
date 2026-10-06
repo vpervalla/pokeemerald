@@ -24,7 +24,7 @@ CeruleanCity_Gym_EventScript_GiveTM03::
 	msgbox CeruleanCity_Gym_Text_ExplainCascadeBadge
 	checkitemspace ITEM_TM03
 	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_Gym_EventScript_NoRoomForTM03
-	giveitem ITEM_TM03
+	kanto_giveitem_msg CeruleanCity_Gym_Text_ReceivedTM03FromMisty, ITEM_TM03
 	setflag FLAG_GOT_TM03_FROM_MISTY
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release
@@ -148,6 +148,10 @@ CeruleanCity_Gym_Text_MistyIntro:
     .string "catch and train POKéMON?\p"
     .string "My policy is an all-out offensive\n"
     .string "with WATER-type POKéMON!{PLAY_BGM}{MUS_RG_ENCOUNTER_GYM_LEADER}$"
+
+CeruleanCity_Gym_Text_ReceivedTM03FromMisty:
+    .string "{PLAYER} received TM03\n"
+    .string "from MISTY.$"
 
 CeruleanCity_Gym_Text_WeMakePrettyGoodTeam:
     .string "You beat MISTY!\n"

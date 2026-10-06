@@ -66,7 +66,7 @@ ViridianCity_Gym_EventScript_GiveTM26::
 	msgbox ViridianCity_Gym_Text_ExplainEarthBadgeTakeThis
 	checkitemspace ITEM_TM26
 	goto_if_eq VAR_RESULT, FALSE, ViridianCity_Gym_EventScript_NoRoomForTM26
-	giveitem ITEM_TM26
+	kanto_giveitem_msg ViridianCity_Gym_Text_ReceivedTM26FromGiovanni, ITEM_TM26
 	setflag FLAG_GOT_TM26_FROM_GIOVANNI
 	msgbox ViridianCity_Gym_Text_ExplainTM26
 	release
@@ -219,6 +219,10 @@ ViridianCity_Gym_Text_KiyoIntro:
 ViridianCity_Gym_Text_KiyoPostBattle:
     .string "If my POKéMON were as good at\n"
     .string "karate as I…$"
+
+ViridianCity_Gym_Text_ReceivedTM26FromGiovanni:
+    .string "{PLAYER} received TM26\n"
+    .string "from GIOVANNI.$"
 
 ViridianCity_Gym_Text_SamuelDefeat:
     .string "I was beaten?$"

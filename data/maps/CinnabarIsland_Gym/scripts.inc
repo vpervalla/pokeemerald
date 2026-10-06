@@ -201,7 +201,7 @@ CinnabarIsland_Gym_EventScript_GiveTM38::
 	msgbox CinnabarIsland_Gym_Text_ExplainVolcanoBadge
 	checkitemspace ITEM_TM38
 	goto_if_eq VAR_RESULT, FALSE, CinnabarIsland_Gym_EventScript_NoRoomForTM38
-	giveitem ITEM_TM38
+	kanto_giveitem_msg CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine, ITEM_TM38
 	setflag FLAG_GOT_TM38_FROM_BLAINE
 	msgbox CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove
 	release
@@ -882,6 +882,10 @@ CinnabarIsland_Gym_Text_RamonIntro:
 CinnabarIsland_Gym_Text_RamonPostBattle:
     .string "I wish there were a thief POKéMON.\n"
     .string "I'd use that!$"
+
+CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine:
+    .string "{PLAYER} received TM38\n"
+    .string "from BLAINE.$"
 
 CinnabarIsland_Gym_Text_SorryBadCall:
     .string "Sorry!\n"

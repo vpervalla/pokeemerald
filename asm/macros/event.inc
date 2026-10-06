@@ -2018,3 +2018,15 @@
 	waitfanfare
 	waitbuttonpress
 	.endm
+
+	@ From FRLG's giveitem_msg: adds the item to the bag, then shows the message (like "{PLAYER} received
+	@ TM39 from BROCK.") with a fanfare and says in which pocket the item was put away.
+	@ Used by the scripts of the Kanto maps.
+	.macro kanto_giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	additem \item, \amount
+	loadword 0, \msg
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	setorcopyvar VAR_0x8002, \fanfare
+	call Kanto_EventScript_ReceivedItem
+	.endm

@@ -23,7 +23,7 @@ VermilionCity_PokemonFanClub_EventScript_ChairmanStory::
 	checkitemspace ITEM_BIKE_VOUCHER
 	goto_if_eq VAR_RESULT, FALSE, VermilionCity_PokemonFanClub_EventScript_NoRoomForBikeVoucher
 	setflag FLAG_GOT_BIKE_VOUCHER
-	giveitem ITEM_BIKE_VOUCHER, 1
+	kanto_giveitem_msg VermilionCity_PokemonFanClub_Text_ReceivedBikeVoucherFromChairman, ITEM_BIKE_VOUCHER, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox VermilionCity_PokemonFanClub_Text_ExplainBikeVoucher
 	release
 	end
@@ -197,6 +197,10 @@ VermilionCity_PokemonFanClub_Text_PikachuTwiceAsCute:
     .string "Humph!\p"
     .string "My PIKACHU is twice as cute as\n"
     .string "that one!$"
+
+VermilionCity_PokemonFanClub_Text_ReceivedBikeVoucherFromChairman:
+    .string "{PLAYER} received a BIKE VOUCHER\n"
+    .string "from the CHAIRMAN.$"
 
 VermilionCity_PokemonFanClub_Text_Seel:
     .string "SEEL: Kyuoo!$"

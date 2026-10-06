@@ -18,7 +18,7 @@ Route16_NorthEntrance_2F_EventScript_Aide::
 	msgbox Route16_NorthEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_AMULET_COIN
 	goto_if_eq VAR_RESULT, FALSE, Kanto_Aide_EventScript_NoRoomForItem
-	giveitem ITEM_AMULET_COIN
+	kanto_giveitem_msg Route16_NorthEntrance_2F_Text_ReceivedAmuletCoinFromAide, ITEM_AMULET_COIN
 	setflag FLAG_GOT_AMULET_COIN_FROM_OAKS_AIDE
 	msgbox Route16_NorthEntrance_2F_Text_ExplainAmuletCoin
 	release
@@ -88,6 +88,10 @@ Route16_NorthEntrance_2F_Text_LongPathOverWater:
 Route16_NorthEntrance_2F_Text_OnBikeRideWithGirlfriend:
     .string "I'm on a relaxing ride on my new\n"
     .string "bike with my girlfriend.$"
+
+Route16_NorthEntrance_2F_Text_ReceivedAmuletCoinFromAide:
+    .string "{PLAYER} received the AMULET COIN\n"
+    .string "from the AIDE.$"
 
 Route16_NorthEntrance_2F_Text_RidingTogetherOnNewBikes:
     .string "We're going riding together on our\n"

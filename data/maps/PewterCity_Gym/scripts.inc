@@ -28,7 +28,7 @@ PewterCity_Gym_EventScript_GiveTM39::
 	msgbox PewterCity_Gym_Text_TakeThisWithYou
 	checkitemspace ITEM_TM39
 	goto_if_eq VAR_RESULT, FALSE, PewterCity_Gym_EventScript_NoRoomForTM39
-	giveitem ITEM_TM39
+	kanto_giveitem_msg PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39
 	setflag FLAG_GOT_TM39_FROM_BROCK
 	msgbox PewterCity_Gym_Text_ExplainTM39
 	release
@@ -182,6 +182,10 @@ PewterCity_Gym_Text_LiamIntro:
 PewterCity_Gym_Text_LiamPostBattle:
     .string "You're pretty hot.\n"
     .string "…But not as hot as BROCK!$"
+
+PewterCity_Gym_Text_ReceivedTM39FromBrock:
+    .string "{PLAYER} received TM39\n"
+    .string "from BROCK.$"
 
 PewterCity_Gym_Text_TakeThisWithYou:
     .string "Wait!\n"

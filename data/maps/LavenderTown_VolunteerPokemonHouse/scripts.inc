@@ -31,7 +31,7 @@ LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji::
 	checkitemspace ITEM_POKE_FLUTE
 	goto_if_eq VAR_RESULT, FALSE, LavenderTown_VolunteerPokemonHouse_EventScript_NoRoomForPokeFlute
 	setflag FLAG_GOT_POKE_FLUTE
-	giveitem ITEM_POKE_FLUTE, 1
+	kanto_giveitem_msg LavenderTown_VolunteerPokemonHouse_Text_ReceivedPokeFluteFromMrFuji, ITEM_POKE_FLUTE, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox LavenderTown_VolunteerPokemonHouse_Text_ExplainPokeFlute
 	release
 	end
@@ -133,6 +133,10 @@ LavenderTown_VolunteerPokemonHouse_Text_PokemonMagazinesLineShelf:
 
 LavenderTown_VolunteerPokemonHouse_Text_Psyduck:
     .string "PSYDUCK: Gwappa!$"
+
+LavenderTown_VolunteerPokemonHouse_Text_ReceivedPokeFluteFromMrFuji:
+    .string "{PLAYER} received a POKé FLUTE\n"
+    .string "from MR. FUJI.$"
 
 LavenderTown_VolunteerPokemonHouse_Text_WhereDidMrFujiGo:
     .string "That's odd, MR. FUJI isn't here.\n"

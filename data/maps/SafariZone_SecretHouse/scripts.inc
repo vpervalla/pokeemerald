@@ -10,7 +10,7 @@ SafariZone_SecretHouse_EventScript_Attendant::
 	msgbox SafariZone_SecretHouse_Text_CongratsYouveWon
 	checkitemspace ITEM_HM03
 	goto_if_eq VAR_RESULT, FALSE, SafariZone_SecretHouse_EventScript_NoRoomForHM03
-	giveitem ITEM_HM03
+	kanto_giveitem_msg SafariZone_SecretHouse_Text_ReceivedHM03FromAttendant, ITEM_HM03
 	msgbox SafariZone_SecretHouse_Text_ExplainSurf
 	setflag FLAG_GOT_HM03
 	release
@@ -49,5 +49,9 @@ SafariZone_SecretHouse_Text_ExplainSurf:
     .string "you can use it over and over.\p"
     .string "You're super lucky for winning this\n"
     .string "fabulous prize!$"
+
+SafariZone_SecretHouse_Text_ReceivedHM03FromAttendant:
+    .string "{PLAYER} received HM03\n"
+    .string "from the attendant!$"
 
 @ END KANTO NPCS

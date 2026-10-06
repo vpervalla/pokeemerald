@@ -22,7 +22,7 @@ FuchsiaCity_House2_EventScript_GiveGoodRod::
 	msgbox FuchsiaCity_House2_Text_LikeYourStyleTakeThis
 	checkitemspace ITEM_GOOD_ROD
 	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_House2_EventScript_NoRoomForGoodRod
-	giveitem ITEM_GOOD_ROD
+	kanto_giveitem_msg FuchsiaCity_House2_Text_ReceivedGoodRod, ITEM_GOOD_ROD
 	msgbox FuchsiaCity_House2_Text_GoodRodCanCatchBetterMons
 	setflag FLAG_GOT_GOOD_ROD
 	release
@@ -60,6 +60,10 @@ FuchsiaCity_House2_Text_LikeYourStyleTakeThis:
 FuchsiaCity_House2_Text_OhThatsDisappointing:
     .string "Oh…\n"
     .string "That's so disappointing…$"
+
+FuchsiaCity_House2_Text_ReceivedGoodRod:
+    .string "{PLAYER} received a GOOD ROD from\n"
+    .string "the FISHING GURU's brother.$"
 
 FuchsiaCity_House2_Text_YouHaveNoRoomForGift:
     .string "Oh, no!\p"

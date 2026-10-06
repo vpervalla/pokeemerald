@@ -323,7 +323,7 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	applymovement LOCALID_CELIO, Kanto_Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
-	giveitem ITEM_TRI_PASS, 1
+	kanto_giveitem_msg OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands
 	call_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
 	call_if_lt VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
@@ -380,7 +380,7 @@ OneIsland_PokemonCenter_1F_EventScript_PlayerWalkToBillTop::
 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap::
 	setflag FLAG_HIDE_TOWN_MAP
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
-	giveitem ITEM_TOWN_MAP, 1
+	kanto_giveitem_msg OneIsland_PokemonCenter_1F_Text_ReceivedTownMap, ITEM_TOWN_MAP, 1, MUS_RG_OBTAIN_KEY_ITEM
 	return
 
 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage::
@@ -746,6 +746,9 @@ OneIsland_PokemonCenter_1F_Text_ObtainedExtraMapPage:
     .string "Obtained an extra page for the\n"
     .string "TOWN MAP!$"
 
+OneIsland_PokemonCenter_1F_Text_ObtainedTriPass:
+    .string "Obtained the TRI-PASS!$"
+
 OneIsland_PokemonCenter_1F_Text_OhThats:
     .string "Oh!\n"
     .string "Th-that's…$"
@@ -782,6 +785,10 @@ OneIsland_PokemonCenter_1F_Text_PleaseINeedYourHelp:
 OneIsland_PokemonCenter_1F_Text_ReceivedExtraPageForTownMap:
     .string "{PLAYER} received an extra page\n"
     .string "for the TOWN MAP!$"
+
+OneIsland_PokemonCenter_1F_Text_ReceivedTownMap:
+    .string "{PLAYER} received\n"
+    .string "a TOWN MAP!$"
 
 OneIsland_PokemonCenter_1F_Text_ReturnedTriPassForRainbowPass:
     .string "{PLAYER} returned the TRI-PASS and\n"

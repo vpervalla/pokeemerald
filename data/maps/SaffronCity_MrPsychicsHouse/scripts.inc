@@ -15,7 +15,7 @@ SaffronCity_MrPsychicsHouse_EventScript_MrPsychic::
 	msgbox SaffronCity_MrPsychicsHouse_Text_YouWantedThis
 	checkitemspace ITEM_TM29
 	goto_if_eq VAR_RESULT, FALSE, SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29
-	giveitem ITEM_TM29
+	kanto_giveitem_msg SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic, ITEM_TM29
 	msgbox SaffronCity_MrPsychicsHouse_Text_ExplainTM29
 	setflag FLAG_GOT_TM29_FROM_MR_PSYCHIC
 	release
@@ -31,6 +31,10 @@ SaffronCity_MrPsychicsHouse_Text_ExplainTM29:
     .string "TM29 is PSYCHIC.\p"
     .string "It's an attack that may also lower\n"
     .string "the target's special stats.$"
+
+SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic:
+    .string "{PLAYER} received TM29\n"
+    .string "from MR. PSYCHIC.$"
 
 SaffronCity_MrPsychicsHouse_Text_YouWantedThis:
     .string "…Wait! Don't say a word!\p"

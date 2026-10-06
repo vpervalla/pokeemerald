@@ -95,7 +95,7 @@ SilphCo_11F_EventScript_President::
 	call_if_eq VAR_RESULT, FEMALE, SilphCo_11F_EventScript_PresidentThanksFemale
 	checkitemspace ITEM_MASTER_BALL
 	goto_if_eq VAR_RESULT, FALSE, SilphCo_11F_EventScript_NoRoomForMasterBall
-	giveitem ITEM_MASTER_BALL, 1
+	kanto_giveitem_msg SilphCo_11F_Text_ObtainedMasterBallFromPresident, ITEM_MASTER_BALL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox SilphCo_11F_Text_ThatsOurSecretPrototype
 	setflag FLAG_GOT_MASTER_BALL_FROM_SILPH
 	release
@@ -187,6 +187,10 @@ SilphCo_11F_Text_Grunt2Intro:
 
 SilphCo_11F_Text_Grunt2PostBattle:
     .string "So, you want to see my BOSS?$"
+
+SilphCo_11F_Text_ObtainedMasterBallFromPresident:
+    .string "{PLAYER} obtained a MASTER BALL\n"
+    .string "from the PRESIDENT!$"
 
 SilphCo_11F_Text_ThanksForRescuingUs:
     .string "SECRETARY: Thank you for rescuing\n"

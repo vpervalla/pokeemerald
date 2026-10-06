@@ -287,7 +287,7 @@ class ScriptPorter:
                 continue  # tests the result of a command that was left out
             skip_result = False
             if cmd == "giveitem_msg":  # FRLG: giveitem_msg msg, item[, amount[, fanfare]]
-                cmd, args = "giveitem", args[1:3]
+                cmd = "kanto_giveitem_msg"
             if cmd == "msgreceiveditem":  # FRLG: msgreceiveditem msg, item[, amount[, fanfare]]
                 cmd, args = "kanto_msgreceiveditem", [args[0], args[3] if len(args) > 3 else "MUS_LEVEL_UP"]
             if cmd in ("special", "specialvar") and args and args[-1] in SPECIAL_RENAMES:

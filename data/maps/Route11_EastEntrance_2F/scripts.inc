@@ -18,7 +18,7 @@ Route11_EastEntrance_2F_EventScript_Aide::
 	msgbox Route11_EastEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_ITEMFINDER
 	goto_if_eq VAR_RESULT, FALSE, Kanto_Aide_EventScript_NoRoomForItem
-	giveitem ITEM_ITEMFINDER
+	kanto_giveitem_msg Route11_EastEntrance_2F_Text_ReceivedItemfinderFromAide, ITEM_ITEMFINDER
 	setflag FLAG_GOT_ITEMFINDER
 	msgbox Route11_EastEntrance_2F_Text_ExplainItemfinder
 	release
@@ -117,6 +117,10 @@ Route11_EastEntrance_2F_Text_GreatHereYouGo:
     .string "{STR_VAR_3} kinds of POKéMON!\p"
     .string "Congratulations!\n"
     .string "Here you go!$"
+
+Route11_EastEntrance_2F_Text_ReceivedItemfinderFromAide:
+    .string "{PLAYER} received the {STR_VAR_2}\n"
+    .string "from the AIDE.$"
 
 Route11_EastEntrance_2F_Text_RockTunnelGoodRouteToLavender:
     .string "Let's see what the binoculars have\n"

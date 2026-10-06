@@ -50,7 +50,7 @@ PalletTown_RivalsHouse_EventScript_GiveTownMap::
 	applymovement LOCALID_DAISY, Kanto_Common_Movement_FacePlayer
 	waitmovement 0
 	delay 12
-	giveitem ITEM_TOWN_MAP, 1
+	kanto_giveitem_msg PalletTown_RivalsHouse_Text_ReceivedTownMapFromDaisy, ITEM_TOWN_MAP, 1, MUS_RG_OBTAIN_KEY_ITEM
 	release
 	end
 
@@ -249,6 +249,10 @@ PalletTown_RivalsHouse_Text_PleaseGiveMonsRest:
     .string "are living things.\p"
     .string "When they get tired, please give\n"
     .string "them a rest.$"
+
+PalletTown_RivalsHouse_Text_ReceivedTownMapFromDaisy:
+    .string "{PLAYER} received a TOWN MAP\n"
+    .string "from DAISY.$"
 
 PalletTown_RivalsHouse_Text_ShelvesCrammedFullOfBooks:
     .string "The shelves are crammed full of\n"

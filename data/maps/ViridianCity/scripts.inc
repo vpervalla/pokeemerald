@@ -26,6 +26,7 @@ ViridianCity_EventScript_CitySign::
 ViridianCity_EventScript_DoTutorialBattle::
 	msgbox ViridianCity_Text_ShowYouHowToCatchMons
 	closemessage
+	special StartOldManTutorialBattle
 	waitstate
 	lock
 	faceplayer

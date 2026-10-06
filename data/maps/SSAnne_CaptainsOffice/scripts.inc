@@ -27,7 +27,7 @@ SSAnne_CaptainsOffice_EventScript_Captain::
 	applymovement LOCALID_SS_ANNE_CAPTAIN, Kanto_Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox SSAnne_CaptainsOffice_Text_ThankYouHaveHMForCut
-	giveitem ITEM_HM01, 1
+	kanto_giveitem_msg SSAnne_CaptainsOffice_Text_ObtainedHM01FromCaptain, ITEM_HM01, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox SSAnne_CaptainsOffice_Text_ExplainCut
 	setflag FLAG_GOT_HM01
 	setvar VAR_MAP_SCENE_VERMILION_CITY, 1
@@ -52,6 +52,10 @@ SSAnne_CaptainsOffice_Text_ExplainCut:
 SSAnne_CaptainsOffice_Text_HowToConquerSeasickness:
     .string "How to Conquer Seasickness…\n"
     .string "The CAPTAIN's reading this!$"
+
+SSAnne_CaptainsOffice_Text_ObtainedHM01FromCaptain:
+    .string "{PLAYER} obtained HM01\n"
+    .string "from the CAPTAIN!$"
 
 SSAnne_CaptainsOffice_Text_RubbedCaptainsBack:
     .string "{PLAYER} rubbed the CAPTAIN's\n"

@@ -96,6 +96,7 @@ EWRAM_DATA static u16 sTrainerBattleMode = 0;
 EWRAM_DATA u16 gTrainerBattleOpponent_A = 0;
 EWRAM_DATA u16 gTrainerBattleOpponent_B = 0;
 EWRAM_DATA u16 gPartnerTrainerId = 0;
+EWRAM_DATA static bool8 sIsOldManTutorialBattle = FALSE;
 EWRAM_DATA static u16 sTrainerObjectEventLocalId = 0;
 EWRAM_DATA static u8 *sTrainerAIntroSpeech = NULL;
 EWRAM_DATA static u8 *sTrainerBIntroSpeech = NULL;
@@ -498,7 +499,34 @@ void StartWallyTutorialBattle(void)
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
     gBattleTypeFlags = BATTLE_TYPE_WALLY_TUTORIAL;
+    sIsOldManTutorialBattle = FALSE;
     CreateBattleStartTask(B_TRANSITION_SLICE, 0);
+}
+
+// Initiates battle where the old man of Viridian City catches Weedle (FRLG's BATTLE_TYPE_OLD_MAN_TUTORIAL).
+// It's the Wally tutorial battle, with the old man in Wally's place: he doesn't send out a Pokémon
+// and throws a Poké Ball right away.
+void StartOldManTutorialBattle(void)
+{
+    CreateMaleMon(&gEnemyParty[0], SPECIES_WEEDLE, 5);
+    LockPlayerFieldControls();
+    gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
+    gBattleTypeFlags = BATTLE_TYPE_WALLY_TUTORIAL;
+    sIsOldManTutorialBattle = TRUE;
+    CreateBattleStartTask(B_TRANSITION_SLICE, 0);
+}
+
+bool32 IsOldManTutorialBattle(void)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL) && sIsOldManTutorialBattle;
+}
+
+// Who throws the Poké Ball in the tutorial battle
+u8 GetWallyTutorialBackPicId(void)
+{
+    if (IsOldManTutorialBattle())
+        return TRAINER_BACK_PIC_OLD_MAN;
+    return TRAINER_BACK_PIC_WALLY;
 }
 
 void BattleSetup_StartScriptedWildBattle(void)

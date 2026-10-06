@@ -1846,6 +1846,9 @@ Kanto_Movement_PlayerEnterMinigameRoom:
 	walk_up
 	step_end
 
+Kanto_MtEmber_RubyPath_B3F_Text_FoundARuby:
+    .string "{PLAYER} found a RUBY!$"
+
 Kanto_MysteryEventClub_EventScript_Woman::
 	lock
 	faceplayer
