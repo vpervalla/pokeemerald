@@ -99,7 +99,7 @@ def mon(addr):
     sec = rd(addr + 0x20, 48); key = pers ^ otid
     dec = b"".join(struct.pack("<I", struct.unpack("<I", sec[i:i+4])[0] ^ key) for i in range(0, 48, 4))
     order = ORDER[pers % 24]
-    g = dec[order.index(0)*12:][:12]; a = dec[order.index(1)*12:][:12]
+    g = dec[order[0]*12:][:12]; a = dec[order[1]*12:][:12]
     sp, item, exp = struct.unpack("<HHI", g[:8])
     mv = struct.unpack("<4H", a[:8]); pp = a[8:12]
     lvl, _, hp, mhp = struct.unpack("<BBHH", rd(addr + 0x54, 6))
