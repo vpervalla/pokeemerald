@@ -8,36 +8,93 @@ Route24_EventScript_Rocket::
 	end
 
 Route24_EventScript_Ethan::
-	msgbox Route24_Text_EthanIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_CAMPER_ETHAN, Route24_Text_EthanIntro, Route24_Text_EthanDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_EthanRematch
+	msgbox Route24_Text_EthanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_Reli::
-	msgbox Route24_Text_ReliIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_RELI, Route24_Text_ReliIntro, Route24_Text_ReliDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_ReliRematch
+	msgbox Route24_Text_ReliPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_Timmy::
-	msgbox Route24_Text_TimmyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_YOUNGSTER_TIMMY, Route24_Text_TimmyIntro, Route24_Text_TimmyDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_TimmyRematch
+	msgbox Route24_Text_TimmyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_Ali::
-	msgbox Route24_Text_AliIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_ALI, Route24_Text_AliIntro, Route24_Text_AliDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_AliRematch
+	msgbox Route24_Text_AliPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_Cale::
-	msgbox Route24_Text_CaleIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_CALE, Route24_Text_CaleIntro, Route24_Text_CaleDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_CaleRematch
+	msgbox Route24_Text_CalePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_Shane::
-	msgbox Route24_Text_ShaneIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_CAMPER_SHANE, Route24_Text_ShaneIntro, Route24_Text_ShaneDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route24_EventScript_ShaneRematch
+	msgbox Route24_Text_ShanePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_ItemTM45::
 	finditem ITEM_TM45
 	end
 
+Route24_Text_JustEarnedFabulousPrize:
+    .string "Congratulations! You beat our\n"
+    .string "five contest TRAINERS!\p"
+    .string "You just earned a fabulous prize!$"
+
+Route24_EventScript_AliRematch::
+	msgbox Route24_Text_AliPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_EventScript_CaleRematch::
+	msgbox Route24_Text_CalePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_EventScript_EthanRematch::
+	msgbox Route24_Text_EthanPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_EventScript_ReliRematch::
+	msgbox Route24_Text_ReliPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_EventScript_ShaneRematch::
+	msgbox Route24_Text_ShanePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_EventScript_TimmyRematch::
+	msgbox Route24_Text_TimmyPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route24_Text_AliDefeat:
+    .string "How could I lose?$"
+
 Route24_Text_AliIntro:
     .string "I'm second!\n"
     .string "Now it's serious!$"
+
+Route24_Text_AliPostBattle:
+    .string "I did my best. I have no regrets!$"
+
+Route24_Text_CaleDefeat:
+    .string "Whoo!\n"
+    .string "Good stuff!$"
 
 Route24_Text_CaleIntro:
     .string "People call this the NUGGET\n"
@@ -46,24 +103,49 @@ Route24_Text_CaleIntro:
     .string "a fabulous prize!\p"
     .string "Think you got what it takes?$"
 
+Route24_Text_CalePostBattle:
+    .string "I did my best. I have no regrets!$"
+
+Route24_Text_EthanDefeat:
+    .string "Whoa!\n"
+    .string "Too much!$"
+
 Route24_Text_EthanIntro:
     .string "Okay! I'm No. 5!\n"
     .string "I'll stomp you!$"
 
-Route24_Text_JustEarnedFabulousPrize:
-    .string "Congratulations! You beat our\n"
-    .string "five contest TRAINERS!\p"
-    .string "You just earned a fabulous prize!$"
+Route24_Text_EthanPostBattle:
+    .string "I did my best. I have no regrets!$"
+
+Route24_Text_ReliDefeat:
+    .string "I lost, too!$"
 
 Route24_Text_ReliIntro:
     .string "I'm No. 4!\n"
     .string "Getting tired?$"
 
+Route24_Text_ReliPostBattle:
+    .string "I did my best, so I've no regrets!$"
+
+Route24_Text_ShaneDefeat:
+    .string "I thought not!$"
+
 Route24_Text_ShaneIntro:
     .string "I saw your feat from the grass!$"
+
+Route24_Text_ShanePostBattle:
+    .string "I hid because the people on the\n"
+    .string "bridge frightened me.$"
+
+Route24_Text_TimmyDefeat:
+    .string "Ow!\n"
+    .string "Stomped flat!$"
 
 Route24_Text_TimmyIntro:
     .string "Here's No. 3!\n"
     .string "I won't be easy!$"
+
+Route24_Text_TimmyPostBattle:
+    .string "I did my best. I have no regrets!$"
 
 @ END KANTO NPCS

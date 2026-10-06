@@ -529,6 +529,7 @@ const struct TrainerMoney gTrainerMoneyTable[] =
     {TRAINER_CLASS_HIKER, 10},
     {TRAINER_CLASS_YOUNG_COUPLE, 8},
     {TRAINER_CLASS_WINSTRATE, 10},
+    KANTO_TRAINER_MONEY
     {0xFF, 5}, // Any trainer class not listed above uses this
 };
 
@@ -4990,7 +4991,15 @@ static void HandleEndTurn_BattleWon(void)
         BattleStopLowHpSound();
         gBattlescriptCurrInstr = BattleScript_LocalTrainerBattleWon;
 
-        switch (gTrainers[gTrainerBattleOpponent_A].trainerClass)
+        if (gTrainerBattleOpponent_A >= KANTO_TRAINERS_START)
+        {
+            // FRLG's victory music
+            if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER)
+                PlayBGM(MUS_RG_VICTORY_GYM_LEADER);
+            else
+                PlayBGM(MUS_RG_VICTORY_TRAINER);
+        }
+        else switch (gTrainers[gTrainerBattleOpponent_A].trainerClass)
         {
         case TRAINER_CLASS_ELITE_FOUR:
         case TRAINER_CLASS_CHAMPION:

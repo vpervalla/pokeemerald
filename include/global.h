@@ -1077,7 +1077,8 @@ struct SaveBlock1
     /*0x3D5A*/ u8 unused_3D5A[10];
     /*0x3D64*/ struct TrainerHillSave trainerHill;
     /*0x3D70*/ struct WaldaPhrase waldaPhrase;
-    // sizeof: 0x3D88
+    /*0x3D88*/ u8 kantoFlags[KANTO_FLAGS_BYTES]; // FRLG flags that don't fit in flags[], see GetFlagPointer
+    // sizeof: 0x3DE8
 };
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;

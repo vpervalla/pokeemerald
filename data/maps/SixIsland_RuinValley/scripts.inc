@@ -8,23 +8,38 @@ SixIsland_RuinValley_EventScript_Scientist::
 	end
 
 SixIsland_RuinValley_EventScript_Stanly::
-	msgbox SixIsland_RuinValley_Text_StanlyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_RUIN_MANIAC_STANLY, SixIsland_RuinValley_Text_StanlyIntro, SixIsland_RuinValley_Text_StanlyDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, SixIsland_RuinValley_EventScript_StanlyRematch
+	msgbox SixIsland_RuinValley_Text_StanlyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_Foster::
-	msgbox SixIsland_RuinValley_Text_FosterIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_RUIN_MANIAC_FOSTER, SixIsland_RuinValley_Text_FosterIntro, SixIsland_RuinValley_Text_FosterDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, SixIsland_RuinValley_EventScript_FosterRematch
+	msgbox SixIsland_RuinValley_Text_FosterPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_Larry::
-	msgbox SixIsland_RuinValley_Text_LarryIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_RUIN_MANIAC_LARRY, SixIsland_RuinValley_Text_LarryIntro, SixIsland_RuinValley_Text_LarryDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, SixIsland_RuinValley_EventScript_LarryRematch
+	msgbox SixIsland_RuinValley_Text_LarryPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_Daryl::
-	msgbox SixIsland_RuinValley_Text_DarylIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_HIKER_DARYL, SixIsland_RuinValley_Text_DarylIntro, SixIsland_RuinValley_Text_DarylDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, SixIsland_RuinValley_EventScript_DarylRematch
+	msgbox SixIsland_RuinValley_Text_DarylPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_Hector::
-	msgbox SixIsland_RuinValley_Text_HectorIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_POKEMANIAC_HECTOR, SixIsland_RuinValley_Text_HectorIntro, SixIsland_RuinValley_Text_HectorDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, SixIsland_RuinValley_EventScript_HectorRematch
+	msgbox SixIsland_RuinValley_Text_HectorPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_ItemHPUp::
@@ -43,16 +58,67 @@ SixIsland_RuinValley_Text_CantFigureOutHowToGetInside:
     .string "I can't figure out how I'm supposed\n"
     .string "to get inside.$"
 
+SixIsland_RuinValley_EventScript_DarylRematch::
+	msgbox SixIsland_RuinValley_Text_DarylPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_RuinValley_EventScript_FosterRematch::
+	msgbox SixIsland_RuinValley_Text_FosterPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_RuinValley_EventScript_HectorRematch::
+	msgbox SixIsland_RuinValley_Text_HectorPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_RuinValley_EventScript_LarryRematch::
+	msgbox SixIsland_RuinValley_Text_LarryPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_RuinValley_EventScript_StanlyRematch::
+	msgbox SixIsland_RuinValley_Text_StanlyPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_RuinValley_Text_DarylDefeat:
+    .string "Oh, the heartbreak of losing so\n"
+    .string "easily to you!$"
+
 SixIsland_RuinValley_Text_DarylIntro:
     .string "A battle with you, so high up!$"
+
+SixIsland_RuinValley_Text_DarylPostBattle:
+    .string "Experience the joy of climbing!$"
+
+SixIsland_RuinValley_Text_FosterDefeat:
+    .string "It's been so long since I battled,\n"
+    .string "my instincts are off.$"
 
 SixIsland_RuinValley_Text_FosterIntro:
     .string "I'm curious, what compelled you to\n"
     .string "come here?$"
 
+SixIsland_RuinValley_Text_FosterPostBattle:
+    .string "There are several ruins on the\n"
+    .string "SEVII ISLANDS.\p"
+    .string "The majority of them date back\n"
+    .string "a long way.$"
+
+SixIsland_RuinValley_Text_HectorDefeat:
+    .string "You don't need to be so pushy.\n"
+    .string "I'll be happy to tell you.$"
+
 SixIsland_RuinValley_Text_HectorIntro:
     .string "I'm pretty familiar with the land\n"
     .string "around these parts.$"
+
+SixIsland_RuinValley_Text_HectorPostBattle:
+    .string "The door to the ruins…\n"
+    .string "It has these strange patterns\l"
+    .string "engraved on the outside.\p"
+    .string "I don't know what they mean,\n"
+    .string "though.$"
+
+SixIsland_RuinValley_Text_LarryDefeat:
+    .string "Oh, interesting.$"
 
 SixIsland_RuinValley_Text_LarryIntro:
     .string "It's been said that there are\n"
@@ -60,8 +126,21 @@ SixIsland_RuinValley_Text_LarryIntro:
     .string "I suspect it has something to do\n"
     .string "with the ruins here.$"
 
+SixIsland_RuinValley_Text_LarryPostBattle:
+    .string "Those ruins over there…\p"
+    .string "I haven't had any luck in finding\n"
+    .string "how I can get inside.$"
+
+SixIsland_RuinValley_Text_StanlyDefeat:
+    .string "Hmm…$"
+
 SixIsland_RuinValley_Text_StanlyIntro:
     .string "There appear to be many secrets\n"
     .string "still unsolved in this world.$"
+
+SixIsland_RuinValley_Text_StanlyPostBattle:
+    .string "I suggest to you that you, too,\n"
+    .string "give a thought to the secrets and\l"
+    .string "mysteries of our world once a day.$"
 
 @ END KANTO NPCS

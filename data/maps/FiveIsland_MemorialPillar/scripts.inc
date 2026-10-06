@@ -8,20 +8,47 @@ FiveIsland_MemorialPillar_EventScript_MemorialMan::
 	end
 
 FiveIsland_MemorialPillar_EventScript_Milo::
-	msgbox FiveIsland_MemorialPillar_Text_MiloIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BIRD_KEEPER_MILO, FiveIsland_MemorialPillar_Text_MiloIntro, FiveIsland_MemorialPillar_Text_MiloDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_MemorialPillar_EventScript_MiloRematch
+	msgbox FiveIsland_MemorialPillar_Text_MiloPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_MemorialPillar_EventScript_Chaz::
-	msgbox FiveIsland_MemorialPillar_Text_ChazIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BIRD_KEEPER_CHAZ, FiveIsland_MemorialPillar_Text_ChazIntro, FiveIsland_MemorialPillar_Text_ChazDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_MemorialPillar_EventScript_ChazRematch
+	msgbox FiveIsland_MemorialPillar_Text_ChazPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_MemorialPillar_EventScript_Harold::
-	msgbox FiveIsland_MemorialPillar_Text_HaroldIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BIRD_KEEPER_HAROLD, FiveIsland_MemorialPillar_Text_HaroldIntro, FiveIsland_MemorialPillar_Text_HaroldDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_MemorialPillar_EventScript_HaroldRematch
+	msgbox FiveIsland_MemorialPillar_Text_HaroldPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_MemorialPillar_EventScript_ItemMetalCoat::
 	finditem ITEM_METAL_COAT
 	end
+
+FiveIsland_MemorialPillar_Text_ScrubScrub:
+    .string "Scrub, scrub…$"
+
+FiveIsland_MemorialPillar_EventScript_ChazRematch::
+	msgbox FiveIsland_MemorialPillar_Text_ChazPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+FiveIsland_MemorialPillar_EventScript_HaroldRematch::
+	msgbox FiveIsland_MemorialPillar_Text_HaroldPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+FiveIsland_MemorialPillar_EventScript_MiloRematch::
+	msgbox FiveIsland_MemorialPillar_Text_MiloPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+FiveIsland_MemorialPillar_Text_ChazDefeat:
+    .string "Flap, flap!$"
 
 FiveIsland_MemorialPillar_Text_ChazIntro:
     .string "I'm the middle kid of the BIRD\n"
@@ -29,11 +56,26 @@ FiveIsland_MemorialPillar_Text_ChazIntro:
     .string "The best thing about birds…\n"
     .string "It has to be the wings.$"
 
+FiveIsland_MemorialPillar_Text_ChazPostBattle:
+    .string "There was a really somber guy\n"
+    .string "over that way.$"
+
+FiveIsland_MemorialPillar_Text_HaroldDefeat:
+    .string "Down is so comfy…\n"
+    .string "It makes me drowsy…$"
+
 FiveIsland_MemorialPillar_Text_HaroldIntro:
     .string "I'm the youngest of the BIRD\n"
     .string "BROTHERS.\p"
     .string "The best thing about birds…\n"
     .string "It has to be the down.$"
+
+FiveIsland_MemorialPillar_Text_HaroldPostBattle:
+    .string "It fills me with happiness when\n"
+    .string "bird POKéMON beg playfully…$"
+
+FiveIsland_MemorialPillar_Text_MiloDefeat:
+    .string "Oh, so sharp!$"
 
 FiveIsland_MemorialPillar_Text_MiloIntro:
     .string "I'm the eldest of the BIRD\n"
@@ -41,7 +83,8 @@ FiveIsland_MemorialPillar_Text_MiloIntro:
     .string "The best thing about birds…\n"
     .string "It has to be the beak.$"
 
-FiveIsland_MemorialPillar_Text_ScrubScrub:
-    .string "Scrub, scrub…$"
+FiveIsland_MemorialPillar_Text_MiloPostBattle:
+    .string "You can fly to FOUR ISLAND from\n"
+    .string "here.$"
 
 @ END KANTO NPCS

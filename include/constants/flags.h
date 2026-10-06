@@ -1554,16 +1554,16 @@
 #define FLAG_HIDE_VIRIDIAN_FOREST_POTION_2          (SYSTEM_FLAGS + 0xB2) // Kanto (FRLG)
 #define FLAG_HIDE_VIRIDIAN_GIOVANNI                 (SYSTEM_FLAGS + 0xB3) // Kanto (FRLG)
 #define FLAG_HIDE_ZAPDOS                            (SYSTEM_FLAGS + 0xB4) // Kanto (FRLG)
-#define FLAG_UNUSED_0x915                           (SYSTEM_FLAGS + 0xB5) // Unused Flag
-#define FLAG_UNUSED_0x916                           (SYSTEM_FLAGS + 0xB6) // Unused Flag
-#define FLAG_UNUSED_0x917                           (SYSTEM_FLAGS + 0xB7) // Unused Flag
-#define FLAG_UNUSED_0x918                           (SYSTEM_FLAGS + 0xB8) // Unused Flag
-#define FLAG_UNUSED_0x919                           (SYSTEM_FLAGS + 0xB9) // Unused Flag
-#define FLAG_UNUSED_0x91A                           (SYSTEM_FLAGS + 0xBA) // Unused Flag
-#define FLAG_UNUSED_0x91B                           (SYSTEM_FLAGS + 0xBB) // Unused Flag
-#define FLAG_UNUSED_0x91C                           (SYSTEM_FLAGS + 0xBC) // Unused Flag
-#define FLAG_UNUSED_0x91D                           (SYSTEM_FLAGS + 0xBD) // Unused Flag
-#define FLAG_UNUSED_0x91E                           (SYSTEM_FLAGS + 0xBE) // Unused Flag
+#define FLAG_CINNABAR_GYM_QUIZ_1                    (SYSTEM_FLAGS + 0xB5) // Kanto (FRLG)
+#define FLAG_CINNABAR_GYM_QUIZ_2                    (SYSTEM_FLAGS + 0xB6) // Kanto (FRLG)
+#define FLAG_CINNABAR_GYM_QUIZ_3                    (SYSTEM_FLAGS + 0xB7) // Kanto (FRLG)
+#define FLAG_CINNABAR_GYM_QUIZ_4                    (SYSTEM_FLAGS + 0xB8) // Kanto (FRLG)
+#define FLAG_CINNABAR_GYM_QUIZ_5                    (SYSTEM_FLAGS + 0xB9) // Kanto (FRLG)
+#define FLAG_CINNABAR_GYM_QUIZ_6                    (SYSTEM_FLAGS + 0xBA) // Kanto (FRLG)
+#define FLAG_DEFEATED_BLAINE                        (SYSTEM_FLAGS + 0xBB) // Kanto (FRLG)
+#define FLAG_DEFEATED_BROCK                         (SYSTEM_FLAGS + 0xBC) // Kanto (FRLG)
+#define FLAG_DEFEATED_ERIKA                         (SYSTEM_FLAGS + 0xBD) // Kanto (FRLG)
+#define FLAG_DEFEATED_KOGA                          (SYSTEM_FLAGS + 0xBE) // Kanto (FRLG)
 #define FLAG_UNUSED_0x91F                           (SYSTEM_FLAGS + 0xBF) // Unused Flag
 
 // Daily Flags
@@ -1641,6 +1641,35 @@
 #define FLAGS_COUNT (DAILY_FLAGS_END + 1)
 
 // Special Flags (Stored in EWRAM (sSpecialFlags), not in the SaveBlock)
+// Flags of the Kanto port (FRLG) that don't fit among Emerald's. They are stored in
+// SaveBlock1.kantoFlags (see GetFlagPointer): story flags first, then the Kanto trainers' flags.
+#define KANTO_FLAGS_START           0x1000
+#define KANTO_STORY_FLAGS_COUNT     256
+#define KANTO_TRAINER_FLAGS_START   (KANTO_FLAGS_START + KANTO_STORY_FLAGS_COUNT)
+#define KANTO_TRAINER_FLAGS_COUNT   512
+#define KANTO_FLAGS_BYTES           ((KANTO_STORY_FLAGS_COUNT + KANTO_TRAINER_FLAGS_COUNT) / 8)
+
+// BEGIN KANTO STORY FLAGS: allocated by tools/kanto_port/port_npcs.py
+#define FLAG_DEFEATED_LEADER_GIOVANNI               (KANTO_FLAGS_START + 0x00)
+#define FLAG_DEFEATED_LT_SURGE                      (KANTO_FLAGS_START + 0x01)
+#define FLAG_DEFEATED_MISTY                         (KANTO_FLAGS_START + 0x02)
+#define FLAG_DEFEATED_ROCKETS_IN_WAREHOUSE          (KANTO_FLAGS_START + 0x03)
+#define FLAG_DEFEATED_SABRINA                       (KANTO_FLAGS_START + 0x04)
+#define FLAG_GOT_HITMON_FROM_DOJO                   (KANTO_FLAGS_START + 0x05)
+#define FLAG_GOT_HM05                               (KANTO_FLAGS_START + 0x06)
+#define FLAG_GOT_TM03_FROM_MISTY                    (KANTO_FLAGS_START + 0x07)
+#define FLAG_GOT_TM04_FROM_SABRINA                  (KANTO_FLAGS_START + 0x08)
+#define FLAG_GOT_TM06_FROM_KOGA                     (KANTO_FLAGS_START + 0x09)
+#define FLAG_GOT_TM19_FROM_ERIKA                    (KANTO_FLAGS_START + 0x0A)
+#define FLAG_GOT_TM26_FROM_GIOVANNI                 (KANTO_FLAGS_START + 0x0B)
+#define FLAG_GOT_TM28_FROM_ROCKET                   (KANTO_FLAGS_START + 0x0C)
+#define FLAG_GOT_TM34_FROM_SURGE                    (KANTO_FLAGS_START + 0x0D)
+#define FLAG_GOT_TM38_FROM_BLAINE                   (KANTO_FLAGS_START + 0x0E)
+#define FLAG_GOT_TM39_FROM_BROCK                    (KANTO_FLAGS_START + 0x0F)
+#define FLAG_RECOVERED_SAPPHIRE                     (KANTO_FLAGS_START + 0x10)
+#define FLAG_SYS_CAN_LINK_WITH_RS                   (KANTO_FLAGS_START + 0x11)
+// END KANTO STORY FLAGS
+
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
 #define FLAG_DONT_TRANSITION_MUSIC              (SPECIAL_FLAGS_START + 0x1)

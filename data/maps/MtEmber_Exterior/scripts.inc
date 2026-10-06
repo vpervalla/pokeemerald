@@ -16,15 +16,18 @@ MtEmber_Exterior_EventScript_Grunt2::
 	end
 
 MtEmber_Exterior_EventScript_Jocelyn::
-	msgbox MtEmber_Exterior_Text_JocelynIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_CRUSH_GIRL_JOCELYN, MtEmber_Exterior_Text_JocelynIntro, MtEmber_Exterior_Text_JocelynDefeat
+	msgbox MtEmber_Exterior_Text_JocelynPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtEmber_Exterior_EventScript_Logan::
-	msgbox MtEmber_Exterior_Text_LoganIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_PKMN_RANGER_LOGAN, MtEmber_Exterior_Text_LoganIntro, MtEmber_Exterior_Text_LoganDefeat
+	msgbox MtEmber_Exterior_Text_LoganPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtEmber_Exterior_EventScript_Beth::
-	msgbox MtEmber_Exterior_Text_BethIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_PKMN_RANGER_BETH, MtEmber_Exterior_Text_BethIntro, MtEmber_Exterior_Text_BethDefeat
+	msgbox MtEmber_Exterior_Text_BethPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtEmber_Exterior_EventScript_ItemUltraBall::
@@ -39,20 +42,6 @@ MtEmber_Exterior_EventScript_ItemDireHit::
 	finditem ITEM_DIRE_HIT
 	end
 
-MtEmber_Exterior_Text_BethIntro:
-    .string "Do you know how caves form inside\n"
-    .string "volcanoes?$"
-
-MtEmber_Exterior_Text_JocelynIntro:
-    .string "I've been in training so I can mend\n"
-    .string "my broken heart…\p"
-    .string "It toughened me up physically at\n"
-    .string "least! Hi-yah!$"
-
-MtEmber_Exterior_Text_LoganIntro:
-    .string "An active volcano is one that's\n"
-    .string "erupting, or about to.$"
-
 MtEmber_Exterior_Text_WellTryDiggingHere:
     .string "Over here.\n"
     .string "We'll try digging here.\p"
@@ -62,5 +51,45 @@ MtEmber_Exterior_Text_WellTryDiggingHere:
 MtEmber_Exterior_Text_YoureInTheWayGetLost:
     .string "What the…?\n"
     .string "You're in the way. Get lost.$"
+
+MtEmber_Exterior_Text_BethDefeat:
+    .string "Atchah!\n"
+    .string "You're shockingly good!$"
+
+MtEmber_Exterior_Text_BethIntro:
+    .string "Do you know how caves form inside\n"
+    .string "volcanoes?$"
+
+MtEmber_Exterior_Text_BethPostBattle:
+    .string "When lava at the surface of magma\n"
+    .string "hardens, and the magma inside flows\l"
+    .string "out, caverns are left behind.$"
+
+MtEmber_Exterior_Text_JocelynDefeat:
+    .string "I think I tried to overdo it…$"
+
+MtEmber_Exterior_Text_JocelynIntro:
+    .string "I've been in training so I can mend\n"
+    .string "my broken heart…\p"
+    .string "It toughened me up physically at\n"
+    .string "least! Hi-yah!$"
+
+MtEmber_Exterior_Text_JocelynPostBattle:
+    .string "The way you battle, it reminds me\n"
+    .string "of the guy who dumped me…$"
+
+MtEmber_Exterior_Text_LoganDefeat:
+    .string "Whew… That was hot!\n"
+    .string "Sweat's erupting from me!$"
+
+MtEmber_Exterior_Text_LoganIntro:
+    .string "An active volcano is one that's\n"
+    .string "erupting, or about to.$"
+
+MtEmber_Exterior_Text_LoganPostBattle:
+    .string "They say there're over 1,500\n"
+    .string "active volcanoes in the world.\p"
+    .string "Just thinking about them makes me\n"
+    .string "feel all hot and gooey inside!$"
 
 @ END KANTO NPCS

@@ -12,15 +12,18 @@ ViridianForest_EventScript_Boy::
 	end
 
 ViridianForest_EventScript_Rick::
-	msgbox ViridianForest_Text_RickIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_RICK, ViridianForest_Text_RickIntro, ViridianForest_Text_RickDefeat
+	msgbox ViridianForest_Text_RickPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ViridianForest_EventScript_Doug::
-	msgbox ViridianForest_Text_DougIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_DOUG, ViridianForest_Text_DougIntro, ViridianForest_Text_DougDefeat
+	msgbox ViridianForest_Text_DougPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ViridianForest_EventScript_Sammy::
-	msgbox ViridianForest_Text_SammyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_SAMMY, ViridianForest_Text_SammyIntro, ViridianForest_Text_SammyDefeat
+	msgbox ViridianForest_Text_SammyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ViridianForest_EventScript_ItemPokeBall::
@@ -36,28 +39,18 @@ ViridianForest_EventScript_ItemPotion::
 	end
 
 ViridianForest_EventScript_Anthony::
-	msgbox ViridianForest_Text_AnthonyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_ANTHONY, ViridianForest_Text_AnthonyIntro, ViridianForest_Text_AnthonyDefeat
+	msgbox ViridianForest_Text_AnthonyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ViridianForest_EventScript_Charlie::
-	msgbox ViridianForest_Text_CharlieIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_CHARLIE, ViridianForest_Text_CharlieIntro, ViridianForest_Text_CharlieDefeat
+	msgbox ViridianForest_Text_CharliePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ViridianForest_EventScript_ItemPotion2::
 	finditem ITEM_POTION
 	end
-
-ViridianForest_Text_AnthonyIntro:
-    .string "I might be little, but I won't like\n"
-    .string "it if you go easy on me!$"
-
-ViridianForest_Text_CharlieIntro:
-    .string "Did you know that POKéMON evolve?$"
-
-ViridianForest_Text_DougIntro:
-    .string "Yo!\n"
-    .string "You can't jam out if you're a\l"
-    .string "POKéMON TRAINER!$"
 
 ViridianForest_Text_FriendsItchingToBattle:
     .string "I came here with some friends to\n"
@@ -71,13 +64,65 @@ ViridianForest_Text_RanOutOfPokeBalls:
     .string "That's why you can never have too\n"
     .string "many POKé BALLS.$"
 
+ViridianForest_Text_AnthonyDefeat:
+    .string "Oh, boo.\n"
+    .string "Nothing went right.$"
+
+ViridianForest_Text_AnthonyIntro:
+    .string "I might be little, but I won't like\n"
+    .string "it if you go easy on me!$"
+
+ViridianForest_Text_AnthonyPostBattle:
+    .string "I lost some of my allowance…$"
+
+ViridianForest_Text_CharlieDefeat:
+    .string "Oh!\n"
+    .string "I lost!$"
+
+ViridianForest_Text_CharlieIntro:
+    .string "Did you know that POKéMON evolve?$"
+
+ViridianForest_Text_CharliePostBattle:
+    .string "BUG POKéMON evolve quickly.\n"
+    .string "They're a lot of fun!$"
+
+ViridianForest_Text_DougDefeat:
+    .string "Huh?\n"
+    .string "I ran out of POKéMON!$"
+
+ViridianForest_Text_DougIntro:
+    .string "Yo!\n"
+    .string "You can't jam out if you're a\l"
+    .string "POKéMON TRAINER!$"
+
+ViridianForest_Text_DougPostBattle:
+    .string "That totally stinks! I'm going to\n"
+    .string "catch some stronger ones!$"
+
+ViridianForest_Text_RickDefeat:
+    .string "No!\nCATERPIE can't hack it!$"
+
 ViridianForest_Text_RickIntro:
     .string "Hey! You have POKéMON!\n"
     .string "Come on!\l"
     .string "Let's battle 'em!$"
 
+ViridianForest_Text_RickPostBattle:
+    .string "Ssh! You'll scare the bugs away.\n"
+    .string "Another time, okay?$"
+
+ViridianForest_Text_SammyDefeat:
+    .string "I give!\n"
+    .string "You're good at this!$"
+
 ViridianForest_Text_SammyIntro:
     .string "Hey, wait up!\n"
     .string "What's the hurry? Why the rush?$"
+
+ViridianForest_Text_SammyPostBattle:
+    .string "Sometimes, you can find stuff on\n"
+    .string "the ground.\p"
+    .string "I'm looking for the stuff I\n"
+    .string "dropped. Can you help me?$"
 
 @ END KANTO NPCS

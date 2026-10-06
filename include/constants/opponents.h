@@ -864,4 +864,6 @@
 #define TRAINERS_COUNT                      855
 #define MAX_TRAINERS_COUNT                  864
 
+#include "constants/opponents_kanto.h"
+
 #endif  // GUARD_CONSTANTS_OPPONENTS_H

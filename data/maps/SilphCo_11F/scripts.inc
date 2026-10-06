@@ -12,7 +12,8 @@ SilphCo_11F_EventScript_Secretary::
 	end
 
 SilphCo_11F_EventScript_Grunt1::
-	msgbox SilphCo_11F_Text_Grunt1Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_40, SilphCo_11F_Text_Grunt1Intro, SilphCo_11F_Text_Grunt1Defeat
+	msgbox SilphCo_11F_Text_Grunt1PostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SilphCo_11F_EventScript_ItemZinc::
@@ -20,16 +21,9 @@ SilphCo_11F_EventScript_ItemZinc::
 	end
 
 SilphCo_11F_EventScript_Grunt2::
-	msgbox SilphCo_11F_Text_Grunt2Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_41, SilphCo_11F_Text_Grunt2Intro, SilphCo_11F_Text_Grunt2Defeat
+	msgbox SilphCo_11F_Text_Grunt2PostBattle, MSGBOX_AUTOCLOSE
 	end
-
-SilphCo_11F_Text_Grunt1Intro:
-    .string "Halt! Do you have an appointment\n"
-    .string "with my BOSS?$"
-
-SilphCo_11F_Text_Grunt2Intro:
-    .string "Stop right there!\n"
-    .string "Don't you move!$"
 
 SilphCo_11F_Text_ThanksForRescuingUs:
     .string "SECRETARY: Thank you for rescuing\n"
@@ -46,5 +40,28 @@ SilphCo_11F_Text_ThatsOurSecretPrototype:
     .string "fail!\p"
     .string "You should be quiet about using it,\n"
     .string "though.$"
+
+SilphCo_11F_Text_Grunt1Defeat:
+    .string "Gaah!\n"
+    .string "Demolished!$"
+
+SilphCo_11F_Text_Grunt1Intro:
+    .string "Halt! Do you have an appointment\n"
+    .string "with my BOSS?$"
+
+SilphCo_11F_Text_Grunt1PostBattle:
+    .string "Watch your step…\n"
+    .string "My BOSS likes his POKéMON tough!$"
+
+SilphCo_11F_Text_Grunt2Defeat:
+    .string "Don't…\n"
+    .string "Please!$"
+
+SilphCo_11F_Text_Grunt2Intro:
+    .string "Stop right there!\n"
+    .string "Don't you move!$"
+
+SilphCo_11F_Text_Grunt2PostBattle:
+    .string "So, you want to see my BOSS?$"
 
 @ END KANTO NPCS

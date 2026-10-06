@@ -8,36 +8,101 @@ Route3_EventScript_Youngster::
 	end
 
 Route3_EventScript_Robin::
-	msgbox Route3_Text_RobinIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_ROBIN, Route3_Text_RobinIntro, Route3_Text_RobinDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_RobinRematch
+	msgbox Route3_Text_RobinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_James::
-	msgbox Route3_Text_JamesIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_JAMES, Route3_Text_JamesIntro, Route3_Text_JamesDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_JamesRematch
+	msgbox Route3_Text_JamesPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Sally::
-	msgbox Route3_Text_SallyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_SALLY, Route3_Text_SallyIntro, Route3_Text_SallyDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_SallyRematch
+	msgbox Route3_Text_SallyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Greg::
-	msgbox Route3_Text_GregIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_GREG, Route3_Text_GregIntro, Route3_Text_GregDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_GregRematch
+	msgbox Route3_Text_GregPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Calvin::
-	msgbox Route3_Text_CalvinIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_YOUNGSTER_CALVIN, Route3_Text_CalvinIntro, Route3_Text_CalvinDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_CalvinRematch
+	msgbox Route3_Text_CalvinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Janice::
-	msgbox Route3_Text_JaniceIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_JANICE, Route3_Text_JaniceIntro, Route3_Text_JaniceDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_JaniceRematch
+	msgbox Route3_Text_JanicePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Colton::
-	msgbox Route3_Text_ColtonIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BUG_CATCHER_COLTON, Route3_Text_ColtonIntro, Route3_Text_ColtonDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_ColtonRematch
+	msgbox Route3_Text_ColtonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_Ben::
-	msgbox Route3_Text_BenIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_YOUNGSTER_BEN, Route3_Text_BenIntro, Route3_Text_BenDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route3_EventScript_BenRematch
+	msgbox Route3_Text_BenPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+Route3_Text_TunnelFromCeruleanTiring:
+    .string "Whew… I better take a rest…\n"
+    .string "Groan…\p"
+    .string "That tunnel from CERULEAN takes a\n"
+    .string "lot out of you!$"
+
+Route3_EventScript_BenRematch::
+	msgbox Route3_Text_BenPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_CalvinRematch::
+	msgbox Route3_Text_CalvinPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_ColtonRematch::
+	msgbox Route3_Text_ColtonPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_GregRematch::
+	msgbox Route3_Text_GregPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_JamesRematch::
+	msgbox Route3_Text_JamesPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_JaniceRematch::
+	msgbox Route3_Text_JanicePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_RobinRematch::
+	msgbox Route3_Text_RobinPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_EventScript_SallyRematch::
+	msgbox Route3_Text_SallyPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route3_Text_BenDefeat:
+    .string "I don't believe it!$"
 
 Route3_Text_BenIntro:
     .string "Hi!\n"
@@ -45,38 +110,89 @@ Route3_Text_BenIntro:
     .string "They're delightfully comfy and\n"
     .string "easy to wear!$"
 
+Route3_Text_BenPostBattle:
+    .string "Are you using a POKéMON CENTER's\n"
+    .string "PC for storing your POKéMON?\p"
+    .string "Each BOX can hold up to\n"
+    .string "30 POKéMON.$"
+
+Route3_Text_CalvinDefeat:
+    .string "Lost!\n"
+    .string "Lost! Lost!$"
+
 Route3_Text_CalvinIntro:
     .string "Hey! You're not wearing shorts!\n"
     .string "What's wrong with you?$"
+
+Route3_Text_CalvinPostBattle:
+    .string "I always wear shorts, even in\n"
+    .string "winter. That's my policy.$"
+
+Route3_Text_ColtonDefeat:
+    .string "You beat me again!$"
 
 Route3_Text_ColtonIntro:
     .string "Hey!\n"
     .string "I saw you in VIRIDIAN FOREST!$"
 
+Route3_Text_ColtonPostBattle:
+    .string "There are other kinds of POKéMON\n"
+    .string "than the ones you find in forests.$"
+
+Route3_Text_GregDefeat:
+    .string "If I had new POKéMON, I would've\n"
+    .string "won!$"
+
 Route3_Text_GregIntro:
     .string "Are you a TRAINER?\n"
     .string "Let's get with it right away!$"
+
+Route3_Text_GregPostBattle:
+    .string "If a POKéMON BOX on the PC gets\n"
+    .string "full, just switch to another BOX.$"
+
+Route3_Text_JamesDefeat:
+    .string "Done like dinner!$"
 
 Route3_Text_JamesIntro:
     .string "I'll battle you with the POKéMON\n"
     .string "I just caught.$"
 
+Route3_Text_JamesPostBattle:
+    .string "Trained POKéMON are stronger than\n"
+    .string "the wild ones.$"
+
+Route3_Text_JaniceDefeat:
+    .string "You're mean!$"
+
 Route3_Text_JaniceIntro:
     .string "Excuse me!\n"
     .string "You looked at me, didn't you?$"
+
+Route3_Text_JanicePostBattle:
+    .string "You shouldn't be staring if you\n"
+    .string "don't want to battle!$"
+
+Route3_Text_RobinDefeat:
+    .string "That's it?$"
 
 Route3_Text_RobinIntro:
     .string "Eek!\n"
     .string "Did you touch me?$"
 
+Route3_Text_RobinPostBattle:
+    .string "ROUTE 4 is at the foot of\n"
+    .string "MT. MOON.$"
+
+Route3_Text_SallyDefeat:
+    .string "Be nice!$"
+
 Route3_Text_SallyIntro:
     .string "That look you gave me…\n"
     .string "It's so intriguing!$"
 
-Route3_Text_TunnelFromCeruleanTiring:
-    .string "Whew… I better take a rest…\n"
-    .string "Groan…\p"
-    .string "That tunnel from CERULEAN takes a\n"
-    .string "lot out of you!$"
+Route3_Text_SallyPostBattle:
+    .string "You can avoid battles by not\n"
+    .string "letting TRAINERS see you.$"
 
 @ END KANTO NPCS

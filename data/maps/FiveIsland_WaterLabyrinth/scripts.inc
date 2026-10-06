@@ -8,12 +8,11 @@ FiveIsland_WaterLabyrinth_EventScript_EggGentleman::
 	end
 
 FiveIsland_WaterLabyrinth_EventScript_Alize::
-	msgbox FiveIsland_WaterLabyrinth_Text_AlizeIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_PKMN_BREEDER_ALIZE, FiveIsland_WaterLabyrinth_Text_AlizeIntro, FiveIsland_WaterLabyrinth_Text_AlizeDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_WaterLabyrinth_EventScript_AlizeRematch
+	msgbox FiveIsland_WaterLabyrinth_Text_AlizePostBattle, MSGBOX_AUTOCLOSE
 	end
-
-FiveIsland_WaterLabyrinth_Text_AlizeIntro:
-    .string "This is an excellent environment\n"
-    .string "for raising POKéMON.$"
 
 FiveIsland_WaterLabyrinth_Text_LetMeTakeLookAtMons:
     .string "You travel all over the place,\n"
@@ -22,5 +21,21 @@ FiveIsland_WaterLabyrinth_Text_LetMeTakeLookAtMons:
     .string "too harshly, are you?\p"
     .string "Let me take a look.\n"
     .string "… … …   … … …$"
+
+FiveIsland_WaterLabyrinth_EventScript_AlizeRematch::
+	msgbox FiveIsland_WaterLabyrinth_Text_AlizePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+FiveIsland_WaterLabyrinth_Text_AlizeDefeat:
+    .string "Your POKéMON are growing up\n"
+    .string "admirably well!$"
+
+FiveIsland_WaterLabyrinth_Text_AlizeIntro:
+    .string "This is an excellent environment\n"
+    .string "for raising POKéMON.$"
+
+FiveIsland_WaterLabyrinth_Text_AlizePostBattle:
+    .string "You know, I think you have the\n"
+    .string "talent to be a good BREEDER.$"
 
 @ END KANTO NPCS

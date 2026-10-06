@@ -8,11 +8,13 @@ PokemonMansion_B1F_EventScript_ItemTM22::
 	end
 
 PokemonMansion_B1F_EventScript_Lewis::
-	msgbox PokemonMansion_B1F_Text_LewisIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_BURGLAR_LEWIS, PokemonMansion_B1F_Text_LewisIntro, PokemonMansion_B1F_Text_LewisDefeat
+	msgbox PokemonMansion_B1F_Text_LewisPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 PokemonMansion_B1F_EventScript_Ivan::
-	msgbox PokemonMansion_B1F_Text_IvanIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_SCIENTIST_IVAN, PokemonMansion_B1F_Text_IvanIntro, PokemonMansion_B1F_Text_IvanDefeat
+	msgbox PokemonMansion_B1F_Text_IvanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 PokemonMansion_B1F_EventScript_ItemTM14::
@@ -27,12 +29,26 @@ PokemonMansion_B1F_EventScript_ItemSecretKey::
 	finditem ITEM_SECRET_KEY
 	end
 
+PokemonMansion_B1F_Text_IvanDefeat:
+    .string "What was that for?$"
+
 PokemonMansion_B1F_Text_IvanIntro:
     .string "This place is ideal for a lab.\n"
     .string "Look at all this space.$"
 
+PokemonMansion_B1F_Text_IvanPostBattle:
+    .string "I like it here.\n"
+    .string "It's conducive to my studies.$"
+
+PokemonMansion_B1F_Text_LewisDefeat:
+    .string "Awooh!$"
+
 PokemonMansion_B1F_Text_LewisIntro:
     .string "Uh-oh…\n"
     .string "Where am I now?$"
+
+PokemonMansion_B1F_Text_LewisPostBattle:
+    .string "You can find stuff lying around.\n"
+    .string "The residents must've left them.$"
 
 @ END KANTO NPCS

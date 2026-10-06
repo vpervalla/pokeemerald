@@ -44,7 +44,8 @@ CeladonCity_GameCorner_EventScript_Gentleman::
 	end
 
 CeladonCity_GameCorner_EventScript_RocketGrunt::
-	msgbox CeladonCity_GameCorner_Text_GruntIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_7, CeladonCity_GameCorner_Text_GruntIntro, CeladonCity_GameCorner_Text_GruntDefeat, CeladonCity_GameCorner_Text_DefeatedGrunt
+	msgbox CeladonCity_GameCorner_Text_GruntPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 CeladonCity_GameCorner_Text_CanExchangeCoinsNextDoor:
@@ -54,10 +55,6 @@ CeladonCity_GameCorner_Text_CanExchangeCoinsNextDoor:
 
 CeladonCity_GameCorner_Text_DoYouWantToPlay:
     .string "Kid, do you want to play?$"
-
-CeladonCity_GameCorner_Text_GruntIntro:
-    .string "I'm guarding this poster!\n"
-    .string "Go away, or else!$"
 
 CeladonCity_GameCorner_Text_GymGuyAdvice:
     .string "Hey!\p"
@@ -100,5 +97,56 @@ CeladonCity_GameCorner_Text_WelcomeBuySomeCoins:
 CeladonCity_GameCorner_Text_WinOrLoseItsOnlyLuck:
     .string "These slot games…\n"
     .string "Win or lose, it's only by luck.$"
+
+CeladonCity_GameCorner_Movement_GruntExit:
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+CeladonCity_GameCorner_Movement_GruntExitWest:
+	walk_down
+	walk_right
+	walk_right
+	walk_up
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+CeladonCity_GameCorner_Text_DefeatedGrunt::
+	msgbox CeladonCity_GameCorner_Text_GruntPostBattle
+	closemessage
+	call_if_eq VAR_FACING, DIR_WEST, CeladonCity_GameCorner_Text_GruntExitWest
+	call_if_ne VAR_FACING, DIR_WEST, CeladonCity_GameCorner_Text_GruntExit
+	removeobject LOCALID_GAME_CORNER_GRUNT
+	release
+	end
+
+CeladonCity_GameCorner_Text_GruntDefeat:
+    .string "Dang!$"
+
+CeladonCity_GameCorner_Text_GruntExit::
+	applymovement LOCALID_GAME_CORNER_GRUNT, CeladonCity_GameCorner_Movement_GruntExit
+	waitmovement 0
+	return
+
+CeladonCity_GameCorner_Text_GruntExitWest::
+	applymovement LOCALID_GAME_CORNER_GRUNT, CeladonCity_GameCorner_Movement_GruntExitWest
+	waitmovement 0
+	return
+
+CeladonCity_GameCorner_Text_GruntIntro:
+    .string "I'm guarding this poster!\n"
+    .string "Go away, or else!$"
+
+CeladonCity_GameCorner_Text_GruntPostBattle:
+    .string "The TEAM ROCKET HIDEOUT might\n"
+    .string "be discovered!\p"
+    .string "I better tell BOSS!$"
 
 @ END KANTO NPCS

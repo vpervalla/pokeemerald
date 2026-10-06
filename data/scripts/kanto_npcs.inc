@@ -180,16 +180,6 @@ Kanto_PokemonJournal_Text_SpecialFeatureSabrina:
 	.string "communicate with her POKéMON\l"
 	.string "during battle without speaking.$"
 
-Kanto_PokemonMansion_1F_Text_ArnieIntro:
-    .string "I can't get out!\n"
-    .string "This old place is one big puzzle.$"
-
-Kanto_PokemonMansion_1F_Text_BraydonIntro:
-    .string "My mentor once lived here.$"
-
-Kanto_PokemonMansion_1F_Text_SimonIntro:
-    .string "This place is, like, huge!$"
-
 Kanto_SafariZone_Center_Text_CatchingMonsAsGifts:
     .string "I'm catching POKéMON to take home\n"
     .string "as gifts.$"
@@ -449,4 +439,36 @@ Kanto_Trade_Text_LookingForMonWannaTradeForMon:
 	.string "{STR_VAR_1}!\p"
 	.string "Wanna trade one for my\n"
 	.string "{STR_VAR_2}?$"
+
+Kanto_PokemonMansion_1F_Text_ArnieDefeat:
+    .string "Oh, no!\n"
+    .string "My bag of loot!$"
+
+Kanto_PokemonMansion_1F_Text_ArnieIntro:
+    .string "I can't get out!\n"
+    .string "This old place is one big puzzle.$"
+
+Kanto_PokemonMansion_1F_Text_ArniePostBattle:
+    .string "The switches here open and close\n"
+    .string "alternating sets of doors.$"
+
+Kanto_PokemonMansion_1F_Text_BraydonDefeat:
+    .string "Whew!\n"
+    .string "Overwhelming!$"
+
+Kanto_PokemonMansion_1F_Text_BraydonIntro:
+    .string "My mentor once lived here.$"
+
+Kanto_PokemonMansion_1F_Text_BraydonPostBattle:
+    .string "So, you're stuck?\n"
+    .string "Try jumping off over there!$"
+
+Kanto_PokemonMansion_1F_Text_SimonDefeat:
+    .string "Ayah!$"
+
+Kanto_PokemonMansion_1F_Text_SimonIntro:
+    .string "This place is, like, huge!$"
+
+Kanto_PokemonMansion_1F_Text_SimonPostBattle:
+    .string "I wonder where my partner went.$"
 

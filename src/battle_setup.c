@@ -981,14 +981,23 @@ static u8 TrainerBattleLoadArg8(const u8 *ptr)
     return T1_READ_8(ptr);
 }
 
+// Kanto trainers come after Emerald's, whose flags fill the trainer flag range, so theirs are
+// kept apart (in SaveBlock1.kantoFlags)
+static u16 GetTrainerFlagId(u16 trainerId)
+{
+    if (trainerId >= KANTO_TRAINERS_START)
+        return KANTO_TRAINER_FLAGS_START + trainerId - KANTO_TRAINERS_START;
+    return TRAINER_FLAGS_START + trainerId;
+}
+
 static u16 GetTrainerAFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_A;
+    return GetTrainerFlagId(gTrainerBattleOpponent_A);
 }
 
 static u16 GetTrainerBFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_B;
+    return GetTrainerFlagId(gTrainerBattleOpponent_B);
 }
 
 static bool32 IsPlayerDefeated(u32 battleOutcome)
@@ -1215,7 +1224,7 @@ void SetUpTwoTrainersBattle(void)
 bool32 GetTrainerFlagFromScriptPointer(const u8 *data)
 {
     u32 flag = TrainerBattleLoadArg16(data + 2);
-    return FlagGet(TRAINER_FLAGS_START + flag);
+    return FlagGet(GetTrainerFlagId(flag));
 }
 
 // Set trainer's movement type so they stop and remain facing that direction
@@ -1256,17 +1265,17 @@ static void UNUSED SetBattledTrainerFlag(void)
 
 bool8 HasTrainerBeenFought(u16 trainerId)
 {
-    return FlagGet(TRAINER_FLAGS_START + trainerId);
+    return FlagGet(GetTrainerFlagId(trainerId));
 }
 
 void SetTrainerFlag(u16 trainerId)
 {
-    FlagSet(TRAINER_FLAGS_START + trainerId);
+    FlagSet(GetTrainerFlagId(trainerId));
 }
 
 void ClearTrainerFlag(u16 trainerId)
 {
-    FlagClear(TRAINER_FLAGS_START + trainerId);
+    FlagClear(GetTrainerFlagId(trainerId));
 }
 
 void BattleSetup_StartTrainerBattle(void)
@@ -1450,6 +1459,34 @@ void PlayTrainerEncounterMusic(void)
     if (sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
         && sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
     {
+        if (trainerId >= KANTO_TRAINERS_START)
+        {
+            // FRLG's encounter music
+            switch (GetTrainerEncounterMusicId(trainerId))
+            {
+            case TRAINER_ENCOUNTER_MUSIC_FEMALE:
+            case TRAINER_ENCOUNTER_MUSIC_GIRL:
+            case TRAINER_ENCOUNTER_MUSIC_TWINS:
+                music = MUS_RG_ENCOUNTER_GIRL;
+                break;
+            case TRAINER_ENCOUNTER_MUSIC_MALE:
+            case TRAINER_ENCOUNTER_MUSIC_INTENSE:
+            case TRAINER_ENCOUNTER_MUSIC_COOL:
+            case TRAINER_ENCOUNTER_MUSIC_SWIMMER:
+            case TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR:
+            case TRAINER_ENCOUNTER_MUSIC_HIKER:
+            case TRAINER_ENCOUNTER_MUSIC_INTERVIEWER:
+            case TRAINER_ENCOUNTER_MUSIC_RICH:
+                music = MUS_RG_ENCOUNTER_BOY;
+                break;
+            default:
+                music = MUS_RG_ENCOUNTER_ROCKET;
+                break;
+            }
+            PlayNewMapMusic(music);
+            return;
+        }
+
         switch (GetTrainerEncounterMusicId(trainerId))
         {
         case TRAINER_ENCOUNTER_MUSIC_MALE:

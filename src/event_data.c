@@ -197,6 +197,8 @@ u8 *GetFlagPointer(u16 id)
 {
     if (id == 0)
         return NULL;
+    else if (id >= KANTO_FLAGS_START && id < KANTO_FLAGS_START + KANTO_FLAGS_BYTES * 8)
+        return &gSaveBlock1Ptr->kantoFlags[(id - KANTO_FLAGS_START) / 8];
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
     else

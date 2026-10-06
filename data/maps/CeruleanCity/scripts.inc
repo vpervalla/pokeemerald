@@ -13,7 +13,8 @@ CeruleanCity_EventScript_Policeman::
 	end
 
 CeruleanCity_EventScript_Grunt::
-	msgbox CeruleanCity_Text_GruntDefeat, MSGBOX_NPC
+	trainerbattle_no_intro TRAINER_KANTO_TEAM_ROCKET_GRUNT_5, CeruleanCity_Text_GruntDefeat
+	goto CeruleanCity_EventScript_GruntDefeated
 	end
 
 CeruleanCity_EventScript_LittleBoy::
@@ -43,10 +44,6 @@ CeruleanCity_EventScript_Woman::
 CeruleanCity_EventScript_CeruleanCaveGuard::
 	msgbox CeruleanCity_Text_ThisIsCeruleanCave, MSGBOX_NPC
 	end
-
-CeruleanCity_Text_GruntDefeat:
-    .string "GRUNT: Stop! I give up!\n"
-    .string "I'll leave quietly!$"
 
 CeruleanCity_Text_IfSlowbroWasntThereCouldCutTree:
     .string "If that SLOWBRO wasn't there, you\n"
@@ -95,5 +92,48 @@ CeruleanCity_Text_WantBrightRedBicycle:
     .string "I want a bright red bicycle.\p"
     .string "I'll keep it at home, so it won't\n"
     .string "get dirty.$"
+
+CeruleanCity_EventScript_GruntDefeated::
+	msgbox CeruleanCity_Text_OkayIllReturnStolenTM
+	checkitemspace ITEM_TM28
+	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_EventScript_NoRoomForTM28
+	giveitem ITEM_TM28
+	msgbox CeruleanCity_Text_BetterGetMovingBye
+	closemessage
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_CERULEAN_GRUNT
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_GOT_TM28_FROM_ROCKET
+	release
+	end
+
+CeruleanCity_EventScript_NoRoomForTM28::
+	msgbox CeruleanCity_Text_MakeRoomForThisCantRun
+	release
+	end
+
+CeruleanCity_Text_BetterGetMovingBye:
+    .string "I better get moving!\n"
+    .string "Bye!$"
+
+CeruleanCity_Text_GruntDefeat:
+    .string "GRUNT: Stop! I give up!\n"
+    .string "I'll leave quietly!$"
+
+CeruleanCity_Text_GruntIntro:
+    .string "Hey! Stay out!\n"
+    .string "It's not your yard!\p"
+    .string "…Huh?\n"
+    .string "Me?\p"
+    .string "I'm an innocent bystander!\n"
+    .string "Don't you believe me?{PLAY_BGM}{MUS_RG_ENCOUNTER_ROCKET}$"
+
+CeruleanCity_Text_MakeRoomForThisCantRun:
+    .string "Make room for this!\n"
+    .string "I can't run until I give it to you!$"
+
+CeruleanCity_Text_OkayIllReturnStolenTM:
+    .string "…Okay.\n"
+    .string "I'll return the TM I stole.$"
 
 @ END KANTO NPCS

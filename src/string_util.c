@@ -1,4 +1,5 @@
 #include "global.h"
+#include "region_map.h"
 #include "string_util.h"
 #include "text.h"
 #include "strings.h"
@@ -455,6 +456,9 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
+    // In Kanto the rival is the one named in Prof. Oak's speech
+    if (GetPlayerRegion() != REGION_HOENN && gSaveBlock2Ptr->rivalName[0] != EOS && gSaveBlock2Ptr->rivalName[0] != 0)
+        return gSaveBlock2Ptr->rivalName;
     if (gSaveBlock2Ptr->playerGender == MALE)
         return gText_ExpandedPlaceholder_May;
     else

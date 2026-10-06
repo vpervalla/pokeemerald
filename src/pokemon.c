@@ -6448,6 +6448,21 @@ u16 GetBattleBGM(void)
         else
             trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
 
+        // Kanto trainers battle to FRLG's music
+        if (gTrainerBattleOpponent_A >= KANTO_TRAINERS_START && !(gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL)))
+        {
+            switch (trainerClass)
+            {
+            case TRAINER_CLASS_LEADER:
+            case TRAINER_CLASS_ELITE_FOUR:
+                return MUS_RG_VS_GYM_LEADER;
+            case TRAINER_CLASS_CHAMPION:
+                return MUS_RG_VS_CHAMPION;
+            default:
+                return MUS_RG_VS_TRAINER;
+            }
+        }
+
         switch (trainerClass)
         {
         case TRAINER_CLASS_AQUA_LEADER:
@@ -6995,14 +7010,14 @@ void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
 
 const u8 *GetTrainerClassNameFromId(u16 trainerId)
 {
-    if (trainerId >= TRAINERS_COUNT)
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
         trainerId = TRAINER_NONE;
     return gTrainerClassNames[gTrainers[trainerId].trainerClass];
 }
 
 const u8 *GetTrainerNameFromId(u16 trainerId)
 {
-    if (trainerId >= TRAINERS_COUNT)
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
         trainerId = TRAINER_NONE;
     return gTrainers[trainerId].trainerName;
 }

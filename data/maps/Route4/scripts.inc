@@ -8,7 +8,10 @@ Route4_EventScript_Woman::
 	end
 
 Route4_EventScript_Crissy::
-	msgbox Route4_Text_CrissyIntro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_LASS_CRISSY, Route4_Text_CrissyIntro, Route4_Text_CrissyDefeat
+	specialvar VAR_RESULT, ShouldTryRematchBattle
+	goto_if_eq VAR_RESULT, TRUE, Route4_EventScript_CrissyRematch
+	msgbox Route4_Text_CrissyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route4_EventScript_ItemTM05::
@@ -27,10 +30,6 @@ Route4_EventScript_MegaKickTutor::
 	msgbox Kanto_Text_MegaKickTeach, MSGBOX_NPC
 	end
 
-Route4_Text_CrissyIntro:
-    .string "I came to MT. MOON in search of\n"
-    .string "mushroom POKéMON.$"
-
 Route4_Text_PeopleLikeAndRespectBrock:
     .string "Oh, wow, that's the BOULDERBADGE!\n"
     .string "You got it from BROCK, didn't you?\p"
@@ -42,5 +41,21 @@ Route4_Text_PeopleLikeAndRespectBrock:
 Route4_Text_TrippedOverGeodude:
     .string "Ouch! I tripped over a rocky\n"
     .string "POKéMON, GEODUDE!$"
+
+Route4_EventScript_CrissyRematch::
+	msgbox Route4_Text_CrissyPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route4_Text_CrissyDefeat:
+    .string "After all I did to catch them!$"
+
+Route4_Text_CrissyIntro:
+    .string "I came to MT. MOON in search of\n"
+    .string "mushroom POKéMON.$"
+
+Route4_Text_CrissyPostBattle:
+    .string "There might not be any more\n"
+    .string "mushrooms here.\p"
+    .string "I think I got them all.$"
 
 @ END KANTO NPCS

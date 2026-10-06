@@ -16,19 +16,23 @@ MtMoon_B2F_EventScript_Miguel::
 	end
 
 MtMoon_B2F_EventScript_Grunt4::
-	msgbox MtMoon_B2F_Text_Grunt4Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_4, MtMoon_B2F_Text_Grunt4Intro, MtMoon_B2F_Text_Grunt4Defeat
+	msgbox MtMoon_B2F_Text_Grunt4PostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtMoon_B2F_EventScript_Grunt1::
-	msgbox MtMoon_B2F_Text_Grunt1Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT, MtMoon_B2F_Text_Grunt1Intro, MtMoon_B2F_Text_Grunt1Defeat
+	msgbox MtMoon_B2F_Text_Grunt1PostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtMoon_B2F_EventScript_Grunt3::
-	msgbox MtMoon_B2F_Text_Grunt3Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_3, MtMoon_B2F_Text_Grunt3Intro, MtMoon_B2F_Text_Grunt3Defeat
+	msgbox MtMoon_B2F_Text_Grunt3PostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtMoon_B2F_EventScript_Grunt2::
-	msgbox MtMoon_B2F_Text_Grunt2Intro, MSGBOX_NPC
+	trainerbattle_single TRAINER_KANTO_TEAM_ROCKET_GRUNT_2, MtMoon_B2F_Text_Grunt2Intro, MtMoon_B2F_Text_Grunt2Defeat
+	msgbox MtMoon_B2F_Text_Grunt2PostBattle, MSGBOX_AUTOCLOSE
 	end
 
 MtMoon_B2F_EventScript_ItemStarPiece::
@@ -47,26 +51,6 @@ MtMoon_B2F_EventScript_ItemAntidote::
 	finditem ITEM_ANTIDOTE
 	end
 
-MtMoon_B2F_Text_Grunt1Intro:
-    .string "We, TEAM ROCKET, shall find the\n"
-    .string "fossils!\p"
-    .string "Reviving POKéMON from them will\n"
-    .string "earn us huge riches!$"
-
-MtMoon_B2F_Text_Grunt2Intro:
-    .string "We, TEAM ROCKET, are POKéMON\n"
-    .string "gangsters!\l"
-    .string "We strike fear with our strength!$"
-
-MtMoon_B2F_Text_Grunt3Intro:
-    .string "We're pulling a big job here!\n"
-    .string "Get lost, kid!$"
-
-MtMoon_B2F_Text_Grunt4Intro:
-    .string "Little kids shouldn't be messing\n"
-    .string "around with grown-ups!\p"
-    .string "It could be bad news!$"
-
 MtMoon_B2F_Text_LabOnCinnabarRegeneratesFossils:
     .string "Far away, on CINNABAR ISLAND,\n"
     .string "there's a POKéMON LAB.\p"
@@ -78,5 +62,54 @@ MtMoon_B2F_Text_YouWantDomeFossil:
 
 MtMoon_B2F_Text_YouWantHelixFossil:
     .string "Do you want the HELIX FOSSIL?$"
+
+MtMoon_B2F_Text_Grunt1Defeat:
+    .string "Urgh!\n"
+    .string "Now I'm mad!$"
+
+MtMoon_B2F_Text_Grunt1Intro:
+    .string "We, TEAM ROCKET, shall find the\n"
+    .string "fossils!\p"
+    .string "Reviving POKéMON from them will\n"
+    .string "earn us huge riches!$"
+
+MtMoon_B2F_Text_Grunt1PostBattle:
+    .string "You made me mad!\n"
+    .string "TEAM ROCKET will blacklist you!$"
+
+MtMoon_B2F_Text_Grunt2Defeat:
+    .string "I blew it!$"
+
+MtMoon_B2F_Text_Grunt2Intro:
+    .string "We, TEAM ROCKET, are POKéMON\n"
+    .string "gangsters!\l"
+    .string "We strike fear with our strength!$"
+
+MtMoon_B2F_Text_Grunt2PostBattle:
+    .string "Darn it all!\n"
+    .string "My associates won't stand for this!$"
+
+MtMoon_B2F_Text_Grunt3Defeat:
+    .string "So, you are good…$"
+
+MtMoon_B2F_Text_Grunt3Intro:
+    .string "We're pulling a big job here!\n"
+    .string "Get lost, kid!$"
+
+MtMoon_B2F_Text_Grunt3PostBattle:
+    .string "If you find a fossil, give it to me\n"
+    .string "and scram!$"
+
+MtMoon_B2F_Text_Grunt4Defeat:
+    .string "I'm steamed!$"
+
+MtMoon_B2F_Text_Grunt4Intro:
+    .string "Little kids shouldn't be messing\n"
+    .string "around with grown-ups!\p"
+    .string "It could be bad news!$"
+
+MtMoon_B2F_Text_Grunt4PostBattle:
+    .string "POKéMON lived here long before\n"
+    .string "people came.$"
 
 @ END KANTO NPCS
