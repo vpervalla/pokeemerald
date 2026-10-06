@@ -122,5 +122,22 @@
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 16,
+      "y": 23,
+      "elevation": 3,
+      "item": "ITEM_STAR_PIECE",
+      "flag": "FLAG_HIDDEN_ITEM_SIX_ISLAND_OUTCAST_ISLAND_STAR_PIECE"
+    },
+    {
+      "type": "hidden_item",
+      "x": 6,
+      "y": 24,
+      "elevation": 3,
+      "item": "ITEM_NET_BALL",
+      "flag": "FLAG_HIDDEN_ITEM_SIX_ISLAND_OUTCAST_ISLAND_NET_BALL"
+    }
+  ]
 }

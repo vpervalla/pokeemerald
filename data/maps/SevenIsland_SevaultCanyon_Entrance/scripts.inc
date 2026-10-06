@@ -69,6 +69,10 @@ SevenIsland_SevaultCanyon_Entrance_EventScript_NicolasRematch::
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_NicolasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+SevenIsland_SevaultCanyon_Entrance_EventScript_RouteSign::
+	msgbox SevenIsland_SevaultCanyon_Entrance_Text_RouteSign, MSGBOX_SIGN
+	end
+
 SevenIsland_SevaultCanyon_Entrance_Text_EveDefeat:
     .string "EVE: Me and JON, we lost.\n"
     .string "Ehehe.$"
@@ -156,5 +160,10 @@ SevenIsland_SevaultCanyon_Entrance_Text_NicolasPostBattle:
     .string "they sure are tough.\p"
     .string "You'll be headed for the TOWER,\n"
     .string "won't you?$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_RouteSign:
+    .string "SEVAULT CANYON ENTRANCE\p"
+    .string "TRAINERS are asked to refrain from\n"
+    .string "damaging plants in the CANYON.$"
 
 @ END KANTO NPCS

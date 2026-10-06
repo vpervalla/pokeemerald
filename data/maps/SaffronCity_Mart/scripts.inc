@@ -13,14 +13,6 @@ SaffronCity_Mart_EventScript_Clerk::
 	release
 	end
 
-SaffronCity_Mart_EventScript_Youngster::
-	msgbox SaffronCity_Mart_Text_MaxRepelMoreEffectiveThanSuper, MSGBOX_NPC
-	end
-
-SaffronCity_Mart_EventScript_Lass::
-	msgbox SaffronCity_Mart_Text_ReviveIsCostly, MSGBOX_NPC
-	end
-
 	.align 2
 SaffronCity_Mart_Items:
 	.2byte ITEM_GREAT_BALL
@@ -31,6 +23,14 @@ SaffronCity_Mart_Items:
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+SaffronCity_Mart_EventScript_Lass::
+	msgbox SaffronCity_Mart_Text_ReviveIsCostly, MSGBOX_NPC
+	end
+
+SaffronCity_Mart_EventScript_Youngster::
+	msgbox SaffronCity_Mart_Text_MaxRepelMoreEffectiveThanSuper, MSGBOX_NPC
 	end
 
 SaffronCity_Mart_Text_MaxRepelMoreEffectiveThanSuper:

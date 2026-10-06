@@ -54,6 +54,312 @@ EventScript_ResetKantoMapFlags::
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	return
 
+Kanto_Aide_EventScript_DeclineCheckMons::
+	msgbox Kanto_Aide_Text_GetEnoughMonsComeBackForItem
+	release
+	end
+
+Kanto_Aide_EventScript_HaventCaughtEnough::
+	msgbox Kanto_Aide_Text_HaventCaughtEnoughMonsForItem
+	release
+	end
+
+Kanto_Aide_EventScript_NoRoomForItem::
+	msgbox Kanto_Aide_Text_DontHaveAnyRoomForItem
+	release
+	end
+
+Kanto_Aide_Text_DontHaveAnyRoomForItem:
+	.string "Oh! I see you don't have any\n"
+	.string "room for the {STR_VAR_2}.$"
+
+Kanto_Aide_Text_GetEnoughMonsComeBackForItem:
+	.string "…Oh. I see.\p"
+	.string "When you get {STR_VAR_1} kinds of POKéMON,\n"
+	.string "come back for the {STR_VAR_2}.$"
+
+Kanto_Aide_Text_HaventCaughtEnoughMonsForItem:
+	.string "Let's see…\n"
+	.string "Uh-oh! You have caught only\l"
+	.string "{STR_VAR_3} kinds of POKéMON!\p"
+	.string "You need {STR_VAR_1} kinds\n"
+	.string "if you want the {STR_VAR_2}.$"
+
+Kanto_Braille_Text_ABC:
+	.braille "ABC$"
+
+Kanto_Braille_Text_Comma:
+	.braille ",$"
+
+Kanto_Braille_Text_Cut:
+	.braille "CUT$"
+
+Kanto_Braille_Text_DEF:
+	.braille "DEF$"
+
+Kanto_Braille_Text_Down:
+	.braille "DOWN$"
+
+Kanto_Braille_Text_ForYou:
+	.braille "FOR YOU.$"
+
+Kanto_Braille_Text_GHI:
+	.braille "GHI$"
+
+Kanto_Braille_Text_JKL:
+	.braille "JKL$"
+
+Kanto_Braille_Text_Left:
+	.braille "LEFT$"
+
+Kanto_Braille_Text_MNO:
+	.braille "MNO$"
+
+Kanto_Braille_Text_PQRS:
+	.braille "PQRS$"
+
+Kanto_Braille_Text_Period:
+	.braille ".$"
+
+Kanto_Braille_Text_Right:
+	.braille "RIGHT$"
+
+Kanto_Braille_Text_TUV:
+	.braille "TUV$"
+
+Kanto_Braille_Text_Up:
+	.braille "UP$"
+
+Kanto_Braille_Text_UsePower:
+	.braille "USE POWER.$"
+
+Kanto_Braille_Text_WXYZ:
+	.braille "WXYZ$"
+
+Kanto_CableClub_EventScript_AbortMinigame::
+	special CloseLink
+	msgbox Kanto_CableClub_Text_ComeAgain
+	release
+	end
+
+Kanto_CableClub_EventScript_AdapterNotConnectedMinigame::
+	msgbox Kanto_Text_AdapterNotConnectedMinigame
+	release
+	end
+
+Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame::
+	message Kanto_CableClub_Text_ChooseGroupLeader
+	waitmessage
+	call Kanto_EventScript_RestorePrevTextColor
+	case 0, Kanto_CableClub_EventScript_TryJoinMinigameLinkGroup
+	case 1, Kanto_CableClub_EventScript_TryBecomeMinigameLinkLeader
+	case 2, Kanto_CableClub_EventScript_AbortMinigame
+	case MULTI_B_PRESSED, Kanto_CableClub_EventScript_AbortMinigame
+	end
+
+Kanto_CableClub_EventScript_DodrioBerryPickingInfo::
+	msgbox Kanto_Text_DodrioBerryPickingInfo
+	release
+	end
+
+Kanto_CableClub_EventScript_EnterMinigame::
+	messageautoscroll Kanto_Text_AllGoodToGo
+	waitmessage
+	delay 120
+	closemessage
+	copyvar VAR_0x8007, VAR_LAST_TALKED
+	call Kanto_CableClub_EventScript_OpenGameCornerBarrier
+	special DrawWholeMapView
+	playse SE_CLICK
+	delay 60
+	applymovement VAR_LAST_TALKED, Kanto_Movement_AttendantFaceLeft
+	waitmovement 0
+	closemessage
+	applymovement LOCALID_PLAYER, Kanto_Movement_PlayerEnterMinigameRoom
+	waitmovement 0
+	release
+	waitstate
+	end
+
+Kanto_CableClub_EventScript_ExplainDodrioBerryPickingRequirements::
+	msgbox Kanto_Text_OnlyDodrioAllowed
+	return
+
+Kanto_CableClub_EventScript_ExplainPokemonJumpRequirements::
+	msgbox Kanto_Text_ShortJumpingPokemonAllowed
+	return
+
+Kanto_CableClub_EventScript_MinigameInfoExit::
+	msgbox Kanto_Text_TalkToManToPlay
+	release
+	end
+
+Kanto_CableClub_EventScript_NoEligiblePkmn::
+	msgbox Kanto_EventScript_ExplainPokemonJumpRequirements, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_CableClub_EventScript_AbortMinigame
+	call_if_eq VAR_0x8005, 0, Kanto_CableClub_EventScript_ExplainPokemonJumpRequirements
+	call_if_eq VAR_0x8005, 1, Kanto_CableClub_EventScript_ExplainDodrioBerryPickingRequirements
+	goto Kanto_CableClub_EventScript_AbortMinigame
+	end
+
+Kanto_CableClub_EventScript_OpenGameCornerBarrier::
+	setmetatile 5, 3, METATILE_KantoGameCorner_CheckeredFloor_ShadeLeft, 0
+	return
+
+Kanto_CableClub_EventScript_PlayDodrioBerryPicking::
+	setvar VAR_0x8005, 1
+	special IsDodrioInParty
+	goto_if_eq VAR_RESULT, 0, Kanto_CableClub_EventScript_NoEligiblePkmn
+	msgbox Kanto_Text_EnterWhichPokemon
+	setvar VAR_0x8005, 1
+	special ChooseMonForWirelessMinigame
+	waitstate
+	goto_if_ge VAR_0x8004, PARTY_SIZE, Kanto_CableClub_EventScript_AbortMinigame
+	call Kanto_EventScript_AskSaveGame
+	goto_if_eq VAR_RESULT, 0, Kanto_CableClub_EventScript_AbortMinigame
+	setvar VAR_0x8004, LINK_GROUP_BERRY_PICKING
+	goto Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame
+	end
+
+Kanto_CableClub_EventScript_PlayPokemonJump::
+	setvar VAR_0x8005, 0
+	special IsPokemonJumpSpeciesInParty
+	goto_if_eq VAR_RESULT, FALSE, Kanto_CableClub_EventScript_NoEligiblePkmn
+	msgbox Kanto_Text_EnterWhichPokemon
+	setvar VAR_0x8005, 0
+	special ChooseMonForWirelessMinigame
+	waitstate
+	goto_if_ge VAR_0x8004, PARTY_SIZE, Kanto_CableClub_EventScript_AbortMinigame
+	call Kanto_EventScript_AskSaveGame
+	goto_if_eq VAR_RESULT, 0, Kanto_CableClub_EventScript_AbortMinigame
+	setvar VAR_0x8004, LINK_GROUP_POKEMON_JUMP
+	goto Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame
+	end
+
+Kanto_CableClub_EventScript_PokemonJumpInfo::
+	msgbox Kanto_Text_PokemonJumpInfo
+	release
+	end
+
+Kanto_CableClub_EventScript_TryBecomeMinigameLinkLeader::
+	call CableClub_EventScript_TryBecomeLinkLeader
+	goto_if_eq VAR_RESULT, LINKUP_SUCCESS, Kanto_CableClub_EventScript_EnterMinigame
+	goto_if_eq VAR_RESULT, LINKUP_FAILED, Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame
+	goto_if_eq VAR_RESULT, LINKUP_RETRY_ROLE_ASSIGN, Kanto_CableClub_EventScript_TryBecomeMinigameLinkLeader
+	release
+	return
+
+Kanto_CableClub_EventScript_TryJoinMinigameLinkGroup::
+	call CableClub_EventScript_TryJoinLinkGroup
+	goto_if_eq VAR_RESULT, LINKUP_SUCCESS, Kanto_CableClub_EventScript_EnterMinigame
+	goto_if_eq VAR_RESULT, LINKUP_FAILED, Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame
+	goto_if_eq VAR_RESULT, LINKUP_RETRY_ROLE_ASSIGN, Kanto_CableClub_EventScript_TryJoinMinigameLinkGroup
+	release
+	return
+
+Kanto_CableClub_OnFrame:
+	map_script_2 VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1, CableClub_EventScript_Tutorial
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_SINGLE_BATTLE, CableClub_EventScript_ExitLinkRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_DOUBLE_BATTLE, CableClub_EventScript_ExitLinkRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_MULTI_BATTLE, CableClub_EventScript_ExitLinkRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER, CableClub_EventScript_ExitTradeCenter
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_UNION_ROOM, CableClub_EventScript_ExitUnionRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH, CableClub_EventScript_ExitLinkRoom
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_MINIGAME, CableClub_EventScript_ExitMinigameRoom
+	.2byte 0
+
+Kanto_CableClub_OnLoad::
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_SINGLE_BATTLE, Kanto_EventScript_OnLoadFromColosseum
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_DOUBLE_BATTLE, Kanto_EventScript_OnLoadFromColosseum
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_MULTI_BATTLE, Kanto_EventScript_OnLoadFromColosseum
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER, Kanto_EventScript_OnLoadFromTradeCenter
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_UNION_ROOM, Kanto_EventScript_OnLoadFromUnionRoom
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH, Kanto_EventScript_OnLoadFromBerryCrush
+	goto_if_eq VAR_CABLE_CLUB_STATE, USING_MINIGAME, Kanto_EventScript_OnLoadFromGameCorner
+	end
+
+Kanto_CableClub_OnResume::
+	special InitUnionRoom
+	end
+
+Kanto_CableClub_OnTransition::
+	call CableClub_EventScript_HideOrShowMysteryGiftMan
+	end
+
+Kanto_CableClub_OnWarp:
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_SINGLE_BATTLE, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_DOUBLE_BATTLE, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_MULTI_BATTLE, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_TRADE_CENTER, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_UNION_ROOM, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_BERRY_CRUSH, Kanto_EventScript_CheckTurnAttendant
+	map_script_2 VAR_CABLE_CLUB_STATE, USING_MINIGAME, Kanto_EventScript_CheckTurnAttendant
+	.2byte 0
+
+Kanto_CableClub_Text_ChooseGroupLeader:
+	.string "Please decide which of you will\n"
+	.string "become the GROUP LEADER.\p"
+	.string "The other players must then choose\n"
+	.string "“JOIN GROUP.”$"
+
+Kanto_CableClub_Text_ComeAgain:
+	.string "All right, come again!$"
+
+Kanto_CapeBrinkTutor_EventScript_ChooseMon::
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_CapeBrinkTutor_EventScript_DeclineMove
+	goto Kanto_CapeBrinkTutor_EventScript_TaughtMove
+	end
+
+Kanto_CapeBrinkTutor_EventScript_DeclineMove::
+	msgbox Kanto_Text_YouRejectIt
+	release
+	end
+
+Kanto_CapeBrinkTutor_EventScript_JumpInPlaceDown::
+	applymovement LOCALID_CAPE_BRINK_TUTOR, Kanto_Movement_JumpInPlaceDown
+	waitmovement 0
+	return
+
+Kanto_CapeBrinkTutor_EventScript_JumpInPlaceLeft::
+	applymovement LOCALID_CAPE_BRINK_TUTOR, Kanto_Movement_JumpInPlaceLeft
+	waitmovement 0
+	return
+
+Kanto_CapeBrinkTutor_EventScript_JumpInPlaceRight::
+	applymovement LOCALID_CAPE_BRINK_TUTOR, Kanto_Movement_JumpInPlaceRight
+	waitmovement 0
+	return
+
+Kanto_CapeBrinkTutor_EventScript_JumpInPlaceUp::
+	applymovement LOCALID_CAPE_BRINK_TUTOR, Kanto_Movement_JumpInPlaceUp
+	waitmovement 0
+	return
+
+Kanto_CapeBrinkTutor_EventScript_MoveJustTaught::
+	msgbox Kanto_Text_MakeBestUseOfMove
+	release
+	end
+
+Kanto_CapeBrinkTutor_EventScript_TaughtAllMoves::
+	msgbox Kanto_Text_FeelRejuvenated
+	release
+	end
+
+Kanto_CapeBrinkTutor_EventScript_TaughtMove::
+	copyvar VAR_0x8005, VAR_0x8009
+	msgbox Kanto_Text_TaughtMove
+	setflag FLAG_TEMP_2
+	release
+	end
+
+Kanto_CeruleanCity_BikeShop_EventScript_Bicycle::
+	msgbox Kanto_CeruleanCity_BikeShop_Text_ShinyNewBicycle, MSGBOX_SIGN
+	end
+
+Kanto_CeruleanCity_BikeShop_Text_ShinyNewBicycle:
+    .string "A shiny new BICYCLE!$"
+
 Kanto_CeruleanCity_House1_Text_AnyInterestInBerries:
     .string "I concoct a variety of medicine\n"
     .string "from BERRY POWDER.\p"
@@ -62,6 +368,157 @@ Kanto_CeruleanCity_House1_Text_AnyInterestInBerries:
     .string "Now tell me, have you any interest\n"
     .string "in BERRIES?$"
 
+Kanto_CeruleanCity_House1_Text_GoCrushBerriesAtDirectCorner:
+    .string "There's something new on the second\n"
+    .string "floor of POKéMON CENTERS, at the\l"
+    .string "DIRECT CORNER.\p"
+    .string "They installed a Wireless Adapter\n"
+    .string "machine for crushing BERRIES.\p"
+    .string "This is where you come in.\p"
+    .string "I have a favor to ask, one that\n"
+    .string "I can entrust only to you.\p"
+    .string "Could you make BERRY POWDER for\n"
+    .string "me using that machine?\p"
+    .string "Don't forget, the machine is at the\n"
+    .string "DIRECT CORNER of POKéMON CENTERS.\p"
+    .string "I'll concoct medicine for you if\n"
+    .string "you bring me some BERRY POWDER.\p"
+    .string "Don't forget, crush BERRIES into\n"
+    .string "BERRY POWDER and bring it to me.$"
+
+Kanto_CeruleanCity_House1_Text_HaveJustTheThing:
+    .string "Ah, good! For you, then, I have\n"
+    .string "just the thing.$"
+
+Kanto_CeruleanCity_House1_Text_HaveYouBroughtBerryPowder:
+    .string "Er-hem! Have you brought me some\n"
+    .string "BERRY POWDER?$"
+
+Kanto_CeruleanCity_House1_Text_HopeToSeeYouAgain:
+    .string "That's fine, then.\n"
+    .string "I'll hope to see you back again.$"
+
+Kanto_CeruleanCity_House1_Text_SeeMeIfYoudLikeToTradePowder:
+    .string "Come see me if you'd like to trade\n"
+    .string "your BERRY POWDER.$"
+
+Kanto_CeruleanCity_House1_Text_TakeInterestInAllSortsOfThings:
+    .string "You have no interest in BERRIES?\p"
+    .string "Young one, it's important to take an\n"
+    .string "interest in all sorts of things.$"
+
+Kanto_CeruleanCity_House1_Text_TradeMoreBerryPowder:
+    .string "This is fine BERRY POWDER indeed.\n"
+    .string "It will make excellent medicine.\p"
+    .string "Would you like to trade more BERRY\n"
+    .string "POWDER for something else?$"
+
+Kanto_CeruleanCity_House1_Text_WhyMustYouLieNoBerries:
+    .string "Why must you lie to me?\p"
+    .string "How many BERRIES do you have?\n"
+    .string "Not a one!$"
+
+Kanto_CeruleanCity_House1_Text_YoullExchangeBerryPowderForItem:
+    .string "Fine, you'll exchange your BERRY\n"
+    .string "POWDER for one {STR_VAR_1}?$"
+
+Kanto_Common_Movement_Delay32:
+	delay_16
+	delay_16
+	step_end
+
+Kanto_Common_Movement_Delay48:
+	delay_16
+	delay_16
+	delay_16
+	step_end
+
+Kanto_Common_Movement_ExclamationMark:
+	emote_exclamation_mark
+	step_end
+
+Kanto_Common_Movement_FaceDown:
+	face_down
+	step_end
+
+Kanto_Common_Movement_FaceOriginalDirection:
+	face_original_direction
+	step_end
+
+Kanto_Common_Movement_FacePlayer:
+	face_player
+	step_end
+
+Kanto_Common_Movement_FaceRight:
+	face_right
+	step_end
+
+Kanto_Common_Movement_QuestionMark:
+	emote_question_mark
+	step_end
+
+Kanto_Common_Movement_WalkInPlaceFasterDown:
+	walk_in_place_faster_down
+	step_end
+
+Kanto_Common_Movement_WalkInPlaceFasterLeft:
+	walk_in_place_faster_left
+	step_end
+
+Kanto_Common_Movement_WalkInPlaceFasterRight:
+	walk_in_place_faster_right
+	step_end
+
+Kanto_Common_Movement_WalkInPlaceFasterUp:
+	walk_in_place_faster_up
+	step_end
+
+Kanto_Common_Movement_WalkUp5:
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+Kanto_DayCare_Text_ComeAgain:
+	.string "Fine.\n"
+	.string "Come again.$"
+
+Kanto_DayCare_Text_DoYouWantEgg:
+	.string "Ah, it's you!\p"
+	.string "We were raising your POKéMON, and\n"
+	.string "my goodness, were we surprised!\p"
+	.string "Your POKéMON had an EGG!\p"
+	.string "We don't know how it got there,\n"
+	.string "but your POKéMON had it.\p"
+	.string "You do want it, yes?$"
+
+Kanto_DayCare_Text_FineThenComeAgain:
+	.string "Oh, fine, then.\n"
+	.string "Come again.$"
+
+Kanto_DayCare_Text_GoodToSeeYou:
+	.string "Ah, it's you!\n"
+	.string "Good to see you.\p"
+	.string "Your POKéMON can only be doing\n"
+	.string "good!$"
+
+Kanto_DayCare_Text_HeresYourMon:
+	.string "Perfect!\n"
+	.string "Here's your POKéMON.$"
+
+Kanto_DayCare_Text_HusbandWasLookingForYou:
+	.string "My husband was looking for you.$"
+
+Kanto_DayCare_Text_IWillKeepDoYouWantIt:
+	.string "I really will keep it.\n"
+	.string "You do want this, yes?$"
+
+Kanto_DayCare_Text_IllKeepIt:
+	.string "Well then, I'll keep it.\n"
+	.string "Thanks!$"
+
 Kanto_DayCare_Text_ImDaycareManSpeakToMyWife:
 	.string "I'm the DAY-CARE MAN.\p"
 	.string "I help take care of the precious\n"
@@ -69,10 +526,1237 @@ Kanto_DayCare_Text_ImDaycareManSpeakToMyWife:
 	.string "If you'd like me to raise your\n"
 	.string "POKéMON, have a word with my wife.$"
 
+Kanto_DayCare_Text_ItWillCostX:
+	.string "If you want your {STR_VAR_1} back,\n"
+	.string "it will cost ¥{STR_VAR_2}.$"
+
+Kanto_DayCare_Text_NotEnoughMoney:
+	.string "You don't have enough money…$"
+
+Kanto_DayCare_Text_ReceivedEgg:
+	.string "{PLAYER} received the EGG from\n"
+	.string "the DAY-CARE MAN.$"
+
+Kanto_DayCare_Text_TakeGoodCareOfIt:
+	.string "Take good care of it.$"
+
+Kanto_DayCare_Text_TakeOtherOneBackToo:
+	.string "Will you take back the other one,\n"
+	.string "too?$"
+
+Kanto_DayCare_Text_TakeYourMonBack:
+	.string "Will you take your POKéMON back?$"
+
+Kanto_DayCare_Text_TookBackMon:
+	.string "{PLAYER} took back {STR_VAR_1} from\n"
+	.string "the DAY-CARE LADY.$"
+
+Kanto_DayCare_Text_WeCanRaiseOneMore:
+	.string "We can raise two of your POKéMON.\p"
+	.string "Would you like us to raise one\n"
+	.string "more POKéMON for you?$"
+
+Kanto_DayCare_Text_WellRaiseYourMon:
+	.string "Fine, we'll raise your {STR_VAR_1}\n"
+	.string "for a while.\p"
+	.string "Come back for it later.$"
+
+Kanto_DayCare_Text_WhatWillYouBattleWith:
+	.string "If you leave me that POKéMON,\n"
+	.string "what will you battle with?\p"
+	.string "Come back another time.$"
+
+Kanto_DayCare_Text_WhichMonShouldWeRaise:
+	.string "Which POKéMON should we raise for\n"
+	.string "you?$"
+
 Kanto_DayCare_Text_WouldYouLikeUsToRaiseMon:
 	.string "I'm the DAY-CARE LADY.\p"
 	.string "We can raise POKéMON for you.\p"
 	.string "Would you like us to raise one?$"
+
+Kanto_DayCare_Text_YouHaveJustOneMon:
+	.string "Oh? But you have just one\n"
+	.string "POKéMON.\p"
+	.string "Come back another time.$"
+
+Kanto_DayCare_Text_YouHaveNoRoomForIt:
+	.string "You have no room for it…\n"
+	.string "Come back when you've made room.$"
+
+Kanto_DayCare_Text_YourMonHasGrownXLevels:
+	.string "By level, your {STR_VAR_1} has\n"
+	.string "grown by {STR_VAR_2}.$"
+
+Kanto_DayCare_Text_YourMonIsDoingFine:
+	.string "Ah, it's you! Good to see you.\n"
+	.string "Your {STR_VAR_1}'s doing fine.$"
+
+Kanto_DayCare_Text_YourMonsAreDoingFine:
+	.string "Ah, it's you! Your {STR_VAR_1} and\n"
+	.string "{STR_VAR_2} are doing fine.$"
+
+Kanto_DayCare_Text_YourPartyIsFull:
+	.string "Your POKéMON party is full.\n"
+	.string "Make room, then come see me.$"
+
+Kanto_EventScript_AcceptGiveNewProfile::
+	msgbox Kanto_Text_WhatAreYouLikeNow
+	closemessage
+	goto Kanto_EventScript_GiveProfile
+	end
+
+Kanto_EventScript_AcceptGiveProfile::
+	msgbox Kanto_Text_WhatsYourProfile
+	closemessage
+	goto Kanto_EventScript_GiveProfile
+	end
+
+Kanto_EventScript_AskForNewProfile::
+	message Kanto_Text_ChangeYourProfile
+	waitmessage
+	case 0, Kanto_EventScript_AcceptGiveNewProfile
+	case 1, Kanto_EventScript_DeclineGiveNewProfile
+	case 2, Kanto_EventScript_ProfileInfo2
+	case MULTI_B_PRESSED, Kanto_EventScript_DeclineGiveNewProfile
+	end
+
+Kanto_EventScript_AskForProfile::
+	message Kanto_Text_TellMeWhatsYourProfile
+	waitmessage
+	case 0, Kanto_EventScript_AcceptGiveProfile
+	case 1, Kanto_EventScript_DeclineGiveProfile
+	case 2, Kanto_EventScript_ProfileInfo
+	case MULTI_B_PRESSED, Kanto_EventScript_DeclineGiveProfile
+	end
+
+Kanto_EventScript_AskSaveGame::
+	waitstate
+	return
+
+Kanto_EventScript_AwakenSnorlax::
+	message Kanto_Text_PlayedPokeFlute
+	waitmessage
+	playfanfare MUS_RG_POKE_FLUTE
+	waitfanfare
+	msgbox Kanto_Text_SnorlaxWokeUp
+	return
+
+Kanto_EventScript_BagIsFull::
+	msgbox Kanto_Text_TooBadBagFull
+	release
+	end
+
+Kanto_EventScript_BodySlamDeclined::
+	msgbox Kanto_Text_BodySlamDeclined
+	release
+	end
+
+Kanto_EventScript_BodySlamTaught::
+	msgbox Kanto_Text_BodySlamTaught
+	release
+	end
+
+Kanto_EventScript_CanOnlyBeLearnedOnce::
+	msgbox Kanto_Text_MoveCanOnlyBeLearnedOnce, MSGBOX_YESNO
+	call Kanto_EventScript_RestorePrevTextColor
+	return
+
+Kanto_EventScript_CancelGiveProfile::
+	msgbox Kanto_Text_DecidedNotTo
+	release
+	end
+
+Kanto_EventScript_CancelSail::
+	release
+	end
+
+Kanto_EventScript_ChangePokemonNickname::
+	fadescreen FADE_TO_BLACK
+	special ChangePokemonNickname
+	waitstate
+	return
+
+Kanto_EventScript_CheckTurnAttendant::
+	goto_if_eq VAR_0x8007, 0, Kanto_EventScript_CheckTurnAttendantEnd
+	turnobject VAR_0x8007, DIR_WEST
+	end
+
+Kanto_EventScript_CheckTurnAttendantEnd::
+	end
+
+Kanto_EventScript_ChooseDestFromIsland::
+	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, Kanto_EventScript_SeviiDestinationsPage1
+	goto_if_ge VAR_MAP_SCENE_CINNABAR_ISLAND, 4, Kanto_EventScript_ChooseDestFromIslandVermilionAllowed
+	case 0, Kanto_EventScript_SailToOneIsland2
+	case 1, Kanto_EventScript_SailToTwoIsland2
+	case 2, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseDestFromIslandVermilionAllowed::
+	case 0, Kanto_EventScript_SailToVermilion2
+	case 1, Kanto_EventScript_SailToOneIsland2
+	case 2, Kanto_EventScript_SailToTwoIsland2
+	case 3, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseDestFromOneIsland::
+	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, Kanto_EventScript_SeviiDestinationsPage1
+	goto_if_ge VAR_MAP_SCENE_CINNABAR_ISLAND, 4, Kanto_EventScript_ChooseDestFromOneIslandVermilionAllowed
+	case 0, Kanto_EventScript_SailToTwoIsland2
+	case 1, Kanto_EventScript_SailToThreeIsland2
+	case 2, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseDestFromOneIslandVermilionAllowed::
+	case 0, Kanto_EventScript_SailToVermilion2
+	case 1, Kanto_EventScript_SailToTwoIsland2
+	case 2, Kanto_EventScript_SailToThreeIsland2
+	case 3, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseDestFromTwoIsland::
+	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, Kanto_EventScript_SeviiDestinationsPage1
+	goto_if_ge VAR_MAP_SCENE_CINNABAR_ISLAND, 4, Kanto_EventScript_ChooseDestFromTwoIslandVermilionAllowed
+	case 0, Kanto_EventScript_SailToOneIsland2
+	case 1, Kanto_EventScript_SailToThreeIsland2
+	case 2, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseDestFromTwoIslandVermilionAllowed::
+	case 0, Kanto_EventScript_SailToVermilion2
+	case 1, Kanto_EventScript_SailToOneIsland2
+	case 2, Kanto_EventScript_SailToThreeIsland2
+	case 3, Kanto_EventScript_CancelSail
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_ChooseMonForInGameTrade::
+	special ChoosePartyMon
+	waitstate
+	lock
+	faceplayer
+	copyvar VAR_0x800A, VAR_0x8004
+	return
+
+Kanto_EventScript_ChooseMoveTutorMon::
+	special ChooseMonForMoveTutor
+	waitstate
+	lock
+	faceplayer
+	return
+
+Kanto_EventScript_Close10FDoor::
+	setmetatile 12, 11, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 13, 11, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 12, 12, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 13, 12, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 13, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close11FDoor::
+	setmetatile 5, 16, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 6, 16, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 5, 17, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 6, 17, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 6, 18, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close2FDoor1::
+	setmetatile 5, 8, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 6, 8, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 5, 9, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 6, 9, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 6, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close2FDoor2::
+	setmetatile 5, 15, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 6, 15, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 5, 16, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 6, 16, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 6, 17, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close3FDoor1::
+	setmetatile 9, 11, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 10, 11, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 9, 12, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 10, 12, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 9, 13, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 10, 13, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close3FDoor2::
+	setmetatile 20, 11, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 21, 11, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 20, 12, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 21, 12, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 20, 13, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 21, 13, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close4FDoor1::
+	setmetatile 3, 16, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 4, 16, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 3, 17, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 4, 17, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 4, 18, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close4FDoor2::
+	setmetatile 14, 11, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 15, 11, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 14, 12, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 15, 12, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 15, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+	setmetatile 7, 8, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 8, 8, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 7, 9, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 8, 9, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 7, 10, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 8, 10, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close5FDoor2::
+	setmetatile 7, 17, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 8, 17, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 7, 18, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 8, 18, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 7, 19, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 8, 19, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close5FDoor3::
+	setmetatile 18, 12, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 19, 12, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 18, 13, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 19, 13, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 18, 14, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 19, 14, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close6FDoor::
+	setmetatile 5, 14, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 6, 14, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 5, 15, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 6, 15, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 5, 16, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 6, 16, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close7FDoor1::
+	setmetatile 11, 8, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 12, 8, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 11, 9, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 12, 9, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 12, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close7FDoor2::
+	setmetatile 24, 7, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 25, 7, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 24, 8, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 25, 8, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 25, 9, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close7FDoor3::
+	setmetatile 25, 13, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 26, 13, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 25, 14, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 26, 14, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 26, 15, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close8FDoor::
+	setmetatile 5, 9, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 6, 9, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 5, 10, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 6, 10, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 5, 11, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 6, 11, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close9FDoor1::
+	setmetatile 2, 9, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 3, 9, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 2, 10, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 3, 10, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 2, 11, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 3, 11, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close9FDoor2::
+	setmetatile 12, 15, METATILE_KantoSilphCo_VerticalBarrier_TopLeft, 1
+	setmetatile 13, 15, METATILE_KantoSilphCo_VerticalBarrier_TopRight, 1
+	setmetatile 12, 16, METATILE_KantoSilphCo_VerticalBarrier_MidLeft, 1
+	setmetatile 13, 16, METATILE_KantoSilphCo_VerticalBarrier_MidRight, 1
+	setmetatile 12, 17, METATILE_KantoSilphCo_VerticalBarrier_BottomLeft, 1
+	setmetatile 13, 17, METATILE_KantoSilphCo_VerticalBarrier_BottomRight, 1
+	return
+
+Kanto_EventScript_Close9FDoor3::
+	setmetatile 21, 6, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 22, 6, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 21, 7, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 22, 7, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 22, 8, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_Close9FDoor4::
+	setmetatile 21, 12, METATILE_KantoSilphCo_HorizontalBarrier_TopLeft, 1
+	setmetatile 22, 12, METATILE_KantoSilphCo_HorizontalBarrier_TopRight, 1
+	setmetatile 21, 13, METATILE_KantoSilphCo_HorizontalBarrier_BottomLeft, 1
+	setmetatile 22, 13, METATILE_KantoSilphCo_HorizontalBarrier_BottomRight, 1
+	setmetatile 22, 14, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	return
+
+Kanto_EventScript_CounterDeclined::
+	msgbox Kanto_Text_CounterDeclined
+	release
+	end
+
+Kanto_EventScript_CounterTaught::
+	msgbox Kanto_Text_CounterTaught
+	release
+	end
+
+Kanto_EventScript_CounterTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_COUNTER, Kanto_EventScript_CounterTaught
+	msgbox Kanto_Text_CounterTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_CounterDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_CounterDeclined
+	msgbox Kanto_Text_CounterWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_CounterDeclined
+	setflag FLAG_TUTOR_COUNTER
+	goto Kanto_EventScript_CounterTaught
+	end
+
+Kanto_EventScript_DeclineGiveNewProfile::
+	msgbox Kanto_Text_LikeProfileWayItIs
+	release
+	end
+
+Kanto_EventScript_DeclineGiveProfile::
+	msgbox Kanto_Text_DontBeLikeThat
+	release
+	end
+
+Kanto_EventScript_DoInGameTrade::
+	copyvar VAR_0x8004, VAR_0x8008
+	copyvar VAR_0x8005, VAR_0x800A
+	special CreateInGameTradePokemon
+	special DoInGameTradeScene
+	waitstate
+	lock
+	faceplayer
+	return
+
+Kanto_EventScript_DoorUnlocked::
+	msgbox Kanto_Text_TheDoorIsOpen
+	releaseall
+	end
+
+Kanto_EventScript_DoubleEdgeDeclined::
+	msgbox Kanto_Text_DoubleEdgeDeclined
+	release
+	end
+
+Kanto_EventScript_DoubleEdgeTaught::
+	msgbox Kanto_Text_DoubleEdgeTaught
+	release
+	end
+
+Kanto_EventScript_DreamEaterDeclined::
+	msgbox Kanto_Text_DreamEaterDeclined
+	release
+	end
+
+Kanto_EventScript_DreamEaterTaught::
+	msgbox Kanto_Text_DreamEaterTaught
+	release
+	end
+
+Kanto_EventScript_DreamEaterTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_DREAM_EATER, Kanto_EventScript_DreamEaterTaught
+	msgbox Kanto_Text_DreamEaterTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_DreamEaterDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_DreamEaterDeclined
+	msgbox Kanto_Text_DreamEaterWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_DreamEaterDeclined
+	setflag FLAG_TUTOR_DREAM_EATER
+	goto Kanto_EventScript_DreamEaterTaught
+	end
+
+Kanto_EventScript_ExplainPokemonJumpRequirements:
+	.string "It doesn't look like you have any\n"
+	.string "POKéMON that you can enter…\p"
+	.string "Would you like me to explain what\n"
+	.string "kinds of POKéMON can enter?$"
+
+Kanto_EventScript_ExplosionDeclined::
+	msgbox Kanto_Text_ExplosionDeclined
+	release
+	end
+
+Kanto_EventScript_ExplosionTaught::
+	msgbox Kanto_Text_ExplosionTaught
+	release
+	end
+
+Kanto_EventScript_GaveProfile::
+	setvar VAR_0x8004, 0
+	waitmessage
+	delay 80
+	msgbox Kanto_Text_ProfileSaysSomethingAboutYou
+	release
+	end
+
+Kanto_EventScript_GaveSpecialProfile::
+	setvar VAR_0x8004, 0
+	waitmessage
+	delay 80
+	msgbox Kanto_Text_HeardThatBefore
+	release
+	end
+
+Kanto_EventScript_GetElevatorFloor::
+	return
+
+Kanto_EventScript_GetGiftMonPartySlot::
+	getpartysize
+	subvar VAR_RESULT, 1
+	copyvar VAR_0x8004, VAR_RESULT
+	return
+
+Kanto_EventScript_GetInGameTradeSpecies::
+	copyvar VAR_0x8005, VAR_0x800A
+	specialvar VAR_RESULT, GetTradeSpecies
+	copyvar VAR_0x800B, VAR_RESULT
+	return
+
+Kanto_EventScript_GetInGameTradeSpeciesInfo::
+	copyvar VAR_0x8004, VAR_0x8008
+	specialvar VAR_RESULT, GetInGameTradeSpeciesInfo
+	copyvar VAR_0x8009, VAR_RESULT
+	return
+
+Kanto_EventScript_GiveNicknameToStarter::
+	setvar VAR_0x8004, 0
+	call Kanto_EventScript_ChangePokemonNickname
+	goto PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
+	end
+
+Kanto_EventScript_GiveProfile::
+	setvar VAR_0x8004, EASY_CHAT_TYPE_PROFILE
+	call Common_ShowEasyChatScreen
+	lock
+	faceplayer
+	goto_if_eq VAR_0x8004, 0, Kanto_EventScript_GaveSpecialProfile
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_CancelGiveProfile
+	goto_if_eq VAR_RESULT, TRUE, Kanto_EventScript_GaveProfile
+	end
+
+Kanto_EventScript_GivenProfileBefore::
+	msgbox Kanto_Text_HiWeMeetAgain
+	goto Kanto_EventScript_AskForNewProfile
+	end
+
+Kanto_EventScript_MegaKickDeclined::
+	msgbox Kanto_Text_MegaKickDeclined
+	release
+	end
+
+Kanto_EventScript_MegaKickTaught::
+	msgbox Kanto_Text_MegaKickTaught
+	release
+	end
+
+Kanto_EventScript_MegaPunchDeclined::
+	msgbox Kanto_Text_MegaPunchDeclined
+	release
+	end
+
+Kanto_EventScript_MegaPunchTaught::
+	msgbox Kanto_Text_MegaPunchTaught
+	release
+	end
+
+Kanto_EventScript_MetronomeDeclined::
+	msgbox Kanto_Text_MetronomeDeclined
+	release
+	end
+
+Kanto_EventScript_MetronomeTaught::
+	msgbox Kanto_Text_MetronomeTaught
+	release
+	end
+
+Kanto_EventScript_MetronomeTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_METRONOME, Kanto_EventScript_MetronomeTaught
+	msgbox Kanto_Text_MetronomeTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MetronomeDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MetronomeDeclined
+	msgbox Kanto_Text_MetronomeWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_MetronomeDeclined
+	setflag FLAG_TUTOR_METRONOME
+	goto Kanto_EventScript_MetronomeTaught
+	end
+
+Kanto_EventScript_MimicDeclined::
+	msgbox Kanto_Text_MimicDeclined
+	release
+	end
+
+Kanto_EventScript_MimicTaught::
+	checkplayergender
+	call_if_eq VAR_RESULT, MALE, Kanto_EventScript_MimicTaughtMale
+	call_if_eq VAR_RESULT, FEMALE, Kanto_EventScript_MimicTaughtFemale
+	release
+	end
+
+Kanto_EventScript_MimicTaughtFemale::
+	msgbox Kanto_Text_MimicTaughtFemale
+	return
+
+Kanto_EventScript_MimicTaughtMale::
+	msgbox Kanto_Text_MimicTaughtMale
+	return
+
+Kanto_EventScript_MimicTutor::
+	goto_if_set FLAG_TUTOR_MIMIC, Kanto_EventScript_MimicTaught
+	msgbox Kanto_Text_MimicTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MimicDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MimicDeclined
+	msgbox Kanto_Text_MimicWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	lock
+	faceplayer
+	goto_if_eq VAR_RESULT, 0, Kanto_EventScript_MimicDeclined
+	removeitem ITEM_POKE_DOLL
+	setflag FLAG_TUTOR_MIMIC
+	goto Kanto_EventScript_MimicTaught
+	end
+
+Kanto_EventScript_MonFlewAway::
+	fadescreen FADE_TO_BLACK
+	removeobject VAR_LAST_TALKED
+	fadescreen FADE_FROM_BLACK
+	bufferspeciesname STR_VAR_1, VAR_0x8004
+	msgbox Kanto_Text_MonFlewAway
+	release
+	end
+
+Kanto_EventScript_NameReceivedBoxMon::
+	fadescreen FADE_TO_BLACK
+	special ChangeBoxPokemonNickname
+	waitstate
+	lock
+	faceplayer
+	return
+
+Kanto_EventScript_NeedCardKey::
+	msgbox Kanto_Text_ItNeedsCardKey
+	releaseall
+	end
+
+Kanto_EventScript_NoMoreRoomForPokemon::
+	msgbox Kanto_Text_NoMoreRoomForPokemon
+	release
+	end
+
+Kanto_EventScript_OnLoadFromBerryCrush::
+	call CableClub_EventScript_OpenDirectCornerBarrier
+	end
+
+Kanto_EventScript_OnLoadFromColosseum::
+	call CableClub_EventScript_OpenDirectCornerBarrier
+	end
+
+Kanto_EventScript_OnLoadFromGameCorner::
+	call Kanto_CableClub_EventScript_OpenGameCornerBarrier
+	end
+
+Kanto_EventScript_OnLoadFromTradeCenter::
+	call CableClub_EventScript_OpenDirectCornerBarrier
+	end
+
+Kanto_EventScript_OnLoadFromUnionRoom::
+	call CableClub_EventScript_OpenUnionRoomBarrier
+	end
+
+Kanto_EventScript_Open10FDoor::
+	setmetatile 12, 11, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 13, 11, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 12, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 13, 12, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 13, 13, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open11FDoor::
+	setmetatile 5, 16, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 16, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 5, 17, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 17, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 6, 18, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open2FDoor1::
+	setmetatile 5, 8, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 8, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 5, 9, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 9, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 6, 10, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open2FDoor2::
+	setmetatile 5, 15, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 15, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 5, 16, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 16, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 6, 17, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open3FDoor1::
+	setmetatile 9, 11, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 10, 11, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 9, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 10, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 9, 13, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 10, 13, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open3FDoor2::
+	setmetatile 20, 11, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 21, 11, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 20, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 21, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 20, 13, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 21, 13, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open4FDoor1::
+	setmetatile 3, 16, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 4, 16, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 3, 17, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 4, 17, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 4, 18, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open4FDoor2::
+	setmetatile 14, 11, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 15, 11, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 14, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 15, 12, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 15, 13, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open5FDoor1::
+	setmetatile 7, 8, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 8, 8, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 7, 9, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 8, 9, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 7, 10, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 8, 10, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open5FDoor2::
+	setmetatile 7, 17, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 8, 17, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 7, 18, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 8, 18, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 7, 19, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 8, 19, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open5FDoor3::
+	setmetatile 18, 12, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 19, 12, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 18, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 19, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 18, 14, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 19, 14, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open6FDoor::
+	setmetatile 5, 14, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 6, 14, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 5, 15, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 15, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 5, 16, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 6, 16, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open7FDoor1::
+	setmetatile 11, 8, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 12, 8, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 11, 9, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 12, 9, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 12, 10, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open7FDoor2::
+	setmetatile 24, 7, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 25, 7, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 24, 8, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 25, 8, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 25, 9, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open7FDoor3::
+	setmetatile 25, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 26, 13, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 25, 14, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 26, 14, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 26, 15, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open8FDoor::
+	setmetatile 5, 9, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 6, 9, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 5, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 6, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 5, 11, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 6, 11, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open9FDoor1::
+	setmetatile 2, 9, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 3, 9, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 2, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 3, 10, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 2, 11, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 3, 11, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open9FDoor2::
+	setmetatile 12, 15, METATILE_KantoSilphCo_Wall_LeftEdge, 1
+	setmetatile 13, 15, METATILE_KantoSilphCo_Wall_RightEdge, 1
+	setmetatile 12, 16, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 13, 16, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 12, 17, METATILE_KantoSilphCo_Floor_WallLeftCorner, 0
+	setmetatile 13, 17, METATILE_KantoSilphCo_Floor_WallRightCorner, 0
+	return
+
+Kanto_EventScript_Open9FDoor3::
+	setmetatile 21, 6, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 22, 6, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 21, 7, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 22, 7, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 22, 8, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_Open9FDoor4::
+	setmetatile 21, 12, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 22, 12, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 21, 13, METATILE_KantoSilphCo_Floor_ShadeFull, 0
+	setmetatile 22, 13, METATILE_KantoSilphCo_Floor, 0
+	setmetatile 22, 14, METATILE_KantoSilphCo_Floor, 0
+	return
+
+Kanto_EventScript_OpenDoor::
+	playfanfare MUS_LEVEL_UP
+	msgbox Kanto_Text_CardKeyOpenedDoor
+	waitfanfare
+	call_if_eq VAR_TEMP_1, 1, Kanto_EventScript_Open2FDoor1
+	call_if_eq VAR_TEMP_1, 2, Kanto_EventScript_Open2FDoor2
+	call_if_eq VAR_TEMP_1, 3, Kanto_EventScript_Open3FDoor1
+	call_if_eq VAR_TEMP_1, 4, Kanto_EventScript_Open3FDoor2
+	call_if_eq VAR_TEMP_1, 5, Kanto_EventScript_Open4FDoor1
+	call_if_eq VAR_TEMP_1, 6, Kanto_EventScript_Open4FDoor2
+	call_if_eq VAR_TEMP_1, 7, Kanto_EventScript_Open5FDoor1
+	call_if_eq VAR_TEMP_1, 8, Kanto_EventScript_Open5FDoor2
+	call_if_eq VAR_TEMP_1, 9, Kanto_EventScript_Open5FDoor3
+	call_if_eq VAR_TEMP_1, 10, Kanto_EventScript_Open6FDoor
+	call_if_eq VAR_TEMP_1, 11, Kanto_EventScript_Open7FDoor1
+	call_if_eq VAR_TEMP_1, 12, Kanto_EventScript_Open7FDoor2
+	call_if_eq VAR_TEMP_1, 13, Kanto_EventScript_Open7FDoor3
+	call_if_eq VAR_TEMP_1, 14, Kanto_EventScript_Open8FDoor
+	call_if_eq VAR_TEMP_1, 15, Kanto_EventScript_Open9FDoor1
+	call_if_eq VAR_TEMP_1, 16, Kanto_EventScript_Open9FDoor2
+	call_if_eq VAR_TEMP_1, 17, Kanto_EventScript_Open9FDoor3
+	call_if_eq VAR_TEMP_1, 18, Kanto_EventScript_Open9FDoor4
+	call_if_eq VAR_TEMP_1, 19, Kanto_EventScript_Open10FDoor
+	call_if_eq VAR_TEMP_1, 20, Kanto_EventScript_Open11FDoor
+	waitse
+	playse SE_UNLOCK
+	special DrawWholeMapView
+	waitse
+	special SetHiddenItemFlag
+	releaseall
+	end
+
+Kanto_EventScript_OutOfCenterPartyHeal::
+	fadescreen FADE_TO_BLACK
+	playfanfare MUS_RG_HEAL
+	waitfanfare
+	special HealPlayerParty
+	fadescreen FADE_FROM_BLACK
+	return
+
+Kanto_EventScript_ProfileInfo::
+	msgbox Kanto_Text_ExplainProfile
+	goto Kanto_EventScript_AskForProfile
+	end
+
+Kanto_EventScript_ProfileInfo2::
+	msgbox Kanto_Text_ExplainProfile
+	goto Kanto_EventScript_AskForNewProfile
+	end
+
+Kanto_EventScript_RemoveStaticMon::
+	fadescreen FADE_TO_BLACK
+	removeobject VAR_LAST_TALKED
+	fadescreen FADE_FROM_BLACK
+	release
+	end
+
+Kanto_EventScript_ResetEliteFour::
+	clearflag FLAG_DEFEATED_LORELEI
+	clearflag FLAG_DEFEATED_BRUNO
+	clearflag FLAG_DEFEATED_AGATHA
+	clearflag FLAG_DEFEATED_LANCE
+	clearflag FLAG_DEFEATED_CHAMP
+	cleartrainerflag TRAINER_KANTO_CHAMPION_FIRST_SQUIRTLE
+	cleartrainerflag TRAINER_KANTO_CHAMPION_FIRST_BULBASAUR
+	cleartrainerflag TRAINER_KANTO_CHAMPION_FIRST_CHARMANDER
+	cleartrainerflag TRAINER_KANTO_CHAMPION_REMATCH_SQUIRTLE
+	cleartrainerflag TRAINER_KANTO_CHAMPION_REMATCH_BULBASAUR
+	cleartrainerflag TRAINER_KANTO_CHAMPION_REMATCH_CHARMANDER
+	setvar VAR_MAP_SCENE_POKEMON_LEAGUE, 0
+	return
+
+Kanto_EventScript_ResetLegendaries::
+	clearflag FLAG_LUGIA_FLEW_AWAY
+	clearflag FLAG_HO_OH_FLEW_AWAY
+	clearflag FLAG_DEOXYS_FLEW_AWAY
+	return
+
+Kanto_EventScript_RestorePrevTextColor::
+	return
+
+Kanto_EventScript_Return::
+	return
+
+Kanto_EventScript_RockSlideDeclined::
+	msgbox Kanto_Text_RockSlideDeclined
+	release
+	end
+
+Kanto_EventScript_RockSlideTaught::
+	msgbox Kanto_Text_RockSlideTaught
+	release
+	end
+
+Kanto_EventScript_SailToBirthIsland::
+	msgbox VermilionCity_Text_Seagallop12Departing
+	goto Kanto_EventScript_SetSail
+	end
+
+Kanto_EventScript_SailToDest::
+	end
+
+Kanto_EventScript_SailToNavelRock::
+	msgbox VermilionCity_Text_Seagallop10Departing
+	goto Kanto_EventScript_SetSail
+	end
+
+Kanto_EventScript_SailToOneIsland2::
+	goto Kanto_EventScript_SailToDest
+	end
+
+Kanto_EventScript_SailToThreeIsland2::
+	goto Kanto_EventScript_SailToDest
+	end
+
+Kanto_EventScript_SailToTwoIsland2::
+	goto Kanto_EventScript_SailToDest
+	end
+
+Kanto_EventScript_SailToVermilion2::
+	goto Kanto_EventScript_SailToDest
+	end
+
+Kanto_EventScript_SailToVermilionCity::
+	goto Kanto_EventScript_SailToDest
+	end
+
+Kanto_EventScript_SeismicTossDeclined::
+	msgbox Kanto_Text_SeismicTossDeclined
+	release
+	end
+
+Kanto_EventScript_SeismicTossTaught::
+	msgbox Kanto_Text_SeismicTossTaught
+	release
+	end
+
+Kanto_EventScript_SetDefeatedEliteFourFlagsVars::
+	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
+	call Kanto_EventScript_ResetEliteFour
+	call Kanto_EventScript_ResetLegendaries
+	return
+
+Kanto_EventScript_SetEnteringCyclingRoad::
+	lockall
+	setvar VAR_MAP_SCENE_ROUTE16, 1
+	releaseall
+	end
+
+Kanto_EventScript_SetExitingCyclingRoad::
+	lockall
+	clearflag FLAG_SYS_ON_CYCLING_ROAD
+	setvar VAR_MAP_SCENE_ROUTE16, 0
+	releaseall
+	end
+
+Kanto_EventScript_SetResultFalse::
+	setvar VAR_RESULT, FALSE
+	return
+
+Kanto_EventScript_SetResultTrue::
+	setvar VAR_RESULT, TRUE
+	return
+
+Kanto_EventScript_SetSail::
+	closemessage
+	delay 20
+	fadescreen FADE_TO_BLACK
+	waitstate
+	end
+
+Kanto_EventScript_SeviiDestinationsPage1::
+	setvar VAR_0x8005, 0
+	waitstate
+	switch VAR_0x8006
+	case MULTI_B_PRESSED, Kanto_EventScript_CancelSail
+	end
+
+Kanto_EventScript_SoftboiledDeclined::
+	msgbox Kanto_Text_SoftboiledDeclined
+	release
+	end
+
+Kanto_EventScript_SoftboiledTaught::
+	msgbox Kanto_Text_SoftboiledTaught
+	release
+	end
+
+Kanto_EventScript_SoftboiledTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_SOFT_BOILED, Kanto_EventScript_SoftboiledTaught
+	msgbox Kanto_Text_SoftboiledTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_SoftboiledDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_SoftboiledDeclined
+	msgbox Kanto_Text_SoftboiledWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_SoftboiledDeclined
+	setflag FLAG_TUTOR_SOFT_BOILED
+	goto Kanto_EventScript_SoftboiledTaught
+	end
+
+Kanto_EventScript_SubstituteDeclined::
+	msgbox Kanto_Text_SubstituteDeclined
+	release
+	end
+
+Kanto_EventScript_SubstituteTaught::
+	msgbox Kanto_Text_SubstituteTaught
+	release
+	end
+
+Kanto_EventScript_SwordsDanceDeclined::
+	msgbox Kanto_Text_SwordsDanceDeclined
+	release
+	end
+
+Kanto_EventScript_SwordsDanceTaught::
+	msgbox Kanto_Text_SwordsDanceTaught
+	release
+	end
+
+Kanto_EventScript_ThunderWaveDeclined::
+	msgbox Kanto_Text_ThunderWaveDeclined
+	release
+	end
+
+Kanto_EventScript_ThunderWaveTaught::
+	msgbox Kanto_Text_ThunderWaveTaught
+	release
+	end
+
+Kanto_EventScript_ThunderWaveTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_THUNDER_WAVE, Kanto_EventScript_ThunderWaveTaught
+	msgbox Kanto_Text_ThunderWaveTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_ThunderWaveDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_ThunderWaveDeclined
+	msgbox Kanto_Text_ThunderWaveWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_ThunderWaveDeclined
+	setflag FLAG_TUTOR_THUNDER_WAVE
+	goto Kanto_EventScript_ThunderWaveTaught
+	end
+
+Kanto_EventScript_TransferredBillsPC::
+	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
+	goto_if_eq VAR_RESULT, TRUE, Kanto_EventScript_TransferredBillsPCBoxFull
+	msgbox Kanto_Text_MonSentToBoxInBillsPC
+	return
+
+Kanto_EventScript_TransferredBillsPCBoxFull::
+	specialvar VAR_RESULT, GetPCBoxToSendMon
+	bufferboxname STR_VAR_3, VAR_RESULT
+	msgbox Kanto_Text_MonSentToBoxBillsBoxFull
+	return
+
+Kanto_EventScript_TransferredToPC::
+	bufferboxname STR_VAR_1, VAR_PC_BOX_TO_SEND_MON
+	bufferspeciesname STR_VAR_2, VAR_TEMP_1
+	call_if_unset FLAG_SYS_NOT_SOMEONES_PC, EventScript_TransferredSomeonesPC
+	call_if_set FLAG_SYS_NOT_SOMEONES_PC, Kanto_EventScript_TransferredBillsPC
+	return
+
+Kanto_EventScript_TryDarkenRuins::
+	goto_if_set FLAG_SYS_UNLOCKED_TANOBY_RUINS, Kanto_EventScript_Return
+	setweather WEATHER_SHADE
+	doweather
+	return
+
+Kanto_EventScript_TryUnlockDoor::
+	goto_if_set FLAG_HIDE_SILPH_CO_5F_CARD_KEY, Kanto_EventScript_OpenDoor
+	goto Kanto_EventScript_NeedCardKey
+	end
+
+Kanto_JoyfulGameCorner_EventScript_InfoMan2::
+	lock
+	faceplayer
+	message Kanto_Text_DescribeWhichGame
+	waitmessage
+	case 0, Kanto_CableClub_EventScript_PokemonJumpInfo
+	case 1, Kanto_CableClub_EventScript_DodrioBerryPickingInfo
+	case 2, Kanto_CableClub_EventScript_MinigameInfoExit
+	case MULTI_B_PRESSED, Kanto_CableClub_EventScript_MinigameInfoExit
+	end
+
+Kanto_JoyfulGameCorner_EventScript_MinigameAttendant::
+	lock
+	faceplayer
+	message Kanto_Text_WelcomeCanYouWait
+	waitmessage
+	specialvar VAR_RESULT, IsWirelessAdapterConnected
+	goto_if_eq VAR_RESULT, FALSE, Kanto_CableClub_EventScript_AdapterNotConnectedMinigame
+	delay 60
+	message Kanto_Text_PlayWhichGame
+	waitmessage
+	case 0, Kanto_CableClub_EventScript_PlayPokemonJump
+	case 1, Kanto_CableClub_EventScript_PlayDodrioBerryPicking
+	case 2, Kanto_CableClub_EventScript_AbortMinigame
+	case MULTI_B_PRESSED, Kanto_CableClub_EventScript_AbortMinigame
+	end
+
+Kanto_Movement_AttendantFaceLeft:
+	face_left
+	step_end
+
+Kanto_Movement_CameraPanDown:
+	delay_16
+	delay_16
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+Kanto_Movement_CameraPanUp:
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+Kanto_Movement_DeoxysApproach:
+	walk_slow_down
+	walk_slow_down
+	walk_slow_down
+	walk_slow_down
+	walk_slow_down
+	walk_slow_down
+	walk_slow_down
+	step_end
+
+Kanto_Movement_HoOhAppear:
+	delay_16
+	delay_16
+	walk_in_place_down
+	walk_in_place_down
+	walk_in_place_down
+	walk_in_place_down
+	step_end
+
+Kanto_Movement_HoOhApproach:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_in_place_down
+	delay_16
+	delay_16
+	step_end
+
+Kanto_Movement_JumpInPlaceDown:
+	jump_in_place_down
+	step_end
+
+Kanto_Movement_JumpInPlaceLeft:
+	jump_in_place_left
+	step_end
+
+Kanto_Movement_JumpInPlaceRight:
+	jump_in_place_right
+	step_end
+
+Kanto_Movement_JumpInPlaceUp:
+	jump_in_place_up
+	step_end
+
+Kanto_Movement_PlayerEnterMinigameRoom:
+	walk_left
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+Kanto_MysteryEventClub_EventScript_Woman::
+	lock
+	faceplayer
+	goto_if_set FLAG_SYS_SET_TRAINER_CARD_PROFILE, Kanto_EventScript_GivenProfileBefore
+	msgbox Kanto_Text_IdLoveToHearYourProfile
+	goto Kanto_EventScript_AskForProfile
+	end
 
 Kanto_PewterCity_Museum_1F_Text_AskedDaddyToCatchPikachu:
     .string "I want a PIKACHU!\n"
@@ -86,6 +1770,10 @@ Kanto_PewterCity_Museum_1F_Text_BoughtColorTVForMoonLanding:
     .string "I bought a color TV just so I\n"
     .string "could watch that news.$"
 
+Kanto_PewterCity_Museum_1F_Text_MeteoriteThatFellOnMtMoon:
+    .string "A meteorite that fell on MT. MOON.\n"
+    .string "It is thought to be a MOON STONE.$"
+
 Kanto_PewterCity_Museum_1F_Text_PikachuSoonIPromise:
     .string "Yeah, a PIKACHU soon, I promise!$"
 
@@ -93,10 +1781,105 @@ Kanto_PewterCity_Museum_1F_Text_RunningSpaceExhibitThisMonth:
     .string "This month, we're running a space\n"
     .string "exhibit.$"
 
+Kanto_PewterCity_Museum_1F_Text_SpaceShuttle:
+    .string "Space Shuttle$"
+
 Kanto_PewterCity_Museum_1F_Text_WhatsSpecialAboutMoonStone:
     .string "MOON STONE, huh?\p"
     .string "What's so special about it?\n"
     .string "Looks like an ordinary rock to me.$"
+
+Kanto_PokedexRating_EventScript_DexCompleteFanfare::
+	playfanfare MUS_EVOLVED
+	return
+
+Kanto_PokedexRating_EventScript_DexCompleteIntro::
+	msgbox Kanto_PokedexRating_Text_LoveSeeingYourPokedex
+	return
+
+Kanto_PokedexRating_EventScript_EndRating::
+	return
+
+Kanto_PokedexRating_EventScript_NormalFanfare::
+	playfanfare MUS_RG_DEX_RATING
+	return
+
+Kanto_PokedexRating_EventScript_NormalIntro::
+	msgbox Kanto_PokedexRating_Text_HowIsPokedexComingAlong
+	return
+
+Kanto_PokedexRating_EventScript_Rate::
+	setvar VAR_0x8004, 0
+	specialvar VAR_RESULT, ScriptGetPokedexInfo
+	copyvar VAR_0x8008, VAR_0x8005
+	copyvar VAR_0x8009, VAR_0x8006
+	copyvar VAR_0x800A, VAR_RESULT
+	buffernumberstring STR_VAR_1, VAR_0x8008
+	buffernumberstring STR_VAR_2, VAR_0x8009
+	msgbox Kanto_PokedexRating_Text_SeenXOwnedY
+	call_if_unset FLAG_OAKS_RATING_IS_VIA_PC, Kanto_PokedexRating_EventScript_SetTextColor
+	call Kanto_PokedexRating_EventScript_ShowRatingMsg
+	goto_if_eq VAR_0x800A, FALSE, Kanto_PokedexRating_EventScript_EndRating
+	setvar VAR_0x8004, 1
+	specialvar VAR_RESULT, ScriptGetPokedexInfo
+	copyvar VAR_0x8008, VAR_0x8005
+	copyvar VAR_0x8009, VAR_0x8006
+	buffernumberstring STR_VAR_1, VAR_0x8008
+	buffernumberstring STR_VAR_2, VAR_0x8009
+	msgbox Kanto_PokedexRating_Text_NationalDexSeenXOwnedY
+	end
+
+Kanto_PokedexRating_EventScript_RateInPerson::
+	call_if_set FLAG_OAK_SAW_DEX_COMPLETION, Kanto_PokedexRating_EventScript_DexCompleteIntro
+	call_if_unset FLAG_OAK_SAW_DEX_COMPLETION, Kanto_PokedexRating_EventScript_NormalIntro
+	call Kanto_PokedexRating_EventScript_Rate
+	return
+
+Kanto_PokedexRating_EventScript_SetTextColor::
+	return
+
+Kanto_PokedexRating_EventScript_ShowRatingMsg::
+	copyvar VAR_0x8004, VAR_0x8009
+	waitmessage
+	call_if_eq VAR_RESULT, FALSE, Kanto_PokedexRating_EventScript_NormalFanfare
+	call_if_eq VAR_RESULT, TRUE, Kanto_PokedexRating_EventScript_DexCompleteFanfare
+	waitfanfare
+	waitbuttonpress
+	return
+
+Kanto_PokedexRating_Text_HowIsPokedexComingAlong:
+	.string "OAK: Good to see you!\n"
+	.string "How is your POKéDEX coming along?\p"
+	.string "Here, let me take a look.$"
+
+Kanto_PokedexRating_Text_LoveSeeingYourPokedex:
+	.string "OAK: Ah, welcome!\p"
+	.string "Tell me, how is your POKéDEX\n"
+	.string "coming along?\p"
+	.string "Wahaha!\p"
+	.string "Actually, I know how it is, but I\n"
+	.string "love seeing it anyway!\p"
+	.string "Let's see…$"
+
+Kanto_PokedexRating_Text_NationalDexSeenXOwnedY:
+	.string "And your NATIONAL POKéDEX is:\p"
+	.string "{STR_VAR_1} POKéMON seen and\n"
+	.string "{STR_VAR_2} POKéMON owned.$"
+
+Kanto_PokedexRating_Text_SeenXOwnedY:
+	.string "The amount of progress you've made\n"
+	.string "on your POKéDEX is:\p"
+	.string "{STR_VAR_1} POKéMON seen and\n"
+	.string "{STR_VAR_2} POKéMON owned.\p"
+	.string "PROF. OAK's rating:$"
+
+Kanto_PokedexRating_Text_ThankYouMadeDreamReality:
+	.string "Thank you, {PLAYER}!\n"
+	.string "Sincerely, thank you!\l"
+	.string "You've made my dream a reality!$"
+
+Kanto_PokedexRating_Text_Wroooaaarrr:
+	.string "Wroooooooaaaaaarrrr!$"
 
 Kanto_PokemonJournal_Text_SpecialFeatureAgatha:
 	.string "POKéMON JOURNAL\p"
@@ -106,6 +1889,21 @@ Kanto_PokemonJournal_Text_SpecialFeatureAgatha:
 	.string "OAK were rivals who vied for\l"
 	.string "supremacy as TRAINERS.$"
 
+Kanto_PokemonJournal_Text_SpecialFeatureBlaine:
+	.string "POKéMON JOURNAL\p"
+	.string "Special Feature: CINNABAR GYM\n"
+	.string "LEADER BLAINE!\p"
+	.string "BLAINE is said to remove his dark\n"
+	.string "shades only when he is thinking up\l"
+	.string "new quiz questions.$"
+
+Kanto_PokemonJournal_Text_SpecialFeatureBrock:
+	.string "POKéMON JOURNAL\p"
+	.string "Special Feature: PEWTER GYM\n"
+	.string "LEADER BROCK!\p"
+	.string "BROCK rarely laughs, but is said to\n"
+	.string "be unable to stop if he starts.$"
+
 Kanto_PokemonJournal_Text_SpecialFeatureBruno:
 	.string "POKéMON JOURNAL\p"
 	.string "Special Feature:\n"
@@ -113,6 +1911,15 @@ Kanto_PokemonJournal_Text_SpecialFeatureBruno:
 	.string "BRUNO apparently joined the ELITE\n"
 	.string "FOUR out of his burning ambition to\l"
 	.string "battle the best TRAINERS.$"
+
+Kanto_PokemonJournal_Text_SpecialFeatureDaisyOak:
+	.string "This is a POKéMON JOURNAL from\n"
+	.string "years ago…\p"
+	.string "POKéMON JOURNAL\n"
+	.string "CONTEST Special!\p"
+	.string "The Spring POKéMON CONTEST's\n"
+	.string "Grand Champion is DAISY OAK of\l"
+	.string "PALLET TOWN!$"
 
 Kanto_PokemonJournal_Text_SpecialFeatureErika:
 	.string "POKéMON JOURNAL\p"
@@ -172,6 +1979,13 @@ Kanto_PokemonJournal_Text_SpecialFeatureMrFuji:
 	.string "He is a kindly man who is adored\n"
 	.string "and respected in LAVENDER TOWN.$"
 
+Kanto_PokemonJournal_Text_SpecialFeatureProfOak:
+	.string "POKéMON JOURNAL\p"
+	.string "Special Feature: PROF. OAK,\n"
+	.string "the POKéMON Researcher!\p"
+	.string "PROF. OAK reportedly lives with his\n"
+	.string "grandchildren DAISY and {RIVAL}.$"
+
 Kanto_PokemonJournal_Text_SpecialFeatureSabrina:
 	.string "POKéMON JOURNAL\p"
 	.string "Special Feature: SAFFRON GYM\n"
@@ -179,6 +1993,499 @@ Kanto_PokemonJournal_Text_SpecialFeatureSabrina:
 	.string "People say that SABRINA can\n"
 	.string "communicate with her POKéMON\l"
 	.string "during battle without speaking.$"
+
+Kanto_PokemonLeague_EventScript_CloseEntry::
+	setmetatile 5, 11, METATILE_KantoPokemonLeague_Entry_TopLeft_Closed, 1
+	setmetatile 6, 11, METATILE_KantoPokemonLeague_Entry_TopMid_Closed, 1
+	setmetatile 7, 11, METATILE_KantoPokemonLeague_Entry_TopRight_Closed, 1
+	setmetatile 5, 12, METATILE_KantoPokemonLeague_Entry_BottomLeft_Closed, 1
+	setmetatile 6, 12, METATILE_KantoPokemonLeague_Entry_BottomMid_Closed, 1
+	setmetatile 7, 12, METATILE_KantoPokemonLeague_Entry_BottomRight_Closed, 1
+	return
+
+Kanto_PokemonLeague_EventScript_DoLightingEffect::
+	return
+
+Kanto_PokemonLeague_EventScript_EnterRoom::
+	applymovement LOCALID_PLAYER, Kanto_Common_Movement_WalkUp5
+	waitmovement 0
+	setflag FLAG_TEMP_2
+	playse SE_UNLOCK
+	call Kanto_PokemonLeague_EventScript_CloseEntry
+	special DrawWholeMapView
+	return
+
+Kanto_PokemonLeague_EventScript_OpenDoor::
+	applymovement LOCALID_PLAYER, Kanto_Common_Movement_Delay32
+	waitmovement 0
+	call Kanto_PokemonLeague_EventScript_SetDoorOpen
+	special DrawWholeMapView
+	setflag FLAG_TEMP_4
+	return
+
+Kanto_PokemonLeague_EventScript_OpenDoorLance::
+	applymovement LOCALID_PLAYER, Kanto_Common_Movement_Delay32
+	waitmovement 0
+	setmetatile 6, 4, METATILE_KantoPokemonLeague_Door_Top_Open, 1
+	setmetatile 6, 5, METATILE_KantoPokemonLeague_Door_Mid_Open, 0
+	special DrawWholeMapView
+	setflag FLAG_TEMP_4
+	return
+
+Kanto_PokemonLeague_EventScript_SetDoorOpen::
+	setmetatile 6, 1, METATILE_KantoPokemonLeague_Door_Top_Open, 1
+	setmetatile 6, 2, METATILE_KantoPokemonLeague_Door_Mid_Open, 0
+	return
+
+Kanto_PokemonLeague_EventScript_SetDoorOpenLance::
+	setmetatile 6, 4, METATILE_KantoPokemonLeague_Door_Top_Open, 1
+	setmetatile 6, 5, METATILE_KantoPokemonLeague_Door_Mid_Open, 0
+	return
+
+Kanto_PokemonMansion_1F_Text_ArnieDefeat:
+    .string "Oh, no!\n"
+    .string "My bag of loot!$"
+
+Kanto_PokemonMansion_1F_Text_ArnieIntro:
+    .string "I can't get out!\n"
+    .string "This old place is one big puzzle.$"
+
+Kanto_PokemonMansion_1F_Text_ArniePostBattle:
+    .string "The switches here open and close\n"
+    .string "alternating sets of doors.$"
+
+Kanto_PokemonMansion_1F_Text_BraydonDefeat:
+    .string "Whew!\n"
+    .string "Overwhelming!$"
+
+Kanto_PokemonMansion_1F_Text_BraydonIntro:
+    .string "My mentor once lived here.$"
+
+Kanto_PokemonMansion_1F_Text_BraydonPostBattle:
+    .string "So, you're stuck?\n"
+    .string "Try jumping off over there!$"
+
+Kanto_PokemonMansion_1F_Text_ChristenedDiscoveredMonMew:
+    .string "Diary: July 10\n"
+    .string "We christened the newly discovered\l"
+    .string "POKéMON, MEW.$"
+
+Kanto_PokemonMansion_1F_Text_MewGaveBirthToMewtwo:
+    .string "Diary: Feb. 6\n"
+    .string "MEW gave birth.\p"
+    .string "We named the newborn MEWTWO.$"
+
+Kanto_PokemonMansion_1F_Text_NewMonDiscoveredInGuyanaJungle:
+    .string "Diary: July 5\n"
+    .string "Guyana, South America\p"
+    .string "A new POKéMON was discovered deep\n"
+    .string "in the jungle.$"
+
+Kanto_PokemonMansion_1F_Text_SimonDefeat:
+    .string "Ayah!$"
+
+Kanto_PokemonMansion_1F_Text_SimonIntro:
+    .string "This place is, like, huge!$"
+
+Kanto_PokemonMansion_1F_Text_SimonPostBattle:
+    .string "I wonder where my partner went.$"
+
+Kanto_PokemonMansion_EventScript_DontPressSwitch::
+	msgbox Kanto_PokemonMansion_Text_NotQuiteYet
+	releaseall
+	end
+
+Kanto_PokemonMansion_EventScript_PressSwitch_1F::
+	setmetatile 22, 10, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 23, 10, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 24, 10, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 22, 11, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 23, 11, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 24, 11, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 27, 25, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 28, 25, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 29, 25, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 27, 26, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 28, 26, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 29, 26, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 32, 25, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 33, 25, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 34, 25, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 32, 26, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 33, 26, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 34, 26, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 31, 18, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 32, 18, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 33, 18, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 31, 19, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 32, 19, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 33, 19, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 5, 4, METATILE_KantoPokemonMansion_Statue_RedEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_PressSwitch_2F::
+	setmetatile 24, 14, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 25, 14, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 26, 14, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 24, 15, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 25, 15, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 26, 15, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 10, 28, METATILE_KantoPokemonMansion_Wall_EndPost_Mid, 1
+	setmetatile 10, 29, METATILE_KantoPokemonMansion_Wall_EndPost_Bottom, 1
+	setmetatile 10, 30, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 10, 31, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 10, 32, METATILE_KantoPokemonMansion_Wall_EndCap, 0
+	setmetatile 12, 4, METATILE_KantoPokemonMansion_Barrier_Vertical_TopWall, 1
+	setmetatile 12, 5, METATILE_KantoPokemonMansion_Barrier_Vertical_TopBase, 1
+	setmetatile 12, 6, METATILE_KantoPokemonMansion_Barrier_Vertical_MidShadow, 1
+	setmetatile 12, 7, METATILE_KantoPokemonMansion_Barrier_Vertical_Mid, 1
+	setmetatile 12, 8, METATILE_KantoPokemonMansion_Barrier_Vertical_Bottom, 1
+	setmetatile 2, 15, METATILE_KantoPokemonMansion_Statue_RedEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_PressSwitch_3F::
+	setmetatile 17, 11, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 18, 11, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 19, 11, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 17, 12, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 18, 12, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 19, 12, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 21, 4, METATILE_KantoPokemonMansion_Barrier_Vertical_TopWall, 1
+	setmetatile 21, 5, METATILE_KantoPokemonMansion_Barrier_Vertical_TopBase, 1
+	setmetatile 21, 6, METATILE_KantoPokemonMansion_Barrier_Vertical_MidShadow, 1
+	setmetatile 21, 7, METATILE_KantoPokemonMansion_Barrier_Vertical_Mid, 1
+	setmetatile 21, 8, METATILE_KantoPokemonMansion_Barrier_Vertical_Bottom, 1
+	setmetatile 12, 4, METATILE_KantoPokemonMansion_Statue_RedEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_PressSwitch_B1F::
+	setmetatile 33, 20, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 34, 20, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 35, 20, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 33, 21, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft_Basement, 1
+	setmetatile 34, 21, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid_Basement, 1
+	setmetatile 35, 21, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight_Basement, 1
+	setmetatile 16, 26, METATILE_KantoPokemonMansion_Barrier_Vertical_TopWall, 1
+	setmetatile 16, 27, METATILE_KantoPokemonMansion_Barrier_Vertical_TopBase, 1
+	setmetatile 16, 28, METATILE_KantoPokemonMansion_Barrier_Vertical_MidShadow_Basement, 1
+	setmetatile 16, 29, METATILE_KantoPokemonMansion_Barrier_Vertical_Mid_Basement, 1
+	setmetatile 16, 30, METATILE_KantoPokemonMansion_Barrier_Vertical_Bottom_Basement, 1
+	setmetatile 12, 8, METATILE_KantoPokemonMansion_Wall_EndPost_Mid, 1
+	setmetatile 12, 9, METATILE_KantoPokemonMansion_Wall_EndPost_Bottom, 1
+	setmetatile 12, 10, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 12, 11, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 12, 12, METATILE_KantoPokemonMansion_Wall_EndCap_Basement, 0
+	setmetatile 20, 22, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 21, 22, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 22, 22, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 20, 23, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 21, 23, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 22, 23, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 24, 28, METATILE_KantoPokemonMansion_Statue_RedEyes_Basement, 0
+	setmetatile 27, 4, METATILE_KantoPokemonMansion_Statue_RedEyes_Basement, 0
+	return
+
+Kanto_PokemonMansion_EventScript_ResetSwitch::
+	clearflag FLAG_POKEMON_MANSION_SWITCH_STATE
+	switch VAR_0x8004
+	case 0, Kanto_PokemonMansion_EventScript_ResetSwitch_1F
+	case 1, Kanto_PokemonMansion_EventScript_ResetSwitch_2F
+	case 2, Kanto_PokemonMansion_EventScript_ResetSwitch_3F
+	case 3, Kanto_PokemonMansion_EventScript_ResetSwitch_B1F
+	end
+
+Kanto_PokemonMansion_EventScript_ResetSwitch_1F::
+	setmetatile 22, 10, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 23, 10, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 24, 10, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 22, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 23, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 24, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 27, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 28, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 29, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 27, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 28, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 29, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 32, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 33, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 34, 25, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 32, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 33, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 34, 26, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 31, 18, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 32, 18, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 33, 18, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 31, 19, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 32, 19, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 33, 19, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 5, 4, METATILE_KantoPokemonMansion_Statue_BlackEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_ResetSwitch_2F::
+	setmetatile 24, 14, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 25, 14, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 26, 14, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 24, 15, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 25, 15, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 26, 15, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 10, 28, METATILE_KantoPokemonMansion_Barrier_Vertical_TopWall, 1
+	setmetatile 10, 29, METATILE_KantoPokemonMansion_Barrier_Vertical_TopBase, 1
+	setmetatile 10, 30, METATILE_KantoPokemonMansion_Barrier_Vertical_MidShadow, 1
+	setmetatile 10, 31, METATILE_KantoPokemonMansion_Barrier_Vertical_Mid, 1
+	setmetatile 10, 32, METATILE_KantoPokemonMansion_Barrier_Vertical_Bottom, 1
+	setmetatile 12, 4, METATILE_KantoPokemonMansion_Wall_EndPost_Mid, 1
+	setmetatile 12, 5, METATILE_KantoPokemonMansion_Wall_EndPost_Bottom, 1
+	setmetatile 12, 6, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 12, 7, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 12, 8, METATILE_KantoPokemonMansion_Wall_EndCap, 0
+	setmetatile 2, 15, METATILE_KantoPokemonMansion_Statue_BlackEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_ResetSwitch_3F::
+	setmetatile 17, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 18, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 19, 11, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 17, 12, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft, 1
+	setmetatile 18, 12, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid, 1
+	setmetatile 19, 12, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight, 1
+	setmetatile 21, 4, METATILE_KantoPokemonMansion_Wall_EndPost_Mid, 1
+	setmetatile 21, 5, METATILE_KantoPokemonMansion_Wall_EndPost_Bottom, 1
+	setmetatile 21, 6, METATILE_KantoPokemonMansion_Floor_ShadeFull, 0
+	setmetatile 21, 7, METATILE_KantoPokemonMansion_Floor, 0
+	setmetatile 21, 8, METATILE_KantoPokemonMansion_Wall_EndCap, 0
+	setmetatile 12, 4, METATILE_KantoPokemonMansion_Statue_BlackEyes, 0
+	return
+
+Kanto_PokemonMansion_EventScript_ResetSwitch_B1F::
+	setmetatile 33, 20, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 34, 20, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 35, 20, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 33, 21, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 34, 21, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 35, 21, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 16, 26, METATILE_KantoPokemonMansion_Wall_EndPost_Mid, 1
+	setmetatile 16, 27, METATILE_KantoPokemonMansion_Wall_EndPost_Bottom, 1
+	setmetatile 16, 28, METATILE_KantoPokemonMansion_BasementFloor_ShadeFull, 0
+	setmetatile 16, 29, METATILE_KantoPokemonMansion_BasementFloor, 0
+	setmetatile 16, 30, METATILE_KantoPokemonMansion_Wall_EndCap_Basement, 0
+	setmetatile 12, 8, METATILE_KantoPokemonMansion_Barrier_Vertical_TopWall, 1
+	setmetatile 12, 9, METATILE_KantoPokemonMansion_Barrier_Vertical_TopBase, 1
+	setmetatile 12, 10, METATILE_KantoPokemonMansion_Barrier_Vertical_MidShadow_Basement, 1
+	setmetatile 12, 11, METATILE_KantoPokemonMansion_Barrier_Vertical_Mid_Basement, 1
+	setmetatile 12, 12, METATILE_KantoPokemonMansion_Barrier_Vertical_Bottom_Basement, 1
+	setmetatile 20, 22, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopLeft, 1
+	setmetatile 21, 22, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopMid, 1
+	setmetatile 22, 22, METATILE_KantoPokemonMansion_Barrier_Horizontal_TopRight, 1
+	setmetatile 20, 23, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomLeft_Basement, 1
+	setmetatile 21, 23, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomMid_Basement, 1
+	setmetatile 22, 23, METATILE_KantoPokemonMansion_Barrier_Horizontal_BottomRight_Basement, 1
+	setmetatile 24, 28, METATILE_KantoPokemonMansion_Statue_BlackEyes_Basement, 0
+	setmetatile 27, 4, METATILE_KantoPokemonMansion_Statue_BlackEyes_Basement, 0
+	return
+
+Kanto_PokemonMansion_EventScript_SecretSwitch::
+	msgbox Kanto_PokemonMansion_Text_PressSecretSwitch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_PokemonMansion_EventScript_DontPressSwitch
+	msgbox Kanto_PokemonMansion_Text_WhoWouldnt
+	goto_if_set FLAG_POKEMON_MANSION_SWITCH_STATE, Kanto_PokemonMansion_EventScript_ResetSwitch
+	setflag FLAG_POKEMON_MANSION_SWITCH_STATE
+	switch VAR_0x8004
+	case 0, Kanto_PokemonMansion_EventScript_PressSwitch_1F
+	case 1, Kanto_PokemonMansion_EventScript_PressSwitch_2F
+	case 2, Kanto_PokemonMansion_EventScript_PressSwitch_3F
+	case 3, Kanto_PokemonMansion_EventScript_PressSwitch_B1F
+	end
+
+Kanto_PokemonMansion_Text_NotQuiteYet:
+    .string "Not quite yet!$"
+
+Kanto_PokemonMansion_Text_PressSecretSwitch:
+    .string "A secret switch!\p"
+    .string "Press it?$"
+
+Kanto_PokemonMansion_Text_WhoWouldnt:
+    .string "Who wouldn't?$"
+
+Kanto_Route23_EventScript_AlreadyRecognizedBoulderBadge::
+	message Kanto_Text_OhThatsBadgeGoRightAhead
+	waitmessage
+	playfanfare MUS_LEVEL_UP
+	waitfanfare
+	waitbuttonpress
+	release
+	end
+
+Kanto_Route23_EventScript_BadgeGuardTrigger::
+	applymovement VAR_0x8009, Kanto_Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	switch VAR_TEMP_1
+	case 1, Kanto_Route23_EventScript_CheckBoulderBadgeTrigger
+	case 2, Kanto_Route23_EventScript_CheckCascadeBadgeTrigger
+	case 3, Kanto_Route23_EventScript_CheckThunderBadgeTrigger
+	case 4, Kanto_Route23_EventScript_CheckRainbowBadgeTrigger
+	case 5, Kanto_Route23_EventScript_CheckSoulBadgeTrigger
+	case 6, Kanto_Route23_EventScript_CheckMarshBadgeTrigger
+	case 7, Kanto_Route23_EventScript_CheckVolcanoBadgeTrigger
+	case 8, Kanto_Route23_EventScript_CheckEarthBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckBoulderBadge::
+	goto_if_set FLAG_BADGE01_GET, Kanto_Route23_EventScript_RecognizeBoulderBadge
+	goto Kanto_Route23_EventScript_MissingBoulderBadge
+	end
+
+Kanto_Route23_EventScript_CheckBoulderBadgeTrigger::
+	goto_if_set FLAG_BADGE01_GET, Kanto_Route23_EventScript_RecognizeBoulderBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBoulderBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckCascadeBadge::
+	goto_if_set FLAG_BADGE02_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckCascadeBadgeTrigger::
+	goto_if_set FLAG_BADGE02_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckEarthBadge::
+	goto_if_set FLAG_BADGE08_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckEarthBadgeTrigger::
+	goto_if_set FLAG_BADGE08_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckMarshBadge::
+	goto_if_set FLAG_BADGE06_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckMarshBadgeTrigger::
+	goto_if_set FLAG_BADGE06_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckRainbowBadge::
+	goto_if_set FLAG_BADGE04_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckRainbowBadgeTrigger::
+	goto_if_set FLAG_BADGE04_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckSoulBadge::
+	goto_if_set FLAG_BADGE05_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckSoulBadgeTrigger::
+	goto_if_set FLAG_BADGE05_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckThunderBadge::
+	goto_if_set FLAG_BADGE03_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckThunderBadgeTrigger::
+	goto_if_set FLAG_BADGE03_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_CheckVolcanoBadge::
+	goto_if_set FLAG_BADGE07_GET, Kanto_Route23_EventScript_RecognizeBadge
+	goto Kanto_Route23_EventScript_MissingBadge
+	end
+
+Kanto_Route23_EventScript_CheckVolcanoBadgeTrigger::
+	goto_if_set FLAG_BADGE07_GET, Kanto_Route23_EventScript_RecognizeBadgeTrigger
+	goto Kanto_Route23_EventScript_MissingBadgeTrigger
+	end
+
+Kanto_Route23_EventScript_MissingBadge::
+	message Kanto_Text_OnlyPassWithBadgeDontHaveYet
+	waitmessage
+	playse SE_BOO
+	waitbuttonpress
+	closemessage
+	waitse
+	release
+	end
+
+Kanto_Route23_EventScript_MissingBadgeTrigger::
+	message Kanto_Text_OnlyPassWithBadgeDontHaveYet
+	waitmessage
+	playse SE_BOO
+	waitbuttonpress
+	closemessage
+	waitse
+	applymovement LOCALID_PLAYER, Kanto_Route23_Movement_WalkDown
+	applymovement VAR_0x8009, Kanto_Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	releaseall
+	end
+
+Kanto_Route23_EventScript_MissingBoulderBadge::
+	msgbox Kanto_Text_OnlySkilledTrainersAllowedThrough
+	playse SE_BOO
+	msgbox Kanto_Text_CantLetYouPass
+	release
+	end
+
+Kanto_Route23_EventScript_MissingBoulderBadgeTrigger::
+	msgbox Kanto_Text_OnlySkilledTrainersAllowedThrough
+	playse SE_BOO
+	msgbox Kanto_Text_CantLetYouPass
+	closemessage
+	applymovement LOCALID_PLAYER, Kanto_Route23_Movement_WalkDown
+	applymovement VAR_0x8009, Kanto_Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+	releaseall
+	end
+
+Kanto_Route23_EventScript_RecognizeBadge::
+	msgbox Kanto_Text_OnlyPassWithBadgeOhGoAhead
+	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	release
+	end
+
+Kanto_Route23_EventScript_RecognizeBadgeTrigger::
+	msgbox Kanto_Text_OnlyPassWithBadgeOhGoAhead
+	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	releaseall
+	end
+
+Kanto_Route23_EventScript_RecognizeBoulderBadge::
+	message Kanto_Text_OhThatsBadgeGoRightAhead
+	waitmessage
+	playfanfare MUS_LEVEL_UP
+	waitfanfare
+	waitbuttonpress
+	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	release
+	end
+
+Kanto_Route23_EventScript_RecognizeBoulderBadgeTrigger::
+	message Kanto_Text_OhThatsBadgeGoRightAhead
+	waitmessage
+	playfanfare MUS_LEVEL_UP
+	waitfanfare
+	waitbuttonpress
+	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	releaseall
+	end
+
+Kanto_Route23_Movement_WalkDown:
+	walk_down
+	step_end
 
 Kanto_SafariZone_Center_Text_CatchingMonsAsGifts:
     .string "I'm catching POKéMON to take home\n"
@@ -215,6 +2522,29 @@ Kanto_SafariZone_East_Text_TiredFromAllTheFun:
     .string "Whew!\n"
     .string "I'm tired from all the fun!$"
 
+Kanto_SafariZone_North_RestHouse_EventScript_BaldingMan::
+	lock
+	faceplayer
+	msgbox Kanto_SafariZone_West_Text_KogaPatrolsSafariEverySoOften
+	release
+	end
+
+Kanto_SafariZone_North_RestHouse_EventScript_Fisher::
+	msgbox Kanto_SafariZone_East_Text_PrizeInDeepestPartOfSafariZone, MSGBOX_NPC
+	end
+
+Kanto_SafariZone_North_RestHouse_EventScript_Gentleman::
+	msgbox Kanto_SafariZone_East_Text_MyEeveeEvolvedIntoFlareon, MSGBOX_NPC
+	end
+
+Kanto_SafariZone_North_RestHouse_EventScript_Scientist::
+	msgbox Kanto_SafariZone_East_Text_KeepAnyItemFoundOnSafari, MSGBOX_NPC
+	end
+
+Kanto_SafariZone_Text_ExcuseMeYourPCBoxIsFull:
+	.string "Excuse me!\n"
+	.string "Your PC BOX is full.$"
+
 Kanto_SafariZone_West_Text_BaitMakesMonStickAround:
     .string "Using BAIT will make POKéMON more\n"
     .string "likely to stick around if they get\l"
@@ -237,6 +2567,36 @@ Kanto_SafariZone_West_Text_RocksMakeMonRunButEasierCatch:
     .string "make them run, but they'll be\l"
     .string "easier to catch.$"
 
+Kanto_Text_AdapterNotConnectedMinigame:
+	.string "The Wireless Adapter isn't\n"
+	.string "connected.\p"
+	.string "Come back when it's hooked up!$"
+
+Kanto_Text_AllGoodToGo:
+	.string "Okay, you're all good to go.\n"
+	.string "Don't let the others beat you!$"
+
+@ Unused, translated in Emerald
+
+Kanto_Text_AllowMeToTeachMonUltimateMove:
+    .string "Oh! This is the one!\n"
+    .string "This is the POKéMON!\p"
+    .string "This {STR_VAR_1} is worthy of\n"
+    .string "learning my ultimate move!\p"
+    .string "Will you allow it?\p"
+    .string "Will you allow your {STR_VAR_1} to\n"
+    .string "learn my {STR_VAR_2}?$"
+
+Kanto_Text_BagIsFull:
+	.string "The BAG is full…$"
+
+Kanto_Text_BodySlamDeclined:
+    .string "Come again!\n"
+    .string "Boing!$"
+
+Kanto_Text_BodySlamTaught:
+    .string "Boioing!$"
+
 Kanto_Text_BodySlamTeach:
     .string "Ready?\n"
     .string "Boing!\p"
@@ -246,6 +2606,30 @@ Kanto_Text_BodySlamTeach:
     .string "squashed like a bug, though…\p"
     .string "How about I teach BODY SLAM to\n"
     .string "a POKéMON of yours instead?$"
+
+Kanto_Text_BodySlamWhichMon:
+    .string "Which POKéMON wants to learn how\n"
+    .string "to BODY SLAM?$"
+
+Kanto_Text_CantLetYouPass:
+	.string "Rules are rules.\n"
+	.string "I can't let you pass.$"
+
+Kanto_Text_CardKeyOpenedDoor:
+	.string "Bingo!\n"
+	.string "The CARD KEY opened the door!$"
+
+Kanto_Text_ChangeYourProfile:
+	.string "Would you like to change your\n"
+	.string "profile?$"
+
+Kanto_Text_CounterDeclined:
+    .string "You're not interested? Come see\n"
+    .string "me if you change your mind.$"
+
+Kanto_Text_CounterTaught:
+    .string "Are you using that COUNTER move\n"
+    .string "I taught your POKéMON?$"
 
 Kanto_Text_CounterTeach:
     .string "Oh, hi!\n"
@@ -257,6 +2641,42 @@ Kanto_Text_CounterTeach:
     .string "Not like the one I'm leaning on,\n"
     .string "mind you!$"
 
+Kanto_Text_CounterWhichMon:
+    .string "Which POKéMON should I teach\n"
+    .string "COUNTER to?$"
+
+Kanto_Text_DecidedNotTo:
+	.string "Oh, you've decided not to?\n"
+	.string "You're fickle, aren't you?$"
+
+Kanto_Text_DescribeWhichGame:
+	.string "I can explain game rules to you,\n"
+	.string "if you'd like.\p"
+	.string "Which game should I describe?$"
+
+Kanto_Text_DodrioBerryPickingInfo:
+	.string "“DODRIO BERRY-PICKING”\p"
+	.string "Command DODRIO's three heads to\n"
+	.string "catch falling BERRIES.\p"
+	.string "Press right, up, or left on the\n"
+	.string "{PLUS} Control Pad to move the heads.\p"
+	.string "To play this game, you must have\n"
+	.string "a DODRIO.$"
+
+Kanto_Text_DontBeLikeThat:
+	.string "Aww… Don't be like that.\n"
+	.string "You can tell me your profile.$"
+
+Kanto_Text_DoubleEdgeDeclined:
+    .string "I'll teach you the technique\n"
+    .string "anytime.$"
+
+Kanto_Text_DoubleEdgeTaught:
+    .string "Keep that drive going for the\n"
+    .string "POKéMON LEAGUE!\p"
+    .string "Take a run at them and knock 'em\n"
+    .string "out!$"
+
 Kanto_Text_DoubleEdgeTeach:
     .string "You should be proud of yourself,\n"
     .string "having battled your way through\l"
@@ -265,6 +2685,17 @@ Kanto_Text_DoubleEdgeTeach:
     .string "I'll teach you DOUBLE-EDGE.\p"
     .string "Would you like me to teach that\n"
     .string "technique?$"
+
+Kanto_Text_DoubleEdgeWhichMon:
+    .string "Which POKéMON should I teach\n"
+    .string "DOUBLE-EDGE?$"
+
+Kanto_Text_DreamEaterDeclined:
+    .string "…Snore…$"
+
+Kanto_Text_DreamEaterTaught:
+    .string "…ZZZ…\n"
+    .string "I…can't eat…anymore…$"
 
 Kanto_Text_DreamEaterTeach:
     .string "Yawn!\n"
@@ -277,6 +2708,37 @@ Kanto_Text_DreamEaterTeach:
     .string "Let me teach it to a POKéMON so\n"
     .string "I can forget about it!$"
 
+Kanto_Text_DreamEaterWhichMon:
+    .string "Which POKéMON wants to learn\n"
+    .string "DREAM EATER?$"
+
+Kanto_Text_EnterWhichPokemon:
+	.string "Which POKéMON would you like to\n"
+	.string "enter?$"
+
+Kanto_Text_ExplainProfile:
+	.string "A profile is written using four\n"
+	.string "words or phrases.\p"
+	.string "There're plenty of words to choose\n"
+	.string "from for your profile.\p"
+	.string "The words and phrases are placed\n"
+	.string "in several convenient groups.\p"
+	.string "First, choose a group, then choose\n"
+	.string "a word or phrase.\p"
+	.string "…It's easier than it sounds.\n"
+	.string "Why don't you try it?$"
+
+Kanto_Text_ExplosionDeclined:
+    .string "Yeah, you're right.\n"
+    .string "It is too terrifying.$"
+
+Kanto_Text_ExplosionTaught:
+    .string "Using EXPLOSION while on this\n"
+    .string "volcano…\p"
+    .string "What a terrifying thrill!$"
+
+@ Below 4 are unused JP versions of the above texts
+
 Kanto_Text_ExplosionTeach:
     .string "Can you imagine?\n"
     .string "If this volcano were to erupt?\p"
@@ -285,8 +2747,32 @@ Kanto_Text_ExplosionTeach:
     .string "While we're terrified, would you\n"
     .string "like me to teach EXPLOSION?$"
 
+Kanto_Text_ExplosionWhichMon:
+    .string "You're terribly brave!\p"
+    .string "Which POKéMON should I teach\n"
+    .string "EXPLOSION?$"
+
+Kanto_Text_FeelRejuvenated:
+    .string "After I passed on my knowledge to\n"
+    .string "you, I felt so much relief.\p"
+    .string "In fact, I feel rejuvenated,\n"
+    .string "as if I were younger again!$"
+
+Kanto_Text_GiveNicknameToThisMon:
+	.string "Do you want to give a nickname to\n"
+	.string "this {STR_VAR_1}?$"
+
 Kanto_Text_Gyaoo:
 	.string "Gyaoo!$"
+
+Kanto_Text_HeardThatBefore:
+	.string "Oh, I've heard that before…\p"
+	.string "My cousin, who lives far away,\n"
+	.string "always used to say that, I think.$"
+
+Kanto_Text_HiWeMeetAgain:
+	.string "Hi!\n"
+	.string "We meet again!$"
 
 Kanto_Text_IdLoveToHearYourProfile:
 	.string "Hi, glad to meet you!\p"
@@ -295,6 +2781,40 @@ Kanto_Text_IdLoveToHearYourProfile:
 	.string "So, come on, tell me about\n"
 	.string "yourself.\p"
 	.string "I'd love to hear your profile!$"
+
+Kanto_Text_ItNeedsCardKey:
+	.string "No!\n"
+	.string "It needs a CARD KEY!$"
+
+Kanto_Text_LetMeConferUltimateMove:
+    .string "You will allow it?\p"
+    .string "Then, let me confer my ultimate\n"
+    .string "{STR_VAR_2} on your {STR_VAR_1}.\p"
+    .string "Ggggrah-awooo!$"
+
+Kanto_Text_LikeProfileWayItIs:
+	.string "Okay, you like your profile the\n"
+	.string "way it is.\p"
+	.string "I think so, too.$"
+
+Kanto_Text_MakeBestUseOfMove:
+    .string "I implore you to make the best\n"
+    .string "use of that move and gain power!$"
+
+Kanto_Text_MayIHelpYou:
+	.string "Hi, there!\n"
+	.string "May I help you?$"
+
+Kanto_Text_MegaKickDeclined:
+    .string "You'll come crawling back when you\n"
+    .string "realize the value of MEGA KICK.$"
+
+Kanto_Text_MegaKickTaught:
+    .string "Now, we are soul mates in the way\n"
+    .string "of kicking!\p"
+    .string "You should run before you're seen\n"
+    .string "by the deluded nitwit who trains\l"
+    .string "only simple punching over there.$"
 
 Kanto_Text_MegaKickTeach:
     .string "A kick of brutal ferocity!\p"
@@ -305,6 +2825,21 @@ Kanto_Text_MegaKickTeach:
     .string "Okay!\n"
     .string "I'll teach it to your POKéMON!$"
 
+Kanto_Text_MegaKickWhichMon:
+    .string "All right!\n"
+    .string "Which POKéMON wants to learn it?$"
+
+Kanto_Text_MegaPunchDeclined:
+    .string "You'll be back when you understand\n"
+    .string "the worth of MEGA PUNCH.$"
+
+Kanto_Text_MegaPunchTaught:
+    .string "Now, we are comrades in the way of\n"
+    .string "punching!\p"
+    .string "You should go before you're seen\n"
+    .string "by the misguided fool who trains\l"
+    .string "only his silly kicking over there.$"
+
 Kanto_Text_MegaPunchTeach:
     .string "A punch of roaring ferocity!\p"
     .string "Packed with destructive power!\p"
@@ -314,6 +2849,19 @@ Kanto_Text_MegaPunchTeach:
     .string "Now!\n"
     .string "Let me teach it to your POKéMON!$"
 
+Kanto_Text_MegaPunchWhichMon:
+    .string "Fine!\n"
+    .string "Which POKéMON will learn it?$"
+
+Kanto_Text_MetronomeDeclined:
+    .string "I tell you, it's a lot of fun!$"
+
+Kanto_Text_MetronomeTaught:
+    .string "Tch-tch-tch!\n"
+    .string "That's the sound of a METRONOME.\p"
+    .string "It tweaks your POKéMON's brain into\n"
+    .string "using moves it doesn't even know.$"
+
 Kanto_Text_MetronomeTeach:
     .string "Tch-tch-tch!\n"
     .string "I'll teach you a nifty move.\p"
@@ -321,6 +2869,31 @@ Kanto_Text_MetronomeTeach:
     .string "the fun unfold!\p"
     .string "It's a move called METRONOME.\n"
     .string "Does it strike your fancy?$"
+
+Kanto_Text_MetronomeWhichMon:
+    .string "Okay!\n"
+    .string "Which POKéMON should I teach?$"
+
+Kanto_Text_MimicDeclined:
+    .string "Don't you like MIMIC?$"
+
+Kanto_Text_MimicTaughtFemale:
+    .string "{PLAYER}: Hi!\n"
+    .string "Thanks for what you did for us.\p"
+    .string "{PLAYER}: Pardon?\p"
+    .string "{PLAYER}: Is it really that fun to\n"
+    .string "copy what I say and do?\p"
+    .string "COPYCAT: You bet!\n"
+    .string "It's a scream!$"
+
+Kanto_Text_MimicTaughtMale:
+    .string "{PLAYER}: Hi!\n"
+    .string "Thanks for earlier!\p"
+    .string "{PLAYER}: Pardon?\p"
+    .string "{PLAYER}: Is it that fun to mimic my\n"
+    .string "every move?\p"
+    .string "COPYCAT: You bet!\n"
+    .string "It's a scream!$"
 
 Kanto_Text_MimicTeach:
     .string "Oh wow!\n"
@@ -330,12 +2903,56 @@ Kanto_Text_MimicTeach:
     .string "You know what?\n"
     .string "I can teach the move MIMIC.$"
 
+Kanto_Text_MimicWhichMon:
+    .string "I really love MIMIC!\n"
+    .string "Who's going to learn it?$"
+
 Kanto_Text_MonFlewAway:
 	.string "The {STR_VAR_1} flew away!$"
+
+Kanto_Text_MonSentToBoxBillsBoxFull:
+    .string "BOX “{STR_VAR_3}” on\n"
+    .string "BILL'S PC was full.\p"
+    .string "{STR_VAR_2} was transferred to\n"
+    .string "BOX “{STR_VAR_1}.”$"
+
+Kanto_Text_MonSentToBoxInBillsPC:
+    .string "{STR_VAR_2} was transferred to\n"
+    .string "BILL'S PC.\p"
+    .string "It was placed in \n"
+    .string "BOX “{STR_VAR_1}.”$"
+
+Kanto_Text_MoveCanOnlyBeLearnedOnce:
+	.string "This move can be learned only\n"
+	.string "once. Is that okay?$"
+
+Kanto_Text_NoMoreRoomForPokemon:
+    .string "There's no more room for POKéMON!\p"
+    .string "The POKéMON BOXES are full and\n"
+    .string "can't accept any more!$"
+
+Kanto_Text_ObtainedTheX:
+	.string "Obtained the {STR_VAR_2}!$"
 
 Kanto_Text_OhThatsBadgeGoRightAhead:
 	.string "Oh! That is the {STR_VAR_1}!\n"
 	.string "Go right ahead.$"
+
+Kanto_Text_OnlyDodrioAllowed:
+	.string "“DODRIO BERRY-PICKING”…\n"
+	.string "Well, the name says it all.\p"
+	.string "You have to have a DODRIO to play\n"
+	.string "this game.$"
+
+@ Unused, translated in Emerald
+
+Kanto_Text_OnlyPassWithBadgeDontHaveYet:
+	.string "You can pass here only if you have\n"
+	.string "the {STR_VAR_1}.\p"
+	.string "You don't have the {STR_VAR_1}\n"
+	.string "yet.\p"
+	.string "You have to have it to get to\n"
+	.string "the POKéMON LEAGUE.$"
 
 Kanto_Text_OnlyPassWithBadgeOhGoAhead:
 	.string "You can pass here only if you have\n"
@@ -343,6 +2960,75 @@ Kanto_Text_OnlyPassWithBadgeOhGoAhead:
 	.string "Oh! That is the {STR_VAR_1}!{PAUSE_MUSIC}{PLAY_BGM}{MUS_LEVEL_UP}{PAUSE 0x60}{RESUME_MUSIC}\p"
 	.string "Okay, then.\n"
 	.string "Please, go right ahead.$"
+
+Kanto_Text_OnlySkilledTrainersAllowedThrough:
+	.string "Only truly skilled TRAINERS are\n"
+	.string "allowed through.\p"
+	.string "You don't have the {STR_VAR_1}\n"
+	.string "yet!$"
+
+Kanto_Text_PlayWhichGame:
+	.string "All right, which game did you want\n"
+	.string "to play?$"
+
+Kanto_Text_PlayedPokeFlute:
+    .string "{PLAYER} played the POKé FLUTE.$"
+
+Kanto_Text_PlayerBootedUpPC:
+	.string "{PLAYER} booted up the PC.$"
+
+@ Unused
+
+Kanto_Text_PlayerObtainedTheMon:
+    .string "{PLAYER} obtained\n"
+    .string "the {STR_VAR_1}!$"
+
+@ Unused. Translated below
+@ You cannot carry any more Pokemon, so {STR_VAR_2} was sent to PC Box {STR_VAR_1}!
+
+Kanto_Text_PleaseComeAgain:
+	.string "Please come again!$"
+
+@ Unused
+
+Kanto_Text_PokemonJumpInfo:
+	.string "“POKéMON JUMP”\p"
+	.string "Make your POKéMON skip the\n"
+	.string "VINE WHIP rope with the A Button.\p"
+	.string "Only mini POKéMON around 28 inches\n"
+	.string "or less may participate.\p"
+	.string "POKéMON that only swim, burrow, or\n"
+	.string "fly are not good at jumping.\p"
+	.string "As a result, those POKéMON may not\n"
+	.string "participate.\p"
+	.string "Good things happen if everyone\n"
+	.string "jumps in time.$"
+
+Kanto_Text_ProfileSaysSomethingAboutYou:
+	.string "Hmhm…\p"
+	.string "Your profile really says something\n"
+	.string "about who you are.\p"
+	.string "Now that I know you better, it \n"
+	.string "makes us better friends than ever!$"
+
+Kanto_Text_PutItemAway:
+	.string "{PLAYER} put the {STR_VAR_2}\n"
+	.string "in the {STR_VAR_3}.$"
+
+Kanto_Text_ReceivedItemFromLittleGirl:
+    .string "{PLAYER} received a {STR_VAR_2}\n"
+    .string "from the little girl.$"
+
+Kanto_Text_RivalVictory:
+    .string "{RIVAL}: Yeah!\n"
+    .string "Am I great or what?$"
+
+Kanto_Text_RockSlideDeclined:
+    .string "Oh, so you are scared after all.$"
+
+Kanto_Text_RockSlideTaught:
+    .string "It might be scary to use it in this\n"
+    .string "tunnel…$"
 
 Kanto_Text_RockSlideTeach:
     .string "When you're up on a rocky mountain\n"
@@ -353,6 +3039,18 @@ Kanto_Text_RockSlideTeach:
     .string "Total terror!\p"
     .string "You don't seem to be scared.\n"
     .string "Want to try using ROCK SLIDE?$"
+
+Kanto_Text_RockSlideWhichMon:
+    .string "Which POKéMON should I teach\n"
+    .string "ROCK SLIDE?$"
+
+Kanto_Text_SeismicTossDeclined:
+    .string "Is that so?\n"
+    .string "I'm sure you'll be back for it.$"
+
+Kanto_Text_SeismicTossTaught:
+    .string "I hope you won't toss in the towel.\n"
+    .string "Keep it up.$"
 
 Kanto_Text_SeismicTossTeach:
     .string "The secrets of space…\n"
@@ -365,6 +3063,36 @@ Kanto_Text_SeismicTossTeach:
     .string "Well, how about SEISMIC TOSS?\n"
     .string "Should I teach that to a POKéMON?$"
 
+Kanto_Text_SeismicTossWhichMon:
+    .string "Which POKéMON wants to learn\n"
+    .string "SEISMIC TOSS?$"
+
+Kanto_Text_ShortJumpingPokemonAllowed:
+	.string "“POKéMON JUMP” is open to POKéMON\n"
+	.string "around 28 inches or less.\p"
+	.string "What you can't enter are those\n"
+	.string "POKéMON that can't jump.\p"
+	.string "You know, like POKéMON that only\n"
+	.string "swim, burrow, or fly.\p"
+	.string "That's all you need to know.$"
+
+Kanto_Text_SnorlaxReturnedToMountains:
+    .string "SNORLAX calmed down.\n"
+    .string "It gave a huge yawn…\l"
+    .string "And returned to the mountains.$"
+
+Kanto_Text_SnorlaxWokeUp:
+    .string "SNORLAX woke up!\p"
+    .string "It attacked in a grumpy rage!$"
+
+Kanto_Text_SoftboiledDeclined:
+    .string "I'll always be keeping an eye out\n"
+    .string "for you.\p"
+    .string "I hope we can chat again.$"
+
+Kanto_Text_SoftboiledTaught:
+    .string "I wish you the best of luck!$"
+
 Kanto_Text_SoftboiledTeach:
     .string "Hello, there!\p"
     .string "I've seen you about, but I never\n"
@@ -373,6 +3101,18 @@ Kanto_Text_SoftboiledTeach:
     .string "us together finally.\p"
     .string "I'd like to celebrate by teaching\n"
     .string "you the move SOFTBOILED.$"
+
+Kanto_Text_SoftboiledWhichMon:
+    .string "So, who's the POKéMON that gets\n"
+    .string "the chance to learn SOFTBOILED?$"
+
+Kanto_Text_SubstituteDeclined:
+    .string "Oh, really?\n"
+    .string "SUBSTITUTE seems so fun…$"
+
+Kanto_Text_SubstituteTaught:
+    .string "Boy, what I'd give to crawl inside\n"
+    .string "a KANGASKHAN belly pouch…$"
 
 Kanto_Text_SubstituteTeach:
     .string "Aww, I wish I was a KANGASKHAN\n"
@@ -386,6 +3126,17 @@ Kanto_Text_SubstituteTeach:
     .string "Want me to teach SUBSTITUTE to\n"
     .string "one of your POKéMON?$"
 
+Kanto_Text_SubstituteWhichMon:
+    .string "Which POKéMON wants to learn\n"
+    .string "SUBSTITUTE?$"
+
+Kanto_Text_SwordsDanceDeclined:
+    .string "Well, that's fine, too.$"
+
+Kanto_Text_SwordsDanceTaught:
+    .string "If only we could keep getting\n"
+    .string "stronger and stronger, eh?$"
+
 Kanto_Text_SwordsDanceTeach:
     .string "Not many people come out here.\p"
     .string "If I train here, I'm convinced that\n"
@@ -394,6 +3145,38 @@ Kanto_Text_SwordsDanceTeach:
     .string "How would you like to learn a move\n"
     .string "like that? It's SWORDS DANCE.$"
 
+Kanto_Text_SwordsDanceWhichMon:
+    .string "All right, pick which POKéMON\n"
+    .string "I should teach it to.$"
+
+Kanto_Text_TalkToManToPlay:
+	.string "If you want to play a game,\n"
+	.string "please tell the man beside me.$"
+
+Kanto_Text_TaughtMove:
+    .string "Gasp, gasp, gasp…\p"
+    .string "I didn't think I could teach that\n"
+    .string "move while I still lived…$"
+
+Kanto_Text_TellMeWhatsYourProfile:
+	.string "Tell me something good about\n"
+	.string "yourself. What's your profile?$"
+
+Kanto_Text_TheDoorIsOpen:
+	.string "The door is open…$"
+
+Kanto_Text_ThunderWaveDeclined:
+    .string "Oh…\n"
+    .string "But THUNDER WAVE is convenient…$"
+
+Kanto_Text_ThunderWaveTaught:
+    .string "THUNDER WAVE causes paralysis in\n"
+    .string "the target POKéMON.\p"
+    .string "A paralyzed POKéMON may be unable\n"
+    .string "to move in battle.\p"
+    .string "It's an ELECTRIC-type move, so it\n"
+    .string "won't work on some POKéMON.$"
+
 Kanto_Text_ThunderWaveTeach:
     .string "Eeek!\n"
     .string "No! Stop! Help!\p"
@@ -401,6 +3184,10 @@ Kanto_Text_ThunderWaveTeach:
     .string "I'm sorry, I thought…\p"
     .string "Will you forgive me if I teach\n"
     .string "you the THUNDER WAVE technique?$"
+
+Kanto_Text_ThunderWaveWhichMon:
+    .string "Which POKéMON should I teach\n"
+    .string "THUNDER WAVE?$"
 
 Kanto_Text_TooBadBagFull:
 	.string "Too bad!\n"
@@ -418,9 +3205,33 @@ Kanto_Text_UltimateMoveThatMon:
 Kanto_Text_WantToUsePokeFlute:
     .string "Want to use the POKé FLUTE?$"
 
+Kanto_Text_WantWhichFloor:
+	.string "Which floor do you want?$"
+
+Kanto_Text_WelcomeCanYouWait:
+	.string "Hi, welcome!\n"
+	.string "You can play games over the\l"
+	.string "Wireless Communication System.\p"
+	.string "Can you wait just a little bit?$"
+
+Kanto_Text_WhatAreYouLikeNow:
+	.string "What are you like now?\n"
+	.string "I'd really like to know.$"
+
+Kanto_Text_WhatsYourProfile:
+	.string "What's your profile?$"
+
 Kanto_Text_WhereDoYouWantToSail:
     .string "Ahoy, there!\n"
     .string "Where do you want to sail?$"
+
+Kanto_Text_YouRejectIt:
+    .string "Gaah! You reject it?\n"
+    .string "No, I won't be dissuaded!$"
+
+Kanto_Trade_Text_AwwOhWell:
+	.string "Awww!\n"
+	.string "Oh, well…$"
 
 Kanto_Trade_Text_DoYouHaveMonWantToTradeForMon:
 	.string "Hi!\n"
@@ -434,41 +3245,214 @@ Kanto_Trade_Text_DoYouHaveMonWouldYouTradeForMon:
 	.string "Would you agree to a trade for\n"
 	.string "my {STR_VAR_2}?$"
 
+Kanto_Trade_Text_HasTradedMonGrownStronger:
+	.string "The {STR_VAR_2} that I traded you,\n"
+	.string "has it grown stronger?$"
+
+Kanto_Trade_Text_HeyThanks:
+	.string "Hey, thanks!$"
+
+Kanto_Trade_Text_HowIsMyOldMon:
+	.string "How is my old {STR_VAR_2}?\n"
+	.string "My {STR_VAR_1} is doing great!$"
+
+Kanto_Trade_Text_IsntMyOldMonGreat:
+	.string "Isn't my old {STR_VAR_2} great?$"
+
 Kanto_Trade_Text_LookingForMonWannaTradeForMon:
 	.string "I'm looking for the POKéMON\n"
 	.string "{STR_VAR_1}!\p"
 	.string "Wanna trade one for my\n"
 	.string "{STR_VAR_2}?$"
 
-Kanto_PokemonMansion_1F_Text_ArnieDefeat:
-    .string "Oh, no!\n"
-    .string "My bag of loot!$"
+Kanto_Trade_Text_Thanks:
+	.string "Thanks!$"
 
-Kanto_PokemonMansion_1F_Text_ArnieIntro:
-    .string "I can't get out!\n"
-    .string "This old place is one big puzzle.$"
+Kanto_Trade_Text_ThanksYoureAPal:
+	.string "Thanks, you're a pal!$"
 
-Kanto_PokemonMansion_1F_Text_ArniePostBattle:
-    .string "The switches here open and close\n"
-    .string "alternating sets of doors.$"
+Kanto_Trade_Text_ThatsTooBad:
+	.string "That's too bad.$"
 
-Kanto_PokemonMansion_1F_Text_BraydonDefeat:
-    .string "Whew!\n"
-    .string "Overwhelming!$"
+Kanto_Trade_Text_ThisIsNoMon:
+	.string "…This is no {STR_VAR_1}.\p"
+	.string "If you get one, trade it with me.$"
 
-Kanto_PokemonMansion_1F_Text_BraydonIntro:
-    .string "My mentor once lived here.$"
+Kanto_Trade_Text_ThisIsntMon:
+	.string "Hmmm?\n"
+	.string "This isn't a {STR_VAR_1}.\p"
+	.string "Think of me if you get one.$"
 
-Kanto_PokemonMansion_1F_Text_BraydonPostBattle:
-    .string "So, you're stuck?\n"
-    .string "Try jumping off over there!$"
+Kanto_Trade_Text_WellIfYouDontWantTo:
+	.string "Well, if you don't want to…$"
 
-Kanto_PokemonMansion_1F_Text_SimonDefeat:
-    .string "Ayah!$"
+Kanto_Trade_Text_WhatThatsNoMon:
+	.string "What?\n"
+	.string "That's no {STR_VAR_1}!$"
 
-Kanto_PokemonMansion_1F_Text_SimonIntro:
-    .string "This place is, like, huge!$"
+Kanto_TrainerTower_EventScript_DoPostBattleText::
+	lock
+	faceplayer
+	msgbox gStringVar4
+	release
+	return
 
-Kanto_PokemonMansion_1F_Text_SimonPostBattle:
-    .string "I wonder where my partner went.$"
+Kanto_TrainerTower_EventScript_DoubleBattleTriggerBottom::
+	setvar VAR_TEMP_3, 1
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Kanto_Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Kanto_Common_Movement_Delay48
+	end
+
+Kanto_TrainerTower_EventScript_DoubleBattleTriggerTop::
+	setvar VAR_TEMP_3, 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_Common_Movement_Delay48
+	goto Kanto_TrainerTower_EventScript_TriggerDoubleBattle
+
+Kanto_TrainerTower_EventScript_DoublesTrainer1::
+	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1
+	end
+
+Kanto_TrainerTower_EventScript_DoublesTrainer2::
+	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2
+	end
+
+Kanto_TrainerTower_EventScript_EnterFloor::
+	setvar VAR_TEMP_2, 1
+	end
+
+Kanto_TrainerTower_EventScript_KnockoutTrainer::
+	call Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer
+	end
+
+Kanto_TrainerTower_EventScript_Owner::
+	call Kanto_TrainerTower_EventScript_SpeakToOwner
+	end
+
+Kanto_TrainerTower_EventScript_SingleBattleTrigger::
+	goto Kanto_TrainerTower_EventScript_TriggerBattle
+
+Kanto_TrainerTower_EventScript_SinglesTrainer::
+	call Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer
+	end
+
+Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1::
+	end
+
+Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2::
+	setvar VAR_0x8006, 1
+	end
+
+Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer::
+	setvar VAR_0x8006, 0
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_SpeakToOwner::
+	lock
+	faceplayer
+	case 0, TrainerTower_Roof_EventScript_Arrived
+	case 1, TrainerTower_Roof_EventScript_GivePrize
+	case 2, TrainerTower_Roof_EventScript_OwnerEnd
+	end
+
+Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer::
+	end
+
+Kanto_TrainerTower_EventScript_TriggerBattle::
+	end
+
+Kanto_TrainerTower_EventScript_TriggerDoubleBattle::
+	waitmovement 0
+	goto Kanto_TrainerTower_EventScript_TriggerBattle
+
+Kanto_TrainerTower_OnFrame:
+	map_script_2 VAR_TEMP_2, 0, Kanto_TrainerTower_EventScript_EnterFloor
+	.2byte 0
+
+Kanto_TrainerTower_OnResume::
+	setvar VAR_TEMP_2, 0
+	end
+
+Kanto_TrainerTower_OnTransition::
+	end
+
+Kanto_TrainerTower_Roof_EventScript_Arrived::
+	msgbox Kanto_TrainerTower_Roof_Text_ImOwnerBattledPerfectly
+	end
+
+Kanto_TrainerTower_Roof_EventScript_CheckFinalTime::
+	case 0, Kanto_TrainerTower_Roof_EventScript_NewRecord
+	case 1, Kanto_TrainerTower_Roof_EventScript_NoNewRecord
+	case 2, Kanto_TrainerTower_Roof_EventScript_OwnerEnd
+	end
+
+Kanto_TrainerTower_Roof_EventScript_GivePrize::
+	case 0, Kanto_TrainerTower_Roof_EventScript_ReceivePrize
+	case 1, Kanto_TrainerTower_Roof_EventScript_NoRoomForPrize
+	case 2, Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
+	end
+
+Kanto_TrainerTower_Roof_EventScript_NewRecord::
+	msgbox Kanto_TrainerTower_Roof_Text_DoneItInRecordTime
+	goto Kanto_TrainerTower_Roof_EventScript_OwnerEnd
+
+Kanto_TrainerTower_Roof_EventScript_NoNewRecord::
+	msgbox Kanto_TrainerTower_Roof_Text_TookSweetTimeGettingHere
+	end
+
+Kanto_TrainerTower_Roof_EventScript_NoRoomForPrize::
+	msgbox Kanto_TrainerTower_Roof_Text_ThisIsForYou
+	msgbox Kanto_Text_BagIsFull
+	goto Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
+
+Kanto_TrainerTower_Roof_EventScript_OwnerEnd::
+	msgbox Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime
+	release
+	return
+
+Kanto_TrainerTower_Roof_EventScript_ReceivePrize::
+	msgbox Kanto_TrainerTower_Roof_Text_ThisIsForYou
+	playfanfare MUS_LEVEL_UP
+	message Kanto_Text_ObtainedTheX
+	waitfanfare
+	waitmessage
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS
+	msgbox Kanto_Text_PutItemAway
+	call Kanto_EventScript_RestorePrevTextColor
+	goto Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
+
+Kanto_TrainerTower_Roof_Text_DoneItInRecordTime:
+    .string "Oh!\n"
+    .string "Stupendous!\p"
+    .string "It's marvelous how you've come up\n"
+    .string "here so quickly.\p"
+    .string "The fact is, you've done it in\n"
+    .string "record time…\p"
+    .string "I'll have your record posted at\n"
+    .string "the reception counter.$"
+
+Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime:
+    .string "What I would like to see is a\n"
+    .string "better time out of you…\p"
+    .string "I'm counting on you.\p"
+    .string "Until then, farewell…$"
+
+Kanto_TrainerTower_Roof_Text_ImOwnerBattledPerfectly:
+    .string "Hello…\p"
+    .string "I am the owner of this TOWER…\p"
+    .string "How the sky soars above this\n"
+    .string "rooftop…\p"
+    .string "The caress of the winds up here…\p"
+    .string "It's all so perfect…\p"
+    .string "The way you battled…\n"
+    .string "It, too, was perfection…$"
+
+Kanto_TrainerTower_Roof_Text_ThisIsForYou:
+    .string "This is for you…$"
+
+Kanto_TrainerTower_Roof_Text_TookSweetTimeGettingHere:
+    .string "You seem to have taken your sweet\n"
+    .string "time getting here…$"
 

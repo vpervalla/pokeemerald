@@ -13,17 +13,13 @@ SSAnne_1F_Room2_EventScript_Tyler::
 	msgbox SSAnne_1F_Room2_Text_TylerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-SSAnne_1F_Room2_EventScript_Woman::
-	msgbox SSAnne_1F_Room2_Text_CruisingAroundWorld, MSGBOX_NPC
-	end
-
 SSAnne_1F_Room2_EventScript_ItemTM31::
 	finditem ITEM_TM31
 	end
 
-SSAnne_1F_Room2_Text_CruisingAroundWorld:
-    .string "We are cruising around the world,\n"
-    .string "my children and I.$"
+SSAnne_1F_Room2_EventScript_Woman::
+	msgbox SSAnne_1F_Room2_Text_CruisingAroundWorld, MSGBOX_NPC
+	end
 
 SSAnne_1F_Room2_Text_AnnDefeat:
     .string "Oh, no!\n"
@@ -37,6 +33,10 @@ SSAnne_1F_Room2_Text_AnnPostBattle:
     .string "You hurt my poor POKéMON!\p"
     .string "I demand that you heal them at a\n"
     .string "POKéMON CENTER!$"
+
+SSAnne_1F_Room2_Text_CruisingAroundWorld:
+    .string "We are cruising around the world,\n"
+    .string "my children and I.$"
 
 SSAnne_1F_Room2_Text_TylerDefeat:
     .string "Wow! \n"

@@ -24,7 +24,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "KantoSafariZone_North_RestHouse_EventScript_Gentleman",
+      "script": "Kanto_SafariZone_North_RestHouse_EventScript_Gentleman",
       "flag": "0"
     },
     {
@@ -37,7 +37,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "KantoSafariZone_North_RestHouse_EventScript_Scientist",
+      "script": "Kanto_SafariZone_North_RestHouse_EventScript_Scientist",
       "flag": "0"
     },
     {
@@ -50,7 +50,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "KantoSafariZone_North_RestHouse_EventScript_Fisher",
+      "script": "Kanto_SafariZone_North_RestHouse_EventScript_Fisher",
       "flag": "0"
     },
     {
@@ -63,7 +63,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "KantoSafariZone_North_RestHouse_EventScript_BaldingMan",
+      "script": "Kanto_SafariZone_North_RestHouse_EventScript_BaldingMan",
       "flag": "0"
     }
   ],

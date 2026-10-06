@@ -110,6 +110,10 @@ Route9_EventScript_JeremyRematch::
 	msgbox Route9_Text_JeremyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route9_EventScript_RouteSign::
+	msgbox Route9_Text_RouteSign, MSGBOX_SIGN
+	end
+
 Route9_Text_AlanDefeat:
     .string "Hahahaha!\n"
     .string "You beat me fair!$"
@@ -211,5 +215,9 @@ Route9_Text_JeremyIntro:
 Route9_Text_JeremyPostBattle:
     .string "You sure had guts standing up to\n"
     .string "me there, eh?$"
+
+Route9_Text_RouteSign:
+    .string "ROUTE 9\n"
+    .string "CERULEAN CITY - ROCK TUNNEL$"
 
 @ END KANTO NPCS

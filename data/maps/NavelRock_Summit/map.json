@@ -38,6 +38,25 @@
       "dest_warp_id": "1"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 12,
+      "elevation": 3,
+      "var": "VAR_TEMP_1",
+      "var_value": "0",
+      "script": "NavelRock_Summit_EventScript_HoOh"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 9,
+      "y": 11,
+      "elevation": 3,
+      "item": "ITEM_SACRED_ASH",
+      "flag": "FLAG_HIDDEN_ITEM_NAVEL_ROCK_SUMMIT_SACRED_ASH"
+    }
+  ]
 }

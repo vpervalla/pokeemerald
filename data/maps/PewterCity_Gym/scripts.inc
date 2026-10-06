@@ -15,22 +15,10 @@ PewterCity_Gym_EventScript_Liam::
 	msgbox PewterCity_Gym_Text_LiamPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-PewterCity_Gym_EventScript_GymGuy::
-	msgbox PewterCity_Gym_Text_LetMeTakeYouToTheTop, MSGBOX_NPC
-	end
-
-PewterCity_Gym_Text_LetMeTakeYouToTheTop:
-    .string "Hiya!\n"
-    .string "Do you want to dream big?\p"
-    .string "Do you dare to dream of becoming\n"
-    .string "the POKéMON champ?\p"
-    .string "I'm no TRAINER, but I can advise\n"
-    .string "you on how to win.\p"
-    .string "Let me take you to the top!$"
-
 PewterCity_Gym_EventScript_DefeatedBrock::
 	setflag FLAG_DEFEATED_BROCK
 	setflag FLAG_BADGE01_GET
+	setvar VAR_MAP_SCENE_PEWTER_CITY, 1
 	setflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
 	clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
 	goto PewterCity_Gym_EventScript_GiveTM39
@@ -44,6 +32,47 @@ PewterCity_Gym_EventScript_GiveTM39::
 	setflag FLAG_GOT_TM39_FROM_BROCK
 	msgbox PewterCity_Gym_Text_ExplainTM39
 	release
+	end
+
+PewterCity_Gym_EventScript_GymGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_BROCK, PewterCity_Gym_EventScript_GymGuyPostVictory
+	msgbox PewterCity_Gym_Text_LetMeTakeYouToTheTop, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PewterCity_Gym_EventScript_GymGuyTakeMeToTop
+	goto_if_eq VAR_RESULT, NO, PewterCity_Gym_EventScript_GymGuyDontTakeMeToTop
+	end
+
+PewterCity_Gym_EventScript_GymGuyAdvice::
+	msgbox PewterCity_Gym_Text_TryDifferentPartyOrders
+	release
+	end
+
+PewterCity_Gym_EventScript_GymGuyDontTakeMeToTop::
+	msgbox PewterCity_Gym_Text_ItsFreeLetsGetHappening
+	goto PewterCity_Gym_EventScript_GymGuyAdvice
+	end
+
+PewterCity_Gym_EventScript_GymGuyPostVictory::
+	msgbox PewterCity_Gym_Text_YoureChampMaterial
+	release
+	end
+
+PewterCity_Gym_EventScript_GymGuyTakeMeToTop::
+	msgbox PewterCity_Gym_Text_LetsGetHappening
+	goto PewterCity_Gym_EventScript_GymGuyAdvice
+	end
+
+PewterCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE01_GET, PewterCity_Gym_EventScript_GymStatuePostVictory
+	msgbox PewterCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+PewterCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox PewterCity_Gym_Text_GymStatuePlayerWon
+	releaseall
 	end
 
 PewterCity_Gym_EventScript_NoRoomForTM39::
@@ -111,6 +140,35 @@ PewterCity_Gym_Text_ExplainTM39:
     .string "It hurls boulders at the foe and\n"
     .string "lowers its SPEED.$"
 
+PewterCity_Gym_Text_GymStatue:
+    .string "PEWTER POKéMON GYM\n"
+    .string "LEADER: BROCK\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+PewterCity_Gym_Text_GymStatuePlayerWon:
+    .string "PEWTER POKéMON GYM\n"
+    .string "LEADER: BROCK\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
+
+PewterCity_Gym_Text_ItsFreeLetsGetHappening:
+    .string "It's a free service!\n"
+    .string "Let's get happening!$"
+
+PewterCity_Gym_Text_LetMeTakeYouToTheTop:
+    .string "Hiya!\n"
+    .string "Do you want to dream big?\p"
+    .string "Do you dare to dream of becoming\n"
+    .string "the POKéMON champ?\p"
+    .string "I'm no TRAINER, but I can advise\n"
+    .string "you on how to win.\p"
+    .string "Let me take you to the top!$"
+
+PewterCity_Gym_Text_LetsGetHappening:
+    .string "All right!\n"
+    .string "Let's get happening!$"
+
 PewterCity_Gym_Text_LiamDefeat:
     .string "Darn!\p"
     .string "Light-years isn't time…\n"
@@ -128,5 +186,17 @@ PewterCity_Gym_Text_LiamPostBattle:
 PewterCity_Gym_Text_TakeThisWithYou:
     .string "Wait!\n"
     .string "Take this with you.$"
+
+PewterCity_Gym_Text_TryDifferentPartyOrders:
+    .string "The first POKéMON out in a match is\n"
+    .string "at the left of the POKéMON LIST.\p"
+    .string "By changing the order of POKéMON,\n"
+    .string "you may gain an advantage.\p"
+    .string "Try different orders to suit your\n"
+    .string "opponent's party.$"
+
+PewterCity_Gym_Text_YoureChampMaterial:
+    .string "Just as I thought!\n"
+    .string "You're POKéMON champ material!$"
 
 @ END KANTO NPCS

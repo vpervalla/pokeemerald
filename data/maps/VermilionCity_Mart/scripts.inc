@@ -13,14 +13,6 @@ VermilionCity_Mart_EventScript_Clerk::
 	release
 	end
 
-VermilionCity_Mart_EventScript_CooltrainerF::
-	msgbox VermilionCity_Mart_Text_MonsGoodOrBadDependingOnTrainer, MSGBOX_NPC
-	end
-
-VermilionCity_Mart_EventScript_BaldingMan::
-	msgbox VermilionCity_Mart_Text_TeamRocketAreWickedPeople, MSGBOX_NPC
-	end
-
 	.align 2
 VermilionCity_Mart_Items:
 	.2byte ITEM_POKE_BALL
@@ -32,6 +24,14 @@ VermilionCity_Mart_Items:
 	.2byte ITEM_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+VermilionCity_Mart_EventScript_BaldingMan::
+	msgbox VermilionCity_Mart_Text_TeamRocketAreWickedPeople, MSGBOX_NPC
+	end
+
+VermilionCity_Mart_EventScript_CooltrainerF::
+	msgbox VermilionCity_Mart_Text_MonsGoodOrBadDependingOnTrainer, MSGBOX_NPC
 	end
 
 VermilionCity_Mart_Text_MonsGoodOrBadDependingOnTrainer:

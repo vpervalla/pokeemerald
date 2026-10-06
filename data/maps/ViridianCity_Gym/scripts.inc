@@ -54,25 +54,11 @@ ViridianCity_Gym_EventScript_Warren::
 	msgbox ViridianCity_Gym_Text_WarrenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-ViridianCity_Gym_EventScript_GymGuy::
-	msgbox ViridianCity_Gym_Text_GymGuyAdvice, MSGBOX_NPC
-	end
-
-ViridianCity_Gym_Text_GymGuyAdvice:
-    .string "Yo!\n"
-    .string "Champ in the making!\p"
-    .string "Even I don't know the VIRIDIAN\n"
-    .string "LEADER's identity.\p"
-    .string "But one thing's certain.\n"
-    .string "This will be the toughest of all\l"
-    .string "the GYM LEADERS.\p"
-    .string "Also, I heard that the TRAINERS\n"
-    .string "here like GROUND-type POKéMON.$"
-
 ViridianCity_Gym_EventScript_DefeatedGiovanni::
 	setflag FLAG_HIDE_MISC_KANTO_ROCKETS
 	setflag FLAG_DEFEATED_LEADER_GIOVANNI
 	setflag FLAG_BADGE08_GET
+	setvar VAR_MAP_SCENE_ROUTE22, 3
 	goto ViridianCity_Gym_EventScript_GiveTM26
 	end
 
@@ -84,6 +70,31 @@ ViridianCity_Gym_EventScript_GiveTM26::
 	setflag FLAG_GOT_TM26_FROM_GIOVANNI
 	msgbox ViridianCity_Gym_Text_ExplainTM26
 	release
+	end
+
+ViridianCity_Gym_EventScript_GymGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_LEADER_GIOVANNI, ViridianCity_Gym_EventScript_GymGuyPostVictory
+	msgbox ViridianCity_Gym_Text_GymGuyAdvice
+	release
+	end
+
+ViridianCity_Gym_EventScript_GymGuyPostVictory::
+	msgbox ViridianCity_Gym_Text_GymGuyPostVictory
+	release
+	end
+
+ViridianCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE08_GET, ViridianCity_Gym_EventScript_GymStatuePostVictory
+	msgbox ViridianCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+ViridianCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox ViridianCity_Gym_Text_GymStatuePlayerWon
+	releaseall
 	end
 
 ViridianCity_Gym_EventScript_NoRoomForTM26::
@@ -159,6 +170,33 @@ ViridianCity_Gym_Text_GiovanniPostBattle:
     .string "my life to training again.\p"
     .string "Let us meet again someday!\n"
     .string "Farewell!$"
+
+ViridianCity_Gym_Text_GymGuyAdvice:
+    .string "Yo!\n"
+    .string "Champ in the making!\p"
+    .string "Even I don't know the VIRIDIAN\n"
+    .string "LEADER's identity.\p"
+    .string "But one thing's certain.\n"
+    .string "This will be the toughest of all\l"
+    .string "the GYM LEADERS.\p"
+    .string "Also, I heard that the TRAINERS\n"
+    .string "here like GROUND-type POKéMON.$"
+
+ViridianCity_Gym_Text_GymGuyPostVictory:
+    .string "Blow me away! GIOVANNI was the\n"
+    .string "GYM LEADER of VIRIDIAN?$"
+
+ViridianCity_Gym_Text_GymStatue:
+    .string "VIRIDIAN POKéMON GYM\n"
+    .string "LEADER: ?\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+ViridianCity_Gym_Text_GymStatuePlayerWon:
+    .string "VIRIDIAN POKéMON GYM\n"
+    .string "LEADER: GIOVANNI\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
 
 ViridianCity_Gym_Text_JasonDefeat:
     .string "You are in perfect harmony!$"

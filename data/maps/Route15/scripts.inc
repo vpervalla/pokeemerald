@@ -135,6 +135,10 @@ Route15_EventScript_RonRematch::
 	msgbox Route15_Text_RonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route15_EventScript_RouteSign::
+	msgbox Route15_Text_RouteSign, MSGBOX_SIGN
+	end
+
 Route15_EventScript_YazminRematch::
 	msgbox Route15_Text_YazminPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -280,6 +284,10 @@ Route15_Text_RonNotEnoughMons:
 Route15_Text_RonPostBattle:
     .string "RON: Oh, bleah…\n"
     .string "I wish I had a nice sister…$"
+
+Route15_Text_RouteSign:
+    .string "ROUTE 15\n"
+    .string "West to FUCHSIA CITY$"
 
 Route15_Text_YazminDefeat:
     .string "I was too impatient!$"

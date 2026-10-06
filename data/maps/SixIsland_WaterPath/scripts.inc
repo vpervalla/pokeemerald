@@ -72,6 +72,10 @@ SixIsland_WaterPath_EventScript_EdwardRematch::
 	msgbox SixIsland_WaterPath_Text_EdwardPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+SixIsland_WaterPath_EventScript_HornWantedSign::
+	msgbox SixIsland_WaterPath_Text_WantedUltimateHorn, MSGBOX_SIGN
+	end
+
 SixIsland_WaterPath_EventScript_MiaRematch::
 	msgbox SixIsland_WaterPath_Text_MiaPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -82,6 +86,10 @@ SixIsland_WaterPath_EventScript_MiuRematch::
 
 SixIsland_WaterPath_EventScript_RoseRematch::
 	msgbox SixIsland_WaterPath_Text_RosePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+SixIsland_WaterPath_EventScript_RouteSign::
+	msgbox SixIsland_WaterPath_Text_RouteSign, MSGBOX_SIGN
 	end
 
 SixIsland_WaterPath_EventScript_SamirRematch::
@@ -170,6 +178,10 @@ SixIsland_WaterPath_Text_RosePostBattle:
     .string "There are lots of BUG POKéMON.\n"
     .string "They scare me a little.$"
 
+SixIsland_WaterPath_Text_RouteSign:
+    .string "WATER PATH\n"
+    .string "Leads to RUIN VALLEY$"
+
 SixIsland_WaterPath_Text_SamirDefeat:
     .string "Oh, no, no, no.$"
 
@@ -181,5 +193,9 @@ SixIsland_WaterPath_Text_SamirIntro:
 SixIsland_WaterPath_Text_SamirPostBattle:
     .string "I couldn't lift the stigma of being\n"
     .string "a SWIMMER…$"
+
+SixIsland_WaterPath_Text_WantedUltimateHorn:
+    .string "Wanted!\n"
+    .string "The Ultimate Horn!$"
 
 @ END KANTO NPCS

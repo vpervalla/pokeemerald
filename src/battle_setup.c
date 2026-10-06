@@ -108,6 +108,7 @@ EWRAM_DATA static u8 *sTrainerABattleScriptRetAddr = NULL;
 EWRAM_DATA static u8 *sTrainerBBattleScriptRetAddr = NULL;
 EWRAM_DATA static bool8 sShouldCheckTrainerBScript = FALSE;
 EWRAM_DATA static u8 sNoOfPossibleTrainerRetScripts = 0;
+EWRAM_DATA static u16 sRivalBattleFlags = 0;
 
 // The first transition is used if the enemy Pokémon are lower level than our Pokémon.
 // Otherwise, the second transition is used.
@@ -157,6 +158,20 @@ static const u8 sBattleTransitionTable_BattleDome[] =
     B_TRANSITION_FRONTIER_SQUARES,
     B_TRANSITION_FRONTIER_SQUARES_SCROLL,
     B_TRANSITION_FRONTIER_SQUARES_SPIRAL
+};
+
+// TRAINER_BATTLE_EARLY_RIVAL: the local id slot holds the RIVAL_BATTLE_* flags
+static const struct TrainerBattleParameter sEarlyRivalBattleParams[] =
+{
+    {&sTrainerBattleMode,           TRAINER_PARAM_LOAD_VAL_8BIT},
+    {&gTrainerBattleOpponent_A,     TRAINER_PARAM_LOAD_VAL_16BIT},
+    {&sRivalBattleFlags,            TRAINER_PARAM_LOAD_VAL_16BIT},
+    {&sTrainerAIntroSpeech,         TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerADefeatSpeech,        TRAINER_PARAM_LOAD_VAL_32BIT},
+    {&sTrainerVictorySpeech,        TRAINER_PARAM_LOAD_VAL_32BIT},
+    {&sTrainerCannotBattleSpeech,   TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerABattleScriptRetAddr, TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerBattleEndScript,      TRAINER_PARAM_LOAD_SCRIPT_RET_ADDR},
 };
 
 static const struct TrainerBattleParameter sOrdinaryBattleParams[] =
@@ -1116,6 +1131,10 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
 
     switch (sTrainerBattleMode)
     {
+    case TRAINER_BATTLE_EARLY_RIVAL:
+        sRivalBattleFlags = 0;
+        TrainerBattleLoadArgs(sEarlyRivalBattleParams, data);
+        return EventScript_DoNoIntroTrainerBattle;
     case TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT:
         TrainerBattleLoadArgs(sOrdinaryNoIntroBattleParams, data);
         return EventScript_DoNoIntroTrainerBattle;
@@ -1335,6 +1354,22 @@ void BattleSetup_StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
+    if (sTrainerBattleMode == TRAINER_BATTLE_EARLY_RIVAL)
+    {
+        // FRLG: the story goes on whether the player won or not
+        gSpecialVar_Result = IsPlayerDefeated(gBattleOutcome);
+        if (gSpecialVar_Result && !(sRivalBattleFlags & RIVAL_BATTLE_HEAL_AFTER))
+        {
+            SetMainCallback2(CB2_WhiteOut);
+            return;
+        }
+        if (gSpecialVar_Result)
+            HealPlayerParty();
+        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+        SetBattledTrainersFlags();
+        return;
+    }
+
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

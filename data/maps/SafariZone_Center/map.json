@@ -122,5 +122,38 @@
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 30,
+      "y": 26,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SafariZone_Center_EventScript_RestHouseSign"
+    },
+    {
+      "type": "sign",
+      "x": 25,
+      "y": 27,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SafariZone_Center_EventScript_TrainerTips"
+    },
+    {
+      "type": "hidden_item",
+      "x": 27,
+      "y": 15,
+      "elevation": 3,
+      "item": "ITEM_LEAF_STONE",
+      "flag": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_CENTER_LEAF_STONE"
+    },
+    {
+      "type": "sign",
+      "x": 33,
+      "y": 20,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SafariZone_Center_EventScript_AreaSign"
+    }
+  ]
 }

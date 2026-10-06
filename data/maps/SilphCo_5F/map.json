@@ -184,5 +184,150 @@
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 13,
+      "y": 16,
+      "elevation": 0,
+      "item": "ITEM_ELIXIR",
+      "flag": "FLAG_HIDDEN_ITEM_SILPH_CO_5F_ELIXIR"
+    },
+    {
+      "type": "sign",
+      "x": 8,
+      "y": 9,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door1"
+    },
+    {
+      "type": "sign",
+      "x": 8,
+      "y": 10,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door1"
+    },
+    {
+      "type": "sign",
+      "x": 8,
+      "y": 18,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door2"
+    },
+    {
+      "type": "sign",
+      "x": 8,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door2"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 13,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door3"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 14,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door3"
+    },
+    {
+      "type": "sign",
+      "x": 7,
+      "y": 9,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door1"
+    },
+    {
+      "type": "sign",
+      "x": 7,
+      "y": 10,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door1"
+    },
+    {
+      "type": "sign",
+      "x": 7,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door2"
+    },
+    {
+      "type": "sign",
+      "x": 7,
+      "y": 18,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door2"
+    },
+    {
+      "type": "sign",
+      "x": 18,
+      "y": 13,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door3"
+    },
+    {
+      "type": "sign",
+      "x": 18,
+      "y": 14,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_Door3"
+    },
+    {
+      "type": "sign",
+      "x": 28,
+      "y": 11,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_PokemonReport3"
+    },
+    {
+      "type": "sign",
+      "x": 30,
+      "y": 13,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_PokemonReport2"
+    },
+    {
+      "type": "sign",
+      "x": 25,
+      "y": 15,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_PokemonReport1"
+    },
+    {
+      "type": "hidden_item",
+      "x": 32,
+      "y": 9,
+      "elevation": 0,
+      "item": "ITEM_PP_UP",
+      "flag": "FLAG_HIDDEN_ITEM_SILPH_CO_5F_PP_UP"
+    },
+    {
+      "type": "sign",
+      "x": 29,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_5F_EventScript_FloorSign"
+    }
+  ]
 }

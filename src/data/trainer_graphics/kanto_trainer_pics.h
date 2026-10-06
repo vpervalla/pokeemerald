@@ -19,6 +19,8 @@ static const u32 gTrainerFrontPic_KantoBurglar[] = INCGFX_U32("graphics/trainers
 static const u32 gTrainerPalette_KantoBurglar[] = INCGFX_U32("graphics/trainers/kanto/palettes/burglar.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoCamper[] = INCGFX_U32("graphics/trainers/kanto/front_pics/camper_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoCamper[] = INCGFX_U32("graphics/trainers/kanto/palettes/camper.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoChampionRival[] = INCGFX_U32("graphics/trainers/kanto/front_pics/champion_rival_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoChampionRival[] = INCGFX_U32("graphics/trainers/kanto/palettes/champion_rival.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoChanneler[] = INCGFX_U32("graphics/trainers/kanto/front_pics/channeler_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoChanneler[] = INCGFX_U32("graphics/trainers/kanto/palettes/channeler.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoCooltrainerF[] = INCGFX_U32("graphics/trainers/kanto/front_pics/cool_trainer_f_front_pic.png", ".4bpp.lz");
@@ -33,6 +35,14 @@ static const u32 gTrainerFrontPic_KantoCrushKin[] = INCGFX_U32("graphics/trainer
 static const u32 gTrainerPalette_KantoCrushKin[] = INCGFX_U32("graphics/trainers/kanto/palettes/crush_kin.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoCueBall[] = INCGFX_U32("graphics/trainers/kanto/front_pics/cue_ball_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoCueBall[] = INCGFX_U32("graphics/trainers/kanto/palettes/cue_ball.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoEliteFourAgatha[] = INCGFX_U32("graphics/trainers/kanto/front_pics/elite_four_agatha_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoEliteFourAgatha[] = INCGFX_U32("graphics/trainers/kanto/palettes/elite_four_agatha.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoEliteFourBruno[] = INCGFX_U32("graphics/trainers/kanto/front_pics/elite_four_bruno_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoEliteFourBruno[] = INCGFX_U32("graphics/trainers/kanto/palettes/elite_four_bruno.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoEliteFourLance[] = INCGFX_U32("graphics/trainers/kanto/front_pics/elite_four_lance_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoEliteFourLance[] = INCGFX_U32("graphics/trainers/kanto/palettes/elite_four_lance.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoEliteFourLorelei[] = INCGFX_U32("graphics/trainers/kanto/front_pics/elite_four_lorelei_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoEliteFourLorelei[] = INCGFX_U32("graphics/trainers/kanto/palettes/elite_four_lorelei.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoEngineer[] = INCGFX_U32("graphics/trainers/kanto/front_pics/engineer_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoEngineer[] = INCGFX_U32("graphics/trainers/kanto/palettes/engineer.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoFisherman[] = INCGFX_U32("graphics/trainers/kanto/front_pics/fisherman_front_pic.png", ".4bpp.lz");
@@ -79,6 +89,10 @@ static const u32 gTrainerFrontPic_KantoPsychicM[] = INCGFX_U32("graphics/trainer
 static const u32 gTrainerPalette_KantoPsychicM[] = INCGFX_U32("graphics/trainers/kanto/palettes/psychic_m.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoPsychicF[] = INCGFX_U32("graphics/trainers/kanto/front_pics/psychic_f_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoPsychicF[] = INCGFX_U32("graphics/trainers/kanto/palettes/psychic_f.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoRivalEarly[] = INCGFX_U32("graphics/trainers/kanto/front_pics/rival_early_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoRivalEarly[] = INCGFX_U32("graphics/trainers/kanto/palettes/rival_early.pal", ".gbapal.lz");
+static const u32 gTrainerFrontPic_KantoRivalLate[] = INCGFX_U32("graphics/trainers/kanto/front_pics/rival_late_front_pic.png", ".4bpp.lz");
+static const u32 gTrainerPalette_KantoRivalLate[] = INCGFX_U32("graphics/trainers/kanto/palettes/rival_late.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoRocker[] = INCGFX_U32("graphics/trainers/kanto/front_pics/rocker_front_pic.png", ".4bpp.lz");
 static const u32 gTrainerPalette_KantoRocker[] = INCGFX_U32("graphics/trainers/kanto/palettes/rocker.pal", ".gbapal.lz");
 static const u32 gTrainerFrontPic_KantoRuinManiac[] = INCGFX_U32("graphics/trainers/kanto/front_pics/ruin_maniac_front_pic.png", ".4bpp.lz");
@@ -120,6 +134,7 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_BUG_CATCHER] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_BURGLAR] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_CAMPER] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_CHAMPION_RIVAL] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_CHANNELER] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_F] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_M] = {.size = 8, .y_offset = 1}, \
@@ -127,6 +142,10 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_CRUSH_GIRL] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_CRUSH_KIN] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_CUE_BALL] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LANCE] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_ENGINEER] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_FISHERMAN] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_GAMER] = {.size = 8, .y_offset = 1}, \
@@ -150,6 +169,8 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_POKEMANIAC] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_PSYCHIC_M] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_PSYCHIC_F] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_RIVAL_EARLY] = {.size = 8, .y_offset = 1}, \
+    [TRAINER_PIC_KANTO_RIVAL_LATE] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_ROCKER] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_RUIN_MANIAC] = {.size = 8, .y_offset = 1}, \
     [TRAINER_PIC_KANTO_SAILOR] = {.size = 8, .y_offset = 1}, \
@@ -176,6 +197,7 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_BUG_CATCHER] = {gTrainerFrontPic_KantoBugCatcher, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_BUG_CATCHER}, \
     [TRAINER_PIC_KANTO_BURGLAR] = {gTrainerFrontPic_KantoBurglar, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_BURGLAR}, \
     [TRAINER_PIC_KANTO_CAMPER] = {gTrainerFrontPic_KantoCamper, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CAMPER}, \
+    [TRAINER_PIC_KANTO_CHAMPION_RIVAL] = {gTrainerFrontPic_KantoChampionRival, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CHAMPION_RIVAL}, \
     [TRAINER_PIC_KANTO_CHANNELER] = {gTrainerFrontPic_KantoChanneler, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CHANNELER}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_F] = {gTrainerFrontPic_KantoCooltrainerF, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_COOLTRAINER_F}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_M] = {gTrainerFrontPic_KantoCooltrainerM, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_COOLTRAINER_M}, \
@@ -183,6 +205,10 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_CRUSH_GIRL] = {gTrainerFrontPic_KantoCrushGirl, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CRUSH_GIRL}, \
     [TRAINER_PIC_KANTO_CRUSH_KIN] = {gTrainerFrontPic_KantoCrushKin, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CRUSH_KIN}, \
     [TRAINER_PIC_KANTO_CUE_BALL] = {gTrainerFrontPic_KantoCueBall, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_CUE_BALL}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA] = {gTrainerFrontPic_KantoEliteFourAgatha, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO] = {gTrainerFrontPic_KantoEliteFourBruno, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LANCE] = {gTrainerFrontPic_KantoEliteFourLance, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ELITE_FOUR_LANCE}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI] = {gTrainerFrontPic_KantoEliteFourLorelei, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI}, \
     [TRAINER_PIC_KANTO_ENGINEER] = {gTrainerFrontPic_KantoEngineer, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ENGINEER}, \
     [TRAINER_PIC_KANTO_FISHERMAN] = {gTrainerFrontPic_KantoFisherman, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_FISHERMAN}, \
     [TRAINER_PIC_KANTO_GAMER] = {gTrainerFrontPic_KantoGamer, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_GAMER}, \
@@ -206,6 +232,8 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_POKEMANIAC] = {gTrainerFrontPic_KantoPokeManiac, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_POKEMANIAC}, \
     [TRAINER_PIC_KANTO_PSYCHIC_M] = {gTrainerFrontPic_KantoPsychicM, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_PSYCHIC_M}, \
     [TRAINER_PIC_KANTO_PSYCHIC_F] = {gTrainerFrontPic_KantoPsychicF, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_PSYCHIC_F}, \
+    [TRAINER_PIC_KANTO_RIVAL_EARLY] = {gTrainerFrontPic_KantoRivalEarly, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_RIVAL_EARLY}, \
+    [TRAINER_PIC_KANTO_RIVAL_LATE] = {gTrainerFrontPic_KantoRivalLate, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_RIVAL_LATE}, \
     [TRAINER_PIC_KANTO_ROCKER] = {gTrainerFrontPic_KantoRocker, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_ROCKER}, \
     [TRAINER_PIC_KANTO_RUIN_MANIAC] = {gTrainerFrontPic_KantoRuinManiac, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_RUIN_MANIAC}, \
     [TRAINER_PIC_KANTO_SAILOR] = {gTrainerFrontPic_KantoSailor, TRAINER_PIC_SIZE, TRAINER_PIC_KANTO_SAILOR}, \
@@ -232,6 +260,7 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_BUG_CATCHER] = {gTrainerPalette_KantoBugCatcher, TRAINER_PIC_KANTO_BUG_CATCHER}, \
     [TRAINER_PIC_KANTO_BURGLAR] = {gTrainerPalette_KantoBurglar, TRAINER_PIC_KANTO_BURGLAR}, \
     [TRAINER_PIC_KANTO_CAMPER] = {gTrainerPalette_KantoCamper, TRAINER_PIC_KANTO_CAMPER}, \
+    [TRAINER_PIC_KANTO_CHAMPION_RIVAL] = {gTrainerPalette_KantoChampionRival, TRAINER_PIC_KANTO_CHAMPION_RIVAL}, \
     [TRAINER_PIC_KANTO_CHANNELER] = {gTrainerPalette_KantoChanneler, TRAINER_PIC_KANTO_CHANNELER}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_F] = {gTrainerPalette_KantoCooltrainerF, TRAINER_PIC_KANTO_COOLTRAINER_F}, \
     [TRAINER_PIC_KANTO_COOLTRAINER_M] = {gTrainerPalette_KantoCooltrainerM, TRAINER_PIC_KANTO_COOLTRAINER_M}, \
@@ -239,6 +268,10 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_CRUSH_GIRL] = {gTrainerPalette_KantoCrushGirl, TRAINER_PIC_KANTO_CRUSH_GIRL}, \
     [TRAINER_PIC_KANTO_CRUSH_KIN] = {gTrainerPalette_KantoCrushKin, TRAINER_PIC_KANTO_CRUSH_KIN}, \
     [TRAINER_PIC_KANTO_CUE_BALL] = {gTrainerPalette_KantoCueBall, TRAINER_PIC_KANTO_CUE_BALL}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA] = {gTrainerPalette_KantoEliteFourAgatha, TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO] = {gTrainerPalette_KantoEliteFourBruno, TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LANCE] = {gTrainerPalette_KantoEliteFourLance, TRAINER_PIC_KANTO_ELITE_FOUR_LANCE}, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI] = {gTrainerPalette_KantoEliteFourLorelei, TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI}, \
     [TRAINER_PIC_KANTO_ENGINEER] = {gTrainerPalette_KantoEngineer, TRAINER_PIC_KANTO_ENGINEER}, \
     [TRAINER_PIC_KANTO_FISHERMAN] = {gTrainerPalette_KantoFisherman, TRAINER_PIC_KANTO_FISHERMAN}, \
     [TRAINER_PIC_KANTO_GAMER] = {gTrainerPalette_KantoGamer, TRAINER_PIC_KANTO_GAMER}, \
@@ -262,6 +295,8 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_POKEMANIAC] = {gTrainerPalette_KantoPokeManiac, TRAINER_PIC_KANTO_POKEMANIAC}, \
     [TRAINER_PIC_KANTO_PSYCHIC_M] = {gTrainerPalette_KantoPsychicM, TRAINER_PIC_KANTO_PSYCHIC_M}, \
     [TRAINER_PIC_KANTO_PSYCHIC_F] = {gTrainerPalette_KantoPsychicF, TRAINER_PIC_KANTO_PSYCHIC_F}, \
+    [TRAINER_PIC_KANTO_RIVAL_EARLY] = {gTrainerPalette_KantoRivalEarly, TRAINER_PIC_KANTO_RIVAL_EARLY}, \
+    [TRAINER_PIC_KANTO_RIVAL_LATE] = {gTrainerPalette_KantoRivalLate, TRAINER_PIC_KANTO_RIVAL_LATE}, \
     [TRAINER_PIC_KANTO_ROCKER] = {gTrainerPalette_KantoRocker, TRAINER_PIC_KANTO_ROCKER}, \
     [TRAINER_PIC_KANTO_RUIN_MANIAC] = {gTrainerPalette_KantoRuinManiac, TRAINER_PIC_KANTO_RUIN_MANIAC}, \
     [TRAINER_PIC_KANTO_SAILOR] = {gTrainerPalette_KantoSailor, TRAINER_PIC_KANTO_SAILOR}, \
@@ -288,6 +323,7 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_BUG_CATCHER] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_BURGLAR] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_CAMPER] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_CHAMPION_RIVAL] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_CHANNELER] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_COOLTRAINER_F] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_COOLTRAINER_M] = sAnims_Hiker, \
@@ -295,6 +331,10 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_CRUSH_GIRL] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_CRUSH_KIN] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_CUE_BALL] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LANCE] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_ENGINEER] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_FISHERMAN] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_GAMER] = sAnims_Hiker, \
@@ -318,6 +358,8 @@ static const u32 gTrainerPalette_KantoYoungCouple[] = INCGFX_U32("graphics/train
     [TRAINER_PIC_KANTO_POKEMANIAC] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_PSYCHIC_M] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_PSYCHIC_F] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_RIVAL_EARLY] = sAnims_Hiker, \
+    [TRAINER_PIC_KANTO_RIVAL_LATE] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_ROCKER] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_RUIN_MANIAC] = sAnims_Hiker, \
     [TRAINER_PIC_KANTO_SAILOR] = sAnims_Hiker, \

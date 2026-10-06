@@ -40,20 +40,6 @@ FuchsiaCity_Gym_EventScript_Koga::
 	release
 	end
 
-FuchsiaCity_Gym_EventScript_GymGuy::
-	msgbox FuchsiaCity_Gym_Text_GymGuyAdvice, MSGBOX_NPC
-	end
-
-FuchsiaCity_Gym_Text_GymGuyAdvice:
-    .string "Yo!\n"
-    .string "Champ in the making!\p"
-    .string "FUCHSIA GYM is a tricked-up place.\n"
-    .string "It's riddled with invisible walls!\p"
-    .string "KOGA might appear close, but he's\n"
-    .string "blocked off.\p"
-    .string "You have to find gaps in the walls\n"
-    .string "to reach him.$"
-
 FuchsiaCity_Gym_EventScript_DefeatedKoga::
 	clearflag FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL
 	setflag FLAG_DEFEATED_KOGA
@@ -69,6 +55,31 @@ FuchsiaCity_Gym_EventScript_GiveTM06::
 	setflag FLAG_GOT_TM06_FROM_KOGA
 	msgbox FuchsiaCity_Gym_Text_KogaExplainTM06
 	release
+	end
+
+FuchsiaCity_Gym_EventScript_GymGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_KOGA, FuchsiaCity_Gym_EventScript_GymGuyPostVictory
+	msgbox FuchsiaCity_Gym_Text_GymGuyAdvice
+	release
+	end
+
+FuchsiaCity_Gym_EventScript_GymGuyPostVictory::
+	msgbox FuchsiaCity_Gym_Text_GymGuyPostVictory
+	release
+	end
+
+FuchsiaCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE05_GET, FuchsiaCity_Gym_EventScript_GymStatuePostVictory
+	msgbox FuchsiaCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+FuchsiaCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox FuchsiaCity_Gym_Text_GymStatuePlayerWon
+	releaseall
 	end
 
 FuchsiaCity_Gym_EventScript_NoRoomForTM06::
@@ -87,6 +98,32 @@ FuchsiaCity_Gym_Text_EdgarIntro:
 
 FuchsiaCity_Gym_Text_EdgarPostBattle:
     .string "I still have much to learn.$"
+
+FuchsiaCity_Gym_Text_GymGuyAdvice:
+    .string "Yo!\n"
+    .string "Champ in the making!\p"
+    .string "FUCHSIA GYM is a tricked-up place.\n"
+    .string "It's riddled with invisible walls!\p"
+    .string "KOGA might appear close, but he's\n"
+    .string "blocked off.\p"
+    .string "You have to find gaps in the walls\n"
+    .string "to reach him.$"
+
+FuchsiaCity_Gym_Text_GymGuyPostVictory:
+    .string "It's amazing how ninja can terrify,\n"
+    .string "even now!$"
+
+FuchsiaCity_Gym_Text_GymStatue:
+    .string "FUCHSIA POKéMON GYM\n"
+    .string "LEADER: KOGA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+FuchsiaCity_Gym_Text_GymStatuePlayerWon:
+    .string "FUCHSIA POKéMON GYM\n"
+    .string "LEADER: KOGA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
 
 FuchsiaCity_Gym_Text_KaydenDefeat:
     .string "What?\n"

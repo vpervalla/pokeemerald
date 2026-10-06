@@ -10,18 +10,12 @@ OneIsland_TreasureBeach_EventScript_Amara::
 	msgbox OneIsland_TreasureBeach_Text_AmaraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-OneIsland_TreasureBeach_EventScript_Boy::
-	msgbox OneIsland_TreasureBeach_Text_GoodThingsWashUpOnBeach, MSGBOX_NPC
-	end
-
-OneIsland_TreasureBeach_Text_GoodThingsWashUpOnBeach:
-    .string "Good things get washed up by the\n"
-    .string "ocean current onto this beach.\p"
-    .string "That's why I often come here for\n"
-    .string "some beachcombing.$"
-
 OneIsland_TreasureBeach_EventScript_AmaraRematch::
 	msgbox OneIsland_TreasureBeach_Text_AmaraPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+OneIsland_TreasureBeach_EventScript_Boy::
+	msgbox OneIsland_TreasureBeach_Text_GoodThingsWashUpOnBeach, MSGBOX_NPC
 	end
 
 OneIsland_TreasureBeach_Text_AmaraDefeat:
@@ -35,5 +29,11 @@ OneIsland_TreasureBeach_Text_AmaraIntro:
 OneIsland_TreasureBeach_Text_AmaraPostBattle:
     .string "The sea is pleasantly warm in these\n"
     .string "parts.$"
+
+OneIsland_TreasureBeach_Text_GoodThingsWashUpOnBeach:
+    .string "Good things get washed up by the\n"
+    .string "ocean current onto this beach.\p"
+    .string "That's why I often come here for\n"
+    .string "some beachcombing.$"
 
 @ END KANTO NPCS

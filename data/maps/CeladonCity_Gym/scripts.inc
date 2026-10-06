@@ -62,6 +62,18 @@ CeladonCity_Gym_EventScript_GiveTM19::
 	release
 	end
 
+CeladonCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE04_GET, CeladonCity_Gym_EventScript_GymStatuePostVictory
+	msgbox CeladonCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+CeladonCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox CeladonCity_Gym_Text_GymStatuePlayerWon
+	releaseall
+	end
+
 CeladonCity_Gym_EventScript_NoRoomForTM19::
 	msgbox CeladonCity_Gym_Text_ShouldMakeRoomForThis
 	release
@@ -122,6 +134,18 @@ CeladonCity_Gym_Text_ExplainTM19:
     .string "drained to heal your POKéMON.\p"
     .string "Wouldn't you agree that it's a\n"
     .string "wonderful move?$"
+
+CeladonCity_Gym_Text_GymStatue:
+    .string "CELADON POKéMON GYM\n"
+    .string "LEADER: ERIKA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+CeladonCity_Gym_Text_GymStatuePlayerWon:
+    .string "CELADON POKéMON GYM\n"
+    .string "LEADER: ERIKA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
 
 CeladonCity_Gym_Text_KayDefeat:
     .string "You're too rough!$"

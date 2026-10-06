@@ -146,6 +146,10 @@ Route8_EventScript_StanRematch::
 	msgbox Route8_Text_StanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route8_EventScript_UndergroundPathSign::
+	msgbox Route8_Text_UndergroundPathSign, MSGBOX_SIGN
+	end
+
 Route8_Text_AidanDefeat:
     .string "Ow!\n"
     .string "Meltdown!$"
@@ -304,5 +308,9 @@ Route8_Text_StanIntro:
 
 Route8_Text_StanPostBattle:
     .string "Things didn't work today.$"
+
+Route8_Text_UndergroundPathSign:
+    .string "UNDERGROUND PATH\n"
+    .string "CELADON CITY - LAVENDER TOWN$"
 
 @ END KANTO NPCS

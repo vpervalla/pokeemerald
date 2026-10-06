@@ -14,5 +14,10 @@
 #define TRAINER_BATTLE_SET_TRAINER_A                    10
 #define TRAINER_BATTLE_SET_TRAINER_B                    11
 #define TRAINER_BATTLE_HILL                             12
+#define TRAINER_BATTLE_EARLY_RIVAL                      13 // From FRLG: the battle continues the script even if lost
+
+// Flags for TRAINER_BATTLE_EARLY_RIVAL
+#define RIVAL_BATTLE_HEAL_AFTER  1 // Losing heals the party instead of whiting out
+#define RIVAL_BATTLE_TUTORIAL    3 // FRLG's Oak tutorial, not supported: treated as RIVAL_BATTLE_HEAL_AFTER
 
 #endif // GUARD_CONSTANTS_BATTLE_SETUP_H

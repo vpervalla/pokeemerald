@@ -15,12 +15,14 @@
 #define TRAINER_CLASS_GAMER                0x4b
 #define TRAINER_CLASS_JUGGLER              0x4c
 #define TRAINER_CLASS_PAINTER              0x4d
-#define TRAINER_CLASS_ROCKER               0x4e
-#define TRAINER_CLASS_SCIENTIST            0x4f
-#define TRAINER_CLASS_SUPER_NERD           0x50
-#define TRAINER_CLASS_TAMER                0x51
-#define TRAINER_CLASS_TEAM_ROCKET          0x52
-#define TRAINER_CLASS_TUBER                0x53
+#define TRAINER_CLASS_RIVAL_EARLY          0x4e
+#define TRAINER_CLASS_RIVAL_LATE           0x4f
+#define TRAINER_CLASS_ROCKER               0x50
+#define TRAINER_CLASS_SCIENTIST            0x51
+#define TRAINER_CLASS_SUPER_NERD           0x52
+#define TRAINER_CLASS_TAMER                0x53
+#define TRAINER_CLASS_TEAM_ROCKET          0x54
+#define TRAINER_CLASS_TUBER                0x55
 
 // FRLG trainer front pics
 #define TRAINER_PIC_KANTO_AROMA_LADY                 93
@@ -32,52 +34,59 @@
 #define TRAINER_PIC_KANTO_BUG_CATCHER                99
 #define TRAINER_PIC_KANTO_BURGLAR                    100
 #define TRAINER_PIC_KANTO_CAMPER                     101
-#define TRAINER_PIC_KANTO_CHANNELER                  102
-#define TRAINER_PIC_KANTO_COOLTRAINER_F              103
-#define TRAINER_PIC_KANTO_COOLTRAINER_M              104
-#define TRAINER_PIC_KANTO_COOL_COUPLE                105
-#define TRAINER_PIC_KANTO_CRUSH_GIRL                 106
-#define TRAINER_PIC_KANTO_CRUSH_KIN                  107
-#define TRAINER_PIC_KANTO_CUE_BALL                   108
-#define TRAINER_PIC_KANTO_ENGINEER                   109
-#define TRAINER_PIC_KANTO_FISHERMAN                  110
-#define TRAINER_PIC_KANTO_GAMER                      111
-#define TRAINER_PIC_KANTO_GENTLEMAN                  112
-#define TRAINER_PIC_KANTO_HIKER                      113
-#define TRAINER_PIC_KANTO_JUGGLER                    114
-#define TRAINER_PIC_KANTO_LADY                       115
-#define TRAINER_PIC_KANTO_LASS                       116
-#define TRAINER_PIC_KANTO_LEADER_BLAINE              117
-#define TRAINER_PIC_KANTO_LEADER_BROCK               118
-#define TRAINER_PIC_KANTO_LEADER_ERIKA               119
-#define TRAINER_PIC_KANTO_LEADER_KOGA                120
-#define TRAINER_PIC_KANTO_LEADER_LT_SURGE            121
-#define TRAINER_PIC_KANTO_LEADER_MISTY               122
-#define TRAINER_PIC_KANTO_LEADER_SABRINA             123
-#define TRAINER_PIC_KANTO_PAINTER                    124
-#define TRAINER_PIC_KANTO_PICNICKER                  125
-#define TRAINER_PIC_KANTO_POKEMON_BREEDER            126
-#define TRAINER_PIC_KANTO_POKEMON_RANGER_F           127
-#define TRAINER_PIC_KANTO_POKEMON_RANGER_M           128
-#define TRAINER_PIC_KANTO_POKEMANIAC                 129
-#define TRAINER_PIC_KANTO_PSYCHIC_M                  130
-#define TRAINER_PIC_KANTO_PSYCHIC_F                  131
-#define TRAINER_PIC_KANTO_ROCKER                     132
-#define TRAINER_PIC_KANTO_RUIN_MANIAC                133
-#define TRAINER_PIC_KANTO_SAILOR                     134
-#define TRAINER_PIC_KANTO_SCIENTIST                  135
-#define TRAINER_PIC_KANTO_SIS_AND_BRO                136
-#define TRAINER_PIC_KANTO_SUPER_NERD                 137
-#define TRAINER_PIC_KANTO_SWIMMER_F                  138
-#define TRAINER_PIC_KANTO_SWIMMER_M                  139
-#define TRAINER_PIC_KANTO_TAMER                      140
-#define TRAINER_PIC_KANTO_ROCKET_GRUNT_F             141
-#define TRAINER_PIC_KANTO_ROCKET_GRUNT_M             142
-#define TRAINER_PIC_KANTO_TUBER_F                    143
-#define TRAINER_PIC_KANTO_TWINS                      144
-#define TRAINER_PIC_KANTO_YOUNGSTER                  145
-#define TRAINER_PIC_KANTO_YOUNG_COUPLE               146
-#define TRAINER_PIC_KANTO_END 147
+#define TRAINER_PIC_KANTO_CHAMPION_RIVAL             102
+#define TRAINER_PIC_KANTO_CHANNELER                  103
+#define TRAINER_PIC_KANTO_COOLTRAINER_F              104
+#define TRAINER_PIC_KANTO_COOLTRAINER_M              105
+#define TRAINER_PIC_KANTO_COOL_COUPLE                106
+#define TRAINER_PIC_KANTO_CRUSH_GIRL                 107
+#define TRAINER_PIC_KANTO_CRUSH_KIN                  108
+#define TRAINER_PIC_KANTO_CUE_BALL                   109
+#define TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA          110
+#define TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO           111
+#define TRAINER_PIC_KANTO_ELITE_FOUR_LANCE           112
+#define TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI         113
+#define TRAINER_PIC_KANTO_ENGINEER                   114
+#define TRAINER_PIC_KANTO_FISHERMAN                  115
+#define TRAINER_PIC_KANTO_GAMER                      116
+#define TRAINER_PIC_KANTO_GENTLEMAN                  117
+#define TRAINER_PIC_KANTO_HIKER                      118
+#define TRAINER_PIC_KANTO_JUGGLER                    119
+#define TRAINER_PIC_KANTO_LADY                       120
+#define TRAINER_PIC_KANTO_LASS                       121
+#define TRAINER_PIC_KANTO_LEADER_BLAINE              122
+#define TRAINER_PIC_KANTO_LEADER_BROCK               123
+#define TRAINER_PIC_KANTO_LEADER_ERIKA               124
+#define TRAINER_PIC_KANTO_LEADER_KOGA                125
+#define TRAINER_PIC_KANTO_LEADER_LT_SURGE            126
+#define TRAINER_PIC_KANTO_LEADER_MISTY               127
+#define TRAINER_PIC_KANTO_LEADER_SABRINA             128
+#define TRAINER_PIC_KANTO_PAINTER                    129
+#define TRAINER_PIC_KANTO_PICNICKER                  130
+#define TRAINER_PIC_KANTO_POKEMON_BREEDER            131
+#define TRAINER_PIC_KANTO_POKEMON_RANGER_F           132
+#define TRAINER_PIC_KANTO_POKEMON_RANGER_M           133
+#define TRAINER_PIC_KANTO_POKEMANIAC                 134
+#define TRAINER_PIC_KANTO_PSYCHIC_M                  135
+#define TRAINER_PIC_KANTO_PSYCHIC_F                  136
+#define TRAINER_PIC_KANTO_RIVAL_EARLY                137
+#define TRAINER_PIC_KANTO_RIVAL_LATE                 138
+#define TRAINER_PIC_KANTO_ROCKER                     139
+#define TRAINER_PIC_KANTO_RUIN_MANIAC                140
+#define TRAINER_PIC_KANTO_SAILOR                     141
+#define TRAINER_PIC_KANTO_SCIENTIST                  142
+#define TRAINER_PIC_KANTO_SIS_AND_BRO                143
+#define TRAINER_PIC_KANTO_SUPER_NERD                 144
+#define TRAINER_PIC_KANTO_SWIMMER_F                  145
+#define TRAINER_PIC_KANTO_SWIMMER_M                  146
+#define TRAINER_PIC_KANTO_TAMER                      147
+#define TRAINER_PIC_KANTO_ROCKET_GRUNT_F             148
+#define TRAINER_PIC_KANTO_ROCKET_GRUNT_M             149
+#define TRAINER_PIC_KANTO_TUBER_F                    150
+#define TRAINER_PIC_KANTO_TWINS                      151
+#define TRAINER_PIC_KANTO_YOUNGSTER                  152
+#define TRAINER_PIC_KANTO_YOUNG_COUPLE               153
+#define TRAINER_PIC_KANTO_END 154
 
 // Entries for gTrainerClassNames and gTrainerMoneyTable
 #define KANTO_TRAINER_CLASS_NAMES \
@@ -93,6 +102,8 @@
     [TRAINER_CLASS_GAMER] = _("GAMER"), \
     [TRAINER_CLASS_JUGGLER] = _("JUGGLER"), \
     [TRAINER_CLASS_PAINTER] = _("PAINTER"), \
+    [TRAINER_CLASS_RIVAL_EARLY] = _("RIVAL"), \
+    [TRAINER_CLASS_RIVAL_LATE] = _("RIVAL"), \
     [TRAINER_CLASS_ROCKER] = _("ROCKER"), \
     [TRAINER_CLASS_SCIENTIST] = _("SCIENTIST"), \
     [TRAINER_CLASS_SUPER_NERD] = _("SUPER NERD"), \
@@ -113,6 +124,8 @@
     {TRAINER_CLASS_GAMER, 18}, \
     {TRAINER_CLASS_JUGGLER, 10}, \
     {TRAINER_CLASS_PAINTER, 4}, \
+    {TRAINER_CLASS_RIVAL_EARLY, 4}, \
+    {TRAINER_CLASS_RIVAL_LATE, 9}, \
     {TRAINER_CLASS_ROCKER, 6}, \
     {TRAINER_CLASS_SCIENTIST, 12}, \
     {TRAINER_CLASS_SUPER_NERD, 6}, \

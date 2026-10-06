@@ -97,6 +97,10 @@ Route13_EventScript_RobertRematch::
 	msgbox Route13_Text_RobertPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route13_EventScript_RouteSign::
+	msgbox Route13_Text_RouteSign, MSGBOX_SIGN
+	end
+
 Route13_EventScript_SebastianRematch::
 	msgbox Route13_Text_SebastianPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -107,6 +111,14 @@ Route13_EventScript_SheilaRematch::
 
 Route13_EventScript_SusieRematch::
 	msgbox Route13_Text_SusiePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route13_EventScript_TrainerTips1::
+	msgbox Route13_Text_LookToLeftOfThatPost, MSGBOX_SIGN
+	end
+
+Route13_EventScript_TrainerTips2::
+	msgbox Route13_Text_SelectToSwitchItems, MSGBOX_SIGN
 	end
 
 Route13_EventScript_ValerieRematch::
@@ -158,6 +170,11 @@ Route13_Text_LolaPostBattle:
     .string "I wonder which is stronger, male or\n"
     .string "female POKéMON?$"
 
+Route13_Text_LookToLeftOfThatPost:
+    .string "TRAINER TIPS\p"
+    .string "Look, look!\n"
+    .string "Look to the left of that post!$"
+
 Route13_Text_PerryDefeat:
     .string "The wind turned!$"
 
@@ -180,6 +197,10 @@ Route13_Text_RobertPostBattle:
     .string "I wish I could fly like PIDGEY and\n"
     .string "PIDGEOTTO…$"
 
+Route13_Text_RouteSign:
+    .string "ROUTE 13\n"
+    .string "North to SILENCE BRIDGE$"
+
 Route13_Text_SebastianDefeat:
     .string "My PIDGEY and PIDGEOTTO combo\n"
     .string "lost?$"
@@ -191,6 +212,11 @@ Route13_Text_SebastianIntro:
 Route13_Text_SebastianPostBattle:
     .string "My POKéMON look happy even though\n"
     .string "they lost.$"
+
+Route13_Text_SelectToSwitchItems:
+    .string "TRAINER TIPS\p"
+    .string "Use SELECT to switch items in the\n"
+    .string "ITEMS window.$"
 
 Route13_Text_SheilaDefeat:
     .string "It's over already?$"

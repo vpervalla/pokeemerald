@@ -26,6 +26,20 @@ PokemonTower_6F_EventScript_ItemXAccuracy::
 	finditem ITEM_X_ACCURACY
 	end
 
+PokemonTower_6F_EventScript_MarowakGhost::
+	lockall
+	msgbox PokemonTower_6F_Text_BeGoneIntruders
+	setwildbattle SPECIES_MAROWAK, 30
+	waitstate
+	applymovement LOCALID_PLAYER, PokemonTower_6F_Movement_ForcePlayerUp
+	waitmovement 0
+	releaseall
+	end
+
+PokemonTower_6F_Movement_ForcePlayerUp:
+	walk_up
+	step_end
+
 PokemonTower_6F_Text_AngelicaDefeat:
     .string "Groan!$"
 
@@ -35,6 +49,10 @@ PokemonTower_6F_Text_AngelicaIntro:
 
 PokemonTower_6F_Text_AngelicaPostBattle:
     .string "I feel anemic and weak…$"
+
+PokemonTower_6F_Text_BeGoneIntruders:
+    .string "Be gone…\n"
+    .string "Intruders…$"
 
 PokemonTower_6F_Text_EmiliaDefeat:
     .string "Something fell out!$"

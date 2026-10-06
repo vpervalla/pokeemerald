@@ -166,6 +166,39 @@
         .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoBikerGerald),
     },
 
+    [TRAINER_KANTO_BIKER_GOON] = {
+        .trainerClass = TRAINER_CLASS_BIKER,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_BIKER,
+        .trainerName = _("GOON"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoBikerGoon),
+    },
+
+    [TRAINER_KANTO_BIKER_GOON_2] = {
+        .trainerClass = TRAINER_CLASS_BIKER,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_BIKER,
+        .trainerName = _("GOON"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoBikerGoon2),
+    },
+
+    [TRAINER_KANTO_BIKER_GOON_3] = {
+        .trainerClass = TRAINER_CLASS_BIKER,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_BIKER,
+        .trainerName = _("GOON"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoBikerGoon3),
+    },
+
     [TRAINER_KANTO_BIKER_HIDEO] = {
         .trainerClass = TRAINER_CLASS_BIKER,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
@@ -639,6 +672,17 @@
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoBossGiovanni),
     },
 
+    [TRAINER_KANTO_BOSS_GIOVANNI_2] = {
+        .trainerClass = TRAINER_CLASS_BOSS,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
+        .trainerPic = TRAINER_PIC_KANTO_LEADER_GIOVANNI,
+        .trainerName = _("GIOVANNI"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoBossGiovanni2),
+    },
+
     [TRAINER_KANTO_BUG_CATCHER_ANTHONY] = {
         .trainerClass = TRAINER_CLASS_BUG_CATCHER,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
@@ -1022,6 +1066,72 @@
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoCamperShane),
+    },
+
+    [TRAINER_KANTO_CHAMPION_FIRST_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionFirstBulbasaur),
+    },
+
+    [TRAINER_KANTO_CHAMPION_FIRST_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionFirstCharmander),
+    },
+
+    [TRAINER_KANTO_CHAMPION_FIRST_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionFirstSquirtle),
+    },
+
+    [TRAINER_KANTO_CHAMPION_REMATCH_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionRematchBulbasaur),
+    },
+
+    [TRAINER_KANTO_CHAMPION_REMATCH_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionRematchCharmander),
+    },
+
+    [TRAINER_KANTO_CHAMPION_REMATCH_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_CHAMPION,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
+        .trainerName = _("TERRY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoChampionRematchSquirtle),
     },
 
     [TRAINER_KANTO_CHANNELER_AMANDA] = {
@@ -1486,6 +1596,17 @@
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoCueBallLuke),
     },
 
+    [TRAINER_KANTO_CUE_BALL_PAXTON] = {
+        .trainerClass = TRAINER_CLASS_CUE_BALL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_CUE_BALL,
+        .trainerName = _("PAXTON"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoCueBallPaxton),
+    },
+
     [TRAINER_KANTO_CUE_BALL_RAUL] = {
         .trainerClass = TRAINER_CLASS_CUE_BALL,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
@@ -1506,6 +1627,94 @@
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoCueBallZeek),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_AGATHA] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA,
+        .trainerName = _("AGATHA"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourAgatha),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_AGATHA_2] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_AGATHA,
+        .trainerName = _("AGATHA"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourAgatha2),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_BRUNO] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO,
+        .trainerName = _("BRUNO"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourBruno),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_BRUNO_2] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_BRUNO,
+        .trainerName = _("BRUNO"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourBruno2),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_LANCE] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_LANCE,
+        .trainerName = _("LANCE"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourLance),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_LANCE_2] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_LANCE,
+        .trainerName = _("LANCE"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourLance2),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_LORELEI] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI,
+        .trainerName = _("LORELEI"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourLorelei),
+    },
+
+    [TRAINER_KANTO_ELITE_FOUR_LORELEI_2] = {
+        .trainerClass = TRAINER_CLASS_ELITE_FOUR,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR,
+        .trainerPic = TRAINER_PIC_KANTO_ELITE_FOUR_LORELEI,
+        .trainerName = _("LORELEI"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoEliteFourLorelei2),
     },
 
     [TRAINER_KANTO_ENGINEER_BAILY] = {
@@ -2122,6 +2331,17 @@
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
         .party = ITEM_DEFAULT_MOVES(sParty_KantoLadyJacki),
+    },
+
+    [TRAINER_KANTO_LADY_SELPHY] = {
+        .trainerClass = TRAINER_CLASS_LADY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE,
+        .trainerPic = TRAINER_PIC_KANTO_LADY,
+        .trainerName = _("SELPHY"),
+        .items = {ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = ITEM_CUSTOM_MOVES(sParty_KantoLadySelphy),
     },
 
     [TRAINER_KANTO_LASS_ALI] = {
@@ -3026,6 +3246,237 @@
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoPsychicTyron),
     },
 
+    [TRAINER_KANTO_RIVAL_CERULEAN_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalCeruleanBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_CERULEAN_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalCeruleanCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_CERULEAN_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalCeruleanSquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_OAKS_LAB_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalOaksLabBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_OAKS_LAB_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalOaksLabCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_OAKS_LAB_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalOaksLabSquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_POKEMON_TOWER_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalPokemonTowerBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_POKEMON_TOWER_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalPokemonTowerCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_POKEMON_TOWER_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalPokemonTowerSquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_EARLY_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22EarlyBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_EARLY_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22EarlyCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_EARLY_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_EARLY,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22EarlySquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_LATE_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22LateBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_LATE_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22LateCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_ROUTE22_LATE_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoRivalRoute22LateSquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_SILPH_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSilphBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_SILPH_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSilphCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_SILPH_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSilphSquirtle),
+    },
+
+    [TRAINER_KANTO_RIVAL_SS_ANNE_BULBASAUR] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSsAnneBulbasaur),
+    },
+
+    [TRAINER_KANTO_RIVAL_SS_ANNE_CHARMANDER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSsAnneCharmander),
+    },
+
+    [TRAINER_KANTO_RIVAL_SS_ANNE_SQUIRTLE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL_LATE,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_KANTO_RIVAL_LATE,
+        .trainerName = _("TERRY"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoRivalSsAnneSquirtle),
+    },
+
     [TRAINER_KANTO_ROCKER_LUCA] = {
         .trainerClass = TRAINER_CLASS_ROCKER,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
@@ -3464,6 +3915,17 @@
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
         .party = NO_ITEM_CUSTOM_MOVES(sParty_KantoSuperNerdLeslie),
+    },
+
+    [TRAINER_KANTO_SUPER_NERD_MIGUEL] = {
+        .trainerClass = TRAINER_CLASS_SUPER_NERD,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS,
+        .trainerPic = TRAINER_PIC_KANTO_SUPER_NERD,
+        .trainerName = _("MIGUEL"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoSuperNerdMiguel),
     },
 
     [TRAINER_KANTO_SUPER_NERD_ZAC] = {
@@ -4324,6 +4786,39 @@
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt42),
     },
 
+    [TRAINER_KANTO_TEAM_ROCKET_GRUNT_43] = {
+        .trainerClass = TRAINER_CLASS_TEAM_ROCKET,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
+        .trainerPic = TRAINER_PIC_KANTO_ROCKET_GRUNT_M,
+        .trainerName = _("GRUNT"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt43),
+    },
+
+    [TRAINER_KANTO_TEAM_ROCKET_GRUNT_44] = {
+        .trainerClass = TRAINER_CLASS_TEAM_ROCKET,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
+        .trainerPic = TRAINER_PIC_KANTO_ROCKET_GRUNT_M,
+        .trainerName = _("GRUNT"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt44),
+    },
+
+    [TRAINER_KANTO_TEAM_ROCKET_GRUNT_45] = {
+        .trainerClass = TRAINER_CLASS_TEAM_ROCKET,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
+        .trainerPic = TRAINER_PIC_KANTO_ROCKET_GRUNT_M,
+        .trainerName = _("GRUNT"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt45),
+    },
+
     [TRAINER_KANTO_TEAM_ROCKET_GRUNT_46] = {
         .trainerClass = TRAINER_CLASS_TEAM_ROCKET,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
@@ -4399,6 +4894,17 @@
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
         .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt51),
+    },
+
+    [TRAINER_KANTO_TEAM_ROCKET_GRUNT_6] = {
+        .trainerClass = TRAINER_CLASS_TEAM_ROCKET,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_AQUA,
+        .trainerPic = TRAINER_PIC_KANTO_ROCKET_GRUNT_M,
+        .trainerName = _("GRUNT"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+        .party = NO_ITEM_DEFAULT_MOVES(sParty_KantoTeamRocketGrunt6),
     },
 
     [TRAINER_KANTO_TEAM_ROCKET_GRUNT_7] = {

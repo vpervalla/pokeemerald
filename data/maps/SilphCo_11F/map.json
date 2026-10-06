@@ -119,6 +119,74 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 15,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_SILPH_CO_11F",
+      "var_value": "0",
+      "script": "SilphCo_11F_EventScript_GiovanniTriggerLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 15,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_SILPH_CO_11F",
+      "var_value": "0",
+      "script": "SilphCo_11F_EventScript_GiovanniTriggerRight"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 5,
+      "y": 16,
+      "elevation": 3,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_11F_EventScript_Door"
+    },
+    {
+      "type": "sign",
+      "x": 5,
+      "y": 17,
+      "elevation": 3,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_11F_EventScript_Door"
+    },
+    {
+      "type": "sign",
+      "x": 6,
+      "y": 16,
+      "elevation": 3,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_11F_EventScript_Door"
+    },
+    {
+      "type": "sign",
+      "x": 6,
+      "y": 17,
+      "elevation": 3,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_11F_EventScript_Door"
+    },
+    {
+      "type": "hidden_item",
+      "x": 10,
+      "y": 18,
+      "elevation": 0,
+      "item": "ITEM_REVIVE",
+      "flag": "FLAG_HIDDEN_ITEM_SILPH_CO_11F_REVIVE"
+    },
+    {
+      "type": "sign",
+      "x": 8,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SilphCo_11F_EventScript_FloorSign"
+    }
+  ]
 }

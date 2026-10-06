@@ -101,6 +101,10 @@ Route11_EventScript_DaveRematch::
 	msgbox Route11_Text_DavePostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route11_EventScript_DiglettsCaveSign::
+	msgbox Route11_Text_DiglettsCave, MSGBOX_SIGN
+	end
+
 Route11_EventScript_DillonRematch::
 	msgbox Route11_Text_DillonPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -165,6 +169,9 @@ Route11_Text_DaveIntro:
 Route11_Text_DavePostBattle:
     .string "Tch…\n"
     .string "I better go find stronger ones!$"
+
+Route11_Text_DiglettsCave:
+    .string "DIGLETT'S CAVE$"
 
 Route11_Text_DillonDefeat:
     .string "My POKéMON couldn't win…\n"

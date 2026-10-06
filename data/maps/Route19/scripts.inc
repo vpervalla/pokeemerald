@@ -131,6 +131,10 @@ Route19_EventScript_RichardRematch::
 	msgbox Route19_Text_RichardPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route19_EventScript_RouteSign::
+	msgbox Route19_Text_RouteSign, MSGBOX_SIGN
+	end
+
 Route19_EventScript_TonyRematch::
 	msgbox Route19_Text_TonyPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -273,6 +277,10 @@ Route19_Text_RichardIntro:
 Route19_Text_RichardPostBattle:
     .string "Thanks, kid!\n"
     .string "I'm ready for a swim.$"
+
+Route19_Text_RouteSign:
+    .string "SEA ROUTE 19\n"
+    .string "FUCHSIA CITY - SEAFOAM ISLANDS$"
 
 Route19_Text_TonyDefeat:
     .string "Ooh!\n"

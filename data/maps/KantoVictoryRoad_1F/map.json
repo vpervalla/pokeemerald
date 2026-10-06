@@ -123,6 +123,33 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 20,
+      "y": 16,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_VICTORY_ROAD_1F",
+      "var_value": "99",
+      "script": "KantoVictoryRoad_1F_EventScript_FloorSwitch"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 12,
+      "y": 12,
+      "elevation": 0,
+      "item": "ITEM_ULTRA_BALL",
+      "flag": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL"
+    },
+    {
+      "type": "hidden_item",
+      "x": 16,
+      "y": 1,
+      "elevation": 0,
+      "item": "ITEM_FULL_RESTORE",
+      "flag": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE"
+    }
+  ]
 }

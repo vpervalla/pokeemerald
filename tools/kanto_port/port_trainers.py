@@ -8,6 +8,7 @@ Run from the pokeemerald root. `trainers` ports every FRLG trainer the map scrip
 (TRAINER_KANTO_*, numbered after Emerald's trainers) with its party, trainer class and front pic.
 """
 import argparse, json, os, re, shutil, sys
+from collections import Counter
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from port_kanto import read, write
 
@@ -25,8 +26,21 @@ PIC_DIR = "graphics/trainers/kanto"
 
 # FRLG script commands with no Emerald equivalent that can simply be left out
 DROPPED_COMMANDS = {"famechecker", "set_gym_trainers", "textcolor", "goto_if_questlog", "signmsg", "normalmsg",
-                    "setworldmapflag", "trainerbattle_rematch", "trainerbattle_rematch_double", "setmetatile"}
+                    "trainerbattle_rematch", "trainerbattle_rematch_double"}
 ALWAYS_DEFINED = {"TRUE", "FALSE", "YES", "NO", "NO_MUSIC"}
+# FRLG constants Emerald has under another name
+CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "MULTICHOICE_RIGHT_LEFT": "MULTI_RIGHTLEFT",
+                 "MULTICHOICE_YES_NO_INFO": "MULTI_YESNOINFO", "SCR_MENU_CANCEL": "MULTI_B_PRESSED",
+                 "STDSTRING_ITEMS_POCKET": "STDSTRING_ITEMS", "STDSTRING_KEY_ITEMS_POCKET": "STDSTRING_KEYITEMS",
+                 "STDSTRING_POKEBALLS_POCKET": "STDSTRING_POKEBALLS", "STDSTRING_TM_CASE": "STDSTRING_TMHMS",
+                 "STDSTRING_BERRY_POUCH": "STDSTRING_BERRIES"}
+# FRLG movements Emerald lacks -> the closest Emerald movement
+MOVEMENT_RENAMES = [(r"walk_slowe(r|st)_(\w+)", r"walk_slow_\2"), (r"face_(\w+)_fast", r"face_\1"),
+                    (r"glide_(\w+)", r"walk_fast_\1"), (r"player_run_(\w+)_slow", r"player_run_\1"),
+                    (r"spin_(\w+)", r"face_\1"), (r"emote_double_exclamation_mark", "emote_exclamation_mark")]
+SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBattle": "BattleSetup_StartLegendaryBattle"}
+# Vars FRLG scripts set that mean nothing in Emerald: lines using them are left out
+IGNORED_VARS = {"VAR_TEXT_COLOR"}
 
 
 def kanto_trainer(const):
@@ -48,22 +62,51 @@ class ScriptPorter:
         self.local, self.common, self.flags, self.trainers = {}, {}, set(), set()
         self.localids = {}
         self.done = {}
+        self.dropped = Counter()  # why lines were left out, for the report
         macros = re.findall(r"\.macro (\w+)", read("asm/macros/event.inc"))
         self.movements = set(re.findall(r"create_movement_action (\w+)", read("asm/macros/movement.inc")))
         self.commands = set(macros) | self.movements
         self.specials = set(re.findall(r"def_special (\w+)", read("data/specials.inc")))
         consts = set(ALWAYS_DEFINED)
-        for root, _, names in os.walk("include/constants"):
+        # Only what the assembler sees: the headers data/event_scripts.s includes, and the ones they include
+        todo, seen = [(h, "data") for h in re.findall(r'#include "(.*?)"', read("data/event_scripts.s"))], set()
+        while todo:
+            h, here = todo.pop()
+            path = next((p for p in (f"{here}/{h}", f"include/{h}", h) if os.path.exists(p)), None)
+            if path is None or path in seen:
+                continue
+            seen.add(path)
+            text = read(path)
+            todo += [(i, os.path.dirname(path)) for i in re.findall(r'#include "(.*?)"', text)]
+            consts |= set(re.findall(r"\b[A-Z][A-Z0-9_]{2,}\b", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))))
+        # symbols the assembler macros define (MSGBOX_*, STD_*...)
+        for n in os.listdir("asm/macros"):
+            if n.endswith(".inc"):
+                consts |= set(re.findall(r"^\s*(?:\.set\s+|\.equ\s+)?([A-Z][A-Z0-9_]{2,})\s*(?:=|,)", read(f"asm/macros/{n}"), re.M))
+        # and whatever Emerald's own scripts use, minus the constants its maps define for themselves
+        local = set()
+        for root, _, names in os.walk("data"):
             for n in names:
-                # #defines and enum members alike
-                consts |= set(re.findall(r"\b[A-Z][A-Z0-9_]{2,}\b", read(os.path.join(root, n))))
-        for root, _, names in os.walk("data/maps"):
-            for n in names:
-                if n == "scripts.inc":
-                    text = read(os.path.join(root, n)).split("@ BEGIN KANTO NPCS")[0]  # not our own output
-                    consts |= set(re.findall(r"\b[A-Z][A-Z0-9_]{2,}\b", text))
+                if n.endswith((".inc", ".s")) and "kanto" not in n:
+                    text = read(os.path.join(root, n))
+                    if "@ BEGIN KANTO NPCS" in text or (root.startswith("data/maps") and "_MapScripts::" in text and n == "scripts.inc" and text.count("KANTO") > 0):
+                        text = text.split("@ BEGIN KANTO NPCS")[0]
+                    local |= set(re.findall(r"^\s*\.(?:set|equ)\s+(\w+)", text, re.M))
+                    consts |= set(re.findall(r"\b[A-Z][A-Z0-9_]{2,}\b", "\n".join(l.split("@")[0] for l in text.splitlines())))
+        consts -= local - {"STR_VAR_1"}
         self.consts = consts
         self.defined_flags = set(re.findall(r"#define (FLAG_\w+)", read("include/constants/flags.h")))
+        self.vars = set()
+        self.defined_vars = set(re.findall(r"#define (VAR_\w+)", read("include/constants/vars.h")))
+        self.const_renames = dict(CONST_RENAMES)  # cmd_objects adds the renamed maps
+        self.equs = {}      # FRLG map -> {name: value} of the .equ/.set lines of its scripts.inc
+        self.cur_equs = {}
+        self.macros = {}    # FRLG map -> {name: lines} of the .macro definitions of its scripts.inc
+        self.cur_macros = {}
+        self.metatiles = set(re.findall(r"#define (METATILE_\w+)", read(METATILES_H))) if os.path.exists(METATILES_H) else set()
+        self.songs = set(re.findall(r"^(MUS_\w+|SE_\w+)\s*=", read("charmap.txt"), re.M)) | {c for c in consts if c.startswith(("MUS_", "SE_"))}
+        from port_kanto import FLY_FLAGS
+        self.fly_flags = FLY_FLAGS
 
     def begin_map(self, local, localids):
         self.local, self.localids = local, localids
@@ -72,18 +115,22 @@ class ScriptPorter:
         """New name for a FRLG label, and the dict its definition goes into."""
         owner = self.map_of(label)
         new = self.rename_label(label)
-        if owner is not None and new.startswith(self.current_map() + "_"):
+        if owner is not None and self.rename_label(owner + "_") == self.current_map() + "_":
             return new, self.local
         return "Kanto_" + label, self.common
 
     def _kind(self, label):
         body = self.labels[label]
         lines = [l.strip() for l in body.splitlines() if l.strip() and not l.strip().startswith("@")]
-        if ".string" in body:
+        if ".string" in body or ".braille" in body:
             return "text"
-        if lines and all(l.split()[0] in self.movements for l in lines):
+        if any(l.startswith("map_script_2") for l in lines):
+            return "table"
+        if lines and all(l.split()[0] in self.movements or self._movement(l.split()[0])
+                         or l.split()[0] in self.all_macros or l.startswith((".macro", ".endm")) for l in lines):
             return "movement"
-        if any(l.startswith((".2byte", ".byte", ".align")) for l in lines):
+        data = [l for l in lines if not l.startswith(".align")]
+        if data and all(l.startswith((".2byte", ".byte", ".4byte")) for l in data):
             return "data"
         return "script"
 
@@ -101,38 +148,152 @@ class ScriptPorter:
         new, where = self._place(label)
         self.done[key] = new
         body = self.labels[label]
-        if kind == "text":
-            from port_npcs import fix_text
-            where[new] = f"{new}:\n" + fix_text(body).rstrip() + "\n"
-        elif kind == "movement":
-            where[new] = f"{new}:\n" + body.rstrip() + "\n"
-        elif kind == "data":
-            where[new] = f"\t.align 2\n{new}:\n" + body.rstrip() + "\n"
-        else:
-            lines = self.translate(body)
-            if lines is None:
-                self.done[key] = None
-                return None
-            where[new] = f"{new}::\n" + "\n".join(lines) + "\n"
+        saved = self.cur_equs, self.cur_macros
+        self.cur_equs = self.equs.get(self.map_of(label), {})
+        self.cur_macros = self.macros.get(self.map_of(label), {})
+        try:
+            if kind == "text":
+                from port_npcs import fix_text
+                where[new] = f"{new}:\n" + fix_text(body).rstrip() + "\n"
+            elif kind == "movement":
+                moves = []
+                for l in self._versioned(body):
+                    if not l or l.startswith("@"):
+                        continue
+                    m = self._movement(l.split()[0])
+                    if m:
+                        moves.append("\t" + m)
+                    else:
+                        self.dropped["movement " + l.split()[0]] += 1
+                where[new] = f"{new}:\n" + "\n".join(moves) + "\n"
+            elif kind == "table":
+                rows = []
+                for l in body.splitlines():
+                    l = l.strip()
+                    if l.startswith("map_script_2"):
+                        t = self.translate(l, bare=True)
+                        if t:
+                            rows += t
+                where[new] = f"{new}:\n" + "\n".join(rows) + "\n\t.2byte 0\n"
+            elif kind == "data":
+                where[new] = f"\t.align 2\n{new}:\n" + body.rstrip() + "\n"
+            else:
+                lines = self.translate(body)
+                if lines is None:
+                    self.done[key] = None
+                    return None
+                where[new] = f"{new}::\n" + "\n".join(lines) + "\n"
+        finally:
+            self.cur_equs, self.cur_macros = saved
         return new
 
-    def translate(self, body, trainer=False):
-        out, skip_result = [], False
+    @property
+    def all_macros(self):
+        return {m for d in self.macros.values() for m in d}
+
+    def _movement(self, name):
+        if name in self.movements:
+            return name
+        for pat, rep in MOVEMENT_RENAMES:
+            if re.fullmatch(pat, name):
+                n = re.sub(pat, rep, name)
+                return n if n in self.movements else None
+        return None
+
+    def _token(self, tok):
+        """Emerald's name for a FRLG constant, or None if Emerald has none."""
+        if tok.startswith("TRAINER_") and not tok.startswith(("TRAINER_TYPE_", "TRAINER_BATTLE_")):
+            self.trainers.add(tok)
+            return kanto_trainer(tok)
+        if tok.startswith("LOCALID_") and tok in self.localids:
+            return self.localids[tok]
+        if tok in self.const_renames:
+            return self.const_renames[tok]
+        if tok.startswith("FLAG_"):
+            if tok not in self.defined_flags:
+                self.flags.add(tok)
+            return tok
+        if tok in IGNORED_VARS:
+            return None
+        if tok.startswith("VAR_"):
+            if tok not in self.defined_vars:
+                self.vars.add(tok)
+            return tok
+        if tok.startswith("METATILE_"):
+            k = kanto_metatile(tok)
+            return k if k in self.metatiles else None
+        if tok.startswith(("MUS_", "SE_")):
+            rg = tok.replace("_", "_RG_", 1)
+            return rg if rg in self.songs else (tok if tok in self.songs else None)
+        if tok.startswith("OBJ_EVENT_GFX_") and not tok.startswith(("OBJ_EVENT_GFX_VAR_", "OBJ_EVENT_GFX_KANTO_")):
+            return "OBJ_EVENT_GFX_KANTO_" + tok[len("OBJ_EVENT_GFX_"):]
+        if tok in self.consts:
+            return tok
+        return None
+
+    def _versioned(self, body):
+        """Lines of a FRLG script body, keeping the FireRed side of .ifdef FIRERED/LEAFGREEN blocks."""
+        keep, out = [True], []
         for raw in body.splitlines():
             line = raw.strip()
+            if not line.startswith((".string", ".braille")):
+                line = re.sub(r"\s+@.*$", "", line)  # trailing comment
+            word = line.split()[0] if line else ""
+            if word in (".ifdef", ".ifndef"):
+                fr = line.split()[1] == "FIRERED"
+                keep.append(keep[-1] and (fr if word == ".ifdef" else not fr))
+            elif word == ".else" and len(keep) > 1:
+                keep[-1] = keep[-2] and not keep[-1]
+            elif word == ".endif" and len(keep) > 1:
+                keep.pop()
+            elif keep[-1]:
+                if word in self.cur_macros:
+                    out += self.cur_macros[word]
+                else:
+                    out.append(line)
+        # map-local .macro definitions end up in the body of the label before them
+        text = re.sub(r"^\.macro .*?^\.endm$", "", "\n".join(out), flags=re.S | re.M)
+        return text.splitlines()
+
+    def load_map(self, fmap, src):
+        """Read the .equ/.set constants and .macro definitions of a FRLG map's scripts.inc."""
+        self.equs[fmap] = dict(re.findall(r"^\s*\.(?:equ|set)\s+(\w+),\s*(.+?)\s*$", src, re.M))
+        self.macros[fmap] = {name: [l.strip() for l in body.splitlines() if l.strip()]
+                             for name, body in re.findall(r"^\s*\.macro (\w+)[^\n]*\n(.*?)^\s*\.endm", src, re.S | re.M)}
+
+    def translate(self, body, trainer=False, bare=False):
+        out, skip_result = [], False
+        for line in self._versioned(body):
             if not line or line.startswith("@"):
                 continue
             cmd, _, rest = line.partition(" ")
             args = [a.strip() for a in rest.split(",")] if rest else []
+            # FRLG sometimes leaves out a comma, which gas tolerates
+            args = [x for a in args for x in (a.split() if re.fullmatch(r"\w+(\s+\w+)+", a) else [a])]
+            if self.cur_equs:
+                args = [re.sub(r"\b\w+\b", lambda m: self.cur_equs.get(m.group(0), m.group(0)), a) for a in args]
             if skip_result and "VAR_RESULT" in args:
                 continue  # tests the result of a command that was left out
             skip_result = False
             if cmd == "giveitem_msg":  # FRLG: giveitem_msg msg, item[, amount[, fanfare]]
                 cmd, args = "giveitem", args[1:3]
-            if cmd in DROPPED_COMMANDS or cmd not in self.commands:
+            if cmd == "msgreceiveditem":  # FRLG: msgreceiveditem msg, item[, amount[, fanfare]]
+                cmd, args = "kanto_msgreceiveditem", [args[0], args[3] if len(args) > 3 else "MUS_LEVEL_UP"]
+            if cmd in ("special", "specialvar") and args and args[-1] in SPECIAL_RENAMES:
+                args[-1] = SPECIAL_RENAMES[args[-1]]
+            if cmd == "setworldmapflag":
+                if args and args[0] in self.fly_flags:
+                    out.append(f"\tsetflag {self.fly_flags[args[0]]}")
+                continue
+            if cmd in ("hideobjectat", "showobjectat") and len(args) > 1 and not args[1].startswith("MAP_"):
+                self.dropped["command " + cmd] += 1
+                continue
+            if cmd in DROPPED_COMMANDS or (cmd not in self.commands and cmd != "map_script_2"):
+                self.dropped["command " + cmd] += 1
                 skip_result = True
                 continue
             if cmd in ("special", "specialvar") and args[-1] not in self.specials:
+                self.dropped["special " + args[-1]] += 1
                 skip_result = True
                 continue
             new_args = []
@@ -143,17 +304,18 @@ class ScriptPorter:
                         break
                     new_args.append(n)
                     continue
-                for tok in re.findall(r"\b[A-Z][A-Z0-9_]{2,}\b", a):
-                    if tok.startswith("TRAINER_") and not tok.startswith("TRAINER_TYPE_") and not tok.startswith("TRAINER_BATTLE_"):
-                        self.trainers.add(tok)
-                        a = re.sub(rf"\b{tok}\b", kanto_trainer(tok), a)
-                    elif tok.startswith("LOCALID_") and tok in self.localids:
-                        a = re.sub(rf"\b{tok}\b", self.localids[tok], a)
-                    elif tok.startswith("FLAG_"):
-                        if tok not in self.defined_flags:
-                            self.flags.add(tok)
-                    elif tok not in self.consts:
+                if re.fullmatch(r"[A-Za-z_]\w*", a) and re.search("[a-z]", re.sub(r"0x[0-9A-Fa-f]+", "", a)) \
+                        and not a.startswith(("METATILE_", "g")) and a not in self.em_labels \
+                        and not (cmd in ("special", "specialvar") and a == args[-1]):
+                    self.dropped["label " + a] += 1  # a symbol FRLG defines outside its scripts
+                    break
+                for tok in re.findall(r"\bMETATILE_\w+|\b[A-Z][A-Z0-9_]{2,}\b", a):
+                    n = self._token(tok)
+                    if n is None:
+                        self.dropped["constant " + re.sub(r"_[A-Za-z0-9]*$", "_*", tok) if tok.startswith(("VAR_MAP_SCENE", "METATILE_")) else "constant " + tok] += 1
                         break
+                    if n != tok:
+                        a = re.sub(rf"\b{tok}\b", n, a)
                 else:
                     new_args.append(a)
                     continue
@@ -162,6 +324,8 @@ class ScriptPorter:
                 out.append("\t" + cmd + (" " + ", ".join(new_args) if new_args else ""))
                 continue
             skip_result = True  # the line was left out
+        if bare:
+            return out
         if trainer:
             # Trainers that spot the player need the script to start with trainerbattle
             first = next((i for i, l in enumerate(out) if l.strip().startswith("trainerbattle")), None)
@@ -274,6 +438,26 @@ def cmd_trainers(args):
           "#define KANTO_TRAINER_FRONT_PALETTES \\\n" + "\n".join(pal_lines) + "\n\n"
           "#define KANTO_TRAINER_FRONT_ANIMS \\\n" + "\n".join(anim_lines) + "\n")
     print(f"ported {len(used)} trainers, {len(classes)} new trainer classes, {len(pics)} trainer pics")
+
+
+METATILES_H = "include/constants/metatile_labels_kanto.h"
+
+
+def kanto_metatile(name):
+    return "METATILE_Kanto" + name[len("METATILE_"):]
+
+
+def port_metatile_labels(frlg):
+    """FRLG's metatile labels, renamed METATILE_Kanto* (Emerald has tilesets with the same names)."""
+    text = read(f"{frlg}/include/constants/metatile_labels.h")
+    lines = [f"#define {kanto_metatile(n)} {v}" for n, v in re.findall(r"#define (METATILE_\w+)\s+(\S+)", text)]
+    write(METATILES_H, GENERATED + "#ifndef GUARD_METATILE_LABELS_KANTO_H\n#define GUARD_METATILE_LABELS_KANTO_H\n\n"
+          + "\n".join(lines) + "\n\n#endif // GUARD_METATILE_LABELS_KANTO_H\n")
+    s = read("include/constants/metatile_labels.h")
+    inc = '#include "constants/metatile_labels_kanto.h"'
+    if inc not in s:
+        i = s.rindex("#endif")
+        write("include/constants/metatile_labels.h", s[:i] + inc + "\n\n" + s[i:])
 
 
 def main():

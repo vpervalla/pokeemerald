@@ -7,12 +7,28 @@ PewterCity_House1_EventScript_BaldingMan::
 	msgbox PewterCity_House1_Text_TradeMonsAreFinicky, MSGBOX_NPC
 	end
 
+PewterCity_House1_EventScript_DoNidoranCry::
+	waitse
+	playmoncry SPECIES_NIDORAN_M, CRY_MODE_NORMAL
+	msgbox PewterCity_House1_Text_Nidoran
+	waitmoncry
+	call Kanto_EventScript_RestorePrevTextColor
+	return
+
 PewterCity_House1_EventScript_LittleBoy::
-	msgbox PewterCity_House1_Text_NidoranSit, MSGBOX_NPC
+	lock
+	msgbox PewterCity_House1_Text_NidoranSit
+	call PewterCity_House1_EventScript_DoNidoranCry
+	release
 	end
 
 PewterCity_House1_EventScript_Nidoran::
-	msgbox PewterCity_House1_Text_Nidoran, MSGBOX_NPC
+	lock
+	faceplayer
+	call PewterCity_House1_EventScript_DoNidoranCry
+	applymovement LOCALID_PEWTER_HOUSE_NIDORAN, Kanto_Common_Movement_FaceOriginalDirection
+	waitmovement 0
+	release
 	end
 
 PewterCity_House1_Text_Nidoran:

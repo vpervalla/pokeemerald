@@ -118,6 +118,10 @@ OneIsland_KindleRoad_EventScript_ClaireRematch::
 	msgbox OneIsland_KindleRoad_Text_ClairePostBattle, MSGBOX_AUTOCLOSE
 	end
 
+OneIsland_KindleRoad_EventScript_EmberSpaSign::
+	msgbox OneIsland_KindleRoad_Text_EmberSpaSign, MSGBOX_SIGN
+	end
+
 OneIsland_KindleRoad_EventScript_FinnRematch::
 	msgbox OneIsland_KindleRoad_Text_FinnPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -140,6 +144,10 @@ OneIsland_KindleRoad_EventScript_MariaRematch::
 
 OneIsland_KindleRoad_EventScript_MikRematch::
 	msgbox OneIsland_KindleRoad_Text_MikPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+OneIsland_KindleRoad_EventScript_RouteSign::
+	msgbox OneIsland_KindleRoad_Text_RouteSign, MSGBOX_SIGN
 	end
 
 OneIsland_KindleRoad_EventScript_SharonRematch::
@@ -189,6 +197,10 @@ OneIsland_KindleRoad_Text_ClaireIntro:
 OneIsland_KindleRoad_Text_ClairePostBattle:
     .string "What should I do?\n"
     .string "I feel famished again.$"
+
+OneIsland_KindleRoad_Text_EmberSpaSign:
+    .string "Light the Fire in Your Heart!\n"
+    .string "EMBER SPA$"
 
 OneIsland_KindleRoad_Text_FinnDefeat:
     .string "Well, aren't you tough?$"
@@ -269,6 +281,10 @@ OneIsland_KindleRoad_Text_MikNotEnoughMons:
 OneIsland_KindleRoad_Text_MikPostBattle:
     .string "MIK: How could my combination\n"
     .string "with KIA fail?$"
+
+OneIsland_KindleRoad_Text_RouteSign:
+    .string "This is KINDLE ROAD.\p"
+    .string "Go straight for MT. EMBER.$"
 
 OneIsland_KindleRoad_Text_SharonDefeat:
     .string "You were a cut above me.$"

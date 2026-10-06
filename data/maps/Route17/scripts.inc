@@ -73,6 +73,10 @@ Route17_EventScript_Jaxon::
 	msgbox Route17_Text_JaxonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route17_EventScript_BallsNotice::
+	msgbox Route17_Text_DontThrowGameThrowBalls, MSGBOX_SIGN
+	end
+
 Route17_EventScript_BillyRematch::
 	msgbox Route17_Text_BillyPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -81,8 +85,16 @@ Route17_EventScript_CoreyRematch::
 	msgbox Route17_Text_CoreyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route17_EventScript_CyclingRoadSign::
+	msgbox Route17_Text_CyclingRoadSign, MSGBOX_SIGN
+	end
+
 Route17_EventScript_IsaiahRematch::
 	msgbox Route17_Text_IsaiahPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route17_EventScript_ItemsNotice::
+	msgbox Route17_Text_WatchOutForDiscardedItems, MSGBOX_SIGN
 	end
 
 Route17_EventScript_JamalRematch::
@@ -99,6 +111,18 @@ Route17_EventScript_NikolasRematch::
 
 Route17_EventScript_RaulRematch::
 	msgbox Route17_Text_RaulPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route17_EventScript_RouteSign::
+	msgbox Route17_Text_RouteSign, MSGBOX_SIGN
+	end
+
+Route17_EventScript_TrainerTips1::
+	msgbox Route17_Text_SameSpeciesGrowDifferentRates, MSGBOX_SIGN
+	end
+
+Route17_EventScript_TrainerTips2::
+	msgbox Route17_Text_PressBToStayInPlace, MSGBOX_SIGN
 	end
 
 Route17_EventScript_VirgilRematch::
@@ -131,6 +155,15 @@ Route17_Text_CoreyIntro:
 
 Route17_Text_CoreyPostBattle:
     .string "Be ready to fight for your beliefs!$"
+
+Route17_Text_CyclingRoadSign:
+    .string "CYCLING ROAD\n"
+    .string "Slope ends here!$"
+
+Route17_Text_DontThrowGameThrowBalls:
+    .string "It's a notice!\p"
+    .string "Don't throw the game, throw POKé\n"
+    .string "BALLS instead!$"
 
 Route17_Text_IsaiahDefeat:
     .string "Whoo!$"
@@ -173,6 +206,11 @@ Route17_Text_NikolasPostBattle:
     .string "I got my VOLTORB at the abandoned\n"
     .string "POWER PLANT.$"
 
+Route17_Text_PressBToStayInPlace:
+    .string "TRAINER TIPS\p"
+    .string "Press the B Button to stay in place\n"
+    .string "while on a slope.$"
+
 Route17_Text_RaulDefeat:
     .string "Burned out!$"
 
@@ -186,6 +224,16 @@ Route17_Text_RaulPostBattle:
     .string "There's good money in picking them\n"
     .string "up and selling them.$"
 
+Route17_Text_RouteSign:
+    .string "ROUTE 17\n"
+    .string "CELADON CITY - FUCHSIA CITY$"
+
+Route17_Text_SameSpeciesGrowDifferentRates:
+    .string "TRAINER TIPS\p"
+    .string "All POKéMON are unique.\p"
+    .string "Even POKéMON of the same species\n"
+    .string "and level grow at different rates.$"
+
 Route17_Text_VirgilDefeat:
     .string "Crash and burn!$"
 
@@ -194,6 +242,10 @@ Route17_Text_VirgilIntro:
 
 Route17_Text_VirgilPostBattle:
     .string "I love racing downhill!$"
+
+Route17_Text_WatchOutForDiscardedItems:
+    .string "It's a notice.\p"
+    .string "Watch out for discarded items.$"
 
 Route17_Text_WilliamDefeat:
     .string "Are you satisfied?$"

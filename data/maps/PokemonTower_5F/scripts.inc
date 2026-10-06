@@ -23,10 +23,6 @@ PokemonTower_5F_EventScript_Janae::
 	msgbox PokemonTower_5F_Text_JanaePostBattle, MSGBOX_AUTOCLOSE
 	end
 
-PokemonTower_5F_EventScript_Channeler::
-	msgbox PokemonTower_5F_Text_RestHereInPurifiedSpace, MSGBOX_NPC
-	end
-
 PokemonTower_5F_EventScript_ItemNugget::
 	finditem ITEM_NUGGET
 	end
@@ -35,10 +31,25 @@ PokemonTower_5F_EventScript_ItemCleanseTag::
 	finditem ITEM_CLEANSE_TAG
 	end
 
-PokemonTower_5F_Text_RestHereInPurifiedSpace:
-    .string "Come, child!\n"
-    .string "I have purified this space.\l"
-    .string "You can rest here.$"
+PokemonTower_5F_EventScript_Channeler::
+	msgbox PokemonTower_5F_Text_RestHereInPurifiedSpace, MSGBOX_NPC
+	end
+
+PokemonTower_5F_EventScript_ExitPurifiedZone::
+	lockall
+	setvar VAR_TEMP_1, 0
+	releaseall
+	end
+
+PokemonTower_5F_EventScript_PurifiedZone::
+	lockall
+	fadescreen FADE_TO_WHITE
+	special HealPlayerParty
+	fadescreen FADE_FROM_WHITE
+	msgbox PokemonTower_5F_Text_PurifiedZoneMonsFullyHealed
+	setvar VAR_TEMP_1, 1
+	releaseall
+	end
 
 PokemonTower_5F_Text_JanaeDefeat:
     .string "Whoo!$"
@@ -59,6 +70,17 @@ PokemonTower_5F_Text_KarinaIntro:
 
 PokemonTower_5F_Text_KarinaPostBattle:
     .string "I regained my senses.$"
+
+PokemonTower_5F_Text_PurifiedZoneMonsFullyHealed:
+    .string "Entered the purified and protected\n"
+    .string "zone.\p"
+    .string "{PLAYER}'s POKéMON were fully\n"
+    .string "healed.$"
+
+PokemonTower_5F_Text_RestHereInPurifiedSpace:
+    .string "Come, child!\n"
+    .string "I have purified this space.\l"
+    .string "You can rest here.$"
 
 PokemonTower_5F_Text_RuthDefeat:
     .string "What a nightmare!$"

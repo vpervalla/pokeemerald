@@ -13,14 +13,6 @@ CeruleanCity_Mart_EventScript_Clerk::
 	release
 	end
 
-CeruleanCity_Mart_EventScript_Woman::
-	msgbox CeruleanCity_Mart_Text_DoYouKnowAboutRareCandy, MSGBOX_NPC
-	end
-
-CeruleanCity_Mart_EventScript_Youngster::
-	msgbox CeruleanCity_Mart_Text_RepelWorksOnWeakMons, MSGBOX_NPC
-	end
-
 	.align 2
 CeruleanCity_Mart_Items:
 	.2byte ITEM_POKE_BALL
@@ -34,6 +26,14 @@ CeruleanCity_Mart_Items:
 	.2byte ITEM_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+CeruleanCity_Mart_EventScript_Woman::
+	msgbox CeruleanCity_Mart_Text_DoYouKnowAboutRareCandy, MSGBOX_NPC
+	end
+
+CeruleanCity_Mart_EventScript_Youngster::
+	msgbox CeruleanCity_Mart_Text_RepelWorksOnWeakMons, MSGBOX_NPC
 	end
 
 CeruleanCity_Mart_Text_DoYouKnowAboutRareCandy:

@@ -43,16 +43,27 @@ RockTunnel_B1F_EventScript_Winston::
 	msgbox RockTunnel_B1F_Text_WinstonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-RockTunnel_B1F_EventScript_RockSlideTutor::
-	msgbox Kanto_Text_RockSlideTeach, MSGBOX_NPC
-	end
-
 RockTunnel_B1F_EventScript_ItemRevive::
 	finditem ITEM_REVIVE
 	end
 
 RockTunnel_B1F_EventScript_ItemMaxEther::
 	finditem ITEM_MAX_ETHER
+	end
+
+RockTunnel_B1F_EventScript_RockSlideTutor::
+	lock
+	faceplayer
+	goto_if_set FLAG_TUTOR_ROCK_SLIDE, Kanto_EventScript_RockSlideTaught
+	msgbox Kanto_Text_RockSlideTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_RockSlideDeclined
+	call Kanto_EventScript_CanOnlyBeLearnedOnce
+	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_RockSlideDeclined
+	msgbox Kanto_Text_RockSlideWhichMon
+	call Kanto_EventScript_ChooseMoveTutorMon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_RockSlideDeclined
+	setflag FLAG_TUTOR_ROCK_SLIDE
+	goto Kanto_EventScript_RockSlideTaught
 	end
 
 RockTunnel_B1F_Text_AllenDefeat:

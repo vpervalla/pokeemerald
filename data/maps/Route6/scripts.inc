@@ -69,6 +69,10 @@ Route6_EventScript_RickyRematch::
 	msgbox Route6_Text_RickyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route6_EventScript_UndergroundPathSign::
+	msgbox Route6_Text_UndergroundPathSign, MSGBOX_SIGN
+	end
+
 Route6_Text_ElijahDefeat:
     .string "You're too good!$"
 
@@ -137,5 +141,9 @@ Route6_Text_RickyIntro:
 Route6_Text_RickyPostBattle:
     .string "Whisper…\n"
     .string "Whisper…$"
+
+Route6_Text_UndergroundPathSign:
+    .string "UNDERGROUND PATH\n"
+    .string "CERULEAN CITY - VERMILION CITY$"
 
 @ END KANTO NPCS

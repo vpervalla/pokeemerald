@@ -71,22 +71,11 @@ Route25_EventScript_ItemTM43::
 	end
 
 Route25_EventScript_Beauty::
-	msgbox Route25_Text_MistyHighHopesAboutThisPlace, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox Route25_Text_MistyHighHopesAboutThisPlace
+	release
 	end
-
-Route25_EventScript_Man::
-	msgbox Route25_Text_AreYouHereAlone, MSGBOX_NPC
-	end
-
-Route25_Text_AreYouHereAlone:
-    .string "Hello, are you here alone?\p"
-    .string "If you're out at CERULEAN's cape…\n"
-    .string "Well, it should be as a couple.$"
-
-Route25_Text_MistyHighHopesAboutThisPlace:
-    .string "This cape is a famous date spot.\p"
-    .string "MISTY, the GYM LEADER, has high\n"
-    .string "hopes about this place.$"
 
 Route25_EventScript_ChadRematch::
 	msgbox Route25_Text_ChadPostBattle, MSGBOX_AUTOCLOSE
@@ -116,13 +105,26 @@ Route25_EventScript_KelseyRematch::
 	msgbox Route25_Text_KelseyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route25_EventScript_Man::
+	msgbox Route25_Text_AreYouHereAlone, MSGBOX_NPC
+	end
+
 Route25_EventScript_NobRematch::
 	msgbox Route25_Text_NobPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+Route25_EventScript_SeaCottageSign::
+	msgbox Route25_Text_SeaCottageSign, MSGBOX_SIGN
 	end
 
 Route25_EventScript_WayneRematch::
 	msgbox Route25_Text_WaynePostBattle, MSGBOX_AUTOCLOSE
 	end
+
+Route25_Text_AreYouHereAlone:
+    .string "Hello, are you here alone?\p"
+    .string "If you're out at CERULEAN's cape…\n"
+    .string "Well, it should be as a couple.$"
 
 Route25_Text_ChadDefeat:
     .string "I knew I'd lose, too!$"
@@ -204,6 +206,11 @@ Route25_Text_KelseyPostBattle:
     .string "I wish my boyfriend was as good\n"
     .string "as you.$"
 
+Route25_Text_MistyHighHopesAboutThisPlace:
+    .string "This cape is a famous date spot.\p"
+    .string "MISTY, the GYM LEADER, has high\n"
+    .string "hopes about this place.$"
+
 Route25_Text_NobDefeat:
     .string "You done got me, and real good,\n"
     .string "too!$"
@@ -217,6 +224,10 @@ Route25_Text_NobPostBattle:
     .string "his name.\p"
     .string "His collection includes many rare\n"
     .string "species of POKéMON.$"
+
+Route25_Text_SeaCottageSign:
+    .string "SEA COTTAGE\n"
+    .string "BILL lives here!$"
 
 Route25_Text_WayneDefeat:
     .string "You're something.$"

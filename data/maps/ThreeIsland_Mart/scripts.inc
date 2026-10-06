@@ -13,18 +13,6 @@ ThreeIsland_Mart_EventScript_Clerk::
 	release
 	end
 
-ThreeIsland_Mart_EventScript_Picnicker::
-	msgbox ThreeIsland_Mart_Text_TrueThatCeldadonDeptStoreBigger, MSGBOX_NPC
-	end
-
-ThreeIsland_Mart_EventScript_BugCatcher::
-	msgbox ThreeIsland_Mart_Text_PeopleHealWithBerriesFromForest, MSGBOX_NPC
-	end
-
-ThreeIsland_Mart_EventScript_Youngster::
-	msgbox ThreeIsland_Mart_Text_BikersWereAboutToTrashMart, MSGBOX_NPC
-	end
-
 	.align 2
 ThreeIsland_Mart_Items:
 	.2byte ITEM_ULTRA_BALL
@@ -35,6 +23,18 @@ ThreeIsland_Mart_Items:
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+ThreeIsland_Mart_EventScript_BugCatcher::
+	msgbox ThreeIsland_Mart_Text_PeopleHealWithBerriesFromForest, MSGBOX_NPC
+	end
+
+ThreeIsland_Mart_EventScript_Picnicker::
+	msgbox ThreeIsland_Mart_Text_TrueThatCeldadonDeptStoreBigger, MSGBOX_NPC
+	end
+
+ThreeIsland_Mart_EventScript_Youngster::
+	msgbox ThreeIsland_Mart_Text_BikersWereAboutToTrashMart, MSGBOX_NPC
 	end
 
 ThreeIsland_Mart_Text_BikersWereAboutToTrashMart:

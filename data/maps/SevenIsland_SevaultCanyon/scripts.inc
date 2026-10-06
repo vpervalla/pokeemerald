@@ -72,17 +72,11 @@ SevenIsland_SevaultCanyon_EventScript_ItemNugget::
 	end
 
 SevenIsland_SevaultCanyon_EventScript_BlackBelt::
-	msgbox SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly
+	release
 	end
-
-SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly:
-    .string "Training by oneself is certainly\n"
-    .string "not a bad thing.\p"
-    .string "But it's also not bad to aim for\n"
-    .string "the top with a partner.\p"
-    .string "Even BRUNO…\n"
-    .string "He trained with a fellow by the\l"
-    .string "name of BRAWLY before.$"
 
 SevenIsland_SevaultCanyon_EventScript_CyndyRematch::
 	msgbox SevenIsland_SevaultCanyon_Text_CyndyPostBattle, MSGBOX_AUTOCLOSE
@@ -115,6 +109,19 @@ SevenIsland_SevaultCanyon_EventScript_MichelleRematch::
 SevenIsland_SevaultCanyon_EventScript_NyaRematch::
 	msgbox SevenIsland_SevaultCanyon_Text_NyaPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+SevenIsland_SevaultCanyon_EventScript_RouteSign::
+	msgbox SevenIsland_SevaultCanyon_Text_RouteSign, MSGBOX_SIGN
+	end
+
+SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly:
+    .string "Training by oneself is certainly\n"
+    .string "not a bad thing.\p"
+    .string "But it's also not bad to aim for\n"
+    .string "the top with a partner.\p"
+    .string "Even BRUNO…\n"
+    .string "He trained with a fellow by the\l"
+    .string "name of BRAWLY before.$"
 
 SevenIsland_SevaultCanyon_Text_CyndyDefeat:
     .string "Huh?\n"
@@ -233,5 +240,9 @@ SevenIsland_SevaultCanyon_Text_NyaPostBattle:
     .string "under LEX…\p"
     .string "…So, LEX, please, may I stay with\n"
     .string "you like this?$"
+
+SevenIsland_SevaultCanyon_Text_RouteSign:
+    .string "SEVAULT CANYON\n"
+    .string "TANOBY RUINS AHEAD$"
 
 @ END KANTO NPCS

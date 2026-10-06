@@ -60,6 +60,14 @@ ThreeIsland_BondBridge_EventScript_AmiraRematch::
 	msgbox ThreeIsland_BondBridge_Text_AmiraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+ThreeIsland_BondBridge_EventScript_BerryForestSign::
+	msgbox ThreeIsland_BondBridge_Text_BerryForestAhead, MSGBOX_SIGN
+	end
+
+ThreeIsland_BondBridge_EventScript_BondBridgeSign::
+	msgbox ThreeIsland_BondBridge_Text_BondBridgeSign, MSGBOX_SIGN
+	end
+
 ThreeIsland_BondBridge_EventScript_JoyRematch::
 	msgbox ThreeIsland_BondBridge_Text_JoyPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -102,6 +110,14 @@ ThreeIsland_BondBridge_Text_AmiraIntro:
 ThreeIsland_BondBridge_Text_AmiraPostBattle:
     .string "This year, I'm going to finally\n"
     .string "learn how to swim!$"
+
+ThreeIsland_BondBridge_Text_BerryForestAhead:
+    .string "BERRY FOREST AHEAD$"
+
+ThreeIsland_BondBridge_Text_BondBridgeSign:
+    .string "BOND BRIDGE\n"
+    .string "Please be quiet when crossing.\p"
+    .string "BERRY FOREST AHEAD$"
 
 ThreeIsland_BondBridge_Text_JoyDefeat:
     .string "JOY: Ohh…\n"

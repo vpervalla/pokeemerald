@@ -22,6 +22,9 @@ struct PokemonStorage
     /*0x0004*/ struct BoxPokemon boxes[TOTAL_BOXES_COUNT][IN_BOX_COUNT];
     /*0x8344*/ u8 boxNames[TOTAL_BOXES_COUNT][BOX_NAME_LENGTH + 1];
     /*0x83C2*/ u8 boxWallpapers[TOTAL_BOXES_COUNT];
+    // Kanto port (FRLG) data that doesn't fit in SaveBlock1, kept in this block's free space
+    /*0x83D0*/ u16 kantoVars[KANTO_VARS_COUNT];               // VarGet(KANTO_VARS_START + n)
+    /*0x84D0*/ u8 kantoExtraFlags[KANTO_EXTRA_FLAGS_COUNT / 8]; // FlagGet(KANTO_EXTRA_FLAGS_START + n)
 };
 
 extern struct PokemonStorage *gPokemonStoragePtr;

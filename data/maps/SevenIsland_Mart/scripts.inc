@@ -13,18 +13,6 @@ SevenIsland_Mart_EventScript_Clerk::
 	release
 	end
 
-SevenIsland_Mart_EventScript_Lass::
-	msgbox SevenIsland_Mart_Text_MonHavePersonalitiesOfTheirOwn, MSGBOX_NPC
-	end
-
-SevenIsland_Mart_EventScript_Fisher::
-	msgbox SevenIsland_Mart_Text_NeedToFishOnSevenIsland, MSGBOX_NPC
-	end
-
-SevenIsland_Mart_EventScript_Hiker::
-	msgbox SevenIsland_Mart_Text_PreparationsCompleteForRuins, MSGBOX_NPC
-	end
-
 	.align 2
 SevenIsland_Mart_Items:
 	.2byte ITEM_ULTRA_BALL
@@ -38,6 +26,18 @@ SevenIsland_Mart_Items:
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+SevenIsland_Mart_EventScript_Fisher::
+	msgbox SevenIsland_Mart_Text_NeedToFishOnSevenIsland, MSGBOX_NPC
+	end
+
+SevenIsland_Mart_EventScript_Hiker::
+	msgbox SevenIsland_Mart_Text_PreparationsCompleteForRuins, MSGBOX_NPC
+	end
+
+SevenIsland_Mart_EventScript_Lass::
+	msgbox SevenIsland_Mart_Text_MonHavePersonalitiesOfTheirOwn, MSGBOX_NPC
 	end
 
 SevenIsland_Mart_Text_MonHavePersonalitiesOfTheirOwn:

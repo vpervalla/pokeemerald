@@ -135,6 +135,10 @@ Route14_EventScript_MitchRematch::
 	msgbox Route14_Text_MitchPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route14_EventScript_RouteSign::
+	msgbox Route14_Text_RouteSign, MSGBOX_SIGN
+	end
+
 Route14_Text_BeckDefeat:
     .string "Aww, bummer!$"
 
@@ -287,5 +291,9 @@ Route14_Text_MitchIntro:
 Route14_Text_MitchPostBattle:
     .string "My bird POKéMON need to learn\n"
     .string "better moves.$"
+
+Route14_Text_RouteSign:
+    .string "ROUTE 14\n"
+    .string "West to FUCHSIA CITY$"
 
 @ END KANTO NPCS

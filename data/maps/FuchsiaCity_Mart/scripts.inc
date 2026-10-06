@@ -13,14 +13,6 @@ FuchsiaCity_Mart_EventScript_Clerk::
 	release
 	end
 
-FuchsiaCity_Mart_EventScript_Gentleman::
-	msgbox FuchsiaCity_Mart_Text_DontTheyHaveSafariZonePennants, MSGBOX_NPC
-	end
-
-FuchsiaCity_Mart_EventScript_CooltrainerF::
-	msgbox FuchsiaCity_Mart_Text_DidYouTryXSpeed, MSGBOX_NPC
-	end
-
 	.align 2
 FuchsiaCity_Mart_Items:
 	.2byte ITEM_ULTRA_BALL
@@ -31,6 +23,14 @@ FuchsiaCity_Mart_Items:
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+FuchsiaCity_Mart_EventScript_CooltrainerF::
+	msgbox FuchsiaCity_Mart_Text_DidYouTryXSpeed, MSGBOX_NPC
+	end
+
+FuchsiaCity_Mart_EventScript_Gentleman::
+	msgbox FuchsiaCity_Mart_Text_DontTheyHaveSafariZonePennants, MSGBOX_NPC
 	end
 
 FuchsiaCity_Mart_Text_DidYouTryXSpeed:

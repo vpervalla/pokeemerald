@@ -236,6 +236,38 @@ static const struct TrainerMonNoItemCustomMoves sParty_KantoBikerGerald[] = {
     },
 };
 
+static const struct TrainerMonNoItemCustomMoves sParty_KantoBikerGoon[] = {
+    {
+        .iv = 0,
+        .lvl = 37,
+        .species = SPECIES_KOFFING,
+        .moves = {MOVE_HAZE, MOVE_SMOKESCREEN, MOVE_SLUDGE, MOVE_TACKLE},
+    },
+    {
+        .iv = 0,
+        .lvl = 37,
+        .species = SPECIES_GRIMER,
+        .moves = {MOVE_ACID_ARMOR, MOVE_SCREECH, MOVE_MINIMIZE, MOVE_SLUDGE},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoBikerGoon2[] = {
+    {
+        .iv = 0,
+        .lvl = 38,
+        .species = SPECIES_KOFFING,
+        .moves = {MOVE_HAZE, MOVE_SMOKESCREEN, MOVE_SLUDGE, MOVE_TACKLE},
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoBikerGoon3[] = {
+    {
+        .iv = 0,
+        .lvl = 38,
+        .species = SPECIES_GRIMER,
+    },
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_KantoBikerHideo[] = {
     {
         .iv = 0,
@@ -976,6 +1008,29 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoBossGiovanni[] = {
     },
 };
 
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoBossGiovanni2[] = {
+    {
+        .iv = 250,
+        .lvl = 37,
+        .species = SPECIES_NIDORINO,
+    },
+    {
+        .iv = 250,
+        .lvl = 35,
+        .species = SPECIES_KANGASKHAN,
+    },
+    {
+        .iv = 250,
+        .lvl = 37,
+        .species = SPECIES_RHYHORN,
+    },
+    {
+        .iv = 250,
+        .lvl = 41,
+        .species = SPECIES_NIDOQUEEN,
+    },
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_KantoBugCatcherAnthony[] = {
     {
         .iv = 0,
@@ -1475,6 +1530,276 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoCamperShane[] = {
         .iv = 0,
         .lvl = 14,
         .species = SPECIES_EKANS,
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionFirstBulbasaur[] = {
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_PIDGEOT,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_AERIAL_ACE, MOVE_FEATHER_DANCE, MOVE_SAND_ATTACK, MOVE_WHIRLWIND},
+    },
+    {
+        .iv = 255,
+        .lvl = 57,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_FUTURE_SIGHT, MOVE_RECOVER, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_RHYDON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_TAKE_DOWN, MOVE_EARTHQUAKE, MOVE_ROCK_TOMB, MOVE_SCARY_FACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_RAGE, MOVE_BITE, MOVE_THRASH},
+    },
+    {
+        .iv = 255,
+        .lvl = 61,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EXTREME_SPEED, MOVE_FLAMETHROWER, MOVE_ROAR, MOVE_BITE},
+    },
+    {
+        .iv = 255,
+        .lvl = 63,
+        .species = SPECIES_VENUSAUR,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_SOLAR_BEAM, MOVE_SYNTHESIS, MOVE_SUNNY_DAY, MOVE_GROWTH},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionFirstCharmander[] = {
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_PIDGEOT,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_AERIAL_ACE, MOVE_FEATHER_DANCE, MOVE_SAND_ATTACK, MOVE_WHIRLWIND},
+    },
+    {
+        .iv = 255,
+        .lvl = 57,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_FUTURE_SIGHT, MOVE_RECOVER, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_RHYDON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_TAKE_DOWN, MOVE_EARTHQUAKE, MOVE_ROCK_TOMB, MOVE_SCARY_FACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_EXEGGUTOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_GIGA_DRAIN, MOVE_EGG_BOMB, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN},
+    },
+    {
+        .iv = 255,
+        .lvl = 61,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_RAGE, MOVE_BITE, MOVE_THRASH},
+    },
+    {
+        .iv = 255,
+        .lvl = 63,
+        .species = SPECIES_CHARIZARD,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_FIRE_BLAST, MOVE_AERIAL_ACE, MOVE_SLASH, MOVE_FIRE_SPIN},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionFirstSquirtle[] = {
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_PIDGEOT,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_AERIAL_ACE, MOVE_FEATHER_DANCE, MOVE_SAND_ATTACK, MOVE_WHIRLWIND},
+    },
+    {
+        .iv = 255,
+        .lvl = 57,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_FUTURE_SIGHT, MOVE_RECOVER, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_RHYDON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_TAKE_DOWN, MOVE_EARTHQUAKE, MOVE_ROCK_TOMB, MOVE_SCARY_FACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 59,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EXTREME_SPEED, MOVE_FLAMETHROWER, MOVE_ROAR, MOVE_BITE},
+    },
+    {
+        .iv = 255,
+        .lvl = 61,
+        .species = SPECIES_EXEGGUTOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_GIGA_DRAIN, MOVE_EGG_BOMB, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN},
+    },
+    {
+        .iv = 255,
+        .lvl = 63,
+        .species = SPECIES_BLASTOISE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_RAIN_DANCE, MOVE_SKULL_BASH, MOVE_BITE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchBulbasaur[] = {
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_HERACROSS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_TYRANITAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_HYPER_BEAM},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EXTREME_SPEED, MOVE_OVERHEAT, MOVE_AERIAL_ACE, MOVE_IRON_TAIL},
+    },
+    {
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_VENUSAUR,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_SOLAR_BEAM, MOVE_SLUDGE_BOMB, MOVE_EARTHQUAKE, MOVE_SUNNY_DAY},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchCharmander[] = {
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_HERACROSS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_TYRANITAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_EXEGGUTOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_GIGA_DRAIN, MOVE_PSYCHIC, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_HYPER_BEAM},
+    },
+    {
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_CHARIZARD,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_FIRE_BLAST, MOVE_DRAGON_CLAW, MOVE_AERIAL_ACE, MOVE_EARTHQUAKE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchSquirtle[] = {
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_HERACROSS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_TYRANITAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EXTREME_SPEED, MOVE_OVERHEAT, MOVE_AERIAL_ACE, MOVE_IRON_TAIL},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_EXEGGUTOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_GIGA_DRAIN, MOVE_PSYCHIC, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN},
+    },
+    {
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_BLASTOISE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
     },
 };
 
@@ -2251,6 +2576,19 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoCueBallLuke[] = {
     },
 };
 
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoCueBallPaxton[] = {
+    {
+        .iv = 50,
+        .lvl = 39,
+        .species = SPECIES_WEEZING,
+    },
+    {
+        .iv = 50,
+        .lvl = 39,
+        .species = SPECIES_MUK,
+    },
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_KantoCueBallRaul[] = {
     {
         .iv = 0,
@@ -2269,6 +2607,310 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoCueBallZeek[] = {
         .iv = 0,
         .lvl = 33,
         .species = SPECIES_MACHOKE,
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourAgatha[] = {
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_GENGAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SHADOW_PUNCH, MOVE_CONFUSE_RAY, MOVE_TOXIC, MOVE_DOUBLE_TEAM},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_GOLBAT,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CONFUSE_RAY, MOVE_POISON_FANG, MOVE_AIR_CUTTER, MOVE_BITE},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_HAUNTER,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPNOSIS, MOVE_DREAM_EATER, MOVE_CURSE, MOVE_MEAN_LOOK},
+    },
+    {
+        .iv = 250,
+        .lvl = 56,
+        .species = SPECIES_ARBOK,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SLUDGE_BOMB, MOVE_SCREECH, MOVE_IRON_TAIL, MOVE_BITE},
+    },
+    {
+        .iv = 250,
+        .lvl = 58,
+        .species = SPECIES_GENGAR,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_HYPNOSIS, MOVE_NIGHTMARE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourAgatha2[] = {
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_GENGAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_CONFUSE_RAY, MOVE_HYPNOSIS},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_CROBAT,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SLUDGE_BOMB, MOVE_AIR_CUTTER, MOVE_SHADOW_BALL, MOVE_CONFUSE_RAY},
+    },
+    {
+        .iv = 255,
+        .lvl = 65,
+        .species = SPECIES_MISDREAVUS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_ATTRACT},
+    },
+    {
+        .iv = 255,
+        .lvl = 68,
+        .species = SPECIES_ARBOK,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SLUDGE_BOMB, MOVE_EARTHQUAKE, MOVE_GIGA_DRAIN, MOVE_DOUBLE_TEAM},
+    },
+    {
+        .iv = 255,
+        .lvl = 70,
+        .species = SPECIES_GENGAR,
+        .heldItem = ITEM_CHESTO_BERRY,
+        .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_SLUDGE_BOMB},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourBruno[] = {
+    {
+        .iv = 250,
+        .lvl = 51,
+        .species = SPECIES_ONIX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EARTHQUAKE, MOVE_ROCK_TOMB, MOVE_IRON_TAIL, MOVE_ROAR},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_HITMONCHAN,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SKY_UPPERCUT, MOVE_MACH_PUNCH, MOVE_ROCK_TOMB, MOVE_COUNTER},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_HITMONLEE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MEGA_KICK, MOVE_FORESIGHT, MOVE_BRICK_BREAK, MOVE_FACADE},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_ONIX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_DOUBLE_EDGE, MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_SAND_TOMB},
+    },
+    {
+        .iv = 250,
+        .lvl = 56,
+        .species = SPECIES_MACHAMP,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_CROSS_CHOP, MOVE_BULK_UP, MOVE_SCARY_FACE, MOVE_ROCK_TOMB},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourBruno2[] = {
+    {
+        .iv = 255,
+        .lvl = 65,
+        .species = SPECIES_STEELIX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_ROCK_TOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 65,
+        .species = SPECIES_HITMONCHAN,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SKY_UPPERCUT, MOVE_MACH_PUNCH, MOVE_ROCK_SLIDE, MOVE_COUNTER},
+    },
+    {
+        .iv = 255,
+        .lvl = 65,
+        .species = SPECIES_HITMONLEE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MEGA_KICK, MOVE_FORESIGHT, MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_STEELIX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_DRAGON_BREATH},
+    },
+    {
+        .iv = 255,
+        .lvl = 68,
+        .species = SPECIES_MACHAMP,
+        .heldItem = ITEM_PERSIM_BERRY,
+        .moves = {MOVE_CROSS_CHOP, MOVE_EARTHQUAKE, MOVE_BRICK_BREAK, MOVE_ROCK_SLIDE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance[] = {
+    {
+        .iv = 250,
+        .lvl = 56,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_RAGE, MOVE_TWISTER, MOVE_BITE},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_DRAGONAIR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_SAFEGUARD, MOVE_DRAGON_RAGE, MOVE_OUTRAGE},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_DRAGONAIR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_SAFEGUARD, MOVE_THUNDER_WAVE, MOVE_OUTRAGE},
+    },
+    {
+        .iv = 250,
+        .lvl = 58,
+        .species = SPECIES_AERODACTYL,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_ANCIENT_POWER, MOVE_WING_ATTACK, MOVE_SCARY_FACE},
+    },
+    {
+        .iv = 250,
+        .lvl = 60,
+        .species = SPECIES_DRAGONITE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_HYPER_BEAM, MOVE_SAFEGUARD, MOVE_OUTRAGE, MOVE_WING_ATTACK},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance2[] = {
+    {
+        .iv = 255,
+        .lvl = 68,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_THUNDER_WAVE},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_DRAGONITE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_EARTHQUAKE, MOVE_DRAGON_CLAW, MOVE_FLAMETHROWER},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_KINGDRA,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_SURF, MOVE_ICE_BEAM},
+    },
+    {
+        .iv = 255,
+        .lvl = 70,
+        .species = SPECIES_AERODACTYL,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_ANCIENT_POWER, MOVE_AERIAL_ACE, MOVE_EARTHQUAKE},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_DRAGONITE,
+        .heldItem = ITEM_PERSIM_BERRY,
+        .moves = {MOVE_HYPER_BEAM, MOVE_OUTRAGE, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLorelei[] = {
+    {
+        .iv = 250,
+        .lvl = 52,
+        .species = SPECIES_DEWGONG,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_HAIL, MOVE_SAFEGUARD},
+    },
+    {
+        .iv = 250,
+        .lvl = 51,
+        .species = SPECIES_CLOYSTER,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SPIKES, MOVE_PROTECT, MOVE_HAIL, MOVE_DIVE},
+    },
+    {
+        .iv = 250,
+        .lvl = 52,
+        .species = SPECIES_SLOWBRO,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_AMNESIA, MOVE_YAWN},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_JYNX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_PUNCH, MOVE_DOUBLE_SLAP, MOVE_LOVELY_KISS, MOVE_ATTRACT},
+    },
+    {
+        .iv = 250,
+        .lvl = 54,
+        .species = SPECIES_LAPRAS,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_CONFUSE_RAY, MOVE_ICE_BEAM, MOVE_SURF, MOVE_BODY_SLAM},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLorelei2[] = {
+    {
+        .iv = 255,
+        .lvl = 64,
+        .species = SPECIES_DEWGONG,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_SIGNAL_BEAM, MOVE_DOUBLE_TEAM},
+    },
+    {
+        .iv = 255,
+        .lvl = 63,
+        .species = SPECIES_CLOYSTER,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_SUPERSONIC, MOVE_RAIN_DANCE},
+    },
+    {
+        .iv = 255,
+        .lvl = 63,
+        .species = SPECIES_PILOSWINE,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_BLIZZARD, MOVE_EARTHQUAKE, MOVE_DOUBLE_EDGE, MOVE_ROCK_SLIDE},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_JYNX,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ICE_BEAM, MOVE_PSYCHIC, MOVE_LOVELY_KISS, MOVE_ATTRACT},
+    },
+    {
+        .iv = 255,
+        .lvl = 66,
+        .species = SPECIES_LAPRAS,
+        .heldItem = ITEM_CHERI_BERRY,
+        .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDER},
     },
 };
 
@@ -3141,6 +3783,23 @@ static const struct TrainerMonItemDefaultMoves sParty_KantoLadyJacki[] = {
         .lvl = 50,
         .species = SPECIES_SKIPLOOM,
         .heldItem = ITEM_STARDUST,
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_KantoLadySelphy[] = {
+    {
+        .iv = 0,
+        .lvl = 49,
+        .species = SPECIES_PERSIAN,
+        .heldItem = ITEM_NUGGET,
+        .moves = {MOVE_PAY_DAY, MOVE_BITE, MOVE_TAUNT, MOVE_TORMENT},
+    },
+    {
+        .iv = 0,
+        .lvl = 49,
+        .species = SPECIES_PERSIAN,
+        .heldItem = ITEM_NUGGET,
+        .moves = {MOVE_PAY_DAY, MOVE_SCRATCH, MOVE_TORMENT, MOVE_TAUNT},
     },
 };
 
@@ -4438,6 +5097,510 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoPsychicTyron[] = {
     },
 };
 
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalCeruleanBulbasaur[] = {
+    {
+        .iv = 50,
+        .lvl = 17,
+        .species = SPECIES_PIDGEOTTO,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_ABRA,
+        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 15,
+        .species = SPECIES_RATTATA,
+        .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_QUICK_ATTACK, MOVE_NONE},
+    },
+    {
+        .iv = 100,
+        .lvl = 18,
+        .species = SPECIES_BULBASAUR,
+        .moves = {MOVE_SLEEP_POWDER, MOVE_POISON_POWDER, MOVE_VINE_WHIP, MOVE_LEECH_SEED},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalCeruleanCharmander[] = {
+    {
+        .iv = 50,
+        .lvl = 17,
+        .species = SPECIES_PIDGEOTTO,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_ABRA,
+        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 15,
+        .species = SPECIES_RATTATA,
+        .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_QUICK_ATTACK, MOVE_NONE},
+    },
+    {
+        .iv = 100,
+        .lvl = 18,
+        .species = SPECIES_CHARMANDER,
+        .moves = {MOVE_METAL_CLAW, MOVE_EMBER, MOVE_GROWL, MOVE_SCRATCH},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalCeruleanSquirtle[] = {
+    {
+        .iv = 50,
+        .lvl = 17,
+        .species = SPECIES_PIDGEOTTO,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_ABRA,
+        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 15,
+        .species = SPECIES_RATTATA,
+        .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_QUICK_ATTACK, MOVE_NONE},
+    },
+    {
+        .iv = 100,
+        .lvl = 18,
+        .species = SPECIES_SQUIRTLE,
+        .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_WITHDRAW, MOVE_WATER_GUN},
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalOaksLabBulbasaur[] = {
+    {
+        .iv = 0,
+        .lvl = 5,
+        .species = SPECIES_BULBASAUR,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalOaksLabCharmander[] = {
+    {
+        .iv = 0,
+        .lvl = 5,
+        .species = SPECIES_CHARMANDER,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalOaksLabSquirtle[] = {
+    {
+        .iv = 0,
+        .lvl = 5,
+        .species = SPECIES_SQUIRTLE,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalPokemonTowerBulbasaur[] = {
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 100,
+        .lvl = 23,
+        .species = SPECIES_GYARADOS,
+    },
+    {
+        .iv = 100,
+        .lvl = 22,
+        .species = SPECIES_GROWLITHE,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_IVYSAUR,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalPokemonTowerCharmander[] = {
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 100,
+        .lvl = 23,
+        .species = SPECIES_EXEGGCUTE,
+    },
+    {
+        .iv = 100,
+        .lvl = 22,
+        .species = SPECIES_GYARADOS,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_CHARMELEON,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalPokemonTowerSquirtle[] = {
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 100,
+        .lvl = 23,
+        .species = SPECIES_GROWLITHE,
+    },
+    {
+        .iv = 100,
+        .lvl = 22,
+        .species = SPECIES_EXEGGCUTE,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 25,
+        .species = SPECIES_WARTORTLE,
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22EarlyBulbasaur[] = {
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_PIDGEY,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_BULBASAUR,
+        .moves = {MOVE_TACKLE, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22EarlyCharmander[] = {
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_PIDGEY,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_CHARMANDER,
+        .moves = {MOVE_SCRATCH, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22EarlySquirtle[] = {
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_PIDGEY,
+        .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_NONE, MOVE_NONE},
+    },
+    {
+        .iv = 50,
+        .lvl = 9,
+        .species = SPECIES_SQUIRTLE,
+        .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22LateBulbasaur[] = {
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_PIDGEOT,
+        .moves = {MOVE_FEATHER_DANCE, MOVE_WING_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_RHYHORN,
+        .moves = {MOVE_TAKE_DOWN, MOVE_HORN_DRILL, MOVE_ROCK_BLAST, MOVE_FURY_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_GYARADOS,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_TWISTER, MOVE_LEER, MOVE_RAIN_DANCE},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_GROWLITHE,
+        .moves = {MOVE_FLAME_WHEEL, MOVE_TAKE_DOWN, MOVE_LEER, MOVE_AGILITY},
+    },
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_ALAKAZAM,
+        .moves = {MOVE_PSYCHIC, MOVE_CALM_MIND, MOVE_FUTURE_SIGHT, MOVE_DISABLE},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_VENUSAUR,
+        .moves = {MOVE_RAZOR_LEAF, MOVE_SWEET_SCENT, MOVE_GROWTH, MOVE_SYNTHESIS},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22LateCharmander[] = {
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_PIDGEOT,
+        .moves = {MOVE_FEATHER_DANCE, MOVE_WING_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_RHYHORN,
+        .moves = {MOVE_TAKE_DOWN, MOVE_HORN_DRILL, MOVE_ROCK_BLAST, MOVE_FURY_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_EXEGGCUTE,
+        .moves = {MOVE_SOLAR_BEAM, MOVE_SLEEP_POWDER, MOVE_POISON_POWDER, MOVE_STUN_SPORE},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_GYARADOS,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_TWISTER, MOVE_LEER, MOVE_RAIN_DANCE},
+    },
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_ALAKAZAM,
+        .moves = {MOVE_PSYCHIC, MOVE_CALM_MIND, MOVE_FUTURE_SIGHT, MOVE_DISABLE},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_CHARIZARD,
+        .moves = {MOVE_FLAMETHROWER, MOVE_WING_ATTACK, MOVE_SLASH, MOVE_SCARY_FACE},
+    },
+};
+
+static const struct TrainerMonNoItemCustomMoves sParty_KantoRivalRoute22LateSquirtle[] = {
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_PIDGEOT,
+        .moves = {MOVE_FEATHER_DANCE, MOVE_WING_ATTACK, MOVE_GUST, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_RHYHORN,
+        .moves = {MOVE_TAKE_DOWN, MOVE_HORN_DRILL, MOVE_ROCK_BLAST, MOVE_FURY_ATTACK},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_GROWLITHE,
+        .moves = {MOVE_FLAME_WHEEL, MOVE_TAKE_DOWN, MOVE_LEER, MOVE_AGILITY},
+    },
+    {
+        .iv = 150,
+        .lvl = 45,
+        .species = SPECIES_EXEGGCUTE,
+        .moves = {MOVE_SOLAR_BEAM, MOVE_SLEEP_POWDER, MOVE_POISON_POWDER, MOVE_STUN_SPORE},
+    },
+    {
+        .iv = 150,
+        .lvl = 47,
+        .species = SPECIES_ALAKAZAM,
+        .moves = {MOVE_PSYCHIC, MOVE_CALM_MIND, MOVE_FUTURE_SIGHT, MOVE_DISABLE},
+    },
+    {
+        .iv = 250,
+        .lvl = 53,
+        .species = SPECIES_BLASTOISE,
+        .moves = {MOVE_WATER_GUN, MOVE_RAIN_DANCE, MOVE_BITE, MOVE_RAPID_SPIN},
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSilphBulbasaur[] = {
+    {
+        .iv = 100,
+        .lvl = 37,
+        .species = SPECIES_PIDGEOT,
+    },
+    {
+        .iv = 100,
+        .lvl = 38,
+        .species = SPECIES_GYARADOS,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_GROWLITHE,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_ALAKAZAM,
+    },
+    {
+        .iv = 150,
+        .lvl = 40,
+        .species = SPECIES_VENUSAUR,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSilphCharmander[] = {
+    {
+        .iv = 100,
+        .lvl = 37,
+        .species = SPECIES_PIDGEOT,
+    },
+    {
+        .iv = 100,
+        .lvl = 38,
+        .species = SPECIES_EXEGGCUTE,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_GYARADOS,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_ALAKAZAM,
+    },
+    {
+        .iv = 150,
+        .lvl = 40,
+        .species = SPECIES_CHARIZARD,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSilphSquirtle[] = {
+    {
+        .iv = 100,
+        .lvl = 37,
+        .species = SPECIES_PIDGEOT,
+    },
+    {
+        .iv = 100,
+        .lvl = 38,
+        .species = SPECIES_GROWLITHE,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_EXEGGCUTE,
+    },
+    {
+        .iv = 100,
+        .lvl = 35,
+        .species = SPECIES_ALAKAZAM,
+    },
+    {
+        .iv = 150,
+        .lvl = 40,
+        .species = SPECIES_BLASTOISE,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSsAnneBulbasaur[] = {
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_RATICATE,
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_IVYSAUR,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSsAnneCharmander[] = {
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_RATICATE,
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_CHARMELEON,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoRivalSsAnneSquirtle[] = {
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_PIDGEOTTO,
+    },
+    {
+        .iv = 50,
+        .lvl = 16,
+        .species = SPECIES_RATICATE,
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_KADABRA,
+    },
+    {
+        .iv = 100,
+        .lvl = 20,
+        .species = SPECIES_WARTORTLE,
+    },
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_KantoRockerLuca[] = {
     {
         .iv = 0,
@@ -5076,6 +6239,24 @@ static const struct TrainerMonNoItemCustomMoves sParty_KantoSuperNerdLeslie[] = 
         .lvl = 26,
         .species = SPECIES_KOFFING,
         .moves = {MOVE_SLUDGE, MOVE_SMOKESCREEN, MOVE_SMOG, MOVE_SELF_DESTRUCT},
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoSuperNerdMiguel[] = {
+    {
+        .iv = 0,
+        .lvl = 12,
+        .species = SPECIES_GRIMER,
+    },
+    {
+        .iv = 0,
+        .lvl = 12,
+        .species = SPECIES_VOLTORB,
+    },
+    {
+        .iv = 0,
+        .lvl = 12,
+        .species = SPECIES_KOFFING,
     },
 };
 
@@ -6328,6 +7509,60 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt42[]
     },
 };
 
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt43[] = {
+    {
+        .iv = 0,
+        .lvl = 37,
+        .species = SPECIES_CUBONE,
+    },
+    {
+        .iv = 0,
+        .lvl = 37,
+        .species = SPECIES_MAROWAK,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt44[] = {
+    {
+        .iv = 0,
+        .lvl = 35,
+        .species = SPECIES_RATTATA,
+    },
+    {
+        .iv = 0,
+        .lvl = 35,
+        .species = SPECIES_RATICATE,
+    },
+    {
+        .iv = 0,
+        .lvl = 35,
+        .species = SPECIES_SANDSHREW,
+    },
+    {
+        .iv = 0,
+        .lvl = 35,
+        .species = SPECIES_SANDSLASH,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt45[] = {
+    {
+        .iv = 0,
+        .lvl = 38,
+        .species = SPECIES_ZUBAT,
+    },
+    {
+        .iv = 0,
+        .lvl = 38,
+        .species = SPECIES_ZUBAT,
+    },
+    {
+        .iv = 0,
+        .lvl = 38,
+        .species = SPECIES_GOLBAT,
+    },
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt46[] = {
     {
         .iv = 0,
@@ -6438,6 +7673,19 @@ static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt51[]
         .iv = 50,
         .lvl = 48,
         .species = SPECIES_GLOOM,
+    },
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_KantoTeamRocketGrunt6[] = {
+    {
+        .iv = 0,
+        .lvl = 15,
+        .species = SPECIES_EKANS,
+    },
+    {
+        .iv = 0,
+        .lvl = 15,
+        .species = SPECIES_ZUBAT,
     },
 };
 

@@ -65,6 +65,18 @@ Route10_EventScript_MarkRematch::
 	msgbox Route10_Text_MarkPostBattle, MSGBOX_AUTOCLOSE
 	end
 
+Route10_EventScript_NorthRockTunnelSign::
+	msgbox Route10_Text_RockTunnelDetourToLavender, MSGBOX_SIGN
+	end
+
+Route10_EventScript_PowerPlantSign::
+	msgbox Route10_Text_PowerPlant, MSGBOX_SIGN
+	end
+
+Route10_EventScript_SouthRockTunnelSign::
+	msgbox Route10_Text_RockTunnel, MSGBOX_SIGN
+	end
+
 Route10_EventScript_TrentRematch::
 	msgbox Route10_Text_TrentPostBattle, MSGBOX_AUTOCLOSE
 	end
@@ -134,6 +146,16 @@ Route10_Text_MarkIntro:
 
 Route10_Text_MarkPostBattle:
     .string "I have more rare POKéMON at home!$"
+
+Route10_Text_PowerPlant:
+    .string "POWER PLANT$"
+
+Route10_Text_RockTunnel:
+    .string "ROCK TUNNEL$"
+
+Route10_Text_RockTunnelDetourToLavender:
+    .string "ROCK TUNNEL\n"
+    .string "Detour to LAVENDER TOWN$"
 
 Route10_Text_TrentDefeat:
     .string "That cleared my head!$"

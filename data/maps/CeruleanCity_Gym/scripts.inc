@@ -20,21 +20,6 @@ CeruleanCity_Gym_EventScript_Misty::
 	release
 	end
 
-CeruleanCity_Gym_EventScript_GymGuy::
-	msgbox CeruleanCity_Gym_Text_GymGuyAdvice, MSGBOX_NPC
-	end
-
-CeruleanCity_Gym_Text_GymGuyAdvice:
-    .string "Yo!\n"
-    .string "Champ in the making!\p"
-    .string "Let me give you some advice!\p"
-    .string "The LEADER, MISTY, is a pro who\n"
-    .string "uses WATER-type POKéMON.\p"
-    .string "You can drain all their water with\n"
-    .string "GRASS-type POKéMON.\p"
-    .string "Or, you might use ELECTRIC-type\n"
-    .string "POKéMON and zap them!$"
-
 CeruleanCity_Gym_EventScript_GiveTM03::
 	msgbox CeruleanCity_Gym_Text_ExplainCascadeBadge
 	checkitemspace ITEM_TM03
@@ -43,6 +28,31 @@ CeruleanCity_Gym_EventScript_GiveTM03::
 	setflag FLAG_GOT_TM03_FROM_MISTY
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release
+	end
+
+CeruleanCity_Gym_EventScript_GymGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_MISTY, CeruleanCity_Gym_EventScript_GymGuyPostVictory
+	msgbox CeruleanCity_Gym_Text_GymGuyAdvice
+	release
+	end
+
+CeruleanCity_Gym_EventScript_GymGuyPostVictory::
+	msgbox CeruleanCity_Gym_Text_WeMakePrettyGoodTeam
+	release
+	end
+
+CeruleanCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE02_GET, CeruleanCity_Gym_EventScript_GymStatuePostVictory
+	msgbox CeruleanCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+CeruleanCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox CeruleanCity_Gym_Text_GymStatuePlayerWon
+	releaseall
 	end
 
 CeruleanCity_Gym_EventScript_MistyDefeated::
@@ -87,6 +97,29 @@ CeruleanCity_Gym_Text_ExplainTM03:
     .string "TM03 teaches WATER PULSE.\p"
     .string "Use it on an aquatic POKéMON!$"
 
+CeruleanCity_Gym_Text_GymGuyAdvice:
+    .string "Yo!\n"
+    .string "Champ in the making!\p"
+    .string "Let me give you some advice!\p"
+    .string "The LEADER, MISTY, is a pro who\n"
+    .string "uses WATER-type POKéMON.\p"
+    .string "You can drain all their water with\n"
+    .string "GRASS-type POKéMON.\p"
+    .string "Or, you might use ELECTRIC-type\n"
+    .string "POKéMON and zap them!$"
+
+CeruleanCity_Gym_Text_GymStatue:
+    .string "CERULEAN POKéMON GYM\n"
+    .string "LEADER: MISTY\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+CeruleanCity_Gym_Text_GymStatuePlayerWon:
+    .string "CERULEAN POKéMON GYM\n"
+    .string "LEADER: MISTY\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
+
 CeruleanCity_Gym_Text_LuisDefeat:
     .string "That can't be!$"
 
@@ -115,5 +148,11 @@ CeruleanCity_Gym_Text_MistyIntro:
     .string "catch and train POKéMON?\p"
     .string "My policy is an all-out offensive\n"
     .string "with WATER-type POKéMON!{PLAY_BGM}{MUS_RG_ENCOUNTER_GYM_LEADER}$"
+
+CeruleanCity_Gym_Text_WeMakePrettyGoodTeam:
+    .string "You beat MISTY!\n"
+    .string "See, what'd I tell ya?\p"
+    .string "You and me, kid, we make a pretty\n"
+    .string "darn-good team!$"
 
 @ END KANTO NPCS

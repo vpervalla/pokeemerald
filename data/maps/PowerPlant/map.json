@@ -102,7 +102,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "0x0",
+      "script": "PowerPlant_EventScript_Electrode2",
       "flag": "FLAG_HIDE_POWER_PLANT_ELECTRODE_2"
     },
     {
@@ -115,7 +115,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "0x0",
+      "script": "PowerPlant_EventScript_Electrode1",
       "flag": "FLAG_HIDE_POWER_PLANT_ELECTRODE_1"
     }
   ],
@@ -157,5 +157,22 @@
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 29,
+      "y": 16,
+      "elevation": 3,
+      "item": "ITEM_MAX_ELIXIR",
+      "flag": "FLAG_HIDDEN_ITEM_POWER_PLANT_MAX_ELIXIR"
+    },
+    {
+      "type": "hidden_item",
+      "x": 8,
+      "y": 12,
+      "elevation": 3,
+      "item": "ITEM_THUNDER_STONE",
+      "flag": "FLAG_HIDDEN_ITEM_POWER_PLANT_THUNDER_STONE"
+    }
+  ]
 }

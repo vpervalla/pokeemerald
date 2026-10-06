@@ -45,20 +45,6 @@ SaffronCity_Gym_EventScript_Tyron::
 	msgbox SaffronCity_Gym_Text_TyronPostBattle, MSGBOX_AUTOCLOSE
 	end
 
-SaffronCity_Gym_EventScript_GymGuy::
-	msgbox SaffronCity_Gym_Text_GymGuyAdvice, MSGBOX_NPC
-	end
-
-SaffronCity_Gym_Text_GymGuyAdvice:
-    .string "Yo!\n"
-    .string "Champ in the making!\p"
-    .string "SABRINA's POKéMON use psychic\n"
-    .string "power instead of force.\p"
-    .string "FIGHTING POKéMON are especially\n"
-    .string "weak against PSYCHIC POKéMON.\p"
-    .string "They'll get destroyed before they\n"
-    .string "can even aim a punch!$"
-
 SaffronCity_Gym_EventScript_DefeatedSabrina::
 	clearflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setflag FLAG_DEFEATED_SABRINA
@@ -74,6 +60,31 @@ SaffronCity_Gym_EventScript_GiveTM04::
 	setflag FLAG_GOT_TM04_FROM_SABRINA
 	msgbox SaffronCity_Gym_Text_SabrinaPostBattle
 	release
+	end
+
+SaffronCity_Gym_EventScript_GymGuy::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_SABRINA, SaffronCity_Gym_EventScript_GymGuyPostVictory
+	msgbox SaffronCity_Gym_Text_GymGuyAdvice
+	release
+	end
+
+SaffronCity_Gym_EventScript_GymGuyPostVictory::
+	msgbox SaffronCity_Gym_Text_GymGuyPostVictory
+	release
+	end
+
+SaffronCity_Gym_EventScript_GymStatue::
+	lockall
+	goto_if_set FLAG_BADGE06_GET, SaffronCity_Gym_EventScript_GymStatuePostVictory
+	msgbox SaffronCity_Gym_Text_GymStatue
+	releaseall
+	end
+
+SaffronCity_Gym_EventScript_GymStatuePostVictory::
+	msgbox SaffronCity_Gym_Text_GymStatuePlayerWon
+	releaseall
 	end
 
 SaffronCity_Gym_EventScript_NoRoomForTM04::
@@ -127,6 +138,33 @@ SaffronCity_Gym_Text_ExplainTM04:
     .string "TM04 is CALM MIND.\p"
     .string "It makes the POKéMON concentrate\n"
     .string "to raise both SP. ATK and SP. DEF.$"
+
+SaffronCity_Gym_Text_GymGuyAdvice:
+    .string "Yo!\n"
+    .string "Champ in the making!\p"
+    .string "SABRINA's POKéMON use psychic\n"
+    .string "power instead of force.\p"
+    .string "FIGHTING POKéMON are especially\n"
+    .string "weak against PSYCHIC POKéMON.\p"
+    .string "They'll get destroyed before they\n"
+    .string "can even aim a punch!$"
+
+SaffronCity_Gym_Text_GymGuyPostVictory:
+    .string "Psychic power, huh?\p"
+    .string "If I had that, I'd make a bundle\n"
+    .string "at the slots!$"
+
+SaffronCity_Gym_Text_GymStatue:
+    .string "SAFFRON POKéMON GYM\n"
+    .string "LEADER: SABRINA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}$"
+
+SaffronCity_Gym_Text_GymStatuePlayerWon:
+    .string "SAFFRON POKéMON GYM\n"
+    .string "LEADER: SABRINA\p"
+    .string "WINNING TRAINERS:\n"
+    .string "{RIVAL}, {PLAYER}$"
 
 SaffronCity_Gym_Text_JohanDefeat:
     .string "I never foresaw this!$"
