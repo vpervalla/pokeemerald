@@ -930,12 +930,7 @@ static void Cmd_attackcanceler(void)
      && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
      && gCurrentMove != MOVE_STRUGGLE)
     {
-        if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE)
-            gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
-        else if (gBattleMons[gBattlerAttacker].ability == ABILITY_REFRIGERATE)
-            gBattleStruct->dynamicMoveType = TYPE_ICE | F_DYNAMIC_TYPE_SET;
-        else
-            gBattleStruct->dynamicMoveType = TYPE_FAIRY | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->dynamicMoveType = GetAteAbilityType(gBattleMons[gBattlerAttacker].ability) | F_DYNAMIC_TYPE_SET;
         gBattleStruct->ateBoost = TRUE;
     }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
@@ -1359,9 +1354,19 @@ static void Cmd_damagecalc(void)
 void AI_CalcDmg(u8 attacker, u8 defender)
 {
     u16 sideStatus = gSideStatuses[GET_BATTLER_SIDE(defender)];
+    u8 moveType = gBattleStruct->dynamicMoveType;
+    bool8 savedAteBoost = gBattleStruct->ateBoost;
+
+    // An -ate ability changes the move's type (and so physical or special) and its power.
+    if (moveType == 0 && GetMoveTypeForBattler(attacker, gCurrentMove) != gBattleMoves[gCurrentMove].type)
+    {
+        moveType = GetMoveTypeForBattler(attacker, gCurrentMove) | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->ateBoost = TRUE;
+    }
     gBattleMoveDamage = CalculateBaseDamage(&gBattleMons[attacker], &gBattleMons[defender], gCurrentMove,
                                             sideStatus, gDynamicBasePower,
-                                            gBattleStruct->dynamicMoveType, attacker, defender);
+                                            moveType, attacker, defender);
+    gBattleStruct->ateBoost = savedAteBoost;
     gDynamicBasePower = 0;
     gBattleMoveDamage = gBattleMoveDamage * gCritMultiplier * gBattleScripting.dmgMultiplier;
 
@@ -1600,7 +1605,7 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     if (move == MOVE_STRUGGLE)
         return 0;
 
-    moveType = gBattleMoves[move].type;
+    moveType = GetMoveTypeForBattler(attacker, move);
 
     // check stab
     if (IS_BATTLER_OF_TYPE(attacker, moveType))

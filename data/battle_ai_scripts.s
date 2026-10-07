@@ -91,6 +91,7 @@ AI_CheckBadMove_CheckSoundproof_:
 	if_equal MOVE_POWER_OTHER, AI_CheckBadMove_CheckSoundproof  @ Pointless check
 AI_CheckBadMove_CheckSoundproof:
 	get_ability AI_TARGET
+	if_equal ABILITY_MAGIC_BOUNCE, AI_CBM_CheckMagicBounce
 	if_not_equal ABILITY_SOUNDPROOF, AI_CheckBadMove_CheckEffect
 	if_move MOVE_GROWL, Score_Minus10
 	if_move MOVE_ROAR, Score_Minus10
@@ -101,6 +102,13 @@ AI_CheckBadMove_CheckSoundproof:
 	if_move MOVE_UPROAR, Score_Minus10
 	if_move MOVE_METAL_SOUND, Score_Minus10
 	if_move MOVE_GRASS_WHISTLE, Score_Minus10
+	goto AI_CheckBadMove_CheckEffect
+
+@ Magic Bounce sends Magic Coat-affected moves back, unless the user has Mold Breaker.
+AI_CBM_CheckMagicBounce:
+	get_ability AI_USER
+	if_equal ABILITY_MOLD_BREAKER, AI_CheckBadMove_CheckEffect
+	if_move_flag FLAG_MAGIC_COAT_AFFECTED, Score_Minus10
 AI_CheckBadMove_CheckEffect:
 	if_effect EFFECT_SLEEP, AI_CBM_Sleep
 	if_effect EFFECT_EXPLOSION, AI_CBM_Explosion

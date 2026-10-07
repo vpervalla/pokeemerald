@@ -501,7 +501,44 @@ Tested in mGBA, each against the same run without the Mega Stone:
 All 41 Megas of Gen 1–3 species are in: 40 by Mega Stone (both Charizard and
 Mewtwo forms included) and Mega Rayquaza by Dragon Ascent.
 
-**Next:** phase 5 (integration).
+### Phase 5 status: in progress
+
+**Done: the opponent and partner AI.** The story parts (the Mega Ring event, stone
+placement, trainer parties) are still to do.
+
+- `ShouldAIMegaEvolve`: trainers' Pokémon and the in-game partner Mega Evolve whenever
+  `CanMegaEvolve` allows it. Wild Pokémon never do, even holding a Mega Stone.
+- `OpponentHandleChooseMove` and `PlayerPartnerHandleChooseMove` set
+  `RET_MEGA_EVOLUTION`. Before the AI scores its moves, `SetBattleMonToMegaForAI` gives
+  the battler its Mega stats, types and ability, and `RestoreBattleMonAfterAI` puts its
+  data back afterwards. So the AI picks its move as the Mega it is about to become: for
+  example, its speed checks use the Mega's Speed.
+- The AI knows -ate abilities: `GetMoveTypeForBattler` gives a Normal move the
+  Aerilate, Refrigerate or Pixilate type in `TypeCalc`, `AI_CalcDmg` (with the 1.2x)
+  and the AI's `get_curr_move_type`.
+- The AI doesn't use Magic Coat-affected moves on a Magic Bounce target, unless it has
+  Mold Breaker. This uses a new AI script command, `if_move_flag` (0x52, an unused
+  slot before).
+- Mega Evolving records the new ability for the AI (`RecordAbilityBattle`), so it
+  doesn't keep using the ability it saw before (Absol's Pressure on a Mega Absol).
+- In a double battle, the engine already allows one Mega per trainer: when both of a
+  trainer's Pokémon hold a stone, the first to choose Mega Evolves.
+
+Tested in mGBA against Wallace's AI (and Tate and Liza's for doubles), over 4 RNG seeds:
+- The trainer's Gardevoir Mega Evolves on turn 1. A wild Gardevoir holding the stone
+  doesn't.
+- Against a Gengar, an Altaria holding Altarianite with Body Slam and Double Kick
+  always uses Body Slam (Pixilate makes it Fairy, which hits Ghosts). Without the
+  stone it picks either, since neither affects Gengar.
+- Against a Sableye that Mega Evolves on turn 1, the AI's Thunder Wave on turn 1 is
+  bounced; on turn 2 it uses Ember instead, on every seed.
+- In a double battle with Gardevoir (Gardevoirite) and Altaria (Altarianite), only
+  Gardevoir Mega Evolves, on both turns.
+- The earlier scenarios still pass.
+- Not tested in a real game yet: the partner (Steven in the Mossdeep multi battle), since
+  no partner holds a stone until the trainer parties are done.
+
+**Next:** the Mega Ring event, stone placement and trainer parties.
 
 ## 9. Testing
 
