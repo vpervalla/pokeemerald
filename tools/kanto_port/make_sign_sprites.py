@@ -6,9 +6,12 @@ Pokemon Center and Mart: only the ball's red or blue pixels go in the sprite, so
 the ball's white band stay part of the tinted building. They are taken from inside the emblem plate,
 row by row between the leftmost and rightmost pixel of its outline (palette colour 6; rows without
 outline pixels reuse the previous row's span), since the roof shares the ball's colours.
-Gym: the whole gold sign above the door glows, everything inside its grey frame (the sign's colours
-are only used by it within those metatiles, so no outline is needed). It fills the sprite's top half.
-The sprites only show while the lights are on, so their palettes hold brightened sign colours."""
+Gym: only the Poke Ball in the middle of the gold sign above the door glows, so the plate stays
+tinted. Its pixels are taken row by row between the leftmost and rightmost pixel of the ball's light
+ring (colours 1, 2 and 7, within the ball's columns, as the plate's edges share them), which takes in
+the gold between the ring and the centre button; the grey band across the ball stays tinted. The
+ball fills the middle of the sprite's top half.
+The sprites only show while the lights are on, so their palettes hold brightened ball colours."""
 import struct
 from PIL import Image
 
@@ -16,6 +19,10 @@ P = "data/tilesets/primary/kanto_general/"
 OUTLINE = 6
 BALL_COLORS = {11, 12, 13, 14}
 GYM_COLORS = {1, 2, 6, 7, 8, 9}
+# Colours bounding the glowing pixels in each row, the columns they're looked for in, and whether rows
+# without them reuse the previous row's span.
+OUTLINE_EDGE = ({OUTLINE}, 0, 63, True)
+GYM_BALL_EDGE = ({1, 2, 7}, 16, 31, False)
 
 def brighten(c):
     return tuple(min(255, round(v * 1.25 + 24)) for v in c)
@@ -23,11 +30,11 @@ def brighten(c):
 def brighten_gold(c):
     return tuple(min(255, round(v * 1.1 + 12)) for v in c)
 # name: (palette, metatile rows, pixel x of the sprite's left edge within those rows, glowing colours,
-#        whether to keep only pixels inside the outline, brighten function)
+#        edge of the glowing pixels, brighten function)
 SIGNS = {
-    "pokemon_center": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, True, brighten),
-    "mart": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, True, brighten),
-    "gym": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, False, brighten_gold),
+    "pokemon_center": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
+    "mart": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
+    "gym": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
 }
 
 tiles_im = Image.open(P + "tiles.png")
@@ -56,7 +63,7 @@ def compose(m, pal):
 def jasc(path):
     return [tuple(map(int, l.split())) for l in open(path).read().split("\n")[3:19]]
 
-for name, (pal, rows, left, glow, outlined, bright) in SIGNS.items():
+for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright) in SIGNS.items():
     grid = []
     for row in rows:
         parts = [compose(m, pal) for m in row]
@@ -65,12 +72,10 @@ for name, (pal, rows, left, glow, outlined, bright) in SIGNS.items():
     out = Image.new("P", (32, 32), 0)
     span = None
     for y in range(len(grid)):
-        xs = [x for x, c in enumerate(grid[y]) if c == OUTLINE]
-        if not outlined:
-            span = (0, len(grid[y]) - 1)
-        elif len(xs) >= 2:
+        xs = [x for x, c in enumerate(grid[y]) if c in edge and lo <= x <= hi]
+        if len(xs) >= 2:
             span = (min(xs), max(xs))
-        elif span is None:
+        elif span is None or not reuse:
             continue
         for x in range(span[0], span[1] + 1):
             c = grid[y][x]

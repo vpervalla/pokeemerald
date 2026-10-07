@@ -307,7 +307,7 @@ static const struct GlowingSign sGlowingSigns[] =
      {sPokemonCenterSign_Gfx, 32 * 32 / 2, TAG_SIGN_POKEMON_CENTER}, {sPokemonCenterSign_Pal, TAG_SIGN_POKEMON_CENTER}},
     {METATILE_KANTO_MART_EMBLEM_LEFT, 0, -16, &sSpriteTemplate_MartSign,
      {sMartSign_Gfx, 32 * 32 / 2, TAG_SIGN_MART}, {sMartSign_Pal, TAG_SIGN_MART}},
-    // The gold sign above the door is only 16 pixels tall, in the sprite's top half.
+    // The ball on the gold sign above the door is in the sprite's top half.
     {METATILE_KANTO_GYM_EMBLEM, -8, 0, &sSpriteTemplate_GymSign,
      {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGymSign_Pal, TAG_SIGN_GYM}},
 };
