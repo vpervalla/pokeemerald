@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Cut the Poke Ball emblems of the Pokemon Center, Mart and Gyms and the Pokemon Center's "P.C" sign out
-of kanto_general into 32x32 sprites, and the glass of their doors into 16x16 ones, which src/day_night.c
+"""Cut the Poke Ball emblems of the Pokemon Center, Mart and Gyms and their "P.C", "MART" and "GYM" signs
+out of kanto_general into 32x32 sprites, and the glass of their doors into 16x16 ones, which src/day_night.c
 lays over them at night so they glow. Run from the pokeemerald root.
 
 Pokemon Center and Mart: only the ball's red or blue pixels go in the sprite, so the grey plate and
@@ -12,7 +12,8 @@ tinted. Its pixels are taken row by row between the leftmost and rightmost pixel
 ring (colours 1, 2 and 7, within the ball's columns, as the plate's edges share them), which takes in
 the gold between the ring and the centre button; the grey band across the ball stays tinted. The
 ball fills the middle of the sprite's top half.
-"P.C" sign: its red letters, which use the Pokemon Center ball's colours.
+"P.C", "MART" and "GYM" signs: their red letters, which use the Pokemon Center ball's colours (MART's
+muted anti-aliasing pixels stay tinted).
 Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lit like the windows
 (the same warm light as LitGlassColor in day_night.c). A door's sprite is a strip of 16x16 frames: the
 closed door, then the glass of each frame of its opening animation (graphics/door_anims/kanto), which
@@ -53,6 +54,8 @@ SIGNS = {
     "pokemon_center_sign": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
     "mart_sign": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
     "pokemon_center_text": (2, [[0x60, 0x61]], 0, BALL_COLORS, (BALL_COLORS, 0, 31, False), brighten),
+    "mart_text": (2, [[0x40, 0x41]], 0, BALL_COLORS, (BALL_COLORS, 0, 31, False), brighten),
+    "gym_text": (2, [[0x151], [0x159]], 0, BALL_COLORS, (BALL_COLORS, 0, 15, False), brighten),
     "gym_sign": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
     "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16, "sliding_single"),  # Pokemon Center, Mart
     "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16, "sliding_double"),
