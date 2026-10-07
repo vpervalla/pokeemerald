@@ -14,7 +14,12 @@ the gold between the ring and the centre button; the grey band across the ball s
 ball fills the middle of the sprite's top half.
 Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lightened towards a
 warm white. day_night.c only half tints them, so a faint light seems to come through the glass.
-The sprites only show while the lights are on, so their palettes hold brightened colours."""
+The sprites only show while the lights are on, so their palettes hold brightened colours.
+
+The overworld leaves few sprite palette slots free, so all the sprites share one palette: each
+source palette's glowing colours (one group per tileset palette and brightening) get their own range of
+it, in the order of SIGNS. Every PNG carries the whole shared palette; day_night.c takes it from the
+first one and half tints the door glass's range (printed below)."""
 import struct
 from PIL import Image
 
@@ -73,6 +78,7 @@ def compose(m, pal):
 def jasc(path):
     return [tuple(map(int, l.split())) for l in open(path).read().split("\n")[3:19]]
 
+sprites = {}
 for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *size) in SIGNS.items():
     size = size[0] if size else 32
     grid = []
@@ -92,9 +98,24 @@ for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *size) in SIGNS
             c = grid[y][x]
             if c in glow and left <= x < left + size:
                 out.putpixel((x - left, y), c)
+    sprites[name] = (out, (pal, bright))
+
+# The shared palette: index 0 is transparent, then each group's colours that the sprites use.
+shared = [(255, 0, 255)]
+remap = {}
+for name, (out, group) in sprites.items():
+    pal, bright = group
     colors = jasc(f"{P}palettes/{pal:02d}.pal")
-    colors[0] = (255, 0, 255)  # transparent
-    colors = [bright(c) if i in glow else c for i, c in enumerate(colors)]
-    out.putpalette([v for c in colors for v in c])
+    for c in sorted(set(out.get_flattened_data()) - {0}):
+        if (group, c) not in remap:
+            remap[(group, c)] = len(shared)
+            shared.append(bright(colors[c]))
+    first = min(remap[(group, c)] for c in set(out.get_flattened_data()) - {0})
+    last = max(remap[(group, c)] for c in set(out.get_flattened_data()) - {0})
+    print(f"{name}: shared colours {first}-{last}")
+assert len(shared) <= 16, "the glowing colours don't fit in one palette"
+shared += [(0, 0, 0)] * (16 - len(shared))
+for name, (out, group) in sprites.items():
+    out = out.point(lambda c: remap.get((group, c), 0))
+    out.putpalette([v for c in shared for v in c])
     out.save(f"graphics/day_night/{name}.png")
-    print("wrote", name)

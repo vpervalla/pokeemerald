@@ -237,12 +237,15 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 // of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
 // Their glass doors let a little light through: sprites of the glass, lightened and only half tinted,
 // which step aside while the door is open.
+// The overworld leaves only a couple of sprite palette slots free, so the sprites share one palette
+// (made by the script): colours 1-12 are the emblems', untinted, and 13-15 the door glass, half tinted.
 #define TAG_SIGN_POKEMON_CENTER 0x2E00
 #define TAG_SIGN_MART           0x2E01
 #define TAG_SIGN_GYM            0x2E02
 #define TAG_DOOR_SLIDING        0x2E03
 #define TAG_DOOR_GYM            0x2E04
-#define TAG_DOOR_GLASS          0x2E05 // Palette of both doors' glass
+#define TAG_GLOW_PAL            0x2E05
+#define GLOW_PAL_GLASS_COLORS   COLORS(13, 15)
 #define MAX_SIGN_SPRITES        8
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
 #define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
@@ -256,14 +259,11 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define sIsDoor data[2]
 
 static const u32 sPokemonCenterSign_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_sign.png", ".4bpp");
-static const u16 sPokemonCenterSign_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
+static const u16 sGlow_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
 static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png", ".4bpp");
-static const u16 sMartSign_Pal[] = INCGFX_U16("graphics/day_night/mart_sign.png", ".gbapal");
 static const u32 sGymSign_Gfx[] = INCGFX_U32("graphics/day_night/gym_sign.png", ".4bpp");
-static const u16 sGymSign_Pal[] = INCGFX_U16("graphics/day_night/gym_sign.png", ".gbapal");
 static const u32 sSlidingDoor_Gfx[] = INCGFX_U32("graphics/day_night/sliding_door.png", ".4bpp");
 static const u32 sGymDoor_Gfx[] = INCGFX_U32("graphics/day_night/gym_door.png", ".4bpp");
-static const u16 sDoorGlass_Pal[] = INCGFX_U16("graphics/day_night/sliding_door.png", ".gbapal");
 
 static const struct OamData sOam_Sign =
 {
@@ -292,7 +292,7 @@ static void SpriteCB_Sign(struct Sprite *sprite);
 static const struct SpriteTemplate sSpriteTemplate_PokemonCenterSign =
 {
     .tileTag = TAG_SIGN_POKEMON_CENTER,
-    .paletteTag = TAG_SIGN_POKEMON_CENTER,
+    .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Sign,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -303,7 +303,7 @@ static const struct SpriteTemplate sSpriteTemplate_PokemonCenterSign =
 static const struct SpriteTemplate sSpriteTemplate_MartSign =
 {
     .tileTag = TAG_SIGN_MART,
-    .paletteTag = TAG_SIGN_MART,
+    .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Sign,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -314,7 +314,7 @@ static const struct SpriteTemplate sSpriteTemplate_MartSign =
 static const struct SpriteTemplate sSpriteTemplate_GymSign =
 {
     .tileTag = TAG_SIGN_GYM,
-    .paletteTag = TAG_SIGN_GYM,
+    .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_SignTopLayer,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -325,7 +325,7 @@ static const struct SpriteTemplate sSpriteTemplate_GymSign =
 static const struct SpriteTemplate sSpriteTemplate_SlidingDoor =
 {
     .tileTag = TAG_DOOR_SLIDING,
-    .paletteTag = TAG_DOOR_GLASS,
+    .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Door,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -336,7 +336,7 @@ static const struct SpriteTemplate sSpriteTemplate_SlidingDoor =
 static const struct SpriteTemplate sSpriteTemplate_GymDoor =
 {
     .tileTag = TAG_DOOR_GYM,
-    .paletteTag = TAG_DOOR_GLASS,
+    .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Door,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -358,16 +358,16 @@ struct GlowingSign
 static const struct GlowingSign sGlowingSigns[] =
 {
     {METATILE_KANTO_POKEMON_CENTER_EMBLEM, -8, -16, 32, FALSE, &sSpriteTemplate_PokemonCenterSign,
-     {sPokemonCenterSign_Gfx, 32 * 32 / 2, TAG_SIGN_POKEMON_CENTER}, {sPokemonCenterSign_Pal, TAG_SIGN_POKEMON_CENTER}},
+     {sPokemonCenterSign_Gfx, 32 * 32 / 2, TAG_SIGN_POKEMON_CENTER}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_MART_EMBLEM_LEFT, 0, -16, 32, FALSE, &sSpriteTemplate_MartSign,
-     {sMartSign_Gfx, 32 * 32 / 2, TAG_SIGN_MART}, {sMartSign_Pal, TAG_SIGN_MART}},
+     {sMartSign_Gfx, 32 * 32 / 2, TAG_SIGN_MART}, {sGlow_Pal, TAG_GLOW_PAL}},
     // The ball on the gold sign above the door is in the sprite's top half.
     {METATILE_KANTO_GYM_EMBLEM, -8, 0, 32, FALSE, &sSpriteTemplate_GymSign,
-     {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGymSign_Pal, TAG_SIGN_GYM}},
+     {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_SLIDING_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_SlidingDoor,
-     {sSlidingDoor_Gfx, 16 * 16 / 2, TAG_DOOR_SLIDING}, {sDoorGlass_Pal, TAG_DOOR_GLASS}},
+     {sSlidingDoor_Gfx, 16 * 16 / 2, TAG_DOOR_SLIDING}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_GYM_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_GymDoor,
-     {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sDoorGlass_Pal, TAG_DOOR_GLASS}},
+     {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
 };
 
 static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
@@ -652,9 +652,12 @@ void DayNight_UpdateField(void)
         u16 tag = GetSpritePaletteTagByPaletteNum(i);
 
         tintedColors[i] = (i < NUM_PALS_TOTAL) ? ALL_COLORS : 0;
-        tintedColors[OBJ_PAL(i)] = (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART || tag == TAG_SIGN_GYM) ? 0 : ALL_COLORS;
-        if (tag == TAG_DOOR_GLASS)
+        tintedColors[OBJ_PAL(i)] = ALL_COLORS;
+        if (tag == TAG_GLOW_PAL)
+        {
+            tintedColors[OBJ_PAL(i)] = GLOW_PAL_GLASS_COLORS;
             halfTintedObjPals |= 1 << i;
+        }
     }
     UpdateTint(reentered, tintedColors, halfTintedObjPals, TRUE);
 }
