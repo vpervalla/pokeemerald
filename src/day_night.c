@@ -231,20 +231,24 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
     }
 }
 
-// The Poke Ball emblems on Pokemon Centers and Marts glow while the windows are lit. Their colours are
-// shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
+// The Poke Ball emblems on Pokemon Centers, Marts and Gyms glow while the windows are lit. Their colours
+// are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
 // of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
 #define TAG_SIGN_POKEMON_CENTER 0x2E00
 #define TAG_SIGN_MART           0x2E01
+#define TAG_SIGN_GYM            0x2E02
 #define MAX_SIGN_SPRITES        4
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
 #define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
 #define METATILE_KANTO_MART_EMBLEM_LEFT      0x039
+#define METATILE_KANTO_GYM_EMBLEM            0x153
 
 static const u32 sPokemonCenterSign_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_sign.png", ".4bpp");
 static const u16 sPokemonCenterSign_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
 static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png", ".4bpp");
 static const u16 sMartSign_Pal[] = INCGFX_U16("graphics/day_night/mart_sign.png", ".gbapal");
+static const u32 sGymSign_Gfx[] = INCGFX_U32("graphics/day_night/gym_sign.png", ".4bpp");
+static const u16 sGymSign_Pal[] = INCGFX_U16("graphics/day_night/gym_sign.png", ".gbapal");
 
 static const struct OamData sOam_Sign =
 {
@@ -277,6 +281,17 @@ static const struct SpriteTemplate sSpriteTemplate_MartSign =
     .callback = SpriteCB_Sign,
 };
 
+static const struct SpriteTemplate sSpriteTemplate_GymSign =
+{
+    .tileTag = TAG_SIGN_GYM,
+    .paletteTag = TAG_SIGN_GYM,
+    .oam = &sOam_Sign,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
 struct GlowingSign
 {
     u16 metatileId;
@@ -292,6 +307,9 @@ static const struct GlowingSign sGlowingSigns[] =
      {sPokemonCenterSign_Gfx, 32 * 32 / 2, TAG_SIGN_POKEMON_CENTER}, {sPokemonCenterSign_Pal, TAG_SIGN_POKEMON_CENTER}},
     {METATILE_KANTO_MART_EMBLEM_LEFT, 0, -16, &sSpriteTemplate_MartSign,
      {sMartSign_Gfx, 32 * 32 / 2, TAG_SIGN_MART}, {sMartSign_Pal, TAG_SIGN_MART}},
+    // The gold sign above the door is only 16 pixels tall, in the sprite's top half.
+    {METATILE_KANTO_GYM_EMBLEM, -8, 0, &sSpriteTemplate_GymSign,
+     {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGymSign_Pal, TAG_SIGN_GYM}},
 };
 
 static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
@@ -550,7 +568,7 @@ void DayNight_UpdateField(void)
         u16 tag = GetSpritePaletteTagByPaletteNum(i);
 
         tintedColors[i] = (i < NUM_PALS_TOTAL) ? ALL_COLORS : 0;
-        tintedColors[OBJ_PAL(i)] = (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART) ? 0 : ALL_COLORS;
+        tintedColors[OBJ_PAL(i)] = (tag == TAG_SIGN_POKEMON_CENTER || tag == TAG_SIGN_MART || tag == TAG_SIGN_GYM) ? 0 : ALL_COLORS;
     }
     UpdateTint(reentered, tintedColors, TRUE);
 }
