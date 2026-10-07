@@ -468,5 +468,6 @@ const struct CompressedSpritePalette gMonShinyPaletteTable[] =
     SPECIES_SHINY_PAL(SALAMENCE_MEGA, gMonShinyPalette_SalamenceMega),
     SPECIES_SHINY_PAL(METAGROSS_MEGA, gMonShinyPalette_MetagrossMega),
     SPECIES_SHINY_PAL(AMPHAROS_MEGA, gMonShinyPalette_AmpharosMega),
+    SPECIES_SHINY_PAL(BEEDRILL_MEGA, gMonShinyPalette_BeedrillMega),
     // </mega-evolutions>
 };

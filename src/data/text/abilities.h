@@ -84,6 +84,7 @@ static const u8 sDeltaStreamDescription[] = _("Summons strong winds.");
 static const u8 sSteadfastDescription[] = _("Flinching raises SPEED.");
 static const u8 sAerilateDescription[] = _("NORMAL moves become FLYING.");
 static const u8 sParentalBondDescription[] = _("Attacks twice in a row.");
+static const u8 sAdaptabilityDescription[] = _("Powers up same-type moves.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -173,6 +174,7 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_STEADFAST] = _("STEADFAST"),
     [ABILITY_AERILATE] = _("AERILATE"),
     [ABILITY_PARENTAL_BOND] = _("PARENTALBOND"),
+    [ABILITY_ADAPTABILITY] = _("ADAPTABILITY"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -263,4 +265,5 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_STEADFAST] = sSteadfastDescription,
     [ABILITY_AERILATE] = sAerilateDescription,
     [ABILITY_PARENTAL_BOND] = sParentalBondDescription,
+    [ABILITY_ADAPTABILITY] = sAdaptabilityDescription,
 };

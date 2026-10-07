@@ -434,6 +434,16 @@ Tested in mGBA:
   is back afterwards.
 - The earlier scenarios still pass.
 
+**Done: Mega Beedrill** (Bug/Poison), with **Adaptability** (`ABILITY_ADAPTABILITY` 86):
+moves that share a type with the user (STAB) get 2x instead of 1.5x. This is in
+`Cmd_typecalc` and in `TypeCalc`, which the AI uses.
+
+Tested in mGBA:
+- Mega Beedrill Mega Evolves on both sides, with the right sprites.
+- Its Megahorn did 169 damage. The same run with the ability removed right after Mega
+  Evolving did 126. The ratio is 1.34, matching 2.0 / 1.5.
+- The earlier scenarios still pass.
+
 **Next:**
 - **The other Megas:** those with abilities from section 6 that this game doesn't have.
   Gardevoir and Altaria (Pixilate) need a decision, because this game has no Fairy type.

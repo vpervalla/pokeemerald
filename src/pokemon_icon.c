@@ -491,6 +491,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_SALAMENCE_MEGA] = gMonIcon_Salamence,
     [SPECIES_METAGROSS_MEGA] = gMonIcon_Metagross,
     [SPECIES_AMPHAROS_MEGA] = gMonIcon_Ampharos,
+    [SPECIES_BEEDRILL_MEGA] = gMonIcon_Beedrill,
     // </mega-evolutions>
 };
 
@@ -964,6 +965,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_SALAMENCE_MEGA] = 0,
     [SPECIES_METAGROSS_MEGA] = 0,
     [SPECIES_AMPHAROS_MEGA] = 0,
+    [SPECIES_BEEDRILL_MEGA] = 2,
     // </mega-evolutions>
 };
 

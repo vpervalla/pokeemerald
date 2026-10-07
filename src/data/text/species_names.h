@@ -439,5 +439,6 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_SALAMENCE_MEGA] = _("SALAMENCE"),
     [SPECIES_METAGROSS_MEGA] = _("METAGROSS"),
     [SPECIES_AMPHAROS_MEGA] = _("AMPHAROS"),
+    [SPECIES_BEEDRILL_MEGA] = _("BEEDRILL"),
     // </mega-evolutions>
 };

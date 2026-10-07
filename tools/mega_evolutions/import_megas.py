@@ -54,6 +54,7 @@ MEGAS = [
  ('SALAMENCE_MEGA',  'SALAMENCE', 'salamence/mega',  'SalamenceMega', 'SALAMENCITE',   'SALAMENCITE',   'salamencite',    (95,145,130,120,120,90),  ('DRAGON','FLYING'),  'AERILATE'),
  ('METAGROSS_MEGA',  'METAGROSS', 'metagross/mega',  'MetagrossMega', 'METAGROSSITE',  'METAGROSSITE',  'metagrossite',   (80,145,150,110,105,110), ('STEEL','PSYCHIC'),  'TOUGH_CLAWS'),
  ('AMPHAROS_MEGA',   'AMPHAROS',  'ampharos/mega',   'AmpharosMega',  'AMPHAROSITE',   'AMPHAROSITE',   'ampharosite',    (90,95,105,45,165,110),   ('ELECTRIC','DRAGON'),'MOLD_BREAKER'),
+ ('BEEDRILL_MEGA',   'BEEDRILL',  'beedrill/mega',   'BeedrillMega',  'BEEDRILLITE',   'BEEDRILLITE',   'beedrillite',    (65,150,40,145,15,80),    ('BUG','POISON'),     'ADAPTABILITY'),
 ]
 
 # Megas that need a move instead of a Mega Stone

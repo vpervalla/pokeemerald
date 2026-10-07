@@ -1400,7 +1400,8 @@ static void Cmd_typecalc(void)
     // check stab
     if (IS_BATTLER_OF_TYPE(gBattlerAttacker, moveType))
     {
-        gBattleMoveDamage = gBattleMoveDamage * 15;
+        // Adaptability makes it 2x instead of 1.5x
+        gBattleMoveDamage = gBattleMoveDamage * (gBattleMons[gBattlerAttacker].ability == ABILITY_ADAPTABILITY ? 20 : 15);
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
 
@@ -1579,7 +1580,8 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     // check stab
     if (IS_BATTLER_OF_TYPE(attacker, moveType))
     {
-        gBattleMoveDamage = gBattleMoveDamage * 15;
+        // Adaptability makes it 2x instead of 1.5x
+        gBattleMoveDamage = gBattleMoveDamage * (gBattleMons[attacker].ability == ABILITY_ADAPTABILITY ? 20 : 15);
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
 

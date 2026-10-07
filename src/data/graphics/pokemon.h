@@ -2932,4 +2932,8 @@ const u32 gMonStillFrontPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/amphar
 const u32 gMonBackPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_BeedrillMega[] = INCGFX_U32("graphics/pokemon/beedrill/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_BeedrillMega[] = INCGFX_U32("graphics/pokemon/beedrill/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_BeedrillMega[] = INCGFX_U32("graphics/pokemon/beedrill/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_BeedrillMega[] = INCGFX_U32("graphics/pokemon/beedrill/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

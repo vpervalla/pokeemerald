@@ -792,4 +792,6 @@ const u32 gItemIcon_Metagrossite[] = INCGFX_U32("graphics/items/icons/metagrossi
 const u32 gItemIconPalette_Metagrossite[] = INCGFX_U32("graphics/items/icon_palettes/metagrossite.pal", ".gbapal.lz");
 const u32 gItemIcon_Ampharosite[] = INCGFX_U32("graphics/items/icons/ampharosite.png", ".4bpp.lz");
 const u32 gItemIconPalette_Ampharosite[] = INCGFX_U32("graphics/items/icon_palettes/ampharosite.pal", ".gbapal.lz");
+const u32 gItemIcon_Beedrillite[] = INCGFX_U32("graphics/items/icons/beedrillite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Beedrillite[] = INCGFX_U32("graphics/items/icon_palettes/beedrillite.pal", ".gbapal.lz");
 // </mega-evolutions>

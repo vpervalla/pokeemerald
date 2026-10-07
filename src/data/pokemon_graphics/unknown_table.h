@@ -469,5 +469,6 @@ static const u32 sUnused[] =
     [SPECIES_SALAMENCE_MEGA] = 0x88,
     [SPECIES_METAGROSS_MEGA] = 0x88,
     [SPECIES_AMPHAROS_MEGA] = 0x888,
+    [SPECIES_BEEDRILL_MEGA] = 0x888,
     // </mega-evolutions>
 };

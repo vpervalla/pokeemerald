@@ -1685,4 +1685,9 @@ static const u8 sAmpharositeDesc[] = _(
     "A MEGA STONE that\n"
     "lets AMPHAROS Mega\n"
     "Evolve in battle.");
+
+static const u8 sBeedrilliteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets BEEDRILL Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>
