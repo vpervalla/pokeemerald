@@ -460,5 +460,6 @@ const struct CompressedSpritePalette gMonPaletteTable[] =
     SPECIES_PAL(BLASTOISE_MEGA, gMonPalette_BlastoiseMega),
     SPECIES_PAL(PIDGEOT_MEGA, gMonPalette_PidgeotMega),
     SPECIES_PAL(GYARADOS_MEGA, gMonPalette_GyaradosMega),
+    SPECIES_PAL(RAYQUAZA_MEGA, gMonPalette_RayquazaMega),
     // </mega-evolutions>
 };

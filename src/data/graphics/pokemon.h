@@ -2900,4 +2900,8 @@ const u32 gMonStillFrontPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarad
 const u32 gMonBackPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

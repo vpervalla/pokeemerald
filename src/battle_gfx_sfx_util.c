@@ -582,14 +582,10 @@ bool8 IsBattleSEPlaying(u8 battler)
 static u16 GetBattlerMonSpriteSpecies(struct Pokemon *mon, u8 battler)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES);
-    u16 megaSpecies;
+    u16 megaSpecies = gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]];
 
-    if (gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]])
-    {
-        megaSpecies = GetMegaEvolutionSpecies(species, GetMonData(mon, MON_DATA_HELD_ITEM));
-        if (megaSpecies != SPECIES_NONE)
-            return megaSpecies;
-    }
+    if (megaSpecies != SPECIES_NONE && GetMegaBaseSpecies(megaSpecies) == species)
+        return megaSpecies;
     return species;
 }
 

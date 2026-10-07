@@ -348,9 +348,48 @@ Tested in mGBA:
 - Gengar's Levitate is back after the move.
 - The earlier scenarios still pass.
 
+**Done: Mega Rayquaza** (Dragon/Flying), with Dragon Ascent (option a) and Delta Stream:
+
+- **Dragon Ascent** (`MOVE_DRAGON_ASCENT` 355, shown as "DRAGONASCENT"):
+  - A Flying move with 120 power, 100% accuracy, 5 PP and contact. It lowers the user's
+    Defense and Sp. Def by one stage each: `EFFECT_DEF_SPDEF_DOWN_HIT` and
+    `MOVE_EFFECT_DEF_SPDEF_DOWN`, built like Superpower.
+  - Its animation is based on Sky Attack, tinted green.
+  - Rayquaza learns it at level 1, so a caught Rayquaza gets it from the Move Relearner.
+    Phase 5 can add a story event.
+- **Mega Evolving by a move:** `sMegaEvolutions` rows have a `requiredMove`, and
+  Rayquaza's row has no stone.
+  - `GetMoveMegaEvolutionSpecies` and `GetBattlerMegaEvolutionSpecies` find the Mega by
+    stone or by move. The Mega Ring is still required.
+  - The message is "A fervent wish has reached RAYQUAZA!" instead of the stone one.
+  - The import tool supports such rows (`MOVE_MEGAS`).
+- **Remembering the Mega:** each party slot now stores the Mega it became
+  (`megaEvolvedSpecies`), instead of recomputing it from the held item.
+- **Delta Stream** (`ABILITY_DELTA_STREAM` 82) starts strong winds
+  (`B_WEATHER_STRONG_WINDS`), with a message and a short wind animation:
+  - A move that is super effective against the Flying type is neutral against it. This
+    is done in `TYPE_EFFECT_MULTIPLIER`, so damage, Wonder Guard and the AI all see it.
+    Cloud Nine and Air Lock cancel it.
+  - Rain Dance, Sunny Day, Sandstorm and Hail fail, and Drizzle, Drought and Sand Stream
+    don't activate.
+  - The winds end at the end of a turn with no Delta Stream Pokémon left in battle:
+    "The mysterious strong winds have dissipated!".
+
+Tested in mGBA:
+- Mega Evolving through Dragon Ascent, on both sides, with the wish message, Delta Stream
+  and the sprites.
+- Dragon Ascent: 180 → 27 HP, and the user's Defense and Sp. Def −1.
+- Rock Slide did 31 damage to Mega Rayquaza in the winds, against 69 to base Rayquaza.
+- Rain Dance fails.
+- The winds dissipate after Rayquaza switches out.
+- There is no trigger when Rayquaza doesn't know Dragon Ascent.
+- The earlier scenarios still pass.
+
+Known differences from the games:
+- The winds stay until the end of the turn when Rayquaza leaves mid-turn.
+- Gen 6's "The mysterious strong winds weakened the attack!" message isn't shown.
+
 **Next:**
-- **Rayquaza:** needs Delta Stream and a decision on what triggers its Mega Evolution,
-  since Dragon Ascent doesn't exist in Gen 3.
 - **The other Megas:** those with abilities from section 6 that this game doesn't have.
 
 ## 9. Testing

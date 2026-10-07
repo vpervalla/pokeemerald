@@ -464,6 +464,7 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_BLASTOISE_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     [SPECIES_PIDGEOT_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 7 },
     [SPECIES_GYARADOS_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 2 },
+    [SPECIES_RAYQUAZA_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     // </mega-evolutions>
 };
 

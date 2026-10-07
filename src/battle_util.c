@@ -1336,6 +1336,14 @@ u8 DoFieldEndTurnEffects(void)
             }
             break;
         case ENDTURN_RAIN:
+            // The strong winds stop once no Pokémon with Delta Stream is left in battle
+            if ((gBattleWeather & B_WEATHER_STRONG_WINDS) && !IsAbilityOnFieldAlive(ABILITY_DELTA_STREAM))
+            {
+                gBattleWeather &= ~B_WEATHER_STRONG_WINDS;
+                BattleScriptExecute(BattleScript_StrongWindsEnd);
+                effect++;
+                break;
+            }
             if (gBattleWeather & B_WEATHER_RAIN)
             {
                 if (!(gBattleWeather & B_WEATHER_RAIN_PERMANENT))
@@ -2518,7 +2526,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_DRIZZLE:
-                if (!(gBattleWeather & B_WEATHER_RAIN_PERMANENT))
+                if (!(gBattleWeather & (B_WEATHER_RAIN_PERMANENT | B_WEATHER_STRONG_WINDS)))
                 {
                     gBattleWeather = (B_WEATHER_RAIN_PERMANENT | B_WEATHER_RAIN_TEMPORARY);
                     BattleScriptPushCursorAndCallback(BattleScript_DrizzleActivates);
@@ -2527,7 +2535,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_SAND_STREAM:
-                if (!(gBattleWeather & B_WEATHER_SANDSTORM_PERMANENT))
+                if (!(gBattleWeather & (B_WEATHER_SANDSTORM_PERMANENT | B_WEATHER_STRONG_WINDS)))
                 {
                     gBattleWeather = B_WEATHER_SANDSTORM;
                     BattleScriptPushCursorAndCallback(BattleScript_SandstreamActivates);
@@ -2536,7 +2544,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_DROUGHT:
-                if (!(gBattleWeather & B_WEATHER_SUN_PERMANENT))
+                if (!(gBattleWeather & (B_WEATHER_SUN_PERMANENT | B_WEATHER_STRONG_WINDS)))
                 {
                     gBattleWeather = B_WEATHER_SUN;
                     BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
@@ -2558,6 +2566,15 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     BattleScriptPushCursorAndCallback(BattleScript_CastformChange);
                     gBattleScripting.battler = battler;
                     *(&gBattleStruct->formToChangeInto) = effect - 1;
+                }
+                break;
+            case ABILITY_DELTA_STREAM:
+                if (!(gBattleWeather & B_WEATHER_STRONG_WINDS))
+                {
+                    gBattleWeather = B_WEATHER_STRONG_WINDS;
+                    BattleScriptPushCursorAndCallback(BattleScript_DeltaStreamActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
                 }
                 break;
             case ABILITY_MOLD_BREAKER:
@@ -4074,7 +4091,7 @@ bool8 CanMegaEvolve(u8 battler)
         return FALSE;
     if (gBattleMons[battler].status2 & STATUS2_TRANSFORMED)
         return FALSE;
-    if (GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item) == SPECIES_NONE)
+    if (GetBattlerMegaEvolutionSpecies(battler) == SPECIES_NONE)
         return FALSE;
 
     // The player needs the Mega Ring. Opponents and partners are assumed to have one.
@@ -4120,29 +4137,43 @@ static void SetBattleMonToMegaSpecies(u8 battler, u16 megaSpecies)
 
 void MegaEvolve(u8 battler)
 {
-    SetBattleMonToMegaSpecies(battler, GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item));
+    u16 megaSpecies = GetBattlerMegaEvolutionSpecies(battler);
+
+    SetBattleMonToMegaSpecies(battler, megaSpecies);
     gBattleStruct->megaEvolvedBattlers |= gBitTable[battler];
-    gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] |= gBitTable[gBattlerPartyIndexes[battler]];
+    gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]] = megaSpecies;
+}
+
+// The Mega battler can become: by its Mega Stone, or by a move (Rayquaza's Dragon Ascent).
+u16 GetBattlerMegaEvolutionSpecies(u8 battler)
+{
+    u16 megaSpecies = GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
+
+    if (megaSpecies == SPECIES_NONE)
+        megaSpecies = GetMoveMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].moves);
+    return megaSpecies;
+}
+
+// TRUE if battler Mega Evolves by its Mega Stone rather than by a move.
+bool8 IsMegaEvolvingByStone(u8 battler)
+{
+    return GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item) != SPECIES_NONE;
 }
 
 // A Mega Evolved Pokémon stays Mega Evolved when it switches out and back in.
 // Called after its battle data was reloaded from the party.
 void TryRestoreMegaEvolution(u8 battler)
 {
-    u16 megaSpecies;
+    u16 megaSpecies = gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]];
 
-    if (!(gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]]))
-        return;
-
-    megaSpecies = GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
-    if (megaSpecies != SPECIES_NONE)
+    if (megaSpecies != SPECIES_NONE && GetMegaBaseSpecies(megaSpecies) == gBattleMons[battler].species)
         SetBattleMonToMegaSpecies(battler, megaSpecies);
 }
 
 // A Pokémon that faints goes back to its base form for the rest of the battle.
 void ClearMegaEvolutionOnFaint(u8 battler)
 {
-    gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] &= ~gBitTable[gBattlerPartyIndexes[battler]];
+    gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]] = SPECIES_NONE;
 }
 
 // TRUE if item is a Mega Stone that battler can use, either as its base form or
@@ -4241,4 +4272,19 @@ void RestoreAbilitiesAfterMoldBreaker(void)
             gBattleMons[battler].ability = gBattleStruct->moldBreakerSavedAbilities[battler];
     }
     gBattleStruct->moldBreakerSuppressed = 0;
+}
+
+// TRUE if a Pokémon in battle that hasn't fainted has the ability.
+bool8 IsAbilityOnFieldAlive(u8 ability)
+{
+    u8 battler;
+
+    for (battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (gBattleMons[battler].ability == ability
+         && gBattleMons[battler].hp != 0
+         && !(gAbsentBattlerFlags & gBitTable[battler]))
+            return TRUE;
+    }
+    return FALSE;
 }

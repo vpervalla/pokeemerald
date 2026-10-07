@@ -5714,6 +5714,7 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_BLASTOISE_MEGA] = sAnims_Blastoise,
     [SPECIES_PIDGEOT_MEGA] = sAnims_Pidgeot,
     [SPECIES_GYARADOS_MEGA] = sAnims_Gyarados,
+    [SPECIES_RAYQUAZA_MEGA] = sAnims_Rayquaza,
     // </mega-evolutions>
 
 };

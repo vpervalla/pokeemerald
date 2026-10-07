@@ -378,6 +378,7 @@
 #define B_ANIM_INGRAIN_HEAL             21
 #define B_ANIM_WISH_HEAL                22
 #define B_ANIM_MEGA_EVOLUTION           23
+#define B_ANIM_STRONG_WINDS             24
 
 // Modes for AnimTask_TransformMon
 #define TRANSFORM_MON_TRANSFORM         0

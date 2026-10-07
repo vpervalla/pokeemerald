@@ -45,7 +45,13 @@ MEGAS = [
  ('BLASTOISE_MEGA',  'BLASTOISE', 'blastoise/mega',  'BlastoiseMega', 'BLASTOISINITE', 'BLASTOISINITE', 'blastoisinite',  (79,103,120,78,135,115),  ('WATER','WATER'),    'MEGA_LAUNCHER'),
  ('PIDGEOT_MEGA',    'PIDGEOT',   'pidgeot/mega',    'PidgeotMega',   'PIDGEOTITE',    'PIDGEOTITE',    'pidgeotite',     (83,80,80,121,135,80),    ('NORMAL','FLYING'),  'NO_GUARD'),
  ('GYARADOS_MEGA',   'GYARADOS',  'gyarados/mega',   'GyaradosMega',  'GYARADOSITE',   'GYARADOSITE',   'gyaradosite',    (95,155,109,81,70,130),   ('WATER','DARK'),     'MOLD_BREAKER'),
+ # No Mega Stone: Rayquaza Mega Evolves by knowing Dragon Ascent (see MOVE_MEGAS)
+ ('RAYQUAZA_MEGA',   'RAYQUAZA',  'rayquaza/mega',   'RayquazaMega',  None,            None,            None,             (105,180,100,115,180,100),('DRAGON','FLYING'),  'DELTA_STREAM'),
 ]
+
+# Megas that need a move instead of a Mega Stone
+MOVE_MEGAS = {'RAYQUAZA_MEGA': 'DRAGON_ASCENT'}
+STONE_MEGAS = [m for m in MEGAS if m[4] is not None]
 
 def rd(p): return open(p, encoding='utf-8').read()
 
@@ -90,6 +96,8 @@ for m in MEGAS:
     stillfront(os.path.join(dst, 'anim_front.png'), os.path.join(dst, 'front.png'))
     to4bit(os.path.join(src, 'back.png'), os.path.join(dst, 'back.png'))
     for p in ('normal.pal', 'shiny.pal'): shutil.copy(os.path.join(src, p), os.path.join(dst, p))
+    if sfile is None:
+        continue
     to4bit(os.path.join(EXP, 'graphics/items/icons', sfile + '.png'), os.path.join('graphics/items/icons', sfile + '.png'))
     shutil.copy(os.path.join(EXP, 'graphics/items/icon_palettes', sfile + '.pal'), os.path.join('graphics/items/icon_palettes', sfile + '.pal'))
 to4bit(os.path.join(EXP, 'graphics/items/icons/mega_ring.png'), 'graphics/items/icons/mega_ring.png')
@@ -119,8 +127,8 @@ wr('include/constants/species.h', s)
 
 s = rd('include/constants/items.h')
 s = re.sub(r'    // Mega Evolution\n.*?\n\n    ITEMS_COUNT', '    // Mega Evolution\n    ITEM_MEGA_RING,\n' +
-           ''.join('    ITEM_%s,\n' % m[4] for m in MEGAS) + '\n    ITEMS_COUNT', s, flags=re.S)
-s = re.sub(r'#define LAST_MEGA_STONE  ITEM_[A-Z_]+', '#define LAST_MEGA_STONE  ITEM_%s' % MEGAS[-1][4], s)
+           ''.join('    ITEM_%s,\n' % m[4] for m in STONE_MEGAS) + '\n    ITEMS_COUNT', s, flags=re.S)
+s = re.sub(r'#define LAST_MEGA_STONE  ITEM_[A-Z_]+', '#define LAST_MEGA_STONE  ITEM_%s' % STONE_MEGAS[-1][4], s)
 wr('include/constants/items.h', s)
 
 # ---------- species data ----------
@@ -212,14 +220,14 @@ s = s.rstrip('\n') + '\n\n' + BEGIN + '\n' + ''.join('const u32 gMonFrontPic_%s[
 wr('src/anim_mon_front_pics.c', s)
 ext = ''.join('extern const u32 gMonFrontPic_%s[];\nextern const u32 gMonStillFrontPic_%s[];\nextern const u32 gMonBackPic_%s[];\nextern const u32 gMonPalette_%s[];\nextern const u32 gMonShinyPalette_%s[];\n' % ((m[3],) * 5) for m in MEGAS)
 ext += 'extern const u32 gItemIcon_MegaRing[];\nextern const u32 gItemIconPalette_MegaRing[];\n'
-ext += ''.join('extern const u32 gItemIcon_%s[];\nextern const u32 gItemIconPalette_%s[];\n' % ((m[6].title().replace('_', ''),) * 2) for m in MEGAS)
+ext += ''.join('extern const u32 gItemIcon_%s[];\nextern const u32 gItemIconPalette_%s[];\n' % ((m[6].title().replace('_', ''),) * 2) for m in STONE_MEGAS)
 put_block('include/graphics.h', 'extern const u8 gMonFootprint_Blaziken[];\n', ext)
 
 # ---------- items ----------
 def stonesym(m): return m[6].title().replace('_', '')
 icons = 'const u32 gItemIcon_MegaRing[] = INCGFX_U32("graphics/items/icons/mega_ring.png", ".4bpp.lz");\n'
 icons += 'const u32 gItemIconPalette_MegaRing[] = INCGFX_U32("graphics/items/icon_palettes/mega_ring.pal", ".gbapal.lz");\n'
-for m in MEGAS:
+for m in STONE_MEGAS:
     icons += 'const u32 gItemIcon_%s[] = INCGFX_U32("graphics/items/icons/%s.png", ".4bpp.lz");\n' % (stonesym(m), m[6])
     icons += 'const u32 gItemIconPalette_%s[] = INCGFX_U32("graphics/items/icon_palettes/%s.pal", ".gbapal.lz");\n' % (stonesym(m), m[6])
 s = rd('src/data/graphics/items.h')
@@ -228,7 +236,7 @@ s = s.rstrip('\n') + '\n\n' + BEGIN + '\n' + icons + END + '\n'
 wr('src/data/graphics/items.h', s)
 put_block('src/data/item_icon_table.h', '    [ITEM_OLD_SEA_MAP] = {gItemIcon_OldSeaMap, gItemIconPalette_OldSeaMap},\n',
           '    [ITEM_MEGA_RING] = {gItemIcon_MegaRing, gItemIconPalette_MegaRing},\n' +
-          ''.join('    [ITEM_%s] = {gItemIcon_%s, gItemIconPalette_%s},\n' % (m[4], stonesym(m), stonesym(m)) for m in MEGAS))
+          ''.join('    [ITEM_%s] = {gItemIcon_%s, gItemIconPalette_%s},\n' % (m[4], stonesym(m), stonesym(m)) for m in STONE_MEGAS))
 
 def pretty(base): return base.replace('_', ' ')
 desc = '''static const u8 sMegaRingDesc[] = _(
@@ -236,7 +244,7 @@ desc = '''static const u8 sMegaRingDesc[] = _(
     "POKéMON holding a\\n"
     "MEGA STONE evolve.");
 '''
-for m in MEGAS:
+for m in STONE_MEGAS:
     form = ' X' if m[0].endswith('_X') else (' Y' if m[0].endswith('_Y') else '')
     third = 'Evolve in battle.' if not form else 'Evolve into form%s.' % form
     desc += '''
@@ -263,7 +271,7 @@ items = '''
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 '''
-for m in MEGAS:
+for m in STONE_MEGAS:
     assert len(m[5]) <= 13, m[5]
     items += '''
     [ITEM_%s] =
@@ -287,6 +295,6 @@ wr('src/data/items.h', s)
 # ---------- mega table ----------
 s = rd('src/data/pokemon/mega_evolutions.h')
 s = re.sub(r'static const struct MegaEvolution sMegaEvolutions\[\] =\n\{\n.*?\n\};', 'static const struct MegaEvolution sMegaEvolutions[] =\n{\n' +
-           ''.join('    {SPECIES_%s, ITEM_%s, SPECIES_%s},\n' % (m[1], m[4], m[0]) for m in MEGAS).rstrip('\n') + '\n};', s, flags=re.S)
+           ''.join('    {SPECIES_%s, ITEM_%s, SPECIES_%s, MOVE_%s},\n' % (m[1], m[4] or 'NONE', m[0], MOVE_MEGAS.get(m[0], 'NONE')) for m in MEGAS).rstrip('\n') + '\n};', s, flags=re.S)
 wr('src/data/pokemon/mega_evolutions.h', s)
 print('ok', len(MEGAS))

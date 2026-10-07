@@ -450,6 +450,17 @@ const u8 gTypeEffectiveness[336] =
     TYPE_ENDTABLE, TYPE_ENDTABLE, TYPE_MUL_NO_EFFECT
 };
 
+bool8 IsTypeEffectivenessWeakenedByStrongWinds(u32 typeEffectivenessIndex)
+{
+    // gBattleWeather keeps its last value after a battle, and the Battle Dome also
+    // reads type effectiveness outside of battle
+    return gMain.inBattle
+        && (gBattleWeather & B_WEATHER_STRONG_WINDS)
+        && gTypeEffectiveness[typeEffectivenessIndex + 1] == TYPE_FLYING
+        && gTypeEffectiveness[typeEffectivenessIndex + 2] == TYPE_MUL_SUPER_EFFECTIVE
+        && WEATHER_HAS_EFFECT;
+}
+
 const u8 gTypeNames[NUMBER_OF_MON_TYPES][TYPE_NAME_LENGTH + 1] =
 {
     [TYPE_NORMAL] = _("NORMAL"),
@@ -4796,7 +4807,10 @@ static void TryDoMegaEvolutions(void)
         {
             gActiveBattler = gBattlerAttacker = gBattleScripting.battler = battler;
             gLastUsedItem = gBattleMons[battler].item;
-            BattleScriptExecute(BattleScript_MegaEvolution);
+            if (IsMegaEvolvingByStone(battler))
+                BattleScriptExecute(BattleScript_MegaEvolution);
+            else
+                BattleScriptExecute(BattleScript_MegaEvolutionByWish);
             return;
         }
     }

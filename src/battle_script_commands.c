@@ -2857,6 +2857,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_AtkDefDown;
                 break;
+            case MOVE_EFFECT_DEF_SPDEF_DOWN: // Dragon Ascent
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_DefSpDefDown;
+                break;
             case MOVE_EFFECT_RECOIL_33: // Double Edge
                 gBattleMoveDamage = gHpDealt / 3;
                 if (gBattleMoveDamage == 0)
@@ -6703,7 +6707,7 @@ static void Cmd_trymirrormove(void)
 
 static void Cmd_setrain(void)
 {
-    if (gBattleWeather & B_WEATHER_RAIN)
+    if (gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -7612,7 +7616,7 @@ static void Cmd_damagetohalftargethp(void)
 
 static void Cmd_setsandstorm(void)
 {
-    if (gBattleWeather & B_WEATHER_SANDSTORM)
+    if (gBattleWeather & (B_WEATHER_SANDSTORM | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -8793,7 +8797,7 @@ static void Cmd_jumpifnopursuitswitchdmg(void)
 
 static void Cmd_setsunny(void)
 {
-    if (gBattleWeather & B_WEATHER_SUN)
+    if (gBattleWeather & (B_WEATHER_SUN | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -9081,7 +9085,7 @@ static void Cmd_setminimize(void)
 
 static void Cmd_sethail(void)
 {
-    if (gBattleWeather & B_WEATHER_HAIL)
+    if (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;

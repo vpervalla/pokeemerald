@@ -443,4 +443,5 @@ const u32 gMonFrontPic_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard
 const u32 gMonFrontPic_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/anim_front.png", ".4bpp.lz");
 // </mega-evolutions>

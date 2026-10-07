@@ -7246,8 +7246,29 @@ u16 GetMegaEvolutionSpecies(u16 baseSpecies, u16 heldItem)
 
     for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
     {
-        if (sMegaEvolutions[i].baseSpecies == baseSpecies && sMegaEvolutions[i].megaStone == heldItem)
+        if (sMegaEvolutions[i].baseSpecies == baseSpecies
+         && sMegaEvolutions[i].requiredMove == MOVE_NONE
+         && sMegaEvolutions[i].megaStone == heldItem)
             return sMegaEvolutions[i].megaSpecies;
+    }
+    return SPECIES_NONE;
+}
+
+// Like GetMegaEvolutionSpecies, for Mega Evolutions that need a move instead of a
+// Mega Stone (Rayquaza and Dragon Ascent). moves has MAX_MON_MOVES entries.
+u16 GetMoveMegaEvolutionSpecies(u16 baseSpecies, const u16 *moves)
+{
+    u32 i, j;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].baseSpecies != baseSpecies || sMegaEvolutions[i].requiredMove == MOVE_NONE)
+            continue;
+        for (j = 0; j < MAX_MON_MOVES; j++)
+        {
+            if (moves[j] == sMegaEvolutions[i].requiredMove)
+                return sMegaEvolutions[i].megaSpecies;
+        }
     }
     return SPECIES_NONE;
 }

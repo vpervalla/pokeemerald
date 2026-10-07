@@ -517,6 +517,9 @@ static const u8 sText_Trainer2LoseText[];
 static const u8 sText_MegaEvoReacting[];
 static const u8 sText_MegaEvolved[];
 static const u8 sText_PkmnBreaksTheMold[];
+static const u8 sText_MegaEvoWish[];
+static const u8 sText_StrongWindsBegin[];
+static const u8 sText_StrongWindsEnd[];
 
 const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
@@ -892,6 +895,9 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_ST
     [STRINGID_MEGAEVOREACTING - BATTLESTRINGS_TABLE_START] = sText_MegaEvoReacting,
     [STRINGID_MEGAEVOLVED - BATTLESTRINGS_TABLE_START] = sText_MegaEvolved,
     [STRINGID_PKMNBREAKSTHEMOLD - BATTLESTRINGS_TABLE_START] = sText_PkmnBreaksTheMold,
+    [STRINGID_MEGAEVOWISH - BATTLESTRINGS_TABLE_START] = sText_MegaEvoWish,
+    [STRINGID_STRONGWINDSBEGIN - BATTLESTRINGS_TABLE_START] = sText_StrongWindsBegin,
+    [STRINGID_STRONGWINDSEND - BATTLESTRINGS_TABLE_START] = sText_StrongWindsEnd,
 };
 
 const u16 gMissStringIds[] =
@@ -1434,6 +1440,9 @@ static const u8 sText_Trainer2WinText[] = _("{B_TRAINER2_WIN_TEXT}");
 static const u8 sText_MegaEvoReacting[] = _("{B_ATK_NAME_WITH_PREFIX}'s {B_LAST_ITEM}\nis reacting to the MEGA RING!");
 static const u8 sText_MegaEvolved[] = _("{B_ATK_NAME_WITH_PREFIX} has Mega Evolved\ninto MEGA {B_BUFF1}!");
 static const u8 sText_PkmnBreaksTheMold[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} breaks the mold!");
+static const u8 sText_MegaEvoWish[] = _("A fervent wish has reached\n{B_ATK_NAME_WITH_PREFIX}!");
+static const u8 sText_StrongWindsBegin[] = _("Mysterious strong winds are\nprotecting FLYING-type POKéMON!");
+static const u8 sText_StrongWindsEnd[] = _("The mysterious strong winds\nhave dissipated!");
 static const u8 sText_Trainer1Fled[] = _( "{PLAY_SE SE_FLEE}{B_TRAINER1_CLASS} {B_TRAINER1_NAME} fled!");
 static const u8 sText_PlayerLostAgainstTrainer1[] = _("Player lost against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");
 static const u8 sText_PlayerBattledToDrawTrainer1[] = _("Player battled to a draw against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");
