@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Cut the Poke Ball emblems of the Pokemon Center, Mart and Gyms out of kanto_general into 32x32
-sprites, which src/day_night.c lays over the emblems at night so they glow. Run from the pokeemerald root.
+sprites, and the glass of their doors into 16x16 ones, which src/day_night.c lays over them at night so
+they glow. Run from the pokeemerald root.
 
 Pokemon Center and Mart: only the ball's red or blue pixels go in the sprite, so the grey plate and
 the ball's white band stay part of the tinted building. They are taken from inside the emblem plate,
@@ -11,7 +12,9 @@ tinted. Its pixels are taken row by row between the leftmost and rightmost pixel
 ring (colours 1, 2 and 7, within the ball's columns, as the plate's edges share them), which takes in
 the gold between the ring and the centre button; the grey band across the ball stays tinted. The
 ball fills the middle of the sprite's top half.
-The sprites only show while the lights are on, so their palettes hold brightened ball colours."""
+Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lightened towards a
+warm white. day_night.c only half tints them, so a faint light seems to come through the glass.
+The sprites only show while the lights are on, so their palettes hold brightened colours."""
 import struct
 from PIL import Image
 
@@ -23,18 +26,25 @@ GYM_COLORS = {1, 2, 6, 7, 8, 9}
 # without them reuse the previous row's span.
 OUTLINE_EDGE = ({OUTLINE}, 0, 63, True)
 GYM_BALL_EDGE = ({1, 2, 7}, 16, 31, False)
+DOOR_GLASS = {10, 12, 13}
+DOOR_GLASS_EDGE = (DOOR_GLASS, 0, 15, False)
 
 def brighten(c):
     return tuple(min(255, round(v * 1.25 + 24)) for v in c)
 
 def brighten_gold(c):
     return tuple(min(255, round(v * 1.1 + 12)) for v in c)
+
+def light_glass(c):
+    return tuple(round(v * 0.6 + w * 0.4) for v, w in zip(c, (255, 236, 190)))
 # name: (palette, metatile rows, pixel x of the sprite's left edge within those rows, glowing colours,
-#        edge of the glowing pixels, brighten function)
+#        edge of the glowing pixels, brighten function, sprite size)
 SIGNS = {
-    "pokemon_center": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
-    "mart": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
-    "gym": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
+    "pokemon_center_sign": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
+    "mart_sign": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
+    "gym_sign": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
+    "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, light_glass, 16),  # Pokemon Center, Mart
+    "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, light_glass, 16),
 }
 
 tiles_im = Image.open(P + "tiles.png")
@@ -63,13 +73,14 @@ def compose(m, pal):
 def jasc(path):
     return [tuple(map(int, l.split())) for l in open(path).read().split("\n")[3:19]]
 
-for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright) in SIGNS.items():
+for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *size) in SIGNS.items():
+    size = size[0] if size else 32
     grid = []
     for row in rows:
         parts = [compose(m, pal) for m in row]
         for y in range(16):
             grid.append([c for p in parts for c in p[y]])
-    out = Image.new("P", (32, 32), 0)
+    out = Image.new("P", (size, size), 0)
     span = None
     for y in range(len(grid)):
         xs = [x for x, c in enumerate(grid[y]) if c in edge and lo <= x <= hi]
@@ -79,11 +90,11 @@ for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright) in SIGNS.items(
             continue
         for x in range(span[0], span[1] + 1):
             c = grid[y][x]
-            if c in glow and left <= x < left + 32:
+            if c in glow and left <= x < left + size:
                 out.putpixel((x - left, y), c)
     colors = jasc(f"{P}palettes/{pal:02d}.pal")
     colors[0] = (255, 0, 255)  # transparent
     colors = [bright(c) if i in glow else c for i, c in enumerate(colors)]
     out.putpalette([v for c in colors for v in c])
-    out.save(f"graphics/day_night/{name}_sign.png")
+    out.save(f"graphics/day_night/{name}.png")
     print("wrote", name)

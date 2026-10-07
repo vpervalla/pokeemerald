@@ -35,6 +35,12 @@ struct DoorAnimFrame
 
 static bool8 ShouldUseMultiCorridorDoor(void);
 
+// The door last drawn opening, open or closing, until it's drawn closed again (for day_night.c's
+// glowing door glass, which would cover the opening door). In map coordinates with MAP_OFFSET.
+static EWRAM_DATA bool8 sDoorShownOpen = FALSE;
+static EWRAM_DATA s16 sOpenDoorX = 0;
+static EWRAM_DATA s16 sOpenDoorY = 0;
+
 static const u8 sDoorAnimTiles_Littleroot[] = INCGFX_U8("graphics/door_anims/littleroot.png", ".4bpp");
 static const u16 sDoorNullPalette1[16] = {};
 static const u8 sDoorAnimTiles_BirchsLab[] = INCGFX_U8("graphics/door_anims/birchs_lab.png", ".4bpp");
@@ -504,12 +510,16 @@ static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame 
 {
     if (frame->offset == 0xFFFF)
     {
+        sDoorShownOpen = FALSE;
         DrawClosedDoorTiles(gfx, x, y);
         if (ShouldUseMultiCorridorDoor())
             DrawClosedDoorTiles(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET);
     }
     else
     {
+        sDoorShownOpen = TRUE;
+        sOpenDoorX = x;
+        sOpenDoorY = y;
         CopyDoorTilesToVram(gfx, frame);
         DrawCurrentDoorAnimFrame(gfx, x, y, gfx->palettes);
         if (ShouldUseMultiCorridorDoor())
@@ -609,6 +619,7 @@ static s8 StartDoorAnimationTask(const struct DoorGraphics *gfx, const struct Do
 
 static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
+    sDoorShownOpen = FALSE;
     DrawClosedDoorTiles(gfx, x, y);
 }
 
@@ -666,6 +677,11 @@ static s8 GetDoorSoundType(const struct DoorGraphics *gfx, u32 x, u32 y)
 static void UNUSED Debug_FieldAnimateDoorOpen(u32 x, u32 y)
 {
     StartDoorOpenAnimation(GetDoorGraphicsTable(), x, y);
+}
+
+bool8 FieldIsDoorShownOpen(s16 x, s16 y)
+{
+    return sDoorShownOpen && x == sOpenDoorX && y == sOpenDoorY;
 }
 
 void FieldSetDoorOpened(u32 x, u32 y)
