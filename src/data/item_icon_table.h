@@ -418,6 +418,9 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_MANECTITE] = {gItemIcon_Manectite, gItemIconPalette_Manectite},
     [ITEM_LATIASITE] = {gItemIcon_Latiasite, gItemIconPalette_Latiasite},
     [ITEM_LATIOSITE] = {gItemIcon_Latiosite, gItemIconPalette_Latiosite},
+    [ITEM_CHARIZARDITE_X] = {gItemIcon_CharizarditeX, gItemIconPalette_CharizarditeX},
+    [ITEM_BLASTOISINITE] = {gItemIcon_Blastoisinite, gItemIconPalette_Blastoisinite},
+    [ITEM_PIDGEOTITE] = {gItemIcon_Pidgeotite, gItemIconPalette_Pidgeotite},
     // </mega-evolutions>
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},

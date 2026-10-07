@@ -427,5 +427,8 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_MANECTRIC_MEGA] = _("MANECTRIC"),
     [SPECIES_LATIAS_MEGA] = _("LATIAS"),
     [SPECIES_LATIOS_MEGA] = _("LATIOS"),
+    [SPECIES_CHARIZARD_MEGA_X] = _("CHARIZARD"),
+    [SPECIES_BLASTOISE_MEGA] = _("BLASTOISE"),
+    [SPECIES_PIDGEOT_MEGA] = _("PIDGEOT"),
     // </mega-evolutions>
 };

@@ -479,6 +479,9 @@ const u8 *const gMonIconTable[] =
     [SPECIES_MANECTRIC_MEGA] = gMonIcon_Manectric,
     [SPECIES_LATIAS_MEGA] = gMonIcon_Latias,
     [SPECIES_LATIOS_MEGA] = gMonIcon_Latios,
+    [SPECIES_CHARIZARD_MEGA_X] = gMonIcon_Charizard,
+    [SPECIES_BLASTOISE_MEGA] = gMonIcon_Blastoise,
+    [SPECIES_PIDGEOT_MEGA] = gMonIcon_Pidgeot,
     // </mega-evolutions>
 };
 
@@ -940,6 +943,9 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_MANECTRIC_MEGA] = 0,
     [SPECIES_LATIAS_MEGA] = 0,
     [SPECIES_LATIOS_MEGA] = 2,
+    [SPECIES_CHARIZARD_MEGA_X] = 0,
+    [SPECIES_BLASTOISE_MEGA] = 2,
+    [SPECIES_PIDGEOT_MEGA] = 0,
     // </mega-evolutions>
 };
 

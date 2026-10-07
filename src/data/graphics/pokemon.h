@@ -2884,4 +2884,16 @@ const u32 gMonStillFrontPic_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/m
 const u32 gMonBackPic_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/front.png", ".4bpp.lz");
+const u32 gMonBackPic_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/back.png", ".4bpp.lz");
+const u32 gMonPalette_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

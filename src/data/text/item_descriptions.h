@@ -1630,4 +1630,19 @@ static const u8 sLatiositeDesc[] = _(
     "A MEGA STONE that\n"
     "lets LATIOS Mega\n"
     "Evolve in battle.");
+
+static const u8 sCharizarditeXDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets CHARIZARD Mega\n"
+    "Evolve into form X.");
+
+static const u8 sBlastoisiniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets BLASTOISE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sPidgeotiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets PIDGEOT Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>

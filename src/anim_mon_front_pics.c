@@ -439,4 +439,7 @@ const u32 gMonFrontPic_MedichamMega[] = INCGFX_U32("graphics/pokemon/medicham/me
 const u32 gMonFrontPic_ManectricMega[] = INCGFX_U32("graphics/pokemon/manectric/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_LatiasMega[] = INCGFX_U32("graphics/pokemon/latias/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/anim_front.png", ".4bpp.lz");
 // </mega-evolutions>

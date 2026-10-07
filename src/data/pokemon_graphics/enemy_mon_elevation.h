@@ -68,5 +68,6 @@ const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
     [SPECIES_MEWTWO_MEGA_Y] = 3,
     [SPECIES_LATIAS_MEGA] = 8,
     [SPECIES_LATIOS_MEGA] = 8,
+    [SPECIES_PIDGEOT_MEGA] = 8,
     // </mega-evolutions>
 };

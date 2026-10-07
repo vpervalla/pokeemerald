@@ -1053,8 +1053,22 @@ static bool8 JumpIfMoveAffectedByProtect(u16 move)
     return affected;
 }
 
+static bool8 IsNoGuardInEffect(void)
+{
+    return gBattleMons[gBattlerAttacker].ability == ABILITY_NO_GUARD
+        || gBattleMons[gBattlerTarget].ability == ABILITY_NO_GUARD;
+}
+
 static bool8 AccuracyCalcHelper(u16 move)
 {
+    // No Guard on either side: the move hits, even a target in the middle of Fly or Dig
+    if (IsNoGuardInEffect())
+    {
+        gHitMarker &= ~(HITMARKER_IGNORE_ON_AIR | HITMARKER_IGNORE_UNDERGROUND | HITMARKER_IGNORE_UNDERWATER);
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
     if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
     {
         JumpIfMoveFailed(7, move);
@@ -1106,7 +1120,7 @@ static void Cmd_accuracycheck(void)
     {
         if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && move == NO_ACC_CALC_CHECK_LOCK_ON && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
             gBattlescriptCurrInstr += 7;
-        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
+        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER) && !IsNoGuardInEffect())
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         else if (!JumpIfMoveAffectedByProtect(0))
             gBattlescriptCurrInstr += 7;
@@ -7529,7 +7543,11 @@ static void Cmd_tryKO(void)
     else
     {
         u16 chance;
-        if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
+        if (IsNoGuardInEffect())
+        {
+            chance = (gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level);
+        }
+        else if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
         {
             chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
             if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)

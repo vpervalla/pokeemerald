@@ -298,6 +298,38 @@ Evolving opponent:
   already started the sandstorm.
 - The phase 1 and 2 scenarios still pass.
 
+### Phase 4 status: in progress
+
+**Done: Mega Charizard X, Blastoise and Pidgeot**, with three new abilities
+(`ABILITY_TOUGH_CLAWS` 78, `ABILITY_MEGA_LAUNCHER` 79, `ABILITY_NO_GUARD` 80):
+
+- **Tough Claws:** contact moves get 1.3x power, in `CalculateBaseDamage`.
+- **Mega Launcher:** pulse moves get 1.5x power. A new `FLAG_PULSE_MOVE` marks them.
+  Water Pulse is the only pulse move in Gen 3; Aura Sphere, Dark Pulse and Dragon Pulse
+  arrive in Gen 4. The ability's name is "MEGALAUNCHER", because ability names fit 12
+  characters (like Gen 3's "COMPOUNDEYES").
+- **No Guard:** a move used by or against a No Guard Pokémon always hits, including a
+  target in the middle of Fly, Dig or Dive (`IsNoGuardInEffect`, in `AccuracyCalcHelper`
+  and in the no-accuracy path). One-hit KO moves still need the user's level to be at
+  least the target's.
+- **Charizard X:** Charizard now has two Megas, picked by the stone it holds
+  (`CHARZARDITE X` or `CHARZARDITE Y`).
+
+Tested in mGBA:
+- All three Mega Evolve on both sides, with the right sprites.
+- Slash's power goes 70 → 91 with Tough Claws; the control without Mega Evolution stays 70.
+- Water Pulse's power goes 60 → 90 with Mega Launcher; the control stays 60.
+- Mega Pidgeot's Peck hits a Kangaskhan in the middle of Fly. The control without Mega
+  Evolution misses.
+- The phase 1–3 scenarios still pass.
+
+**Next:**
+- **Gyarados (Mold Breaker):** its own step, because Gen 3 reads abilities directly in
+  about 50 places.
+- **Rayquaza:** needs Delta Stream and a decision on what triggers its Mega Evolution,
+  since Dragon Ascent doesn't exist in Gen 3.
+- **The other Megas:** those with abilities from section 6 that this game doesn't have.
+
 ## 9. Testing
 
 - `make` and `make modern` must both build. Watch the ROM size, because each Mega adds

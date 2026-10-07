@@ -22,6 +22,7 @@ from PIL import Image
 
 EXP = sys.argv[1]
 
+# Rows are only ever appended, so existing species and item ids (items are saved) don't change.
 # (mega const suffix, base species const, graphics dir, C symbol, stone const, stone name, stone file,
 #  stats HP/Atk/Def/Spe/SpA/SpD, types, ability)
 MEGAS = [
@@ -40,6 +41,9 @@ MEGAS = [
  ('MANECTRIC_MEGA',  'MANECTRIC', 'manectric/mega',  'ManectricMega', 'MANECTITE',     'MANECTITE',     'manectite',      (70,75,80,135,135,80),    ('ELECTRIC','ELECTRIC'),'INTIMIDATE'),
  ('LATIAS_MEGA',     'LATIAS',    'latias/mega',     'LatiasMega',    'LATIASITE',     'LATIASITE',     'latiasite',      (80,100,120,110,140,150), ('DRAGON','PSYCHIC'), 'LEVITATE'),
  ('LATIOS_MEGA',     'LATIOS',    'latios/mega',     'LatiosMega',    'LATIOSITE',     'LATIOSITE',     'latiosite',      (80,130,100,110,160,120), ('DRAGON','PSYCHIC'), 'LEVITATE'),
+ ('CHARIZARD_MEGA_X','CHARIZARD', 'charizard/mega_x','CharizardMegaX','CHARIZARDITE_X','CHARZARDITE X', 'charizardite_x', (78,130,111,100,130,85),  ('FIRE','DRAGON'),    'TOUGH_CLAWS'),
+ ('BLASTOISE_MEGA',  'BLASTOISE', 'blastoise/mega',  'BlastoiseMega', 'BLASTOISINITE', 'BLASTOISINITE', 'blastoisinite',  (79,103,120,78,135,115),  ('WATER','WATER'),    'MEGA_LAUNCHER'),
+ ('PIDGEOT_MEGA',    'PIDGEOT',   'pidgeot/mega',    'PidgeotMega',   'PIDGEOTITE',    'PIDGEOTITE',    'pidgeotite',     (83,80,80,121,135,80),    ('NORMAL','FLYING'),  'NO_GUARD'),
 ]
 
 def rd(p): return open(p, encoding='utf-8').read()

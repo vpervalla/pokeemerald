@@ -456,5 +456,8 @@ const struct CompressedSpriteSheet gMonBackPicTable[] =
     SPECIES_SPRITE(MANECTRIC_MEGA, gMonBackPic_ManectricMega),
     SPECIES_SPRITE(LATIAS_MEGA, gMonBackPic_LatiasMega),
     SPECIES_SPRITE(LATIOS_MEGA, gMonBackPic_LatiosMega),
+    SPECIES_SPRITE(CHARIZARD_MEGA_X, gMonBackPic_CharizardMegaX),
+    SPECIES_SPRITE(BLASTOISE_MEGA, gMonBackPic_BlastoiseMega),
+    SPECIES_SPRITE(PIDGEOT_MEGA, gMonBackPic_PidgeotMega),
     // </mega-evolutions>
 };

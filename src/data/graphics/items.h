@@ -770,4 +770,10 @@ const u32 gItemIcon_Latiasite[] = INCGFX_U32("graphics/items/icons/latiasite.png
 const u32 gItemIconPalette_Latiasite[] = INCGFX_U32("graphics/items/icon_palettes/latiasite.pal", ".gbapal.lz");
 const u32 gItemIcon_Latiosite[] = INCGFX_U32("graphics/items/icons/latiosite.png", ".4bpp.lz");
 const u32 gItemIconPalette_Latiosite[] = INCGFX_U32("graphics/items/icon_palettes/latiosite.pal", ".gbapal.lz");
+const u32 gItemIcon_CharizarditeX[] = INCGFX_U32("graphics/items/icons/charizardite_x.png", ".4bpp.lz");
+const u32 gItemIconPalette_CharizarditeX[] = INCGFX_U32("graphics/items/icon_palettes/charizardite_x.pal", ".gbapal.lz");
+const u32 gItemIcon_Blastoisinite[] = INCGFX_U32("graphics/items/icons/blastoisinite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Blastoisinite[] = INCGFX_U32("graphics/items/icon_palettes/blastoisinite.pal", ".gbapal.lz");
+const u32 gItemIcon_Pidgeotite[] = INCGFX_U32("graphics/items/icons/pidgeotite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Pidgeotite[] = INCGFX_U32("graphics/items/icon_palettes/pidgeotite.pal", ".gbapal.lz");
 // </mega-evolutions>

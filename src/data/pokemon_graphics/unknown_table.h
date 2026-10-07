@@ -457,5 +457,8 @@ static const u32 sUnused[] =
     [SPECIES_MANECTRIC_MEGA] = 0x88,
     [SPECIES_LATIAS_MEGA] = 0x88,
     [SPECIES_LATIOS_MEGA] = 0x88,
+    [SPECIES_CHARIZARD_MEGA_X] = 0x888,
+    [SPECIES_BLASTOISE_MEGA] = 0x886,
+    [SPECIES_PIDGEOT_MEGA] = 0x888,
     // </mega-evolutions>
 };

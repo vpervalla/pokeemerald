@@ -80,6 +80,11 @@
 #define ABILITY_CACOPHONY 76
 #define ABILITY_AIR_LOCK 77
 
-#define ABILITIES_COUNT 78
+// Abilities from later generations, for Mega Evolutions
+#define ABILITY_TOUGH_CLAWS 78
+#define ABILITY_MEGA_LAUNCHER 79
+#define ABILITY_NO_GUARD 80
+
+#define ABILITIES_COUNT 81
 
 #endif  // GUARD_CONSTANTS_ABILITIES_H
