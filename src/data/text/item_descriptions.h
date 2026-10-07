@@ -1650,4 +1650,24 @@ static const u8 sGyaradositeDesc[] = _(
     "A MEGA STONE that\n"
     "lets GYARADOS Mega\n"
     "Evolve in battle.");
+
+static const u8 sMewtwoniteXDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets MEWTWO Mega\n"
+    "Evolve into form X.");
+
+static const u8 sPinsiriteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets PINSIR Mega\n"
+    "Evolve in battle.");
+
+static const u8 sAerodactyliteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets AERODACTYL Mega\n"
+    "Evolve in battle.");
+
+static const u8 sKangaskhaniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets KANGASKHAN Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>

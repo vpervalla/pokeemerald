@@ -389,6 +389,40 @@ Known differences from the games:
 - The winds stay until the end of the turn when Rayquaza leaves mid-turn.
 - Gen 6's "The mysterious strong winds weakened the attack!" message isn't shown.
 
+**Done: Mega Mewtwo X, Pinsir, Aerodactyl and Kangaskhan**, with three new abilities:
+
+- **Steadfast** (`ABILITY_STEADFAST` 83, Mewtwo X): when the Pokémon flinches, its Speed
+  rises by one stage, in the flinch check of `AtkCanceler_UnableToUseMove`.
+- **Aerilate** (`ABILITY_AERILATE` 84, Pinsir):
+  - Normal moves become Flying (`attackcanceler` sets `dynamicMoveType`) and get 1.2x
+    power (`gBattleStruct->ateBoost`), as in Gen 7; Gen 6 used 1.3x.
+  - Struggle, and moves that pick their own type (Hidden Power, Weather Ball in
+    weather), aren't changed.
+- **Parental Bond** (`ABILITY_PARENTAL_BOND` 85, Kangaskhan): a second hit at 1/4 power
+  (Gen 7; Gen 6 used 1/2), followed by "Hit 2 time(s)!".
+  - **How:** `moveend` runs `BattleScript_ParentalBondSecondHit` before ending the
+    move, and the second hit's damage is divided in `damagecalc`.
+  - **Which moves:** only moves that use the standard damaging script
+    (`IsMoveEffectAffectedByParentalBond`): plain hits and hits with a secondary
+    effect. Multi-hit, charging, OHKO, fixed-damage, draining and other special moves
+    hit once.
+  - **Doubles:** moves that hit several Pokémon hit once.
+  - **No second hit:** if the first hit missed, or the target fainted.
+  - **Secondary effects:** only the first hit can apply one, and a user stat drop
+    (Superpower, Dragon Ascent) happens once.
+- **Mega Aerodactyl** uses Tough Claws, which already existed.
+
+Tested in mGBA:
+- All four Mega Evolve on both sides, with the right sprites.
+- Steadfast: Mega Mewtwo X flinched by Fake Out gets "STEADFAST raised its SPEED!"
+  (stage +1). The control without Mega Evolution stays at 0.
+- Aerilate: Mega Pinsir's Tackle has power 42 (35 × 1.2) and hits a Gengar for 59. The
+  control's Tackle doesn't affect it.
+- Tough Claws: Mega Aerodactyl's Bite power goes 60 → 78.
+- Parental Bond: Mega Kangaskhan's Tackle hits for 31, then 8, then shows "Hit 2
+  time(s)!". When the second hit knocks the foe out, the battle continues normally.
+- The earlier scenarios still pass.
+
 **Next:**
 - **The other Megas:** those with abilities from section 6 that this game doesn't have.
 

@@ -923,6 +923,16 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
+    // Aerilate: NORMAL moves become FLYING. Moves that set their own type first
+    // (Hidden Power, Weather Ball in weather) keep it.
+    if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE
+     && !gBattleStruct->dynamicMoveType
+     && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
+     && gCurrentMove != MOVE_STRUGGLE)
+    {
+        gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->ateBoost = TRUE;
+    }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
     {
         gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
@@ -1315,6 +1325,12 @@ static void Cmd_damagecalc(void)
         gBattleMoveDamage *= 2;
     if (gProtectStructs[gBattlerAttacker].helpingHand)
         gBattleMoveDamage = gBattleMoveDamage * 15 / 10;
+    if (gBattleStruct->parentalBondState == PARENTAL_BOND_SECOND_HIT)
+    {
+        gBattleMoveDamage /= 4; // Gen 7+; Gen 6 used half
+        if (gBattleMoveDamage == 0)
+            gBattleMoveDamage = 1;
+    }
 
     gBattlescriptCurrInstr++;
 }
@@ -4232,6 +4248,79 @@ static void Cmd_playstatchangeanimation(void)
     }
 }
 
+// Parental Bond hits twice with moves that use the standard damaging script:
+// plain hits and hits with a secondary effect. Moves with their own script
+// (multi-hit, charging, OHKO, fixed damage, draining...) hit once.
+static bool8 IsMoveEffectAffectedByParentalBond(u16 effect)
+{
+    switch (effect)
+    {
+    case EFFECT_HIT:
+    case EFFECT_POISON_HIT:
+    case EFFECT_BURN_HIT:
+    case EFFECT_FREEZE_HIT:
+    case EFFECT_PARALYZE_HIT:
+    case EFFECT_FLINCH_HIT:
+    case EFFECT_PAY_DAY:
+    case EFFECT_TRI_ATTACK:
+    case EFFECT_HIGH_CRITICAL:
+    case EFFECT_ATTACK_DOWN_HIT:
+    case EFFECT_DEFENSE_DOWN_HIT:
+    case EFFECT_SPEED_DOWN_HIT:
+    case EFFECT_SPECIAL_ATTACK_DOWN_HIT:
+    case EFFECT_SPECIAL_DEFENSE_DOWN_HIT:
+    case EFFECT_ACCURACY_DOWN_HIT:
+    case EFFECT_CONFUSE_HIT:
+    case EFFECT_VITAL_THROW:
+    case EFFECT_FALSE_SWIPE:
+    case EFFECT_QUICK_ATTACK:
+    case EFFECT_THIEF:
+    case EFFECT_THAW_HIT:
+    case EFFECT_PURSUIT:
+    case EFFECT_RAPID_SPIN:
+    case EFFECT_DEFENSE_UP_HIT:
+    case EFFECT_ATTACK_UP_HIT:
+    case EFFECT_ALL_STATS_UP_HIT:
+    case EFFECT_THUNDER:
+    case EFFECT_FACADE:
+    case EFFECT_SMELLINGSALT:
+    case EFFECT_SUPERPOWER:
+    case EFFECT_KNOCK_OFF:
+    case EFFECT_DOUBLE_EDGE:
+    case EFFECT_BLAZE_KICK:
+    case EFFECT_POISON_FANG:
+    case EFFECT_OVERHEAT:
+    case EFFECT_SKY_UPPERCUT:
+    case EFFECT_POISON_TAIL:
+    case EFFECT_DEF_SPDEF_DOWN_HIT:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static bool8 CanParentalBondHitAgain(void)
+{
+    u8 target = gBattleMoves[gCurrentMove].target;
+
+    if (gBattleMons[gBattlerAttacker].ability != ABILITY_PARENTAL_BOND)
+        return FALSE;
+    if (!IsMoveEffectAffectedByParentalBond(gBattleMoves[gCurrentMove].effect) || gBattleMoves[gCurrentMove].power == 0)
+        return FALSE;
+    // Moves that hit several Pokémon in a double battle hit once
+    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && (target == MOVE_TARGET_BOTH || target == MOVE_TARGET_FOES_AND_ALLY))
+        return FALSE;
+    if (gBattlerTarget == gBattlerAttacker || (gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
+        return FALSE;
+    if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+        return FALSE;
+    if (gBattleMons[gBattlerAttacker].hp == 0 || gBattleMons[gBattlerTarget].hp == 0)
+        return FALSE;
+    // The first hit has to have dealt damage
+    if (!gSpecialStatuses[gBattlerTarget].physicalDmg && !gSpecialStatuses[gBattlerTarget].specialDmg)
+        return FALSE;
+    return TRUE;
+}
+
 static void Cmd_moveend(void)
 {
     s32 i;
@@ -4257,6 +4346,22 @@ static void Cmd_moveend(void)
 
     choicedMoveAtk = &gBattleStruct->choicedMove[gBattlerAttacker];
     GET_MOVE_TYPE(gCurrentMove, moveType);
+
+    // Parental Bond: before the usual end of the move, it hits a second time.
+    // The second hit's script returns here, and the move then ends as usual.
+    if (endMode == 0 && gBattleScripting.moveendState == 0)
+    {
+        if (gBattleStruct->parentalBondState == PARENTAL_BOND_NONE && CanParentalBondHitAgain())
+        {
+            gBattleStruct->parentalBondState = PARENTAL_BOND_SECOND_HIT;
+            PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 2)
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_ParentalBondSecondHit;
+            return;
+        }
+        if (gBattleStruct->parentalBondState == PARENTAL_BOND_SECOND_HIT)
+            gBattleStruct->parentalBondState = PARENTAL_BOND_DONE;
+    }
 
     do
     {

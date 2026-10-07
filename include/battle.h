@@ -451,7 +451,14 @@ struct BattleStruct
     u8 moldBreakerSuppressed; // As bits for battlers whose ability is switched off while a Mold Breaker Pokémon's move runs.
     u8 moldBreakerSavedAbilities[MAX_BATTLERS_COUNT];
     u8 moldBreakerSavedPartyIndexes[MAX_BATTLERS_COUNT];
+    bool8 ateBoost; // Aerilate changed the type of the current move, which also powers it up.
+    u8 parentalBondState;
 };
+
+// For gBattleStruct->parentalBondState
+#define PARENTAL_BOND_NONE        0
+#define PARENTAL_BOND_SECOND_HIT  1 // The second hit's script is running
+#define PARENTAL_BOND_DONE        2
 
 // Set in the move slot byte that the player controller returns with its chosen move.
 #define RET_MEGA_EVOLUTION 0x80

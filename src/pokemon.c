@@ -3135,6 +3135,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         gBattleMovePower = (gBattleMovePower * 130) / 100;
     if (attacker->ability == ABILITY_MEGA_LAUNCHER && (gBattleMoves[move].flags & FLAG_PULSE_MOVE))
         gBattleMovePower = (gBattleMovePower * 150) / 100;
+    if (attacker->ability == ABILITY_AERILATE && gBattleStruct->ateBoost)
+        gBattleMovePower = (gBattleMovePower * 120) / 100; // Gen 7+; Gen 6 used 1.3x
 
     if (!typeOverride)
         type = gBattleMoves[move].type;

@@ -778,4 +778,12 @@ const u32 gItemIcon_Pidgeotite[] = INCGFX_U32("graphics/items/icons/pidgeotite.p
 const u32 gItemIconPalette_Pidgeotite[] = INCGFX_U32("graphics/items/icon_palettes/pidgeotite.pal", ".gbapal.lz");
 const u32 gItemIcon_Gyaradosite[] = INCGFX_U32("graphics/items/icons/gyaradosite.png", ".4bpp.lz");
 const u32 gItemIconPalette_Gyaradosite[] = INCGFX_U32("graphics/items/icon_palettes/gyaradosite.pal", ".gbapal.lz");
+const u32 gItemIcon_MewtwoniteX[] = INCGFX_U32("graphics/items/icons/mewtwonite_x.png", ".4bpp.lz");
+const u32 gItemIconPalette_MewtwoniteX[] = INCGFX_U32("graphics/items/icon_palettes/mewtwonite_x.pal", ".gbapal.lz");
+const u32 gItemIcon_Pinsirite[] = INCGFX_U32("graphics/items/icons/pinsirite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Pinsirite[] = INCGFX_U32("graphics/items/icon_palettes/pinsirite.pal", ".gbapal.lz");
+const u32 gItemIcon_Aerodactylite[] = INCGFX_U32("graphics/items/icons/aerodactylite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Aerodactylite[] = INCGFX_U32("graphics/items/icon_palettes/aerodactylite.pal", ".gbapal.lz");
+const u32 gItemIcon_Kangaskhanite[] = INCGFX_U32("graphics/items/icons/kangaskhanite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Kangaskhanite[] = INCGFX_U32("graphics/items/icon_palettes/kangaskhanite.pal", ".gbapal.lz");
 // </mega-evolutions>

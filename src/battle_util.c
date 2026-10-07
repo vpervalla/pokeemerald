@@ -677,6 +677,8 @@ void HandleAction_ActionFinished(void)
     gLastLandedMoves[gBattlerAttacker] = 0;
     gLastHitByType[gBattlerAttacker] = 0;
     gBattleStruct->dynamicMoveType = 0;
+    gBattleStruct->ateBoost = FALSE;
+    gBattleStruct->parentalBondState = PARENTAL_BOND_NONE;
     gDynamicBasePower = 0;
     gBattleScripting.moveendState = 0;
     gBattleCommunication[3] = 0;
@@ -2109,7 +2111,19 @@ u8 AtkCanceler_UnableToUseMove(void)
                 gBattleMons[gBattlerAttacker].status2 &= ~STATUS2_FLINCHED;
                 gProtectStructs[gBattlerAttacker].flinchImmobility = 1;
                 CancelMultiTurnMoves(gBattlerAttacker);
-                gBattlescriptCurrInstr = BattleScript_MoveUsedFlinched;
+                if (gBattleMons[gBattlerAttacker].ability == ABILITY_STEADFAST
+                 && gBattleMons[gBattlerAttacker].statStages[STAT_SPEED] < MAX_STAT_STAGE)
+                {
+                    gBattleMons[gBattlerAttacker].statStages[STAT_SPEED]++;
+                    gBattleScripting.animArg1 = STAT_ANIM_PLUS1 + STAT_SPEED;
+                    gBattleScripting.animArg2 = 0;
+                    gBattleScripting.battler = gBattlerAttacker;
+                    gBattlescriptCurrInstr = BattleScript_MoveUsedFlinchedSteadfast;
+                }
+                else
+                {
+                    gBattlescriptCurrInstr = BattleScript_MoveUsedFlinched;
+                }
                 gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
                 effect = 1;
             }

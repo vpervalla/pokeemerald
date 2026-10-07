@@ -4992,6 +4992,8 @@ static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
     gDynamicBasePower = 0;
     gBattleStruct->dynamicMoveType = 0;
+    gBattleStruct->ateBoost = FALSE;
+    gBattleStruct->parentalBondState = PARENTAL_BOND_NONE;
     gBattleMainFunc = RunTurnActionsFunctions;
     gBattleCommunication[3] = 0;
     gBattleCommunication[4] = 0;

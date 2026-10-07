@@ -47,6 +47,10 @@ MEGAS = [
  ('GYARADOS_MEGA',   'GYARADOS',  'gyarados/mega',   'GyaradosMega',  'GYARADOSITE',   'GYARADOSITE',   'gyaradosite',    (95,155,109,81,70,130),   ('WATER','DARK'),     'MOLD_BREAKER'),
  # No Mega Stone: Rayquaza Mega Evolves by knowing Dragon Ascent (see MOVE_MEGAS)
  ('RAYQUAZA_MEGA',   'RAYQUAZA',  'rayquaza/mega',   'RayquazaMega',  None,            None,            None,             (105,180,100,115,180,100),('DRAGON','FLYING'),  'DELTA_STREAM'),
+ ('MEWTWO_MEGA_X',   'MEWTWO',    'mewtwo/mega_x',   'MewtwoMegaX',   'MEWTWONITE_X',  'MEWTWONITE X',  'mewtwonite_x',   (106,190,100,130,154,100),('PSYCHIC','FIGHTING'),'STEADFAST'),
+ ('PINSIR_MEGA',     'PINSIR',    'pinsir/mega',     'PinsirMega',    'PINSIRITE',     'PINSIRITE',     'pinsirite',      (65,155,120,105,65,90),   ('BUG','FLYING'),     'AERILATE'),
+ ('AERODACTYL_MEGA', 'AERODACTYL','aerodactyl/mega', 'AerodactylMega','AERODACTYLITE', 'AERODACTYLITE', 'aerodactylite',  (80,135,85,150,70,95),    ('ROCK','FLYING'),    'TOUGH_CLAWS'),
+ ('KANGASKHAN_MEGA', 'KANGASKHAN','kangaskhan/mega', 'KangaskhanMega','KANGASKHANITE', 'KANGASKHANITE', 'kangaskhanite',  (105,125,100,100,60,100), ('NORMAL','NORMAL'),  'PARENTAL_BOND'),
 ]
 
 # Megas that need a move instead of a Mega Stone

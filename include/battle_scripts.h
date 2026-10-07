@@ -98,6 +98,8 @@ extern const u8 BattleScript_OneHitKOMsg[];
 extern const u8 BattleScript_SAtkDown2[];
 extern const u8 BattleScript_FocusPunchSetUp[];
 extern const u8 BattleScript_MegaEvolution[];
+extern const u8 BattleScript_MoveUsedFlinchedSteadfast[];
+extern const u8 BattleScript_ParentalBondSecondHit[];
 extern const u8 BattleScript_MegaEvolutionByWish[];
 extern const u8 BattleScript_DefSpDefDown[];
 extern const u8 BattleScript_MoldBreakerActivates[];

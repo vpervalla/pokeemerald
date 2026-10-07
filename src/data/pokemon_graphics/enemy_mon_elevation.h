@@ -71,5 +71,7 @@ const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
     [SPECIES_PIDGEOT_MEGA] = 8,
     [SPECIES_GYARADOS_MEGA] = 6,
     [SPECIES_RAYQUAZA_MEGA] = 4,
+    [SPECIES_PINSIR_MEGA] = 4,
+    [SPECIES_AERODACTYL_MEGA] = 7,
     // </mega-evolutions>
 };

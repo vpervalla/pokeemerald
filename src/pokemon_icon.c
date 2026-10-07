@@ -484,6 +484,10 @@ const u8 *const gMonIconTable[] =
     [SPECIES_PIDGEOT_MEGA] = gMonIcon_Pidgeot,
     [SPECIES_GYARADOS_MEGA] = gMonIcon_Gyarados,
     [SPECIES_RAYQUAZA_MEGA] = gMonIcon_Rayquaza,
+    [SPECIES_MEWTWO_MEGA_X] = gMonIcon_Mewtwo,
+    [SPECIES_PINSIR_MEGA] = gMonIcon_Pinsir,
+    [SPECIES_AERODACTYL_MEGA] = gMonIcon_Aerodactyl,
+    [SPECIES_KANGASKHAN_MEGA] = gMonIcon_Kangaskhan,
     // </mega-evolutions>
 };
 
@@ -950,6 +954,10 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_PIDGEOT_MEGA] = 0,
     [SPECIES_GYARADOS_MEGA] = 0,
     [SPECIES_RAYQUAZA_MEGA] = 1,
+    [SPECIES_MEWTWO_MEGA_X] = 2,
+    [SPECIES_PINSIR_MEGA] = 2,
+    [SPECIES_AERODACTYL_MEGA] = 0,
+    [SPECIES_KANGASKHAN_MEGA] = 1,
     // </mega-evolutions>
 };
 
