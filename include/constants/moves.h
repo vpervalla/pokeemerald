@@ -359,8 +359,15 @@
 
 // Moves from later generations
 #define MOVE_DRAGON_ASCENT 355
+#define MOVE_FAIRY_WIND 356
+#define MOVE_DISARMING_VOICE 357
+#define MOVE_DRAINING_KISS 358
+#define MOVE_DAZZLING_GLEAM 359
+#define MOVE_MOONBLAST 360
+#define MOVE_PLAY_ROUGH 361
+#define MOVE_BABY_DOLL_EYES 362
 
-#define MOVES_COUNT 356
+#define MOVES_COUNT 363
 
 // Used for checks for moves affected by Disable, Mimic, etc.
 #define MOVE_UNAVAILABLE 0xFFFF

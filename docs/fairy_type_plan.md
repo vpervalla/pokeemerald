@@ -1,8 +1,33 @@
 # Plan: Fairy type
 
 This is a plan for adding the Fairy type to this project, with the Gen 6 type chart
-(including Steel's Gen 6 resistances) and a set of new Fairy moves. Nothing here is
-implemented yet.
+(including Steel's Gen 6 resistances) and a set of new Fairy moves.
+
+## Status
+
+Sections 1-7 are implemented, and `make` and `make modern` both build. The type chart
+was checked against the full Gen 6 chart (all 120 matchups match). Nothing has been
+tested in-game yet; section 10 is still to do.
+
+Differences from the plan below:
+
+- **Move-info label colours** (section 5): every colour in `menu_info2.pal` is in use
+  (slot 10 is also the TM-case info text shadow), so the FAIRY label in
+  `menu_info.png` (tile offset `0x04`) is cream on top and pink below, like the
+  two-tone POISON label. Replace it if you want a light pink; that needs a palette
+  slot. The summary-screen icon `graphics/types/fairy.png` uses palette 2's light
+  pink (index 12) with a peach top edge.
+- **Learnsets** (section 7): the levels and learners come from Omega Ruby / Alpha
+  Sapphire level-up data (PokeAPI), not the guesses in the table below. Baby-Doll
+  Eyes goes to Teddiursa, Vulpix, Eevee and Zigzagoon, and the other moves also go to
+  non-Fairy learners such as Hoppip, Swablu, Skitty and Luvdisc. Dazzling Gleam has
+  no Gen 6 level-up learners (it was TM99), so it uses Sword/Shield: Gardevoir at 1
+  and Mr. Mime at 44.
+- **Draining Kiss**: a new `EFFECT_DRAINING_KISS` that reuses the Absorb battle
+  script; `negativedamage` heals 3/4 for it. The AI and Battle TV treat it like
+  Absorb.
+- **Battle Arena and Battle Dome**: the new moves have mind ratings and battle-style
+  points. Dragon Ascent was missing both, so it got them too.
 
 ## 0. Decisions
 
@@ -174,7 +199,7 @@ the Move Relearner.
 | Fairy Wind | Togepi line, Mawile |
 | Disarming Voice | Clefairy line, Jigglypuff line, Ralts line, Togepi line |
 | Draining Kiss | Ralts line, Snubbull line, Togepi line |
-| Dazzling Gleam | Ralts line (Gardevoir), Togetic |
+| Dazzling Gleam | Ralts line (Gardevoir), Togetic (superseded: see Status) |
 | Moonblast | Clefairy line, Gardevoir |
 | Play Rough | Snubbull line, Marill line, Mawile, Jigglypuff line |
 | Baby-Doll Eyes | Snubbull line, Mawile, Azurill |

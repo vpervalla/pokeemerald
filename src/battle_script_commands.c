@@ -7090,7 +7090,10 @@ static void Cmd_stockpiletohpheal(void)
 
 static void Cmd_negativedamage(void)
 {
-    gBattleMoveDamage = -(gHpDealt / 2);
+    if (gBattleMoves[gCurrentMove].effect == EFFECT_DRAINING_KISS)
+        gBattleMoveDamage = -(gHpDealt * 3 / 4);
+    else
+        gBattleMoveDamage = -(gHpDealt / 2);
     if (gBattleMoveDamage == 0)
         gBattleMoveDamage = -1;
 
