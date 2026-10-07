@@ -5694,6 +5694,22 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_UNOWN_Z]     = sAnims_UnownZ,
     [SPECIES_UNOWN_EMARK] = sAnims_UnownEMark,
     [SPECIES_UNOWN_QMARK] = sAnims_UnownQMark,
+    // <mega-evolutions>
     [SPECIES_BLAZIKEN_MEGA] = sAnims_Blaziken,
+    [SPECIES_VENUSAUR_MEGA] = sAnims_Venusaur,
+    [SPECIES_CHARIZARD_MEGA_Y] = sAnims_Charizard,
+    [SPECIES_ALAKAZAM_MEGA] = sAnims_Alakazam,
+    [SPECIES_SLOWBRO_MEGA] = sAnims_Slowbro,
+    [SPECIES_GENGAR_MEGA] = sAnims_Gengar,
+    [SPECIES_MEWTWO_MEGA_Y] = sAnims_Mewtwo,
+    [SPECIES_TYRANITAR_MEGA] = sAnims_Tyranitar,
+    [SPECIES_SCEPTILE_MEGA] = sAnims_Sceptile,
+    [SPECIES_SWAMPERT_MEGA] = sAnims_Swampert,
+    [SPECIES_MAWILE_MEGA] = sAnims_Mawile,
+    [SPECIES_MEDICHAM_MEGA] = sAnims_Medicham,
+    [SPECIES_MANECTRIC_MEGA] = sAnims_Manectric,
+    [SPECIES_LATIAS_MEGA] = sAnims_Latias,
+    [SPECIES_LATIOS_MEGA] = sAnims_Latios,
+    // </mega-evolutions>
 
 };

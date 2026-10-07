@@ -593,6 +593,16 @@ static u16 GetBattlerMonSpriteSpecies(struct Pokemon *mon, u8 battler)
     return species;
 }
 
+// Like GetBattlerMonSpriteSpecies, for the party mon battler is using.
+// Doesn't account for Transform; callers check transformSpecies first.
+u16 GetBattlerPartySpriteSpecies(u8 battler)
+{
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+        return GetBattlerMonSpriteSpecies(&gPlayerParty[gBattlerPartyIndexes[battler]], battler);
+    else
+        return GetBattlerMonSpriteSpecies(&gEnemyParty[gBattlerPartyIndexes[battler]], battler);
+}
+
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battler)
 {
     u32 monsPersonality, currentPersonality, otId;

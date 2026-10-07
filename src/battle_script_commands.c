@@ -10356,9 +10356,14 @@ static void Cmd_handlemegaevolution(void)
         gBattlescriptCurrInstr += 3;
         break;
     case MEGA_EVO_SWITCH_IN_EFFECTS:
-        // Abilities like Drought activate as if the Mega Evolved Pokémon just switched in.
+        // Abilities like Drought, Intimidate and Trace activate as if the Mega Evolved
+        // Pokémon just switched in. Each one that activates runs its own script and
+        // returns here, so this command repeats until none is left.
+        if (AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gActiveBattler, 0, 0, 0)
+         || AbilityBattleEffects(ABILITYEFFECT_INTIMIDATE1, 0, 0, 0, 0)
+         || AbilityBattleEffects(ABILITYEFFECT_TRACE, 0, 0, 0, 0))
+            break;
         gBattlescriptCurrInstr += 3;
-        AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gActiveBattler, 0, 0, 0);
         break;
     }
 }

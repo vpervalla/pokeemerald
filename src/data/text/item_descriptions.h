@@ -1550,6 +1550,7 @@ static const u8 sOldSeaMapDesc[] = _(
     "that shows the way\n"
     "to a certain island.");
 
+// <mega-evolutions>
 static const u8 sMegaRingDesc[] = _(
     "A ring that lets\n"
     "POKéMON holding a\n"
@@ -1559,3 +1560,74 @@ static const u8 sBlazikeniteDesc[] = _(
     "A MEGA STONE that\n"
     "lets BLAZIKEN Mega\n"
     "Evolve in battle.");
+
+static const u8 sVenusauriteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets VENUSAUR Mega\n"
+    "Evolve in battle.");
+
+static const u8 sCharizarditeYDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets CHARIZARD Mega\n"
+    "Evolve into form Y.");
+
+static const u8 sAlakaziteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets ALAKAZAM Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSlowbroniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SLOWBRO Mega\n"
+    "Evolve in battle.");
+
+static const u8 sGengariteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets GENGAR Mega\n"
+    "Evolve in battle.");
+
+static const u8 sMewtwoniteYDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets MEWTWO Mega\n"
+    "Evolve into form Y.");
+
+static const u8 sTyranitariteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets TYRANITAR Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSceptiliteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SCEPTILE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSwampertiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SWAMPERT Mega\n"
+    "Evolve in battle.");
+
+static const u8 sMawiliteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets MAWILE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sMedichamiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets MEDICHAM Mega\n"
+    "Evolve in battle.");
+
+static const u8 sManectiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets MANECTRIC Mega\n"
+    "Evolve in battle.");
+
+static const u8 sLatiasiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets LATIAS Mega\n"
+    "Evolve in battle.");
+
+static const u8 sLatiositeDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets LATIOS Mega\n"
+    "Evolve in battle.");
+// </mega-evolutions>

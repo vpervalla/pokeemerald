@@ -440,5 +440,21 @@ const struct CompressedSpritePalette gMonShinyPaletteTable[] =
     SPECIES_SHINY_PAL(UNOWN_Z, gMonShinyPalette_Unown),
     SPECIES_SHINY_PAL(UNOWN_EMARK, gMonShinyPalette_Unown),
     SPECIES_SHINY_PAL(UNOWN_QMARK, gMonShinyPalette_Unown),
+    // <mega-evolutions>
     SPECIES_SHINY_PAL(BLAZIKEN_MEGA, gMonShinyPalette_BlazikenMega),
+    SPECIES_SHINY_PAL(VENUSAUR_MEGA, gMonShinyPalette_VenusaurMega),
+    SPECIES_SHINY_PAL(CHARIZARD_MEGA_Y, gMonShinyPalette_CharizardMegaY),
+    SPECIES_SHINY_PAL(ALAKAZAM_MEGA, gMonShinyPalette_AlakazamMega),
+    SPECIES_SHINY_PAL(SLOWBRO_MEGA, gMonShinyPalette_SlowbroMega),
+    SPECIES_SHINY_PAL(GENGAR_MEGA, gMonShinyPalette_GengarMega),
+    SPECIES_SHINY_PAL(MEWTWO_MEGA_Y, gMonShinyPalette_MewtwoMegaY),
+    SPECIES_SHINY_PAL(TYRANITAR_MEGA, gMonShinyPalette_TyranitarMega),
+    SPECIES_SHINY_PAL(SCEPTILE_MEGA, gMonShinyPalette_SceptileMega),
+    SPECIES_SHINY_PAL(SWAMPERT_MEGA, gMonShinyPalette_SwampertMega),
+    SPECIES_SHINY_PAL(MAWILE_MEGA, gMonShinyPalette_MawileMega),
+    SPECIES_SHINY_PAL(MEDICHAM_MEGA, gMonShinyPalette_MedichamMega),
+    SPECIES_SHINY_PAL(MANECTRIC_MEGA, gMonShinyPalette_ManectricMega),
+    SPECIES_SHINY_PAL(LATIAS_MEGA, gMonShinyPalette_LatiasMega),
+    SPECIES_SHINY_PAL(LATIOS_MEGA, gMonShinyPalette_LatiosMega),
+    // </mega-evolutions>
 };

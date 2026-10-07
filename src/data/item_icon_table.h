@@ -401,9 +401,24 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     // Emerald-only key items
     [ITEM_MAGMA_EMBLEM] = {gItemIcon_MagmaEmblem, gItemIconPalette_MagmaEmblem},
     [ITEM_OLD_SEA_MAP] = {gItemIcon_OldSeaMap, gItemIconPalette_OldSeaMap},
-    // Mega Evolution (placeholder icons)
-    [ITEM_MEGA_RING] = {gItemIcon_Gem, gItemIconPalette_Ruby},
-    [ITEM_BLAZIKENITE] = {gItemIcon_Orb, gItemIconPalette_Blazikenite},
+    // <mega-evolutions>
+    [ITEM_MEGA_RING] = {gItemIcon_MegaRing, gItemIconPalette_MegaRing},
+    [ITEM_BLAZIKENITE] = {gItemIcon_Blazikenite, gItemIconPalette_Blazikenite},
+    [ITEM_VENUSAURITE] = {gItemIcon_Venusaurite, gItemIconPalette_Venusaurite},
+    [ITEM_CHARIZARDITE_Y] = {gItemIcon_CharizarditeY, gItemIconPalette_CharizarditeY},
+    [ITEM_ALAKAZITE] = {gItemIcon_Alakazite, gItemIconPalette_Alakazite},
+    [ITEM_SLOWBRONITE] = {gItemIcon_Slowbronite, gItemIconPalette_Slowbronite},
+    [ITEM_GENGARITE] = {gItemIcon_Gengarite, gItemIconPalette_Gengarite},
+    [ITEM_MEWTWONITE_Y] = {gItemIcon_MewtwoniteY, gItemIconPalette_MewtwoniteY},
+    [ITEM_TYRANITARITE] = {gItemIcon_Tyranitarite, gItemIconPalette_Tyranitarite},
+    [ITEM_SCEPTILITE] = {gItemIcon_Sceptilite, gItemIconPalette_Sceptilite},
+    [ITEM_SWAMPERTITE] = {gItemIcon_Swampertite, gItemIconPalette_Swampertite},
+    [ITEM_MAWILITE] = {gItemIcon_Mawilite, gItemIconPalette_Mawilite},
+    [ITEM_MEDICHAMITE] = {gItemIcon_Medichamite, gItemIconPalette_Medichamite},
+    [ITEM_MANECTITE] = {gItemIcon_Manectite, gItemIconPalette_Manectite},
+    [ITEM_LATIASITE] = {gItemIcon_Latiasite, gItemIconPalette_Latiasite},
+    [ITEM_LATIOSITE] = {gItemIcon_Latiosite, gItemIconPalette_Latiosite},
+    // </mega-evolutions>
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

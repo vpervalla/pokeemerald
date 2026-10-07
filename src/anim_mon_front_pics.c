@@ -422,3 +422,21 @@ const u32 gMonFrontPic_UnownY[] = INCGFX_U32("graphics/pokemon/unown/y/anim_fron
 const u32 gMonFrontPic_UnownZ[] = INCGFX_U32("graphics/pokemon/unown/z/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_UnownExclamationMark[] = INCGFX_U32("graphics/pokemon/unown/exclamation_mark/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_UnownQuestionMark[] = INCGFX_U32("graphics/pokemon/unown/question_mark/anim_front.png", ".4bpp.lz");
+
+// <mega-evolutions>
+const u32 gMonFrontPic_BlazikenMega[] = INCGFX_U32("graphics/pokemon/blaziken/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_VenusaurMega[] = INCGFX_U32("graphics/pokemon/venusaur/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_CharizardMegaY[] = INCGFX_U32("graphics/pokemon/charizard/mega_y/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AlakazamMega[] = INCGFX_U32("graphics/pokemon/alakazam/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SlowbroMega[] = INCGFX_U32("graphics/pokemon/slowbro/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_GengarMega[] = INCGFX_U32("graphics/pokemon/gengar/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MewtwoMegaY[] = INCGFX_U32("graphics/pokemon/mewtwo/mega_y/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_TyranitarMega[] = INCGFX_U32("graphics/pokemon/tyranitar/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SceptileMega[] = INCGFX_U32("graphics/pokemon/sceptile/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SwampertMega[] = INCGFX_U32("graphics/pokemon/swampert/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MawileMega[] = INCGFX_U32("graphics/pokemon/mawile/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MedichamMega[] = INCGFX_U32("graphics/pokemon/medicham/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_ManectricMega[] = INCGFX_U32("graphics/pokemon/manectric/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_LatiasMega[] = INCGFX_U32("graphics/pokemon/latias/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/anim_front.png", ".4bpp.lz");
+// </mega-evolutions>

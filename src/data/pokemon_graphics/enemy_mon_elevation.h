@@ -63,4 +63,10 @@ const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
     [SPECIES_JIRACHI] = 12,
     [SPECIES_DEOXYS] = 8,
     [SPECIES_CHIMECHO] = 12,
+    // <mega-evolutions>
+    [SPECIES_ALAKAZAM_MEGA] = 7,
+    [SPECIES_MEWTWO_MEGA_Y] = 3,
+    [SPECIES_LATIAS_MEGA] = 8,
+    [SPECIES_LATIOS_MEGA] = 8,
+    // </mega-evolutions>
 };

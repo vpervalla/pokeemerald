@@ -440,5 +440,21 @@ const struct CompressedSpritePalette gMonPaletteTable[] =
     SPECIES_PAL(UNOWN_Z, gMonPalette_Unown),
     SPECIES_PAL(UNOWN_EMARK, gMonPalette_Unown),
     SPECIES_PAL(UNOWN_QMARK, gMonPalette_Unown),
+    // <mega-evolutions>
     SPECIES_PAL(BLAZIKEN_MEGA, gMonPalette_BlazikenMega),
+    SPECIES_PAL(VENUSAUR_MEGA, gMonPalette_VenusaurMega),
+    SPECIES_PAL(CHARIZARD_MEGA_Y, gMonPalette_CharizardMegaY),
+    SPECIES_PAL(ALAKAZAM_MEGA, gMonPalette_AlakazamMega),
+    SPECIES_PAL(SLOWBRO_MEGA, gMonPalette_SlowbroMega),
+    SPECIES_PAL(GENGAR_MEGA, gMonPalette_GengarMega),
+    SPECIES_PAL(MEWTWO_MEGA_Y, gMonPalette_MewtwoMegaY),
+    SPECIES_PAL(TYRANITAR_MEGA, gMonPalette_TyranitarMega),
+    SPECIES_PAL(SCEPTILE_MEGA, gMonPalette_SceptileMega),
+    SPECIES_PAL(SWAMPERT_MEGA, gMonPalette_SwampertMega),
+    SPECIES_PAL(MAWILE_MEGA, gMonPalette_MawileMega),
+    SPECIES_PAL(MEDICHAM_MEGA, gMonPalette_MedichamMega),
+    SPECIES_PAL(MANECTRIC_MEGA, gMonPalette_ManectricMega),
+    SPECIES_PAL(LATIAS_MEGA, gMonPalette_LatiasMega),
+    SPECIES_PAL(LATIOS_MEGA, gMonPalette_LatiosMega),
+    // </mega-evolutions>
 };

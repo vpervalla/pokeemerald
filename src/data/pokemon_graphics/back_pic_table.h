@@ -440,5 +440,21 @@ const struct CompressedSpriteSheet gMonBackPicTable[] =
     SPECIES_SPRITE(UNOWN_Z, gMonBackPic_UnownZ),
     SPECIES_SPRITE(UNOWN_EMARK, gMonBackPic_UnownExclamationMark),
     SPECIES_SPRITE(UNOWN_QMARK, gMonBackPic_UnownQuestionMark),
-    SPECIES_SPRITE(BLAZIKEN_MEGA, gMonBackPic_Blaziken),
+    // <mega-evolutions>
+    SPECIES_SPRITE(BLAZIKEN_MEGA, gMonBackPic_BlazikenMega),
+    SPECIES_SPRITE(VENUSAUR_MEGA, gMonBackPic_VenusaurMega),
+    SPECIES_SPRITE(CHARIZARD_MEGA_Y, gMonBackPic_CharizardMegaY),
+    SPECIES_SPRITE(ALAKAZAM_MEGA, gMonBackPic_AlakazamMega),
+    SPECIES_SPRITE(SLOWBRO_MEGA, gMonBackPic_SlowbroMega),
+    SPECIES_SPRITE(GENGAR_MEGA, gMonBackPic_GengarMega),
+    SPECIES_SPRITE(MEWTWO_MEGA_Y, gMonBackPic_MewtwoMegaY),
+    SPECIES_SPRITE(TYRANITAR_MEGA, gMonBackPic_TyranitarMega),
+    SPECIES_SPRITE(SCEPTILE_MEGA, gMonBackPic_SceptileMega),
+    SPECIES_SPRITE(SWAMPERT_MEGA, gMonBackPic_SwampertMega),
+    SPECIES_SPRITE(MAWILE_MEGA, gMonBackPic_MawileMega),
+    SPECIES_SPRITE(MEDICHAM_MEGA, gMonBackPic_MedichamMega),
+    SPECIES_SPRITE(MANECTRIC_MEGA, gMonBackPic_ManectricMega),
+    SPECIES_SPRITE(LATIAS_MEGA, gMonBackPic_LatiasMega),
+    SPECIES_SPRITE(LATIOS_MEGA, gMonBackPic_LatiosMega),
+    // </mega-evolutions>
 };

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_gfx_sfx_util.h"
 #include "bg.h"
 #include "contest.h"
 #include "data.h"
@@ -146,7 +147,7 @@ u8 GetBattlerSpriteCoord(u8 battler, u8 coordType)
             {
                 spriteInfo = gBattleSpritesDataPtr->battlerData;
                 if (!spriteInfo[battler].transformSpecies)
-                    species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                    species = GetBattlerPartySpriteSpecies(battler);
                 else
                     species = spriteInfo[battler].transformSpecies;
             }
@@ -154,7 +155,7 @@ u8 GetBattlerSpriteCoord(u8 battler, u8 coordType)
             {
                 spriteInfo = gBattleSpritesDataPtr->battlerData;
                 if (!spriteInfo[battler].transformSpecies)
-                    species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                    species = GetBattlerPartySpriteSpecies(battler);
                 else
                     species = spriteInfo[battler].transformSpecies;
             }
@@ -352,7 +353,7 @@ u8 GetBattlerYCoordWithElevation(u8 battler)
         {
             spriteInfo = gBattleSpritesDataPtr->battlerData;
             if (!spriteInfo[battler].transformSpecies)
-                species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                species = GetBattlerPartySpriteSpecies(battler);
             else
                 species = spriteInfo[battler].transformSpecies;
         }
@@ -360,7 +361,7 @@ u8 GetBattlerYCoordWithElevation(u8 battler)
         {
             spriteInfo = gBattleSpritesDataPtr->battlerData;
             if (!spriteInfo[battler].transformSpecies)
-                species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                species = GetBattlerPartySpriteSpecies(battler);
             else
                 species = spriteInfo[battler].transformSpecies;
         }
@@ -1916,7 +1917,7 @@ static u16 GetBattlerYDeltaFromSpriteId(u8 spriteId)
                 {
                     spriteInfo = gBattleSpritesDataPtr->battlerData;
                     if (!spriteInfo[battler].transformSpecies)
-                        species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
+                        species = GetBattlerPartySpriteSpecies(i);
                     else
                         species = spriteInfo[battler].transformSpecies;
 
@@ -1929,7 +1930,7 @@ static u16 GetBattlerYDeltaFromSpriteId(u8 spriteId)
                 {
                     spriteInfo = gBattleSpritesDataPtr->battlerData;
                     if (!spriteInfo[battler].transformSpecies)
-                        species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
+                        species = GetBattlerPartySpriteSpecies(i);
                     else
                         species = spriteInfo[battler].transformSpecies;
 
@@ -2199,7 +2200,7 @@ s16 GetBattlerSpriteCoordAttr(u8 battler, u8 attr)
             spriteInfo = gBattleSpritesDataPtr->battlerData;
             if (!spriteInfo[battler].transformSpecies)
             {
-                species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                species = GetBattlerPartySpriteSpecies(battler);
                 personality = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);
             }
             else
@@ -2231,7 +2232,7 @@ s16 GetBattlerSpriteCoordAttr(u8 battler, u8 attr)
             spriteInfo = gBattleSpritesDataPtr->battlerData;
             if (!spriteInfo[battler].transformSpecies)
             {
-                species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES);
+                species = GetBattlerPartySpriteSpecies(battler);
                 personality = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_PERSONALITY);
             }
             else

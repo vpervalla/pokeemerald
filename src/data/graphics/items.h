@@ -587,7 +587,6 @@ const u32 gItemIconPalette_EonTicket[] = INCGFX_U32("graphics/items/icon_palette
 
 const u32 gItemIcon_Orb[] = INCGFX_U32("graphics/items/icons/orb.png", ".4bpp.lz");
 const u32 gItemIconPalette_RedOrb[] = INCGFX_U32("graphics/items/icon_palettes/red_orb.pal", ".gbapal.lz");
-const u32 gItemIconPalette_Blazikenite[] = INCGFX_U32("graphics/items/icon_palettes/blazikenite.pal", ".gbapal.lz");
 const u32 gItemIconPalette_BlueOrb[] = INCGFX_U32("graphics/items/icon_palettes/blue_orb.pal", ".gbapal.lz");
 
 const u32 gItemIcon_Scanner[] = INCGFX_U32("graphics/items/icons/scanner.png", ".4bpp.lz");
@@ -737,3 +736,38 @@ const u32 gItemIconPalette_MagmaEmblem[] = INCGFX_U32("graphics/items/icon_palet
 
 const u32 gItemIcon_OldSeaMap[] = INCGFX_U32("graphics/items/icons/old_sea_map.png", ".4bpp.lz");
 const u32 gItemIconPalette_OldSeaMap[] = INCGFX_U32("graphics/items/icon_palettes/old_sea_map.pal", ".gbapal.lz");
+
+// <mega-evolutions>
+const u32 gItemIcon_MegaRing[] = INCGFX_U32("graphics/items/icons/mega_ring.png", ".4bpp.lz");
+const u32 gItemIconPalette_MegaRing[] = INCGFX_U32("graphics/items/icon_palettes/mega_ring.pal", ".gbapal.lz");
+const u32 gItemIcon_Blazikenite[] = INCGFX_U32("graphics/items/icons/blazikenite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Blazikenite[] = INCGFX_U32("graphics/items/icon_palettes/blazikenite.pal", ".gbapal.lz");
+const u32 gItemIcon_Venusaurite[] = INCGFX_U32("graphics/items/icons/venusaurite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Venusaurite[] = INCGFX_U32("graphics/items/icon_palettes/venusaurite.pal", ".gbapal.lz");
+const u32 gItemIcon_CharizarditeY[] = INCGFX_U32("graphics/items/icons/charizardite_y.png", ".4bpp.lz");
+const u32 gItemIconPalette_CharizarditeY[] = INCGFX_U32("graphics/items/icon_palettes/charizardite_y.pal", ".gbapal.lz");
+const u32 gItemIcon_Alakazite[] = INCGFX_U32("graphics/items/icons/alakazite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Alakazite[] = INCGFX_U32("graphics/items/icon_palettes/alakazite.pal", ".gbapal.lz");
+const u32 gItemIcon_Slowbronite[] = INCGFX_U32("graphics/items/icons/slowbronite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Slowbronite[] = INCGFX_U32("graphics/items/icon_palettes/slowbronite.pal", ".gbapal.lz");
+const u32 gItemIcon_Gengarite[] = INCGFX_U32("graphics/items/icons/gengarite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Gengarite[] = INCGFX_U32("graphics/items/icon_palettes/gengarite.pal", ".gbapal.lz");
+const u32 gItemIcon_MewtwoniteY[] = INCGFX_U32("graphics/items/icons/mewtwonite_y.png", ".4bpp.lz");
+const u32 gItemIconPalette_MewtwoniteY[] = INCGFX_U32("graphics/items/icon_palettes/mewtwonite_y.pal", ".gbapal.lz");
+const u32 gItemIcon_Tyranitarite[] = INCGFX_U32("graphics/items/icons/tyranitarite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Tyranitarite[] = INCGFX_U32("graphics/items/icon_palettes/tyranitarite.pal", ".gbapal.lz");
+const u32 gItemIcon_Sceptilite[] = INCGFX_U32("graphics/items/icons/sceptilite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Sceptilite[] = INCGFX_U32("graphics/items/icon_palettes/sceptilite.pal", ".gbapal.lz");
+const u32 gItemIcon_Swampertite[] = INCGFX_U32("graphics/items/icons/swampertite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Swampertite[] = INCGFX_U32("graphics/items/icon_palettes/swampertite.pal", ".gbapal.lz");
+const u32 gItemIcon_Mawilite[] = INCGFX_U32("graphics/items/icons/mawilite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Mawilite[] = INCGFX_U32("graphics/items/icon_palettes/mawilite.pal", ".gbapal.lz");
+const u32 gItemIcon_Medichamite[] = INCGFX_U32("graphics/items/icons/medichamite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Medichamite[] = INCGFX_U32("graphics/items/icon_palettes/medichamite.pal", ".gbapal.lz");
+const u32 gItemIcon_Manectite[] = INCGFX_U32("graphics/items/icons/manectite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Manectite[] = INCGFX_U32("graphics/items/icon_palettes/manectite.pal", ".gbapal.lz");
+const u32 gItemIcon_Latiasite[] = INCGFX_U32("graphics/items/icons/latiasite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Latiasite[] = INCGFX_U32("graphics/items/icon_palettes/latiasite.pal", ".gbapal.lz");
+const u32 gItemIcon_Latiosite[] = INCGFX_U32("graphics/items/icons/latiosite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Latiosite[] = INCGFX_U32("graphics/items/icon_palettes/latiosite.pal", ".gbapal.lz");
+// </mega-evolutions>

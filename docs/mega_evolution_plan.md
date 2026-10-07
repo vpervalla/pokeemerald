@@ -266,6 +266,38 @@ Remaining gaps:
   `SetWildMonHeldItem` replaces a wild Pokémon's item with its species' `itemCommon`
   or `itemRare`.
 
+### Phase 3 status: done
+
+- **New Megas:** 14, plus real art for Mega Blaziken: Venusaur, Charizard Y, Alakazam,
+  Slowbro, Gengar, Mewtwo Y, Tyranitar, Sceptile, Swampert, Mawile, Medicham, Manectric,
+  Latias and Latios. Each has Gen 6/7 base stats, its Mega ability and its Mega Stone.
+  Mega Mawile stays pure Steel (D2).
+- **Sprites:** the Gen 3 style sprites and stone and Mega Ring icons come from
+  pokeemerald-expansion; see `docs/mega_evolution_credits.md`.
+- **Import tool:** `tools/mega_evolutions/import_megas.py` copies the assets and
+  generates all the data from one table (`MEGAS`). Adding a phase 4 Mega is a new row
+  and a re-run. Its generated code sits between `<mega-evolutions>` markers, and
+  re-running it changes nothing.
+- **Sprite positions:** sprite offsets and elevation in battle now use the Mega's own
+  values (`GetBattlerPartySpriteSpecies`), not the base form's.
+- **Switch-in abilities:** Mega Evolution now also triggers Intimidate and Trace, not
+  just weather abilities.
+- **Stone name:** item names fit 13 characters, so Charizardite Y is spelled
+  "CHARZARDITE Y".
+- **Palette tags:** a static assert keeps the species ids below `SPECIES_SHINY_TAG`
+  (500), which the palette tags rely on. The Megas so far reach 454.
+
+Tested in mGBA, for all 15 Megas, as the player's Pokémon and as a (test-only) Mega
+Evolving opponent:
+- Species, stats and abilities are right.
+- Front and back sprites look right, and Mega Latias and Mega Latios float with
+  shadows.
+- Mega Charizard Y's Drought, Mega Manectric's Intimidate (Attack −1) and Mega
+  Alakazam's Trace activate.
+- Mega Tyranitar shows no Sand Stream message, because base Tyranitar's Sand Stream
+  already started the sandstorm.
+- The phase 1 and 2 scenarios still pass.
+
 ## 9. Testing
 
 - `make` and `make modern` must both build. Watch the ROM size, because each Mega adds
@@ -280,5 +312,6 @@ Remaining gaps:
 
 For each Mega: front sprite, back sprite, normal and shiny palettes (64×64, 16 colours,
 in the Gen 3 style), the stone icons, the Mega trigger graphic and the health-box
-indicator. These are the long pole. Community Gen 3-style Mega sprite packs exist.
-Check their licenses before using them.
+indicator. The sprites and icons come from pokeemerald-expansion (see
+`docs/mega_evolution_credits.md`), which has Gen 3 style art for every Mega. The Mega
+trigger is still a placeholder.

@@ -444,6 +444,22 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_UNOWN_Z]     = { .size = MON_COORDS_SIZE(32, 48), .y_offset = 10 },
     [SPECIES_UNOWN_EMARK] = { .size = MON_COORDS_SIZE(24, 56), .y_offset =  6 },
     [SPECIES_UNOWN_QMARK] = { .size = MON_COORDS_SIZE(32, 56), .y_offset =  6 },
-    [SPECIES_BLAZIKEN_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset =  0 },
+    // <mega-evolutions>
+    [SPECIES_BLAZIKEN_MEGA] = { .size = MON_COORDS_SIZE(56, 64), .y_offset = 0 },
+    [SPECIES_VENUSAUR_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 8 },
+    [SPECIES_CHARIZARD_MEGA_Y] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 1 },
+    [SPECIES_ALAKAZAM_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_SLOWBRO_MEGA] = { .size = MON_COORDS_SIZE(64, 48), .y_offset = 9 },
+    [SPECIES_GENGAR_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_MEWTWO_MEGA_Y] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 2 },
+    [SPECIES_TYRANITAR_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_SCEPTILE_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 3 },
+    [SPECIES_SWAMPERT_MEGA] = { .size = MON_COORDS_SIZE(64, 56), .y_offset = 6 },
+    [SPECIES_MAWILE_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 6 },
+    [SPECIES_MEDICHAM_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 1 },
+    [SPECIES_MANECTRIC_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_LATIAS_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 1 },
+    [SPECIES_LATIOS_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 1 },
+    // </mega-evolutions>
 };
 
