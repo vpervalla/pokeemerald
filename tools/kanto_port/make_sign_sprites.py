@@ -12,6 +12,11 @@ tinted. Its pixels are taken row by row between the leftmost and rightmost pixel
 ring (colours 1, 2 and 7, within the ball's columns, as the plate's edges share them), which takes in
 the gold between the ring and the centre button; the grey band across the ball stays tinted. The
 ball fills the middle of the sprite's top half.
+Gym billboards (the signs in front of Gyms): the ball's red, the dots below it and the "GYM" text,
+which is dark grey on the plate, so it takes the doors' warm light instead (its darkest strokes the
+palest), in two 16x16 sprites, as the billboard's top metatile draws on the top BG layer.
+Saffron's Fighting Dojo doorway: an open doorway with no door, dark navy, lit with the doors' warm light
+shaded like their glass (deeper at the top, palest at the bottom).
 "P.C", "MART" and "GYM" signs: their red letters, which use the Pokemon Center ball's colours (MART's
 muted anti-aliasing pixels stay tinted).
 Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lit like the windows
@@ -130,22 +135,47 @@ for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *extra) in SIGN
         out = strip
     sprites[name] = (out, (pal, bright))
 
+# Gym billboard: metatile 0x160 over 0x168. Text pixels are recoloured to the door glass's light.
+BILLBOARD_RED = {11, 12, 13}
+BILLBOARD_TEXT_ROWS = range(20, 23)
+BILLBOARD_TEXT = {6: 10, 5: 12, 4: 13}  # Text colour -> glass colour whose light it takes
+grid = compose(0x160, 2) + compose(0x168, 2)
+for half, rows in (("gym_billboard_top", range(0, 16)), ("gym_billboard_bottom", range(16, 32))):
+    out = Image.new("P", (16, 16), 0)
+    for y in rows:
+        for x in range(16):
+            c = grid[y][x]
+            if c in BILLBOARD_RED or (c in BILLBOARD_TEXT and y in BILLBOARD_TEXT_ROWS):
+                out.putpixel((x, y - rows[0]), c)
+    sprites[half] = (out, (2, brighten), {c: ((3, lit_glass), g) for c, g in BILLBOARD_TEXT.items()})
+
+# Fighting Dojo doorway (Saffron's 0x333): its dark colour 7, as door glass colours by row.
+DOJO_DOORWAY_DARK = 7
+DOJO_DOORWAY_GLASS = [13] * 3 + [12] * 8 + [10] * 3  # Rows 0-13
+grid = compose(0x333, 2, load_tileset("data/tilesets/secondary/kanto_saffron_city/"))
+out = Image.new("P", (16, 16), 0)
+for y, glass in enumerate(DOJO_DOORWAY_GLASS):
+    for x in range(16):
+        if grid[y][x] == DOJO_DOORWAY_DARK:
+            out.putpixel((x, y), glass)
+sprites["dojo_doorway"] = (out, (3, lit_glass))
+
+sprites = {name: v if len(v) == 3 else v + ({},) for name, v in sprites.items()}
+
 # The shared palette: index 0 is transparent, then each group's colours that the sprites use.
 shared = [(255, 0, 255)]
 remap = {}
-for name, (out, group) in sprites.items():
-    pal, bright = group
-    colors = jasc(f"{P}palettes/{pal:02d}.pal")
-    for c in sorted(set(out.get_flattened_data()) - {0}):
-        if (group, c) not in remap:
-            remap[(group, c)] = len(shared)
-            shared.append(bright(colors[c]))
-    first = min(remap[(group, c)] for c in set(out.get_flattened_data()) - {0})
-    last = max(remap[(group, c)] for c in set(out.get_flattened_data()) - {0})
-    print(f"{name}: shared colours {first}-{last}")
+for name, (out, group, recolor) in sprites.items():
+    keys = [recolor.get(c, (group, c)) for c in sorted(set(out.get_flattened_data()) - {0})]
+    for key in keys:
+        if key not in remap:
+            (pal, bright), c = key
+            remap[key] = len(shared)
+            shared.append(bright(jasc(f"{P}palettes/{pal:02d}.pal")[c]))
+    print(f"{name}: shared colours {sorted(remap[k] for k in keys)}")
 assert len(shared) <= 16, "the glowing colours don't fit in one palette"
 shared += [(0, 0, 0)] * (16 - len(shared))
-for name, (out, group) in sprites.items():
-    out = out.point(lambda c: remap.get((group, c), 0))
+for name, (out, group, recolor) in sprites.items():
+    out = out.point(lambda c: remap.get(recolor.get(c, (group, c)), 0))
     out.putpalette([v for c in shared for v in c])
     out.save(f"graphics/day_night/{name}.png")
