@@ -709,3 +709,15 @@ void DayNight_TransferPlttBuffer(void)
     else
         TransferPlttBuffer();
 }
+
+// The palettes the VBlank would show, for copies to palette RAM outside it (BeginNormalPaletteFade):
+// gPlttBufferFaded, tinted first while the tint is in use, so a fade doesn't flash the untinted colours.
+const u16 *DayNight_GetPlttBufferToShow(void)
+{
+    if (sTintActive && gMain.vblankCounter1 - sLastTintFrame <= 2)
+    {
+        TintPalettes(FALSE, sTintedColors, sLitColorsUsed);
+        return sTintedPltt;
+    }
+    return gPlttBufferFaded;
+}
