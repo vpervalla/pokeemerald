@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Cut the Poke Ball emblems of the Pokemon Center, Mart and Gyms out of kanto_general into 32x32
-sprites, and the glass of their doors into 16x16 ones, which src/day_night.c lays over them at night so
-they glow. Run from the pokeemerald root.
+"""Cut the Poke Ball emblems of the Pokemon Center, Mart and Gyms and the Pokemon Center's "P.C" sign out
+of kanto_general into 32x32 sprites, and the glass of their doors into 16x16 ones, which src/day_night.c
+lays over them at night so they glow. Run from the pokeemerald root.
 
 Pokemon Center and Mart: only the ball's red or blue pixels go in the sprite, so the grey plate and
 the ball's white band stay part of the tinted building. They are taken from inside the emblem plate,
@@ -12,9 +12,10 @@ tinted. Its pixels are taken row by row between the leftmost and rightmost pixel
 ring (colours 1, 2 and 7, within the ball's columns, as the plate's edges share them), which takes in
 the gold between the ring and the centre button; the grey band across the ball stays tinted. The
 ball fills the middle of the sprite's top half.
-Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lightened towards a
-warm white. day_night.c only half tints them, so a faint light seems to come through the glass.
-The sprites only show while the lights are on, so their palettes hold brightened colours.
+"P.C" sign: its red letters, which use the Pokemon Center ball's colours.
+Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lit like the windows
+(the same warm light as LitGlassColor in day_night.c).
+The sprites only show while the lights are on, so their palettes hold softly brightened colours.
 
 The overworld leaves few sprite palette slots free, so all the sprites share one palette: each
 source palette's glowing colours (one group per tileset palette and brightening) get their own range of
@@ -35,21 +36,24 @@ DOOR_GLASS = {10, 12, 13}
 DOOR_GLASS_EDGE = (DOOR_GLASS, 0, 15, False)
 
 def brighten(c):
-    return tuple(min(255, round(v * 1.25 + 24)) for v in c)
+    return tuple(min(255, round(v * 1.1 + 8)) for v in c)
 
 def brighten_gold(c):
-    return tuple(min(255, round(v * 1.1 + 12)) for v in c)
+    return tuple(min(255, round(v * 1.04 + 4)) for v in c)
 
-def light_glass(c):
-    return tuple(round(v * 0.6 + w * 0.4) for v, w in zip(c, (255, 236, 190)))
+def lit_glass(c):
+    """LitGlassColor in src/day_night.c, on the colour's GBA (5-bit) value."""
+    v = sum(x >> 3 for x in c) // 3
+    return tuple(x * 8 for x in (min(31, 24 + v // 4), 12 + v * 18 // 31, 2 + v * 16 // 31))
 # name: (palette, metatile rows, pixel x of the sprite's left edge within those rows, glowing colours,
 #        edge of the glowing pixels, brighten function, sprite size)
 SIGNS = {
     "pokemon_center_sign": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
     "mart_sign": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
+    "pokemon_center_text": (2, [[0x60, 0x61]], 0, BALL_COLORS, (BALL_COLORS, 0, 31, False), brighten),
     "gym_sign": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
-    "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, light_glass, 16),  # Pokemon Center, Mart
-    "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, light_glass, 16),
+    "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16),  # Pokemon Center, Mart
+    "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16),
 }
 
 tiles_im = Image.open(P + "tiles.png")
