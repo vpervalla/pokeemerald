@@ -1746,6 +1746,10 @@ void ResetPokemonStorageSystem(void)
         SetBoxWallpaper(boxId, boxId % (MAX_DEFAULT_WALLPAPER + 1));
 
     ResetWaldaWallpaper();
+
+    // A new game starts with the Kanto port's vars and extra flags cleared
+    CpuFill16(0, gPokemonStoragePtr->kantoVars, sizeof(gPokemonStoragePtr->kantoVars));
+    CpuFill16(0, gPokemonStoragePtr->kantoExtraFlags, sizeof(gPokemonStoragePtr->kantoExtraFlags));
 }
 
 

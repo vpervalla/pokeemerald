@@ -127,8 +127,8 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    // Kanto port: start outside the player's house in Pallet Town instead of the truck.
-    SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN), MAP_NUM(MAP_PALLET_TOWN), WARP_ID_NONE, 6, 8);
+    // Kanto port: start in the player's room in Pallet Town, as in FRLG, instead of the truck.
+    SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
     WarpIntoMap();
 }
 

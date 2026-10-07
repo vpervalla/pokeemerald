@@ -96,6 +96,7 @@ EWRAM_DATA static u16 sTrainerBattleMode = 0;
 EWRAM_DATA u16 gTrainerBattleOpponent_A = 0;
 EWRAM_DATA u16 gTrainerBattleOpponent_B = 0;
 EWRAM_DATA u16 gPartnerTrainerId = 0;
+EWRAM_DATA static bool8 sIsOldManTutorialBattle = FALSE;
 EWRAM_DATA static u16 sTrainerObjectEventLocalId = 0;
 EWRAM_DATA static u8 *sTrainerAIntroSpeech = NULL;
 EWRAM_DATA static u8 *sTrainerBIntroSpeech = NULL;
@@ -108,6 +109,7 @@ EWRAM_DATA static u8 *sTrainerABattleScriptRetAddr = NULL;
 EWRAM_DATA static u8 *sTrainerBBattleScriptRetAddr = NULL;
 EWRAM_DATA static bool8 sShouldCheckTrainerBScript = FALSE;
 EWRAM_DATA static u8 sNoOfPossibleTrainerRetScripts = 0;
+EWRAM_DATA static u16 sRivalBattleFlags = 0;
 
 // The first transition is used if the enemy Pokémon are lower level than our Pokémon.
 // Otherwise, the second transition is used.
@@ -157,6 +159,20 @@ static const u8 sBattleTransitionTable_BattleDome[] =
     B_TRANSITION_FRONTIER_SQUARES,
     B_TRANSITION_FRONTIER_SQUARES_SCROLL,
     B_TRANSITION_FRONTIER_SQUARES_SPIRAL
+};
+
+// TRAINER_BATTLE_EARLY_RIVAL: the local id slot holds the RIVAL_BATTLE_* flags
+static const struct TrainerBattleParameter sEarlyRivalBattleParams[] =
+{
+    {&sTrainerBattleMode,           TRAINER_PARAM_LOAD_VAL_8BIT},
+    {&gTrainerBattleOpponent_A,     TRAINER_PARAM_LOAD_VAL_16BIT},
+    {&sRivalBattleFlags,            TRAINER_PARAM_LOAD_VAL_16BIT},
+    {&sTrainerAIntroSpeech,         TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerADefeatSpeech,        TRAINER_PARAM_LOAD_VAL_32BIT},
+    {&sTrainerVictorySpeech,        TRAINER_PARAM_LOAD_VAL_32BIT},
+    {&sTrainerCannotBattleSpeech,   TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerABattleScriptRetAddr, TRAINER_PARAM_CLEAR_VAL_32BIT},
+    {&sTrainerBattleEndScript,      TRAINER_PARAM_LOAD_SCRIPT_RET_ADDR},
 };
 
 static const struct TrainerBattleParameter sOrdinaryBattleParams[] =
@@ -483,7 +499,34 @@ void StartWallyTutorialBattle(void)
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
     gBattleTypeFlags = BATTLE_TYPE_WALLY_TUTORIAL;
+    sIsOldManTutorialBattle = FALSE;
     CreateBattleStartTask(B_TRANSITION_SLICE, 0);
+}
+
+// Initiates battle where the old man of Viridian City catches Weedle (FRLG's BATTLE_TYPE_OLD_MAN_TUTORIAL).
+// It's the Wally tutorial battle, with the old man in Wally's place: he doesn't send out a Pokémon
+// and throws a Poké Ball right away.
+void StartOldManTutorialBattle(void)
+{
+    CreateMaleMon(&gEnemyParty[0], SPECIES_WEEDLE, 5);
+    LockPlayerFieldControls();
+    gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
+    gBattleTypeFlags = BATTLE_TYPE_WALLY_TUTORIAL;
+    sIsOldManTutorialBattle = TRUE;
+    CreateBattleStartTask(B_TRANSITION_SLICE, 0);
+}
+
+bool32 IsOldManTutorialBattle(void)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL) && sIsOldManTutorialBattle;
+}
+
+// Who throws the Poké Ball in the tutorial battle
+u8 GetWallyTutorialBackPicId(void)
+{
+    if (IsOldManTutorialBattle())
+        return TRAINER_BACK_PIC_OLD_MAN;
+    return TRAINER_BACK_PIC_WALLY;
 }
 
 void BattleSetup_StartScriptedWildBattle(void)
@@ -981,14 +1024,23 @@ static u8 TrainerBattleLoadArg8(const u8 *ptr)
     return T1_READ_8(ptr);
 }
 
+// Kanto trainers come after Emerald's, whose flags fill the trainer flag range, so theirs are
+// kept apart (in SaveBlock1.kantoFlags)
+static u16 GetTrainerFlagId(u16 trainerId)
+{
+    if (trainerId >= KANTO_TRAINERS_START)
+        return KANTO_TRAINER_FLAGS_START + trainerId - KANTO_TRAINERS_START;
+    return TRAINER_FLAGS_START + trainerId;
+}
+
 static u16 GetTrainerAFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_A;
+    return GetTrainerFlagId(gTrainerBattleOpponent_A);
 }
 
 static u16 GetTrainerBFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_B;
+    return GetTrainerFlagId(gTrainerBattleOpponent_B);
 }
 
 static bool32 IsPlayerDefeated(u32 battleOutcome)
@@ -1107,6 +1159,10 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
 
     switch (sTrainerBattleMode)
     {
+    case TRAINER_BATTLE_EARLY_RIVAL:
+        sRivalBattleFlags = 0;
+        TrainerBattleLoadArgs(sEarlyRivalBattleParams, data);
+        return EventScript_DoNoIntroTrainerBattle;
     case TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT:
         TrainerBattleLoadArgs(sOrdinaryNoIntroBattleParams, data);
         return EventScript_DoNoIntroTrainerBattle;
@@ -1215,7 +1271,7 @@ void SetUpTwoTrainersBattle(void)
 bool32 GetTrainerFlagFromScriptPointer(const u8 *data)
 {
     u32 flag = TrainerBattleLoadArg16(data + 2);
-    return FlagGet(TRAINER_FLAGS_START + flag);
+    return FlagGet(GetTrainerFlagId(flag));
 }
 
 // Set trainer's movement type so they stop and remain facing that direction
@@ -1256,17 +1312,17 @@ static void UNUSED SetBattledTrainerFlag(void)
 
 bool8 HasTrainerBeenFought(u16 trainerId)
 {
-    return FlagGet(TRAINER_FLAGS_START + trainerId);
+    return FlagGet(GetTrainerFlagId(trainerId));
 }
 
 void SetTrainerFlag(u16 trainerId)
 {
-    FlagSet(TRAINER_FLAGS_START + trainerId);
+    FlagSet(GetTrainerFlagId(trainerId));
 }
 
 void ClearTrainerFlag(u16 trainerId)
 {
-    FlagClear(TRAINER_FLAGS_START + trainerId);
+    FlagClear(GetTrainerFlagId(trainerId));
 }
 
 void BattleSetup_StartTrainerBattle(void)
@@ -1326,6 +1382,22 @@ void BattleSetup_StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
+    if (sTrainerBattleMode == TRAINER_BATTLE_EARLY_RIVAL)
+    {
+        // FRLG: the story goes on whether the player won or not
+        gSpecialVar_Result = IsPlayerDefeated(gBattleOutcome);
+        if (gSpecialVar_Result && !(sRivalBattleFlags & RIVAL_BATTLE_HEAL_AFTER))
+        {
+            SetMainCallback2(CB2_WhiteOut);
+            return;
+        }
+        if (gSpecialVar_Result)
+            HealPlayerParty();
+        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+        SetBattledTrainersFlags();
+        return;
+    }
+
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -1450,6 +1522,34 @@ void PlayTrainerEncounterMusic(void)
     if (sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
         && sTrainerBattleMode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
     {
+        if (trainerId >= KANTO_TRAINERS_START)
+        {
+            // FRLG's encounter music
+            switch (GetTrainerEncounterMusicId(trainerId))
+            {
+            case TRAINER_ENCOUNTER_MUSIC_FEMALE:
+            case TRAINER_ENCOUNTER_MUSIC_GIRL:
+            case TRAINER_ENCOUNTER_MUSIC_TWINS:
+                music = MUS_RG_ENCOUNTER_GIRL;
+                break;
+            case TRAINER_ENCOUNTER_MUSIC_MALE:
+            case TRAINER_ENCOUNTER_MUSIC_INTENSE:
+            case TRAINER_ENCOUNTER_MUSIC_COOL:
+            case TRAINER_ENCOUNTER_MUSIC_SWIMMER:
+            case TRAINER_ENCOUNTER_MUSIC_ELITE_FOUR:
+            case TRAINER_ENCOUNTER_MUSIC_HIKER:
+            case TRAINER_ENCOUNTER_MUSIC_INTERVIEWER:
+            case TRAINER_ENCOUNTER_MUSIC_RICH:
+                music = MUS_RG_ENCOUNTER_BOY;
+                break;
+            default:
+                music = MUS_RG_ENCOUNTER_ROCKET;
+                break;
+            }
+            PlayNewMapMusic(music);
+            return;
+        }
+
         switch (GetTrainerEncounterMusicId(trainerId))
         {
         case TRAINER_ENCOUNTER_MUSIC_MALE:

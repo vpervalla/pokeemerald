@@ -1398,6 +1398,7 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/species_info.h"
 #include "data/pokemon/level_up_learnsets.h"
 #include "data/pokemon/evolution.h"
+#include "data/pokemon/mega_evolutions.h"
 #include "data/pokemon/level_up_learnset_pointers.h"
 
 // SPECIES_NONE are ignored in the following two tables, so decrement before accessing these arrays to get the right result
@@ -2048,6 +2049,15 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .oam = &gOamData_BattleSpritePlayerSide,
         .anims = NULL,
         .images = gTrainerBackPicTable_Steven,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_OLD_MAN] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_OldMan,
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
@@ -3120,6 +3130,13 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         gBattleMovePower = gBattleMoves[move].power;
     else
         gBattleMovePower = powerOverride;
+
+    if (attacker->ability == ABILITY_TOUGH_CLAWS && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT))
+        gBattleMovePower = (gBattleMovePower * 130) / 100;
+    if (attacker->ability == ABILITY_MEGA_LAUNCHER && (gBattleMoves[move].flags & FLAG_PULSE_MOVE))
+        gBattleMovePower = (gBattleMovePower * 150) / 100;
+    if (attacker->ability == ABILITY_AERILATE && gBattleStruct->ateBoost)
+        gBattleMovePower = (gBattleMovePower * 120) / 100; // Gen 7+; Gen 6 used 1.3x
 
     if (!typeOverride)
         type = gBattleMoves[move].type;
@@ -4635,7 +4652,7 @@ void GetSpeciesName(u8 *name, u16 species)
 
     for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
-        if (species > NUM_SPECIES)
+        if (SPECIES_HAS_NO_DATA(species))
             name[i] = gSpeciesNames[SPECIES_NONE][i];
         else
             name[i] = gSpeciesNames[species][i];
@@ -5679,6 +5696,7 @@ u16 SpeciesToNationalPokedexNum(u16 species)
     if (!species)
         return 0;
 
+    species = GetMegaBaseSpecies(species);
     return sSpeciesToNationalPokedexNum[species - 1];
 }
 
@@ -5687,6 +5705,7 @@ u16 SpeciesToHoennPokedexNum(u16 species)
     if (!species)
         return 0;
 
+    species = GetMegaBaseSpecies(species);
     return sSpeciesToHoennPokedexNum[species - 1];
 }
 
@@ -6448,6 +6467,21 @@ u16 GetBattleBGM(void)
         else
             trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
 
+        // Kanto trainers battle to FRLG's music
+        if (gTrainerBattleOpponent_A >= KANTO_TRAINERS_START && !(gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL)))
+        {
+            switch (trainerClass)
+            {
+            case TRAINER_CLASS_LEADER:
+            case TRAINER_CLASS_ELITE_FOUR:
+                return MUS_RG_VS_GYM_LEADER;
+            case TRAINER_CLASS_CHAMPION:
+                return MUS_RG_VS_CHAMPION;
+            default:
+                return MUS_RG_VS_TRAINER;
+            }
+        }
+
         switch (trainerClass)
         {
         case TRAINER_CLASS_AQUA_LEADER:
@@ -6542,7 +6576,7 @@ const u32 *GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 p
 {
     u32 shinyValue;
 
-    if (species > NUM_SPECIES)
+    if (SPECIES_HAS_NO_DATA(species))
         return gMonPaletteTable[SPECIES_NONE].data;
 
     shinyValue = GET_SHINY_VALUE(otId, personality);
@@ -6995,14 +7029,14 @@ void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
 
 const u8 *GetTrainerClassNameFromId(u16 trainerId)
 {
-    if (trainerId >= TRAINERS_COUNT)
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
         trainerId = TRAINER_NONE;
     return gTrainerClassNames[gTrainers[trainerId].trainerClass];
 }
 
 const u8 *GetTrainerNameFromId(u16 trainerId)
 {
-    if (trainerId >= TRAINERS_COUNT)
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
         trainerId = TRAINER_NONE;
     return gTrainers[trainerId].trainerName;
 }
@@ -7203,5 +7237,114 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
             spriteNum = 0;
 
         return gfx->spritePointers[spriteNum];
+    }
+}
+
+// Returns the species that baseSpecies Mega Evolves into while holding heldItem,
+// or SPECIES_NONE if it can't Mega Evolve with that item.
+u16 GetMegaEvolutionSpecies(u16 baseSpecies, u16 heldItem)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].baseSpecies == baseSpecies
+         && sMegaEvolutions[i].requiredMove == MOVE_NONE
+         && sMegaEvolutions[i].megaStone == heldItem)
+            return sMegaEvolutions[i].megaSpecies;
+    }
+    return SPECIES_NONE;
+}
+
+// Like GetMegaEvolutionSpecies, for Mega Evolutions that need a move instead of a
+// Mega Stone (Rayquaza and Dragon Ascent). moves has MAX_MON_MOVES entries.
+u16 GetMoveMegaEvolutionSpecies(u16 baseSpecies, const u16 *moves)
+{
+    u32 i, j;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].baseSpecies != baseSpecies || sMegaEvolutions[i].requiredMove == MOVE_NONE)
+            continue;
+        for (j = 0; j < MAX_MON_MOVES; j++)
+        {
+            if (moves[j] == sMegaEvolutions[i].requiredMove)
+                return sMegaEvolutions[i].megaSpecies;
+        }
+    }
+    return SPECIES_NONE;
+}
+
+// Returns the species a Mega Evolution came from, or species itself if it isn't a Mega.
+u16 GetMegaBaseSpecies(u16 species)
+{
+    u32 i;
+
+    if (!SPECIES_IS_MEGA(species))
+        return species;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].megaSpecies == species)
+            return sMegaEvolutions[i].baseSpecies;
+    }
+    return species;
+}
+
+// Fills stats (indexed by STAT_HP..STAT_SPDEF) with what mon's stats would be as
+// the given species, using its level, IVs, EVs and nature. Used for Mega Evolution.
+void CalculateMonStatsForSpecies(struct Pokemon *mon, u16 species, u16 *stats)
+{
+    s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    u8 nature = GetNature(mon);
+    s32 i, n, baseStat, iv, ev;
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        switch (i)
+        {
+        default:
+        case STAT_HP:
+            baseStat = gSpeciesInfo[species].baseHP;
+            iv = GetMonData(mon, MON_DATA_HP_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_HP_EV, NULL);
+            break;
+        case STAT_ATK:
+            baseStat = gSpeciesInfo[species].baseAttack;
+            iv = GetMonData(mon, MON_DATA_ATK_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_ATK_EV, NULL);
+            break;
+        case STAT_DEF:
+            baseStat = gSpeciesInfo[species].baseDefense;
+            iv = GetMonData(mon, MON_DATA_DEF_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_DEF_EV, NULL);
+            break;
+        case STAT_SPEED:
+            baseStat = gSpeciesInfo[species].baseSpeed;
+            iv = GetMonData(mon, MON_DATA_SPEED_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPEED_EV, NULL);
+            break;
+        case STAT_SPATK:
+            baseStat = gSpeciesInfo[species].baseSpAttack;
+            iv = GetMonData(mon, MON_DATA_SPATK_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPATK_EV, NULL);
+            break;
+        case STAT_SPDEF:
+            baseStat = gSpeciesInfo[species].baseSpDefense;
+            iv = GetMonData(mon, MON_DATA_SPDEF_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPDEF_EV, NULL);
+            break;
+        }
+
+        if (i == STAT_HP)
+        {
+            n = (((2 * baseStat + iv + ev / 4) * level) / 100) + level + 10;
+        }
+        else
+        {
+            n = (((2 * baseStat + iv + ev / 4) * level) / 100) + 5;
+            n = ModifyStatByNature(nature, n, i);
+        }
+        stats[i] = n;
     }
 }

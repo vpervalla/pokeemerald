@@ -658,10 +658,9 @@ def cmd_heal(args):
             continue
         path = f"data/maps/{new}/scripts.inc"
         cur = read(path)
-        npcs = ""  # the NPC scripts port_npcs.py appends to the file are kept as they are
         if NPC_BLOCK_BEGIN in cur:
-            npcs = "\n" + cur[cur.index(NPC_BLOCK_BEGIN):]
-            cur = cur[:cur.index(NPC_BLOCK_BEGIN)].rstrip("\n") + "\n"
+            continue  # port_npcs.py objects has ported the whole map script, these commands included
+        npcs = ""
         label = f"{new}_OnTransition"
         body = (f"{new}_MapScripts::\n\tmap_script MAP_SCRIPT_ON_TRANSITION, {label}\n\t.byte 0\n\n"
                 f"{label}:\n" + "\n".join(cmds) + "\n\tend\n")

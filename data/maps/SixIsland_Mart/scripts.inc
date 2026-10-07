@@ -13,14 +13,6 @@ SixIsland_Mart_EventScript_Clerk::
 	release
 	end
 
-SixIsland_Mart_EventScript_OldWoman::
-	msgbox SixIsland_Mart_Text_AgathaOldestEverEliteFourMember, MSGBOX_NPC
-	end
-
-SixIsland_Mart_EventScript_Picnicker::
-	msgbox SixIsland_Mart_Text_ShouldBuyMailAndWriteLetter, MSGBOX_NPC
-	end
-
 	.align 2
 SixIsland_Mart_Items:
 	.2byte ITEM_ULTRA_BALL
@@ -33,6 +25,17 @@ SixIsland_Mart_Items:
 	.2byte ITEM_DREAM_MAIL
 	.2byte ITEM_NONE
 	release
+	end
+
+SixIsland_Mart_EventScript_OldWoman::
+	lock
+	faceplayer
+	msgbox SixIsland_Mart_Text_AgathaOldestEverEliteFourMember
+	release
+	end
+
+SixIsland_Mart_EventScript_Picnicker::
+	msgbox SixIsland_Mart_Text_ShouldBuyMailAndWriteLetter, MSGBOX_NPC
 	end
 
 SixIsland_Mart_Text_AgathaOldestEverEliteFourMember:

@@ -422,3 +422,34 @@ const u32 gMonFrontPic_UnownY[] = INCGFX_U32("graphics/pokemon/unown/y/anim_fron
 const u32 gMonFrontPic_UnownZ[] = INCGFX_U32("graphics/pokemon/unown/z/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_UnownExclamationMark[] = INCGFX_U32("graphics/pokemon/unown/exclamation_mark/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_UnownQuestionMark[] = INCGFX_U32("graphics/pokemon/unown/question_mark/anim_front.png", ".4bpp.lz");
+
+// <mega-evolutions>
+const u32 gMonFrontPic_BlazikenMega[] = INCGFX_U32("graphics/pokemon/blaziken/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_VenusaurMega[] = INCGFX_U32("graphics/pokemon/venusaur/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_CharizardMegaY[] = INCGFX_U32("graphics/pokemon/charizard/mega_y/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AlakazamMega[] = INCGFX_U32("graphics/pokemon/alakazam/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SlowbroMega[] = INCGFX_U32("graphics/pokemon/slowbro/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_GengarMega[] = INCGFX_U32("graphics/pokemon/gengar/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MewtwoMegaY[] = INCGFX_U32("graphics/pokemon/mewtwo/mega_y/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_TyranitarMega[] = INCGFX_U32("graphics/pokemon/tyranitar/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SceptileMega[] = INCGFX_U32("graphics/pokemon/sceptile/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SwampertMega[] = INCGFX_U32("graphics/pokemon/swampert/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MawileMega[] = INCGFX_U32("graphics/pokemon/mawile/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MedichamMega[] = INCGFX_U32("graphics/pokemon/medicham/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_ManectricMega[] = INCGFX_U32("graphics/pokemon/manectric/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_LatiasMega[] = INCGFX_U32("graphics/pokemon/latias/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_LatiosMega[] = INCGFX_U32("graphics/pokemon/latios/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_CharizardMegaX[] = INCGFX_U32("graphics/pokemon/charizard/mega_x/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_BlastoiseMega[] = INCGFX_U32("graphics/pokemon/blastoise/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_RayquazaMega[] = INCGFX_U32("graphics/pokemon/rayquaza/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MewtwoMegaX[] = INCGFX_U32("graphics/pokemon/mewtwo/mega_x/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_PinsirMega[] = INCGFX_U32("graphics/pokemon/pinsir/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AerodactylMega[] = INCGFX_U32("graphics/pokemon/aerodactyl/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kangaskhan/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_BeedrillMega[] = INCGFX_U32("graphics/pokemon/beedrill/mega/anim_front.png", ".4bpp.lz");
+// </mega-evolutions>

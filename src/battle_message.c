@@ -460,6 +460,7 @@ const u8 *const gPokeblockWasTooXStringTable[FLAVOR_COUNT] =
 
 static const u8 sText_PlayerUsedItem[] = _("{B_PLAYER_NAME} used\n{B_LAST_ITEM}!");
 static const u8 sText_WallyUsedItem[] = _("WALLY used\n{B_LAST_ITEM}!");
+static const u8 sText_OldManUsedItem[] = _("The old man used\n{B_LAST_ITEM}!");
 static const u8 sText_Trainer1UsedItem[] = _("{B_TRAINER1_CLASS} {B_TRAINER1_NAME}\nused {B_LAST_ITEM}!");
 static const u8 sText_TrainerBlockedBall[] = _("The TRAINER blocked the BALL!");
 static const u8 sText_DontBeAThief[] = _("Don't be a thief!");
@@ -513,6 +514,12 @@ static const u8 sText_Trainer1WinText[];
 static const u8 sText_Trainer2WinText[];
 static const u8 sText_TwoInGameTrainersDefeated[];
 static const u8 sText_Trainer2LoseText[];
+static const u8 sText_MegaEvoReacting[];
+static const u8 sText_MegaEvolved[];
+static const u8 sText_PkmnBreaksTheMold[];
+static const u8 sText_MegaEvoWish[];
+static const u8 sText_StrongWindsBegin[];
+static const u8 sText_StrongWindsEnd[];
 
 const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
@@ -885,6 +892,12 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_ST
     [STRINGID_PKMNBOXLANETTESPCFULL - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredLanettesPCBoxFull,
     [STRINGID_TRAINER1WINTEXT - BATTLESTRINGS_TABLE_START] = sText_Trainer1WinText,
     [STRINGID_TRAINER2WINTEXT - BATTLESTRINGS_TABLE_START] = sText_Trainer2WinText,
+    [STRINGID_MEGAEVOREACTING - BATTLESTRINGS_TABLE_START] = sText_MegaEvoReacting,
+    [STRINGID_MEGAEVOLVED - BATTLESTRINGS_TABLE_START] = sText_MegaEvolved,
+    [STRINGID_PKMNBREAKSTHEMOLD - BATTLESTRINGS_TABLE_START] = sText_PkmnBreaksTheMold,
+    [STRINGID_MEGAEVOWISH - BATTLESTRINGS_TABLE_START] = sText_MegaEvoWish,
+    [STRINGID_STRONGWINDSBEGIN - BATTLESTRINGS_TABLE_START] = sText_StrongWindsBegin,
+    [STRINGID_STRONGWINDSEND - BATTLESTRINGS_TABLE_START] = sText_StrongWindsEnd,
 };
 
 const u16 gMissStringIds[] =
@@ -1271,6 +1284,7 @@ const u8 gText_EllipsisQuestionMark[] = _("……?\p");
 const u8 gText_WhatWillPkmnDo[] = _("What will\n{B_ACTIVE_NAME_WITH_PREFIX} do?");
 const u8 gText_WhatWillPkmnDo2[] = _("What will\n{B_PLAYER_NAME} do?");
 const u8 gText_WhatWillWallyDo[] = _("What will\nWALLY do?");
+const u8 gText_WhatWillOldManDo[] = _("What will the\nold man do?");
 const u8 gText_LinkStandby[] = _("{PAUSE 16}Link standby…");
 const u8 gText_BattleMenu[] = _("FIGHT{CLEAR_TO 56}BAG\nPOKéMON{CLEAR_TO 56}RUN");
 const u8 gText_SafariZoneMenu[] = _("BALL{CLEAR_TO 56}{POKEBLOCK}\nGO NEAR{CLEAR_TO 56}RUN");
@@ -1423,6 +1437,12 @@ static const u8 sText_QuestionForfeitMatch[] = _("Would you like to forfeit the 
 static const u8 sText_ForfeitedMatch[] = _("{B_PLAYER_NAME} forfeited the match!");
 static const u8 sText_Trainer1WinText[] = _("{B_TRAINER1_WIN_TEXT}");
 static const u8 sText_Trainer2WinText[] = _("{B_TRAINER2_WIN_TEXT}");
+static const u8 sText_MegaEvoReacting[] = _("{B_ATK_NAME_WITH_PREFIX}'s {B_LAST_ITEM}\nis reacting to the MEGA RING!");
+static const u8 sText_MegaEvolved[] = _("{B_ATK_NAME_WITH_PREFIX} has Mega Evolved\ninto MEGA {B_BUFF1}!");
+static const u8 sText_PkmnBreaksTheMold[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} breaks the mold!");
+static const u8 sText_MegaEvoWish[] = _("A fervent wish has reached\n{B_ATK_NAME_WITH_PREFIX}!");
+static const u8 sText_StrongWindsBegin[] = _("Mysterious strong winds are\nprotecting FLYING-type POKéMON!");
+static const u8 sText_StrongWindsEnd[] = _("The mysterious strong winds\nhave dissipated!");
 static const u8 sText_Trainer1Fled[] = _( "{PLAY_SE SE_FLEE}{B_TRAINER1_CLASS} {B_TRAINER1_NAME} fled!");
 static const u8 sText_PlayerLostAgainstTrainer1[] = _("Player lost against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");
 static const u8 sText_PlayerBattledToDrawTrainer1[] = _("Player battled to a draw against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");
@@ -2231,6 +2251,12 @@ void BufferStringBattle(u16 stringID)
                 }
             }
         }
+        break;
+    case STRINGID_WALLYUSEDITEM:
+        if (IsOldManTutorialBattle())
+            stringPtr = sText_OldManUsedItem;
+        else
+            stringPtr = sText_WallyUsedItem;
         break;
     default: // load a string from the table
         if (stringID >= BATTLESTRINGS_COUNT)

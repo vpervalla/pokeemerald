@@ -105,6 +105,7 @@ static void BattleIntroPlayer1SendsOutMonAnimation(void);
 static void TryDoEventsBeforeFirstTurn(void);
 static void HandleTurnActionSelectionState(void);
 static void RunTurnActionsFunctions(void);
+static void TryDoMegaEvolutions(void);
 static void SetActionsAndBattlersTurnOrder(void);
 static void UpdateBattlerPartyOrdersOnSwitch(void);
 static bool8 AllAtActionConfirmed(void);
@@ -449,6 +450,17 @@ const u8 gTypeEffectiveness[336] =
     TYPE_ENDTABLE, TYPE_ENDTABLE, TYPE_MUL_NO_EFFECT
 };
 
+bool8 IsTypeEffectivenessWeakenedByStrongWinds(u32 typeEffectivenessIndex)
+{
+    // gBattleWeather keeps its last value after a battle, and the Battle Dome also
+    // reads type effectiveness outside of battle
+    return gMain.inBattle
+        && (gBattleWeather & B_WEATHER_STRONG_WINDS)
+        && gTypeEffectiveness[typeEffectivenessIndex + 1] == TYPE_FLYING
+        && gTypeEffectiveness[typeEffectivenessIndex + 2] == TYPE_MUL_SUPER_EFFECTIVE
+        && WEATHER_HAS_EFFECT;
+}
+
 const u8 gTypeNames[NUMBER_OF_MON_TYPES][TYPE_NAME_LENGTH + 1] =
 {
     [TYPE_NORMAL] = _("NORMAL"),
@@ -529,6 +541,7 @@ const struct TrainerMoney gTrainerMoneyTable[] =
     {TRAINER_CLASS_HIKER, 10},
     {TRAINER_CLASS_YOUNG_COUPLE, 8},
     {TRAINER_CLASS_WINSTRATE, 10},
+    KANTO_TRAINER_MONEY
     {0xFF, 5}, // Any trainer class not listed above uses this
 };
 
@@ -2776,7 +2789,7 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
-    else if (species > NUM_SPECIES)
+    else if (SPECIES_HAS_NO_DATA(species))
     {
         yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
     }
@@ -3461,7 +3474,8 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
                                       | BATTLE_TYPE_FRONTIER
                                       | BATTLE_TYPE_LINK
                                       | BATTLE_TYPE_RECORDED_LINK
-                                      | BATTLE_TYPE_TRAINER_HILL)))
+                                      | BATTLE_TYPE_TRAINER_HILL))
+                 && !IsOldManTutorialBattle())
                 {
                     HandleSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gActiveBattler].species), FLAG_SET_SEEN, gBattleMons[gActiveBattler].personality);
                 }
@@ -4147,6 +4161,7 @@ static void HandleTurnActionSelectionState(void)
             break;
         case STATE_BEFORE_ACTION_CHOSEN: // Choose an action.
             *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = PARTY_SIZE;
+            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
             if (gBattleTypeFlags & BATTLE_TYPE_MULTI
                 || (position & BIT_FLANK) == B_FLANK_LEFT
                 || gBattleStruct->absentBattlerFlags & gBitTable[GetBattlerAtPosition(BATTLE_PARTNER(position))]
@@ -4379,6 +4394,15 @@ static void HandleTurnActionSelectionState(void)
                         return;
                     default:
                         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_PLAYBACK);
+                        gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
+                        if ((gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8)) != 0xFFFF
+                         && (gBattleBufferB[gActiveBattler][2] & RET_MEGA_EVOLUTION))
+                        {
+                            gBattleBufferB[gActiveBattler][2] &= ~RET_MEGA_EVOLUTION;
+                            if (CanMegaEvolve(gActiveBattler))
+                                gBattleStruct->toMegaEvolve |= gBitTable[gActiveBattler];
+                        }
+
                         if ((gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8)) == 0xFFFF)
                         {
                             gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
@@ -4386,6 +4410,7 @@ static void HandleTurnActionSelectionState(void)
                         }
                         else if (TrySetCantSelectMoveBattleScript())
                         {
+                            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
                             RecordedBattle_ClearBattlerAction(gActiveBattler, 1);
                             gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT;
                             *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;
@@ -4543,7 +4568,7 @@ static void HandleTurnActionSelectionState(void)
     if (gBattleCommunication[ACTIONS_CONFIRMED_COUNT] == gBattlersCount)
     {
         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_RECORDING);
-        gBattleMainFunc = SetActionsAndBattlersTurnOrder;
+        gBattleMainFunc = TryDoMegaEvolutions;
 
         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         {
@@ -4758,6 +4783,41 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     return strikesFirst;
 }
 
+// Mega Evolutions happen once everyone has chosen their action, before the turn
+// order is set, so the turn order already uses the Mega Evolved Pokémon's Speed.
+// The fastest Pokémon Mega Evolves first.
+static void TryDoMegaEvolutions(void)
+{
+    s32 i;
+    u8 battler;
+
+    while (gBattleStruct->toMegaEvolve != 0)
+    {
+        battler = MAX_BATTLERS_COUNT;
+        for (i = 0; i < gBattlersCount; i++)
+        {
+            if (!(gBattleStruct->toMegaEvolve & gBitTable[i]))
+                continue;
+            if (battler == MAX_BATTLERS_COUNT || GetWhoStrikesFirst(battler, i, TRUE) != 0)
+                battler = i;
+        }
+
+        gBattleStruct->toMegaEvolve &= ~gBitTable[battler];
+        if (gChosenActionByBattler[battler] == B_ACTION_USE_MOVE && CanMegaEvolve(battler))
+        {
+            gActiveBattler = gBattlerAttacker = gBattleScripting.battler = battler;
+            gLastUsedItem = gBattleMons[battler].item;
+            if (IsMegaEvolvingByStone(battler))
+                BattleScriptExecute(BattleScript_MegaEvolution);
+            else
+                BattleScriptExecute(BattleScript_MegaEvolutionByWish);
+            return;
+        }
+    }
+
+    gBattleMainFunc = SetActionsAndBattlersTurnOrder;
+}
+
 static void SetActionsAndBattlersTurnOrder(void)
 {
     s32 turnOrderId = 0;
@@ -4932,6 +4992,8 @@ static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
     gDynamicBasePower = 0;
     gBattleStruct->dynamicMoveType = 0;
+    gBattleStruct->ateBoost = FALSE;
+    gBattleStruct->parentalBondState = PARENTAL_BOND_NONE;
     gBattleMainFunc = RunTurnActionsFunctions;
     gBattleCommunication[3] = 0;
     gBattleCommunication[4] = 0;
@@ -4990,7 +5052,15 @@ static void HandleEndTurn_BattleWon(void)
         BattleStopLowHpSound();
         gBattlescriptCurrInstr = BattleScript_LocalTrainerBattleWon;
 
-        switch (gTrainers[gTrainerBattleOpponent_A].trainerClass)
+        if (gTrainerBattleOpponent_A >= KANTO_TRAINERS_START)
+        {
+            // FRLG's victory music
+            if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER)
+                PlayBGM(MUS_RG_VICTORY_GYM_LEADER);
+            else
+                PlayBGM(MUS_RG_VICTORY_TRAINER);
+        }
+        else switch (gTrainers[gTrainerBattleOpponent_A].trainerClass)
         {
         case TRAINER_CLASS_ELITE_FOUR:
         case TRAINER_CLASS_CHAMPION:

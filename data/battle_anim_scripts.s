@@ -371,7 +371,8 @@ gBattleAnims_Moves::
 	.4byte Move_WATER_PULSE
 	.4byte Move_DOOM_DESIRE
 	.4byte Move_PSYCHO_BOOST
-	.4byte Move_COUNT @ cannot be reached, because last move is Psycho Boost
+	.4byte Move_DRAGON_ASCENT
+	.4byte Move_COUNT @ cannot be reached, because MOVES_COUNT is past the last move
 
 	.align 2
 gBattleAnims_StatusConditions::
@@ -410,6 +411,8 @@ gBattleAnims_General::
 	.4byte General_FocusPunchSetUp          @ B_ANIM_FOCUS_PUNCH_SETUP
 	.4byte General_IngrainHeal              @ B_ANIM_INGRAIN_HEAL
 	.4byte General_WishHeal                 @ B_ANIM_WISH_HEAL
+	.4byte General_MegaEvolution            @ B_ANIM_MEGA_EVOLUTION
+	.4byte General_StrongWinds              @ B_ANIM_STRONG_WINDS
 
 	.align 2
 gBattleAnims_Special::
@@ -2980,6 +2983,33 @@ SkyAttackUnleash:
 	clearmonbg ANIM_ATTACKER
 	call UnsetSkyBg
 	goto SkyAttackEnd
+
+@ The user soars up and dives into the target, wrapped in green energy (based on Sky Attack)
+Move_DRAGON_ASCENT:
+	loadspritegfx ANIM_TAG_IMPACT
+	loadspritegfx ANIM_TAG_BIRD
+	call SetSkyBg
+	monbg ANIM_ATTACKER
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_ATTACKER, 0, 0, 16, RGB(8, 31, 12)
+	playsewithpan SE_M_FLY, SOUND_PAN_ATTACKER
+	delay 4
+	attacker_fade_to_invisible priority=5, step_delay=0
+	waitforvisualfinish
+	createvisualtask SoundTask_PlaySE2WithPanning, 5, SE_M_SKY_UPPERCUT, SOUND_PAN_ATTACKER
+	createsprite gSkyAttackBirdSpriteTemplate, ANIM_TARGET, 2
+	delay 14
+	createsprite gBasicHitSplatSpriteTemplate, ANIM_TARGET, 3, 0, 0, ANIM_TARGET, 1
+	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 10, 0, 18, 1
+	createvisualtask SoundTask_PlaySE1WithPanning, 5, SE_M_MEGA_KICK2, SOUND_PAN_TARGET
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_TARGET, 2, 10, 0, RGB(8, 31, 12)
+	delay 20
+	attacker_fade_from_invisible priority=5, step_delay=1
+	delay 2
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_ATTACKER, 0, 15, 0, RGB(8, 31, 12)
+	waitforvisualfinish
+	clearmonbg ANIM_ATTACKER
+	call UnsetSkyBg
+	end
 
 Move_FLASH:
 	playsewithpan SE_M_LEER, SOUND_PAN_ATTACKER
@@ -10676,6 +10706,45 @@ General_WishHeal:
 	call HealingEffect
 	waitforvisualfinish
 	simple_palette_blend selector=F_PAL_BG, delay=3, initial_blend_y=10, target_blend_y=0, color=RGB_BLACK
+	end
+
+@ Delta Stream's strong winds start blowing
+General_StrongWinds:
+	playsewithpan SE_M_GUST, 0
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 2, 0, 8, RGB(20, 31, 26)
+	waitforvisualfinish
+	createvisualtask AnimTask_HorizontalShake, 5, MAX_BATTLERS_COUNT, 1, 12 @ shake every battler
+	playsewithpan SE_M_GUST2, 0
+	delay 20
+	playsewithpan SE_M_GUST, 0
+	waitforvisualfinish
+	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 2, 8, 0, RGB(20, 31, 26)
+	waitforvisualfinish
+	end
+
+General_MegaEvolution:
+	createvisualtask AnimTask_IsMonInvisible, 2
+	jumpreteq TRUE, MegaEvolutionSkipAnim
+	loadspritegfx ANIM_TAG_SPARKLE_2
+	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
+	waitforvisualfinish
+	playsewithpan SE_M_MEGA_KICK, SOUND_PAN_ATTACKER
+	call GrantingStarsEffect
+	call GrantingStarsEffect
+	waitforvisualfinish
+	monbg ANIM_ATTACKER
+	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
+	waitplaysewithpan SE_M_MINIMIZE, SOUND_PAN_ATTACKER, 48
+	createvisualtask AnimTask_TransformMon, 2, TRANSFORM_MON_MEGA_EVOLUTION
+	waitforvisualfinish
+	clearmonbg ANIM_ATTACKER
+	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
+	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=10, target_blend_y=0, color=RGB_BLACK
+	waitforvisualfinish
+	unloadspritegfx ANIM_TAG_SPARKLE_2
+	end
+MegaEvolutionSkipAnim:
+	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
 	end
 
 SnatchMoveTrySwapFromSubstitute:

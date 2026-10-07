@@ -1,4 +1,5 @@
 #include "global.h"
+#include "pokemon_storage_system.h"
 #include "event_data.h"
 #include "pokedex.h"
 
@@ -163,6 +164,8 @@ bool32 CanResetRTC(void)
 
 u16 *GetVarPointer(u16 id)
 {
+    if (id >= KANTO_VARS_START && id < KANTO_VARS_START + KANTO_VARS_COUNT)
+        return &gPokemonStoragePtr->kantoVars[id - KANTO_VARS_START];
     if (id < VARS_START)
         return NULL;
     else if (id < SPECIAL_VARS_START)
@@ -197,6 +200,10 @@ u8 *GetFlagPointer(u16 id)
 {
     if (id == 0)
         return NULL;
+    else if (id >= KANTO_FLAGS_START && id < KANTO_FLAGS_START + KANTO_FLAGS_BYTES * 8)
+        return &gSaveBlock1Ptr->kantoFlags[(id - KANTO_FLAGS_START) / 8];
+    else if (id >= KANTO_EXTRA_FLAGS_START && id < KANTO_EXTRA_FLAGS_START + KANTO_EXTRA_FLAGS_COUNT)
+        return &gPokemonStoragePtr->kantoExtraFlags[(id - KANTO_EXTRA_FLAGS_START) / 8];
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
     else

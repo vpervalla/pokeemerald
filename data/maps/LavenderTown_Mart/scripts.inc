@@ -13,18 +13,6 @@ LavenderTown_Mart_EventScript_Clerk::
 	release
 	end
 
-LavenderTown_Mart_EventScript_BaldingMan::
-	msgbox LavenderTown_Mart_Text_SearchingForStatRaiseItems, MSGBOX_NPC
-	end
-
-LavenderTown_Mart_EventScript_Rocker::
-	msgbox LavenderTown_Mart_Text_DidYouBuyRevives, MSGBOX_NPC
-	end
-
-LavenderTown_Mart_EventScript_Youngster::
-	msgbox LavenderTown_Mart_Text_TrainerDuosCanChallengeYou, MSGBOX_NPC
-	end
-
 	.align 2
 LavenderTown_Mart_Items:
 	.2byte ITEM_GREAT_BALL
@@ -38,6 +26,18 @@ LavenderTown_Mart_Items:
 	.2byte ITEM_SUPER_REPEL
 	.2byte ITEM_NONE
 	release
+	end
+
+LavenderTown_Mart_EventScript_BaldingMan::
+	msgbox LavenderTown_Mart_Text_SearchingForStatRaiseItems, MSGBOX_NPC
+	end
+
+LavenderTown_Mart_EventScript_Rocker::
+	msgbox LavenderTown_Mart_Text_DidYouBuyRevives, MSGBOX_NPC
+	end
+
+LavenderTown_Mart_EventScript_Youngster::
+	msgbox LavenderTown_Mart_Text_TrainerDuosCanChallengeYou, MSGBOX_NPC
 	end
 
 LavenderTown_Mart_Text_DidYouBuyRevives:

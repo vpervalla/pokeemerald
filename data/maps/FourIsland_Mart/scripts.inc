@@ -13,14 +13,6 @@ FourIsland_Mart_EventScript_Clerk::
 	release
 	end
 
-FourIsland_Mart_EventScript_OldMan::
-	msgbox FourIsland_Mart_Text_LoreleiGrewUpOnThisIsland, MSGBOX_NPC
-	end
-
-FourIsland_Mart_EventScript_Camper::
-	msgbox FourIsland_Mart_Text_IcefallCaveIsFrigid, MSGBOX_NPC
-	end
-
 	.align 2
 FourIsland_Mart_Items:
 	.2byte ITEM_ULTRA_BALL
@@ -32,6 +24,17 @@ FourIsland_Mart_Items:
 	.2byte ITEM_ESCAPE_ROPE
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_NONE
+	release
+	end
+
+FourIsland_Mart_EventScript_Camper::
+	msgbox FourIsland_Mart_Text_IcefallCaveIsFrigid, MSGBOX_NPC
+	end
+
+FourIsland_Mart_EventScript_OldMan::
+	lock
+	faceplayer
+	msgbox FourIsland_Mart_Text_LoreleiGrewUpOnThisIsland
 	release
 	end
 

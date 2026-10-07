@@ -63,7 +63,7 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
 
 void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer, s32 species)
 {
-    if (species > NUM_SPECIES)
+    if (SPECIES_HAS_NO_DATA(species))
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
@@ -99,7 +99,7 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    else if (SPECIES_HAS_NO_DATA(species)) // is species unknown? draw the ? icon
     {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
     }
@@ -306,7 +306,7 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
 
 void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void *buffer, s32 species) // a copy of DecompressPicFromTable
 {
-    if (species > NUM_SPECIES)
+    if (SPECIES_HAS_NO_DATA(species))
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
@@ -330,7 +330,7 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
         else
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    else if (SPECIES_HAS_NO_DATA(species)) // is species unknown? draw the ? icon
     {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
     }
@@ -357,7 +357,7 @@ void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *d
 
 void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *buffer, s32 species)
 {
-    if (species > NUM_SPECIES)
+    if (SPECIES_HAS_NO_DATA(species))
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
@@ -392,7 +392,7 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
         else
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    else if (SPECIES_HAS_NO_DATA(species)) // is species unknown? draw the ? icon
     {
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
     }

@@ -232,6 +232,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectCalmMind               @ EFFECT_CALM_MIND
 	.4byte BattleScript_EffectDragonDance            @ EFFECT_DRAGON_DANCE
 	.4byte BattleScript_EffectCamouflage             @ EFFECT_CAMOUFLAGE
+	.4byte BattleScript_EffectDefSpDefDownHit        @ EFFECT_DEF_SPDEF_DOWN_HIT
 
 BattleScript_EffectHit::
 	jumpifnotmove MOVE_SURF, BattleScript_HitFromAtkCanceler
@@ -2389,6 +2390,10 @@ BattleScript_EffectSuperpower::
 	setmoveeffect MOVE_EFFECT_ATK_DEF_DOWN | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
 	goto BattleScript_EffectHit
 
+BattleScript_EffectDefSpDefDownHit::
+	setmoveeffect MOVE_EFFECT_DEF_SPDEF_DOWN | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	goto BattleScript_EffectHit
+
 BattleScript_EffectMagicCoat::
 	attackcanceler
 	trysetmagiccoat BattleScript_FailedFromAtkString
@@ -3640,6 +3645,25 @@ BattleScript_AtkDefDown_TryDef::
 BattleScript_AtkDefDown_End::
 	return
 
+BattleScript_DefSpDefDown::
+	setbyte sSTAT_ANIM_PLAYED, FALSE
+	playstatchangeanimation BS_ATTACKER, BIT_DEF | BIT_SPDEF, STAT_CHANGE_CANT_PREVENT | STAT_CHANGE_NEGATIVE | STAT_CHANGE_MULTIPLE_STATS
+	playstatchangeanimation BS_ATTACKER, BIT_DEF, STAT_CHANGE_CANT_PREVENT | STAT_CHANGE_NEGATIVE
+	setstatchanger STAT_DEF, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_DefSpDefDown_TrySpDef
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_DefSpDefDown_TrySpDef
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_DefSpDefDown_TrySpDef::
+	playstatchangeanimation BS_ATTACKER, BIT_SPDEF, STAT_CHANGE_CANT_PREVENT | STAT_CHANGE_NEGATIVE
+	setstatchanger STAT_SPDEF, 1, TRUE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_DefSpDefDown_End
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_DefSpDefDown_End
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_DefSpDefDown_End::
+	return
+
 BattleScript_KnockedOff::
 	playanimation BS_TARGET, B_ANIM_ITEM_KNOCKOFF
 	printstring STRINGID_PKMNKNOCKEDOFF
@@ -3705,6 +3729,23 @@ BattleScript_SAtkDown2::
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_SAtkDown2End::
 	return
+
+BattleScript_MegaEvolutionByWish::
+	printstring STRINGID_MEGAEVOWISH
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MegaEvolutionContinue
+
+BattleScript_MegaEvolution::
+	printstring STRINGID_MEGAEVOREACTING
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MegaEvolutionContinue:
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_UPDATE_DATA
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_ANIMATION
+	waitstate
+	printstring STRINGID_MEGAEVOLVED
+	waitmessage B_WAIT_TIME_LONG
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_SWITCH_IN_EFFECTS
+	end2
 
 BattleScript_FocusPunchSetUp::
 	printstring STRINGID_EMPTYSTRING3
@@ -3781,6 +3822,36 @@ BattleScript_MoveUsedFlinched::
 	printstring STRINGID_PKMNFLINCHED
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+
+BattleScript_MoveUsedFlinchedSteadfast::
+	printstring STRINGID_PKMNFLINCHED
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_PKMNRAISEDSPEED
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
+
+@ Parental Bond's second hit, a quarter as strong. Called from moveend after the first hit.
+BattleScript_ParentalBondSecondHit::
+	critcalc
+	damagecalc
+	typecalc
+	adjustnormaldamage
+	attackanimation
+	waitanimation
+	effectivenesssound
+	hitanimation BS_TARGET
+	waitstate
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	critmessage
+	waitmessage B_WAIT_TIME_LONG
+	seteffectwithchance
+	tryfaintmon BS_TARGET
+	copyarray gBattleTextBuff1, sMULTIHIT_STRING, 6
+	printstring STRINGID_HITXTIMES
+	waitmessage B_WAIT_TIME_LONG
+	return
 
 BattleScript_PrintUproarOverTurns::
 	printfromtable gUproarOverTurnStringIds
@@ -4046,6 +4117,25 @@ BattleScript_IntimidatePrevented:
 	printstring STRINGID_PREVENTEDFROMWORKING
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_IntimidateActivatesLoopIncrement
+
+BattleScript_DeltaStreamActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_STRONGWINDSBEGIN
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_STRONG_WINDS
+	call BattleScript_WeatherFormChanges
+	end3
+
+BattleScript_StrongWindsEnd::
+	printstring STRINGID_STRONGWINDSEND
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_MoldBreakerActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_PKMNBREAKSTHEMOLD
+	waitmessage B_WAIT_TIME_LONG
+	end3
 
 BattleScript_DroughtActivates::
 	pause B_WAIT_TIME_SHORT

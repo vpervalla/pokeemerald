@@ -122,6 +122,21 @@
 #define MULTI_SLATEPORT_TENT_RULES         111
 #define MULTI_FALLARBOR_TENT_RULES         112
 #define MULTI_TAG_MATCH_TYPE               113
+// From FRLG, used by the Kanto maps
+#define MULTI_KANTO_DEPT_STORE_ELEVATOR    114
+#define MULTI_KANTO_ROCKET_HIDEOUT_ELEVATOR 115
+#define MULTI_KANTO_ROOFTOP_B1F            116
+#define MULTI_KANTO_ISLAND_23              117
+#define MULTI_KANTO_ISLAND_13              118
+#define MULTI_KANTO_ISLAND_12              119
+#define MULTI_KANTO_SEAGALLOP_123          120
+#define MULTI_KANTO_SEAGALLOP_V23          121
+#define MULTI_KANTO_SEAGALLOP_V13          122
+#define MULTI_KANTO_SEAGALLOP_V12          123
+#define MULTI_KANTO_SEAGALLOP_VERMILION    124
+#define MULTI_KANTO_SEVII_NAVEL            125
+#define MULTI_KANTO_SEVII_BIRTH            126
+#define MULTI_KANTO_SEVII_NAVEL_BIRTH      127
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

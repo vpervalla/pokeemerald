@@ -242,6 +242,9 @@ enum BattlerId
 #define B_WEATHER_HAIL_TEMPORARY      (1 << 7)
 #define B_WEATHER_HAIL                (B_WEATHER_HAIL_TEMPORARY)
 #define B_WEATHER_ANY                 (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_SUN | B_WEATHER_HAIL)
+// Delta Stream's strong winds: Flying types lose their weaknesses, and other weather can't start.
+// Not part of B_WEATHER_ANY, so effects of the other weathers don't apply.
+#define B_WEATHER_STRONG_WINDS        (1 << 8)
 
 // Move Effects
 #define MOVE_EFFECT_SLEEP               1
@@ -304,7 +307,8 @@ enum BattlerId
 #define MOVE_EFFECT_NOTHING_39          57
 #define MOVE_EFFECT_NOTHING_3A          58
 #define MOVE_EFFECT_SP_ATK_TWO_DOWN     59
-#define NUM_MOVE_EFFECTS                60
+#define MOVE_EFFECT_DEF_SPDEF_DOWN      60
+#define NUM_MOVE_EFFECTS                61
 
 #define MOVE_EFFECT_AFFECTS_USER        (1 << 6) // 64
 #define MOVE_EFFECT_CERTAIN             (1 << 7) // 128
@@ -339,6 +343,11 @@ enum BattlerId
 #define BATTLE_RUN_SUCCESS        0
 #define BATTLE_RUN_FORBIDDEN      1
 #define BATTLE_RUN_FAILURE        2
+
+// Cases for the handlemegaevolution battle script command
+#define MEGA_EVO_UPDATE_DATA     0
+#define MEGA_EVO_ANIMATION       1
+#define MEGA_EVO_SWITCH_IN_EFFECTS 2
 
 #define B_WIN_TYPE_NORMAL 0
 #define B_WIN_TYPE_ARENA  1

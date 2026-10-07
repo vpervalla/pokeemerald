@@ -325,6 +325,7 @@ static void Cmd_removeattackerstatus1(void);
 static void Cmd_finishaction(void);
 static void Cmd_finishturn(void);
 static void Cmd_trainerslideout(void);
+static void Cmd_handlemegaevolution(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -576,7 +577,8 @@ void (*const gBattleScriptingCommandsTable[])(void) =
     [B_SCR_OP_REMOVEATTACKERSTATUS1]           = Cmd_removeattackerstatus1,                   //0xF5
     [B_SCR_OP_FINISHACTION]                    = Cmd_finishaction,                            //0xF6
     [B_SCR_OP_FINISHTURN]                      = Cmd_finishturn,                              //0xF7
-    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout                          //0xF8
+    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout,                         //0xF8
+    [B_SCR_OP_HANDLEMEGAEVOLUTION]             = Cmd_handlemegaevolution,                     //0xF9
 };
 
 struct StatFractions
@@ -921,6 +923,16 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
+    // Aerilate: NORMAL moves become FLYING. Moves that set their own type first
+    // (Hidden Power, Weather Ball in weather) keep it.
+    if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE
+     && !gBattleStruct->dynamicMoveType
+     && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
+     && gCurrentMove != MOVE_STRUGGLE)
+    {
+        gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->ateBoost = TRUE;
+    }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
     {
         gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
@@ -1051,8 +1063,22 @@ static bool8 JumpIfMoveAffectedByProtect(u16 move)
     return affected;
 }
 
+static bool8 IsNoGuardInEffect(void)
+{
+    return gBattleMons[gBattlerAttacker].ability == ABILITY_NO_GUARD
+        || gBattleMons[gBattlerTarget].ability == ABILITY_NO_GUARD;
+}
+
 static bool8 AccuracyCalcHelper(u16 move)
 {
+    // No Guard on either side: the move hits, even a target in the middle of Fly or Dig
+    if (IsNoGuardInEffect())
+    {
+        gHitMarker &= ~(HITMARKER_IGNORE_ON_AIR | HITMARKER_IGNORE_UNDERGROUND | HITMARKER_IGNORE_UNDERWATER);
+        JumpIfMoveFailed(7, move);
+        return TRUE;
+    }
+
     if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
     {
         JumpIfMoveFailed(7, move);
@@ -1104,7 +1130,7 @@ static void Cmd_accuracycheck(void)
     {
         if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && move == NO_ACC_CALC_CHECK_LOCK_ON && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
             gBattlescriptCurrInstr += 7;
-        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
+        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER) && !IsNoGuardInEffect())
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         else if (!JumpIfMoveAffectedByProtect(0))
             gBattlescriptCurrInstr += 7;
@@ -1299,6 +1325,12 @@ static void Cmd_damagecalc(void)
         gBattleMoveDamage *= 2;
     if (gProtectStructs[gBattlerAttacker].helpingHand)
         gBattleMoveDamage = gBattleMoveDamage * 15 / 10;
+    if (gBattleStruct->parentalBondState == PARENTAL_BOND_SECOND_HIT)
+    {
+        gBattleMoveDamage /= 4; // Gen 7+; Gen 6 used half
+        if (gBattleMoveDamage == 0)
+            gBattleMoveDamage = 1;
+    }
 
     gBattlescriptCurrInstr++;
 }
@@ -1368,7 +1400,8 @@ static void Cmd_typecalc(void)
     // check stab
     if (IS_BATTLER_OF_TYPE(gBattlerAttacker, moveType))
     {
-        gBattleMoveDamage = gBattleMoveDamage * 15;
+        // Adaptability makes it 2x instead of 1.5x
+        gBattleMoveDamage = gBattleMoveDamage * (gBattleMons[gBattlerAttacker].ability == ABILITY_ADAPTABILITY ? 20 : 15);
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
 
@@ -1547,7 +1580,8 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     // check stab
     if (IS_BATTLER_OF_TYPE(attacker, moveType))
     {
-        gBattleMoveDamage = gBattleMoveDamage * 15;
+        // Adaptability makes it 2x instead of 1.5x
+        gBattleMoveDamage = gBattleMoveDamage * (gBattleMons[attacker].ability == ABILITY_ADAPTABILITY ? 20 : 15);
         gBattleMoveDamage = gBattleMoveDamage / 10;
     }
 
@@ -2776,7 +2810,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     else if (gBattleMons[gBattlerAttacker].item != ITEM_NONE
                         || gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY
                         || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item)
-                        || gBattleMons[gBattlerTarget].item == ITEM_NONE)
+                        || gBattleMons[gBattlerTarget].item == ITEM_NONE
+                        || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerTarget].item))
                     {
                         gBattlescriptCurrInstr++;
                     }
@@ -2840,6 +2875,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_AtkDefDown;
                 break;
+            case MOVE_EFFECT_DEF_SPDEF_DOWN: // Dragon Ascent
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_DefSpDefDown;
+                break;
             case MOVE_EFFECT_RECOIL_33: // Double Edge
                 gBattleMoveDamage = gHpDealt / 3;
                 if (gBattleMoveDamage == 0)
@@ -2875,7 +2914,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     }
                     break;
                 }
-                if (gBattleMons[gEffectBattler].item)
+                if (gBattleMons[gEffectBattler].item
+                 && !IsMegaStoneUsableBy(gEffectBattler, gBattleMons[gEffectBattler].item))
                 {
                     side = GetBattlerSide(gEffectBattler);
 
@@ -3065,6 +3105,9 @@ static void Cmd_cleareffectsonfaint(void)
     if (gBattleControllerExecFlags == 0)
     {
         gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+
+        if (gBattleMons[gActiveBattler].hp == 0)
+            ClearMegaEvolutionOnFaint(gActiveBattler);
 
         if (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || gBattleMons[gActiveBattler].hp == 0)
         {
@@ -4207,6 +4250,79 @@ static void Cmd_playstatchangeanimation(void)
     }
 }
 
+// Parental Bond hits twice with moves that use the standard damaging script:
+// plain hits and hits with a secondary effect. Moves with their own script
+// (multi-hit, charging, OHKO, fixed damage, draining...) hit once.
+static bool8 IsMoveEffectAffectedByParentalBond(u16 effect)
+{
+    switch (effect)
+    {
+    case EFFECT_HIT:
+    case EFFECT_POISON_HIT:
+    case EFFECT_BURN_HIT:
+    case EFFECT_FREEZE_HIT:
+    case EFFECT_PARALYZE_HIT:
+    case EFFECT_FLINCH_HIT:
+    case EFFECT_PAY_DAY:
+    case EFFECT_TRI_ATTACK:
+    case EFFECT_HIGH_CRITICAL:
+    case EFFECT_ATTACK_DOWN_HIT:
+    case EFFECT_DEFENSE_DOWN_HIT:
+    case EFFECT_SPEED_DOWN_HIT:
+    case EFFECT_SPECIAL_ATTACK_DOWN_HIT:
+    case EFFECT_SPECIAL_DEFENSE_DOWN_HIT:
+    case EFFECT_ACCURACY_DOWN_HIT:
+    case EFFECT_CONFUSE_HIT:
+    case EFFECT_VITAL_THROW:
+    case EFFECT_FALSE_SWIPE:
+    case EFFECT_QUICK_ATTACK:
+    case EFFECT_THIEF:
+    case EFFECT_THAW_HIT:
+    case EFFECT_PURSUIT:
+    case EFFECT_RAPID_SPIN:
+    case EFFECT_DEFENSE_UP_HIT:
+    case EFFECT_ATTACK_UP_HIT:
+    case EFFECT_ALL_STATS_UP_HIT:
+    case EFFECT_THUNDER:
+    case EFFECT_FACADE:
+    case EFFECT_SMELLINGSALT:
+    case EFFECT_SUPERPOWER:
+    case EFFECT_KNOCK_OFF:
+    case EFFECT_DOUBLE_EDGE:
+    case EFFECT_BLAZE_KICK:
+    case EFFECT_POISON_FANG:
+    case EFFECT_OVERHEAT:
+    case EFFECT_SKY_UPPERCUT:
+    case EFFECT_POISON_TAIL:
+    case EFFECT_DEF_SPDEF_DOWN_HIT:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static bool8 CanParentalBondHitAgain(void)
+{
+    u8 target = gBattleMoves[gCurrentMove].target;
+
+    if (gBattleMons[gBattlerAttacker].ability != ABILITY_PARENTAL_BOND)
+        return FALSE;
+    if (!IsMoveEffectAffectedByParentalBond(gBattleMoves[gCurrentMove].effect) || gBattleMoves[gCurrentMove].power == 0)
+        return FALSE;
+    // Moves that hit several Pokémon in a double battle hit once
+    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && (target == MOVE_TARGET_BOTH || target == MOVE_TARGET_FOES_AND_ALLY))
+        return FALSE;
+    if (gBattlerTarget == gBattlerAttacker || (gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE))
+        return FALSE;
+    if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+        return FALSE;
+    if (gBattleMons[gBattlerAttacker].hp == 0 || gBattleMons[gBattlerTarget].hp == 0)
+        return FALSE;
+    // The first hit has to have dealt damage
+    if (!gSpecialStatuses[gBattlerTarget].physicalDmg && !gSpecialStatuses[gBattlerTarget].specialDmg)
+        return FALSE;
+    return TRUE;
+}
+
 static void Cmd_moveend(void)
 {
     s32 i;
@@ -4232,6 +4348,22 @@ static void Cmd_moveend(void)
 
     choicedMoveAtk = &gBattleStruct->choicedMove[gBattlerAttacker];
     GET_MOVE_TYPE(gCurrentMove, moveType);
+
+    // Parental Bond: before the usual end of the move, it hits a second time.
+    // The second hit's script returns here, and the move then ends as usual.
+    if (endMode == 0 && gBattleScripting.moveendState == 0)
+    {
+        if (gBattleStruct->parentalBondState == PARENTAL_BOND_NONE && CanParentalBondHitAgain())
+        {
+            gBattleStruct->parentalBondState = PARENTAL_BOND_SECOND_HIT;
+            PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 2)
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_ParentalBondSecondHit;
+            return;
+        }
+        if (gBattleStruct->parentalBondState == PARENTAL_BOND_SECOND_HIT)
+            gBattleStruct->parentalBondState = PARENTAL_BOND_DONE;
+    }
 
     do
     {
@@ -4644,6 +4776,8 @@ static void Cmd_switchindataupdate(void)
     {
         gBattleMons[gActiveBattler].item = ITEM_NONE;
     }
+
+    TryRestoreMegaEvolution(gActiveBattler);
 
     if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
     {
@@ -6680,7 +6814,7 @@ static void Cmd_trymirrormove(void)
 
 static void Cmd_setrain(void)
 {
-    if (gBattleWeather & B_WEATHER_RAIN)
+    if (gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -7520,7 +7654,11 @@ static void Cmd_tryKO(void)
     else
     {
         u16 chance;
-        if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
+        if (IsNoGuardInEffect())
+        {
+            chance = (gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level);
+        }
+        else if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
         {
             chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
             if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
@@ -7585,7 +7723,7 @@ static void Cmd_damagetohalftargethp(void)
 
 static void Cmd_setsandstorm(void)
 {
-    if (gBattleWeather & B_WEATHER_SANDSTORM)
+    if (gBattleWeather & (B_WEATHER_SANDSTORM | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -8766,7 +8904,7 @@ static void Cmd_jumpifnopursuitswitchdmg(void)
 
 static void Cmd_setsunny(void)
 {
-    if (gBattleWeather & B_WEATHER_SUN)
+    if (gBattleWeather & (B_WEATHER_SUN | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -9054,7 +9192,7 @@ static void Cmd_setminimize(void)
 
 static void Cmd_sethail(void)
 {
-    if (gBattleWeather & B_WEATHER_HAIL)
+    if (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_STRONG_WINDS))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -9221,7 +9359,12 @@ static void Cmd_tryswapitems(void)
                  || gBattleMons[gBattlerAttacker].item == ITEM_ENIGMA_BERRY
                  || gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY
                  || IS_ITEM_MAIL(gBattleMons[gBattlerAttacker].item)
-                 || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item))
+                 || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item)
+                 // or if either item is a Mega Stone that either Pokémon could use
+                 || IsMegaStoneUsableBy(gBattlerAttacker, gBattleMons[gBattlerAttacker].item)
+                 || IsMegaStoneUsableBy(gBattlerAttacker, gBattleMons[gBattlerTarget].item)
+                 || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerAttacker].item)
+                 || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerTarget].item))
         {
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         }
@@ -10323,4 +10466,33 @@ static void Cmd_trainerslideout(void)
     MarkBattlerForControllerExec(gActiveBattler);
 
     gBattlescriptCurrInstr += 2;
+}
+
+static void Cmd_handlemegaevolution(void)
+{
+    gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+
+    switch (gBattlescriptCurrInstr[2])
+    {
+    case MEGA_EVO_UPDATE_DATA:
+        MegaEvolve(gActiveBattler);
+        PREPARE_SPECIES_BUFFER(gBattleTextBuff1, gBattleMons[gActiveBattler].species);
+        gBattlescriptCurrInstr += 3;
+        break;
+    case MEGA_EVO_ANIMATION:
+        BtlController_EmitBattleAnimation(B_COMM_TO_CONTROLLER, B_ANIM_MEGA_EVOLUTION, 0);
+        MarkBattlerForControllerExec(gActiveBattler);
+        gBattlescriptCurrInstr += 3;
+        break;
+    case MEGA_EVO_SWITCH_IN_EFFECTS:
+        // Abilities like Drought, Intimidate and Trace activate as if the Mega Evolved
+        // Pokémon just switched in. Each one that activates runs its own script and
+        // returns here, so this command repeats until none is left.
+        if (AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gActiveBattler, 0, 0, 0)
+         || AbilityBattleEffects(ABILITYEFFECT_INTIMIDATE1, 0, 0, 0, 0)
+         || AbilityBattleEffects(ABILITYEFFECT_TRACE, 0, 0, 0, 0))
+            break;
+        gBattlescriptCurrInstr += 3;
+        break;
+    }
 }

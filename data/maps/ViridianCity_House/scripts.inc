@@ -11,8 +11,18 @@ ViridianCity_House_EventScript_LittleGirl::
 	msgbox ViridianCity_House_Text_MyDaddyLovesMonsToo, MSGBOX_NPC
 	end
 
+ViridianCity_House_EventScript_NicknameSign::
+	msgbox ViridianCity_House_Text_SpearowNameSpeary, MSGBOX_SIGN
+	end
+
 ViridianCity_House_EventScript_Speary::
-	msgbox ViridianCity_House_Text_Speary, MSGBOX_NPC
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_SPEAROW, CRY_MODE_NORMAL
+	msgbox ViridianCity_House_Text_Speary
+	waitmoncry
+	release
 	end
 
 ViridianCity_House_Text_MyDaddyLovesMonsToo:
@@ -23,6 +33,10 @@ ViridianCity_House_Text_NicknamingIsFun:
     .string "but it's not so easy to do.\p"
     .string "Clever names are nice, but simple\n"
     .string "names are easier to remember.$"
+
+ViridianCity_House_Text_SpearowNameSpeary:
+    .string "SPEAROW\n"
+    .string "Name: SPEARY$"
 
 ViridianCity_House_Text_Speary:
     .string "SPEARY: Tetweet!$"

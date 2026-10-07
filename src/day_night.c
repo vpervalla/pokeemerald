@@ -590,7 +590,7 @@ void DayNight_UpdateBattle(void)
     {
         u16 tag = GetSpritePaletteTagByPaletteNum(i);
 
-        if (tag < TRAINER_PIC_COUNT || tag == 0xD6F8 || tag == 0xD6F9 || tag == TAG_ENEMY_SHADOW_PAL)
+        if (tag < TRAINER_PIC_KANTO_END || tag == 0xD6F8 || tag == 0xD6F9 || tag == TAG_ENEMY_SHADOW_PAL)
             tintedColors[OBJ_PAL(i)] = ALL_COLORS;
     }
     UpdateTint(reentered, tintedColors, FALSE);

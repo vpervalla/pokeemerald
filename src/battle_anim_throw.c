@@ -3,6 +3,7 @@
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
+#include "battle_setup.h"
 #include "decompress.h"
 #include "dma3.h"
 #include "gpu_regs.h"
@@ -794,7 +795,12 @@ void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
     u8 subpriority;
     u8 spriteId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
+    if (IsOldManTutorialBattle())
+    {
+        x = 28;
+        y = 11;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
     {
         x = 32;
         y = 11;

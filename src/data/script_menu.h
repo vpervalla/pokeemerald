@@ -782,6 +782,40 @@ struct MultichoiceListStruct
     u8 count;
 };
 
+
+// From FRLG, used by the Kanto maps
+static const u8 sText_Kanto_Vermilion[] = _("VERMILION");
+static const u8 sText_Kanto_OneIsland[] = _("ONE ISLAND");
+static const u8 sText_Kanto_TwoIsland[] = _("TWO ISLAND");
+static const u8 sText_Kanto_ThreeIsland[] = _("THREE ISLAND");
+static const u8 sText_Kanto_FourIsland[] = _("FOUR ISLAND");
+static const u8 sText_Kanto_FiveIsland[] = _("FIVE ISLAND");
+static const u8 sText_Kanto_SixIsland[] = _("SIX ISLAND");
+static const u8 sText_Kanto_SevenIsland[] = _("SEVEN ISLAND");
+static const u8 sText_Kanto_SeviiIslands[] = _("SEVII ISLANDS");
+static const u8 sText_Kanto_Other[] = _("OTHER");
+
+static const struct MenuAction MultichoiceList_KantoDeptStoreElevator[] = {{gText_5F}, {gText_4F}, {gText_3F}, {gText_2F}, {gText_1F}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoRocketHideoutElevator[] = {{gText_B1F}, {gText_B2F}, {gText_B4F}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoRooftopB1F[] = {{gText_Rooftop}, {gText_B1F}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoIsland23[] = {{sText_Kanto_TwoIsland}, {sText_Kanto_ThreeIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoIsland13[] = {{sText_Kanto_OneIsland}, {sText_Kanto_ThreeIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoIsland12[] = {{sText_Kanto_OneIsland}, {sText_Kanto_TwoIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeagallop123[] = {{sText_Kanto_OneIsland}, {sText_Kanto_TwoIsland}, {sText_Kanto_ThreeIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeagallopV23[] = {{sText_Kanto_Vermilion}, {sText_Kanto_TwoIsland}, {sText_Kanto_ThreeIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeagallopV13[] = {{sText_Kanto_Vermilion}, {sText_Kanto_OneIsland}, {sText_Kanto_ThreeIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeagallopV12[] = {{sText_Kanto_Vermilion}, {sText_Kanto_OneIsland}, {sText_Kanto_TwoIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeagallopVermilion[] = {{sText_Kanto_Vermilion}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeviiNavel[] = {{sText_Kanto_SeviiIslands}, {gText_NavelRock}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeviiBirth[] = {{sText_Kanto_SeviiIslands}, {gText_BirthIsland}, {gText_Exit}};
+static const struct MenuAction MultichoiceList_KantoSeviiNavelBirth[] = {{sText_Kanto_SeviiIslands}, {gText_NavelRock}, {gText_BirthIsland}, {gText_Exit}};
+
+// Seagallop destinations, see DrawSeagallopDestinationMenu
+static const u8 *const sSeagallopDestinationNames[] = {
+    sText_Kanto_Vermilion, sText_Kanto_OneIsland, sText_Kanto_TwoIsland, sText_Kanto_ThreeIsland,
+    sText_Kanto_FourIsland, sText_Kanto_FiveIsland, sText_Kanto_SixIsland, sText_Kanto_SevenIsland,
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -898,6 +932,20 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SLATEPORT_TENT_RULES]       = MULTICHOICE(MultichoiceList_SlateportTentRules),
     [MULTI_FALLARBOR_TENT_RULES]       = MULTICHOICE(MultichoiceList_FallarborTentRules),
     [MULTI_TAG_MATCH_TYPE]             = MULTICHOICE(MultichoiceList_TagMatchType),
+    [MULTI_KANTO_DEPT_STORE_ELEVATOR]  = MULTICHOICE(MultichoiceList_KantoDeptStoreElevator),
+    [MULTI_KANTO_ROCKET_HIDEOUT_ELEVATOR] = MULTICHOICE(MultichoiceList_KantoRocketHideoutElevator),
+    [MULTI_KANTO_ROOFTOP_B1F]          = MULTICHOICE(MultichoiceList_KantoRooftopB1F),
+    [MULTI_KANTO_ISLAND_23]            = MULTICHOICE(MultichoiceList_KantoIsland23),
+    [MULTI_KANTO_ISLAND_13]            = MULTICHOICE(MultichoiceList_KantoIsland13),
+    [MULTI_KANTO_ISLAND_12]            = MULTICHOICE(MultichoiceList_KantoIsland12),
+    [MULTI_KANTO_SEAGALLOP_123]        = MULTICHOICE(MultichoiceList_KantoSeagallop123),
+    [MULTI_KANTO_SEAGALLOP_V23]        = MULTICHOICE(MultichoiceList_KantoSeagallopV23),
+    [MULTI_KANTO_SEAGALLOP_V13]        = MULTICHOICE(MultichoiceList_KantoSeagallopV13),
+    [MULTI_KANTO_SEAGALLOP_V12]        = MULTICHOICE(MultichoiceList_KantoSeagallopV12),
+    [MULTI_KANTO_SEAGALLOP_VERMILION]  = MULTICHOICE(MultichoiceList_KantoSeagallopVermilion),
+    [MULTI_KANTO_SEVII_NAVEL]          = MULTICHOICE(MultichoiceList_KantoSeviiNavel),
+    [MULTI_KANTO_SEVII_BIRTH]          = MULTICHOICE(MultichoiceList_KantoSeviiBirth),
+    [MULTI_KANTO_SEVII_NAVEL_BIRTH]    = MULTICHOICE(MultichoiceList_KantoSeviiNavelBirth),
 };
 
 const u8 *const gStdStrings[] =

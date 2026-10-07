@@ -787,4 +787,6 @@
 #define METATILE_RSMossdeepGym_Switch_Down     0x239
 #define METATILE_RSMossdeepGym_Switch_Up       0x238
 
+#include "constants/metatile_labels_kanto.h"
+
 #endif // GUARD_METATILE_LABELS_H

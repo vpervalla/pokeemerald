@@ -1757,6 +1757,45 @@ static const u16 sElevatorWindowTiles_Descending[ELEVATOR_WINDOW_HEIGHT][ELEVATO
     },
 };
 
+// The elevators of the Kanto maps (FRLG's Silph Co. tileset)
+static const u16 sKantoElevatorWindowTiles_Ascending[ELEVATOR_WINDOW_HEIGHT][ELEVATOR_LIGHT_STAGES] =
+{
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Top0,
+        METATILE_KantoSilphCo_ElevatorWindow_Top1,
+        METATILE_KantoSilphCo_ElevatorWindow_Top2
+    },
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Mid0,
+        METATILE_KantoSilphCo_ElevatorWindow_Mid1,
+        METATILE_KantoSilphCo_ElevatorWindow_Mid2
+    },
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom0,
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom1,
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom2
+    },
+};
+
+static const u16 sKantoElevatorWindowTiles_Descending[ELEVATOR_WINDOW_HEIGHT][ELEVATOR_LIGHT_STAGES] =
+{
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Top0,
+        METATILE_KantoSilphCo_ElevatorWindow_Top2,
+        METATILE_KantoSilphCo_ElevatorWindow_Top1
+    },
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Mid0,
+        METATILE_KantoSilphCo_ElevatorWindow_Mid2,
+        METATILE_KantoSilphCo_ElevatorWindow_Mid1
+    },
+    {
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom0,
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom2,
+        METATILE_KantoSilphCo_ElevatorWindow_Bottom1
+    },
+};
+
 void SetDeptStoreFloor(void)
 {
     u8 deptStoreFloor;
@@ -1943,6 +1982,9 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
 {
     u8 x, y;
     s16 *data = gTasks[taskId].data;
+    bool8 kanto = (GetPlayerRegion() == REGION_KANTO);
+    const u16 (*ascending)[ELEVATOR_LIGHT_STAGES] = kanto ? sKantoElevatorWindowTiles_Ascending : sElevatorWindowTiles_Ascending;
+    const u16 (*descending)[ELEVATOR_LIGHT_STAGES] = kanto ? sKantoElevatorWindowTiles_Descending : sElevatorWindowTiles_Descending;
 
     if (tTimer == 6)
     {
@@ -1954,7 +1996,7 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
             for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
             {
                 for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
-                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Ascending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, ascending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
             }
         }
         else
@@ -1963,7 +2005,7 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
             for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
             {
                 for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
-                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Descending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, descending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
             }
         }
         DrawWholeMapView();
@@ -2247,6 +2289,9 @@ void BufferBattleTowerElevatorFloors(void)
     gSpecialVar_0x8006 = 12;
 }
 
+static EWRAM_DATA u8 sKantoElevatorScrollOffset = 0;
+static EWRAM_DATA u8 sKantoElevatorSelectedRow = 0;
+
 // Scrollable Multichoice task data defines
 #define tMaxItemsOnScreen    data[0]
 #define tNumItems            data[1]
@@ -2403,6 +2448,18 @@ void ShowScrollableMultichoice(void)
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
         break;
+    case SCROLL_MULTI_KANTO_SILPH_CO_FLOORS:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 12;
+        task->tLeft = 1;
+        task->tTop = 1;
+        task->tWidth = 8;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        task->tScrollOffset = sKantoElevatorScrollOffset;
+        task->tSelectedRow = sKantoElevatorSelectedRow;
+        break;
     case SCROLL_MULTI_TEST_AREA_TIME:
         task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
         task->tNumItems = 6;
@@ -2446,6 +2503,11 @@ static const u8 sText_TimeNight[] = _("NIGHT");
 
 static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] =
 {
+    [SCROLL_MULTI_KANTO_SILPH_CO_FLOORS] =
+    {
+        gText_11F, gText_10F, gText_9F, gText_8F, gText_7F, gText_6F,
+        gText_5F, gText_4F, gText_3F, gText_2F, gText_1F, gText_Exit
+    },
     [SCROLL_MULTI_NONE] =
     {
         gText_Exit
@@ -4352,4 +4414,80 @@ void SetPlayerGotFirstFans(void)
 u8 Script_TryGainNewFanFromCounter(void)
 {
     return TryGainNewFanFromCounter(gSpecialVar_0x8004);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Elevators of the Kanto maps, from FRLG. Drawing the floor window and moving the elevator are
+// shared with Emerald's elevators (ShowDeptStoreElevatorFloorSelect, MoveElevator).
+
+struct KantoElevatorStop
+{
+    u16 map;
+    u8 floor;           // DEPT_STORE_FLOORNUM_*
+    u8 scrollOffset;    // initial position of the floor select menu
+    u8 selectedRow;
+};
+
+static const struct KantoElevatorStop sKantoElevatorStops[] =
+{
+    {MAP_SILPH_CO_1F,                     DEPT_STORE_FLOORNUM_1F,      5, 5},
+    {MAP_SILPH_CO_2F,                     DEPT_STORE_FLOORNUM_2F,      5, 4},
+    {MAP_SILPH_CO_3F,                     DEPT_STORE_FLOORNUM_3F,      4, 4},
+    {MAP_SILPH_CO_4F,                     DEPT_STORE_FLOORNUM_4F,      3, 4},
+    {MAP_SILPH_CO_5F,                     DEPT_STORE_FLOORNUM_5F,      2, 4},
+    {MAP_SILPH_CO_6F,                     DEPT_STORE_FLOORNUM_6F,      1, 4},
+    {MAP_SILPH_CO_7F,                     DEPT_STORE_FLOORNUM_7F,      0, 4},
+    {MAP_SILPH_CO_8F,                     DEPT_STORE_FLOORNUM_8F,      0, 3},
+    {MAP_SILPH_CO_9F,                     DEPT_STORE_FLOORNUM_9F,      0, 2},
+    {MAP_SILPH_CO_10F,                    DEPT_STORE_FLOORNUM_10F,     0, 1},
+    {MAP_SILPH_CO_11F,                    DEPT_STORE_FLOORNUM_11F,     0, 0},
+    {MAP_ROCKET_HIDEOUT_B1F,              DEPT_STORE_FLOORNUM_B1F,     0, 0},
+    {MAP_ROCKET_HIDEOUT_B2F,              DEPT_STORE_FLOORNUM_B2F,     0, 1},
+    {MAP_ROCKET_HIDEOUT_B4F,              DEPT_STORE_FLOORNUM_B4F,     0, 2},
+    {MAP_CELADON_CITY_DEPARTMENT_STORE_1F, DEPT_STORE_FLOORNUM_1F,     0, 4},
+    {MAP_CELADON_CITY_DEPARTMENT_STORE_2F, DEPT_STORE_FLOORNUM_2F,     0, 3},
+    {MAP_CELADON_CITY_DEPARTMENT_STORE_3F, DEPT_STORE_FLOORNUM_3F,     0, 2},
+    {MAP_CELADON_CITY_DEPARTMENT_STORE_4F, DEPT_STORE_FLOORNUM_4F,     0, 1},
+    {MAP_CELADON_CITY_DEPARTMENT_STORE_5F, DEPT_STORE_FLOORNUM_5F,     0, 0},
+    {MAP_TRAINER_TOWER_1F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_2F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_3F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_4F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_5F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_6F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_7F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_8F,                DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_ROOF,              DEPT_STORE_FLOORNUM_ROOFTOP, 0, 0},
+    {MAP_TRAINER_TOWER_LOBBY,             DEPT_STORE_FLOORNUM_B1F,     0, 1},
+};
+
+
+// The stop the elevator was called from: the map its door leads back to
+static const struct KantoElevatorStop *GetKantoElevatorStop(void)
+{
+    u16 map = (gSaveBlock1Ptr->dynamicWarp.mapGroup << 8) | gSaveBlock1Ptr->dynamicWarp.mapNum;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sKantoElevatorStops); i++)
+    {
+        if (sKantoElevatorStops[i].map == map)
+            return &sKantoElevatorStops[i];
+    }
+    return NULL;
+}
+
+void GetElevatorFloor(void)
+{
+    const struct KantoElevatorStop *stop = GetKantoElevatorStop();
+    VarSet(VAR_ELEVATOR_FLOOR, stop != NULL ? stop->floor : DEPT_STORE_FLOORNUM_1F);
+}
+
+// Returns the floor selected by default in the floor select menu
+u16 InitElevatorFloorSelectMenuPos(void)
+{
+    const struct KantoElevatorStop *stop = GetKantoElevatorStop();
+
+    sKantoElevatorScrollOffset = stop != NULL ? stop->scrollOffset : 0;
+    sKantoElevatorSelectedRow = stop != NULL ? stop->selectedRow : 0;
+    return sKantoElevatorSelectedRow;
 }

@@ -1,6 +1,6 @@
 // This determines how much higher above the usual position the enemy Pokémon
 // is during battle. Species that float or fly have nonzero values.
-const u8 gEnemyMonElevation[NUM_SPECIES] =
+const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
 {
     [SPECIES_BUTTERFREE] = 8,
     [SPECIES_BEEDRILL] = 8,
@@ -63,4 +63,17 @@ const u8 gEnemyMonElevation[NUM_SPECIES] =
     [SPECIES_JIRACHI] = 12,
     [SPECIES_DEOXYS] = 8,
     [SPECIES_CHIMECHO] = 12,
+    // <mega-evolutions>
+    [SPECIES_ALAKAZAM_MEGA] = 7,
+    [SPECIES_MEWTWO_MEGA_Y] = 3,
+    [SPECIES_LATIAS_MEGA] = 8,
+    [SPECIES_LATIOS_MEGA] = 8,
+    [SPECIES_PIDGEOT_MEGA] = 8,
+    [SPECIES_GYARADOS_MEGA] = 6,
+    [SPECIES_RAYQUAZA_MEGA] = 4,
+    [SPECIES_PINSIR_MEGA] = 4,
+    [SPECIES_AERODACTYL_MEGA] = 7,
+    [SPECIES_METAGROSS_MEGA] = 4,
+    [SPECIES_BEEDRILL_MEGA] = 5,
+    // </mega-evolutions>
 };

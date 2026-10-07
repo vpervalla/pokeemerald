@@ -766,6 +766,9 @@
 		.4byte \pointer2 @ text
 		.4byte \pointer3 @ text
 		.4byte \pointer4 @ event script
+	.elseif \type == TRAINER_BATTLE_EARLY_RIVAL
+		.4byte \pointer1 @ defeat text
+		.4byte \pointer2 @ victory text
 	.elseif \type == TRAINER_BATTLE_PYRAMID
 		.4byte \pointer1 @ text
 		.4byte \pointer2 @ text
@@ -818,6 +821,12 @@
 	.endm
 
 	@ Starts a trainer battle, skipping intro text. Takes a trainer and loss text
+	@ Starts a battle against the rival that continues the script whatever the outcome (FRLG).
+	@ VAR_RESULT is TRUE if the player lost. flags are RIVAL_BATTLE_*.
+	.macro trainerbattle_earlyrival trainer:req, flags:req, defeat_text:req, victory_text:req
+	trainerbattle TRAINER_BATTLE_EARLY_RIVAL, \trainer, \flags, \defeat_text, \victory_text
+	.endm
+
 	.macro trainerbattle_no_intro trainer:req, lose_text:req
 	trainerbattle TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT, \trainer, LOCALID_NONE, \lose_text
 	.endm
@@ -1999,4 +2008,25 @@
 	.macro applywaitmovement localId:req, movements:req, map
 	applymovement \localId, \movements, \map
 	waitmovement
+	.endm
+
+	@ From FRLG's msgreceiveditem: shows the message with a fanfare. Used by the scripts of the Kanto maps.
+	.macro kanto_msgreceiveditem msg:req, fanfare=MUS_LEVEL_UP
+	playfanfare \fanfare
+	message \msg
+	waitmessage
+	waitfanfare
+	waitbuttonpress
+	.endm
+
+	@ From FRLG's giveitem_msg: adds the item to the bag, then shows the message (like "{PLAYER} received
+	@ TM39 from BROCK.") with a fanfare and says in which pocket the item was put away.
+	@ Used by the scripts of the Kanto maps.
+	.macro kanto_giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	additem \item, \amount
+	loadword 0, \msg
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	setorcopyvar VAR_0x8002, \fanfare
+	call Kanto_EventScript_ReceivedItem
 	.endm

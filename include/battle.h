@@ -139,6 +139,7 @@ struct SpecialStatus
     u32 ppNotAffectedByPressure:1;
     u32 faintedHasReplacement:1;
     u32 focusBanded:1;
+    u32 announcedMoldBreaker:1;
     s32 shellBellDmg;
     s32 physicalDmg;
     s32 specialDmg;
@@ -444,7 +445,23 @@ struct BattleStruct
     u8 arenaLostPlayerMons; // Bits for party member, lost as in referee's decision, not by fainting.
     u8 arenaLostOpponentMons;
     u8 alreadyStatusedMoveAttempt; // As bits for battlers; For example when using Thunder Wave on an already paralyzed Pokémon.
+    u8 toMegaEvolve; // As bits for battlers that chose to Mega Evolve this turn.
+    u8 megaEvolvedBattlers; // As bits for battlers that Mega Evolved. Each trainer can only Mega Evolve once per battle.
+    u16 megaEvolvedSpecies[NUM_BATTLE_SIDES][PARTY_SIZE]; // The Mega each party slot became, so it stays Mega Evolved when it switches back in. SPECIES_NONE if it hasn't.
+    u8 moldBreakerSuppressed; // As bits for battlers whose ability is switched off while a Mold Breaker Pokémon's move runs.
+    u8 moldBreakerSavedAbilities[MAX_BATTLERS_COUNT];
+    u8 moldBreakerSavedPartyIndexes[MAX_BATTLERS_COUNT];
+    bool8 ateBoost; // Aerilate changed the type of the current move, which also powers it up.
+    u8 parentalBondState;
 };
+
+// For gBattleStruct->parentalBondState
+#define PARENTAL_BOND_NONE        0
+#define PARENTAL_BOND_SECOND_HIT  1 // The second hit's script is running
+#define PARENTAL_BOND_DONE        2
+
+// Set in the move slot byte that the player controller returns with its chosen move.
+#define RET_MEGA_EVOLUTION 0x80
 
 // The palaceFlags member of struct BattleStruct contains 1 flag per move to indicate which moves the AI should consider,
 // and 1 flag per battler to indicate whether the battler is awake and at <= 50% HP (which affects move choice).

@@ -268,6 +268,114 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 27,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "2",
+      "script": "ThreeIsland_EventScript_BikerBossIntroTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 27,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "2",
+      "script": "ThreeIsland_EventScript_BikerBossIntroTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 27,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "2",
+      "script": "ThreeIsland_EventScript_BikerBossIntroTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 27,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "2",
+      "script": "ThreeIsland_EventScript_BikerBossIntroTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 26,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "3",
+      "script": "ThreeIsland_EventScript_BattleBikersTriggerLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 26,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "3",
+      "script": "ThreeIsland_EventScript_BattleBikersTriggerMidLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 26,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "3",
+      "script": "ThreeIsland_EventScript_BattleBikersTriggerMid"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 27,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "2",
+      "script": "ThreeIsland_EventScript_BikerBossIntroTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 26,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "3",
+      "script": "ThreeIsland_EventScript_BattleBikersTriggerMidRight"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 26,
+      "elevation": 3,
+      "var": "VAR_MAP_SCENE_THREE_ISLAND",
+      "var_value": "3",
+      "script": "ThreeIsland_EventScript_BattleBikersTriggerRight"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 12,
+      "y": 31,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "ThreeIsland_EventScript_IslandSign"
+    },
+    {
+      "type": "hidden_item",
+      "x": 5,
+      "y": 13,
+      "elevation": 3,
+      "item": "ITEM_PP_UP",
+      "flag": "FLAG_HIDDEN_ITEM_THREE_ISLAND_PP_UP"
+    }
+  ]
 }

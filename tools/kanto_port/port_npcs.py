@@ -9,8 +9,10 @@ Run from the pokeemerald root, after port_kanto.py maps. Both commands are idemp
 sprites: ports every FRLG object event graphic used by the ported maps as OBJ_EVENT_GFX_KANTO_*
          (graphics ids from 256, see include/constants/event_objects_kanto.h), with FRLG's palettes.
          Generated code goes to src/data/object_events/kanto_object_events.h.
-objects: puts the FRLG objects (NPCs, item balls, Cut trees...) on the ported maps and gives them
-         scripts, see port_objects() for what is and is not ported.
+objects: ports the map scripts of the Kanto maps: map script tables, objects (NPCs, item balls,
+         Cut trees...), triggers, signs and hidden items, with the story scripts they run. Scripts are
+         translated with port_trainers.ScriptPorter, which allocates the FRLG flags and vars Emerald
+         lacks; run port_trainers.py trainers afterwards for the trainers' data.
 """
 import argparse, json, os, re, shutil, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -212,19 +214,67 @@ def emerald_labels():
     return out
 
 
-def allocate_flags(names):
-    """Define the FRLG flags Emerald lacks in place of unused (non-daily) Emerald flags."""
+def allocate_flags(names, high=()):
+    """Define the FRLG flags Emerald lacks: in place of unused (non-daily) Emerald flags, then in the
+    Kanto story flag range (KANTO_FLAGS_START, kept in SaveBlock1.kantoFlags), then in the extra Kanto
+    flags (KANTO_EXTRA_FLAGS_START, kept in PokemonStorage.kantoExtraFlags).
+    Hidden item flags (`high`) must come after FLAG_HIDDEN_ITEMS_START."""
     text = read(FLAGS_H)
     defined = set(re.findall(r"#define (FLAG_\w+)", text))
-    missing = [n for n in sorted(names) if n not in defined]
-    free = [m for m in re.finditer(r"^#define (FLAG_UNUSED_0x([0-9A-F]+))(\s+)(.*?)[ \t]*// Unused Flag[ \t]*$", text, re.M)
-            if int(m.group(2), 16) < 0x91F]
-    if len(missing) > len(free):
-        sys.exit(f"{len(missing)} flags needed but only {len(free)} unused flags are left")
-    for name, m in zip(missing, free):
+    low = [n for n in sorted(set(names) - set(high)) if n not in defined]
+    high = [n for n in sorted(high) if n not in defined]
+    unused = [m for m in re.finditer(r"^#define (FLAG_UNUSED_0x([0-9A-F]+))(\s+)(.*?)[ \t]*// Unused Flag[ \t]*$", text, re.M)
+              if int(m.group(2), 16) < 0x91F]
+    free_high = [m for m in unused if int(m.group(2), 16) >= 0x1F4]
+    free_low = [m for m in unused if int(m.group(2), 16) < 0x1F4]
+    # Hidden item flags only in the slots after FLAG_HIDDEN_ITEMS_START; the other flags take what's left
+    pairs = list(zip(high, free_high))
+    rest_slots = free_high[len(pairs):] + free_low
+    pairs += list(zip(low, rest_slots))
+    for name, m in pairs:
         width = len(m.group(1)) + len(m.group(3))
         text = text.replace(m.group(0), f"#define {name:<{max(width - 1, len(name))}} {m.group(4)} // Kanto (FRLG)", 1)
+    missing = high + low
+    rest = high[len(free_high):] + low[len(rest_slots):]
+    if rest:
+        begin = "// BEGIN KANTO STORY FLAGS: allocated by tools/kanto_port/port_npcs.py\n"
+        end = "// END KANTO STORY FLAGS"
+        n = len(re.findall(r"\(KANTO_FLAGS_START \+ 0x", text))
+        x = len(re.findall(r"\(KANTO_EXTRA_FLAGS_START \+ 0x", text))
+        lines = ""
+        for f in rest:
+            if n < 256:
+                lines += f"#define {f:<43} (KANTO_FLAGS_START + 0x{n:02X})\n"
+                n += 1
+            elif x < 512:
+                lines += f"#define {f:<43} (KANTO_EXTRA_FLAGS_START + 0x{x:03X})\n"
+                x += 1
+            else:
+                sys.exit("out of Kanto flags")
+        text = text.replace(end, lines + end, 1)
     write(FLAGS_H, text)
+    return missing
+
+
+VARS_H = "include/constants/vars.h"
+
+
+def allocate_vars(names):
+    """Define the FRLG vars Emerald lacks: in place of Emerald's unused vars, then in the Kanto var range
+    (KANTO_VARS_START, kept in PokemonStorage.kantoVars)."""
+    text = read(VARS_H)
+    defined = set(re.findall(r"#define (VAR_\w+)", text))
+    missing = [n for n in sorted(names) if n not in defined]
+    free = list(re.finditer(r"^#define (VAR_UNUSED_0x([0-9A-F]+))(\s+)(\S+)[ \t]*(// Unused Var)?[ \t]*$", text, re.M))
+    for name, m in zip(missing, free):
+        text = text.replace(m.group(0), f"#define {name} {m.group(4)} // Kanto (FRLG)", 1)
+    rest = missing[len(free):]
+    end = "// END KANTO VARS"
+    n = len(re.findall(r"\(KANTO_VARS_START \+ 0x", text))
+    if n + len(rest) > 128:
+        sys.exit("out of Kanto vars (KANTO_VARS_COUNT)")
+    lines = "".join(f"#define {v:<43} (KANTO_VARS_START + 0x{n + i:02X})\n" for i, v in enumerate(rest))
+    write(VARS_H, text.replace(end, lines + end, 1))
     return missing
 
 
@@ -253,7 +303,9 @@ def cmd_objects(args):
     renamed_maps = {f: n for f, n in man.items() if f != n}
 
     common_texts, common_blocks, flags = {}, [], set()
-    stats = {"talk": 0, "item": 0, "trainer": 0, "nurse": 0, "mart": 0, "shared": 0, "fallback": 0, "silent": 0}
+    from port_trainers import ScriptPorter
+    current = [None]
+    stats = {"story": 0, "trigger": 0, "sign": 0, "hidden": 0, "item": 0, "trainer": 0, "nurse": 0, "mart": 0, "shared": 0, "fallback": 0, "silent": 0}
 
     def rename_label(label):
         for f, n in renamed_maps.items():
@@ -300,7 +352,15 @@ def cmd_objects(args):
                 return t
         return None
 
+    porter = ScriptPorter(labels, em_labels, lambda l: rename_label(l), lambda l: map_of(l), lambda: current[0])
+    for fname in man:
+        porter.load_map(fname, read(f"{frlg}/data/maps/{fname}/scripts.inc"))
+    for f, n in renamed_maps.items():
+        fid = json.loads(read(f"{frlg}/data/maps/{f}/map.json"))["id"]
+        porter.const_renames[fid] = "MAP_KANTO_" + fid[len("MAP_"):]
+    hidden_flags = set()
     for fname, new in sorted(man.items()):
+        current[0] = new
         fj = json.loads(read(f"{frlg}/data/maps/{fname}/map.json"))
         ej = json.loads(read(f"data/maps/{new}/map.json"))
         fsrc = read(f"{frlg}/data/maps/{fname}/scripts.inc")
@@ -308,6 +368,13 @@ def cmd_objects(args):
         for var, gfx in re.findall(r"setvar VAR_OBJ_GFX_ID_(\w+), (OBJ_EVENT_GFX_\w+)", fsrc):
             var_gfx.setdefault(f"OBJ_EVENT_GFX_VAR_{var}", gfx)
         objects, scripts, local_texts, marts = [], [], {}, {}
+        localids = {}
+        for o in fj["object_events"]:
+            lid = o.get("local_id")
+            if lid and o.get("type") != "clone":
+                localids[lid] = "LOCALID_KANTO_" + lid[len("LOCALID_"):] if lid in em_localids else lid
+        ported_blocks = {}
+        porter.begin_map(ported_blocks, localids)
         for idx, o in enumerate(fj["object_events"]):
             if o.get("type") == "clone":
                 continue
@@ -353,24 +420,21 @@ def cmd_objects(args):
                          f"\tpokemart {new_items}", "\tmsgbox gText_PleaseComeAgain, MSGBOX_DEFAULT", "\trelease", "\tend"]
                 stats["mart"] += 1
             elif re.search(r"^\s*trainerbattle", body, re.M):
-                m = re.search(r"^\s*trainerbattle\w*\s+\w+,\s*(\w+)", body, re.M)
-                t = text_label(m.group(1), local_texts, new) if m else None
-                if t:
-                    lines = [f"\tmsgbox {t}, MSGBOX_NPC", "\tend"]
+                lines = porter.translate(body, trainer=True)
+                if lines:
+                    obj["trainer_type"] = o["trainer_type"]
+                    obj["trainer_sight_or_berry_tree_id"] = o["trainer_sight_or_berry_tree_id"]
+                else:
+                    # Can't be battled: just say the intro text
+                    m = re.search(r"^\s*trainerbattle\w*\s+\w+,\s*(\w+)", body, re.M)
+                    t = text_label(m.group(1), local_texts, new) if m else None
+                    lines = [f"\tmsgbox {t}, MSGBOX_NPC", "\tend"] if t else None
                 stats["trainer"] += 1
             else:
-                body_lines = [l.strip() for l in body.strip().splitlines() if l.strip() and not l.strip().startswith("@")]
-                simple = body_lines and all(re.match(r"(lock|lockall|faceplayer|release|releaseall|end|waitmessage|waitbuttonpress|closemessage|msgbox \w+(, MSGBOX_\w+)?)$", l) for l in body_lines)
-                if simple:
-                    lines = []
-                    for l in body_lines:
-                        m = re.match(r"msgbox (\w+)(.*)", l)
-                        if m:
-                            t = text_label(m.group(1), local_texts, new)
-                            l = f"msgbox {t}{m.group(2)}" if t else ""
-                        if l:
-                            lines.append("\t" + l)
-                    stats["talk"] += 1
+                ported = porter.port(script) if script in labels else None
+                if ported:
+                    obj["script"] = ported
+                    stats["story"] += 1
                 else:
                     t = first_text(script)
                     t = text_label(t, local_texts, new) if t else None
@@ -387,28 +451,62 @@ def cmd_objects(args):
             objects.append(obj)
 
         ej["object_events"] = objects
+
+        # Map scripts: the FRLG map script table, translated
+        header = [f"{new}_MapScripts::"]
+        for kind, target in re.findall(r"^\s*map_script (MAP_SCRIPT_\w+),\s*(\w+)", labels.get(f"{fname}_MapScripts", ""), re.M):
+            t = porter.port(target)
+            if t:
+                header.append(f"\tmap_script {kind}, {t}")
+        header.append("\t.byte 0")
+
+        coords = []
+        for c in fj["coord_events"]:
+            if c["type"] == "trigger":
+                var, t = porter._token(c["var"]) if c["var"] != "0" else "0", porter.port(c["script"])
+                if not var or not t:
+                    continue
+                coords.append({**c, "var": var, "script": t})
+                stats["trigger"] += 1
+            else:
+                coords.append(c)
+        ej["coord_events"] = coords
+        bgs = []
+        for b in fj["bg_events"]:
+            if b["type"] == "sign":
+                t = porter.port(b["script"])
+                if t:
+                    bgs.append({**b, "script": t})
+                    stats["sign"] += 1
+            elif b["type"] == "hidden_item":
+                hidden_flags.add(b["flag"])
+                bgs.append({k: b[k] for k in ("type", "x", "y", "elevation", "item", "flag")})
+                stats["hidden"] += 1
+        ej["bg_events"] = bgs
         write(f"data/maps/{new}/map.json", json.dumps(ej, indent=2) + "\n")
 
         block = [NPC_BEGIN, ""] + scripts
         for name, items in marts.items():
             block.append(f"\t.align 2\n{name}:\n" + items.rstrip() + "\n")
         for name, text in sorted(local_texts.items()):
-            block.append(f"{name}:\n" + fix_text(text).rstrip() + "\n")
+            if name not in ported_blocks:
+                block.append(f"{name}:\n" + fix_text(text).rstrip() + "\n")
+        block += [b for _, b in sorted(ported_blocks.items())]
         block.append(NPC_END)
-        path = f"data/maps/{new}/scripts.inc"
-        cur = read(path)
-        if NPC_BEGIN in cur:
-            cur = cur[:cur.index(NPC_BEGIN)].rstrip("\n") + cur[cur.index(NPC_END) + len(NPC_END):].rstrip("\n")
-        write(path, cur.rstrip("\n") + "\n\n" + "\n".join(block) + "\n")
+        # The whole file is generated: the map scripts (port_kanto.py heal leaves maps with this block alone)
+        write(f"data/maps/{new}/scripts.inc", "\n".join(header) + "\n\n" + "\n".join(block) + "\n")
 
     # Flags, and the ones a new game starts with (FRLG's EventScript_ResetAllMapFlags)
-    allocate_flags(flags)
+    allocate_flags(flags | porter.flags, hidden_flags)
+    allocate_vars(porter.vars)
     reset = labels["EventScript_ResetAllMapFlags"]
     start_flags = [f for f in re.findall(r"setflag (FLAG_\w+)", reset) if f in flags]
     out = [GENERATED.replace("//", "@"), "@ Included by data/event_scripts.s.", "",
            "EventScript_ResetKantoMapFlags::"] + [f"\tsetflag {f}" for f in start_flags] + ["\treturn", ""]
     for name, text in sorted(common_texts.items()):
-        out.append(f"{name}:\n" + fix_text(text).rstrip() + "\n")
+        if name not in porter.common:
+            out.append(f"{name}:\n" + fix_text(text).rstrip() + "\n")
+    out += [b for _, b in sorted(porter.common.items())]
     write(KANTO_SCRIPTS, "\n".join(out) + "\n")
     es = read("data/event_scripts.s")
     inc = f'\t.include "{KANTO_SCRIPTS}"'

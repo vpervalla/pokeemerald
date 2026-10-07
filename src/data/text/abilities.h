@@ -76,6 +76,15 @@ static const u8 sPurePowerDescription[] = _("Raises ATTACK.");
 static const u8 sShellArmorDescription[] = _("Blocks critical hits.");
 static const u8 sCacophonyDescription[] = _("Avoids sound-based moves.");
 static const u8 sAirLockDescription[] = _("Negates weather effects.");
+static const u8 sToughClawsDescription[] = _("Powers up contact moves.");
+static const u8 sMegaLauncherDescription[] = _("Powers up pulse moves.");
+static const u8 sNoGuardDescription[] = _("Ensures all moves hit.");
+static const u8 sMoldBreakerDescription[] = _("Moves ignore foes' abilities.");
+static const u8 sDeltaStreamDescription[] = _("Summons strong winds.");
+static const u8 sSteadfastDescription[] = _("Flinching raises SPEED.");
+static const u8 sAerilateDescription[] = _("NORMAL moves become FLYING.");
+static const u8 sParentalBondDescription[] = _("Attacks twice in a row.");
+static const u8 sAdaptabilityDescription[] = _("Powers up same-type moves.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -157,6 +166,15 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_SHELL_ARMOR] = _("SHELL ARMOR"),
     [ABILITY_CACOPHONY] = _("CACOPHONY"),
     [ABILITY_AIR_LOCK] = _("AIR LOCK"),
+    [ABILITY_TOUGH_CLAWS] = _("TOUGH CLAWS"),
+    [ABILITY_MEGA_LAUNCHER] = _("MEGALAUNCHER"),
+    [ABILITY_NO_GUARD] = _("NO GUARD"),
+    [ABILITY_MOLD_BREAKER] = _("MOLD BREAKER"),
+    [ABILITY_DELTA_STREAM] = _("DELTA STREAM"),
+    [ABILITY_STEADFAST] = _("STEADFAST"),
+    [ABILITY_AERILATE] = _("AERILATE"),
+    [ABILITY_PARENTAL_BOND] = _("PARENTALBOND"),
+    [ABILITY_ADAPTABILITY] = _("ADAPTABILITY"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -239,4 +257,13 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_SHELL_ARMOR] = sShellArmorDescription,
     [ABILITY_CACOPHONY] = sCacophonyDescription,
     [ABILITY_AIR_LOCK] = sAirLockDescription,
+    [ABILITY_TOUGH_CLAWS] = sToughClawsDescription,
+    [ABILITY_MEGA_LAUNCHER] = sMegaLauncherDescription,
+    [ABILITY_NO_GUARD] = sNoGuardDescription,
+    [ABILITY_MOLD_BREAKER] = sMoldBreakerDescription,
+    [ABILITY_DELTA_STREAM] = sDeltaStreamDescription,
+    [ABILITY_STEADFAST] = sSteadfastDescription,
+    [ABILITY_AERILATE] = sAerilateDescription,
+    [ABILITY_PARENTAL_BOND] = sParentalBondDescription,
+    [ABILITY_ADAPTABILITY] = sAdaptabilityDescription,
 };

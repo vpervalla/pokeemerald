@@ -148,7 +148,7 @@
 #define VAR_ROUTE133_STATE                               0x4080 // Unused Var
 #define VAR_ROUTE134_STATE                               0x4081 // Unused Var
 #define VAR_LITTLEROOT_HOUSES_STATE_MAY                  0x4082
-#define VAR_UNUSED_0x4083                                0x4083 // Unused Var
+#define VAR_DEOXYS_INTERACTION_NUM 0x4083 // Kanto (FRLG)
 #define VAR_BIRCH_LAB_STATE                              0x4084
 #define VAR_PETALBURG_GYM_STATE                          0x4085 // 0-1: Wally tutorial, 2-6: 0-4 badges, 7: Defeated Norman, 8: Rematch Norman
 #define VAR_CONTEST_HALL_STATE                           0x4086
@@ -156,13 +156,13 @@
 #define VAR_CONTEST_TYPE                                 0x4088
 #define VAR_SECRET_BASE_INITIALIZED                      0x4089
 #define VAR_CONTEST_PRIZE_PICKUP                         0x408A
-#define VAR_UNUSED_0x408B                                0x408B // Unused Var
+#define VAR_DEOXYS_INTERACTION_STEP_COUNTER 0x408B // Kanto (FRLG)
 #define VAR_LITTLEROOT_HOUSES_STATE_BRENDAN              0x408C
 #define VAR_LITTLEROOT_RIVAL_STATE                       0x408D
 #define VAR_BOARD_BRINEY_BOAT_STATE                      0x408E
 #define VAR_DEVON_CORP_3F_STATE                          0x408F
 #define VAR_BRINEY_HOUSE_STATE                           0x4090
-#define VAR_UNUSED_0x4091                                0x4091 // Unused Var
+#define VAR_EGG_BRAG_STATE 0x4091 // Kanto (FRLG)
 #define VAR_LITTLEROOT_INTRO_STATE                       0x4092
 #define VAR_MAUVILLE_GYM_STATE                           0x4093
 #define VAR_LILYCOVE_MUSEUM_2F_STATE                     0x4094
@@ -172,9 +172,9 @@
 #define VAR_PETALBURG_WOODS_STATE                        0x4098
 #define VAR_LILYCOVE_CONTEST_LOBBY_STATE                 0x4099
 #define VAR_RUSTURF_TUNNEL_STATE                         0x409A
-#define VAR_UNUSED_0x409B                                0x409B // Unused Var
+#define VAR_ELEVATOR_FLOOR 0x409B // Kanto (FRLG)
 #define VAR_ELITE_4_STATE                                0x409C
-#define VAR_UNUSED_0x409D                                0x409D // Unused Var
+#define VAR_HOF_BRAG_STATE 0x409D // Kanto (FRLG)
 #define VAR_MOSSDEEP_SPACE_CENTER_STAIR_GUARD_STATE      0x409E
 #define VAR_MOSSDEEP_SPACE_CENTER_STATE                  0x409F
 #define VAR_SLATEPORT_HARBOR_STATE                       0x40A0
@@ -185,7 +185,7 @@
 #define VAR_TRICK_HOUSE_BEING_WATCHED_STATE              0x40A5
 #define VAR_TRICK_HOUSE_FOUND_TRICK_MASTER               0x40A6
 #define VAR_TRICK_HOUSE_ENTRANCE_STATE                   0x40A7
-#define VAR_UNUSED_0x40A8                                0x40A8 // Unused Var
+#define VAR_LINK_WIN_BRAG_STATE 0x40A8 // Kanto (FRLG)
 #define VAR_CYCLING_CHALLENGE_STATE                      0x40A9
 #define VAR_SLATEPORT_MUSEUM_1F_STATE                    0x40AA
 #define VAR_TRICK_HOUSE_PUZZLE_1_STATE                   0x40AB
@@ -201,10 +201,10 @@
 #define VAR_TRICK_HOUSE_ENTER_FROM_CORRIDOR              0x40B5
 #define VAR_TRICK_HOUSE_PUZZLE_7_STATE_2                 0x40B6 // Leftover from RS, never set
 #define VAR_SLATEPORT_FAN_CLUB_STATE                     0x40B7
-#define VAR_UNUSED_0x40B8                                0x40B8 // Unused Var
+#define VAR_MAP_SCENE_CERULEAN_CITY_RIVAL 0x40B8 // Kanto (FRLG)
 #define VAR_MT_PYRE_STATE                                0x40B9
 #define VAR_NEW_MAUVILLE_STATE                           0x40BA
-#define VAR_UNUSED_0x40BB                                0x40BB // Unused Var
+#define VAR_MAP_SCENE_CERULEAN_CITY_ROCKET 0x40BB // Kanto (FRLG)
 #define VAR_BRAVO_TRAINER_BATTLE_TOWER_ON                0x40BC
 #define VAR_JAGGED_PASS_ASH_WEATHER                      0x40BD
 #define VAR_GLASS_WORKSHOP_STATE                         0x40BE
@@ -236,8 +236,8 @@
 #define VAR_SOOTOPOLIS_WALLACE_STATE                     0x40D8
 #define VAR_HAS_TALKED_TO_SEAFLOOR_CAVERN_ENTRANCE_GRUNT 0x40D9
 #define VAR_REGISTER_BIRCH_STATE                         0x40DA
-#define VAR_UNUSED_0x40DB                                0x40DB // Unused Var
-#define VAR_UNUSED_0x40DC                                0x40DC // Unused Var
+#define VAR_MAP_SCENE_CINNABAR_ISLAND 0x40DB // Kanto (FRLG)
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_2 0x40DC // Kanto (FRLG)
 #define VAR_GIFT_PICHU_SLOT                              0x40DD
 #define VAR_GIFT_UNUSED_1                                0x40DE // Var is written to, but never read
 #define VAR_GIFT_UNUSED_2                                0x40DF // Var is written to, but never read
@@ -246,7 +246,7 @@
 #define VAR_GIFT_UNUSED_5                                0x40E2 // Var is written to, but never read
 #define VAR_GIFT_UNUSED_6                                0x40E3 // Var is written to, but never read
 #define VAR_GIFT_UNUSED_7                                0x40E4 // var is written to, but never read
-#define VAR_UNUSED_0x40E5                                0x40E5 // Unused Var
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_REVIVE_STATE 0x40E5 // Kanto (FRLG)
 #define VAR_DAILY_SLOTS                                  0x40E6
 #define VAR_DAILY_WILDS                                  0x40E7
 #define VAR_DAILY_BLENDER                                0x40E8
@@ -264,18 +264,66 @@
 #define VAR_ROXANNE_CALL_STEP_COUNTER                    0x40F4
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER                   0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER             0x40F6
-#define VAR_UNUSED_0x40F7                                0x40F7 // Unused Var
-#define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
-#define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
-#define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                                0x40FB // Unused Var
-#define VAR_UNUSED_0x40FC                                0x40FC // Unused Var
-#define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
-#define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
-#define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_WHICH_FOSSIL 0x40F7 // Kanto (FRLG)
+#define VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10 0x40F8 // Kanto (FRLG)
+#define VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS 0x40F9 // Kanto (FRLG)
+#define VAR_MAP_SCENE_FOUR_ISLAND 0x40FA // Kanto (FRLG)
+#define VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE 0x40FB // Kanto (FRLG)
+#define VAR_MAP_SCENE_ICEFALL_CAVE_BACK 0x40FC // Kanto (FRLG)
+#define VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR 0x40FD // Kanto (FRLG)
+#define VAR_MAP_SCENE_MT_EMBER_EXTERIOR 0x40FE // Kanto (FRLG)
+#define VAR_MAP_SCENE_MT_MOON_B2F 0x40FF // Kanto (FRLG)
 
 #define VARS_END                                         0x40FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
+
+// Vars of the Kanto port (FRLG) that don't fit among Emerald's, kept in PokemonStorage.kantoVars
+#define KANTO_VARS_START              0x4400
+#define KANTO_VARS_COUNT              128
+
+// BEGIN KANTO VARS: allocated by tools/kanto_port/port_npcs.py
+#define VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F  (KANTO_VARS_START + 0x00)
+#define VAR_MAP_SCENE_PALLET_TOWN_OAK               (KANTO_VARS_START + 0x01)
+#define VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F  (KANTO_VARS_START + 0x02)
+#define VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB (KANTO_VARS_START + 0x03)
+#define VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE      (KANTO_VARS_START + 0x04)
+#define VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY         (KANTO_VARS_START + 0x05)
+#define VAR_MAP_SCENE_PEWTER_CITY                   (KANTO_VARS_START + 0x06)
+#define VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F         (KANTO_VARS_START + 0x07)
+#define VAR_MAP_SCENE_POKEMON_CENTER_TEALA          (KANTO_VARS_START + 0x08)
+#define VAR_MAP_SCENE_POKEMON_LEAGUE                (KANTO_VARS_START + 0x09)
+#define VAR_MAP_SCENE_POKEMON_TOWER_2F              (KANTO_VARS_START + 0x0A)
+#define VAR_MAP_SCENE_POKEMON_TOWER_6F              (KANTO_VARS_START + 0x0B)
+#define VAR_MAP_SCENE_ROCKET_WAREHOUSE              (KANTO_VARS_START + 0x0C)
+#define VAR_MAP_SCENE_ROUTE16                       (KANTO_VARS_START + 0x0D)
+#define VAR_MAP_SCENE_ROUTE22                       (KANTO_VARS_START + 0x0E)
+#define VAR_MAP_SCENE_ROUTE23                       (KANTO_VARS_START + 0x0F)
+#define VAR_MAP_SCENE_ROUTE24                       (KANTO_VARS_START + 0x10)
+#define VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES (KANTO_VARS_START + 0x11)
+#define VAR_MAP_SCENE_SAFFRON_CITY_DOJO             (KANTO_VARS_START + 0x12)
+#define VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB (KANTO_VARS_START + 0x13)
+#define VAR_MAP_SCENE_SEAFOAM_ISLANDS_B4F           (KANTO_VARS_START + 0x14)
+#define VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1      (KANTO_VARS_START + 0x15)
+#define VAR_MAP_SCENE_SILPH_CO_11F                  (KANTO_VARS_START + 0x16)
+#define VAR_MAP_SCENE_SILPH_CO_7F                   (KANTO_VARS_START + 0x17)
+#define VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F  (KANTO_VARS_START + 0x18)
+#define VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR          (KANTO_VARS_START + 0x19)
+#define VAR_MAP_SCENE_THREE_ISLAND                  (KANTO_VARS_START + 0x1A)
+#define VAR_MAP_SCENE_TRAINER_TOWER                 (KANTO_VARS_START + 0x1B)
+#define VAR_MAP_SCENE_TWO_ISLAND                    (KANTO_VARS_START + 0x1C)
+#define VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER (KANTO_VARS_START + 0x1D)
+#define VAR_MAP_SCENE_VERMILION_CITY                (KANTO_VARS_START + 0x1E)
+#define VAR_MAP_SCENE_VICTORY_ROAD_1F               (KANTO_VARS_START + 0x1F)
+#define VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1      (KANTO_VARS_START + 0x20)
+#define VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER2      (KANTO_VARS_START + 0x21)
+#define VAR_MAP_SCENE_VICTORY_ROAD_3F               (KANTO_VARS_START + 0x22)
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR        (KANTO_VARS_START + 0x23)
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_MART            (KANTO_VARS_START + 0x24)
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN         (KANTO_VARS_START + 0x25)
+#define VAR_MASSAGE_COOLDOWN_STEP_COUNTER           (KANTO_VARS_START + 0x26)
+#define VAR_RESORT_GORGEOUS_REQUESTED_MON           (KANTO_VARS_START + 0x27)
+#define VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER     (KANTO_VARS_START + 0x28)
+// END KANTO VARS
 
 #define SPECIAL_VARS_START            0x8000
 // special vars
@@ -300,7 +348,7 @@
 #define VAR_CONTEST_CATEGORY          0x8011
 #define VAR_MON_BOX_ID                0x8012
 #define VAR_MON_BOX_POS               0x8013
-#define VAR_UNUSED_0x8014             0x8014
+#define VAR_MAP_SCENE_ONE_ISLAND_HARBOR 0x8014 // Kanto (FRLG)
 #define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of gTrainerBattleOpponent_A
 
 #define SPECIAL_VARS_END              0x8015

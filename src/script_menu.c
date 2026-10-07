@@ -16,6 +16,7 @@
 #include "constants/field_specials.h"
 #include "constants/items.h"
 #include "constants/script_menu.h"
+#include "constants/seagallop.h"
 #include "constants/songs.h"
 
 #include "data/script_menu.h"
@@ -762,4 +763,90 @@ int ScriptMenu_AdjustLeftCoordFromWidth(int left, int width)
     }
 
     return adjustedLeft;
+}
+
+// From FRLG: the Seagallop ferry's destination menu, used by the Kanto maps.
+// VAR_0x8004 is the port the player is at, VAR_0x8005 the page:
+// 0: Vermilion, One, Two, Three (and Four), Other, Exit; 1: Four, Five, Six, Seven, Other, Exit,
+// always without the port the player is at.
+static EWRAM_DATA struct MenuAction sSeagallopMenu[6] = {0};
+static const u8 sText_SeagallopOther[] = _("OTHER");
+
+void DrawSeagallopDestinationMenu(void)
+{
+    u8 destinationId, top, numItems, windowId, i, width;
+
+    gSpecialVar_Result = 0xFF;
+    if (gSpecialVar_0x8005 == 1)
+    {
+        if (gSpecialVar_0x8004 < SEAGALLOP_FIVE_ISLAND)
+            destinationId = SEAGALLOP_FIVE_ISLAND;
+        else
+            destinationId = SEAGALLOP_FOUR_ISLAND;
+        numItems = 5;
+        top = 2;
+    }
+    else
+    {
+        destinationId = SEAGALLOP_VERMILION_CITY;
+        numItems = 6;
+        top = 0;
+    }
+
+    // The last two items are "Other" and "Exit"
+    for (i = 0; i < numItems - 2; i++)
+    {
+        if (destinationId != gSpecialVar_0x8004)
+            sSeagallopMenu[i].text = sSeagallopDestinationNames[destinationId];
+        else
+            i--;
+        destinationId++;
+        if (destinationId == SEAGALLOP_SEVEN_ISLAND + 1)
+            destinationId = SEAGALLOP_VERMILION_CITY;
+    }
+    sSeagallopMenu[i++].text = sText_SeagallopOther;
+    sSeagallopMenu[i].text = gText_Exit;
+
+    for (width = 0, i = 0; i < numItems; i++)
+        width = DisplayTextAndGetWidth(sSeagallopMenu[i].text, width);
+    width = ConvertPixelWidthToTileWidth(width);
+    windowId = CreateWindowFromRect(ScriptMenu_AdjustLeftCoordFromWidth(17, width), top, width, numItems * 2);
+    SetStandardWindowBorderStyle(windowId, FALSE);
+    PrintMenuTable(windowId, numItems, sSeagallopMenu);
+    InitMenuInUpperLeftCornerNormal(windowId, numItems, 0);
+    ScheduleBgCopyTilemapToVram(0);
+    InitMultichoiceCheckWrap(FALSE, numItems, windowId, 0xFF);
+}
+
+u16 GetSelectedSeagallopDestination(void)
+{
+    if (gSpecialVar_Result == MULTI_B_PRESSED)
+        return MULTI_B_PRESSED;
+    if (gSpecialVar_0x8005 == 1)
+    {
+        switch (gSpecialVar_Result)
+        {
+        case 0:
+            return gSpecialVar_0x8004 > SEAGALLOP_FOUR_ISLAND ? SEAGALLOP_FOUR_ISLAND : SEAGALLOP_FIVE_ISLAND;
+        case 1:
+            return gSpecialVar_0x8004 > SEAGALLOP_FIVE_ISLAND ? SEAGALLOP_FIVE_ISLAND : SEAGALLOP_SIX_ISLAND;
+        case 2:
+            return gSpecialVar_0x8004 > SEAGALLOP_SIX_ISLAND ? SEAGALLOP_SIX_ISLAND : SEAGALLOP_SEVEN_ISLAND;
+        case 3:
+            return SEAGALLOP_MORE;
+        default:
+            return MULTI_B_PRESSED;
+        }
+    }
+    else
+    {
+        if (gSpecialVar_Result == 4)
+            return SEAGALLOP_MORE;
+        else if (gSpecialVar_Result == 5)
+            return MULTI_B_PRESSED;
+        else if (gSpecialVar_Result >= gSpecialVar_0x8004)
+            return gSpecialVar_Result + 1;
+        else
+            return gSpecialVar_Result;
+    }
 }

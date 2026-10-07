@@ -23,9 +23,11 @@ struct MultiPartnerMenuPokemon
 };
 
 // defines for the u8 array gTypeEffectiveness
+bool8 IsTypeEffectivenessWeakenedByStrongWinds(u32 typeEffectivenessIndex);
 #define TYPE_EFFECT_ATK_TYPE(i) ((gTypeEffectiveness[i + 0]))
 #define TYPE_EFFECT_DEF_TYPE(i) ((gTypeEffectiveness[i + 1]))
-#define TYPE_EFFECT_MULTIPLIER(i) ((gTypeEffectiveness[i + 2]))
+// Delta Stream's strong winds make moves that are super effective on the FLYING type neutral on it
+#define TYPE_EFFECT_MULTIPLIER(i) (IsTypeEffectivenessWeakenedByStrongWinds(i) ? TYPE_MUL_NORMAL : gTypeEffectiveness[i + 2])
 
 // defines for the gTypeEffectiveness multipliers
 #define TYPE_MUL_NO_EFFECT          0
