@@ -51,6 +51,9 @@ MEGAS = [
  ('PINSIR_MEGA',     'PINSIR',    'pinsir/mega',     'PinsirMega',    'PINSIRITE',     'PINSIRITE',     'pinsirite',      (65,155,120,105,65,90),   ('BUG','FLYING'),     'AERILATE'),
  ('AERODACTYL_MEGA', 'AERODACTYL','aerodactyl/mega', 'AerodactylMega','AERODACTYLITE', 'AERODACTYLITE', 'aerodactylite',  (80,135,85,150,70,95),    ('ROCK','FLYING'),    'TOUGH_CLAWS'),
  ('KANGASKHAN_MEGA', 'KANGASKHAN','kangaskhan/mega', 'KangaskhanMega','KANGASKHANITE', 'KANGASKHANITE', 'kangaskhanite',  (105,125,100,100,60,100), ('NORMAL','NORMAL'),  'PARENTAL_BOND'),
+ ('SALAMENCE_MEGA',  'SALAMENCE', 'salamence/mega',  'SalamenceMega', 'SALAMENCITE',   'SALAMENCITE',   'salamencite',    (95,145,130,120,120,90),  ('DRAGON','FLYING'),  'AERILATE'),
+ ('METAGROSS_MEGA',  'METAGROSS', 'metagross/mega',  'MetagrossMega', 'METAGROSSITE',  'METAGROSSITE',  'metagrossite',   (80,145,150,110,105,110), ('STEEL','PSYCHIC'),  'TOUGH_CLAWS'),
+ ('AMPHAROS_MEGA',   'AMPHAROS',  'ampharos/mega',   'AmpharosMega',  'AMPHAROSITE',   'AMPHAROSITE',   'ampharosite',    (90,95,105,45,165,110),   ('ELECTRIC','DRAGON'),'MOLD_BREAKER'),
 ]
 
 # Megas that need a move instead of a Mega Stone

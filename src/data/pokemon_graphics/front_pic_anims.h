@@ -5719,6 +5719,9 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_PINSIR_MEGA] = sAnims_Pinsir,
     [SPECIES_AERODACTYL_MEGA] = sAnims_Aerodactyl,
     [SPECIES_KANGASKHAN_MEGA] = sAnims_Kangaskhan,
+    [SPECIES_SALAMENCE_MEGA] = sAnims_Salamence,
+    [SPECIES_METAGROSS_MEGA] = sAnims_Metagross,
+    [SPECIES_AMPHAROS_MEGA] = sAnims_Ampharos,
     // </mega-evolutions>
 
 };

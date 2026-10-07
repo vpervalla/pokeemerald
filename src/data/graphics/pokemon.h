@@ -2920,4 +2920,16 @@ const u32 gMonStillFrontPic_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kang
 const u32 gMonBackPic_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kangaskhan/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kangaskhan/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kangaskhan/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

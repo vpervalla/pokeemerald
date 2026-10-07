@@ -448,4 +448,7 @@ const u32 gMonFrontPic_MewtwoMegaX[] = INCGFX_U32("graphics/pokemon/mewtwo/mega_
 const u32 gMonFrontPic_PinsirMega[] = INCGFX_U32("graphics/pokemon/pinsir/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_AerodactylMega[] = INCGFX_U32("graphics/pokemon/aerodactyl/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_KangaskhanMega[] = INCGFX_U32("graphics/pokemon/kangaskhan/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_SalamenceMega[] = INCGFX_U32("graphics/pokemon/salamence/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_MetagrossMega[] = INCGFX_U32("graphics/pokemon/metagross/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AmpharosMega[] = INCGFX_U32("graphics/pokemon/ampharos/mega/anim_front.png", ".4bpp.lz");
 // </mega-evolutions>

@@ -466,5 +466,8 @@ static const u32 sUnused[] =
     [SPECIES_PINSIR_MEGA] = 0x88,
     [SPECIES_AERODACTYL_MEGA] = 0x888,
     [SPECIES_KANGASKHAN_MEGA] = 0x888,
+    [SPECIES_SALAMENCE_MEGA] = 0x88,
+    [SPECIES_METAGROSS_MEGA] = 0x88,
+    [SPECIES_AMPHAROS_MEGA] = 0x888,
     // </mega-evolutions>
 };

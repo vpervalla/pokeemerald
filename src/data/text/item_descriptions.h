@@ -1670,4 +1670,19 @@ static const u8 sKangaskhaniteDesc[] = _(
     "A MEGA STONE that\n"
     "lets KANGASKHAN Mega\n"
     "Evolve in battle.");
+
+static const u8 sSalamenciteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SALAMENCE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sMetagrossiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets METAGROSS Mega\n"
+    "Evolve in battle.");
+
+static const u8 sAmpharositeDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets AMPHAROS Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>

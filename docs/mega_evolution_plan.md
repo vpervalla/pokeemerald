@@ -423,8 +423,20 @@ Tested in mGBA:
   time(s)!". When the second hit knocks the foe out, the battle continues normally.
 - The earlier scenarios still pass.
 
+**Done: Mega Salamence (Aerilate), Metagross (Tough Claws) and Ampharos (Mold
+Breaker)**: data and sprites only, since their abilities already exist.
+
+Tested in mGBA:
+- All three Mega Evolve on both sides, with the right sprites.
+- Mega Salamence's Tackle has power 42 (Aerilate).
+- Mega Metagross's Tackle has power 45 (Tough Claws).
+- Mega Ampharos's Mud-Slap hits a Levitate Gengar, the control doesn't, and Levitate
+  is back afterwards.
+- The earlier scenarios still pass.
+
 **Next:**
 - **The other Megas:** those with abilities from section 6 that this game doesn't have.
+  Gardevoir and Altaria (Pixilate) need a decision, because this game has no Fairy type.
 
 ## 9. Testing
 

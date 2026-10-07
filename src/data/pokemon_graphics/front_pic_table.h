@@ -465,5 +465,8 @@ const struct CompressedSpriteSheet gMonFrontPicTable[] =
     SPECIES_SPRITE(PINSIR_MEGA, gMonFrontPic_PinsirMega),
     SPECIES_SPRITE(AERODACTYL_MEGA, gMonFrontPic_AerodactylMega),
     SPECIES_SPRITE(KANGASKHAN_MEGA, gMonFrontPic_KangaskhanMega),
+    SPECIES_SPRITE(SALAMENCE_MEGA, gMonFrontPic_SalamenceMega),
+    SPECIES_SPRITE(METAGROSS_MEGA, gMonFrontPic_MetagrossMega),
+    SPECIES_SPRITE(AMPHAROS_MEGA, gMonFrontPic_AmpharosMega),
     // </mega-evolutions>
 };

@@ -488,6 +488,9 @@ const u8 *const gMonIconTable[] =
     [SPECIES_PINSIR_MEGA] = gMonIcon_Pinsir,
     [SPECIES_AERODACTYL_MEGA] = gMonIcon_Aerodactyl,
     [SPECIES_KANGASKHAN_MEGA] = gMonIcon_Kangaskhan,
+    [SPECIES_SALAMENCE_MEGA] = gMonIcon_Salamence,
+    [SPECIES_METAGROSS_MEGA] = gMonIcon_Metagross,
+    [SPECIES_AMPHAROS_MEGA] = gMonIcon_Ampharos,
     // </mega-evolutions>
 };
 
@@ -958,6 +961,9 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_PINSIR_MEGA] = 2,
     [SPECIES_AERODACTYL_MEGA] = 0,
     [SPECIES_KANGASKHAN_MEGA] = 1,
+    [SPECIES_SALAMENCE_MEGA] = 0,
+    [SPECIES_METAGROSS_MEGA] = 0,
+    [SPECIES_AMPHAROS_MEGA] = 0,
     // </mega-evolutions>
 };
 
