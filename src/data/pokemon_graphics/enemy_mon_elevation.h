@@ -75,5 +75,8 @@ const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
     [SPECIES_AERODACTYL_MEGA] = 7,
     [SPECIES_METAGROSS_MEGA] = 4,
     [SPECIES_BEEDRILL_MEGA] = 5,
+    [SPECIES_GLALIE_MEGA] = 8,
+    [SPECIES_BANETTE_MEGA] = 5,
+    [SPECIES_SHARPEDO_MEGA] = 1,
     // </mega-evolutions>
 };

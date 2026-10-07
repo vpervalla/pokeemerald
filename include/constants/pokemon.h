@@ -215,6 +215,7 @@
 #define FLAG_MIRROR_MOVE_AFFECTED   (1 << 4)
 #define FLAG_KINGS_ROCK_AFFECTED    (1 << 5)
 #define FLAG_PULSE_MOVE             (1 << 6) // Powered up by Mega Launcher
+#define FLAG_BITING_MOVE            (1 << 7) // Powered up by Strong Jaw
 
 // Growth rates
 #define GROWTH_MEDIUM_FAST  0

@@ -444,9 +444,46 @@ Tested in mGBA:
   Evolving did 126. The ratio is 1.34, matching 2.0 / 1.5.
 - The earlier scenarios still pass.
 
+**Done: the other Gen 1–3 Megas except Gardevoir and Altaria.** Glalie, Steelix,
+Scizor, Heracross, Houndoom, Aggron, Camerupt, Banette, Sharpedo, Sableye and Absol,
+with ten new abilities (`ABILITY_REFRIGERATE` 87 to `ABILITY_MAGIC_BOUNCE` 96):
+
+| Ability | Mega | How it works |
+| --- | --- | --- |
+| Refrigerate | Glalie | Same code as Aerilate in `Cmd_attackcanceler`: Normal moves become Ice and get 1.2x. |
+| Sand Force | Steelix | Rock, Ground and Steel moves get 1.3x in a sandstorm. No sandstorm damage. |
+| Technician | Scizor | Moves with power 60 or less get 1.5x. Moves whose power is set by the move itself (Magnitude...) use that power. |
+| Skill Link | Heracross | `setmultihitcounter` always picks 5. |
+| Solar Power | Houndoom | Sp. Atk 1.5x in sun. Loses 1/8 of its max HP at the end of each turn in sun (`BattleScript_SolarPowerActivates`). |
+| Filter | Aggron | Super-effective damage x0.75, in `Cmd_typecalc` and `TypeCalc`. Mold Breaker ignores it. |
+| Sheer Force | Camerupt | 1.3x for moves with an added effect, and the effect is dropped in `seteffectwithchance`. `IsMoveAffectedBySheerForce` leaves out effects that are part of the move (Overheat, Thief, Knock Off, Outrage...). |
+| Prankster | Banette | +1 priority for moves with 0 power, in `GetWhoStrikesFirst` (Gen 6 rules: Dark types aren't immune). |
+| Strong Jaw | Sharpedo | Biting moves get 1.5x. New move flag `FLAG_BITING_MOVE` on Bite, Crunch, Hyper Fang and Poison Fang. |
+| Magic Bounce | Sableye, Absol | Reflects moves that Magic Coat reflects, every time, in `Cmd_attackcanceler`. A reflected move can't be reflected again (`gBattleStruct->magicBounced`), so two Magic Bounce Pokémon don't loop. Mold Breaker ignores it. |
+
+Tested in mGBA, each against the same run without the Mega Stone:
+- All 11 Mega Evolve on both sides, with the right sprites, and their stone names fit
+  the message box.
+- Refrigerate: Mega Glalie's Tackle has power 42 (control 35).
+- Sand Force: Mega Steelix's Iron Tail has power 130 in a sandstorm.
+- Technician: Mega Scizor's Metal Claw has power 75 (control 50).
+- Skill Link: Mega Heracross's Arm Thrust hits 5 times (control 3).
+- Solar Power: Mega Houndoom loses 18 of 150 HP at the end of a sunny turn, then its
+  Flamethrower knocks out the Kangaskhan the control leaves at 64 HP.
+- Filter: Kangaskhan's Brick Break does 25 to Mega Aggron. The formula gives 28–34
+  without Filter and 21–25 with it.
+- Sheer Force: Mega Camerupt's Mud-Slap has power 26 and doesn't lower accuracy; the
+  control's has power 20 and does.
+- Prankster: Mega Banette's Will-O-Wisp goes before a faster Jolteon (the control goes
+  second).
+- Strong Jaw: Mega Sharpedo's Crunch has power 120 (control 80).
+- Magic Bounce: Mega Sableye bounces Thunder Wave and Mega Absol bounces Toxic back at
+  the user. When Mega Sableye uses Thunder Wave on a Mega Absol, the move is bounced
+  once and Sableye is paralyzed. Mega Ampharos (Mold Breaker) paralyzes a Mega Sableye.
+- The earlier scenarios still pass.
+
 **Next:**
-- **The other Megas:** those with abilities from section 6 that this game doesn't have.
-  Gardevoir and Altaria (Pixilate) need a decision, because this game has no Fairy type.
+- Gardevoir and Altaria (Pixilate) need a decision, because this game has no Fairy type.
 
 ## 9. Testing
 

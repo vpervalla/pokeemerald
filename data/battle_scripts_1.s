@@ -3698,6 +3698,16 @@ BattleScript_MagicCoatBounce::
 	setmagiccoattarget BS_ATTACKER
 	return
 
+BattleScript_MagicBounce::
+	attackstring
+	ppreduce
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_PKMNBOUNCEDMOVEBACK
+	waitmessage B_WAIT_TIME_LONG
+	orword gHitMarker, HITMARKER_ATTACKSTRING_PRINTED | HITMARKER_NO_PPDEDUCT | HITMARKER_ALLOW_NO_PP
+	setmagiccoattarget BS_ATTACKER
+	return
+
 BattleScript_SnatchedMove::
 	attackstring
 	ppreduce
@@ -4052,6 +4062,11 @@ BattleScript_RainDishActivates::
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	end3
+
+BattleScript_SolarPowerActivates::
+	printstring STRINGID_PKMNHURTBYSOLARPOWER
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_DoTurnDmg
 
 BattleScript_SandstreamActivates::
 	pause B_WAIT_TIME_SHORT

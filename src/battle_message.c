@@ -520,6 +520,8 @@ static const u8 sText_PkmnBreaksTheMold[];
 static const u8 sText_MegaEvoWish[];
 static const u8 sText_StrongWindsBegin[];
 static const u8 sText_StrongWindsEnd[];
+static const u8 sText_PkmnBouncedMoveBack[];
+static const u8 sText_PkmnHurtBySolarPower[];
 
 const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_START] =
 {
@@ -898,6 +900,8 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_ST
     [STRINGID_MEGAEVOWISH - BATTLESTRINGS_TABLE_START] = sText_MegaEvoWish,
     [STRINGID_STRONGWINDSBEGIN - BATTLESTRINGS_TABLE_START] = sText_StrongWindsBegin,
     [STRINGID_STRONGWINDSEND - BATTLESTRINGS_TABLE_START] = sText_StrongWindsEnd,
+    [STRINGID_PKMNBOUNCEDMOVEBACK - BATTLESTRINGS_TABLE_START] = sText_PkmnBouncedMoveBack,
+    [STRINGID_PKMNHURTBYSOLARPOWER - BATTLESTRINGS_TABLE_START] = sText_PkmnHurtBySolarPower,
 };
 
 const u16 gMissStringIds[] =
@@ -1443,6 +1447,8 @@ static const u8 sText_PkmnBreaksTheMold[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} b
 static const u8 sText_MegaEvoWish[] = _("A fervent wish has reached\n{B_ATK_NAME_WITH_PREFIX}!");
 static const u8 sText_StrongWindsBegin[] = _("Mysterious strong winds are\nprotecting FLYING-type POKéMON!");
 static const u8 sText_StrongWindsEnd[] = _("The mysterious strong winds\nhave dissipated!");
+static const u8 sText_PkmnBouncedMoveBack[] = _("{B_DEF_NAME_WITH_PREFIX} bounced the\n{B_CURRENT_MOVE} back!");
+static const u8 sText_PkmnHurtBySolarPower[] = _("{B_ATK_NAME_WITH_PREFIX} is hurt by\nits SOLAR POWER!");
 static const u8 sText_Trainer1Fled[] = _( "{PLAY_SE SE_FLEE}{B_TRAINER1_CLASS} {B_TRAINER1_NAME} fled!");
 static const u8 sText_PlayerLostAgainstTrainer1[] = _("Player lost against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");
 static const u8 sText_PlayerBattledToDrawTrainer1[] = _("Player battled to a draw against\n{B_TRAINER1_CLASS} {B_TRAINER1_NAME}!");

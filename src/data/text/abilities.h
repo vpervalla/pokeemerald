@@ -85,6 +85,16 @@ static const u8 sSteadfastDescription[] = _("Flinching raises SPEED.");
 static const u8 sAerilateDescription[] = _("NORMAL moves become FLYING.");
 static const u8 sParentalBondDescription[] = _("Attacks twice in a row.");
 static const u8 sAdaptabilityDescription[] = _("Powers up same-type moves.");
+static const u8 sRefrigerateDescription[] = _("NORMAL moves become ICE.");
+static const u8 sSandForceDescription[] = _("Powers up in a sandstorm.");
+static const u8 sTechnicianDescription[] = _("Powers up weaker moves.");
+static const u8 sSkillLinkDescription[] = _("Multi-hit moves hit 5 times");
+static const u8 sSolarPowerDescription[] = _("Ups SP. ATK in sun; hurts.");
+static const u8 sFilterDescription[] = _("Weakens “super effective”.");
+static const u8 sSheerForceDescription[] = _("Ups power, drops effects.");
+static const u8 sPranksterDescription[] = _("Status moves go first.");
+static const u8 sStrongJawDescription[] = _("Powers up biting moves.");
+static const u8 sMagicBounceDescription[] = _("Reflects status moves.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -175,6 +185,16 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_AERILATE] = _("AERILATE"),
     [ABILITY_PARENTAL_BOND] = _("PARENTALBOND"),
     [ABILITY_ADAPTABILITY] = _("ADAPTABILITY"),
+    [ABILITY_REFRIGERATE] = _("REFRIGERATE"),
+    [ABILITY_SAND_FORCE] = _("SAND FORCE"),
+    [ABILITY_TECHNICIAN] = _("TECHNICIAN"),
+    [ABILITY_SKILL_LINK] = _("SKILL LINK"),
+    [ABILITY_SOLAR_POWER] = _("SOLAR POWER"),
+    [ABILITY_FILTER] = _("FILTER"),
+    [ABILITY_SHEER_FORCE] = _("SHEER FORCE"),
+    [ABILITY_PRANKSTER] = _("PRANKSTER"),
+    [ABILITY_STRONG_JAW] = _("STRONG JAW"),
+    [ABILITY_MAGIC_BOUNCE] = _("MAGIC BOUNCE"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -266,4 +286,14 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_AERILATE] = sAerilateDescription,
     [ABILITY_PARENTAL_BOND] = sParentalBondDescription,
     [ABILITY_ADAPTABILITY] = sAdaptabilityDescription,
+    [ABILITY_REFRIGERATE] = sRefrigerateDescription,
+    [ABILITY_SAND_FORCE] = sSandForceDescription,
+    [ABILITY_TECHNICIAN] = sTechnicianDescription,
+    [ABILITY_SKILL_LINK] = sSkillLinkDescription,
+    [ABILITY_SOLAR_POWER] = sSolarPowerDescription,
+    [ABILITY_FILTER] = sFilterDescription,
+    [ABILITY_SHEER_FORCE] = sSheerForceDescription,
+    [ABILITY_PRANKSTER] = sPranksterDescription,
+    [ABILITY_STRONG_JAW] = sStrongJawDescription,
+    [ABILITY_MAGIC_BOUNCE] = sMagicBounceDescription,
 };
