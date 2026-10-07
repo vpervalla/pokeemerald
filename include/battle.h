@@ -451,7 +451,7 @@ struct BattleStruct
     u8 moldBreakerSuppressed; // As bits for battlers whose ability is switched off while a Mold Breaker Pokémon's move runs.
     u8 moldBreakerSavedAbilities[MAX_BATTLERS_COUNT];
     u8 moldBreakerSavedPartyIndexes[MAX_BATTLERS_COUNT];
-    bool8 ateBoost; // Aerilate or Refrigerate changed the type of the current move, which also powers it up.
+    bool8 ateBoost; // Aerilate, Refrigerate or Pixilate changed the type of the current move, which also powers it up.
     u8 parentalBondState;
     bool8 magicBounced; // The current move was already reflected by Magic Bounce, so it can't be reflected back again.
 };

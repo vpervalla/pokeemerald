@@ -102,6 +102,7 @@ void TrySuppressAbilitiesForMoldBreaker(void);
 void RestoreAbilitiesAfterMoldBreaker(void);
 bool8 IsAbilityOnFieldAlive(u8 ability);
 bool8 IsMoveAffectedBySheerForce(u16 move);
+bool8 IsAteAbility(u8 ability);
 u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveArg);
 void BattleScriptExecute(const u8 *BS_ptr);
 void BattleScriptPushCursorAndCallback(const u8 *BS_ptr);

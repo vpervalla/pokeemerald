@@ -3137,7 +3137,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         gBattleMovePower = (gBattleMovePower * 130) / 100;
     if (attacker->ability == ABILITY_MEGA_LAUNCHER && (gBattleMoves[move].flags & FLAG_PULSE_MOVE))
         gBattleMovePower = (gBattleMovePower * 150) / 100;
-    if ((attacker->ability == ABILITY_AERILATE || attacker->ability == ABILITY_REFRIGERATE) && gBattleStruct->ateBoost)
+    if (IsAteAbility(attacker->ability) && gBattleStruct->ateBoost)
         gBattleMovePower = (gBattleMovePower * 120) / 100; // Gen 7+; Gen 6 used 1.3x
     if (attacker->ability == ABILITY_STRONG_JAW && (gBattleMoves[move].flags & FLAG_BITING_MOVE))
         gBattleMovePower = (gBattleMovePower * 150) / 100;

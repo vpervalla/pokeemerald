@@ -451,5 +451,7 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_SHARPEDO_MEGA] = _("SHARPEDO"),
     [SPECIES_SABLEYE_MEGA] = _("SABLEYE"),
     [SPECIES_ABSOL_MEGA] = _("ABSOL"),
+    [SPECIES_GARDEVOIR_MEGA] = _("GARDEVOIR"),
+    [SPECIES_ALTARIA_MEGA] = _("ALTARIA"),
     // </mega-evolutions>
 };

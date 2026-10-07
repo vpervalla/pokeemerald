@@ -923,17 +923,19 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
-    // Aerilate / Refrigerate: NORMAL moves become FLYING / ICE. Moves that set their
-    // own type first (Hidden Power, Weather Ball in weather) keep it.
-    if ((gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE || gBattleMons[gBattlerAttacker].ability == ABILITY_REFRIGERATE)
+    // Aerilate / Refrigerate / Pixilate: NORMAL moves become FLYING / ICE / FAIRY.
+    // Moves that set their own type first (Hidden Power, Weather Ball in weather) keep it.
+    if (IsAteAbility(gBattleMons[gBattlerAttacker].ability)
      && !gBattleStruct->dynamicMoveType
      && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
      && gCurrentMove != MOVE_STRUGGLE)
     {
         if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE)
             gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
-        else
+        else if (gBattleMons[gBattlerAttacker].ability == ABILITY_REFRIGERATE)
             gBattleStruct->dynamicMoveType = TYPE_ICE | F_DYNAMIC_TYPE_SET;
+        else
+            gBattleStruct->dynamicMoveType = TYPE_FAIRY | F_DYNAMIC_TYPE_SET;
         gBattleStruct->ateBoost = TRUE;
     }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))

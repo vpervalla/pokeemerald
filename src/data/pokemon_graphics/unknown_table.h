@@ -481,5 +481,7 @@ static const u32 sUnused[] =
     [SPECIES_SHARPEDO_MEGA] = 0x886,
     [SPECIES_SABLEYE_MEGA] = 0x886,
     [SPECIES_ABSOL_MEGA] = 0x88,
+    [SPECIES_GARDEVOIR_MEGA] = 0x88,
+    [SPECIES_ALTARIA_MEGA] = 0x88,
     // </mega-evolutions>
 };

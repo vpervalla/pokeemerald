@@ -4316,6 +4316,12 @@ bool8 IsAbilityOnFieldAlive(u8 ability)
     return FALSE;
 }
 
+// Aerilate, Refrigerate and Pixilate change Normal moves to their type and power them up.
+bool8 IsAteAbility(u8 ability)
+{
+    return ability == ABILITY_AERILATE || ability == ABILITY_REFRIGERATE || ability == ABILITY_PIXILATE;
+}
+
 // TRUE if the move has an added effect that Sheer Force removes in exchange for more power.
 // Effects on the user that are part of the move's cost or purpose (Overheat, Thief, Rapid
 // Spin, Outrage's confusion...) aren't added effects, so those moves aren't boosted.
