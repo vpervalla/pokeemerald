@@ -3131,12 +3131,18 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     else
         gBattleMovePower = powerOverride;
 
+    if (attacker->ability == ABILITY_TECHNICIAN && gBattleMovePower <= 60)
+        gBattleMovePower = (gBattleMovePower * 150) / 100;
     if (attacker->ability == ABILITY_TOUGH_CLAWS && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT))
         gBattleMovePower = (gBattleMovePower * 130) / 100;
     if (attacker->ability == ABILITY_MEGA_LAUNCHER && (gBattleMoves[move].flags & FLAG_PULSE_MOVE))
         gBattleMovePower = (gBattleMovePower * 150) / 100;
-    if (attacker->ability == ABILITY_AERILATE && gBattleStruct->ateBoost)
+    if ((attacker->ability == ABILITY_AERILATE || attacker->ability == ABILITY_REFRIGERATE) && gBattleStruct->ateBoost)
         gBattleMovePower = (gBattleMovePower * 120) / 100; // Gen 7+; Gen 6 used 1.3x
+    if (attacker->ability == ABILITY_STRONG_JAW && (gBattleMoves[move].flags & FLAG_BITING_MOVE))
+        gBattleMovePower = (gBattleMovePower * 150) / 100;
+    if (attacker->ability == ABILITY_SHEER_FORCE && IsMoveAffectedBySheerForce(move))
+        gBattleMovePower = (gBattleMovePower * 130) / 100;
 
     if (!typeOverride)
         type = gBattleMoves[move].type;
@@ -3241,6 +3247,11 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         gBattleMovePower = (150 * gBattleMovePower) / 100;
     if (type == TYPE_BUG && attacker->ability == ABILITY_SWARM && attacker->hp <= (attacker->maxHP / 3))
         gBattleMovePower = (150 * gBattleMovePower) / 100;
+    if (attacker->ability == ABILITY_SAND_FORCE && (type == TYPE_ROCK || type == TYPE_GROUND || type == TYPE_STEEL)
+     && (gBattleWeather & B_WEATHER_SANDSTORM) && WEATHER_HAS_EFFECT2)
+        gBattleMovePower = (130 * gBattleMovePower) / 100;
+    if (attacker->ability == ABILITY_SOLAR_POWER && (gBattleWeather & B_WEATHER_SUN) && WEATHER_HAS_EFFECT2)
+        spAttack = (150 * spAttack) / 100;
 
     // Self-destruct / Explosion cut defense in half
     if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)

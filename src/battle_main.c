@@ -4622,6 +4622,16 @@ void SwapTurnOrder(u8 id1, u8 id2)
     SWAP(gBattlerByTurnOrder[id1], gBattlerByTurnOrder[id2], temp);
 }
 
+// Prankster gives status moves +1 priority (Gen 6 behavior: Dark types aren't immune).
+static s8 GetMovePriority(u8 battler, u16 move)
+{
+    s8 priority = gBattleMoves[move].priority;
+
+    if (move != MOVE_NONE && gBattleMons[battler].ability == ABILITY_PRANKSTER && gBattleMoves[move].power == 0)
+        priority++;
+    return priority;
+}
+
 u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
 {
     u8 strikesFirst = 0;
@@ -4630,6 +4640,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     u8 holdEffect = 0;
     u8 holdEffectParam = 0;
     u16 moveBattler1 = 0, moveBattler2 = 0;
+    s8 priorityBattler1, priorityBattler2;
 
     if (WEATHER_HAS_EFFECT)
     {
@@ -4749,11 +4760,14 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
         }
     }
 
+    priorityBattler1 = GetMovePriority(battler1, moveBattler1);
+    priorityBattler2 = GetMovePriority(battler2, moveBattler2);
+
     // both move priorities are different than 0
-    if (gBattleMoves[moveBattler1].priority != 0 || gBattleMoves[moveBattler2].priority != 0)
+    if (priorityBattler1 != 0 || priorityBattler2 != 0)
     {
         // both priorities are the same
-        if (gBattleMoves[moveBattler1].priority == gBattleMoves[moveBattler2].priority)
+        if (priorityBattler1 == priorityBattler2)
         {
             if (speedBattler1 == speedBattler2 && Random() & 1)
                 strikesFirst = 2; // same speeds, same priorities
@@ -4762,7 +4776,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
 
             // else battler1 has more speed
         }
-        else if (gBattleMoves[moveBattler1].priority < gBattleMoves[moveBattler2].priority)
+        else if (priorityBattler1 < priorityBattler2)
         {
             strikesFirst = 1; // battler2's move has greater priority
         }
@@ -4994,6 +5008,7 @@ static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
     gBattleStruct->dynamicMoveType = 0;
     gBattleStruct->ateBoost = FALSE;
     gBattleStruct->parentalBondState = PARENTAL_BOND_NONE;
+    gBattleStruct->magicBounced = FALSE;
     gBattleMainFunc = RunTurnActionsFunctions;
     gBattleCommunication[3] = 0;
     gBattleCommunication[4] = 0;

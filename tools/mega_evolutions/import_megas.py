@@ -55,6 +55,17 @@ MEGAS = [
  ('METAGROSS_MEGA',  'METAGROSS', 'metagross/mega',  'MetagrossMega', 'METAGROSSITE',  'METAGROSSITE',  'metagrossite',   (80,145,150,110,105,110), ('STEEL','PSYCHIC'),  'TOUGH_CLAWS'),
  ('AMPHAROS_MEGA',   'AMPHAROS',  'ampharos/mega',   'AmpharosMega',  'AMPHAROSITE',   'AMPHAROSITE',   'ampharosite',    (90,95,105,45,165,110),   ('ELECTRIC','DRAGON'),'MOLD_BREAKER'),
  ('BEEDRILL_MEGA',   'BEEDRILL',  'beedrill/mega',   'BeedrillMega',  'BEEDRILLITE',   'BEEDRILLITE',   'beedrillite',    (65,150,40,145,15,80),    ('BUG','POISON'),     'ADAPTABILITY'),
+ ('GLALIE_MEGA', 'GLALIE', 'glalie/mega', 'GlalieMega', 'GLALITITE', 'GLALITITE', 'glalitite', (80,120,80,100,120,80), ('ICE','ICE'), 'REFRIGERATE'),
+ ('STEELIX_MEGA', 'STEELIX', 'steelix/mega', 'SteelixMega', 'STEELIXITE', 'STEELIXITE', 'steelixite', (75,125,230,30,55,95), ('STEEL','GROUND'), 'SAND_FORCE'),
+ ('SCIZOR_MEGA', 'SCIZOR', 'scizor/mega', 'ScizorMega', 'SCIZORITE', 'SCIZORITE', 'scizorite', (70,150,140,75,65,100), ('BUG','STEEL'), 'TECHNICIAN'),
+ ('HERACROSS_MEGA', 'HERACROSS', 'heracross/mega', 'HeracrossMega', 'HERACRONITE', 'HERACRONITE', 'heracronite', (80,185,115,75,40,105), ('BUG','FIGHTING'), 'SKILL_LINK'),
+ ('HOUNDOOM_MEGA', 'HOUNDOOM', 'houndoom/mega', 'HoundoomMega', 'HOUNDOOMINITE', 'HOUNDOOMINITE', 'houndoominite', (75,90,90,115,140,90), ('DARK','FIRE'), 'SOLAR_POWER'),
+ ('AGGRON_MEGA', 'AGGRON', 'aggron/mega', 'AggronMega', 'AGGRONITE', 'AGGRONITE', 'aggronite', (70,140,230,50,60,80), ('STEEL','STEEL'), 'FILTER'),
+ ('CAMERUPT_MEGA', 'CAMERUPT', 'camerupt/mega', 'CameruptMega', 'CAMERUPTITE', 'CAMERUPTITE', 'cameruptite', (70,120,100,20,145,105), ('FIRE','GROUND'), 'SHEER_FORCE'),
+ ('BANETTE_MEGA', 'BANETTE', 'banette/mega', 'BanetteMega', 'BANETTITE', 'BANETTITE', 'banettite', (64,165,75,75,93,83), ('GHOST','GHOST'), 'PRANKSTER'),
+ ('SHARPEDO_MEGA', 'SHARPEDO', 'sharpedo/mega', 'SharpedoMega', 'SHARPEDONITE', 'SHARPEDONITE', 'sharpedonite', (70,140,70,105,110,65), ('WATER','DARK'), 'STRONG_JAW'),
+ ('SABLEYE_MEGA', 'SABLEYE', 'sableye/mega', 'SableyeMega', 'SABLENITE', 'SABLENITE', 'sablenite', (50,85,125,20,85,115), ('DARK','GHOST'), 'MAGIC_BOUNCE'),
+ ('ABSOL_MEGA', 'ABSOL', 'absol/mega', 'AbsolMega', 'ABSOLITE', 'ABSOLITE', 'absolite', (65,150,60,115,115,60), ('DARK','DARK'), 'MAGIC_BOUNCE'),
 ]
 
 # Megas that need a move instead of a Mega Stone

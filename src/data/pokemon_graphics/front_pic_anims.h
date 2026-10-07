@@ -5723,6 +5723,17 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_METAGROSS_MEGA] = sAnims_Metagross,
     [SPECIES_AMPHAROS_MEGA] = sAnims_Ampharos,
     [SPECIES_BEEDRILL_MEGA] = sAnims_Beedrill,
+    [SPECIES_GLALIE_MEGA] = sAnims_Glalie,
+    [SPECIES_STEELIX_MEGA] = sAnims_Steelix,
+    [SPECIES_SCIZOR_MEGA] = sAnims_Scizor,
+    [SPECIES_HERACROSS_MEGA] = sAnims_Heracross,
+    [SPECIES_HOUNDOOM_MEGA] = sAnims_Houndoom,
+    [SPECIES_AGGRON_MEGA] = sAnims_Aggron,
+    [SPECIES_CAMERUPT_MEGA] = sAnims_Camerupt,
+    [SPECIES_BANETTE_MEGA] = sAnims_Banette,
+    [SPECIES_SHARPEDO_MEGA] = sAnims_Sharpedo,
+    [SPECIES_SABLEYE_MEGA] = sAnims_Sableye,
+    [SPECIES_ABSOL_MEGA] = sAnims_Absol,
     // </mega-evolutions>
 
 };

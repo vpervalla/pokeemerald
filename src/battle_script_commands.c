@@ -923,14 +923,17 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
-    // Aerilate: NORMAL moves become FLYING. Moves that set their own type first
-    // (Hidden Power, Weather Ball in weather) keep it.
-    if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE
+    // Aerilate / Refrigerate: NORMAL moves become FLYING / ICE. Moves that set their
+    // own type first (Hidden Power, Weather Ball in weather) keep it.
+    if ((gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE || gBattleMons[gBattlerAttacker].ability == ABILITY_REFRIGERATE)
      && !gBattleStruct->dynamicMoveType
      && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
      && gCurrentMove != MOVE_STRUGGLE)
     {
-        gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
+        if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE)
+            gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
+        else
+            gBattleStruct->dynamicMoveType = TYPE_ICE | F_DYNAMIC_TYPE_SET;
         gBattleStruct->ateBoost = TRUE;
     }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
@@ -977,6 +980,22 @@ static void Cmd_attackcanceler(void)
         gProtectStructs[gBattlerTarget].bounceMove = FALSE;
         BattleScriptPushCursor();
         gBattlescriptCurrInstr = BattleScript_MagicCoatBounce;
+        return;
+    }
+
+    // Magic Bounce reflects the move like Magic Coat, but every time. A reflected move
+    // can't be reflected back, so two Magic Bounce Pokémon don't loop forever.
+    if (gBattleMons[gBattlerTarget].ability == ABILITY_MAGIC_BOUNCE
+     && gBattleMons[gBattlerTarget].hp != 0
+     && gBattlerTarget != gBattlerAttacker
+     && !gBattleStruct->magicBounced
+     && gBattleMoves[gCurrentMove].flags & FLAG_MAGIC_COAT_AFFECTED)
+    {
+        gBattleStruct->magicBounced = TRUE;
+        gLastUsedAbility = ABILITY_MAGIC_BOUNCE;
+        RecordAbilityBattle(gBattlerTarget, ABILITY_MAGIC_BOUNCE);
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_MagicBounce;
         return;
     }
 
@@ -1439,6 +1458,10 @@ static void Cmd_typecalc(void)
         }
     }
 
+    if (gBattleMons[gBattlerTarget].ability == ABILITY_FILTER && (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
+     && !(gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
+        gBattleMoveDamage = gBattleMoveDamage * 3 / 4;
+
     if (gBattleMons[gBattlerTarget].ability == ABILITY_WONDER_GUARD && AttacksThisTurn(gBattlerAttacker, gCurrentMove) == 2
      && (!(gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) || ((gMoveResultFlags & (MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE)) == (MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE)))
      && gBattleMoves[gCurrentMove].power)
@@ -1614,6 +1637,10 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
             i += 3;
         }
     }
+
+    if (gBattleMons[defender].ability == ABILITY_FILTER && (flags & MOVE_RESULT_SUPER_EFFECTIVE)
+     && !(flags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
+        gBattleMoveDamage = gBattleMoveDamage * 3 / 4;
 
     if (gBattleMons[defender].ability == ABILITY_WONDER_GUARD && !(flags & MOVE_RESULT_MISSED)
         && AttacksThisTurn(attacker, move) == 2
@@ -2954,7 +2981,12 @@ static void Cmd_seteffectwithchance(void)
     else
         percentChance = gBattleMoves[gCurrentMove].secondaryEffectChance;
 
-    if (gBattleCommunication[MOVE_EFFECT_BYTE] & MOVE_EFFECT_CERTAIN
+    if (gBattleMons[gBattlerAttacker].ability == ABILITY_SHEER_FORCE && IsMoveAffectedBySheerForce(gCurrentMove))
+    {
+        // Sheer Force drops the added effect; the move was powered up instead.
+        gBattlescriptCurrInstr++;
+    }
+    else if (gBattleCommunication[MOVE_EFFECT_BYTE] & MOVE_EFFECT_CERTAIN
         && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
     {
         gBattleCommunication[MOVE_EFFECT_BYTE] &= ~MOVE_EFFECT_CERTAIN;
@@ -7276,6 +7308,10 @@ static void Cmd_setmultihitcounter(void)
     {
         gMultiHitCounter = gBattlescriptCurrInstr[1];
     }
+    else if (gBattleMons[gBattlerAttacker].ability == ABILITY_SKILL_LINK)
+    {
+        gMultiHitCounter = 5;
+    }
     else
     {
         gMultiHitCounter = Random() & 3;
@@ -7750,6 +7786,7 @@ static void Cmd_weatherdamage(void)
                 && gBattleMons[gBattlerAttacker].types[1] != TYPE_STEEL
                 && gBattleMons[gBattlerAttacker].types[1] != TYPE_GROUND
                 && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_VEIL
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_FORCE
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERGROUND)
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERWATER))
             {

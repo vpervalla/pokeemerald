@@ -430,6 +430,17 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_METAGROSSITE] = {gItemIcon_Metagrossite, gItemIconPalette_Metagrossite},
     [ITEM_AMPHAROSITE] = {gItemIcon_Ampharosite, gItemIconPalette_Ampharosite},
     [ITEM_BEEDRILLITE] = {gItemIcon_Beedrillite, gItemIconPalette_Beedrillite},
+    [ITEM_GLALITITE] = {gItemIcon_Glalitite, gItemIconPalette_Glalitite},
+    [ITEM_STEELIXITE] = {gItemIcon_Steelixite, gItemIconPalette_Steelixite},
+    [ITEM_SCIZORITE] = {gItemIcon_Scizorite, gItemIconPalette_Scizorite},
+    [ITEM_HERACRONITE] = {gItemIcon_Heracronite, gItemIconPalette_Heracronite},
+    [ITEM_HOUNDOOMINITE] = {gItemIcon_Houndoominite, gItemIconPalette_Houndoominite},
+    [ITEM_AGGRONITE] = {gItemIcon_Aggronite, gItemIconPalette_Aggronite},
+    [ITEM_CAMERUPTITE] = {gItemIcon_Cameruptite, gItemIconPalette_Cameruptite},
+    [ITEM_BANETTITE] = {gItemIcon_Banettite, gItemIconPalette_Banettite},
+    [ITEM_SHARPEDONITE] = {gItemIcon_Sharpedonite, gItemIconPalette_Sharpedonite},
+    [ITEM_SABLENITE] = {gItemIcon_Sablenite, gItemIconPalette_Sablenite},
+    [ITEM_ABSOLITE] = {gItemIcon_Absolite, gItemIconPalette_Absolite},
     // </mega-evolutions>
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},

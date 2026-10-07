@@ -384,8 +384,10 @@
 #define STRINGID_MEGAEVOWISH                384
 #define STRINGID_STRONGWINDSBEGIN           385
 #define STRINGID_STRONGWINDSEND             386
+#define STRINGID_PKMNBOUNCEDMOVEBACK        387
+#define STRINGID_PKMNHURTBYSOLARPOWER       388
 
-#define BATTLESTRINGS_COUNT                 387
+#define BATTLESTRINGS_COUNT                 389
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,

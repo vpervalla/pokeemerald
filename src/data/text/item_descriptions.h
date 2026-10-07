@@ -1690,4 +1690,59 @@ static const u8 sBeedrilliteDesc[] = _(
     "A MEGA STONE that\n"
     "lets BEEDRILL Mega\n"
     "Evolve in battle.");
+
+static const u8 sGlalititeDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets GLALIE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSteelixiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets STEELIX Mega\n"
+    "Evolve in battle.");
+
+static const u8 sScizoriteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SCIZOR Mega\n"
+    "Evolve in battle.");
+
+static const u8 sHeracroniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets HERACROSS Mega\n"
+    "Evolve in battle.");
+
+static const u8 sHoundoominiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets HOUNDOOM Mega\n"
+    "Evolve in battle.");
+
+static const u8 sAggroniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets AGGRON Mega\n"
+    "Evolve in battle.");
+
+static const u8 sCameruptiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets CAMERUPT Mega\n"
+    "Evolve in battle.");
+
+static const u8 sBanettiteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets BANETTE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSharpedoniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SHARPEDO Mega\n"
+    "Evolve in battle.");
+
+static const u8 sSableniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets SABLEYE Mega\n"
+    "Evolve in battle.");
+
+static const u8 sAbsoliteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets ABSOL Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>

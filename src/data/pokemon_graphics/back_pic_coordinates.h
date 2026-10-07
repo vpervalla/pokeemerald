@@ -473,6 +473,17 @@ const struct MonCoords gMonBackPicCoords[] =
     [SPECIES_METAGROSS_MEGA] = { .size = MON_COORDS_SIZE(64, 56), .y_offset = 6 },
     [SPECIES_AMPHAROS_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     [SPECIES_BEEDRILL_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 5 },
+    [SPECIES_GLALIE_MEGA] = { .size = MON_COORDS_SIZE(64, 48), .y_offset = 10 },
+    [SPECIES_STEELIX_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_SCIZOR_MEGA] = { .size = MON_COORDS_SIZE(64, 56), .y_offset = 4 },
+    [SPECIES_HERACROSS_MEGA] = { .size = MON_COORDS_SIZE(56, 64), .y_offset = 0 },
+    [SPECIES_HOUNDOOM_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_AGGRON_MEGA] = { .size = MON_COORDS_SIZE(64, 56), .y_offset = 7 },
+    [SPECIES_CAMERUPT_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 9 },
+    [SPECIES_BANETTE_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_SHARPEDO_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 3 },
+    [SPECIES_SABLEYE_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 13 },
+    [SPECIES_ABSOL_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     // </mega-evolutions>
 };
 

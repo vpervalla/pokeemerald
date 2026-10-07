@@ -679,6 +679,7 @@ void HandleAction_ActionFinished(void)
     gBattleStruct->dynamicMoveType = 0;
     gBattleStruct->ateBoost = FALSE;
     gBattleStruct->parentalBondState = PARENTAL_BOND_NONE;
+    gBattleStruct->magicBounced = FALSE;
     gDynamicBasePower = 0;
     gBattleScripting.moveendState = 0;
     gBattleCommunication[3] = 0;
@@ -2645,6 +2646,16 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                         effect++;
                     }
                     break;
+                case ABILITY_SOLAR_POWER:
+                    if (WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_SUN))
+                    {
+                        BattleScriptExecute(BattleScript_SolarPowerActivates);
+                        gBattleMoveDamage = gBattleMons[battler].maxHP / 8;
+                        if (gBattleMoveDamage == 0)
+                            gBattleMoveDamage = 1;
+                        effect++;
+                    }
+                    break;
                 case ABILITY_SHED_SKIN:
                     if ((gBattleMons[battler].status1 & STATUS1_ANY) && (Random() % 3) == 0)
                     {
@@ -4208,6 +4219,7 @@ static bool8 IsAbilityIgnoredByMoldBreaker(u8 ability)
     case ABILITY_BATTLE_ARMOR:
     case ABILITY_CLEAR_BODY:
     case ABILITY_DAMP:
+    case ABILITY_FILTER:
     case ABILITY_FLASH_FIRE:
     case ABILITY_HYPER_CUTTER:
     case ABILITY_IMMUNITY:
@@ -4216,6 +4228,7 @@ static bool8 IsAbilityIgnoredByMoldBreaker(u8 ability)
     case ABILITY_KEEN_EYE:
     case ABILITY_LEVITATE:
     case ABILITY_LIMBER:
+    case ABILITY_MAGIC_BOUNCE:
     case ABILITY_MAGMA_ARMOR:
     case ABILITY_MARVEL_SCALE:
     case ABILITY_OBLIVIOUS:
@@ -4301,4 +4314,28 @@ bool8 IsAbilityOnFieldAlive(u8 ability)
             return TRUE;
     }
     return FALSE;
+}
+
+// TRUE if the move has an added effect that Sheer Force removes in exchange for more power.
+// Effects on the user that are part of the move's cost or purpose (Overheat, Thief, Rapid
+// Spin, Outrage's confusion...) aren't added effects, so those moves aren't boosted.
+bool8 IsMoveAffectedBySheerForce(u16 move)
+{
+    if (gBattleMoves[move].secondaryEffectChance == 0)
+        return FALSE;
+
+    switch (gBattleMoves[move].effect)
+    {
+    case EFFECT_OVERHEAT:
+    case EFFECT_THIEF:
+    case EFFECT_KNOCK_OFF:
+    case EFFECT_PAY_DAY:
+    case EFFECT_RAMPAGE:
+    case EFFECT_TRAP:
+    case EFFECT_UPROAR:
+    case EFFECT_SWAGGER:
+    case EFFECT_TOXIC:
+        return FALSE;
+    }
+    return TRUE;
 }

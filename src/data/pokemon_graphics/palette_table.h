@@ -469,5 +469,16 @@ const struct CompressedSpritePalette gMonPaletteTable[] =
     SPECIES_PAL(METAGROSS_MEGA, gMonPalette_MetagrossMega),
     SPECIES_PAL(AMPHAROS_MEGA, gMonPalette_AmpharosMega),
     SPECIES_PAL(BEEDRILL_MEGA, gMonPalette_BeedrillMega),
+    SPECIES_PAL(GLALIE_MEGA, gMonPalette_GlalieMega),
+    SPECIES_PAL(STEELIX_MEGA, gMonPalette_SteelixMega),
+    SPECIES_PAL(SCIZOR_MEGA, gMonPalette_ScizorMega),
+    SPECIES_PAL(HERACROSS_MEGA, gMonPalette_HeracrossMega),
+    SPECIES_PAL(HOUNDOOM_MEGA, gMonPalette_HoundoomMega),
+    SPECIES_PAL(AGGRON_MEGA, gMonPalette_AggronMega),
+    SPECIES_PAL(CAMERUPT_MEGA, gMonPalette_CameruptMega),
+    SPECIES_PAL(BANETTE_MEGA, gMonPalette_BanetteMega),
+    SPECIES_PAL(SHARPEDO_MEGA, gMonPalette_SharpedoMega),
+    SPECIES_PAL(SABLEYE_MEGA, gMonPalette_SableyeMega),
+    SPECIES_PAL(ABSOL_MEGA, gMonPalette_AbsolMega),
     // </mega-evolutions>
 };

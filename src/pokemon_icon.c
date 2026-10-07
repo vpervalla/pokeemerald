@@ -492,6 +492,17 @@ const u8 *const gMonIconTable[] =
     [SPECIES_METAGROSS_MEGA] = gMonIcon_Metagross,
     [SPECIES_AMPHAROS_MEGA] = gMonIcon_Ampharos,
     [SPECIES_BEEDRILL_MEGA] = gMonIcon_Beedrill,
+    [SPECIES_GLALIE_MEGA] = gMonIcon_Glalie,
+    [SPECIES_STEELIX_MEGA] = gMonIcon_Steelix,
+    [SPECIES_SCIZOR_MEGA] = gMonIcon_Scizor,
+    [SPECIES_HERACROSS_MEGA] = gMonIcon_Heracross,
+    [SPECIES_HOUNDOOM_MEGA] = gMonIcon_Houndoom,
+    [SPECIES_AGGRON_MEGA] = gMonIcon_Aggron,
+    [SPECIES_CAMERUPT_MEGA] = gMonIcon_Camerupt,
+    [SPECIES_BANETTE_MEGA] = gMonIcon_Banette,
+    [SPECIES_SHARPEDO_MEGA] = gMonIcon_Sharpedo,
+    [SPECIES_SABLEYE_MEGA] = gMonIcon_Sableye,
+    [SPECIES_ABSOL_MEGA] = gMonIcon_Absol,
     // </mega-evolutions>
 };
 
@@ -966,6 +977,17 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_METAGROSS_MEGA] = 0,
     [SPECIES_AMPHAROS_MEGA] = 0,
     [SPECIES_BEEDRILL_MEGA] = 2,
+    [SPECIES_GLALIE_MEGA] = 0,
+    [SPECIES_STEELIX_MEGA] = 0,
+    [SPECIES_SCIZOR_MEGA] = 0,
+    [SPECIES_HERACROSS_MEGA] = 2,
+    [SPECIES_HOUNDOOM_MEGA] = 0,
+    [SPECIES_AGGRON_MEGA] = 2,
+    [SPECIES_CAMERUPT_MEGA] = 0,
+    [SPECIES_BANETTE_MEGA] = 0,
+    [SPECIES_SHARPEDO_MEGA] = 0,
+    [SPECIES_SABLEYE_MEGA] = 2,
+    [SPECIES_ABSOL_MEGA] = 0,
     // </mega-evolutions>
 };
 
