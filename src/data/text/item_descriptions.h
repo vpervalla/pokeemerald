@@ -1645,4 +1645,9 @@ static const u8 sPidgeotiteDesc[] = _(
     "A MEGA STONE that\n"
     "lets PIDGEOT Mega\n"
     "Evolve in battle.");
+
+static const u8 sGyaradositeDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets GYARADOS Mega\n"
+    "Evolve in battle.");
 // </mega-evolutions>

@@ -288,6 +288,7 @@ void HandleAction_UseMove(void)
     if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
         BattleArena_AddMindPoints(gBattlerAttacker);
 
+    TrySuppressAbilitiesForMoldBreaker();
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
 
@@ -657,6 +658,7 @@ void HandleAction_NothingIsFainted(void)
 
 void HandleAction_ActionFinished(void)
 {
+    RestoreAbilitiesAfterMoldBreaker();
     *(gBattleStruct->monToSwitchIntoId + gBattlerByTurnOrder[gCurrentTurnActionNumber]) = PARTY_SIZE;
     gCurrentTurnActionNumber++;
     gCurrentActionFuncId = gActionsByTurnOrder[gCurrentTurnActionNumber];
@@ -2558,6 +2560,15 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     *(&gBattleStruct->formToChangeInto) = effect - 1;
                 }
                 break;
+            case ABILITY_MOLD_BREAKER:
+                if (!(gSpecialStatuses[battler].announcedMoldBreaker))
+                {
+                    gSpecialStatuses[battler].announcedMoldBreaker = TRUE;
+                    BattleScriptPushCursorAndCallback(BattleScript_MoldBreakerActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
+                break;
             case ABILITY_TRACE:
                 if (!(gSpecialStatuses[battler].traced))
                 {
@@ -4141,4 +4152,93 @@ bool8 IsMegaStoneUsableBy(u8 battler, u16 item)
     if (GetItemHoldEffect(item) != HOLD_EFFECT_MEGA_STONE)
         return FALSE;
     return GetMegaEvolutionSpecies(GetMegaBaseSpecies(gBattleMons[battler].species), item) != SPECIES_NONE;
+}
+
+// Abilities that a Mold Breaker Pokémon's moves ignore: the ones that would stop
+// or weaken the move. Abilities that react to being hit, like Static, still work.
+static bool8 IsAbilityIgnoredByMoldBreaker(u8 ability)
+{
+    switch (ability)
+    {
+    case ABILITY_BATTLE_ARMOR:
+    case ABILITY_CLEAR_BODY:
+    case ABILITY_DAMP:
+    case ABILITY_FLASH_FIRE:
+    case ABILITY_HYPER_CUTTER:
+    case ABILITY_IMMUNITY:
+    case ABILITY_INNER_FOCUS:
+    case ABILITY_INSOMNIA:
+    case ABILITY_KEEN_EYE:
+    case ABILITY_LEVITATE:
+    case ABILITY_LIMBER:
+    case ABILITY_MAGMA_ARMOR:
+    case ABILITY_MARVEL_SCALE:
+    case ABILITY_OBLIVIOUS:
+    case ABILITY_OWN_TEMPO:
+    case ABILITY_SAND_VEIL:
+    case ABILITY_SHELL_ARMOR:
+    case ABILITY_SHIELD_DUST:
+    case ABILITY_SOUNDPROOF:
+    case ABILITY_STICKY_HOLD:
+    case ABILITY_STURDY:
+    case ABILITY_SUCTION_CUPS:
+    case ABILITY_THICK_FAT:
+    case ABILITY_VITAL_SPIRIT:
+    case ABILITY_VOLT_ABSORB:
+    case ABILITY_WATER_ABSORB:
+    case ABILITY_WATER_VEIL:
+    case ABILITY_WHITE_SMOKE:
+    case ABILITY_WONDER_GUARD:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// The battle engine reads abilities straight from gBattleMons, so instead of checking
+// for Mold Breaker everywhere, the abilities it ignores are switched off on every
+// other battler while the Mold Breaker Pokémon's move runs.
+void TrySuppressAbilitiesForMoldBreaker(void)
+{
+    u8 battler;
+
+    if (gBattleMons[gBattlerAttacker].ability != ABILITY_MOLD_BREAKER)
+        return;
+
+    // These copy or swap abilities, or bring in a Pokémon whose switch-in ability
+    // would read the others, so they see the real abilities.
+    switch (gBattleMoves[gCurrentMove].effect)
+    {
+    case EFFECT_ROLE_PLAY:
+    case EFFECT_SKILL_SWAP:
+    case EFFECT_TRANSFORM:
+    case EFFECT_BATON_PASS:
+        return;
+    }
+
+    for (battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (battler == gBattlerAttacker || !IsAbilityIgnoredByMoldBreaker(gBattleMons[battler].ability))
+            continue;
+        gBattleStruct->moldBreakerSavedAbilities[battler] = gBattleMons[battler].ability;
+        gBattleStruct->moldBreakerSavedPartyIndexes[battler] = gBattlerPartyIndexes[battler];
+        gBattleMons[battler].ability = ABILITY_NONE;
+        gBattleStruct->moldBreakerSuppressed |= gBitTable[battler];
+    }
+}
+
+void RestoreAbilitiesAfterMoldBreaker(void)
+{
+    u8 battler;
+
+    for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+    {
+        if (!(gBattleStruct->moldBreakerSuppressed & gBitTable[battler]))
+            continue;
+        // Skip a battler that was replaced during the move (Roar, Whirlwind): its data is
+        // already the new Pokémon's.
+        if (gBattlerPartyIndexes[battler] == gBattleStruct->moldBreakerSavedPartyIndexes[battler]
+         && gBattleMons[battler].ability == ABILITY_NONE)
+            gBattleMons[battler].ability = gBattleStruct->moldBreakerSavedAbilities[battler];
+    }
+    gBattleStruct->moldBreakerSuppressed = 0;
 }

@@ -44,6 +44,7 @@ MEGAS = [
  ('CHARIZARD_MEGA_X','CHARIZARD', 'charizard/mega_x','CharizardMegaX','CHARIZARDITE_X','CHARZARDITE X', 'charizardite_x', (78,130,111,100,130,85),  ('FIRE','DRAGON'),    'TOUGH_CLAWS'),
  ('BLASTOISE_MEGA',  'BLASTOISE', 'blastoise/mega',  'BlastoiseMega', 'BLASTOISINITE', 'BLASTOISINITE', 'blastoisinite',  (79,103,120,78,135,115),  ('WATER','WATER'),    'MEGA_LAUNCHER'),
  ('PIDGEOT_MEGA',    'PIDGEOT',   'pidgeot/mega',    'PidgeotMega',   'PIDGEOTITE',    'PIDGEOTITE',    'pidgeotite',     (83,80,80,121,135,80),    ('NORMAL','FLYING'),  'NO_GUARD'),
+ ('GYARADOS_MEGA',   'GYARADOS',  'gyarados/mega',   'GyaradosMega',  'GYARADOSITE',   'GYARADOSITE',   'gyaradosite',    (95,155,109,81,70,130),   ('WATER','DARK'),     'MOLD_BREAKER'),
 ]
 
 def rd(p): return open(p, encoding='utf-8').read()

@@ -323,9 +323,32 @@ Tested in mGBA:
   Evolution misses.
 - The phase 1–3 scenarios still pass.
 
+**Done: Mega Gyarados** (Water/Dark), with `ABILITY_MOLD_BREAKER` (81):
+
+- **How it works:** Gen 3 reads abilities straight from `gBattleMons` in about 50 places.
+  So instead of a check at each one, `TrySuppressAbilitiesForMoldBreaker` (end of
+  `HandleAction_UseMove`) switches off the abilities Mold Breaker ignores on every other
+  battler while its move runs. `RestoreAbilitiesAfterMoldBreaker` (start of
+  `HandleAction_ActionFinished`) puts them back.
+- **Which abilities it ignores** (`IsAbilityIgnoredByMoldBreaker`): the Gen 3 abilities
+  that would stop or weaken the move. Examples are Levitate, Wonder Guard, Sturdy, Volt
+  and Water Absorb, Flash Fire, Thick Fat, Soundproof, Damp, Clear Body, Shield Dust and
+  the status immunities. Abilities that react to being hit, like Static and Rough Skin,
+  still work.
+- **Exceptions:**
+  - Role Play, Skill Swap, Transform and Baton Pass see the real abilities.
+  - A Pokémon replaced during the move (Roar, Whirlwind) isn't given the old ability
+    back.
+- **Announcement:** "{name} breaks the mold!" shows on switch-in and after Mega Evolving.
+
+Tested in mGBA:
+- Mega Gyarados's Earthquake and Mud-Slap hit a Levitate Gengar.
+- Its Surf hits a Wonder Guard Shedinja.
+- In both no-Mega controls the move does nothing.
+- Gengar's Levitate is back after the move.
+- The earlier scenarios still pass.
+
 **Next:**
-- **Gyarados (Mold Breaker):** its own step, because Gen 3 reads abilities directly in
-  about 50 places.
 - **Rayquaza:** needs Delta Stream and a decision on what triggers its Mega Evolution,
   since Dragon Ascent doesn't exist in Gen 3.
 - **The other Megas:** those with abilities from section 6 that this game doesn't have.

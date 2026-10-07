@@ -2896,4 +2896,8 @@ const u32 gMonStillFrontPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot
 const u32 gMonBackPic_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_PidgeotMega[] = INCGFX_U32("graphics/pokemon/pidgeot/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_GyaradosMega[] = INCGFX_U32("graphics/pokemon/gyarados/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

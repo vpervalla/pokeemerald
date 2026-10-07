@@ -139,6 +139,7 @@ struct SpecialStatus
     u32 ppNotAffectedByPressure:1;
     u32 faintedHasReplacement:1;
     u32 focusBanded:1;
+    u32 announcedMoldBreaker:1;
     s32 shellBellDmg;
     s32 physicalDmg;
     s32 specialDmg;
@@ -447,6 +448,9 @@ struct BattleStruct
     u8 toMegaEvolve; // As bits for battlers that chose to Mega Evolve this turn.
     u8 megaEvolvedBattlers; // As bits for battlers that Mega Evolved. Each trainer can only Mega Evolve once per battle.
     u8 megaEvolvedPartySlots[NUM_BATTLE_SIDES]; // As bits for party slots that are Mega Evolved, so they stay Mega Evolved when they switch back in.
+    u8 moldBreakerSuppressed; // As bits for battlers whose ability is switched off while a Mold Breaker Pokémon's move runs.
+    u8 moldBreakerSavedAbilities[MAX_BATTLERS_COUNT];
+    u8 moldBreakerSavedPartyIndexes[MAX_BATTLERS_COUNT];
 };
 
 // Set in the move slot byte that the player controller returns with its chosen move.

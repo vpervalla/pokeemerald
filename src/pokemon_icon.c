@@ -482,6 +482,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_CHARIZARD_MEGA_X] = gMonIcon_Charizard,
     [SPECIES_BLASTOISE_MEGA] = gMonIcon_Blastoise,
     [SPECIES_PIDGEOT_MEGA] = gMonIcon_Pidgeot,
+    [SPECIES_GYARADOS_MEGA] = gMonIcon_Gyarados,
     // </mega-evolutions>
 };
 
@@ -946,6 +947,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_CHARIZARD_MEGA_X] = 0,
     [SPECIES_BLASTOISE_MEGA] = 2,
     [SPECIES_PIDGEOT_MEGA] = 0,
+    [SPECIES_GYARADOS_MEGA] = 0,
     // </mega-evolutions>
 };
 

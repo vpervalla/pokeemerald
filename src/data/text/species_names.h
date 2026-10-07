@@ -430,5 +430,6 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_CHARIZARD_MEGA_X] = _("CHARIZARD"),
     [SPECIES_BLASTOISE_MEGA] = _("BLASTOISE"),
     [SPECIES_PIDGEOT_MEGA] = _("PIDGEOT"),
+    [SPECIES_GYARADOS_MEGA] = _("GYARADOS"),
     // </mega-evolutions>
 };

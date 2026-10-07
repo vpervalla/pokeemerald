@@ -460,5 +460,6 @@ static const u32 sUnused[] =
     [SPECIES_CHARIZARD_MEGA_X] = 0x888,
     [SPECIES_BLASTOISE_MEGA] = 0x886,
     [SPECIES_PIDGEOT_MEGA] = 0x888,
+    [SPECIES_GYARADOS_MEGA] = 0x886,
     // </mega-evolutions>
 };

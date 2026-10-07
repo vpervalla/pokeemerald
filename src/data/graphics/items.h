@@ -776,4 +776,6 @@ const u32 gItemIcon_Blastoisinite[] = INCGFX_U32("graphics/items/icons/blastoisi
 const u32 gItemIconPalette_Blastoisinite[] = INCGFX_U32("graphics/items/icon_palettes/blastoisinite.pal", ".gbapal.lz");
 const u32 gItemIcon_Pidgeotite[] = INCGFX_U32("graphics/items/icons/pidgeotite.png", ".4bpp.lz");
 const u32 gItemIconPalette_Pidgeotite[] = INCGFX_U32("graphics/items/icon_palettes/pidgeotite.pal", ".gbapal.lz");
+const u32 gItemIcon_Gyaradosite[] = INCGFX_U32("graphics/items/icons/gyaradosite.png", ".4bpp.lz");
+const u32 gItemIconPalette_Gyaradosite[] = INCGFX_U32("graphics/items/icon_palettes/gyaradosite.pal", ".gbapal.lz");
 // </mega-evolutions>

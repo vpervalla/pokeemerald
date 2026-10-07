@@ -4058,6 +4058,12 @@ BattleScript_IntimidatePrevented:
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_IntimidateActivatesLoopIncrement
 
+BattleScript_MoldBreakerActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_PKMNBREAKSTHEMOLD
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
 BattleScript_DroughtActivates::
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_PKMNSXINTENSIFIEDSUN

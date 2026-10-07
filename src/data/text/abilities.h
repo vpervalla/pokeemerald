@@ -79,6 +79,7 @@ static const u8 sAirLockDescription[] = _("Negates weather effects.");
 static const u8 sToughClawsDescription[] = _("Powers up contact moves.");
 static const u8 sMegaLauncherDescription[] = _("Powers up pulse moves.");
 static const u8 sNoGuardDescription[] = _("Ensures all moves hit.");
+static const u8 sMoldBreakerDescription[] = _("Moves ignore foes' abilities.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -163,6 +164,7 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_TOUGH_CLAWS] = _("TOUGH CLAWS"),
     [ABILITY_MEGA_LAUNCHER] = _("MEGALAUNCHER"),
     [ABILITY_NO_GUARD] = _("NO GUARD"),
+    [ABILITY_MOLD_BREAKER] = _("MOLD BREAKER"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -248,4 +250,5 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_TOUGH_CLAWS] = sToughClawsDescription,
     [ABILITY_MEGA_LAUNCHER] = sMegaLauncherDescription,
     [ABILITY_NO_GUARD] = sNoGuardDescription,
+    [ABILITY_MOLD_BREAKER] = sMoldBreakerDescription,
 };

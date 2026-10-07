@@ -96,6 +96,8 @@ void MegaEvolve(u8 battler);
 void TryRestoreMegaEvolution(u8 battler);
 void ClearMegaEvolutionOnFaint(u8 battler);
 bool8 IsMegaStoneUsableBy(u8 battler, u16 item);
+void TrySuppressAbilitiesForMoldBreaker(void);
+void RestoreAbilitiesAfterMoldBreaker(void);
 u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveArg);
 void BattleScriptExecute(const u8 *BS_ptr);
 void BattleScriptPushCursorAndCallback(const u8 *BS_ptr);
