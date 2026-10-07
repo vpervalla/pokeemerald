@@ -70,6 +70,7 @@ static const struct LitPalette sLitPalettes[] =
     {&gTileset_KantoGeneral,        7,  3,       COLORS(9, 13)},
     {&gTileset_KantoPalletTown,     9,  NO_COPY, COLORS(8, 10)},                // Oak's lab
     {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum
+    {&gTileset_KantoCeladonCity,    10, NO_COPY, COLORS(10, 12)},               // Department Store
     {&gTileset_KantoVermilionCity,  9,  NO_COPY, COLORS(8, 9) | COLORS(14, 15)},
     {&gTileset_KantoSaffronCity,    9,  NO_COPY, COLORS(13, 14)},               // Silph Co.
     {&gTileset_KantoSaffronCity,    12, NO_COPY, (1 << 13) | (1 << 15)},
@@ -246,7 +247,7 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define TAG_DOOR_GYM            0x2E04
 #define TAG_GLOW_PAL            0x2E05
 #define TAG_SIGN_POKEMON_CENTER_TEXT 0x2E06
-#define MAX_SIGN_SPRITES        8
+#define MAX_SIGN_SPRITES        12
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
 #define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
 #define METATILE_KANTO_MART_EMBLEM_LEFT      0x039
@@ -254,6 +255,7 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define METATILE_KANTO_GYM_EMBLEM            0x153
 #define METATILE_KANTO_SLIDING_DOOR          0x062 // Pokemon Centers and Marts
 #define METATILE_KANTO_GYM_DOOR              0x15B
+#define METATILE_CELADON_DEPT_STORE_DOOR     0x294 // Glass like the Gym door's, a pixel higher
 
 #define sDoorX data[0] // A door sprite's door, in map coordinates with MAP_OFFSET
 #define sDoorY data[1]
@@ -366,6 +368,7 @@ struct GlowingSign
     const struct SpriteTemplate *template;
     struct SpriteSheet sheet;
     struct SpritePalette palette;
+    const struct Tileset *secondaryTileset; // For a secondary metatile id; NULL for kanto_general's
 };
 
 static const struct GlowingSign sGlowingSigns[] =
@@ -384,6 +387,8 @@ static const struct GlowingSign sGlowingSigns[] =
      {sSlidingDoor_Gfx, 16 * 16 / 2, TAG_DOOR_SLIDING}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_GYM_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_GymDoor,
      {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
+    {METATILE_CELADON_DEPT_STORE_DOOR, 0, -1, 16, TRUE, &sSpriteTemplate_GymDoor,
+     {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoCeladonCity},
 };
 
 static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
@@ -469,7 +474,8 @@ static void CreateSignSprites(void)
 
             for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
             {
-                if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES)
+                if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES
+                 && (sGlowingSigns[i].secondaryTileset == NULL || sGlowingSigns[i].secondaryTileset == layout->secondaryTileset))
                     CreateSignSprite(&sGlowingSigns[i], x, y);
             }
         }
