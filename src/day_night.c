@@ -272,6 +272,14 @@ static const struct OamData sOam_Sign =
     .priority = 2, // The emblem metatiles draw below objects, like the bottom/middle BG layers
 };
 
+// The Gym emblem metatile draws its sign on the top BG layer, which covers sprites at priority 2.
+static const struct OamData sOam_SignTopLayer =
+{
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 1,
+};
+
 static const struct OamData sOam_Door =
 {
     .shape = SPRITE_SHAPE(16x16),
@@ -307,7 +315,7 @@ static const struct SpriteTemplate sSpriteTemplate_GymSign =
 {
     .tileTag = TAG_SIGN_GYM,
     .paletteTag = TAG_SIGN_GYM,
-    .oam = &sOam_Sign,
+    .oam = &sOam_SignTopLayer,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
