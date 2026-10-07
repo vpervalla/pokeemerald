@@ -14,7 +14,9 @@ the gold between the ring and the centre button; the grey band across the ball s
 ball fills the middle of the sprite's top half.
 "P.C" sign: its red letters, which use the Pokemon Center ball's colours.
 Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lit like the windows
-(the same warm light as LitGlassColor in day_night.c).
+(the same warm light as LitGlassColor in day_night.c). A door's sprite is a strip of 16x16 frames: the
+closed door, then the glass of each frame of its opening animation (graphics/door_anims/kanto), which
+day_night.c shows while field_door.c draws that frame.
 The sprites only show while the lights are on, so their palettes hold softly brightened colours.
 
 The overworld leaves few sprite palette slots free, so all the sprites share one palette: each
@@ -46,29 +48,38 @@ def lit_glass(c):
     v = sum(x >> 3 for x in c) // 3
     return tuple(x * 8 for x in (min(31, 24 + v // 4), 12 + v * 18 // 31, 2 + v * 16 // 31))
 # name: (palette, metatile rows, pixel x of the sprite's left edge within those rows, glowing colours,
-#        edge of the glowing pixels, brighten function, sprite size)
+#        edge of the glowing pixels, brighten function[, sprite size, door animation, secondary tileset])
 SIGNS = {
     "pokemon_center_sign": (2, [[0x51, 0x52, 0x53], [0x59, 0x5A, 0x5B]], 8, BALL_COLORS, OUTLINE_EDGE, brighten),
     "mart_sign": (3, [[0x31, 0x32], [0x39, 0x3A]], 0, BALL_COLORS, OUTLINE_EDGE, brighten),
     "pokemon_center_text": (2, [[0x60, 0x61]], 0, BALL_COLORS, (BALL_COLORS, 0, 31, False), brighten),
     "gym_sign": (5, [[0x152, 0x153, 0x154]], 8, GYM_COLORS, GYM_BALL_EDGE, brighten_gold),
-    "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16),  # Pokemon Center, Mart
-    "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16),
+    "sliding_door": (3, [[0x062]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16, "sliding_single"),  # Pokemon Center, Mart
+    "gym_door": (3, [[0x15B]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16, "sliding_double"),
+    "dept_store_door": (3, [[0x294]], 0, DOOR_GLASS, DOOR_GLASS_EDGE, lit_glass, 16, "dept_store",
+                        "data/tilesets/secondary/kanto_celadon_city/"),
 }
 
-tiles_im = Image.open(P + "tiles.png")
-metatiles = open(P + "metatiles.bin", "rb").read()
+NUM_PRIMARY = 640  # Tiles and metatiles in kanto_general; secondary ids follow them
 
-def tile(t):
-    w = tiles_im.width // 8
-    return tiles_im.crop(((t % w) * 8, (t // w) * 8, (t % w) * 8 + 8, (t // w) * 8 + 8))
+def load_tileset(d):
+    return Image.open(d + "tiles.png"), open(d + "metatiles.bin", "rb").read()
 
-def compose(m, pal):
+primary = load_tileset(P)
+
+def tile(t, secondary):
+    im = primary[0] if t < NUM_PRIMARY else secondary[0]
+    t %= NUM_PRIMARY
+    w = im.width // 8
+    return im.crop(((t % w) * 8, (t // w) * 8, (t % w) * 8 + 8, (t // w) * 8 + 8))
+
+def compose(m, pal, secondary=None):
     """16x16 palette indices of a metatile's visible pixels; -1 where another palette shows."""
     g = [[-1] * 16 for _ in range(16)]
+    metatiles = primary[1] if m < NUM_PRIMARY else secondary[1]
     for n in range(8):
-        v = struct.unpack_from("<H", metatiles, (m * 8 + n) * 2)[0]
-        t = tile(v & 0x3FF)
+        v = struct.unpack_from("<H", metatiles, (m % NUM_PRIMARY * 8 + n) * 2)[0]
+        t = tile(v & 0x3FF, secondary)
         if v & 0x400: t = t.transpose(Image.FLIP_LEFT_RIGHT)
         if v & 0x800: t = t.transpose(Image.FLIP_TOP_BOTTOM)
         for y in range(8):
@@ -83,11 +94,13 @@ def jasc(path):
     return [tuple(map(int, l.split())) for l in open(path).read().split("\n")[3:19]]
 
 sprites = {}
-for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *size) in SIGNS.items():
-    size = size[0] if size else 32
+for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *extra) in SIGNS.items():
+    size = extra[0] if extra else 32
+    door_anim = extra[1] if len(extra) > 1 else None
+    secondary = load_tileset(extra[2]) if len(extra) > 2 else None
     grid = []
     for row in rows:
-        parts = [compose(m, pal) for m in row]
+        parts = [compose(m, pal, secondary) for m in row]
         for y in range(16):
             grid.append([c for p in parts for c in p[y]])
     out = Image.new("P", (size, size), 0)
@@ -102,6 +115,16 @@ for name, (pal, rows, left, glow, (edge, lo, hi, reuse), bright, *size) in SIGNS
             c = grid[y][x]
             if c in glow and left <= x < left + size:
                 out.putpixel((x - left, y), c)
+    if door_anim:
+        # The animation's frames are drawn with palette 3 as they are, no flips.
+        anim = Image.open(f"graphics/door_anims/kanto/{door_anim}.png")
+        strip = Image.new("P", (size, size * (1 + anim.height // 16)), 0)
+        strip.paste(out, (0, 0))
+        for y in range(anim.height):
+            for x in range(16):
+                if anim.getpixel((x, y)) in glow:
+                    strip.putpixel((x, size + y), anim.getpixel((x, y)))
+        out = strip
     sprites[name] = (out, (pal, bright))
 
 # The shared palette: index 0 is transparent, then each group's colours that the sprites use.

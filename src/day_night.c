@@ -236,8 +236,8 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 // The Poke Ball emblems on Pokemon Centers, Marts and Gyms, and the Pokemon Centers' "P.C" signs, glow
 // while the windows are lit. Their colours are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
 // of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
-// Their glass doors are lit like the windows, by sprites of the glass that step aside while the door
-// is open.
+// Their glass doors are lit like the windows, by sprites of the glass that follow the door's opening
+// and closing: each is a strip of the closed door's glass and the glass of each animation frame.
 // The overworld leaves only a couple of sprite palette slots free, so the sprites share one palette,
 // made by the script.
 #define TAG_SIGN_POKEMON_CENTER 0x2E00
@@ -247,6 +247,8 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define TAG_DOOR_GYM            0x2E04
 #define TAG_GLOW_PAL            0x2E05
 #define TAG_SIGN_POKEMON_CENTER_TEXT 0x2E06
+#define TAG_DOOR_DEPT_STORE     0x2E07
+#define DOOR_GLOW_FRAMES        4 // Closed, then the 3 frames of the Kanto doors' animations
 #define MAX_SIGN_SPRITES        12
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
 #define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
@@ -255,11 +257,12 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define METATILE_KANTO_GYM_EMBLEM            0x153
 #define METATILE_KANTO_SLIDING_DOOR          0x062 // Pokemon Centers and Marts
 #define METATILE_KANTO_GYM_DOOR              0x15B
-#define METATILE_CELADON_DEPT_STORE_DOOR     0x294 // Glass like the Gym door's, a pixel higher
+#define METATILE_CELADON_DEPT_STORE_DOOR     0x294
 
 #define sDoorX data[0] // A door sprite's door, in map coordinates with MAP_OFFSET
 #define sDoorY data[1]
 #define sIsDoor data[2]
+#define sBaseTile data[3] // A door sprite's first tile, its closed frame
 
 static const u32 sPokemonCenterSign_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_sign.png", ".4bpp");
 static const u16 sGlow_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
@@ -268,6 +271,7 @@ static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png"
 static const u32 sGymSign_Gfx[] = INCGFX_U32("graphics/day_night/gym_sign.png", ".4bpp");
 static const u32 sSlidingDoor_Gfx[] = INCGFX_U32("graphics/day_night/sliding_door.png", ".4bpp");
 static const u32 sGymDoor_Gfx[] = INCGFX_U32("graphics/day_night/gym_door.png", ".4bpp");
+static const u32 sDeptStoreDoor_Gfx[] = INCGFX_U32("graphics/day_night/dept_store_door.png", ".4bpp");
 
 static const struct OamData sOam_Sign =
 {
@@ -359,6 +363,17 @@ static const struct SpriteTemplate sSpriteTemplate_GymDoor =
     .callback = SpriteCB_Sign,
 };
 
+static const struct SpriteTemplate sSpriteTemplate_DeptStoreDoor =
+{
+    .tileTag = TAG_DOOR_DEPT_STORE,
+    .paletteTag = TAG_GLOW_PAL,
+    .oam = &sOam_Door,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
 struct GlowingSign
 {
     u16 metatileId;
@@ -384,11 +399,12 @@ static const struct GlowingSign sGlowingSigns[] =
     {METATILE_KANTO_GYM_EMBLEM, -8, 0, 32, FALSE, &sSpriteTemplate_GymSign,
      {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_SLIDING_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_SlidingDoor,
-     {sSlidingDoor_Gfx, 16 * 16 / 2, TAG_DOOR_SLIDING}, {sGlow_Pal, TAG_GLOW_PAL}},
+     {sSlidingDoor_Gfx, 16 * 16 / 2 * DOOR_GLOW_FRAMES, TAG_DOOR_SLIDING}, {sGlow_Pal, TAG_GLOW_PAL}},
     {METATILE_KANTO_GYM_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_GymDoor,
-     {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
-    {METATILE_CELADON_DEPT_STORE_DOOR, 0, -1, 16, TRUE, &sSpriteTemplate_GymDoor,
-     {sGymDoor_Gfx, 16 * 16 / 2, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoCeladonCity},
+     {sGymDoor_Gfx, 16 * 16 / 2 * DOOR_GLOW_FRAMES, TAG_DOOR_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
+    {METATILE_CELADON_DEPT_STORE_DOOR, 0, 0, 16, TRUE, &sSpriteTemplate_DeptStoreDoor,
+     {sDeptStoreDoor_Gfx, 16 * 16 / 2 * DOOR_GLOW_FRAMES, TAG_DOOR_DEPT_STORE}, {sGlow_Pal, TAG_GLOW_PAL},
+     &gTileset_KantoCeladonCity},
 };
 
 static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
@@ -397,14 +413,22 @@ static EWRAM_DATA bool8 sSignsShown = FALSE;
 static EWRAM_DATA bool8 sSignsDirty = FALSE;
 
 // Hides the sprite while it's off screen, so its coordinates can't wrap around into view,
-// and a door's glass while the door is opening, open or closing.
+// and shows a door's glass for the frame the door is drawn with.
 static void SpriteCB_Sign(struct Sprite *sprite)
 {
     s16 x = sprite->x + sprite->x2 + gSpriteCoordOffsetX;
     s16 y = sprite->y + sprite->y2 + gSpriteCoordOffsetY;
 
-    sprite->invisible = (x < -32 || x > DISPLAY_WIDTH + 32 || y < -32 || y > DISPLAY_HEIGHT + 32)
-                     || (sprite->sIsDoor && FieldIsDoorShownOpen(sprite->sDoorX, sprite->sDoorY));
+    sprite->invisible = (x < -32 || x > DISPLAY_WIDTH + 32 || y < -32 || y > DISPLAY_HEIGHT + 32);
+    if (sprite->sIsDoor)
+    {
+        s32 frame = FieldGetDoorAnimFrame(sprite->sDoorX, sprite->sDoorY) + 1;
+
+        if (frame >= DOOR_GLOW_FRAMES)
+            sprite->invisible = TRUE;
+        else
+            sprite->oam.tileNum = sprite->sBaseTile + frame * 4;
+    }
 }
 
 static void DestroySignSprites(void)
@@ -451,6 +475,7 @@ static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
     gSprites[spriteId].sDoorX = mapX + MAP_OFFSET;
     gSprites[spriteId].sDoorY = mapY + MAP_OFFSET;
     gSprites[spriteId].sIsDoor = sign->isDoor;
+    gSprites[spriteId].sBaseTile = gSprites[spriteId].oam.tileNum;
     gSprites[spriteId].data[7] = SIGN_MAGIC;
     SpriteCB_Sign(&gSprites[spriteId]);
     sSignSpriteIds[sNumSignSprites++] = spriteId;
