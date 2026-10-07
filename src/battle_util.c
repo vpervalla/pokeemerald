@@ -4083,10 +4083,9 @@ bool8 CanMegaEvolve(u8 battler)
 }
 
 // Changes battler's battle data into its Mega Evolution. Its party data keeps the base species.
-void MegaEvolve(u8 battler)
+static void SetBattleMonToMegaSpecies(u8 battler, u16 megaSpecies)
 {
     struct Pokemon *mon;
-    u16 megaSpecies;
     u16 stats[NUM_STATS];
 
     if (GetBattlerSide(battler) == B_SIDE_PLAYER)
@@ -4094,7 +4093,6 @@ void MegaEvolve(u8 battler)
     else
         mon = &gEnemyParty[gBattlerPartyIndexes[battler]];
 
-    megaSpecies = GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
     CalculateMonStatsForSpecies(mon, megaSpecies, stats);
 
     // A Mega Evolution has the same base HP as its base form, so HP doesn't change.
@@ -4107,6 +4105,40 @@ void MegaEvolve(u8 battler)
     gBattleMons[battler].types[0] = gSpeciesInfo[megaSpecies].types[0];
     gBattleMons[battler].types[1] = gSpeciesInfo[megaSpecies].types[1];
     gBattleMons[battler].ability = GetAbilityBySpecies(megaSpecies, gBattleMons[battler].abilityNum);
+}
 
+void MegaEvolve(u8 battler)
+{
+    SetBattleMonToMegaSpecies(battler, GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item));
     gBattleStruct->megaEvolvedBattlers |= gBitTable[battler];
+    gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] |= gBitTable[gBattlerPartyIndexes[battler]];
+}
+
+// A Mega Evolved Pokémon stays Mega Evolved when it switches out and back in.
+// Called after its battle data was reloaded from the party.
+void TryRestoreMegaEvolution(u8 battler)
+{
+    u16 megaSpecies;
+
+    if (!(gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]]))
+        return;
+
+    megaSpecies = GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
+    if (megaSpecies != SPECIES_NONE)
+        SetBattleMonToMegaSpecies(battler, megaSpecies);
+}
+
+// A Pokémon that faints goes back to its base form for the rest of the battle.
+void ClearMegaEvolutionOnFaint(u8 battler)
+{
+    gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] &= ~gBitTable[gBattlerPartyIndexes[battler]];
+}
+
+// TRUE if item is a Mega Stone that battler can use, either as its base form or
+// already Mega Evolved. Such stones can't be stolen, knocked off or swapped.
+bool8 IsMegaStoneUsableBy(u8 battler, u16 item)
+{
+    if (GetItemHoldEffect(item) != HOLD_EFFECT_MEGA_STONE)
+        return FALSE;
+    return GetMegaEvolutionSpecies(GetMegaBaseSpecies(gBattleMons[battler].species), item) != SPECIES_NONE;
 }

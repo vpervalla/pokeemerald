@@ -578,15 +578,18 @@ bool8 IsBattleSEPlaying(u8 battler)
     return TRUE;
 }
 
-// The species whose sprite battler shows: its Mega Evolution if it has Mega Evolved.
+// The species whose sprite battler's party mon shows: its Mega Evolution if it has Mega Evolved.
 static u16 GetBattlerMonSpriteSpecies(struct Pokemon *mon, u8 battler)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES);
+    u16 megaSpecies;
 
-    if ((gBattleStruct->megaEvolvedBattlers & gBitTable[battler])
-     && SPECIES_IS_MEGA(gBattleMons[battler].species)
-     && GetMegaBaseSpecies(gBattleMons[battler].species) == species)
-        return gBattleMons[battler].species;
+    if (gBattleStruct->megaEvolvedPartySlots[GetBattlerSide(battler)] & gBitTable[gBattlerPartyIndexes[battler]])
+    {
+        megaSpecies = GetMegaEvolutionSpecies(species, GetMonData(mon, MON_DATA_HELD_ITEM));
+        if (megaSpecies != SPECIES_NONE)
+            return megaSpecies;
+    }
     return species;
 }
 
@@ -983,10 +986,11 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 castform)
         {
             position = GetBattlerPosition(battlerAtk);
 
+            // Transform copies the target's Mega Evolution too
             if (GetBattlerSide(battlerDef) == B_SIDE_OPPONENT)
-                targetSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES);
+                targetSpecies = GetBattlerMonSpriteSpecies(&gEnemyParty[gBattlerPartyIndexes[battlerDef]], battlerDef);
             else
-                targetSpecies = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], MON_DATA_SPECIES);
+                targetSpecies = GetBattlerMonSpriteSpecies(&gPlayerParty[gBattlerPartyIndexes[battlerDef]], battlerDef);
 
             if (GetBattlerSide(battlerAtk) == B_SIDE_PLAYER)
             {

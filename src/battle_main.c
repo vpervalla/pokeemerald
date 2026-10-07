@@ -4557,7 +4557,6 @@ static void HandleTurnActionSelectionState(void)
     if (gBattleCommunication[ACTIONS_CONFIRMED_COUNT] == gBattlersCount)
     {
         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_RECORDING);
-        gBattleStruct->megaEvoBattlerId = 0;
         gBattleMainFunc = TryDoMegaEvolutions;
 
         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
@@ -4775,21 +4774,30 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
 
 // Mega Evolutions happen once everyone has chosen their action, before the turn
 // order is set, so the turn order already uses the Mega Evolved Pokémon's Speed.
+// The fastest Pokémon Mega Evolves first.
 static void TryDoMegaEvolutions(void)
 {
-    while (gBattleStruct->megaEvoBattlerId < gBattlersCount)
+    s32 i;
+    u8 battler;
+
+    while (gBattleStruct->toMegaEvolve != 0)
     {
-        gActiveBattler = gBattleStruct->megaEvoBattlerId++;
-        if (gBattleStruct->toMegaEvolve & gBitTable[gActiveBattler])
+        battler = MAX_BATTLERS_COUNT;
+        for (i = 0; i < gBattlersCount; i++)
         {
-            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
-            if (gChosenActionByBattler[gActiveBattler] == B_ACTION_USE_MOVE && CanMegaEvolve(gActiveBattler))
-            {
-                gBattlerAttacker = gBattleScripting.battler = gActiveBattler;
-                gLastUsedItem = gBattleMons[gActiveBattler].item;
-                BattleScriptExecute(BattleScript_MegaEvolution);
-                return;
-            }
+            if (!(gBattleStruct->toMegaEvolve & gBitTable[i]))
+                continue;
+            if (battler == MAX_BATTLERS_COUNT || GetWhoStrikesFirst(battler, i, TRUE) != 0)
+                battler = i;
+        }
+
+        gBattleStruct->toMegaEvolve &= ~gBitTable[battler];
+        if (gChosenActionByBattler[battler] == B_ACTION_USE_MOVE && CanMegaEvolve(battler))
+        {
+            gActiveBattler = gBattlerAttacker = gBattleScripting.battler = battler;
+            gLastUsedItem = gBattleMons[battler].item;
+            BattleScriptExecute(BattleScript_MegaEvolution);
+            return;
         }
     }
 

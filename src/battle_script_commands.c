@@ -2778,7 +2778,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     else if (gBattleMons[gBattlerAttacker].item != ITEM_NONE
                         || gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY
                         || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item)
-                        || gBattleMons[gBattlerTarget].item == ITEM_NONE)
+                        || gBattleMons[gBattlerTarget].item == ITEM_NONE
+                        || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerTarget].item))
                     {
                         gBattlescriptCurrInstr++;
                     }
@@ -2877,7 +2878,8 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     }
                     break;
                 }
-                if (gBattleMons[gEffectBattler].item)
+                if (gBattleMons[gEffectBattler].item
+                 && !IsMegaStoneUsableBy(gEffectBattler, gBattleMons[gEffectBattler].item))
                 {
                     side = GetBattlerSide(gEffectBattler);
 
@@ -3067,6 +3069,9 @@ static void Cmd_cleareffectsonfaint(void)
     if (gBattleControllerExecFlags == 0)
     {
         gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+
+        if (gBattleMons[gActiveBattler].hp == 0)
+            ClearMegaEvolutionOnFaint(gActiveBattler);
 
         if (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || gBattleMons[gActiveBattler].hp == 0)
         {
@@ -4646,6 +4651,8 @@ static void Cmd_switchindataupdate(void)
     {
         gBattleMons[gActiveBattler].item = ITEM_NONE;
     }
+
+    TryRestoreMegaEvolution(gActiveBattler);
 
     if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
     {
@@ -9223,7 +9230,12 @@ static void Cmd_tryswapitems(void)
                  || gBattleMons[gBattlerAttacker].item == ITEM_ENIGMA_BERRY
                  || gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY
                  || IS_ITEM_MAIL(gBattleMons[gBattlerAttacker].item)
-                 || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item))
+                 || IS_ITEM_MAIL(gBattleMons[gBattlerTarget].item)
+                 // or if either item is a Mega Stone that either Pokémon could use
+                 || IsMegaStoneUsableBy(gBattlerAttacker, gBattleMons[gBattlerAttacker].item)
+                 || IsMegaStoneUsableBy(gBattlerAttacker, gBattleMons[gBattlerTarget].item)
+                 || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerAttacker].item)
+                 || IsMegaStoneUsableBy(gBattlerTarget, gBattleMons[gBattlerTarget].item))
         {
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         }

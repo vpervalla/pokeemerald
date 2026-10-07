@@ -446,7 +446,7 @@ struct BattleStruct
     u8 alreadyStatusedMoveAttempt; // As bits for battlers; For example when using Thunder Wave on an already paralyzed Pokémon.
     u8 toMegaEvolve; // As bits for battlers that chose to Mega Evolve this turn.
     u8 megaEvolvedBattlers; // As bits for battlers that Mega Evolved. Each trainer can only Mega Evolve once per battle.
-    u8 megaEvoBattlerId;
+    u8 megaEvolvedPartySlots[NUM_BATTLE_SIDES]; // As bits for party slots that are Mega Evolved, so they stay Mega Evolved when they switch back in.
 };
 
 // Set in the move slot byte that the player controller returns with its chosen move.

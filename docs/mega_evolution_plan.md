@@ -58,9 +58,9 @@ they never show up in the pokédex and never break the `NUM_SPECIES - 1` sized t
   `HOLD_EFFECT_MEGA_STONE` in `include/constants/hold_effects.h` (after
   `HOLD_EFFECT_SHELL_BELL`).
 - Item icons and palettes go in `graphics/items/` and `src/data/item_icon_table.h`.
-- Mega Stones can't be taken or swapped in battle (Trick and Thief must fail, and
-  Knock Off doesn't exist in Gen 3). Add this to the item-steal checks in
-  `src/battle_script_commands.c`.
+- Mega Stones can't be taken or swapped in battle: Trick, Thief, Covet and Knock Off
+  (which in Gen 3 removes the item until the battle ends) must fail. Add this to the
+  item-steal checks in `src/battle_script_commands.c`.
 - `ITEM_MEGA_RING` is a key item with no field use.
 
 ## 3. Battle state
@@ -232,15 +232,39 @@ Tested in mGBA with a throwaway boot-to-battle hook:
 - The Mega sprite survives the bag reshow.
 - Switching out and back in doesn't break anything.
 
-Known gaps for phase 2:
-- A Mega that switches out comes back in base form (`gBattleMons` is reloaded from the
-  party), and it can't Mega Evolve again.
-- Megas evolve in battler order, not Speed order.
-- An Encored Pokémon skips the move menu, so it can't Mega Evolve.
-- Mega Stones can still be stolen or swapped (Thief, Covet, Trick).
+### Phase 2 status: done
+
+- **Switching:** a Mega that switches out comes back in Mega Evolved.
+  `gBattleStruct->megaEvolvedPartySlots` remembers it per party slot,
+  `TryRestoreMegaEvolution` re-applies it in `Cmd_switchindataupdate`, and the sprite
+  loaders read it too. A Mega that faints loses it (`ClearMegaEvolutionOnFaint` in
+  `Cmd_cleareffectsonfaint`), so a revived Pokémon comes back in base form.
+- **Speed order:** when several Pokémon Mega Evolve in one turn, the fastest goes first
+  (`TryDoMegaEvolutions` uses `GetWhoStrikesFirst`).
+- **Transform:** transforming into a Mega copies its sprite as well as its data.
+- **Mega Stones:** a stone that its holder can use (`IsMegaStoneUsableBy`) can't be
+  stolen with Thief or Covet, knocked off with Knock Off, or swapped with Trick. Trick
+  also fails if either item is a stone that the other Pokémon could use.
+- **Baton Pass and the bag:** nothing special was needed; both keep working.
+
+Tested in mGBA, with the same throwaway hook plus a test-only opponent that Mega Evolves:
+- Switching out and back in.
+- A wild Ditto transforming into Mega Blaziken.
+- Knock Off, Trick and Thief against a stone.
+- A faster opponent Mega Evolving before the player in the same turn.
+- The phase 1 cases again.
+
+The faint-then-revive path was not exercised in the emulator.
+
+Remaining gaps:
+- An Encored Pokémon skips the move menu, so it can't Mega Evolve. Fixing that needs a
+  way to show the trigger without the move menu.
 - Opponents never Mega Evolve (phase 5).
 - Link, recorded and Battle Frontier battles have Megas turned off (`CanMegaEvolve`).
 - The Mega's exp yield stays 209, because Gen 6's 284 doesn't fit in a u8.
+- Wild Pokémon can't hold Mega Stones in normal play, because vanilla
+  `SetWildMonHeldItem` replaces a wild Pokémon's item with its species' `itemCommon`
+  or `itemRare`.
 
 ## 9. Testing
 
