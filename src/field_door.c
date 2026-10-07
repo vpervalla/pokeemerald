@@ -35,6 +35,13 @@ struct DoorAnimFrame
 
 static bool8 ShouldUseMultiCorridorDoor(void);
 
+// The door last drawn opening, open or closing, and the frame of its animation graphics it's drawn
+// with (or will be on the next frame, see AnimateDoorFrame), until it's drawn closed again. For
+// day_night.c's glowing door glass, which follows the frame. In map coordinates with MAP_OFFSET.
+static EWRAM_DATA s8 sOpenDoorFrame = -1;
+static EWRAM_DATA s16 sOpenDoorX = 0;
+static EWRAM_DATA s16 sOpenDoorY = 0;
+
 static const u8 sDoorAnimTiles_Littleroot[] = INCGFX_U8("graphics/door_anims/littleroot.png", ".4bpp");
 static const u16 sDoorNullPalette1[16] = {};
 static const u8 sDoorAnimTiles_BirchsLab[] = INCGFX_U8("graphics/door_anims/birchs_lab.png", ".4bpp");
@@ -417,6 +424,17 @@ static const struct DoorGraphics sKantoDoorAnimGraphicsTable[] =
 #define DOOR_TILE_START_SIZE1 (NUM_TILES_TOTAL - 8)
 #define DOOR_TILE_START_SIZE2 (NUM_TILES_TOTAL - 16)
 
+// Bytes of animation graphics per frame
+static u32 GetDoorFrameSize(const struct DoorGraphics *gfx)
+{
+    if (gfx->size == DOOR_SIZE_2x2)
+        return 16 * TILE_SIZE_4BPP;
+    else if (gfx->size == DOOR_SIZE_1x1)
+        return 4 * TILE_SIZE_4BPP;
+    else
+        return 8 * TILE_SIZE_4BPP;
+}
+
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
     if (gfx->size == DOOR_SIZE_2x2)
@@ -500,8 +518,23 @@ static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, u32 x, u32 y)
     }
 }
 
+static void SetOpenDoorFrame(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame, u32 x, u32 y)
+{
+    if (frame->offset == 0xFFFF)
+    {
+        sOpenDoorFrame = -1;
+    }
+    else
+    {
+        sOpenDoorFrame = frame->offset / GetDoorFrameSize(gfx);
+        sOpenDoorX = x;
+        sOpenDoorY = y;
+    }
+}
+
 static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame, u32 x, u32 y)
 {
+    SetOpenDoorFrame(gfx, frame, x, y);
     if (frame->offset == 0xFFFF)
     {
         DrawClosedDoorTiles(gfx, x, y);
@@ -539,8 +572,13 @@ static bool32 AnimateDoorFrame(struct DoorGraphics *gfx, struct DoorAnimFrame *f
         tFrameId++;
         if (frames[tFrameId].time == 0)
             return FALSE;
-        else
-            return TRUE;
+        // The next frame is drawn on the next run. Between two frames of animation graphics only the
+        // tiles change, and they reach VRAM straight away, while sprites change at the VBlank, so the
+        // glowing door glass is told a frame early to change with them. (To or from the closed door,
+        // the tilemap changes, at the VBlank like the sprites.)
+        if (frames[tFrameId].offset != 0xFFFF && frames[tFrameId - 1].offset != 0xFFFF)
+            SetOpenDoorFrame(gfx, &frames[tFrameId], tX, tY);
+        return TRUE;
     }
     tCounter++;
     return TRUE;
@@ -609,6 +647,7 @@ static s8 StartDoorAnimationTask(const struct DoorGraphics *gfx, const struct Do
 
 static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
+    sOpenDoorFrame = -1;
     DrawClosedDoorTiles(gfx, x, y);
 }
 
@@ -666,6 +705,14 @@ static s8 GetDoorSoundType(const struct DoorGraphics *gfx, u32 x, u32 y)
 static void UNUSED Debug_FieldAnimateDoorOpen(u32 x, u32 y)
 {
     StartDoorOpenAnimation(GetDoorGraphicsTable(), x, y);
+}
+
+// The frame of its animation graphics the door at (x, y) is drawn with, or -1 if it's drawn closed.
+s8 FieldGetDoorAnimFrame(s16 x, s16 y)
+{
+    if (x != sOpenDoorX || y != sOpenDoorY)
+        return -1;
+    return sOpenDoorFrame;
 }
 
 void FieldSetDoorOpened(u32 x, u32 y)
