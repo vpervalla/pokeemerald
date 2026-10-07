@@ -15,6 +15,8 @@ ball fills the middle of the sprite's top half.
 Gym billboards (the signs in front of Gyms): the ball's red, the dots below it and the "GYM" text,
 which is dark grey on the plate, so it takes the doors' warm light instead (its darkest strokes the
 palest), in two 16x16 sprites, as the billboard's top metatile draws on the top BG layer.
+Saffron's Fighting Dojo doorway: an open doorway with no door, dark navy, lit with the doors' warm light
+shaded like their glass (deeper at the top, palest at the bottom).
 "P.C", "MART" and "GYM" signs: their red letters, which use the Pokemon Center ball's colours (MART's
 muted anti-aliasing pixels stay tinted).
 Doors: the glass panes of the sliding doors (palette 3's colours 10, 12 and 13), lit like the windows
@@ -146,6 +148,18 @@ for half, rows in (("gym_billboard_top", range(0, 16)), ("gym_billboard_bottom",
             if c in BILLBOARD_RED or (c in BILLBOARD_TEXT and y in BILLBOARD_TEXT_ROWS):
                 out.putpixel((x, y - rows[0]), c)
     sprites[half] = (out, (2, brighten), {c: ((3, lit_glass), g) for c, g in BILLBOARD_TEXT.items()})
+
+# Fighting Dojo doorway (Saffron's 0x333): its dark colour 7, as door glass colours by row.
+DOJO_DOORWAY_DARK = 7
+DOJO_DOORWAY_GLASS = [13] * 3 + [12] * 8 + [10] * 3  # Rows 0-13
+grid = compose(0x333, 2, load_tileset("data/tilesets/secondary/kanto_saffron_city/"))
+out = Image.new("P", (16, 16), 0)
+for y, glass in enumerate(DOJO_DOORWAY_GLASS):
+    for x in range(16):
+        if grid[y][x] == DOJO_DOORWAY_DARK:
+            out.putpixel((x, y), glass)
+sprites["dojo_doorway"] = (out, (3, lit_glass))
+
 sprites = {name: v if len(v) == 3 else v + ({},) for name, v in sprites.items()}
 
 # The shared palette: index 0 is transparent, then each group's colours that the sprites use.

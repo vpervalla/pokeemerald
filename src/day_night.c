@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "tilesets.h"
 #include "constants/field_weather.h"
+#include "constants/layouts.h"
 #include "battle.h"
 #include "battle_bg.h"
 #include "battle_interface.h"
@@ -234,7 +235,8 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 }
 
 // The Poke Ball emblems on Pokemon Centers, Marts and Gyms, their "P.C", "MART" and "GYM" signs, and the
-// Gyms' billboards (ball, text and dots) glow while the windows are lit. Their colours are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
+// Gyms' billboards (ball, text and dots) glow while the windows are lit. So does the Fighting Dojo's open
+// doorway, though not its Poke Ball sign or billboard. Their colours are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
 // of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
 // Their glass doors are lit like the windows, by sprites of the glass that follow the door's opening
 // and closing: each is a strip of the closed door's glass and the glass of each animation frame.
@@ -252,6 +254,7 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define TAG_SIGN_GYM_TEXT       0x2E09
 #define TAG_GYM_BILLBOARD_TOP   0x2E0A
 #define TAG_GYM_BILLBOARD_BOTTOM 0x2E0B
+#define TAG_DOJO_DOORWAY        0x2E0C
 #define DOOR_GLOW_FRAMES        4 // Closed, then the 3 frames of the Kanto doors' animations
 #define MAX_SIGN_SPRITES        16
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
@@ -266,6 +269,7 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define METATILE_SAFFRON_GYM_BILLBOARD_TOP   0x304 // Saffron's and Cinnabar's own copies
 #define METATILE_SAFFRON_GYM_BILLBOARD_BOTTOM 0x30C
 #define METATILE_CINNABAR_GYM_BILLBOARD_TOP  0x2BF
+#define METATILE_SAFFRON_DOJO_DOORWAY        0x333
 #define METATILE_KANTO_SLIDING_DOOR          0x062 // Pokemon Centers and Marts
 #define METATILE_KANTO_GYM_DOOR              0x15B
 #define METATILE_CELADON_DEPT_STORE_DOOR     0x294
@@ -280,6 +284,7 @@ static const u16 sGlow_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sig
 static const u32 sPokemonCenterText_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_text.png", ".4bpp");
 static const u32 sGymBillboardTop_Gfx[] = INCGFX_U32("graphics/day_night/gym_billboard_top.png", ".4bpp");
 static const u32 sGymBillboardBottom_Gfx[] = INCGFX_U32("graphics/day_night/gym_billboard_bottom.png", ".4bpp");
+static const u32 sDojoDoorway_Gfx[] = INCGFX_U32("graphics/day_night/dojo_doorway.png", ".4bpp");
 static const u32 sMartText_Gfx[] = INCGFX_U32("graphics/day_night/mart_text.png", ".4bpp");
 static const u32 sGymText_Gfx[] = INCGFX_U32("graphics/day_night/gym_text.png", ".4bpp");
 static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png", ".4bpp");
@@ -356,6 +361,17 @@ static const struct SpriteTemplate sSpriteTemplate_GymBillboardTop =
 static const struct SpriteTemplate sSpriteTemplate_GymBillboardBottom =
 {
     .tileTag = TAG_GYM_BILLBOARD_BOTTOM,
+    .paletteTag = TAG_GLOW_PAL,
+    .oam = &sOam_Door,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_DojoDoorway =
+{
+    .tileTag = TAG_DOJO_DOORWAY,
     .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Door,
     .anims = gDummySpriteAnimTable,
@@ -478,6 +494,8 @@ static const struct GlowingSign sGlowingSigns[] =
      {sGymBillboardBottom_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_BOTTOM}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoSaffronCity},
     {METATILE_CINNABAR_GYM_BILLBOARD_TOP, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardTop,
      {sGymBillboardTop_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_TOP}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoCinnabarIsland},
+    {METATILE_SAFFRON_DOJO_DOORWAY, 0, 0, 16, FALSE, &sSpriteTemplate_DojoDoorway,
+     {sDojoDoorway_Gfx, 16 * 16 / 2, TAG_DOJO_DOORWAY}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoSaffronCity},
     // The ball on the gold sign above the door is in the sprite's top half.
     {METATILE_KANTO_GYM_EMBLEM, -8, 0, 32, FALSE, &sSpriteTemplate_GymSign,
      {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
@@ -564,6 +582,30 @@ static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
     sSignSpriteIds[sNumSignSprites++] = spriteId;
 }
 
+// Signs that stay dark: the Fighting Dojo's billboard, the same metatiles as the Saffron Gym's.
+static const struct
+{
+    u16 layoutId;
+    u8 x, y; // The billboard's top metatile
+} sDarkSigns[] =
+{
+    {LAYOUT_SAFFRON_CITY,            42, 13},
+    {LAYOUT_SAFFRON_CITY_CONNECTION, 32, 6},
+};
+
+static bool8 IsDarkSign(s32 x, s32 y)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sDarkSigns); i++)
+    {
+        if (sDarkSigns[i].layoutId == gMapHeader.mapLayoutId && sDarkSigns[i].x == x
+         && (sDarkSigns[i].y == y || sDarkSigns[i].y + 1 == y))
+            return TRUE;
+    }
+    return FALSE;
+}
+
 static void CreateSignSprites(void)
 {
     const struct MapLayout *layout = gMapHeader.mapLayout;
@@ -583,7 +625,8 @@ static void CreateSignSprites(void)
             for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
             {
                 if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES
-                 && (sGlowingSigns[i].secondaryTileset == NULL || sGlowingSigns[i].secondaryTileset == layout->secondaryTileset))
+                 && (sGlowingSigns[i].secondaryTileset == NULL || sGlowingSigns[i].secondaryTileset == layout->secondaryTileset)
+                 && !IsDarkSign(x, y))
                     CreateSignSprite(&sGlowingSigns[i], x, y);
             }
         }
