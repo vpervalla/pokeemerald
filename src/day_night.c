@@ -233,8 +233,8 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
     }
 }
 
-// The Poke Ball emblems on Pokemon Centers, Marts and Gyms, and their "P.C", "MART" and "GYM" signs, glow
-// while the windows are lit. Their colours are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
+// The Poke Ball emblems on Pokemon Centers, Marts and Gyms, their "P.C", "MART" and "GYM" signs, and the
+// Gyms' billboards (ball, text and dots) glow while the windows are lit. Their colours are shared with walls and roofs, so instead of lighting palette colours, sprites of the emblems (cut out
 // of the tileset by tools/kanto_port/make_sign_sprites.py) are laid over them, with untinted palettes.
 // Their glass doors are lit like the windows, by sprites of the glass that follow the door's opening
 // and closing: each is a strip of the closed door's glass and the glass of each animation frame.
@@ -250,8 +250,10 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define TAG_DOOR_DEPT_STORE     0x2E07
 #define TAG_SIGN_MART_TEXT      0x2E08
 #define TAG_SIGN_GYM_TEXT       0x2E09
+#define TAG_GYM_BILLBOARD_TOP   0x2E0A
+#define TAG_GYM_BILLBOARD_BOTTOM 0x2E0B
 #define DOOR_GLOW_FRAMES        4 // Closed, then the 3 frames of the Kanto doors' animations
-#define MAX_SIGN_SPRITES        12
+#define MAX_SIGN_SPRITES        16
 #define SIGN_MAGIC              0x5167 // In data[7], to recognise the sprites after a sprite reset
 #define METATILE_KANTO_POKEMON_CENTER_EMBLEM 0x05A
 #define METATILE_KANTO_MART_EMBLEM_LEFT      0x039
@@ -259,6 +261,11 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 #define METATILE_KANTO_MART_TEXT             0x041 // Right half of the "MART" sign (Saffron has its own left half)
 #define METATILE_KANTO_GYM_TEXT              0x151 // Top half of the "GYM" sign (Saffron has its own bottom half)
 #define METATILE_KANTO_GYM_EMBLEM            0x153
+#define METATILE_KANTO_GYM_BILLBOARD_TOP     0x160
+#define METATILE_KANTO_GYM_BILLBOARD_BOTTOM  0x168
+#define METATILE_SAFFRON_GYM_BILLBOARD_TOP   0x304 // Saffron's and Cinnabar's own copies
+#define METATILE_SAFFRON_GYM_BILLBOARD_BOTTOM 0x30C
+#define METATILE_CINNABAR_GYM_BILLBOARD_TOP  0x2BF
 #define METATILE_KANTO_SLIDING_DOOR          0x062 // Pokemon Centers and Marts
 #define METATILE_KANTO_GYM_DOOR              0x15B
 #define METATILE_CELADON_DEPT_STORE_DOOR     0x294
@@ -271,6 +278,8 @@ static void SetWindowsLit(bool8 lit, bool8 onLoad)
 static const u32 sPokemonCenterSign_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_sign.png", ".4bpp");
 static const u16 sGlow_Pal[] = INCGFX_U16("graphics/day_night/pokemon_center_sign.png", ".gbapal");
 static const u32 sPokemonCenterText_Gfx[] = INCGFX_U32("graphics/day_night/pokemon_center_text.png", ".4bpp");
+static const u32 sGymBillboardTop_Gfx[] = INCGFX_U32("graphics/day_night/gym_billboard_top.png", ".4bpp");
+static const u32 sGymBillboardBottom_Gfx[] = INCGFX_U32("graphics/day_night/gym_billboard_bottom.png", ".4bpp");
 static const u32 sMartText_Gfx[] = INCGFX_U32("graphics/day_night/mart_text.png", ".4bpp");
 static const u32 sGymText_Gfx[] = INCGFX_U32("graphics/day_night/gym_text.png", ".4bpp");
 static const u32 sMartSign_Gfx[] = INCGFX_U32("graphics/day_night/mart_sign.png", ".4bpp");
@@ -301,6 +310,14 @@ static const struct OamData sOam_Door =
     .priority = 2,
 };
 
+// The billboard's top metatile draws it on the top BG layer too.
+static const struct OamData sOam_SmallTopLayer =
+{
+    .shape = SPRITE_SHAPE(16x16),
+    .size = SPRITE_SIZE(16x16),
+    .priority = 1,
+};
+
 static void SpriteCB_Sign(struct Sprite *sprite);
 
 static const struct SpriteTemplate sSpriteTemplate_PokemonCenterSign =
@@ -319,6 +336,28 @@ static const struct SpriteTemplate sSpriteTemplate_PokemonCenterText =
     .tileTag = TAG_SIGN_POKEMON_CENTER_TEXT,
     .paletteTag = TAG_GLOW_PAL,
     .oam = &sOam_Sign,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_GymBillboardTop =
+{
+    .tileTag = TAG_GYM_BILLBOARD_TOP,
+    .paletteTag = TAG_GLOW_PAL,
+    .oam = &sOam_SmallTopLayer,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Sign,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_GymBillboardBottom =
+{
+    .tileTag = TAG_GYM_BILLBOARD_BOTTOM,
+    .paletteTag = TAG_GLOW_PAL,
+    .oam = &sOam_Door,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
@@ -429,6 +468,16 @@ static const struct GlowingSign sGlowingSigns[] =
     // The letters are in the sprite's left half, across the sign's two metatiles.
     {METATILE_KANTO_GYM_TEXT, 0, 0, 32, FALSE, &sSpriteTemplate_GymText,
      {sGymText_Gfx, 32 * 32 / 2, TAG_SIGN_GYM_TEXT}, {sGlow_Pal, TAG_GLOW_PAL}},
+    {METATILE_KANTO_GYM_BILLBOARD_TOP, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardTop,
+     {sGymBillboardTop_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_TOP}, {sGlow_Pal, TAG_GLOW_PAL}},
+    {METATILE_KANTO_GYM_BILLBOARD_BOTTOM, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardBottom,
+     {sGymBillboardBottom_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_BOTTOM}, {sGlow_Pal, TAG_GLOW_PAL}},
+    {METATILE_SAFFRON_GYM_BILLBOARD_TOP, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardTop,
+     {sGymBillboardTop_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_TOP}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoSaffronCity},
+    {METATILE_SAFFRON_GYM_BILLBOARD_BOTTOM, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardBottom,
+     {sGymBillboardBottom_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_BOTTOM}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoSaffronCity},
+    {METATILE_CINNABAR_GYM_BILLBOARD_TOP, 0, 0, 16, FALSE, &sSpriteTemplate_GymBillboardTop,
+     {sGymBillboardTop_Gfx, 16 * 16 / 2, TAG_GYM_BILLBOARD_TOP}, {sGlow_Pal, TAG_GLOW_PAL}, &gTileset_KantoCinnabarIsland},
     // The ball on the gold sign above the door is in the sprite's top half.
     {METATILE_KANTO_GYM_EMBLEM, -8, 0, 32, FALSE, &sSpriteTemplate_GymSign,
      {sGymSign_Gfx, 32 * 32 / 2, TAG_SIGN_GYM}, {sGlow_Pal, TAG_GLOW_PAL}},
