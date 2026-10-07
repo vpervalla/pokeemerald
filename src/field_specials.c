@@ -41,6 +41,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
+#include "tilesets.h"
 #include "text.h"
 #include "tv.h"
 #include "wallclock.h"
@@ -1044,6 +1045,17 @@ static void PCTurnOnEffect(struct Task *task)
     task->tTimer++;
 }
 
+// The Kanto tilesets' PC metatiles have different IDs from Hoenn's
+#define METATILE_KantoBuilding_PC_Off 0x062
+#define METATILE_KantoBuilding_PC_On  0x063
+
+static u16 GetOtherPCMetatileId(bool32 screenOn)
+{
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_KantoBuilding)
+        return screenOn ? METATILE_KantoBuilding_PC_On : METATILE_KantoBuilding_PC_Off;
+    return screenOn ? METATILE_Building_PC_On : METATILE_Building_PC_Off;
+}
+
 static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
 {
     u16 metatileId = 0;
@@ -1051,7 +1063,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
     {
         // Screen is on, set it off
         if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = METATILE_Building_PC_Off;
+            metatileId = GetOtherPCMetatileId(FALSE);
         else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
@@ -1061,7 +1073,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
     {
         // Screen is off, set it on
         if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = METATILE_Building_PC_On;
+            metatileId = GetOtherPCMetatileId(TRUE);
         else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_On;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
@@ -1101,7 +1113,7 @@ static void PCTurnOffEffect(void)
     }
 
     if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-        metatileId = METATILE_Building_PC_Off;
+        metatileId = GetOtherPCMetatileId(FALSE);
     else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
         metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
     else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
