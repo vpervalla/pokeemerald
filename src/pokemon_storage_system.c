@@ -1749,7 +1749,7 @@ void ResetPokemonStorageSystem(void)
 
     // A new game starts with the Kanto port's vars and extra flags cleared
     CpuFill16(0, gPokemonStoragePtr->kantoVars, sizeof(gPokemonStoragePtr->kantoVars));
-    CpuFill16(0, gPokemonStoragePtr->kantoExtraFlags, sizeof(gPokemonStoragePtr->kantoExtraFlags));
+    memset(gPokemonStoragePtr->kantoExtraFlags, 0, sizeof(gPokemonStoragePtr->kantoExtraFlags));
 }
 
 
