@@ -105,6 +105,7 @@ static void BattleIntroPlayer1SendsOutMonAnimation(void);
 static void TryDoEventsBeforeFirstTurn(void);
 static void HandleTurnActionSelectionState(void);
 static void RunTurnActionsFunctions(void);
+static void TryDoMegaEvolutions(void);
 static void SetActionsAndBattlersTurnOrder(void);
 static void UpdateBattlerPartyOrdersOnSwitch(void);
 static bool8 AllAtActionConfirmed(void);
@@ -2777,7 +2778,7 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
     {
         yOffset = gCastformFrontSpriteCoords[gBattleMonForms[battler]].y_offset;
     }
-    else if (species > NUM_SPECIES)
+    else if (SPECIES_HAS_NO_DATA(species))
     {
         yOffset = gMonFrontPicCoords[SPECIES_NONE].y_offset;
     }
@@ -4149,6 +4150,7 @@ static void HandleTurnActionSelectionState(void)
             break;
         case STATE_BEFORE_ACTION_CHOSEN: // Choose an action.
             *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = PARTY_SIZE;
+            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
             if (gBattleTypeFlags & BATTLE_TYPE_MULTI
                 || (position & BIT_FLANK) == B_FLANK_LEFT
                 || gBattleStruct->absentBattlerFlags & gBitTable[GetBattlerAtPosition(BATTLE_PARTNER(position))]
@@ -4381,6 +4383,15 @@ static void HandleTurnActionSelectionState(void)
                         return;
                     default:
                         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_PLAYBACK);
+                        gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
+                        if ((gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8)) != 0xFFFF
+                         && (gBattleBufferB[gActiveBattler][2] & RET_MEGA_EVOLUTION))
+                        {
+                            gBattleBufferB[gActiveBattler][2] &= ~RET_MEGA_EVOLUTION;
+                            if (CanMegaEvolve(gActiveBattler))
+                                gBattleStruct->toMegaEvolve |= gBitTable[gActiveBattler];
+                        }
+
                         if ((gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8)) == 0xFFFF)
                         {
                             gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
@@ -4388,6 +4399,7 @@ static void HandleTurnActionSelectionState(void)
                         }
                         else if (TrySetCantSelectMoveBattleScript())
                         {
+                            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
                             RecordedBattle_ClearBattlerAction(gActiveBattler, 1);
                             gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT;
                             *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;
@@ -4545,7 +4557,8 @@ static void HandleTurnActionSelectionState(void)
     if (gBattleCommunication[ACTIONS_CONFIRMED_COUNT] == gBattlersCount)
     {
         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_RECORDING);
-        gBattleMainFunc = SetActionsAndBattlersTurnOrder;
+        gBattleStruct->megaEvoBattlerId = 0;
+        gBattleMainFunc = TryDoMegaEvolutions;
 
         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         {
@@ -4758,6 +4771,29 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     }
 
     return strikesFirst;
+}
+
+// Mega Evolutions happen once everyone has chosen their action, before the turn
+// order is set, so the turn order already uses the Mega Evolved Pokémon's Speed.
+static void TryDoMegaEvolutions(void)
+{
+    while (gBattleStruct->megaEvoBattlerId < gBattlersCount)
+    {
+        gActiveBattler = gBattleStruct->megaEvoBattlerId++;
+        if (gBattleStruct->toMegaEvolve & gBitTable[gActiveBattler])
+        {
+            gBattleStruct->toMegaEvolve &= ~gBitTable[gActiveBattler];
+            if (gChosenActionByBattler[gActiveBattler] == B_ACTION_USE_MOVE && CanMegaEvolve(gActiveBattler))
+            {
+                gBattlerAttacker = gBattleScripting.battler = gActiveBattler;
+                gLastUsedItem = gBattleMons[gActiveBattler].item;
+                BattleScriptExecute(BattleScript_MegaEvolution);
+                return;
+            }
+        }
+    }
+
+    gBattleMainFunc = SetActionsAndBattlersTurnOrder;
 }
 
 static void SetActionsAndBattlersTurnOrder(void)

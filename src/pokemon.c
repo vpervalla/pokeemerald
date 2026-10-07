@@ -1398,6 +1398,7 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/species_info.h"
 #include "data/pokemon/level_up_learnsets.h"
 #include "data/pokemon/evolution.h"
+#include "data/pokemon/mega_evolutions.h"
 #include "data/pokemon/level_up_learnset_pointers.h"
 
 // SPECIES_NONE are ignored in the following two tables, so decrement before accessing these arrays to get the right result
@@ -4644,7 +4645,7 @@ void GetSpeciesName(u8 *name, u16 species)
 
     for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
-        if (species > NUM_SPECIES)
+        if (SPECIES_HAS_NO_DATA(species))
             name[i] = gSpeciesNames[SPECIES_NONE][i];
         else
             name[i] = gSpeciesNames[species][i];
@@ -5688,6 +5689,7 @@ u16 SpeciesToNationalPokedexNum(u16 species)
     if (!species)
         return 0;
 
+    species = GetMegaBaseSpecies(species);
     return sSpeciesToNationalPokedexNum[species - 1];
 }
 
@@ -5696,6 +5698,7 @@ u16 SpeciesToHoennPokedexNum(u16 species)
     if (!species)
         return 0;
 
+    species = GetMegaBaseSpecies(species);
     return sSpeciesToHoennPokedexNum[species - 1];
 }
 
@@ -6566,7 +6569,7 @@ const u32 *GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 p
 {
     u32 shinyValue;
 
-    if (species > NUM_SPECIES)
+    if (SPECIES_HAS_NO_DATA(species))
         return gMonPaletteTable[SPECIES_NONE].data;
 
     shinyValue = GET_SHINY_VALUE(otId, personality);
@@ -7227,5 +7230,93 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
             spriteNum = 0;
 
         return gfx->spritePointers[spriteNum];
+    }
+}
+
+// Returns the species that baseSpecies Mega Evolves into while holding heldItem,
+// or SPECIES_NONE if it can't Mega Evolve with that item.
+u16 GetMegaEvolutionSpecies(u16 baseSpecies, u16 heldItem)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].baseSpecies == baseSpecies && sMegaEvolutions[i].megaStone == heldItem)
+            return sMegaEvolutions[i].megaSpecies;
+    }
+    return SPECIES_NONE;
+}
+
+// Returns the species a Mega Evolution came from, or species itself if it isn't a Mega.
+u16 GetMegaBaseSpecies(u16 species)
+{
+    u32 i;
+
+    if (!SPECIES_IS_MEGA(species))
+        return species;
+
+    for (i = 0; i < ARRAY_COUNT(sMegaEvolutions); i++)
+    {
+        if (sMegaEvolutions[i].megaSpecies == species)
+            return sMegaEvolutions[i].baseSpecies;
+    }
+    return species;
+}
+
+// Fills stats (indexed by STAT_HP..STAT_SPDEF) with what mon's stats would be as
+// the given species, using its level, IVs, EVs and nature. Used for Mega Evolution.
+void CalculateMonStatsForSpecies(struct Pokemon *mon, u16 species, u16 *stats)
+{
+    s32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    u8 nature = GetNature(mon);
+    s32 i, n, baseStat, iv, ev;
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        switch (i)
+        {
+        default:
+        case STAT_HP:
+            baseStat = gSpeciesInfo[species].baseHP;
+            iv = GetMonData(mon, MON_DATA_HP_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_HP_EV, NULL);
+            break;
+        case STAT_ATK:
+            baseStat = gSpeciesInfo[species].baseAttack;
+            iv = GetMonData(mon, MON_DATA_ATK_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_ATK_EV, NULL);
+            break;
+        case STAT_DEF:
+            baseStat = gSpeciesInfo[species].baseDefense;
+            iv = GetMonData(mon, MON_DATA_DEF_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_DEF_EV, NULL);
+            break;
+        case STAT_SPEED:
+            baseStat = gSpeciesInfo[species].baseSpeed;
+            iv = GetMonData(mon, MON_DATA_SPEED_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPEED_EV, NULL);
+            break;
+        case STAT_SPATK:
+            baseStat = gSpeciesInfo[species].baseSpAttack;
+            iv = GetMonData(mon, MON_DATA_SPATK_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPATK_EV, NULL);
+            break;
+        case STAT_SPDEF:
+            baseStat = gSpeciesInfo[species].baseSpDefense;
+            iv = GetMonData(mon, MON_DATA_SPDEF_IV, NULL);
+            ev = GetMonData(mon, MON_DATA_SPDEF_EV, NULL);
+            break;
+        }
+
+        if (i == STAT_HP)
+        {
+            n = (((2 * baseStat + iv + ev / 4) * level) / 100) + level + 10;
+        }
+        else
+        {
+            n = (((2 * baseStat + iv + ev / 4) * level) / 100) + 5;
+            n = ModifyStatByNature(nature, n, i);
+        }
+        stats[i] = n;
     }
 }

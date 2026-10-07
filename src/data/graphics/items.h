@@ -587,6 +587,7 @@ const u32 gItemIconPalette_EonTicket[] = INCGFX_U32("graphics/items/icon_palette
 
 const u32 gItemIcon_Orb[] = INCGFX_U32("graphics/items/icons/orb.png", ".4bpp.lz");
 const u32 gItemIconPalette_RedOrb[] = INCGFX_U32("graphics/items/icon_palettes/red_orb.pal", ".gbapal.lz");
+const u32 gItemIconPalette_Blazikenite[] = INCGFX_U32("graphics/items/icon_palettes/blazikenite.pal", ".gbapal.lz");
 const u32 gItemIconPalette_BlueOrb[] = INCGFX_U32("graphics/items/icon_palettes/blue_orb.pal", ".gbapal.lz");
 
 const u32 gItemIcon_Scanner[] = INCGFX_U32("graphics/items/icons/scanner.png", ".4bpp.lz");

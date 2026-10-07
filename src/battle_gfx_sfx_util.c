@@ -578,6 +578,18 @@ bool8 IsBattleSEPlaying(u8 battler)
     return TRUE;
 }
 
+// The species whose sprite battler shows: its Mega Evolution if it has Mega Evolved.
+static u16 GetBattlerMonSpriteSpecies(struct Pokemon *mon, u8 battler)
+{
+    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+
+    if ((gBattleStruct->megaEvolvedBattlers & gBitTable[battler])
+     && SPECIES_IS_MEGA(gBattleMons[battler].species)
+     && GetMegaBaseSpecies(gBattleMons[battler].species) == species)
+        return gBattleMons[battler].species;
+    return species;
+}
+
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battler)
 {
     u32 monsPersonality, currentPersonality, otId;
@@ -590,7 +602,7 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battler)
 
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
     {
-        species = GetMonData(mon, MON_DATA_SPECIES);
+        species = GetBattlerMonSpriteSpecies(mon, battler);
         currentPersonality = monsPersonality;
     }
     else
@@ -607,10 +619,7 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battler)
 
     paletteOffset = OBJ_PLTT_ID(battler);
 
-    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
-        lzPaletteData = GetMonFrontSpritePal(mon);
-    else
-        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
+    lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
 
     LZDecompressWram(lzPaletteData, gDecompressionBuffer);
     LoadPalette(gDecompressionBuffer, paletteOffset, PLTT_SIZE_4BPP);
@@ -643,7 +652,7 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battler)
 
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
     {
-        species = GetMonData(mon, MON_DATA_SPECIES);
+        species = GetBattlerMonSpriteSpecies(mon, battler);
         currentPersonality = monsPersonality;
     }
     else
@@ -670,10 +679,7 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battler)
 
     paletteOffset = OBJ_PLTT_ID(battler);
 
-    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
-        lzPaletteData = GetMonFrontSpritePal(mon);
-    else
-        lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
+    lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, monsPersonality);
 
     LZDecompressWram(lzPaletteData, gDecompressionBuffer);
     LoadPalette(gDecompressionBuffer, paletteOffset, PLTT_SIZE_4BPP);
@@ -1029,6 +1035,45 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 castform)
         gSprites[gBattlerSpriteIds[battlerAtk]].y = GetBattlerSpriteDefault_Y(battlerAtk);
         StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerAtk]], gBattleMonForms[battlerAtk]);
     }
+}
+
+// Loads the Mega Evolution's sprite and palette over battler's current sprite.
+void HandleMegaEvolutionGfxChange(u8 battler)
+{
+    struct Pokemon *mon;
+    u16 species = gBattleMons[battler].species;
+    u32 personality, otId;
+    u8 position = GetBattlerPosition(battler);
+    u16 paletteOffset = OBJ_PLTT_ID(battler);
+    const u32 *lzPaletteData;
+
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+    {
+        mon = &gPlayerParty[gBattlerPartyIndexes[battler]];
+        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species],
+                                                  gMonSpritesGfxPtr->sprites.ptr[position],
+                                                  species,
+                                                  GetMonData(mon, MON_DATA_PERSONALITY));
+    }
+    else
+    {
+        mon = &gEnemyParty[gBattlerPartyIndexes[battler]];
+        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
+                                                  gMonSpritesGfxPtr->sprites.ptr[position],
+                                                  species,
+                                                  GetMonData(mon, MON_DATA_PERSONALITY));
+    }
+    personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    otId = GetMonData(mon, MON_DATA_OT_ID);
+
+    DmaCopy32Defvars(3, gMonSpritesGfxPtr->sprites.ptr[position], (void *)(OBJ_VRAM0 + gSprites[gBattlerSpriteIds[battler]].oam.tileNum * 32), MON_PIC_SIZE);
+    lzPaletteData = GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality);
+    LZDecompressWram(lzPaletteData, gDecompressionBuffer);
+    LoadPalette(gDecompressionBuffer, paletteOffset, PLTT_SIZE_4BPP);
+    LoadPalette(gDecompressionBuffer, BG_PLTT_ID(8) + BG_PLTT_ID(battler), PLTT_SIZE_4BPP);
+
+    gSprites[gBattlerSpriteIds[battler]].y = GetBattlerSpriteDefault_Y(battler);
+    StartSpriteAnim(&gSprites[gBattlerSpriteIds[battler]], 0);
 }
 
 void BattleLoadSubstituteOrMonSpriteGfx(u8 battler, bool8 loadMonSprite)

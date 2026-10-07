@@ -444,7 +444,13 @@ struct BattleStruct
     u8 arenaLostPlayerMons; // Bits for party member, lost as in referee's decision, not by fainting.
     u8 arenaLostOpponentMons;
     u8 alreadyStatusedMoveAttempt; // As bits for battlers; For example when using Thunder Wave on an already paralyzed Pokémon.
+    u8 toMegaEvolve; // As bits for battlers that chose to Mega Evolve this turn.
+    u8 megaEvolvedBattlers; // As bits for battlers that Mega Evolved. Each trainer can only Mega Evolve once per battle.
+    u8 megaEvoBattlerId;
 };
+
+// Set in the move slot byte that the player controller returns with its chosen move.
+#define RET_MEGA_EVOLUTION 0x80
 
 // The palaceFlags member of struct BattleStruct contains 1 flag per move to indicate which moves the AI should consider,
 // and 1 flag per battler to indicate whether the battler is awake and at <= 50% HP (which affects move choice).

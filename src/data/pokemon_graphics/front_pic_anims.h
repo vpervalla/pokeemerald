@@ -5694,5 +5694,6 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_UNOWN_Z]     = sAnims_UnownZ,
     [SPECIES_UNOWN_EMARK] = sAnims_UnownEMark,
     [SPECIES_UNOWN_QMARK] = sAnims_UnownQMark,
+    [SPECIES_BLAZIKEN_MEGA] = sAnims_Blaziken,
 
 };

@@ -202,6 +202,46 @@ These are the abilities the Gen 1–3 Megas need, ordered from cheapest to most 
    the flag in the recorded action stream. The Battle Frontier rules could also ban
    Megas.
 
+### Phase 1 status: done
+
+What exists now:
+
+- `SPECIES_BLAZIKEN_MEGA` (after the Unown letters, `FORMS_MEGA_START`), with Gen 6 base
+  stats and Speed Boost. Its sprite is Blaziken's with a recoloured **placeholder**
+  palette (`graphics/pokemon/blaziken/mega/`).
+- `ITEM_BLAZIKENITE` (hold effect `HOLD_EFFECT_MEGA_STONE`) and the key item
+  `ITEM_MEGA_RING`, both with placeholder icons. Nothing in the game gives them out yet.
+- The Mega table in `src/data/pokemon/mega_evolutions.h`, with the lookups
+  `GetMegaEvolutionSpecies` and `GetMegaBaseSpecies` in `src/pokemon.c`.
+- In the move menu, START toggles a trigger icon next to the healthbox (placeholder
+  graphic in `graphics/battle_interface/mega_trigger*.{png,pal}`). It only shows when
+  `CanMegaEvolve` (`src/battle_util.c`) allows it: the player has the Mega Ring, the
+  Pokémon holds its stone, and its trainer hasn't Mega Evolved yet this battle.
+- `TryDoMegaEvolutions` (`src/battle_main.c`) runs `BattleScript_MegaEvolution`
+  for each battler that chose to, after everyone has picked an action and **before**
+  the turn order is set. That is simpler than recomputing the order and gives the same
+  Gen 7 result. The new `handlemegaevolution` command updates the battle data, plays
+  `B_ANIM_MEGA_EVOLUTION` and then runs switch-in abilities.
+- Sprite reloads (the bag, the party menu, a substitute fading) keep the Mega sprite.
+
+Tested in mGBA with a throwaway boot-to-battle hook:
+- The Mega Evolution happens, and its stats, ability and turn order are right.
+- Speed Boost activates.
+- There is no trigger without the Mega Ring, or on later turns.
+- In doubles, only one battler per trainer can Mega Evolve.
+- The Mega sprite survives the bag reshow.
+- Switching out and back in doesn't break anything.
+
+Known gaps for phase 2:
+- A Mega that switches out comes back in base form (`gBattleMons` is reloaded from the
+  party), and it can't Mega Evolve again.
+- Megas evolve in battler order, not Speed order.
+- An Encored Pokémon skips the move menu, so it can't Mega Evolve.
+- Mega Stones can still be stolen or swapped (Thief, Covet, Trick).
+- Opponents never Mega Evolve (phase 5).
+- Link, recorded and Battle Frontier battles have Megas turned off (`CanMegaEvolve`).
+- The Mega's exp yield stays 209, because Gen 6's 284 doesn't fit in a u8.
+
 ## 9. Testing
 
 - `make` and `make modern` must both build. Watch the ROM size, because each Mega adds

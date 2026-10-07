@@ -2281,7 +2281,10 @@ void AnimTask_TransformMon(u8 taskId)
         }
         break;
     case 2:
-        HandleSpeciesGfxDataChange(gBattleAnimAttacker, gBattleAnimTarget, gTasks[taskId].data[10]);
+        if (gTasks[taskId].data[10] == TRANSFORM_MON_MEGA_EVOLUTION)
+            HandleMegaEvolutionGfxChange(gBattleAnimAttacker);
+        else
+            HandleSpeciesGfxDataChange(gBattleAnimAttacker, gBattleAnimTarget, gTasks[taskId].data[10]);
         GetBgDataForTransform(&animBg, gBattleAnimAttacker);
 
         if (IsContest())
@@ -2350,7 +2353,7 @@ void AnimTask_TransformMon(u8 taskId)
         {
             if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_OPPONENT)
             {
-                if (gTasks[taskId].data[10] == 0)
+                if (gTasks[taskId].data[10] == TRANSFORM_MON_TRANSFORM)
                     SetBattlerShadowSpriteCallback(gBattleAnimAttacker, gBattleSpritesDataPtr->battlerData[gBattleAnimAttacker].transformSpecies);
             }
         }
@@ -2369,6 +2372,12 @@ void AnimTask_IsMonInvisible(u8 taskId)
 void AnimTask_CastformGfxDataChange(u8 taskId)
 {
     HandleSpeciesGfxDataChange(gBattleAnimAttacker, gBattleAnimTarget, TRUE);
+    DestroyAnimVisualTask(taskId);
+}
+
+void AnimTask_MegaEvolutionGfxChange(u8 taskId)
+{
+    HandleMegaEvolutionGfxChange(gBattleAnimAttacker);
     DestroyAnimVisualTask(taskId);
 }
 

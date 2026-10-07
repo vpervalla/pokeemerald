@@ -5,6 +5,7 @@
 #include "battle_controllers.h"
 #include "battle_dome.h"
 #include "battle_interface.h"
+#include "battle_util.h"
 #include "battle_message.h"
 #include "battle_setup.h"
 #include "battle_tv.h"
@@ -96,6 +97,7 @@ static void PlayerCmdEnd(void);
 static void PlayerBufferRunCommand(void);
 static void HandleInputChooseTarget(void);
 static void HandleInputChooseMove(void);
+static u8 GetChosenMoveSlot(void);
 static void MoveSelectionCreateCursorAt(u8, u8);
 static void MoveSelectionDestroyCursorAt(u8);
 static void MoveSelectionDisplayPPNumber(void);
@@ -119,6 +121,9 @@ static void DoSwitchOutAnimation(void);
 static void PlayerDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8);
 static void EndDrawPartyStatusSummary(void);
+
+// Whether the player has turned on the Mega Evolution trigger in the move menu.
+EWRAM_DATA static bool8 sMegaTriggerOn = FALSE;
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -365,7 +370,8 @@ static void HandleInputChooseTarget(void)
     {
         PlaySE(SE_SELECT);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_HideAsMoveTarget;
-        BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, gMoveSelectionCursor[gActiveBattler] | (gMultiUsePlayerCursor << 8));
+        DestroyMegaTriggerSprite();
+        BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, GetChosenMoveSlot() | (gMultiUsePlayerCursor << 8));
         EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
         PlayerBufferExecCompleted();
     }
@@ -523,7 +529,8 @@ static void HandleInputChooseMove(void)
 
         if (!canSelectTarget)
         {
-            BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, gMoveSelectionCursor[gActiveBattler] | (gMultiUsePlayerCursor << 8));
+            DestroyMegaTriggerSprite();
+            BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, GetChosenMoveSlot() | (gMultiUsePlayerCursor << 8));
             PlayerBufferExecCompleted();
         }
         else
@@ -543,8 +550,18 @@ static void HandleInputChooseMove(void)
     else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
     {
         PlaySE(SE_SELECT);
+        DestroyMegaTriggerSprite();
         BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, 0xFFFF);
         PlayerBufferExecCompleted();
+    }
+    else if (JOY_NEW(START_BUTTON))
+    {
+        if (CanMegaEvolve(gActiveBattler))
+        {
+            sMegaTriggerOn ^= TRUE;
+            PlaySE(sMegaTriggerOn ? SE_M_DETECT : SE_SELECT);
+            SetMegaTriggerActive(sMegaTriggerOn);
+        }
     }
     else if (JOY_NEW(DPAD_LEFT))
     {
@@ -2636,8 +2653,19 @@ static void PlayerHandleChooseMove(void)
     else
     {
         InitMoveSelectionsVarsAndStrings();
+        sMegaTriggerOn = FALSE;
+        if (CanMegaEvolve(gActiveBattler))
+            CreateMegaTriggerSprite(gActiveBattler);
         gBattlerControllerFuncs[gActiveBattler] = HandleChooseMoveAfterDma3;
     }
+}
+
+// The chosen move slot, flagged if the player turned on the Mega Evolution trigger.
+static u8 GetChosenMoveSlot(void)
+{
+    if (sMegaTriggerOn && CanMegaEvolve(gActiveBattler))
+        return gMoveSelectionCursor[gActiveBattler] | RET_MEGA_EVOLUTION;
+    return gMoveSelectionCursor[gActiveBattler];
 }
 
 void InitMoveSelectionsVarsAndStrings(void)

@@ -410,6 +410,7 @@ gBattleAnims_General::
 	.4byte General_FocusPunchSetUp          @ B_ANIM_FOCUS_PUNCH_SETUP
 	.4byte General_IngrainHeal              @ B_ANIM_INGRAIN_HEAL
 	.4byte General_WishHeal                 @ B_ANIM_WISH_HEAL
+	.4byte General_MegaEvolution            @ B_ANIM_MEGA_EVOLUTION
 
 	.align 2
 gBattleAnims_Special::
@@ -10676,6 +10677,31 @@ General_WishHeal:
 	call HealingEffect
 	waitforvisualfinish
 	simple_palette_blend selector=F_PAL_BG, delay=3, initial_blend_y=10, target_blend_y=0, color=RGB_BLACK
+	end
+
+General_MegaEvolution:
+	createvisualtask AnimTask_IsMonInvisible, 2
+	jumpreteq TRUE, MegaEvolutionSkipAnim
+	loadspritegfx ANIM_TAG_SPARKLE_2
+	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
+	waitforvisualfinish
+	playsewithpan SE_M_MEGA_KICK, SOUND_PAN_ATTACKER
+	call GrantingStarsEffect
+	call GrantingStarsEffect
+	waitforvisualfinish
+	monbg ANIM_ATTACKER
+	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
+	waitplaysewithpan SE_M_MINIMIZE, SOUND_PAN_ATTACKER, 48
+	createvisualtask AnimTask_TransformMon, 2, TRANSFORM_MON_MEGA_EVOLUTION
+	waitforvisualfinish
+	clearmonbg ANIM_ATTACKER
+	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
+	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=10, target_blend_y=0, color=RGB_BLACK
+	waitforvisualfinish
+	unloadspritegfx ANIM_TAG_SPARKLE_2
+	end
+MegaEvolutionSkipAnim:
+	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
 	end
 
 SnatchMoveTrySwapFromSubstitute:

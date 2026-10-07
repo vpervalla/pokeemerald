@@ -4022,3 +4022,91 @@ u8 IsMonDisobedient(void)
         }
     }
 }
+
+// Bits for the battlers on battler's side that belong to the same trainer as battler.
+static u8 GetTrainerBattlerBits(u8 battler)
+{
+    u8 bits = gBitTable[battler];
+    bool8 partnerIsSameTrainer;
+
+    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
+        return bits;
+
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+        partnerIsSameTrainer = !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER));
+    else
+        partnerIsSameTrainer = !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS));
+
+    if (partnerIsSameTrainer)
+        bits |= gBitTable[BATTLE_PARTNER(battler)];
+
+    return bits;
+}
+
+bool8 CanMegaEvolve(u8 battler)
+{
+    u8 trainerBits;
+
+    // Link battles don't send the Mega Evolution choice yet, and recorded battles
+    // (the Battle Frontier's, which can be saved and played back) don't record it.
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK
+                          | BATTLE_TYPE_RECORDED
+                          | BATTLE_TYPE_RECORDED_LINK
+                          | BATTLE_TYPE_FRONTIER
+                          | BATTLE_TYPE_SAFARI
+                          | BATTLE_TYPE_WALLY_TUTORIAL))
+        return FALSE;
+
+    if (gAbsentBattlerFlags & gBitTable[battler])
+        return FALSE;
+    if (gBattleMons[battler].hp == 0)
+        return FALSE;
+    if (gBattleMons[battler].status2 & STATUS2_TRANSFORMED)
+        return FALSE;
+    if (GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item) == SPECIES_NONE)
+        return FALSE;
+
+    // The player needs the Mega Ring. Opponents and partners are assumed to have one.
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER
+     && !((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT)
+     && !CheckBagHasItem(ITEM_MEGA_RING, 1))
+        return FALSE;
+
+    // One Mega Evolution per trainer per battle, including one a partner already chose this turn.
+    trainerBits = GetTrainerBattlerBits(battler);
+    if (gBattleStruct->megaEvolvedBattlers & trainerBits)
+        return FALSE;
+    if (gBattleStruct->toMegaEvolve & trainerBits & ~gBitTable[battler])
+        return FALSE;
+
+    return TRUE;
+}
+
+// Changes battler's battle data into its Mega Evolution. Its party data keeps the base species.
+void MegaEvolve(u8 battler)
+{
+    struct Pokemon *mon;
+    u16 megaSpecies;
+    u16 stats[NUM_STATS];
+
+    if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+        mon = &gPlayerParty[gBattlerPartyIndexes[battler]];
+    else
+        mon = &gEnemyParty[gBattlerPartyIndexes[battler]];
+
+    megaSpecies = GetMegaEvolutionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
+    CalculateMonStatsForSpecies(mon, megaSpecies, stats);
+
+    // A Mega Evolution has the same base HP as its base form, so HP doesn't change.
+    gBattleMons[battler].species = megaSpecies;
+    gBattleMons[battler].attack = stats[STAT_ATK];
+    gBattleMons[battler].defense = stats[STAT_DEF];
+    gBattleMons[battler].speed = stats[STAT_SPEED];
+    gBattleMons[battler].spAttack = stats[STAT_SPATK];
+    gBattleMons[battler].spDefense = stats[STAT_SPDEF];
+    gBattleMons[battler].types[0] = gSpeciesInfo[megaSpecies].types[0];
+    gBattleMons[battler].types[1] = gSpeciesInfo[megaSpecies].types[1];
+    gBattleMons[battler].ability = GetAbilityBySpecies(megaSpecies, gBattleMons[battler].abilityNum);
+
+    gBattleStruct->megaEvolvedBattlers |= gBitTable[battler];
+}

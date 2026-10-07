@@ -4537,4 +4537,28 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
+    [ITEM_MEGA_RING] =
+    {
+        .name = _("MEGA RING"),
+        .itemId = ITEM_MEGA_RING,
+        .price = 0,
+        .description = sMegaRingDesc,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_BLAZIKENITE] =
+    {
+        .name = _("BLAZIKENITE"),
+        .itemId = ITEM_BLAZIKENITE,
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_MEGA_STONE,
+        .description = sBlazikeniteDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
 };

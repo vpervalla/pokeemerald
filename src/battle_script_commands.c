@@ -325,6 +325,7 @@ static void Cmd_removeattackerstatus1(void);
 static void Cmd_finishaction(void);
 static void Cmd_finishturn(void);
 static void Cmd_trainerslideout(void);
+static void Cmd_handlemegaevolution(void);
 
 void (*const gBattleScriptingCommandsTable[])(void) =
 {
@@ -576,7 +577,8 @@ void (*const gBattleScriptingCommandsTable[])(void) =
     [B_SCR_OP_REMOVEATTACKERSTATUS1]           = Cmd_removeattackerstatus1,                   //0xF5
     [B_SCR_OP_FINISHACTION]                    = Cmd_finishaction,                            //0xF6
     [B_SCR_OP_FINISHTURN]                      = Cmd_finishturn,                              //0xF7
-    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout                          //0xF8
+    [B_SCR_OP_TRAINERSLIDEOUT]                 = Cmd_trainerslideout,                         //0xF8
+    [B_SCR_OP_HANDLEMEGAEVOLUTION]             = Cmd_handlemegaevolution,                     //0xF9
 };
 
 struct StatFractions
@@ -10323,4 +10325,28 @@ static void Cmd_trainerslideout(void)
     MarkBattlerForControllerExec(gActiveBattler);
 
     gBattlescriptCurrInstr += 2;
+}
+
+static void Cmd_handlemegaevolution(void)
+{
+    gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+
+    switch (gBattlescriptCurrInstr[2])
+    {
+    case MEGA_EVO_UPDATE_DATA:
+        MegaEvolve(gActiveBattler);
+        PREPARE_SPECIES_BUFFER(gBattleTextBuff1, gBattleMons[gActiveBattler].species);
+        gBattlescriptCurrInstr += 3;
+        break;
+    case MEGA_EVO_ANIMATION:
+        BtlController_EmitBattleAnimation(B_COMM_TO_CONTROLLER, B_ANIM_MEGA_EVOLUTION, 0);
+        MarkBattlerForControllerExec(gActiveBattler);
+        gBattlescriptCurrInstr += 3;
+        break;
+    case MEGA_EVO_SWITCH_IN_EFFECTS:
+        // Abilities like Drought activate as if the Mega Evolved Pokémon just switched in.
+        gBattlescriptCurrInstr += 3;
+        AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gActiveBattler, 0, 0, 0);
+        break;
+    }
 }

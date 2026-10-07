@@ -447,4 +447,18 @@
 #define SPECIES_UNOWN_EMARK (SPECIES_UNOWN_B + 25)
 #define SPECIES_UNOWN_QMARK (SPECIES_UNOWN_B + 26)
 
+// Mega Evolutions. These are battle-only forms: a Pokémon's party data always
+// keeps its base species, and only gBattleMons changes when it Mega Evolves.
+#define FORMS_MEGA_START (SPECIES_UNOWN_QMARK + 1)
+#define SPECIES_BLAZIKEN_MEGA (FORMS_MEGA_START + 0)
+#define FORMS_MEGA_END SPECIES_BLAZIKEN_MEGA
+
+#define NUM_SPECIES_WITH_FORMS (FORMS_MEGA_END + 1)
+
+#define SPECIES_IS_MEGA(species) ((species) >= FORMS_MEGA_START && (species) <= FORMS_MEGA_END)
+
+// Species above NUM_SPECIES that have no data of their own: the Unown letters
+// (reached through SPECIES_UNOWN and the personality) and invalid values.
+#define SPECIES_HAS_NO_DATA(species) ((species) > NUM_SPECIES && !SPECIES_IS_MEGA(species))
+
 #endif  // GUARD_CONSTANTS_SPECIES_H

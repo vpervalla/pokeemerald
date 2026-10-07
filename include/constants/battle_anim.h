@@ -377,6 +377,12 @@
 #define B_ANIM_FOCUS_PUNCH_SETUP        20
 #define B_ANIM_INGRAIN_HEAL             21
 #define B_ANIM_WISH_HEAL                22
+#define B_ANIM_MEGA_EVOLUTION           23
+
+// Modes for AnimTask_TransformMon
+#define TRANSFORM_MON_TRANSFORM         0
+#define TRANSFORM_MON_CASTFORM          1
+#define TRANSFORM_MON_MEGA_EVOLUTION    2
 
 // special animations table (gBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

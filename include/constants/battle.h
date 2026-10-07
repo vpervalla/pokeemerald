@@ -340,6 +340,11 @@ enum BattlerId
 #define BATTLE_RUN_FORBIDDEN      1
 #define BATTLE_RUN_FAILURE        2
 
+// Cases for the handlemegaevolution battle script command
+#define MEGA_EVO_UPDATE_DATA     0
+#define MEGA_EVO_ANIMATION       1
+#define MEGA_EVO_SWITCH_IN_EFFECTS 2
+
 #define B_WIN_TYPE_NORMAL 0
 #define B_WIN_TYPE_ARENA  1
 

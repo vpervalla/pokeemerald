@@ -2600,3 +2600,84 @@ static void SafariTextIntoHealthboxObject(void *dest, u8 *windowTileData, u32 wi
     CpuCopy32(windowTileData, dest, windowWidth * TILE_SIZE_4BPP);
     CpuCopy32(windowTileData + 256, dest + 256, windowWidth * TILE_SIZE_4BPP);
 }
+
+// The Mega Evolution trigger, shown next to the player's healthbox while choosing
+// a move for a Pokémon that can Mega Evolve. START turns it on and off.
+static const u32 sMegaTriggerGfx[] = INCGFX_U32("graphics/battle_interface/mega_trigger.png", ".4bpp");
+static const u16 sMegaTriggerPal[] = INCGFX_U16("graphics/battle_interface/mega_trigger.pal", ".gbapal");
+static const u16 sMegaTriggerOffPal[] = INCGFX_U16("graphics/battle_interface/mega_trigger_off.pal", ".gbapal");
+
+static const struct SpriteSheet sSpriteSheet_MegaTrigger =
+{
+    .data = sMegaTriggerGfx,
+    .size = sizeof(sMegaTriggerGfx),
+    .tag = TAG_MEGA_TRIGGER_TILE,
+};
+
+static const struct SpritePalette sSpritePalette_MegaTrigger =
+{
+    .data = sMegaTriggerOffPal,
+    .tag = TAG_MEGA_TRIGGER_PAL,
+};
+
+static const struct OamData sOamData_MegaTrigger =
+{
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 1,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_MegaTrigger =
+{
+    .tileTag = TAG_MEGA_TRIGGER_TILE,
+    .paletteTag = TAG_MEGA_TRIGGER_PAL,
+    .oam = &sOamData_MegaTrigger,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+EWRAM_DATA static u8 sMegaTriggerSpriteId = 0;
+EWRAM_DATA static bool8 sMegaTriggerShown = FALSE;
+
+void CreateMegaTriggerSprite(u8 battler)
+{
+    struct Sprite *healthbox = &gSprites[gHealthboxSpriteIds[battler]];
+
+    if (sMegaTriggerShown)
+        DestroyMegaTriggerSprite();
+
+    LoadSpriteSheet(&sSpriteSheet_MegaTrigger);
+    LoadSpritePalette(&sSpritePalette_MegaTrigger);
+    // Just left of the healthbox, whose sprite x is the centre of its left 64 pixels.
+    sMegaTriggerSpriteId = CreateSprite(&sSpriteTemplate_MegaTrigger,
+                                        healthbox->x - 32 - 16,
+                                        healthbox->y,
+                                        0);
+    sMegaTriggerShown = (sMegaTriggerSpriteId != MAX_SPRITES);
+    SetMegaTriggerActive(FALSE);
+}
+
+void DestroyMegaTriggerSprite(void)
+{
+    if (!sMegaTriggerShown)
+        return;
+
+    DestroySprite(&gSprites[sMegaTriggerSpriteId]);
+    FreeSpriteTilesByTag(TAG_MEGA_TRIGGER_TILE);
+    FreeSpritePaletteByTag(TAG_MEGA_TRIGGER_PAL);
+    sMegaTriggerShown = FALSE;
+}
+
+void SetMegaTriggerActive(bool8 active)
+{
+    if (!sMegaTriggerShown)
+        return;
+
+    LoadPalette(active ? sMegaTriggerPal : sMegaTriggerOffPal,
+                OBJ_PLTT_ID(IndexOfSpritePaletteTag(TAG_MEGA_TRIGGER_PAL)),
+                PLTT_SIZE_4BPP);
+}

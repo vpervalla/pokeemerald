@@ -441,4 +441,5 @@ static const u32 sUnused[] =
     [SPECIES_UNOWN_Z]     = 0x888,
     [SPECIES_UNOWN_EMARK] = 0x888,
     [SPECIES_UNOWN_QMARK] = 0x888,
+    [SPECIES_BLAZIKEN_MEGA] = 0x88,
 };

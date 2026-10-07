@@ -1798,6 +1798,8 @@ const u32 gMonStillFrontPic_Blaziken[] = INCGFX_U32("graphics/pokemon/blaziken/f
 const u32 gMonPalette_Blaziken[] = INCGFX_U32("graphics/pokemon/blaziken/normal.pal", ".gbapal.lz");
 const u32 gMonBackPic_Blaziken[] = INCGFX_U32("graphics/pokemon/blaziken/back.png", ".4bpp.lz");
 const u32 gMonShinyPalette_Blaziken[] = INCGFX_U32("graphics/pokemon/blaziken/shiny.pal", ".gbapal.lz");
+const u32 gMonPalette_BlazikenMega[] = INCGFX_U32("graphics/pokemon/blaziken/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_BlazikenMega[] = INCGFX_U32("graphics/pokemon/blaziken/mega/shiny.pal", ".gbapal.lz");
 const u8 gMonIcon_Blaziken[] = INCGFX_U8("graphics/pokemon/blaziken/icon.png", ".4bpp");
 const u8 gMonFootprint_Blaziken[] = INCGFX_U8("graphics/pokemon/blaziken/footprint.png", ".1bpp");
 

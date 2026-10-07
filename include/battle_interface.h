@@ -50,6 +50,9 @@ enum
 // A copy of the healthbox palette for the opponents' shadows, so day/night can tint them
 #define TAG_ENEMY_SHADOW_PAL            0xD716
 
+#define TAG_MEGA_TRIGGER_TILE           0xD718
+#define TAG_MEGA_TRIGGER_PAL            0xD719
+
 enum
 {
     HEALTHBOX_ALL,
@@ -83,5 +86,8 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
 s32 MoveBattleBar(u8 battler, u8 healthboxSpriteId, u8 whichBar, u8 unused);
 u8 GetScaledHPFraction(s16 hp, s16 maxhp, u8 scale);
 u8 GetHPBarLevel(s16 hp, s16 maxhp);
+void CreateMegaTriggerSprite(u8 battler);
+void DestroyMegaTriggerSprite(void);
+void SetMegaTriggerActive(bool8 active);
 
 #endif // GUARD_BATTLE_INTERFACE_H

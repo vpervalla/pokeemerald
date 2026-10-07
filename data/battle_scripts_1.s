@@ -3706,6 +3706,17 @@ BattleScript_SAtkDown2::
 BattleScript_SAtkDown2End::
 	return
 
+BattleScript_MegaEvolution::
+	printstring STRINGID_MEGAEVOREACTING
+	waitmessage B_WAIT_TIME_LONG
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_UPDATE_DATA
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_ANIMATION
+	waitstate
+	printstring STRINGID_MEGAEVOLVED
+	waitmessage B_WAIT_TIME_LONG
+	handlemegaevolution BS_ATTACKER, MEGA_EVO_SWITCH_IN_EFFECTS
+	end2
+
 BattleScript_FocusPunchSetUp::
 	printstring STRINGID_EMPTYSTRING3
 	waitmessage 1

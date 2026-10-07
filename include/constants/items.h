@@ -409,12 +409,19 @@ enum {
     ITEM_MAGMA_EMBLEM,
     ITEM_OLD_SEA_MAP,
 
+    // Mega Evolution
+    ITEM_MEGA_RING,
+    ITEM_BLAZIKENITE,
+
     ITEMS_COUNT
 };
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
 // Its icon is defined at ITEMS_COUNT as the "return to field" arrow
 #define ITEM_LIST_END 0xFFFF
+
+#define FIRST_MEGA_STONE ITEM_BLAZIKENITE
+#define LAST_MEGA_STONE  ITEM_BLAZIKENITE
 
 #define FIRST_BALL ITEM_MASTER_BALL
 #define LAST_BALL  ITEM_PREMIER_BALL

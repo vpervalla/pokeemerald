@@ -1549,3 +1549,13 @@ static const u8 sOldSeaMapDesc[] = _(
     "A faded sea chart\n"
     "that shows the way\n"
     "to a certain island.");
+
+static const u8 sMegaRingDesc[] = _(
+    "A ring that lets\n"
+    "POKéMON holding a\n"
+    "MEGA STONE evolve.");
+
+static const u8 sBlazikeniteDesc[] = _(
+    "A MEGA STONE that\n"
+    "lets BLAZIKEN Mega\n"
+    "Evolve in battle.");

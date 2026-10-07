@@ -11664,5 +11664,35 @@ const struct SpeciesInfo gSpeciesInfo[] =
         .safariZoneFleeRate = 0,
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
-    }
+    },
+
+    [SPECIES_BLAZIKEN_MEGA] =
+    {
+        .baseHP        = 80,
+        .baseAttack    = 160,
+        .baseDefense   = 80,
+        .baseSpeed     = 100,
+        .baseSpAttack  = 130,
+        .baseSpDefense = 80,
+        .types = { TYPE_FIRE, TYPE_FIGHTING },
+        .catchRate = 45,
+        .expYield = 209, // Gen 6 uses 284, which doesn't fit in a u8
+        .evYield_HP        = 0,
+        .evYield_Attack    = 3,
+        .evYield_Defense   = 0,
+        .evYield_Speed     = 0,
+        .evYield_SpAttack  = 0,
+        .evYield_SpDefense = 0,
+        .itemCommon = ITEM_NONE,
+        .itemRare   = ITEM_NONE,
+        .genderRatio = PERCENT_FEMALE(12.5),
+        .eggCycles = 20,
+        .friendship = STANDARD_FRIENDSHIP,
+        .growthRate = GROWTH_MEDIUM_SLOW,
+        .eggGroups = { EGG_GROUP_FIELD, EGG_GROUP_FIELD },
+        .abilities = {ABILITY_SPEED_BOOST, ABILITY_SPEED_BOOST},
+        .safariZoneFleeRate = 0,
+        .bodyColor = BODY_COLOR_RED,
+        .noFlip = FALSE,
+    },
 };
