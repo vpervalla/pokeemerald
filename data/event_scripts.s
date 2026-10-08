@@ -999,6 +999,9 @@ gStdScripts_End::
 	.include "data/maps/SixIsland_WaterPath_House2/scripts.inc"
 	.include "data/maps/SevenIsland_SevaultCanyon_House/scripts.inc"
 	.include "data/maps/TestArea/scripts.inc"
+	.include "data/maps/MegaIsland_Harbor/scripts.inc"
+	.include "data/maps/MegaIsland/scripts.inc"
+	.include "data/maps/MegaIsland_Castle/scripts.inc"
 	.include "data/maps/TestArea_House/scripts.inc"
 
 	.include "data/scripts/std_msgbox.inc"

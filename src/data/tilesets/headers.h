@@ -1577,3 +1577,14 @@ const struct Tileset gTileset_KantoHallOfFame =
 };
 
 // END KANTO PORT
+
+const struct Tileset gTileset_KantoMegaCastle =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaCastle,
+    .palettes = gTilesetPalettes_KantoMegaCastle,
+    .metatiles = gMetatiles_KantoMegaCastle,
+    .metatileAttributes = gMetatileAttributes_KantoMegaCastle,
+    .callback = NULL,
+};

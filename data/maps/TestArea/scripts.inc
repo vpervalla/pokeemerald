@@ -48,3 +48,19 @@ TestArea_EventScript_TimeChangerDone::
 
 TestArea_Text_PickTime:
 	.string "What time of day should it be?$"
+
+@ Debug shortcut to the tournament island until the story gives the player a way there.
+TestArea_EventScript_IslandSailor::
+	lock
+	faceplayer
+	msgbox TestArea_Text_SailToIsland, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_IslandSailorDone
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
+	setvar VAR_0x8006, SEAGALLOP_MEGA_ISLAND
+	goto Kanto_EventScript_SetSail
+TestArea_EventScript_IslandSailorDone::
+	release
+	end
+
+TestArea_Text_SailToIsland:
+	.string "Want a ride to the castle island?$"

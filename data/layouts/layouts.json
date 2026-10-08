@@ -7470,6 +7470,26 @@
       "secondary_tileset": "gTileset_KantoGenericBuilding2",
       "border_filepath": "data/layouts/TestArea_House/border.bin",
       "blockdata_filepath": "data/layouts/TestArea_House/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND",
+      "name": "MegaIsland_Layout",
+      "width": 30,
+      "height": 58,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoSeviiIslands45",
+      "border_filepath": "data/layouts/MegaIsland/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_CASTLE",
+      "name": "MegaIsland_Castle_Layout",
+      "width": 30,
+      "height": 30,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoMegaCastle",
+      "border_filepath": "data/layouts/MegaIsland_Castle/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_Castle/map.bin"
     }
   ]
 }

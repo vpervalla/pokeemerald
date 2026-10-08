@@ -1334,7 +1334,7 @@ u8 GetMapSecRegion(mapsec_u16_t mapSecId)
 {
     if (mapSecId >= KANTO_MAPSEC_START && mapSecId <= KANTO_MAPSEC_END)
         return sKantoMapSecRegions[mapSecId - KANTO_MAPSEC_START];
-    if (mapSecId == MAPSEC_TEST_AREA)
+    if (mapSecId == MAPSEC_TEST_AREA || mapSecId == MAPSEC_MEGA_ISLAND)
         return REGION_KANTO;
     return REGION_HOENN;
 }

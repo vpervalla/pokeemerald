@@ -415,3 +415,6 @@ const u16 gMetatiles_KantoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/kan
 const u16 gMetatileAttributes_KantoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/kanto_hall_of_fame/metatile_attributes.bin");
 
 // END KANTO PORT
+
+const u16 gMetatiles_KantoMegaCastle[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_castle/metatiles.bin");
+const u16 gMetatileAttributes_KantoMegaCastle[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_castle/metatile_attributes.bin");
