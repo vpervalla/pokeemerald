@@ -15,7 +15,7 @@
   "connections": [
     {
       "map": "MAP_MEGA_ISLAND_CASTLE",
-      "offset": 0,
+      "offset": -15,
       "direction": "up"
     }
   ],

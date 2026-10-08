@@ -392,3 +392,58 @@ def dead_tree(c,x0,y0):
     for (ang,ln,sub) in ((2.2,14,1.6),(0.9,13,2.0),(1.5,16,0.9),(2.7,9,2.2),(0.4,9,0.7)):
         ex,ey=branch(x0+15,y0+22,ang,ln,2)
         branch(int(ex),int(ey),sub,6,1)
+
+def tall_window(c,x,ytop,w,ybot):
+    # A very tall lancet window whose top is out of sight. The glass pattern repeats every 16 px
+    # (by absolute y) so the long middle part reuses the same tiles.
+    cx=x+w/2-0.5
+    for gy in range(max(0,ytop),ybot):
+        for i in range(w):
+            gx=x+i; dx=abs(gx-cx)
+            if i<3 or i>=w-3: col=S4 if i<3 else S3      # stone frame
+            elif i==3 or i==w-4: col=OUT
+            else:
+                col=W0
+                if dx<0.6 or gy%16==15: col=OUT          # mullion and leading
+                elif (i+gy)%4==0: col=W1
+            c.set(gx,gy,col)
+    for i in range(-1,w+1): c.set(x+i,ybot,S4); c.set(x+i,ybot+1,S3); c.set(x+i,ybot+2,S1)  # sill
+
+def long_banner(c,x,ybot,w):
+    # A banner hanging from far above: crimson with gold borders, a pointed tail and an emblem.
+    for gy in range(0,ybot):
+        for i in range(w):
+            tail=gy>=ybot-w//2
+            if tail and abs(i-(w-1)/2)>=(ybot-gy)-0.5: continue
+            col=C1
+            if i==0 or i==w-1: col=G
+            elif i==1 and gy%8==3: col=C0
+            elif i==w-2: col=C0
+            c.set(x+i,gy,col)
+    ey=ybot-w-6; ex=x+w//2
+    for (dx,dy) in ((-2,0),(1,0),(0,-2),(-1,-2),(0,1),(-1,1),(-2,-1),(1,-1)): c.set(ex+dx,ey+dy,G)
+    c.set(ex,ey-1,W1); c.set(ex-1,ey,W1)
+
+def rocky_mound(c,x0,x1,ytop,ybot,cx):
+    # A natural rocky mound: rounded boulders in a 64 px module (repeats, mirrored about cx),
+    # a lumpy top edge and rocks spilling onto the grass at the foot.
+    import math
+    BOULDERS=[ # (x, y, rx, ry) in the module, y from ytop
+        (8,10,12,9),(30,6,13,8),(52,12,12,10),(18,26,14,10),(44,28,15,10),(4,40,9,7),(30,42,12,7),(58,41,9,6)]
+    def shade(px,py,bx,by,rx,ry):
+        nx=(px+0.5-bx)/rx; ny=(py+0.5-by)/ry
+        d=nx*nx+ny*ny
+        if d>1: return None
+        if d>0.78: return OUT if (ny>0.3 or nx>0.5) else S1
+        l=-(nx*0.6+ny*0.8)
+        return S4 if l>0.55 else (S3 if l>0.15 else (S2 if l>-0.35 else S1))
+    for gx in range(x0,x1):
+        m=(gx-cx)%64 if gx>=cx else (cx-1-gx)%64     # mirrored about the staircase axis
+        for gy in range(ytop-6,ybot+8):
+            py=gy-ytop; col=None
+            for (bx,by,rx,ry) in BOULDERS:
+                for mx in (m,m-64,m+64):
+                    s=shade(mx,py,bx,by,rx,ry)
+                    if s is not None: col=s
+            if col is None and 4<=py<=ybot-ytop-2: col=S0       # crevices between boulders
+            if col is not None: c.set(gx,gy,col)

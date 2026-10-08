@@ -5,42 +5,48 @@ from art import *
 import render
 REPO=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..')+'/'
 TSDIR=REPO+'data/tilesets/secondary/kanto_mega_castle/'
-MW,MH=30,30
 PRIM=render.TS('kanto_general',None)
+PRIM_ATTRS=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/primary/kanto_general/metatile_attributes.bin','rb').read())]
 random.seed(7)
 
 # ---- compose the map art (indexed canvas the size of the map) ----
+MW,MH=60,36
+CX=30*16                    # gate axis (between cols 29 and 30)
 c=Canvas(MW*16,MH*16)
-OX=4*16     # castle canvas offset (castle art is 22 cells wide)
-CX=OX+176
-import castle_facade  # draws the castle into castle_facade.c (22x18 cells)
-c.blit(castle_facade.c,OX,0)
+import castle_facade
+castle_facade.draw(c,MW,CX)
 ground=[['grass']*MW for _ in range(MH)]
 coll=[[0]*MW for _ in range(MH)]
-layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (top layer above player)
-# castle footprint: rows 0-14, cols 4-25 impassable, except the stairs
-for y in range(0,15):
-    for x in range(4,26): coll[y][x]=1
-# Courtyard flagstones in front of the castle and the path south
-for y in range(15,MH):
-    for x in range(13,17): ground[y][x]='flag'
-for y in range(15,19):
-    for x in range(9,21): ground[y][x]='flag'
-for x in range(13,17): ground[14][x]='flag'
-for x in (14,15): coll[14][x]=0                 # stairs walkable
-# fence along row 21 with an opening at cols 13-16, gate pillars at cols 12 and 17
-FR=21
-for x in range(1,29):
-    if 12<=x<=17: continue
-    fence(c,x*16,FR*16-8); coll[FR][x]=1
-    layer[FR-1][x]=0
-for px in (12,17):
+layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (above player)
+for y in range(0,10):                    # the castle
+    for x in range(MW): coll[y][x]=1
+for y in (10,11):                        # terrace on the mound
+    for x in range(MW): ground[y][x]='flag'
+for y in range(12,16):                   # mound face, except the staircase
+    for x in range(MW):
+        if not 28<=x<=31: coll[y][x]=1
+for x in (25,26,27,32,33,34):            # gargoyle pedestals at the foot of the staircase
+    coll[15][x]=1; coll[16][x]=1
+for x in (23,24,25,34,35,36):            # gargoyles on the terrace (the row below stays a walkway)
+    coll[10][x]=1
+for x in (27,32):                        # balustrades
+    for y in (11,12,13,14,15): coll[y][x]=1
+# courtyard: plaza at the foot of the mound, path south
+# flagstones stop at the fence: the path beyond is grass from the shared primary tileset, so the
+# route (which draws this map's edge with its own tileset) shows it correctly
+for y in range(16,22):
+    for x in range(28,32): ground[y][x]='flag'
+for y in range(16,20):
+    for x in range(22,38): ground[y][x]='flag'
+FR=22
+for x in range(14,46):
+    if 27<=x<=32: continue
+    fence(c,x*16,FR*16-8); coll[FR][x]=1; layer[FR-1][x]=0
+for px in (27,32):
     gate_pillar(c,px*16,(FR-2)*16+8); coll[FR][px]=1; coll[FR-1][px]=1; layer[FR-2][px]=0
-# lamp posts along the path
-for (lx,ly) in ((12,17),(17,17),(12,25),(17,25)):
+for (lx,ly) in ((26,18),(33,18),(27,26),(32,26)):
     lamp_post(c,lx*16,(ly-1)*16); coll[ly][lx]=1; layer[ly-1][lx]=0
-# dead trees inside and outside the fence
-for (tx,ty) in ((4,18),(8,17),(20,17),(24,18),(6,24),(21,24)):
+for (tx,ty) in ((17,18),(20,20),(39,20),(42,18),(19,26),(40,26)):
     dead_tree(c,tx*16,(ty-2)*16)
     coll[ty][tx+1]=1
     for yy in (ty-2,ty-1):
@@ -51,7 +57,7 @@ OVER=c
 # ---- primary pieces ----
 GRASS=[0x8,0x8,0x8,0x9,0x10]
 def tree_block(grid,x0,y0,w,h):
-    # Forest of 2x2 trees (canopy 1e/1f, trunk 16/17 or 24/25), tips (e/f) above on grass.
+    # Forest of 2x2 trees (canopy 1e/1f, trunk 16/17 or 24/25), tips (e/f) in the row above.
     for ty in range(y0,y0+h,2):
         for tx in range(x0,x0+w,2):
             grid[ty][tx]=0x1e; grid[ty][tx+1]=0x1f
@@ -59,11 +65,15 @@ def tree_block(grid,x0,y0,w,h):
             grid[ty+1][tx]=0x24 if last else 0x16; grid[ty+1][tx+1]=0x25 if last else 0x17
             if ty==y0 and ty>0: grid[ty-1][tx]=0xe; grid[ty-1][tx+1]=0xf
 prim=[[None]*MW for _ in range(MH)]
-tree_block(prim,0,0,4,MH); tree_block(prim,26,0,4,MH)
-tree_block(prim,4,26,8,4); tree_block(prim,18,26,8,4)
+# the wings disappear into the forest on both sides; the forest closes in around the path
+tree_block(prim,0,8,14,MH-8); tree_block(prim,46,8,14,MH-8)
+tree_block(prim,14,28,14,MH-28); tree_block(prim,32,28,14,MH-28)
+tree_block(prim,14,13,2,14); tree_block(prim,44,13,2,14)
 for y in range(MH):
     for x in range(MW):
-        if prim[y][x] is not None: coll[y][x]=0 if prim[y][x] in (0xe,0xf) else 1
+        if prim[y][x] is not None:
+            coll[y][x]=0 if prim[y][x] in (0xe,0xf) else 1
+            if prim[y][x] in (0xe,0xf) and y<16: coll[y][x]=1
 
 # ---- tileset building ----
 tiles=[]; tindex={}
@@ -103,9 +113,18 @@ def ground_bottom(kind,x,y):
 grid=[[0]*MW for _ in range(MH)]
 for y in range(MH):
     for x in range(MW):
-        if prim[y][x] is not None and not any(OVER.get(x*16+i,y*16+j) for i in range(16) for j in range(16)):
+        has_art=any(OVER.get(x*16+i,y*16+j) for i in range(16) for j in range(16))
+        if prim[y][x] is not None and not has_art:
             grid[y][x]=prim[y][x]; continue
-        bottom=ground_bottom(ground[y][x],x,y) if prim[y][x] is None else list(PRIM.meta[prim[y][x]][:4])
+        if prim[y][x] is not None:
+            pm=PRIM.meta[prim[y][x]]
+            if any(t&0x3ff for t in pm[4:]):
+                # tree tip or canopy in front of the castle: castle art below, the tree's top layer above
+                art=cell_tiles(OVER,x*16,y*16)
+                bottom=[tile_entry(*e) if e else EMPTY_TOP for e in art]
+                grid[y][x]=metatile(bottom,list(pm[4:]),PRIM_ATTRS[prim[y][x]]); continue
+            grid[y][x]=prim[y][x]; continue   # trunk rows are opaque: the forest hides the castle
+        bottom=ground_bottom(ground[y][x],x,y)
         ov=cell_tiles(OVER,x*16,y*16)
         if all(e is None for e in ov):
             if ground[y][x]=='grass' and prim[y][x] is None:
@@ -115,6 +134,33 @@ for y in range(MH):
         attr=(layer[y][x]&0xf)<<12   # behavior MB_NORMAL
         grid[y][x]=metatile(bottom,top,attr)
 print('secondary tiles',len(tiles),'metatiles',len(metatiles))
+if os.environ.get('PREVIEW'):
+    from PIL import Image
+    img=Image.new('RGB',(MW*16,MH*16))
+    for y in range(MH):
+        for x in range(MW):
+            m=prim[y][x] if prim[y][x] is not None else 8
+            pm=PRIM.meta[m]
+            for i in range(4): PRIM.tile(img,pm[i],x*16+(i&1)*8,y*16+(i>>1)*8,False)
+            if prim[y][x] is None and ground[y][x]=='flag':
+                for i in range(4):
+                    e=FLAG[(x+y)%2][i]
+                    t=e&0x3ff; pal=PAL
+                    T=tiles[t-640]; hf=e>>10&1; vf=e>>11&1
+                    for yy in range(8):
+                        for xx in range(8):
+                            img.putpixel((x*16+(i&1)*8+xx,y*16+(i>>1)*8+yy),PAL[T[7-yy if vf else yy][7-xx if hf else xx]])
+    art=OVER.img(); img.paste(art,(0,0),art)
+    for y in range(MH):
+        for x in range(MW):
+            m=prim[y][x]
+            if m is None: continue
+            pm=PRIM.meta[m]
+            if any(t&0x3ff for t in pm[4:]):
+                for i in range(4): PRIM.tile(img,pm[4+i],x*16+(i&1)*8,y*16+(i>>1)*8,True)
+            else:
+                for i in range(4): PRIM.tile(img,pm[i],x*16+(i&1)*8,y*16+(i>>1)*8,False)
+    img.save(os.environ['PREVIEW']); sys.exit(0)
 assert len(tiles)<=384 and len(metatiles)<=384
 
 # ---- write tileset ----

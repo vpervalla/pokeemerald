@@ -1,36 +1,47 @@
-# Draws the castle facade (22x18 metatiles) into `c`. Imported by build_castle.py.
+# Draws the giant castle: a facade spanning the whole map width (its top is above anything the
+# camera can show), standing on a rocky mound with a grand staircase. Imported by build_castle.py.
 from art import *
-MW,MH=22,18
-W,H=MW*16,MH*16
-c=Canvas(W,H)
-CX=176                     # facade centre (gate axis)
-KX0,KX1=64,288
-TOP=3
-slate_roof(c,KX0,TOP*16,KX1-KX0,3*16)
-stone_wall(c,KX0,(TOP+3)*16+8,KX1-KX0,7*16+8)
-crenellations(c,KX0,(TOP+3)*16-4,KX1-KX0,merlon=8,gap=8,h=12)
-for x in range(KX0,KX1):
-    for y in range((TOP+10)*16+8,(TOP+11)*16): c.set(x,y,S1 if y%8 else S0)
-round_tower(c,CX,(TOP-1)*16,24,3*16+4)
-cone_roof(c,CX,8,26,(TOP-1)*16-8+4)
-pennant(c,CX,0)
-def sym(f,x,*a):           # draw at x and mirrored about the gate axis (w = width of the piece)
-    w=a[-1]; f(x,*a[:-1]); f(2*CX-x-w,*a[:-1])
-for bx in (91,131):
-    sym(lambda x: buttress(c,x,(TOP+3)*16+2,8*16-2),bx,10)
-for cx in (32,320):
-    round_tower(c,cx,(TOP+1)*16,30,10*16)
-    cone_roof(c,cx,10,34,(TOP+1)*16-10)
-    pennant(c,cx,2)
-    for yy in ((TOP+3)*16,(TOP+6)*16): slit_window(c,cx-1,yy,10)
-sym(lambda x: pointed_window(c,x,(TOP+4)*16+4,14,34),69,14)
-sym(lambda x: pointed_window(c,x,(TOP+7)*16+4,14,30),69,14)
-sym(lambda x: banner(c,x,(TOP+4)*16-4,12,60),109,12)
-sym(lambda x: pointed_window(c,x,(TOP+8)*16-2,10,22),111,10)
-rose_window(c,CX,(TOP+5)*16+4,15)
-gate(c,CX-24,(TOP+7)*16,48,64)
-drape_swag(c,CX-34,(TOP+7)*16+2,10,52,-1)
-drape_swag(c,CX+24,(TOP+7)*16+2,10,52,1)
-stairs(c,CX-28,(TOP+11)*16,56,3)
-gargoyle2(c,CX-72,(TOP+9)*16+4); gargoyle2(c,CX+40,(TOP+9)*16+4)
-c.outline()
+
+def draw(c, MW, CX):
+    W=MW*16
+    FB=160                      # bottom of the facade (row 10)
+    stone_wall(c,0,0,W,FB)
+    for x in range(W):          # plinth
+        for y in range(FB-10,FB): c.set(x,y,S1 if y%8 else S0)
+        c.set(x,FB-11,S3)
+    # bays every 64 px, mirrored about the gate axis: buttresses and towering windows
+    for k in range(1,8):
+        off=64*k
+        for x in (CX-off-5, CX+off-5):
+            if 0<=x<W-10: buttress(c,x,0,FB)
+        for x in (CX-off+18, CX+off-46):
+            if 0<=x<W-28: tall_window(c,x,0,28,FB-24)
+    for x in (CX-56,CX+44):
+        long_banner(c,x,FB-40,12)
+    # great towers by the keep, smaller ones on the wings
+    for (tx,r) in ((CX-160,44),(CX+160,44),(CX-352,32),(CX+352,32)):
+        round_tower(c,tx,0,r,FB)
+        for i in range(-r-4,r+4):       # battered base
+            for y in range(FB-16,FB):
+                d=abs(i+0.5)/(r+4)
+                c.set(tx+i,y,S2 if d<0.5 else (S1 if d<0.85 else S0))
+            c.set(tx+i,FB-17,S3)
+        slit_window(c,tx-1,96,12)
+    gate(c,CX-32,FB-96,64,96)
+    drape_swag(c,CX-48,FB-92,14,80,-1)
+    drape_swag(c,CX+34,FB-92,14,80,1)
+    # the mound: terrace on top (rows 10-11), rocky face (rows 12-15)
+    F0,F1=FB+32,FB+96
+    rocky_mound(c,0,W,F0,F1,CX)
+    SW=64
+    for k in range(10):                # grand staircase
+        y=F0-4+k*7
+        for j in range(7):
+            col=S4 if j==0 else (S3 if j<3 else (S2 if j<6 else S0))
+            c.hline(CX-SW//2,y+j,SW,col)
+    for bx in (CX-SW//2-8, CX+SW//2):  # balustrades with gold finials
+        c.rect(bx,F0-10,8,F1-F0+12,S2); c.vline(bx,F0-10,F1-F0+12,S3); c.vline(bx+7,F0-10,F1-F0+12,S1)
+        c.rect(bx-1,F0-12,10,3,S4)
+        c.rect(bx+2,F0-17,4,5,G)
+    gargoyle2(c,CX-104,FB-28); gargoyle2(c,CX+72,FB-28)
+    gargoyle2(c,CX-SW//2-44,F1-30); gargoyle2(c,CX+SW//2+12,F1-30)
