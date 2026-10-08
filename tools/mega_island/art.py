@@ -447,3 +447,33 @@ def rocky_mound(c,x0,x1,ytop,ybot,cx):
                     if s is not None: col=s
             if col is None and 4<=py<=ybot-ytop-2: col=S0       # crevices between boulders
             if col is not None: c.set(gx,gy,col)
+
+def stone_rampart(c,x0,x1,ytop,ybot,cx):
+    # A dressed stone retaining wall: coping along the top, courses of large ashlar blocks,
+    # pilasters every 64 px (lined up with the castle's bays) and a dark plinth at the foot.
+    # Everything repeats on the 8-pixel grid, relative to cx.
+    for gx in range(x0,x1):
+        rx=(gx-cx)%64
+        for gy in range(ytop,ybot):
+            y=gy-ytop
+            if y<6:                                         # coping
+                col=S4 if y==0 else (S3 if y<3 else (S1 if y==5 else S2))
+                if rx%32==31 and 1<=y<=4: col=S1
+            elif ybot-gy<=8:                                # plinth
+                col=S1 if (ybot-gy)>1 else S0
+                if ybot-gy==8: col=S2
+                if rx%16==15: col=S0
+            else:
+                course=(y-6)//12; by=(y-6)%12
+                bx=(rx+(course%2)*16)%32
+                if by==11 or bx==31: col=OUT
+                elif by==0 or bx==0: col=S3
+                elif by>=9 or bx>=29: col=S1
+                else: col=S2
+                if bx in (12,13) and by==5 and course%2==0: col=S1   # chisel marks
+            # pilasters, lined up with the buttresses above
+            if 6<=y and ybot-gy>8 and (rx<5 or rx>=59):
+                d=rx if rx<5 else 63-rx
+                col=S3 if (d<2 and rx<5) else (S1 if rx>=59 else S2)
+                if (y-6)%24==23: col=OUT
+            c.set(gx,gy,col)

@@ -1,5 +1,5 @@
 # Draws the giant castle: a facade spanning the whole map width (its top is above anything the
-# camera can show), standing on a rocky mound with a grand staircase. Imported by build_castle.py.
+# camera can show), standing on a stone rampart with a grand staircase. Imported by build_castle.py.
 from art import *
 
 def draw(c, MW, CX):
@@ -30,9 +30,9 @@ def draw(c, MW, CX):
     gate(c,CX-32,FB-96,64,96)
     drape_swag(c,CX-48,FB-92,14,80,-1)
     drape_swag(c,CX+34,FB-92,14,80,1)
-    # the mound: terrace on top (rows 10-11), rocky face (rows 12-15)
+    # the rampart: terrace on top (rows 10-11), stone retaining wall (rows 12-15)
     F0,F1=FB+32,FB+96
-    rocky_mound(c,0,W,F0,F1,CX)
+    stone_rampart(c,0,W,F0-2,F1,CX)
     SW=64
     for k in range(10):                # grand staircase
         y=F0-4+k*7

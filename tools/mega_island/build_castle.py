@@ -20,9 +20,9 @@ coll=[[0]*MW for _ in range(MH)]
 layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (above player)
 for y in range(0,10):                    # the castle
     for x in range(MW): coll[y][x]=1
-for y in (10,11):                        # terrace on the mound
+for y in (10,11):                        # terrace on top of the rampart
     for x in range(MW): ground[y][x]='flag'
-for y in range(12,16):                   # mound face, except the staircase
+for y in range(12,16):                   # rampart wall, except the staircase
     for x in range(MW):
         if not 28<=x<=31: coll[y][x]=1
 for x in (25,26,27,32,33,34):            # gargoyle pedestals at the foot of the staircase
@@ -31,7 +31,7 @@ for x in (23,24,25,34,35,36):            # gargoyles on the terrace (the row bel
     coll[10][x]=1
 for x in (27,32):                        # balustrades
     for y in (11,12,13,14,15): coll[y][x]=1
-# courtyard: plaza at the foot of the mound, path south
+# courtyard: plaza at the foot of the rampart, path south
 # flagstones stop at the fence: the path beyond is grass from the shared primary tileset, so the
 # route (which draws this map's edge with its own tileset) shows it correctly
 for y in range(16,22):
