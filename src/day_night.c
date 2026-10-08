@@ -6,6 +6,7 @@
 #include "field_door.h"
 #include "field_weather.h"
 #include "fieldmap.h"
+#include "gpu_regs.h"
 #include "main.h"
 #include "overworld.h"
 #include "palette.h"
@@ -14,6 +15,7 @@
 #include "tilesets.h"
 #include "constants/field_weather.h"
 #include "constants/layouts.h"
+#include "constants/weather.h"
 #include "battle.h"
 #include "battle_bg.h"
 #include "battle_interface.h"
@@ -633,11 +635,195 @@ static void CreateSignSprites(void)
     }
 }
 
+// Street lamps (tools/kanto_port/make_lamp_sprites.py): a lantern on an iron post, standing on a tile its
+// map gives collision, with its head on the tile above. It's a sprite sorted like an object standing on
+// that tile. In the evening and at night its glass is lit, and it casts a pool of light: a sprite blended
+// additively onto the ground (and only the ground, as sprites don't blend with sprites). Weathers that
+// use the blend registers themselves (clouds, fog, ash, sandstorm, bubbles) go without the pools.
+#define TAG_LAMP             0x2E10
+#define TAG_LAMP_POOL        0x2E11
+#define TAG_LAMP_PAL         0x2E12
+#define LAMP_IRON_COLORS     COLORS(1, 4) // Tinted; the glass and the pools' colours aren't, once lit
+#define LAMP_POOL_ALPHA      8            // The pools add 8/16 of their colour to the ground
+#define LAMP_ELEVATION       3            // The ground's
+#define MAX_LAMPS            12 // On a map
+#define FIELD_BLDALPHA       BLDALPHA_BLEND(13, 7) // What the field sets up (InitOverworldGraphicsRegisters)
+
+struct Lamp
+{
+    u16 layoutId;
+    u8 x, y; // The tile it stands on
+};
+
+#include "data/day_night_lamps.h"
+
+static const u32 sLamp_Gfx[] = INCGFX_U32("graphics/day_night/lamp.png", ".4bpp");
+static const u16 sLampDay_Pal[] = INCGFX_U16("graphics/day_night/lamp.png", ".gbapal");
+static const u16 sLampNight_Pal[] = INCGFX_U16("graphics/day_night/lamp_night.pal", ".gbapal");
+static const u32 sLampPool_Gfx[] = INCGFX_U32("graphics/day_night/lamp_pool.png", ".4bpp");
+
+static const struct OamData sOam_Lamp =
+{
+    .shape = SPRITE_SHAPE(16x32),
+    .size = SPRITE_SIZE(16x32),
+};
+
+static const struct OamData sOam_LampPool =
+{
+    .objMode = ST_OAM_OBJ_BLEND,
+    .shape = SPRITE_SHAPE(64x32),
+    .size = SPRITE_SIZE(64x32),
+    .priority = 2, // Under the top BG layer (roofs, treetops), which stays dark
+};
+
+static void SpriteCB_Lamp(struct Sprite *sprite);
+static void SpriteCB_LampPool(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_Lamp =
+{
+    .tileTag = TAG_LAMP,
+    .paletteTag = TAG_LAMP_PAL,
+    .oam = &sOam_Lamp,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Lamp,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_LampPool =
+{
+    .tileTag = TAG_LAMP_POOL,
+    .paletteTag = TAG_LAMP_PAL,
+    .oam = &sOam_LampPool,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_LampPool,
+};
+
+static EWRAM_DATA u8 sLampSpriteIds[MAX_LAMPS * 2] = {0};
+static EWRAM_DATA u8 sNumLampSprites = 0;
+static EWRAM_DATA bool8 sLampPoolsShown = FALSE;
+static EWRAM_DATA bool8 sLampBlendSet = FALSE;
+
+static void SpriteCB_Lamp(struct Sprite *sprite)
+{
+    SpriteCB_Sign(sprite);
+    sprite->oam.priority = ElevationToPriority(LAMP_ELEVATION);
+    SetObjectSubpriorityByElevation(LAMP_ELEVATION, sprite, 1);
+}
+
+static void SpriteCB_LampPool(struct Sprite *sprite)
+{
+    SpriteCB_Sign(sprite);
+    if (!sLampPoolsShown)
+        sprite->invisible = TRUE;
+}
+
+static void DestroyLampSprites(void)
+{
+    u32 i;
+
+    for (i = 0; i < sNumLampSprites; i++)
+    {
+        struct Sprite *sprite = &gSprites[sLampSpriteIds[i]];
+
+        if (sprite->inUse && (sprite->callback == SpriteCB_Lamp || sprite->callback == SpriteCB_LampPool)
+         && sprite->data[7] == SIGN_MAGIC)
+            DestroySprite(sprite);
+    }
+    sNumLampSprites = 0;
+    FreeSpriteTilesByTag(TAG_LAMP);
+    FreeSpriteTilesByTag(TAG_LAMP_POOL);
+    FreeSpritePaletteByTag(TAG_LAMP_PAL);
+}
+
+// (cx, cy): the sprite's centre, in pixels from the top-left corner of the lamp's tile
+static void CreateLampSprite(const struct SpriteTemplate *template, const struct Lamp *lamp, s16 cx, s16 cy, u8 subpriority)
+{
+    s16 x, y;
+    u8 spriteId;
+
+    SetSpritePosToMapCoords(lamp->x + MAP_OFFSET, lamp->y + MAP_OFFSET, &x, &y);
+    spriteId = CreateSprite(template, x + cx, y + cy, subpriority);
+    if (spriteId == MAX_SPRITES)
+        return;
+    gSprites[spriteId].coordOffsetEnabled = TRUE;
+    gSprites[spriteId].data[7] = SIGN_MAGIC;
+    gSprites[spriteId].callback(&gSprites[spriteId]);
+    sLampSpriteIds[sNumLampSprites++] = spriteId;
+}
+
+static void CreateLampSprites(bool8 lit)
+{
+    static const struct SpriteSheet lampSheet = {sLamp_Gfx, 16 * 32 / 2, TAG_LAMP};
+    static const struct SpriteSheet poolSheet = {sLampPool_Gfx, 64 * 32 / 2, TAG_LAMP_POOL};
+    struct SpritePalette palette = {lit ? sLampNight_Pal : sLampDay_Pal, TAG_LAMP_PAL};
+    bool8 loaded = FALSE;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sLamps) && sNumLampSprites + 2 <= ARRAY_COUNT(sLampSpriteIds); i++)
+    {
+        if (sLamps[i].layoutId != gMapHeader.mapLayoutId)
+            continue;
+        if (!loaded)
+        {
+            u8 paletteNum = LoadSpritePalette(&palette);
+
+            if (paletteNum == 0xFF)
+                return;
+            UpdateSpritePaletteWithWeather(paletteNum);
+            LoadSpriteSheet(&lampSheet);
+            if (lit)
+                LoadSpriteSheet(&poolSheet);
+            loaded = TRUE;
+        }
+        // Positioned like an object's sprite on that tile: the post's foot on it, the head above.
+        CreateLampSprite(&sSpriteTemplate_Lamp, &sLamps[i], 8, 0, 0);
+        if (lit)
+            CreateLampSprite(&sSpriteTemplate_LampPool, &sLamps[i], 8, 12, 0xFF);
+    }
+}
+
+static bool8 IsWeatherUsingBlend(void)
+{
+    switch (gWeatherPtr->currWeather)
+    {
+    case WEATHER_SUNNY_CLOUDS:
+    case WEATHER_FOG_HORIZONTAL:
+    case WEATHER_FOG_DIAGONAL:
+    case WEATHER_VOLCANIC_ASH:
+    case WEATHER_SANDSTORM:
+    case WEATHER_UNDERWATER_BUBBLES:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// The pools add their colour to the ground: the ground's full colour (16/16) plus LAMP_POOL_ALPHA/16 of theirs.
+static void UpdateLampPools(bool8 lit)
+{
+    sLampPoolsShown = lit && sNumLampSprites != 0 && !IsWeatherUsingBlend();
+    if (sLampPoolsShown)
+    {
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(LAMP_POOL_ALPHA, 16));
+        sLampBlendSet = TRUE;
+    }
+    else if (sLampBlendSet)
+    {
+        if (!IsWeatherUsingBlend())
+            SetGpuReg(REG_OFFSET_BLDALPHA, FIELD_BLDALPHA);
+        sLampBlendSet = FALSE;
+    }
+}
+
 static void UpdateSigns(bool8 lit)
 {
     if (sSignsDirty || lit != sSignsShown)
     {
         DestroySignSprites();
+        DestroyLampSprites();
+        CreateLampSprites(lit);
         if (lit)
             CreateSignSprites();
         sSignsShown = lit;
@@ -798,6 +984,7 @@ void DayNight_UpdateField(void)
     if (lit != sWindowsLit)
         SetWindowsLit(lit, FALSE);
     UpdateSigns(lit);
+    UpdateLampPools(lit);
 
     for (i = 0; i < 16; i++)
     {
@@ -805,6 +992,8 @@ void DayNight_UpdateField(void)
 
         tintedColors[i] = (i < NUM_PALS_TOTAL) ? ALL_COLORS : 0;
         tintedColors[OBJ_PAL(i)] = (tag == TAG_GLOW_PAL) ? 0 : ALL_COLORS;
+        if (tag == TAG_LAMP_PAL && lit)
+            tintedColors[OBJ_PAL(i)] = LAMP_IRON_COLORS;
     }
     UpdateTint(reentered, tintedColors, TRUE);
 }
