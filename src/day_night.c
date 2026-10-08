@@ -646,7 +646,7 @@ static void CreateSignSprites(void)
 #define LAMP_IRON_COLORS     COLORS(1, 4) // Tinted; the glass and the pools' colours aren't, once lit
 #define LAMP_POOL_ALPHA      8            // The pools add 8/16 of their colour to the ground
 #define LAMP_ELEVATION       3            // The ground's
-#define MAX_LAMPS            12
+#define MAX_LAMPS            12 // On a map
 #define FIELD_BLDALPHA       BLDALPHA_BLEND(13, 7) // What the field sets up (InitOverworldGraphicsRegisters)
 
 struct Lamp
@@ -655,17 +655,7 @@ struct Lamp
     u8 x, y; // The tile it stands on
 };
 
-static const struct Lamp sLamps[] =
-{
-    {LAYOUT_VIRIDIAN_CITY, 29, 13}, // In front of the Gym and the house next to it
-    {LAYOUT_VIRIDIAN_CITY, 33, 13},
-    {LAYOUT_VIRIDIAN_CITY, 23, 15}, // West road
-    {LAYOUT_VIRIDIAN_CITY, 29, 19}, // The crossroads between the Pokemon Center and the Mart
-    {LAYOUT_VIRIDIAN_CITY, 33, 19},
-    {LAYOUT_VIRIDIAN_CITY, 29, 23},
-    {LAYOUT_VIRIDIAN_CITY, 33, 23},
-    {LAYOUT_VIRIDIAN_CITY, 19, 24}, // South-west, by the pond
-};
+#include "data/day_night_lamps.h"
 
 static const u32 sLamp_Gfx[] = INCGFX_U32("graphics/day_night/lamp.png", ".4bpp");
 static const u16 sLampDay_Pal[] = INCGFX_U16("graphics/day_night/lamp.png", ".gbapal");
