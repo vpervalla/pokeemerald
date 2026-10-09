@@ -1,5 +1,5 @@
 Route4_PokemonCenter_1F_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route4_PokemonCenter_1F_OnTransition
+	map_script MAP_SCRIPT_ON_TRANSITION, Route4_PokemonCenter_1F_OnTransitionLuna
 	map_script MAP_SCRIPT_ON_RESUME, Kanto_CableClub_OnResume
 	.byte 0
 
@@ -202,3 +202,99 @@ Route4_PokemonCenter_1F_Text_YoullNeedMoreMoney:
     .string "You'll need more money than that!$"
 
 @ END KANTO NPCS
+
+@ LUNA's mom waits here while LUNA is lost in MT. MOON (see MtMoon_B2F). Once she's back, LUNA
+@ waits here too, and her mom gives the player a MOON STONE.
+
+Route4_PokemonCenter_1F_OnTransitionLuna:
+	setflag FLAG_HIDE_ROUTE4_POKEMON_CENTER_GIRL
+	call_if_set FLAG_RESCUED_MT_MOON_GIRL, Route4_PokemonCenter_1F_EventScript_ShowLuna
+	goto Route4_PokemonCenter_1F_OnTransition
+
+Route4_PokemonCenter_1F_EventScript_ShowLuna::
+	clearflag FLAG_HIDE_ROUTE4_POKEMON_CENTER_GIRL
+	return
+
+Route4_PokemonCenter_1F_EventScript_LunasMom::
+	lock
+	faceplayer
+	goto_if_set FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM, Route4_PokemonCenter_1F_EventScript_LunasMomThanksAgain
+	goto_if_set FLAG_RESCUED_MT_MOON_GIRL, Route4_PokemonCenter_1F_EventScript_LunasMomReward
+	msgbox Route4_PokemonCenter_1F_Text_LunasMomPleaseFindHer
+	release
+	end
+
+Route4_PokemonCenter_1F_EventScript_LunasMomReward::
+	msgbox Route4_PokemonCenter_1F_Text_LunasMomThankYou
+	checkitemspace ITEM_MOON_STONE
+	goto_if_eq VAR_RESULT, FALSE, Route4_PokemonCenter_1F_EventScript_LunasMomBagFull
+	kanto_giveitem_msg Route4_PokemonCenter_1F_Text_ReceivedMoonStone, ITEM_MOON_STONE
+	setflag FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM
+	msgbox Route4_PokemonCenter_1F_Text_LunasMomExplainMoonStone
+	release
+	end
+
+Route4_PokemonCenter_1F_EventScript_LunasMomBagFull::
+	msgbox Kanto_Text_BagIsFull
+	release
+	end
+
+Route4_PokemonCenter_1F_EventScript_LunasMomThanksAgain::
+	msgbox Route4_PokemonCenter_1F_Text_LunasMomThanksAgain
+	release
+	end
+
+Route4_PokemonCenter_1F_EventScript_Luna::
+	lock
+	faceplayer
+	call EventScript_GetMtMoonStarter
+	goto_if_set FLAG_CAUGHT_MT_MOON_STARTER, Route4_PokemonCenter_1F_EventScript_LunaAskAboutStarter
+	msgbox Route4_PokemonCenter_1F_Text_LunaStarterStillAlone
+	release
+	end
+
+Route4_PokemonCenter_1F_EventScript_LunaAskAboutStarter::
+	msgbox Route4_PokemonCenter_1F_Text_LunaHowIsStarter
+	release
+	end
+
+Route4_PokemonCenter_1F_Text_LunasMomPleaseFindHer:
+    .string "Oh, please, can you help me?\p"
+    .string "My daughter LUNA went into\n"
+    .string "MT. MOON to see the CLEFAIRY.\p"
+    .string "That was this morning, and she\n"
+    .string "still hasn't come back!\p"
+    .string "She loves quiet places, deep\n"
+    .string "underground…\p"
+    .string "She told me she saw a STAR shining\n"
+    .string "down there once. Please find her!$"
+
+Route4_PokemonCenter_1F_Text_LunasMomThankYou:
+    .string "LUNA told me everything!\n"
+    .string "You saved her from a wild POKéMON!\p"
+    .string "Thank you so much!\n"
+    .string "Please, take this.$"
+
+Route4_PokemonCenter_1F_Text_ReceivedMoonStone:
+    .string "{PLAYER} received a MOON STONE\n"
+    .string "from LUNA's mom.$"
+
+Route4_PokemonCenter_1F_Text_LunasMomExplainMoonStone:
+    .string "LUNA found it in MT. MOON.\p"
+    .string "They say the CLEFAIRY dance\n"
+    .string "around stones like that one.$"
+
+Route4_PokemonCenter_1F_Text_LunasMomThanksAgain:
+    .string "LUNA won't go into MT. MOON alone\n"
+    .string "anymore. Thank you again!$"
+
+Route4_PokemonCenter_1F_Text_LunaStarterStillAlone:
+    .string "LUNA: That {STR_VAR_1} is still all\n"
+    .string "alone in MT. MOON…\p"
+    .string "It needs a TRAINER.\n"
+    .string "Won't you go back for it?$"
+
+Route4_PokemonCenter_1F_Text_LunaHowIsStarter:
+    .string "LUNA: How's the {STR_VAR_1}?\p"
+    .string "I'm glad it isn't alone in the\n"
+    .string "dark anymore!$"
