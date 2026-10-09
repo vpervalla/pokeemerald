@@ -1,5 +1,6 @@
 # The champions' sprites, from the images in source/ (at their native pixel size, backgrounds
-# removed): each trainer pic is scaled to fit 64x64, and the overworld frames are cut from the
+# removed; Alain's trainer pic is a half-body pixel version of his anime artwork, touched up by
+# hand): each trainer pic is scaled to fit 64x64, and the overworld frames are cut from the
 # walking sheets (4 rows of 4 frames: down, left, right, up; columns: standing, step, standing,
 # other step). Every sprite gets its own 15-colour palette; on the maps the champions use the
 # special NPC palette slot (one champion per map). Run after changing the sources.
@@ -14,6 +15,7 @@ OW={
  'diantha':(32,32,1,(0,0,32,32),[],32,32),
  'alder':  (16,24,1,(0,-8,16,24),[],16,32),
  'leon':   (64,64,2,(0,0,32,32),[],32,32),
+ 'alain':  (34,36,1,(1,3,33,35),[],32,32),
 }
 def d(a,b): return sum((a[i]-b[i])**2 for i in range(3))
 def reduce(imgs,n=15):
@@ -82,5 +84,5 @@ def overworld(name):
     index(strip,pal).save(REPO+f'graphics/object_events/pics/kanto/people/champion_{name}.png')
     write_pal(REPO+f'graphics/object_events/palettes/kanto/champion_{name}.pal',pal)
 if __name__=='__main__':
-    for n in ('cynthia','alder','diantha','leon'):
+    for n in ('cynthia','alder','diantha','leon','alain'):
         front(n); overworld(n); print('wrote',n)

@@ -492,7 +492,9 @@
 #define TRAINER_TOURNAMENT_DIANTHA                            1345
 #define TRAINER_TOURNAMENT_LEON                               1346
 
-#define NUM_KANTO_TRAINERS 483
+#define TRAINER_ALAIN                                 1347
+
+#define NUM_KANTO_TRAINERS 484
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

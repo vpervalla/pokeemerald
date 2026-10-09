@@ -1,4 +1,4 @@
-// The champions of other regions, for the Mega Evolution tournament. Their sprites and palettes are
+// The champions of other regions (and Alain), for the Mega Evolution tournament. Their sprites and palettes are
 // made by tools/mega_island/champions/sprites.py. Each has its own palette and uses the special NPC
 // palette slot, so only one of them can be on a map at a time. Included by event_object_movement.c
 // after the Kanto object events.
@@ -7,13 +7,15 @@
 #define OBJ_EVENT_PAL_TAG_CHAMPION_ALDER    0x1151
 #define OBJ_EVENT_PAL_TAG_CHAMPION_DIANTHA  0x1152
 #define OBJ_EVENT_PAL_TAG_CHAMPION_LEON     0x1153
+#define OBJ_EVENT_PAL_TAG_ALAIN             0x1154
 
 // Entries for sObjectEventSpritePalettes
 #define CHAMPION_OBJECT_EVENT_SPRITE_PALETTES \
     {gObjectEventPal_ChampionCynthia, OBJ_EVENT_PAL_TAG_CHAMPION_CYNTHIA}, \
     {gObjectEventPal_ChampionAlder, OBJ_EVENT_PAL_TAG_CHAMPION_ALDER}, \
     {gObjectEventPal_ChampionDiantha, OBJ_EVENT_PAL_TAG_CHAMPION_DIANTHA}, \
-    {gObjectEventPal_ChampionLeon, OBJ_EVENT_PAL_TAG_CHAMPION_LEON},
+    {gObjectEventPal_ChampionLeon, OBJ_EVENT_PAL_TAG_CHAMPION_LEON}, \
+    {gObjectEventPal_Alain, OBJ_EVENT_PAL_TAG_ALAIN},
 
 const u16 gObjectEventPal_ChampionCynthia[] = INCGFX_U16("graphics/object_events/palettes/kanto/champion_cynthia.pal", ".gbapal");
 const u32 gObjectEventPic_ChampionCynthia[] = INCGFX_U32("graphics/object_events/pics/kanto/people/champion_cynthia.png", ".4bpp", "-mwidth 4 -mheight 4");
@@ -148,9 +150,44 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ChampionLeon = {
     .affineAnims = gDummySpriteAffineAnimTable,
 };
 
+const u16 gObjectEventPal_Alain[] = INCGFX_U16("graphics/object_events/palettes/kanto/champion_alain.pal", ".gbapal");
+const u32 gObjectEventPic_Alain[] = INCGFX_U32("graphics/object_events/pics/kanto/people/champion_alain.png", ".4bpp", "-mwidth 4 -mheight 4");
+
+static const struct SpriteFrameImage sPicTable_Alain[] = {
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 1),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 3),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 5),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 6),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 7),
+    overworld_frame(gObjectEventPic_Alain, 4, 4, 8),
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Alain = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_ALAIN,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_NPC_SPECIAL,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .disableReflectionPaletteLoad = TRUE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_Standard,
+    .images = sPicTable_Alain,
+    .affineAnims = gDummySpriteAffineAnimTable,
+};
+
 static const struct ObjectEventGraphicsInfo *const sChampionObjectEventGraphicsInfoPointers[NUM_CHAMPION_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_CHAMPION_CYNTHIA - OBJ_EVENT_GFX_CHAMPION_START] = &gObjectEventGraphicsInfo_ChampionCynthia,
     [OBJ_EVENT_GFX_CHAMPION_ALDER - OBJ_EVENT_GFX_CHAMPION_START] = &gObjectEventGraphicsInfo_ChampionAlder,
     [OBJ_EVENT_GFX_CHAMPION_DIANTHA - OBJ_EVENT_GFX_CHAMPION_START] = &gObjectEventGraphicsInfo_ChampionDiantha,
     [OBJ_EVENT_GFX_CHAMPION_LEON - OBJ_EVENT_GFX_CHAMPION_START] = &gObjectEventGraphicsInfo_ChampionLeon,
+    [OBJ_EVENT_GFX_ALAIN - OBJ_EVENT_GFX_CHAMPION_START] = &gObjectEventGraphicsInfo_Alain,
 };

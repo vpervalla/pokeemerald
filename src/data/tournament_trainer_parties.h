@@ -405,3 +405,50 @@ static const struct TrainerMonItemCustomMoves sParty_TournamentLeon[] = {
         .moves = {MOVE_FIRE_BLAST, MOVE_SOLAR_BEAM, MOVE_AERIAL_ACE, MOVE_DRAGON_CLAW},
     },
 };
+
+// ALAIN: the Mega Evolution trainer of the anime, with Mega Charizard X. Gen 1-3 stand-ins for
+// the rest of his team: Absol for Weavile, Swellow for Unfezant, Scizor for Bisharp.
+static const struct TrainerMonItemCustomMoves sParty_Alain[] = {
+    {
+        .iv = 255,
+        .lvl = 71,
+        .species = SPECIES_SWELLOW,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_FACADE, MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_ENDEAVOR},
+    },
+    {
+        .iv = 255,
+        .lvl = 71,
+        .species = SPECIES_ABSOL,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SWORDS_DANCE, MOVE_SHADOW_BALL, MOVE_AERIAL_ACE, MOVE_BITE},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_SCIZOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_METAL_CLAW, MOVE_SILVER_WIND, MOVE_SWORDS_DANCE, MOVE_QUICK_ATTACK},
+    },
+    {
+        .iv = 255,
+        .lvl = 72,
+        .species = SPECIES_TYRANITAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CRUNCH, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_FIRE_BLAST},
+    },
+    {
+        .iv = 255,
+        .lvl = 73,
+        .species = SPECIES_METAGROSS,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_METEOR_MASH, MOVE_EARTHQUAKE, MOVE_PSYCHIC, MOVE_AGILITY},
+    },
+    {
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_CHARIZARD,
+        .heldItem = ITEM_CHARIZARDITE_X,
+        .moves = {MOVE_DRAGON_DANCE, MOVE_DRAGON_CLAW, MOVE_FIRE_PUNCH, MOVE_THUNDER_PUNCH},
+    },
+};

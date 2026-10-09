@@ -91,7 +91,8 @@
 #define TRAINER_PIC_CHAMPION_ALDER                   155
 #define TRAINER_PIC_CHAMPION_DIANTHA                 156
 #define TRAINER_PIC_CHAMPION_LEON                    157
-#define TRAINER_PIC_KANTO_END 158
+#define TRAINER_PIC_ALAIN                            158
+#define TRAINER_PIC_KANTO_END 159
 
 // Entries for gTrainerClassNames and gTrainerMoneyTable
 #define KANTO_TRAINER_CLASS_NAMES \
