@@ -562,3 +562,29 @@ def pale_balustrade(c,x0,x1,y):
         for j in range(3,9):
             c.set(gx,y+j,(P2 if (gx%6) in (1,2) else (P0 if (gx%6)==3 else 0)) if j<8 else P1)
         c.set(gx,y+9,P3); c.set(gx,y+10,P1); c.set(gx,y+11,OUT)
+
+def turret(c,cx,ytop,ybody,ybot):
+    # A bartizan: a small round turret corbelled out of the wall, under a tall blue spire.
+    # Spire from ytop to ybody, body from ybody to ybot-12, corbel tapering to ybot. 24 px wide.
+    r=11
+    h=ybody-ytop
+    for j in range(h):                       # spire
+        half=max(1,int((r+1)*(j+1)/h+0.5))
+        for i in range(-half,half):
+            d=abs(i+0.5)/half
+            col=R2 if d<0.35 else (R1 if d<0.75 else R0)
+            if j%6==5: col=R0 if col!=R0 else OUT
+            c.set(cx+i,ytop+j,col)
+    c.set(cx-1,ytop-4,G); c.set(cx,ytop-4,G); c.vline(cx-1,ytop-3,3,G); c.vline(cx,ytop-3,3,G)
+    for i in range(-r-1,r+1): c.set(cx+i,ybody,S3); c.set(cx+i,ybody+1,OUT)
+    for j in range(ybody+2,ybot-12):         # body
+        for i in range(-r,r):
+            d=abs(i+0.5)/r
+            col=S3 if d<0.3 else (S2 if d<0.65 else (S1 if d<0.9 else S0))
+            if (j-ybody)%8==7: col=S0
+            c.set(cx+i,j,col)
+    c.rect(cx-1,ybody+8,2,10,OUT); c.set(cx-1,ybody+9,W1)   # arrow slit
+    for j in range(12):                      # corbel
+        half=max(1,int(r*(12-j)/12+0.5))
+        for i in range(-half,half):
+            c.set(cx+i,ybot-12+j,S2 if j%3 else S3)

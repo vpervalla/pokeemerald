@@ -125,7 +125,8 @@ def ground_bottom(kind,x,y):
     m=random.choice(GRASS)
     return list(PRIM.meta[m][:4])
 grid=[[0]*MW for _ in range(MH)]
-for y in range(MH):
+HIDDEN=5   # rows 0-4 are above anything the camera can show: they repeat row 5
+for y in range(HIDDEN,MH):
     for x in range(MW):
         has_art=any(OVER.get(x*16+i,y*16+j) for i in range(16) for j in range(16))
         if prim[y][x] is not None and not has_art:
@@ -147,6 +148,8 @@ for y in range(MH):
         top=[tile_entry(*e) if e else EMPTY_TOP for e in ov]
         attr=(layer[y][x]&0xf)<<12   # behavior MB_NORMAL
         grid[y][x]=metatile(bottom,top,attr)
+for y in range(HIDDEN):
+    grid[y]=list(grid[HIDDEN])
 print('secondary tiles',len(tiles),'metatiles',len(metatiles))
 if os.environ.get('PREVIEW'):
     from PIL import Image

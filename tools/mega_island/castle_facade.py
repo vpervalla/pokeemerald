@@ -24,8 +24,6 @@ def draw(c, MW, CX):
             if 0<=x<W-10: buttress(c,x,0,FB)
         for x in (CX-off+18, CX+off-46):
             if 0<=x<W-28 and k>1: tall_window(c,x,0,28,FB-24)   # the gate takes the first bays
-    for x in (CX-56,CX+44):
-        long_banner(c,x,FB-40,12)
     for (tx,r) in ((CX-160,44),(CX+160,44),(CX-352,32),(CX+352,32)):
         round_tower(c,tx,0,r,FB)
         for i in range(-r-4,r+4):
@@ -33,7 +31,12 @@ def draw(c, MW, CX):
                 d=abs(i+0.5)/(r+4)
                 c.set(tx+i,y,S2 if d<0.5 else (S1 if d<0.85 else S0))
             c.set(tx+i,FB-17,S3)
-        slit_window(c,tx-1,96,12)
+        long_banner(c,tx-6,FB-36,12)       # violet banners down the fronts of the great towers
+    # turrets with blue spires on the buttresses the great towers don't hide; their spires
+    # run up out of sight, so the castle still has no visible top
+    for k in (1,4,7):
+        for tx in (CX-64*k, CX+64*k):
+            if 12<=tx<=W-12: turret(c,tx,40,96,148)
     pale_gate(c,CX-32,FB-96,64,96)
 
     # ---- the forecourt on the bastion ----
