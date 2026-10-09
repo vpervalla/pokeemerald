@@ -44,4 +44,23 @@ def draw(c, MW, CX):
         c.rect(bx-1,F0-12,10,3,S4)
         c.rect(bx+2,F0-17,4,5,G)
     gargoyle2(c,CX-104,FB-28); gargoyle2(c,CX+72,FB-28)
-    gargoyle2(c,CX-SW//2-44,F1-30); gargoyle2(c,CX+SW//2+12,F1-30)
+    # the moat (rows 16-17): shadow where the rampart meets the water, a stone edge on the far bank
+    M0,M1=F1,F1+32
+    for x in range(W):
+        c.set(x,M0,OUT); c.set(x,M0+1,S0)
+        if x%3==0: c.set(x,M0+2,S0)
+        for y in range(M1,M1+6):
+            col=S4 if y==M1 else (S3 if y<M1+3 else (S2 if y<M1+5 else OUT))
+            if (x-CX)%32==31 and M1<y<M1+5: col=S1
+            c.set(x,y,col)
+    # a stone bridge carries the staircase over the moat, between the balustrades
+    for y in range(M0,M1+6):
+        for x in range(CX-SW//2,CX+SW//2):
+            col=S2 if (y-M0)%8 else S1
+            if (y-M0)%8==1: col=S3
+            c.set(x,y,col)
+    for bx in (CX-SW//2-8, CX+SW//2):
+        c.rect(bx,M0-2,8,M1-M0+8,S2); c.vline(bx,M0-2,M1-M0+8,S3); c.vline(bx+7,M0-2,M1-M0+8,S1)
+        c.rect(bx-1,M1+4,10,3,S4); c.rect(bx+2,M1-1,4,5,G)
+    # gargoyles at the courtyard end of the bridge
+    gargoyle2(c,CX-SW//2-44,M1+2); gargoyle2(c,CX+SW//2+12,M1+2)

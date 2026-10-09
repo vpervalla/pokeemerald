@@ -7485,7 +7485,7 @@
       "id": "LAYOUT_MEGA_ISLAND_CASTLE",
       "name": "MegaIsland_Castle_Layout",
       "width": 60,
-      "height": 36,
+      "height": 38,
       "primary_tileset": "gTileset_KantoGeneral",
       "secondary_tileset": "gTileset_KantoMegaCastle",
       "border_filepath": "data/layouts/MegaIsland_Castle/border.bin",

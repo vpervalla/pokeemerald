@@ -10,7 +10,7 @@ PRIM_ATTRS=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/prima
 random.seed(7)
 
 # ---- compose the map art (indexed canvas the size of the map) ----
-MW,MH=60,36
+MW,MH=60,38
 CX=30*16                    # gate axis (between cols 29 and 30)
 c=Canvas(MW*16,MH*16)
 import castle_facade
@@ -22,35 +22,31 @@ for y in range(0,10):                    # the castle
     for x in range(MW): coll[y][x]=1
 for y in (10,11):                        # terrace on top of the rampart
     for x in range(MW): ground[y][x]='flag'
-for y in range(12,16):                   # rampart wall, except the staircase
-    for x in range(MW):
-        if not 28<=x<=31: coll[y][x]=1
-for x in (25,26,27,32,33,34):            # gargoyle pedestals at the foot of the staircase
-    coll[15][x]=1; coll[16][x]=1
 for x in (23,24,25,34,35,36):            # gargoyles on the terrace (the row below stays a walkway)
     coll[10][x]=1
-for x in (27,32):                        # balustrades
-    for y in (11,12,13,14,15): coll[y][x]=1
-# courtyard: plaza at the foot of the rampart, path south
-# flagstones stop at the fence: the path beyond is grass from the shared primary tileset, so the
-# route (which draws this map's edge with its own tileset) shows it correctly
-for y in range(16,22):
+for y in range(12,18):                   # rampart wall and moat, except the staircase and bridge
+    for x in range(MW):
+        if not 28<=x<=31: coll[y][x]=1
+for y in (16,17):                        # the moat runs the whole width, into the forest on both sides
+    for x in range(MW): ground[y][x]='water'
+for x in (27,32):                        # balustrades and bridge parapets
+    for y in range(11,19): coll[y][x]=1
+for x in (25,26,27,32,33,34):            # gargoyles at the end of the bridge
+    coll[19][x]=1; coll[20][x]=1; layer[18][x]=0
+# courtyard: plaza beyond the moat, path south; flagstones stop at the fence (the path beyond is
+# grass from the shared primary tileset, so the route shows this map's edge correctly)
+for y in range(18,23):
     for x in range(28,32): ground[y][x]='flag'
-for y in range(16,20):
+for y in range(19,22):
     for x in range(22,38): ground[y][x]='flag'
-FR=22
+FR=23
 for x in range(14,46):
     if 27<=x<=32: continue
     fence(c,x*16,FR*16-8); coll[FR][x]=1; layer[FR-1][x]=0
 for px in (27,32):
     gate_pillar(c,px*16,(FR-2)*16+8); coll[FR][px]=1; coll[FR-1][px]=1; layer[FR-2][px]=0
-for (lx,ly) in ((26,18),(33,18),(27,26),(32,26)):
+for (lx,ly) in ((23,21),(36,21),(27,27),(32,27)):
     lamp_post(c,lx*16,(ly-1)*16); coll[ly][lx]=1; layer[ly-1][lx]=0
-for (tx,ty) in ((17,18),(20,20),(39,20),(42,18),(19,26),(40,26)):
-    dead_tree(c,tx*16,(ty-2)*16)
-    coll[ty][tx+1]=1
-    for yy in (ty-2,ty-1):
-        for xx in (tx,tx+1): layer[yy][xx]=0
 c.outline()
 OVER=c
 
@@ -65,15 +61,14 @@ def tree_block(grid,x0,y0,w,h):
             grid[ty+1][tx]=0x24 if last else 0x16; grid[ty+1][tx+1]=0x25 if last else 0x17
             if ty==y0 and ty>0: grid[ty-1][tx]=0xe; grid[ty-1][tx+1]=0xf
 prim=[[None]*MW for _ in range(MH)]
-# the wings disappear into the forest on both sides; the forest closes in around the path
-tree_block(prim,0,8,14,MH-8); tree_block(prim,46,8,14,MH-8)
-tree_block(prim,14,28,14,MH-28); tree_block(prim,32,28,14,MH-28)
-tree_block(prim,14,13,2,14); tree_block(prim,44,13,2,14)
+# the wings disappear into the forest on both sides; the moat runs between the forests
+tree_block(prim,0,8,14,8); tree_block(prim,46,8,14,8)
+tree_block(prim,0,20,16,MH-20); tree_block(prim,44,20,16,MH-20)
+tree_block(prim,16,30,12,MH-30); tree_block(prim,32,30,12,MH-30)
 for y in range(MH):
     for x in range(MW):
         if prim[y][x] is not None:
             coll[y][x]=0 if prim[y][x] in (0xe,0xf) else 1
-            if prim[y][x] in (0xe,0xf) and y<16: coll[y][x]=1
 
 # ---- tileset building ----
 tiles=[]; tindex={}
@@ -108,6 +103,7 @@ for v in range(2):
     FLAG.append([tile_entry(*e) for e in t])
 def ground_bottom(kind,x,y):
     if kind=='flag': return FLAG[(x+y)%2]
+    if kind=='water': return list(PRIM.meta[0x12b][:4])
     m=random.choice(GRASS)
     return list(PRIM.meta[m][:4])
 grid=[[0]*MW for _ in range(MH)]
@@ -139,7 +135,7 @@ if os.environ.get('PREVIEW'):
     img=Image.new('RGB',(MW*16,MH*16))
     for y in range(MH):
         for x in range(MW):
-            m=prim[y][x] if prim[y][x] is not None else 8
+            m=prim[y][x] if prim[y][x] is not None else (0x12b if ground[y][x]=='water' else 8)
             pm=PRIM.meta[m]
             for i in range(4): PRIM.tile(img,pm[i],x*16+(i&1)*8,y*16+(i>>1)*8,False)
             if prim[y][x] is None and ground[y][x]=='flag':
