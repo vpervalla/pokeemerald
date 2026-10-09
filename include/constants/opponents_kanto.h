@@ -481,7 +481,18 @@
 #define TRAINER_KANTO_YOUNG_COUPLE_GIA_JES               1336
 #define TRAINER_KANTO_YOUNG_COUPLE_LEA_JED               1337
 
-#define NUM_KANTO_TRAINERS 474
+// Added for the Mega Evolution tournament (not generated)
+#define TRAINER_TOURNAMENT_BLUE_BULBASAUR                     1338
+#define TRAINER_TOURNAMENT_BLUE_CHARMANDER                    1339
+#define TRAINER_TOURNAMENT_BLUE_SQUIRTLE                      1340
+#define TRAINER_TOURNAMENT_LANCE                              1341
+#define TRAINER_TOURNAMENT_STEVEN                             1342
+#define TRAINER_TOURNAMENT_CYNTHIA                            1343
+#define TRAINER_TOURNAMENT_ALDER                              1344
+#define TRAINER_TOURNAMENT_DIANTHA                            1345
+#define TRAINER_TOURNAMENT_LEON                               1346
+
+#define NUM_KANTO_TRAINERS 483
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

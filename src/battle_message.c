@@ -43,6 +43,16 @@ struct BattleWindowText
     u8 shadowColor;
 };
 
+// Kanto's rival (TERRY in the trainer data) is called by the name the player gave him.
+static const u8 *GetKantoTrainerName(u16 trainerId)
+{
+    const u8 *name = gTrainers[trainerId].trainerName;
+
+    if (!StringCompare(name, gText_DefaultNameTerry) && gSaveBlock2Ptr->rivalName[0] != EOS && gSaveBlock2Ptr->rivalName[0] != 0)
+        return gSaveBlock2Ptr->rivalName;
+    return name;
+}
+
 static void ChooseMoveUsedParticle(u8 *textPtr);
 static void ChooseTypeOfMoveUsedString(u8 *dst);
 static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst);
@@ -2606,7 +2616,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    toCpy = gTrainers[gTrainerBattleOpponent_A].trainerName;
+                    toCpy = GetKantoTrainerName(gTrainerBattleOpponent_A);
                 }
                 break;
             case B_TXT_LINK_PLAYER_NAME: // link player name
@@ -2724,7 +2734,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 }
                 else
                 {
-                    toCpy = gTrainers[gTrainerBattleOpponent_B].trainerName;
+                    toCpy = GetKantoTrainerName(gTrainerBattleOpponent_B);
                 }
                 break;
             case B_TXT_TRAINER2_LOSE_TEXT:

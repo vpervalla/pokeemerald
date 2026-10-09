@@ -10262,4 +10262,5 @@ const struct Trainer gTrainers[] = {
     },
 
 #include "kanto_trainers.h"
+#include "tournament_trainers.h"
 };

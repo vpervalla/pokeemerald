@@ -323,6 +323,7 @@ STATIC_ASSERT(NUM_SPECIES_WITH_FORMS <= SPECIES_SHINY_TAG, SpeciesPaletteTagsOve
 #include "data/pokemon_graphics/shiny_palette_table.h"
 
 #include "data/trainer_graphics/kanto_trainer_pics.h"
+#include "data/trainer_graphics/champion_trainer_pics.h"
 #include "data/trainer_graphics/front_pic_anims.h"
 #include "data/trainer_graphics/front_pic_tables.h"
 #include "data/trainer_graphics/back_pic_anims.h"
@@ -335,6 +336,7 @@ STATIC_ASSERT(NUM_SPECIES_WITH_FORMS <= SPECIES_SHINY_TAG, SpeciesPaletteTagsOve
 
 #include "data/trainer_parties.h"
 #include "data/kanto_trainer_parties.h"
+#include "data/tournament_trainer_parties.h"
 #include "data/text/trainer_class_names.h"
 #include "data/trainers.h"
 #include "data/text/species_names.h"

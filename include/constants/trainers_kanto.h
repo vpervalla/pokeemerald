@@ -86,7 +86,12 @@
 #define TRAINER_PIC_KANTO_TWINS                      151
 #define TRAINER_PIC_KANTO_YOUNGSTER                  152
 #define TRAINER_PIC_KANTO_YOUNG_COUPLE               153
-#define TRAINER_PIC_KANTO_END 154
+// Added for the Mega Evolution tournament (not generated): the champions of other regions
+#define TRAINER_PIC_CHAMPION_CYNTHIA                 154
+#define TRAINER_PIC_CHAMPION_ALDER                   155
+#define TRAINER_PIC_CHAMPION_DIANTHA                 156
+#define TRAINER_PIC_CHAMPION_LEON                    157
+#define TRAINER_PIC_KANTO_END 158
 
 // Entries for gTrainerClassNames and gTrainerMoneyTable
 #define KANTO_TRAINER_CLASS_NAMES \
