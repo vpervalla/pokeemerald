@@ -114,7 +114,10 @@ PalletTown_PlayersHouse_1F_EventScript_MomHasLetter::
 	closemessage
 	call PalletTown_PlayersHouse_1F_EventScript_BufferStarterStone
 	msgbox PalletTown_PlayersHouse_1F_Text_Invitation
+	goto_if_eq VAR_STARTER_MON, 2, PalletTown_PlayersHouse_1F_EventScript_TwoCharizardStones
+	msgbox PalletTown_PlayersHouse_1F_Text_InvitationOneStone
 	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, VAR_0x8004, 1, MUS_RG_OBTAIN_KEY_ITEM
+PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomDoYourBest
 	closemessage
 	setvar VAR_MEGA_STORY_STATE, 2
@@ -139,6 +142,15 @@ PalletTown_PlayersHouse_1F_EventScript_StoneBlastoise::
 	setvar VAR_0x8004, ITEM_BLASTOISINITE
 	setvar VAR_0x8005, SPECIES_BLASTOISE
 	return
+
+@ CHARIZARD has two MEGA STONES, and the letter holds both.
+PalletTown_PlayersHouse_1F_EventScript_TwoCharizardStones::
+	msgbox PalletTown_PlayersHouse_1F_Text_InvitationTwoStones
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, ITEM_CHARIZARDITE_X, 1, MUS_RG_OBTAIN_KEY_ITEM
+	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_Y
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundSecondStone, ITEM_CHARIZARDITE_Y, 1, MUS_RG_OBTAIN_KEY_ITEM
+	goto PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff
+	end
 
 PalletTown_PlayersHouse_1F_EventScript_StoneCharizard::
 	setvar VAR_0x8004, ITEM_CHARIZARDITE_X
@@ -192,14 +204,27 @@ PalletTown_PlayersHouse_1F_Text_Invitation:
     .string "I have prepared a tournament.\l"
     .string "You are invited.\p"
     .string "A ship will wait for you at\n"
-    .string "VERMILION HARBOR.\p"
+    .string "VERMILION HARBOR.$"
+
+PalletTown_PlayersHouse_1F_Text_InvitationOneStone:
     .string "The stone in this letter is meant\n"
     .string "for {STR_VAR_3}.\l"
     .string "Awaken its power.\p"
     .string "M.”$"
 
+PalletTown_PlayersHouse_1F_Text_InvitationTwoStones:
+    .string "The two stones in this letter are\n"
+    .string "meant for {STR_VAR_3}.\l"
+    .string "Each awakens a different power.\p"
+    .string "Choose well.\p"
+    .string "M.”$"
+
 PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter:
     .string "There was something in the letter!\p"
+    .string "{PLAYER} found the {STR_VAR_1}!$"
+
+PalletTown_PlayersHouse_1F_Text_FoundSecondStone:
+    .string "There was another one!\p"
     .string "{PLAYER} found the {STR_VAR_1}!$"
 
 PalletTown_PlayersHouse_1F_Text_MomDoYourBest:

@@ -55,8 +55,8 @@ STONE, and the player has none.
    black screen. After the credits, Continue puts the player in their room in Pallet Town.
 3. **The invitation.** When the player comes downstairs, MOM gives them a letter that
    appeared on the table: MEWTWO's invitation to the tournament, signed "M.". The MEGA STONE of
-   the player's starter is inside: VENUSAURITE, BLASTOISINITE or CHARIZARDITE X (from
-   `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor appears.
+   the player's starter is inside: VENUSAURITE or BLASTOISINITE, or both CHARIZARDITE X and Y
+   for CHARMANDER (from `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor appears.
 
 ## The castle tilesets
 
