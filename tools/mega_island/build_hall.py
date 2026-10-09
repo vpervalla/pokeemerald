@@ -24,10 +24,9 @@ for y in range(H1):
     for x in range(W1):
         if y<2 or x in (0,W1-1): coll1[y][x]=1                # north wall, side walls
 for x in (12,13): coll1[1][x]=0; beh1[1][x]=MB_NON_ANIMATED_DOOR   # the door to the court
-for (xs,warp) in (((1,2,3),2),((22,23,24),23)):               # stairs: only the bottom step is used
-    for x in xs:
-        for y in (2,3,4): coll1[y][x]=1
-    coll1[4][warp]=0; beh1[4][warp]=MB_NORTH_ARROW_WARP
+for x in (1,2,3,22,23,24): beh1[2][x]=MB_NORTH_ARROW_WARP    # top steps: up to the 2F
+for y in range(2,7):
+    for x in (4,21): coll1[y][x]=1                           # balustrades
 for y in (5,6):
     for x in range(9,17): coll1[y][x]=1                      # reception desk
 for (x,y) in ((6,4),(19,4),(6,10),(19,10)):
@@ -44,10 +43,8 @@ for y in range(H2):
         if y<2 or x in (0,W2-1) or y==H2-1: coll2[y][x]=1
 DOORS=(4,7,10,15,18,21)
 for x in DOORS: coll2[1][x]=0; beh2[1][x]=MB_NON_ANIMATED_DOOR   # guest room doors
-for (xs,warp) in (((1,2,3),2),((22,23,24),23)):               # stairs down: the top step
-    for x in xs:
-        for y in (4,5,6,7): coll2[y][x]=1
-    coll2[4][warp]=0; beh2[4][warp]=MB_SOUTH_ARROW_WARP
+for y in (3,4,5,6):                                           # stairs down at both ends
+    beh2[y][1]=MB_WEST_ARROW_WARP; beh2[y][W2-2]=MB_EAST_ARROW_WARP
 g2=build(c2,W2,H2,coll2,beh2)
 
 # ---- a guest room (one layout for all the rooms) ----

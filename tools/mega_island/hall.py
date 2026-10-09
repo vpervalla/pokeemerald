@@ -105,6 +105,37 @@ def candelabra(c,x,y):
         c.vline(x+cx-1,y+5,3,S3); c.set(x+cx-1,y+4,W1); c.set(x+cx-1,y+3,R2)
 
 # ---------------- stairs ----------------
+def stairs_north(c,x0,y0,w,h):
+    # Pale steps rising northwards (8 px each), shaded at the sides.
+    for gy in range(y0,y0+h):
+        for gx in range(x0,x0+w):
+            j=(gy-y0)%8
+            col=P4 if j==0 else (P3 if j<3 else (P2 if j<6 else P0))
+            if gx-x0<2: col=S3 if j<6 else S2
+            elif x0+w-1-gx<2: col=S1
+            c.set(gx,gy,col)
+
+def stairs_side(c,x0,y0,w,h,down_west):
+    # Pale steps going down towards the west (or east), 8 px each.
+    for gx in range(x0,x0+w):
+        k=(gx-x0) if not down_west else (x0+w-1-gx)
+        j=k%8
+        for gy in range(y0,y0+h):
+            col=P4 if j==0 else (P3 if j<3 else (P2 if j<6 else P0))
+            if gy-y0<2: col=S3
+            elif y0+h-1-gy<2: col=S1
+            c.set(gx,gy,col)
+
+def rail_v(c,x,y0,h):
+    # A dark balustrade running north-south, in a 16 px cell (rail in the middle).
+    for gy in range(y0,y0+h):
+        for gx in range(x+4,x+12):
+            i=gx-x
+            col=S3 if i<6 else (S2 if i<10 else S1)
+            if gy%16 in (0,1): col=S3
+            if i in (4,11): col=OUT
+            c.set(gx,gy,col)
+
 def stairs_diag(c,x0,y0,up_left):
     # A diagonal flight in a 48x48 box, rising towards the upper-left (or upper-right) corner,
     # with a railing along its outer side. Steps are 8 px tall, shifted 4 px per step.
@@ -232,10 +263,11 @@ def draw_hall(c):
     for x in (88,120,280,312): window(c,x,6)
     for x in (152,248): candelabra(c,x,12)
     pale_gate(c,192,0,32,32)                         # the door to the court (cols 12-13, row 1)
-    for (x0,ul) in ((16,True),(W-64,False)):         # stairs up in both top corners
-        for gy in range(0,16):                       # dark landing through the wall
+    for x0 in (16,W-64):                             # stairs up along both side walls (cols 1-3, 22-24)
+        for gy in range(0,32):                       # opening through the wall to the upper floor
             for gx in range(x0,x0+48): c.set(gx,gy,S0 if gy>3 else OUT)
-        stairs_diag(c,x0,16,ul)
+        stairs_north(c,x0,32,48,80)                  # rows 2-6
+    rail_v(c,64,32,80); rail_v(c,W-80,32,80)         # balustrades, cols 4 and 21
     wall_side(c,0,0,H); wall_side(c,W-16,0,H)
     runner(c,192,32,32,48,False)                     # from the door to the desk
     runner(c,192,112,32,H-128,False)                 # from the desk to the entrance
@@ -251,9 +283,9 @@ def draw_corridor(c):
     runner(c,48,56,W-96,16,True)
     for x in (4,7,10,15,18,21): door(c,x*16,8)
     for x in (88,136,184,216,264,312): candelabra(c,x,12)   # between the doors
-    for (x0,ul) in ((16,False),(W-64,True)):         # stairs down in both bottom corners
-        marble(c,x0,H-64,48,48)
-        stairs_diag(c,x0,H-64,ul)
+    marble(c,16,32,32,H-48); marble(c,W-48,32,32,H-48)   # stone landings at both ends
+    stairs_side(c,16,48,32,64,True)                  # down to the west, cols 1-2 rows 3-6
+    stairs_side(c,W-48,48,32,64,False)               # down to the east, cols 23-24 rows 3-6
     wall_side(c,0,0,H); wall_side(c,W-16,0,H)
     wall_bottom(c,0,W,H-16)
 
