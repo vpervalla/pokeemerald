@@ -220,6 +220,9 @@ class ScriptPorter:
             return self.localids[tok]
         if tok in self.const_renames:
             return self.const_renames[tok]
+        if tok.startswith("INGAME_TRADE_"):
+            # FRLG's in-game trades are added after Emerald's (include/constants/trade.h)
+            return "INGAME_TRADE_KANTO_" + tok[len("INGAME_TRADE_"):]
         if tok.startswith("FLAG_"):
             if tok not in self.defined_flags:
                 self.flags.add(tok)

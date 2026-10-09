@@ -129,6 +129,7 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_FossilStillReviving::
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_Garett::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_SEEL
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_SEELOR_TRADE, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_AlreadyTraded
 	msgbox Kanto_Trade_Text_LookingForMonWannaTradeForMon, MSGBOX_YESNO

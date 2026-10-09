@@ -16,6 +16,7 @@ CeruleanCity_House3_EventScript_DeclineTrade::
 CeruleanCity_House3_EventScript_Dontae::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_JYNX
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_ZYNX_TRADE, CeruleanCity_House3_EventScript_AlreadyTraded
 	msgbox Kanto_Trade_Text_DoYouHaveMonWouldYouTradeForMon, MSGBOX_YESNO

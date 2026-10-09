@@ -119,3 +119,13 @@ They all stand at (10, 7), next to the table. The shared script is
 `INGAME_TRADE_EXCHANGE_*` and checks its flag. Their POKéMON (in `src/data/trade.h`) never evolve
 through trade, so the first half of the exchange doesn't evolve them. Like any trade, the exchange
 registers the trader's POKéMON in the POKéDEX.
+
+## FireRed's in-game trades
+
+FireRed's nine NPC trades are the only way to get some POKéMON: MR. MIME (Route 2), JYNX
+(Cerulean City), FARFETCH'D (Vermilion City), LICKITUNG (Route 18), and also NIDORAN♀ (Underground
+Path), NIDORINA (Route 11), ELECTRODE, TANGELA and SEEL (Cinnabar Lab). The port had dropped their
+`setvar VAR_0x8008, INGAME_TRADE_*`, because Emerald had no such constants, so every one of them
+ran Emerald's trade 0. Their trades are now in `src/data/trade.h` as `INGAME_TRADE_KANTO_*`
+(FireRed's versions, with ZYNX's mail), and `port_trainers.py` maps FRLG's `INGAME_TRADE_*`
+names to them, so porting the NPCs again keeps them.

@@ -22,6 +22,7 @@ UndergroundPath_NorthEntrance_EventScript_NotRequestedMon::
 UndergroundPath_NorthEntrance_EventScript_Saige::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_NIDORAN
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_MS_NIDO_TRADE, UndergroundPath_NorthEntrance_EventScript_AlreadyTraded
 	msgbox Kanto_Trade_Text_DoYouHaveMonWantToTradeForMon, MSGBOX_YESNO
