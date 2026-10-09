@@ -16,46 +16,60 @@
   "object_events": [],
   "warp_events": [
     {
-      "x": 1,
-      "y": 9,
+      "x": 2,
+      "y": 4,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
       "dest_warp_id": "4"
     },
     {
-      "x": 1,
-      "y": 10,
+      "x": 23,
+      "y": 4,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
       "dest_warp_id": "5"
     },
     {
-      "x": 1,
-      "y": 11,
+      "x": 4,
+      "y": 1,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "6"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM1",
+      "dest_warp_id": "0"
     },
     {
-      "x": 28,
-      "y": 9,
+      "x": 7,
+      "y": 1,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "7"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM2",
+      "dest_warp_id": "0"
     },
     {
-      "x": 28,
-      "y": 10,
+      "x": 10,
+      "y": 1,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "8"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM3",
+      "dest_warp_id": "0"
     },
     {
-      "x": 28,
-      "y": 11,
+      "x": 15,
+      "y": 1,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "9"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM4",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 18,
+      "y": 1,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM5",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 21,
+      "y": 1,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM6",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],
