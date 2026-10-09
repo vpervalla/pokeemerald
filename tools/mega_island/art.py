@@ -560,12 +560,15 @@ def obelisk(c,x,y,h):
     c.set(x+7,y-3,G); c.set(x+8,y-3,G); c.set(x+7,y-2,G); c.set(x+8,y-2,G)
 
 def pale_balustrade(c,x0,x1,y):
-    # A low pale parapet: rail, balusters and base, 12 px tall.
+    # A low pale parapet seen from above: a wide rail top, short balusters and a base, 12 px.
     for gx in range(x0,x1):
-        c.set(gx,y,P4); c.set(gx,y+1,P3); c.set(gx,y+2,OUT)
-        for j in range(3,9):
-            c.set(gx,y+j,(P2 if (gx%6) in (1,2) else (P0 if (gx%6)==3 else 0)) if j<8 else P1)
-        c.set(gx,y+9,P3); c.set(gx,y+10,P1); c.set(gx,y+11,OUT)
+        for j in range(12):
+            if j<5: col=P4 if j==0 else (P3 if j<3 else P2)
+            elif j==5: col=OUT
+            elif j<9: col=(P1 if (gx%6) in (1,2) else S1)
+            elif j<11: col=P1
+            else: col=OUT
+            c.set(gx,y+j,col)
 
 def turret(c,cx,ytop,ybody,ybot):
     # A bartizan: a small round turret corbelled out of the wall, under a tall blue spire.
@@ -580,8 +583,11 @@ def turret(c,cx,ytop,ybody,ybot):
             if j%6==5: col=R0 if col!=R0 else OUT
             c.set(cx+i,ytop+j,col)
     c.set(cx-1,ytop-4,G); c.set(cx,ytop-4,G); c.vline(cx-1,ytop-3,3,G); c.vline(cx,ytop-3,3,G)
-    for i in range(-r-1,r+1): c.set(cx+i,ybody,S3); c.set(cx+i,ybody+1,OUT)
-    for j in range(ybody+2,ybot-12):         # body
+    for i in range(-r-1,r+1):                # elliptical eave seen from above
+        dy=int(3*(1-((i+0.5)/(r+1))**2)**0.5+0.5)
+        for k in range(dy+1): c.set(cx+i,ybody-1+k,R0)
+        c.set(cx+i,ybody+dy,OUT)
+    for j in range(ybody+4,ybot-12):         # body
         for i in range(-r,r):
             d=abs(i+0.5)/r
             col=S3 if d<0.3 else (S2 if d<0.65 else (S1 if d<0.9 else S0))
@@ -592,3 +598,28 @@ def turret(c,cx,ytop,ybody,ybot):
         half=max(1,int(r*(12-j)/12+0.5))
         for i in range(-half,half):
             c.set(cx+i,ybot-12+j,S2 if j%3 else S3)
+
+def cone_roof3q(c,cx,ytip,r,h):
+    # A conical roof seen from the game's high camera: the cone rises from an elliptical eave
+    # (we see the rim from above), shaded across, with shingle rows and a gold finial.
+    ey=ytip+h; ry=max(3,r*0.38)
+    for gy in range(ytip,int(ey+ry)+1):
+        for gx in range(cx-r-1,cx+r+1):
+            dx=gx+0.5-cx
+            in_ell=(dx/r)**2+((gy+0.5-ey)/ry)**2<=1
+            # the cone's sides: straight lines from the tip to the ellipse's widest points
+            t=(gy-ytip)/h
+            in_cone=gy<=ey and abs(dx)<=r*t
+            if not (in_ell or in_cone): continue
+            d=abs(dx)/r
+            col=R2 if dx<-r*0.35 else (R1 if dx<r*0.3 else R0)
+            if in_cone and not in_ell and (gy-ytip)%6==5: col=R0 if col!=R0 else OUT
+            if in_ell and not in_cone:
+                col=R0 if gy>ey else col
+            c.set(gx,gy,col)
+    for gx in range(cx-r-1,cx+r+1):           # eave rim: the lower half of the ellipse
+        dx=gx+0.5-cx
+        if abs(dx)<=r:
+            y=int(ey+ry*(1-(dx/r)**2)**0.5)
+            c.set(gx,y,OUT); c.set(gx,y-1,S1)
+    c.vline(cx-1,ytip-5,5,G); c.vline(cx,ytip-5,5,G); c.set(cx-1,ytip-6,G); c.set(cx,ytip-6,G)

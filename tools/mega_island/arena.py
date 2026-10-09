@@ -10,29 +10,29 @@ WALL_B=144                   # bottom of the north wall (row 9)
 FX0,FX1,FY0,FY1=112,400,208,384   # the field
 
 def bench_tiers_south(c,x0,x1,y0,tiers):
-    # Stands facing south (seen from the front): each 16 px tier is a pale bench over a dark riser.
+    # Stands facing south, seen from above: each 16 px tier is mostly the bench top (pale), with a
+    # thin dark riser at its front.
     for t in range(tiers):
         y=y0+t*16
         for gx in range(x0,x1):
             for j in range(16):
-                if j<5: col=P4 if j==0 else (P3 if j<3 else P2)
-                elif j==5: col=OUT
-                else: col=S1 if j<14 else S0
-                if j>5 and gx%16==15: col=S0
+                if j<11: col=P4 if j==0 else (P3 if j<4 else P2)
+                elif j==11: col=P0
+                else: col=S1 if j<15 else S0
+                if j<11 and gx%32==31: col=P1                 # seat dividers
                 c.set(gx,y+j,col)
 
 def bench_tiers_side(c,x0,y0,y1,tiers,face):
     # Side stands, seen from above: tiers step down towards the field. face=+1: the field is to the
-    # east (west stand), -1: to the west. Each tier is 16 px: a pale bench and a dark riser.
+    # east (west stand), -1: to the west. Each tier is 16 px: a wide bench top and a thin riser.
     for t in range(tiers):
-        for i in range(16):
-            gx=x0+t*16+i if face>0 else x0-t*16-i-1
-            k=i if face>0 else i      # distance from the tier's back edge
+        for k in range(16):
+            gx=x0+t*16+k if face>0 else x0-t*16-k-1
             for gy in range(y0,y1):
-                if k<10: col=P3 if k<2 else (P2 if k<8 else P1)
-                elif k==10: col=OUT
+                if k<12: col=P3 if k<2 else (P2 if k<11 else P1)
+                elif k==12: col=P0
                 else: col=S1 if k<15 else S0
-                if gy%16==15 and k<10: col=P0
+                if gy%32==31 and k<12: col=P1                 # seat dividers
                 c.set(gx,gy,col)
 
 def brazier(c,x,y):
@@ -86,40 +86,34 @@ def field(c):
                 c.set(gx,gy,col)
 
 def balcony(c):
-    # The host's box in the middle of the north wall: violet drapes, a throne, a pale balustrade.
+    # The host's box, seen from above: a pale platform projecting from the keep, a throne, a
+    # violet canopy with a gold fringe, a thin rail along the front and a short shadowed face.
     x0,x1=CX-48,CX+48
-    for gy in range(88,140):           # drapes
+    for gy in range(128,176):                          # platform floor
         for gx in range(x0,x1):
-            k=(gx-x0)%12
-            col=C1 if k<6 else C0
-            if gy<92: col=G
-            c.set(gx,gy,col)
-    for gx in range(x0,x1):            # gathered curtain edge
-        if (gx-x0)%12 in (5,6,11,0): c.set(gx,140,C0); c.set(gx,141,C0)
-    tx=CX-12                           # throne
-    for gy in range(104,148):
+            ch=FLAG_A[gy%16][gx%16]
+            c.set(gx,gy,P0 if ch=='#' else P3)
+    tx=CX-12
+    for gy in range(144,168):                          # throne: back (dark) and seat (indigo)
         for gx in range(tx,tx+24):
-            dx=min(gx-tx,tx+23-gx)
-            if gy<112 and dx<6+(gy-104): continue
-            col=S1 if dx>3 else S2
-            if dx==0: col=OUT
-            if gy in (126,127): col=G
-            c.set(gx,gy,col)
-    c.rect(tx+8,104,8,4,G)
-    for gy in range(148,168):          # balcony floor (pale stone)
-        for gx in range(x0-8,x1+8):
-            c.set(gx,gy,P3 if gy==148 else (P2 if gy<164 else P0))
-    for gx in range(x0-8,x1+8):        # front balustrade
-        for j in range(12):
-            gy=168+j
-            col=P4 if j==0 else (P3 if j==1 else (P2 if (gx%6) in (1,2) else (P0 if (gx%6)==3 else 0)))
-            if j>=9: col=P1 if j<11 else OUT
+            i,j=gx-tx,gy-144
+            if j<8: col=S1 if 2<=i<=21 else 0
+            elif j<22: col=R1 if 5<=i<=18 else (S2 if 2<=i<=21 else 0)
+            else: col=S0 if 2<=i<=21 else 0
+            if j==8 and 2<=i<=21: col=G
             if col: c.set(gx,gy,col)
-    for gy in range(180,192):          # corbels under the balcony, in its shadow
-        for gx in range(x0-8,x1+8):
-            c.set(gx,gy,S0)
-            if (gx-x0)%16<10 and (gy-180)<(10-abs((gx-x0)%16-5)*2):
-                c.set(gx,gy,S2 if (gx-x0)%16<5 else S1)
+    c.rect(tx+10,145,4,3,G)
+    for gy in range(112,144):                          # canopy over the back of the box
+        for gx in range(x0,x1):
+            col=C1 if ((gx-x0)//8)%2 else C0
+            if gy>=140: col=G if (gx%4)<2 else C0      # fringe
+            c.set(gx,gy,col)
+    for gx in range(x0,x1):                            # rail (top seen from above) and posts
+        c.set(gx,174,P4); c.set(gx,175,P3)
+        for gy in range(176,192):
+            col=S0 if gy>176 else OUT
+            if (gx-x0)%16 in (0,1) and gy<186: col=S2
+            c.set(gx,gy,col)
 
 def south_wall(c):
     # The wall-walk along the south side, seen from above: dark flagstones behind a crenellated
@@ -156,8 +150,8 @@ def draw(c):
     for x in (CX-96-6, CX+96-6):
         long_banner(c,x,WALL_B-30,12)
     balcony(c)
-    bench_tiers_south(c,80,CX-56,WALL_B,3)
-    bench_tiers_south(c,CX+56,W-80,WALL_B,3)
+    bench_tiers_south(c,80,CX-48,WALL_B,3)
+    bench_tiers_south(c,CX+48,W-80,WALL_B,3)
     bench_tiers_side(c,0,WALL_B,400,5,+1)
     bench_tiers_side(c,W,WALL_B,400,5,-1)
     # paved walkway around the field

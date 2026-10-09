@@ -17,7 +17,7 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 26x16, `kanto_building` + `kanto_mega_hall` | The entrance hall, behind the castle gate: dark marble, a violet runner from the entrance to the door of the court, a short stone wall with arched windows and candelabras, and pillars. Diagonal staircases in both top corners go up to the guest floor. The receptionist stands behind a wooden desk in front of the court door. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest corridor: wooden floor and a violet runner, six guest-room doors along the north wall with candelabras between them, and diagonal stairs down in both bottom corners. |
 | `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: a bed, a nightstand with a candle, a wardrobe, a rug and a round table, with a doormat back to the corridor. |
-| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 32x30, `kanto_general` + `kanto_mega_arena` | The castle's inner courtyard, used as the tournament stadium. North: the inner face of the keep (stained glass, turrets with blue spires, violet banners) with the host's balcony in the middle: a throne under violet drapes behind a pale balustrade. Tiered stands run along the north side and down both sides. A paved walkway with a blue-flame brazier at each corner surrounds the battlefield: pale sand with white lines, trainer boxes at both ends and a blue-and-gold Mega Evolution emblem in the centre circle. South: the wall-walk with the entrance passage from the hall. Music `MUS_RG_TRAINER_TOWER`. |
+| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 32x30, `kanto_general` + `kanto_mega_arena` | The castle's inner courtyard, used as the tournament stadium. North: the inner face of the keep (stained glass, turrets with blue spires, violet banners) with the host's box in the middle, seen from above: a pale platform with a throne under a violet canopy and a rail along its front. Tiered stands run along the north side and down both sides. A paved walkway with a blue-flame brazier at each corner surrounds the battlefield: pale sand with white lines, trainer boxes at both ends and a blue-and-gold Mega Evolution emblem in the centre circle. South: the wall-walk with the entrance passage from the hall. Music `MUS_RG_TRAINER_TOWER`. |
 
 The moat is the sea's animated water, but its metatiles have no water behavior and block
 movement, so it can't be surfed. The castle gate's two door tiles (`MB_NON_ANIMATED_DOOR`) lead
@@ -75,6 +75,6 @@ evening and at night (`sLitPalettes` in `src/day_night.c`), in both tilesets.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
 Run `build_castle.py`, `build_arena.py`, `build_hall.py` and `build_route.py` after changing the art or the
-layouts. The output is deterministic. The castle tileset uses 298 of the 384 secondary tiles
-and 340 of the 384 metatiles, the stadium tileset 234 and 118, the interior tileset 149 and 94. In both maps, rows 0-4 are above
+layouts. The output is deterministic. The castle tileset uses 308 of the 384 secondary tiles
+and 344 of the 384 metatiles, the stadium tileset 221 and 101, the interior tileset 149 and 94. In both maps, rows 0-4 are above
 anything the camera can show, so they reuse row 5's metatiles.

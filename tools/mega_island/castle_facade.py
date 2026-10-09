@@ -56,7 +56,11 @@ def draw(c, MW, CX):
     arcade_wall(c,BX0,BX1,BW0,BW1,CX)
     for tx in (BX0+24, BX1-24):
         round_tower(c,tx,200,26,BW1-200)
-        cone_roof(c,tx,128,30,72)
+        for i in range(-26,26):                # the base curves where it meets the moat (seen from above)
+            dy=int(6*(1-((i+0.5)/26)**2)**0.5+0.5)
+            for k in range(6-dy): c.set(tx+i,BW1-1-k,0)
+            c.set(tx+i,BW1-1-(6-dy),OUT)
+        cone_roof3q(c,tx,132,30,60)
         slit_window(c,tx-1,236,12)
 
     # ---- grand staircase from the forecourt to the moat, with spired balustrades ----
