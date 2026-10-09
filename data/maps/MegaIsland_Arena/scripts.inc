@@ -4,25 +4,26 @@ MegaIsland_Arena_MapScripts::
 	.byte 0
 
 @ MR. M.'s tournament. The player registers with the receptionist in the hall
-@ (VAR_MEGA_STORY_STATE 3), then each time they come into the court with a match to play, they
+@ (VAR_MEGA_STORY_STATE 3) and sleeps in their guest room (4); then each time they come into the
+@ court with a match to play, they
 @ walk to the south trainer box and battle the opponent in the north one, with MR. M. watching
 @ from his box. Bracket:
 @   quarterfinals: PLAYER - ALDER, RIVAL - CYNTHIA, LANCE - DIANTHA, STEVEN - LEON
 @   semifinals:    PLAYER - RIVAL, DIANTHA - LEON
 @   final:         PLAYER - LEON
-@ Losing heals the team and sends the player back to the hall to try again.
+@ Losing: the player wakes up in bed, it was a dream, and the tournament starts again.
 MegaIsland_Arena_OnTransition:
 	setvar VAR_TEMP_0, 0
 	setflag FLAG_TEMP_1
 	setflag FLAG_TEMP_2
-	goto_if_lt VAR_MEGA_STORY_STATE, 3, MegaIsland_Arena_OnTransitionEnd
-	goto_if_gt VAR_MEGA_STORY_STATE, 5, MegaIsland_Arena_OnTransitionEnd
+	goto_if_lt VAR_MEGA_STORY_STATE, 4, MegaIsland_Arena_OnTransitionEnd
+	goto_if_gt VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_OnTransitionEnd
 	clearflag FLAG_TEMP_1
 	clearflag FLAG_TEMP_2
 	setvar VAR_TEMP_0, 1
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_ALDER
-	call_if_eq VAR_MEGA_STORY_STATE, 4, MegaIsland_Arena_SetOpponentRival
-	call_if_eq VAR_MEGA_STORY_STATE, 5, MegaIsland_Arena_SetOpponentLeon
+	call_if_eq VAR_MEGA_STORY_STATE, 5, MegaIsland_Arena_SetOpponentRival
+	call_if_eq VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_SetOpponentLeon
 MegaIsland_Arena_OnTransitionEnd:
 	end
 
@@ -49,9 +50,9 @@ MegaIsland_Arena_EventScript_Match::
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToMrM
 	waitmovement 0
 	switch VAR_MEGA_STORY_STATE
-	case 3, MegaIsland_Arena_EventScript_Quarterfinal
-	case 4, MegaIsland_Arena_EventScript_Semifinal
-	case 5, MegaIsland_Arena_EventScript_Final
+	case 4, MegaIsland_Arena_EventScript_Quarterfinal
+	case 5, MegaIsland_Arena_EventScript_Semifinal
+	case 6, MegaIsland_Arena_EventScript_Final
 	releaseall
 	end
 
@@ -146,13 +147,17 @@ MegaIsland_Arena_EventScript_Won::
 	goto MegaIsland_Arena_EventScript_BackToHall
 	end
 
+@ Losing: the player wakes up in their guest room. It was all a dream, and the tournament starts
+@ again from the quarterfinals (see MegaIsland_Castle_Room1).
 MegaIsland_Arena_EventScript_Lost::
-	call MegaIsland_Arena_EventScript_CameraOnField
-	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
-	waitmovement 0
-	msgbox MegaIsland_Arena_Text_Lost
-	closemessage
 	special RemoveCameraObject
+	setvar VAR_MEGA_STORY_STATE, 8
+	fadescreen FADE_TO_WHITE
+	warpsilent MAP_MEGA_ISLAND_CASTLE_ROOM1, 2, 4
+	waitstate
+	releaseall
+	end
+
 MegaIsland_Arena_EventScript_BackToHall::
 	warp MAP_MEGA_ISLAND_CASTLE_1F, 12, 2
 	waitstate
@@ -320,7 +325,3 @@ MegaIsland_Arena_Text_TournamentWon:
 	.string "Rest now. When you are ready,\n"
 	.string "there is something I must show you.$"
 
-MegaIsland_Arena_Text_Lost:
-	.string "MR. M: A fine battle.\p"
-	.string "Rest your POKéMON, and return when\n"
-	.string "you are ready to try again.$"

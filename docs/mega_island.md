@@ -103,17 +103,23 @@ In battle, the Kanto rival (TERRY in the trainer data) now shows the name the pl
 
 ## The tournament
 
-`VAR_MEGA_STORY_STATE` goes on counting: 3 registered (quarterfinal next), 4 semifinal next, 5 final
-next, 6 tournament won.
+`VAR_MEGA_STORY_STATE` goes on counting: 3 registered (asleep tonight), 4 quarterfinal next,
+5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match.
 
 1. **Registration.** The receptionist in the hall gives the quarterfinal pairings and registers the
-   player. Before each round she heals the player's team.
-2. **The matches** (`MegaIsland_Arena`). With a match to play, entering the court starts it: the
+   player: the tournament begins tomorrow morning, and their room is upstairs (guest room 1, the
+   first door on the left). Until they sleep she only repeats that.
+2. **The night.** The bed in guest room 1 (`MegaIsland_Castle_Room1_EventScript_Bed`) asks
+   whether to sleep: the screen fades, the healing jingle plays, the team is healed, and it's
+   morning (state 4). Before each later round the receptionist heals the team.
+3. **The matches** (`MegaIsland_Arena`). With a match to play, entering the court starts it: the
    player walks to the south trainer box, the camera rises to MR. M. (a gentleman, for now) in his box
    for the announcement, then shows both trainers, and the opponent battles from the north box.
    MR. M. then gives the other results, and the player goes back to the hall.
-3. **Losing** heals the team (`trainerbattle_earlyrival` with `RIVAL_BATTLE_HEAL_AFTER`, no
-   whiteout), and the player can try the same round again.
+4. **Losing** was a dream. The battle ends without a whiteout (`trainerbattle_earlyrival` with
+   `RIVAL_BATTLE_HEAL_AFTER`), the screen fades to white and the player wakes up in their bed
+   (state 8). On the room's first frame they wake with a start: it was all a dream, it's morning,
+   and the tournament begins again from the quarterfinal (state 4), with the team healed.
 
 The bracket is fixed:
 
