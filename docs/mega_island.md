@@ -82,11 +82,13 @@ generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties
 Guest room 1 is the player's. The teams use only Gen 1-3 POKéMON, standing in for the ones
 those champions use in their own games (Salamence for Garchomp, for example).
 
-Cynthia, Alder, Diantha and Leon are new characters. `tools/mega_island/champions/` draws their
-trainer pics (`cynthia.py` and the others; `export.py` writes `graphics/trainers/front_pics/champion_*.png`
-and their palettes; `TRAINER_PIC_CHAMPION_*`) and their overworld sprites (`overworld.py`, built
-from Lance's FRLG sprite; `OBJ_EVENT_GFX_CHAMPION_*`, using the Kanto NPC palettes). The rival,
-Lance and Steven use their existing sprites.
+Cynthia, Alder, Diantha and Leon are new characters. Their sprites come from the images in
+`tools/mega_island/champions/source/` (at their native pixel size, backgrounds removed), and
+`sprites.py` turns them into GBA sprites: the trainer pics are scaled to fit 64x64
+(`graphics/trainers/front_pics/champion_*.png`, `TRAINER_PIC_CHAMPION_*`), the overworld frames
+are cut from the walking sheets (32x32, Alder's 16x32; `OBJ_EVENT_GFX_CHAMPION_*`), and each gets
+its own 15-colour palette. On the maps they use the special NPC palette slot, so there can be only
+one of them on a map at a time. The rival, Lance and Steven use their existing sprites.
 
 In battle, the Kanto rival (TERRY in the trainer data) now shows the name the player gave him.
 

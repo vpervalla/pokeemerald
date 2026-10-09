@@ -523,6 +523,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_PlayerRedLeaf,         OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF},
     {gObjectEventPal_PlayerRedLeafReflection, OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION},
     KANTO_OBJECT_EVENT_SPRITE_PALETTES
+    CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
