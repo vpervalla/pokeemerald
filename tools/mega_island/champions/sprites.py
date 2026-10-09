@@ -1,6 +1,5 @@
 # The champions' sprites, from the images in source/ (at their native pixel size, backgrounds
-# removed; Alain's trainer pic is a half-body pixel version of his anime artwork, touched up by
-# hand): each trainer pic is scaled to fit 64x64, and the overworld frames are cut from the
+# removed): each trainer pic is scaled to fit 64x64, and the overworld frames are cut from the
 # walking sheets (4 rows of 4 frames: down, left, right, up; columns: standing, step, standing,
 # other step). Every sprite gets its own 15-colour palette; on the maps the champions use the
 # special NPC palette slot (one champion per map). Run after changing the sources.

@@ -84,8 +84,7 @@ Guest room 1 is the player's.
 Alain (`TRAINER_ALAIN`, class "PKMN TRAINER", trainer pic `TRAINER_PIC_ALAIN`, overworld
 `OBJ_EVENT_GFX_ALAIN`) is ready but not placed yet: his part in the story is still to be decided.
 His team: Swellow, Absol, Scizor, Tyranitar, Metagross and his ace, Charizard with CHARIZARDITE X
-(Swellow, Absol and Scizor stand in for his Unfezant, Weavile and Bisharp). His trainer pic is a
-half-body pixel version of his anime artwork, finished by hand. The teams use only Gen 1-3 POKéMON, standing in for the ones
+(Swellow, Absol and Scizor stand in for his Unfezant, Weavile and Bisharp). The teams use only Gen 1-3 POKéMON, standing in for the ones
 those champions use in their own games (Salamence for Garchomp, for example).
 
 Cynthia, Alder, Diantha and Leon are new characters. Their sprites come from the images in
