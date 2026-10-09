@@ -42,6 +42,7 @@ CinnabarIsland_Gym_EventScript_Zac::
 CinnabarIsland_Gym_EventScript_Blaine::
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
+	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle
 	release
 	end
@@ -204,7 +205,7 @@ CinnabarIsland_Gym_EventScript_GiveTM38::
 	kanto_giveitem_msg CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine, ITEM_TM38
 	setflag FLAG_GOT_TM38_FROM_BLAINE
 	msgbox CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove
-	release
+	goto CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
 	end
 
 CinnabarIsland_Gym_EventScript_GymGuy::
@@ -904,3 +905,56 @@ CinnabarIsland_Gym_Text_ZacPostBattle:
     .string "type beats ICE-type POKéMON.$"
 
 @ END KANTO NPCS
+
+@ The Mega Evolution story: BLAINE was a researcher at the POKéMON MANSION when MEWTWO broke
+@ free. After the battle he tells the player about Mega Evolution and gives them the MEGA RING.
+@ No MEGA STONE comes with it: the first one arrives with MEWTWO's invitation, after the League.
+CinnabarIsland_Gym_EventScript_GiveMegaRing::
+	msgbox CinnabarIsland_Gym_Text_BlaineMegaEvolution
+	kanto_giveitem_msg CinnabarIsland_Gym_Text_ReceivedMegaRing, ITEM_MEGA_RING, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_RECEIVED_MEGA_RING
+	msgbox CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve
+	release
+	end
+
+CinnabarIsland_Gym_Text_BlaineMegaEvolution:
+    .string "Hah! Wait, there's one more thing.\p"
+    .string "Before I ran this GYM, I was a\n"
+    .string "researcher at the POKéMON MANSION.\p"
+    .string "We created a POKéMON from MEW's\n"
+    .string "genes. We named it MEWTWO.\p"
+    .string "Studying it, we found a hidden\n"
+    .string "power. Some POKéMON can evolve\l"
+    .string "beyond their final form…\p"
+    .string "…for one battle, and only with a\n"
+    .string "trainer they trust.\p"
+    .string "We called it MEGA EVOLUTION.\p"
+    .string "It takes two stones that resonate:\n"
+    .string "a KEY STONE, worn by the trainer…\p"
+    .string "…and a MEGA STONE, held by the\n"
+    .string "POKéMON it was made for.\p"
+    .string "One day, MEWTWO Mega Evolved\n"
+    .string "during a test.\p"
+    .string "Nothing could hold it any longer.\n"
+    .string "It tore the lab apart and fled…\l"
+    .string "…and our MEGA STONES went with it.\p"
+    .string "This ring holds the last KEY STONE\n"
+    .string "we had. I want you to have it.$"
+
+CinnabarIsland_Gym_Text_ReceivedMegaRing:
+    .string "{PLAYER} received the MEGA RING\n"
+    .string "from BLAINE.$"
+
+CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve:
+    .string "If a MEGA STONE ever comes your\n"
+    .string "way, give it to its POKéMON.\p"
+    .string "In battle, press START when you\n"
+    .string "choose a move. It will Mega Evolve\l"
+    .string "before anyone moves that turn.\p"
+    .string "Only once per battle, mind you!\p"
+    .string "Not even the ELITE FOUR has a\n"
+    .string "MEGA STONE. They all went with\l"
+    .string "MEWTWO.\p"
+    .string "Hah! Who knows?\n"
+    .string "Maybe one day it will come looking\l"
+    .string "for a trainer like you!$"

@@ -25,9 +25,7 @@ PokemonLeague_HallOfFame_EventScript_EnterRoom::
 	setvar VAR_TEMP_1, 1
 	call Kanto_EventScript_SetDefeatedEliteFourFlagsVars
 	setrespawn HEAL_LOCATION_PALLET_TOWN
-	fadescreenspeed FADE_TO_BLACK, 24
-	waitstate
-	releaseall
+	goto PokemonLeague_HallOfFame_EventScript_GameClear  @ added: the port lost FRLG's EnterHallOfFame
 	end
 
 PokemonLeague_HallOfFame_EventScript_TurnPlayerNorth::
@@ -69,3 +67,17 @@ PokemonLeague_HallOfFame_Text_OakCongratulations:
     .string "your POKéMON are HALL OF FAMERS!$"
 
 @ END KANTO NPCS
+
+@ The end of the League: record the team in the Hall of Fame, roll the credits and save
+@ (GameClear; the game continues in the player's room). The first time, MEWTWO's invitation to the
+@ tournament is waiting at home (see PalletTown_PlayersHouse_1F).
+PokemonLeague_HallOfFame_EventScript_GameClear::
+	call_if_eq VAR_MEGA_STORY_STATE, 0, PokemonLeague_HallOfFame_EventScript_InvitationWaiting
+	fadescreenspeed FADE_TO_BLACK, 24
+	special GameClear
+	releaseall
+	end
+
+PokemonLeague_HallOfFame_EventScript_InvitationWaiting::
+	setvar VAR_MEGA_STORY_STATE, 1
+	return

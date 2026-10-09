@@ -2011,6 +2011,10 @@
 #define FLAG_WORLD_MAP_ONE_ISLAND                   (KANTO_EXTRA_FLAGS_START + 0x063)
 // END KANTO STORY FLAGS
 
+// The Mega Evolution story. These sit at the end of the extra flags, clear of the generated ones.
+#define FLAG_RECEIVED_MEGA_RING                     (KANTO_EXTRA_FLAGS_START + 0x1F0)
+#define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)
+
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
 #define FLAG_DONT_TRANSITION_MUSIC              (SPECIAL_FLAGS_START + 0x1)

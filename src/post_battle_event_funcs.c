@@ -8,6 +8,7 @@
 #include "script_pokemon_util.h"
 #include "tv.h"
 #include "constants/heal_locations.h"
+#include "constants/maps.h"
 
 int GameClear(void)
 {
@@ -35,7 +36,11 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    if (gSaveBlock2Ptr->playerGender == MALE)
+    // Kanto: after the Indigo Plateau's Hall of Fame, wake up in the player's room, as in FRLG
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_POKEMON_LEAGUE_HALL_OF_FAME)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_POKEMON_LEAGUE_HALL_OF_FAME))
+        SetContinueGameWarp(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
+    else if (gSaveBlock2Ptr->playerGender == MALE)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
     else
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);

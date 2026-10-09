@@ -34,8 +34,29 @@ The route has tall grass but no wild encounter table yet, so it has no encounter
 
 - `SEAGALLOP_MEGA_ISLAND` (11) is a Seagallop destination: `src/seagallop.c` has its
   harbor, its direction from Vermilion (east) and its ferry number (11).
-- Nothing in the story sends the player there yet. For testing, a sailor in TestArea
-  (west of Pallet Town) sails there.
+- After the invitation (below), a sailor on the east pier of Vermilion Harbor sails there
+  (`VermilionCity_EventScript_ApexSailor`). He is hidden by `FLAG_HIDE_VERMILION_APEX_SAILOR`,
+  which a new game sets. For testing, a sailor in TestArea (west of Pallet Town) also sails there.
+
+## The story so far
+
+Nobody can Mega Evolve during the first run through the League: no trainer holds a MEGA
+STONE, and the player has none.
+
+1. **Cinnabar Gym.** After the battle (and TM38), BLAINE tells the player how Mega Evolution
+   was discovered at the POKéMON MANSION while studying MEWTWO, and that MEWTWO Mega Evolved,
+   broke free and took the MEGA STONES. He gives the player the MEGA RING
+   (`FLAG_RECEIVED_MEGA_RING`) and explains how to use it (hold the stone, press START when
+   choosing a move, once per battle). A player who beat him before this change gets the ring
+   by talking to him again.
+2. **Hall of Fame.** `PokemonLeague_HallOfFame_EventScript_GameClear` sets
+   `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
+   the credits). The port of FRLG's script had lost this step, so the game used to stop on a
+   black screen. After the credits, Continue puts the player in their room in Pallet Town.
+3. **The invitation.** When the player comes downstairs, MOM gives them a letter that
+   appeared on the table: MEWTWO's invitation to the tournament, signed "M.". The MEGA STONE of
+   the player's starter is inside: VENUSAURITE, BLASTOISINITE or CHARIZARDITE X (from
+   `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor appears.
 
 ## The castle tilesets
 

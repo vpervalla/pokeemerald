@@ -388,3 +388,37 @@ VermilionCity_Text_WelcomeToTheSSAnne:
     .string "Welcome to the S.S. ANNE!$"
 
 @ END KANTO NPCS
+
+@ The Mega Evolution story: the ship to APEX ISLAND. Its sailor appears once the player has
+@ MEWTWO's invitation (FLAG_HIDE_VERMILION_APEX_SAILOR is cleared in PalletTown_PlayersHouse_1F).
+VermilionCity_EventScript_ApexSailor::
+	lock
+	faceplayer
+	msgbox VermilionCity_Text_ApexSailor, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_ApexSailorNotYet
+	msgbox VermilionCity_Text_ApexSailorAllAboard
+	closemessage
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
+	setvar VAR_0x8006, SEAGALLOP_MEGA_ISLAND
+	goto Kanto_EventScript_SetSail
+	end
+
+VermilionCity_EventScript_ApexSailorNotYet::
+	msgbox VermilionCity_Text_ApexSailorNotYet
+	release
+	end
+
+VermilionCity_Text_ApexSailor:
+    .string "Ahoy! You must be {PLAYER}.\p"
+    .string "I was told to wait for a trainer\n"
+    .string "with a glowing letter.\p"
+    .string "This ship sails to APEX ISLAND,\n"
+    .string "for the tournament.\p"
+    .string "Are you ready to set sail?$"
+
+VermilionCity_Text_ApexSailorAllAboard:
+    .string "All aboard!$"
+
+VermilionCity_Text_ApexSailorNotYet:
+    .string "Take your time. The island isn't\n"
+    .string "going anywhere.$"

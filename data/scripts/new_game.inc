@@ -114,6 +114,7 @@ EventScript_ResetAllBerries::
 
 EventScript_ResetAllMapFlags::
 	call EventScript_ResetKantoMapFlags
+	setflag FLAG_HIDE_VERMILION_APEX_SAILOR
 	setflag FLAG_HIDE_CONTEST_POKE_BALL
 	setflag FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE
 	setflag FLAG_HIDE_ROUTE_111_VIVI_WINSTRATE
