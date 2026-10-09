@@ -1588,3 +1588,14 @@ const struct Tileset gTileset_KantoMegaCastle =
     .metatileAttributes = gMetatileAttributes_KantoMegaCastle,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_KantoMegaArena =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaArena,
+    .palettes = gTilesetPalettes_KantoMegaArena,
+    .metatiles = gMetatiles_KantoMegaArena,
+    .metatileAttributes = gMetatileAttributes_KantoMegaArena,
+    .callback = NULL,
+};

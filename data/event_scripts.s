@@ -1002,6 +1002,7 @@ gStdScripts_End::
 	.include "data/maps/MegaIsland_Harbor/scripts.inc"
 	.include "data/maps/MegaIsland/scripts.inc"
 	.include "data/maps/MegaIsland_Castle/scripts.inc"
+	.include "data/maps/MegaIsland_Arena/scripts.inc"
 	.include "data/maps/TestArea_House/scripts.inc"
 
 	.include "data/scripts/std_msgbox.inc"

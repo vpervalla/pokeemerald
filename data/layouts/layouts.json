@@ -7490,6 +7490,16 @@
       "secondary_tileset": "gTileset_KantoMegaCastle",
       "border_filepath": "data/layouts/MegaIsland_Castle/border.bin",
       "blockdata_filepath": "data/layouts/MegaIsland_Castle/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_ARENA",
+      "name": "MegaIsland_Arena_Layout",
+      "width": 32,
+      "height": 30,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoMegaArena",
+      "border_filepath": "data/layouts/MegaIsland_Arena/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_Arena/map.bin"
     }
   ]
 }

@@ -18,10 +18,14 @@ castle_facade.draw(c,MW,CX)
 ground=[['grass']*MW for _ in range(MH)]
 coll=[[0]*MW for _ in range(MH)]
 layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (above player)
+behav=[[0]*MW for _ in range(MH)]         # metatile behaviors (0 = MB_NORMAL)
+for x in (29,30):                        # the gate: stepping into it enters the stadium
+    behav[9][x]=96                        # MB_NON_ANIMATED_DOOR
 for y in range(0,10):                    # the castle
     for x in range(MW): coll[y][x]=1
 for x in (23,24,25,34,35,36):            # gargoyles by the gate
     coll[10][x]=1
+coll[9][29]=coll[9][30]=0                # the gate is walkable (it warps)
 for y in range(10,15):                   # forecourt lawns, between the paths
     for x in list(range(17,24))+list(range(36,43)):
         if y>=11: ground[y][x]='lawn'
@@ -79,39 +83,11 @@ for y in range(MH):
             coll[y][x]=0 if prim[y][x] in (0xe,0xf) else 1
 
 # ---- tileset building ----
-tiles=[]; tindex={}
-A_IDX={rgb:i for i,rgb in enumerate(PAL_A) if i}
-B_IDX={rgb:i for i,rgb in enumerate(PAL_B) if i}
-def to_bank(px):
-    # Picks the palette (7 or 8) that has every colour of the tile; returns (pal, local pixels).
-    rgbs={PAL[p] for r in px for p in r if p}
-    for pal,idx in ((7,A_IDX),(8,B_IDX)):
-        if rgbs<=set(idx):
-            return pal,[[idx[PAL[p]] if p else 0 for p in r] for r in px]
-    raise SystemExit('tile mixes colours of both palettes: %s' % sorted(rgbs))
-def add_tile(px):   # px: 8 rows of 8 art colour indices; returns (index, hflip, vflip, palette)
-    pal,px=to_bank(px)
-    rows=[tuple(r) for r in px]
-    cands=[(tuple(rows),0,0),(tuple(r[::-1] for r in rows),1,0),(tuple(rows[::-1]),0,1),(tuple(r[::-1] for r in rows[::-1]),1,1)]
-    for k,h,v in cands:
-        if k in tindex: return tindex[k],h,v,pal
-    tindex[cands[0][0]]=len(tiles); tiles.append(cands[0][0]); return len(tiles)-1,0,0,pal
-add_tile([[0]*8]*8)   # secondary tile 0 = transparent
-def tile_entry(i,h,v,pal): return (640+i)|(h<<10)|(v<<11)|(pal<<12)
-def cell_tiles(canvas,x0,y0):
-    out=[]
-    for ty in (0,8):
-        for tx in (0,8):
-            px=[[canvas.get(x0+tx+x,y0+ty+y) for x in range(8)] for y in range(8)]
-            if all(p==0 for r in px for p in r): out.append(None)
-            else: out.append(add_tile(px))
-    return out
-EMPTY_TOP=0  # primary tile 0 is blank
-metatiles=[]; mindex={}; attrs=[]
-def metatile(bottom,top,attr):
-    key=(tuple(bottom),tuple(top),attr)
-    if key in mindex: return mindex[key]
-    mindex[key]=640+len(metatiles); metatiles.append(key); attrs.append(attr); return mindex[key]
+import tilesetgen
+B=tilesetgen.Builder()
+tiles=B.tiles; metatiles=B.metatiles
+cell_tiles=B.cell_tiles; tile_entry=B.tile_entry; metatile=B.metatile
+EMPTY_TOP=tilesetgen.EMPTY_TOP
 # own flagstone ground metatiles
 fc=Canvas(32,16); pale_paving(fc,0,0,32,16)
 FLAG=[]
@@ -146,11 +122,10 @@ for y in range(HIDDEN,MH):
                 grid[y][x]=random.choice(GRASS); continue
             grid[y][x]=metatile(bottom,[EMPTY_TOP]*4,0); continue
         top=[tile_entry(*e) if e else EMPTY_TOP for e in ov]
-        attr=(layer[y][x]&0xf)<<12   # behavior MB_NORMAL
+        attr=((layer[y][x]&0xf)<<12)|behav[y][x]
         grid[y][x]=metatile(bottom,top,attr)
 for y in range(HIDDEN):
     grid[y]=list(grid[HIDDEN])
-print('secondary tiles',len(tiles),'metatiles',len(metatiles))
 if os.environ.get('PREVIEW'):
     from PIL import Image
     img=Image.new('RGB',(MW*16,MH*16))
@@ -178,33 +153,8 @@ if os.environ.get('PREVIEW'):
             else:
                 for i in range(4): PRIM.tile(img,pm[i],x*16+(i&1)*8,y*16+(i>>1)*8,False)
     img.save(os.environ['PREVIEW']); sys.exit(0)
-assert len(tiles)<=384 and len(metatiles)<=384
-
-# ---- write tileset ----
-os.makedirs(TSDIR+'palettes',exist_ok=True)
-from PIL import Image
-n=len(tiles); rows_=(n+15)//16
-im=Image.new('P',(128,rows_*8),0)
-im.putpalette([v for col in PAL_A for v in col])
-for i,t in enumerate(tiles):
-    for y in range(8):
-        for x in range(8): im.putpixel(((i%16)*8+x,(i//16)*8+y),t[y][x])
-im.save(TSDIR+'tiles.png')
-def write_pal(path,cols):
-    with open(path,'w',newline='\r\n') as f:
-        f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in cols))
-for p in range(16):
-    write_pal(TSDIR+'palettes/%02d.pal'%p, PAL_A if p==7 else (PAL_B if p==8 else [(0,0,0)]*16))
-with open(TSDIR+'metatiles.bin','wb') as f:
-    for b,t,a in metatiles: f.write(struct.pack('<8H',*b,*t))
-with open(TSDIR+'metatile_attributes.bin','wb') as f:
-    for a in attrs: f.write(struct.pack('<H',a))
-# ---- write layout ----
-LD=REPO+'data/layouts/MegaIsland_Castle/'
-os.makedirs(LD,exist_ok=True)
-with open(LD+'map.bin','wb') as f:
-    for y in range(MH):
-        for x in range(MW): f.write(struct.pack('<H',grid[y][x]|(coll[y][x]<<10)|(3<<12)))
-with open(LD+'border.bin','wb') as f:
-    f.write(struct.pack('<4H',0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
+B.check()
+B.write_tileset(TSDIR)
+tilesetgen.write_layout(REPO+'data/layouts/MegaIsland_Castle/',grid,coll,
+    (0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
 print('written')
