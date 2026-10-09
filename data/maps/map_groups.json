@@ -861,7 +861,11 @@
     "MegaIsland_Castle_Room3",
     "MegaIsland_Castle_Room4",
     "MegaIsland_Castle_Room5",
-    "MegaIsland_Castle_Room6"
+    "MegaIsland_Castle_Room6",
+    "MegaIsland_Port",
+    "MegaIsland_Gate",
+    "MegaIsland_RestHouse",
+    "MegaIsland_Cave"
   ],
   "gMapGroup_KantoTownsAndRoutes": [
     "PalletTown",

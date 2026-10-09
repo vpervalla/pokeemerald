@@ -1,7 +1,8 @@
 # Builds the island route (MegaIsland), after the user's reference map: from the castle (north), a
 # grass plateau leads to two plank bridges over a rock band and a river; below, a meadow with tall
 # grass, the memorial pillar, a rock outcrop with a cave mound, a rest house, ledges and a forest;
-# at the bottom, the harbor building and pier (from Five Island). Rock and water are autotiled with
+# at the bottom, the gate to the port. Also writes the port (the gate's south side, the harbor
+# building and the pier from Five Island) and the small cave. Rock and water are autotiled with
 # the rules FRLG's own maps use (autotile.py). Tilesets: kanto_general + kanto_sevii_islands_45.
 import struct, random, os, json
 import autotile
@@ -62,9 +63,20 @@ D=[
 "..............................",  # 43
 "..............................",  # 44
 "..............................",  # 45
+"..............................",  # 46
+"..............................",  # 47
+"..............................",  # 48
+"..............................",  # 49
+"..............................",  # 50
+"..............................",  # 51
+"..............................",  # 52
+"..............................",  # 53 the gate to the harbor (rows 53-57)
+"..............................",  # 54
+"..............................",  # 55
+"..............................",  # 56
+"..............................",  # 57
 ]
-assert len(D)==46 and all(len(r)==W for r in D), [len(r) for r in D]
-D=D+["W"*W for _ in range(H-46)]
+assert len(D)==H and all(len(r)==W for r in D), [len(r) for r in D]
 for y in range(H):
     for x in range(W):
         ch=D[y][x]
@@ -99,11 +111,11 @@ def forest(x0,y0,w,h):
     for ty in range(y0,y0+h,2):
         for tx in range(x0,x0+w,2): tree(tx,ty,below=(ty+2<y0+h))
     for tx in range(x0,x0+w,2): put(tx,y0-1,0xe); put(tx+1,y0-1,0xf)
-forest(0,40,10,6); forest(26,30,4,8)
+forest(0,40,10,18); forest(26,30,4,8); forest(20,48,10,10)
 for (tx,ty) in ((22,0),(19,4),(8,13+5),(19,26),(25,21),(15,30),(6,33),(21,40)):
     lone_tree(tx,ty)
 # flowers and bushes
-for (x,y) in ((7,3),(16,3),(10,17),(20,17),(25,18),(8,27),(20,28),(4,30),(9,35),(14,38),(25,42),(19,44),(3,46-2)):
+for (x,y) in ((7,3),(16,3),(10,17),(20,17),(25,18),(8,27),(20,28),(4,30),(9,35),(14,38),(25,42),(19,44),(11,47),(18,50)):
     put(x,y,FLOWER)
 for (x,y) in ((6,2),(12,2),(22,16),(17,27),(2,35),(23,38)):
     put(x,y,BUSH,1)
@@ -117,23 +129,53 @@ def copy_block(layout,sx,sy,w,h,dx,dy):
 copy_block('LAYOUT_FIVE_ISLAND_MEMORIAL_PILLAR',7,40,4,5,21,20)
 copy_block('LAYOUT_FOUR_ISLAND',11,10,4,4,10,31)
 # the cave mouth, in the outcrop's south face (as Mt. Moon's on Route 4)
-put(2,27,0xa9,1)
-# ---- the south coast, the pier and the harbor building (Five Island) ----
-for x in range(W): put(x,46,0x123,1)
-fd=list(struct.iter_unpack('<H',open(REPO+'data/layouts/FiveIsland/map.bin','rb').read()))
-for dy in range(0,7):
-    for dx in range(0,7):
-        v=fd[(13+dy)*24+9+dx][0]
-        if dy==0 and (v&0x3ff)==0x123: continue
-        put(12+dx,46+dy,v&0x3ff,(v>>10)&3)
-for y in range(54,H):
-    for x in range(W):
-        if g[y][x]==WATER: put(x,y,0x1d9)
+put(2,27,0xa9,0)
+# ---- the gate to the harbor, seen from the north (as on Route 5): its doors at (14,55), (15,55) ----
+copy_block('LAYOUT_ROUTE5',22,30,6,5,12,53)
+for (tx,ty) in ((10,51),(18,51)):
+    lone_tree(tx,ty)
 LD=REPO+'data/layouts/MegaIsland/'
 os.makedirs(LD,exist_ok=True)
 with open(LD+'map.bin','wb') as f:
     for y in range(H):
         for x in range(W): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(3<<12)))
+with open(LD+'border.bin','wb') as f:     # trees all around
+    f.write(struct.pack('<4H',0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
+print('route written',W,H)
+
+# ---- the port: the gate's south side (as on Route 6), the harbor building and the pier ----
+PW,PH=30,20
+g=[[None]*PW for _ in range(PH)]; col=[[0]*PW for _ in range(PH)]
+W,H=PW,PH
+for y in range(PH):
+    for x in range(PW): put(x,y,random.choice(GRASS))
+forest(0,0,12,8); forest(18,0,12,8)
+copy_block('LAYOUT_ROUTE6',10,0,6,7,12,0)       # its doors at (14,5), (15,5)
+for (x,y) in ((11,8),(19,9),(7,9)): put(x,y,FLOWER)
+for x in range(PW):
+    put(x,10,0x123,1)
+    for y in range(11,PH): put(x,y,WATER if y<17 else 0x1d9)
+fd=list(struct.iter_unpack('<H',open(REPO+'data/layouts/FiveIsland/map.bin','rb').read()))
+for dy in range(0,7):                              # the harbor building's door at (15,11)
+    for dx in range(0,7):
+        v=fd[(13+dy)*24+9+dx][0]
+        if dy==0 and (v&0x3ff)==0x123: continue
+        put(12+dx,10+dy,v&0x3ff,(v>>10)&3)
+LD=REPO+'data/layouts/MegaIsland_Port/'
+os.makedirs(LD,exist_ok=True)
+with open(LD+'map.bin','wb') as f:
+    for y in range(PH):
+        for x in range(PW): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(3<<12)))
 with open(LD+'border.bin','wb') as f:
     f.write(struct.pack('<4H',*([WATER|0x3000]*4)))
-print('route written',W,H)
+print('port written',PW,PH)
+
+# ---- the small cave: the Lost Cave's first room, without its ladder ----
+L={l['id']:l for l in json.load(open(REPO+'data/layouts/layouts.json'))['layouts'] if 'id' in l}['LAYOUT_FIVE_ISLAND_LOST_CAVE_ENTRANCE']
+d=[v for (v,) in struct.iter_unpack('<H',open(REPO+L['blockdata_filepath'],'rb').read())]
+d[5*11+5]=d[4*11+5]                                 # floor where the ladder was
+LD=REPO+'data/layouts/MegaIsland_Cave/'
+os.makedirs(LD,exist_ok=True)
+open(LD+'map.bin','wb').write(b''.join(struct.pack('<H',v) for v in d))
+open(LD+'border.bin','wb').write(open(REPO+L['border_filepath'],'rb').read())
+print('cave written')

@@ -1,0 +1,55 @@
+{
+  "id": "MAP_MEGA_ISLAND_CAVE",
+  "name": "MegaIsland_Cave",
+  "layout": "LAYOUT_MEGA_ISLAND_CAVE",
+  "music": "MUS_RG_SEVII_CAVE",
+  "region_map_section": "MAPSEC_MEGA_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_ITEM_BALL",
+      "x": 3,
+      "y": 3,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MegaIsland_Cave_EventScript_ItemMaxRevive",
+      "flag": "FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_HIKER",
+      "x": 7,
+      "y": 6,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MegaIsland_Cave_EventScript_Hiker",
+      "flag": "0"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 5,
+      "y": 8,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND",
+      "dest_warp_id": "3"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

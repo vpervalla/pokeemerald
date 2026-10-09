@@ -2014,6 +2014,7 @@
 // The Mega Evolution story. These sit at the end of the extra flags, clear of the generated ones.
 #define FLAG_RECEIVED_MEGA_RING                     (KANTO_EXTRA_FLAGS_START + 0x1F0)
 #define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)
+#define FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE       (KANTO_EXTRA_FLAGS_START + 0x1F2)
 
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)

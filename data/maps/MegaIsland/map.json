@@ -22,10 +22,31 @@
   "object_events": [],
   "warp_events": [
     {
-      "x": 15,
-      "y": 47,
+      "x": 14,
+      "y": 55,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_HARBOR",
+      "dest_map": "MAP_MEGA_ISLAND_GATE",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 15,
+      "y": 55,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_GATE",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 11,
+      "y": 34,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_REST_HOUSE",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 2,
+      "y": 27,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_CAVE",
       "dest_warp_id": "0"
     }
   ],
