@@ -13,11 +13,10 @@ All three are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 |-----|--------|------------|
 | `MAP_MEGA_ISLAND_HARBOR` | `LAYOUT_KANTO_ISLAND_HARBOR` (shared) | The Seagallop dock. The sailor sails back to Vermilion. |
 | `MAP_MEGA_ISLAND` | `LAYOUT_MEGA_ISLAND`, 30x58, `kanto_general` + `kanto_sevii_islands_45` | The route: harbor building and pier (copied from Five Island), a beach, a meadow with tall grass across three cliff ledges whose stairs alternate sides, and a forest corridor north. Music `MUS_RG_SEVII_ROUTE`. |
-| `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 60x38, `kanto_general` + `kanto_mega_castle` | The castle grounds. The castle is gigantic: its facade spans the whole map and its top is higher than the camera ever reaches, so only the lower walls show (towering stained-glass windows and banners running out of sight, great tower bases, the gate with drapes). The wings run into the forest on both sides. The castle stands on a stone rampart: a flagstone terrace with two gargoyles by the gate, a retaining wall of ashlar blocks with a coping and pilasters, and a grand staircase with balustrades. A moat runs along the foot of the rampart across the whole width and on into the forest on both sides; a stone bridge carries the staircase over it, with two more gargoyles at its far end. Below: a courtyard with an iron fence, lantern pillars and lamp posts, then a grass path south through the forest. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SHADE`. Connected below to the route (offset 15). |
+| `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 60x42, `kanto_general` + `kanto_mega_castle` | The castle grounds, in blackstone: near-black stone with a teal tint, indigo-blue spires, pale weathered stone and lawns. The castle is gigantic: its facade spans the whole map and its top is higher than the camera ever reaches, so only the lower walls show (towering stained-glass windows, violet banners running out of sight, great tower bases, a pointed gate with a pale stone frame and black iron doors). The wings run into the forest on both sides. In front, a raised bastion carries a pale paved forecourt with two lawns, gargoyles by the gate and spired obelisks; its front wall is a blind gothic arcade, with round corner towers under blue spires. A pale grand staircase goes down the bastion to a bridge over the moat, which runs the whole width and on into the forest. Below: a courtyard with gargoyles, an iron fence, lantern pillars and lamp posts, then a grass path south through the forest. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 15). |
 
 The moat is the sea's animated water, but its metatiles have no water behavior and block
-movement, so it can't be surfed. The terrace runs the width of the castle, between the forests; the walkway goes around the
-balustrades through the row in front of the gate. The castle gate is a sign for now ("The great doors are shut tight…"); it becomes the
+movement, so it can't be surfed. The castle gate is a sign for now ("The great doors are shut tight…"); it becomes the
 entrance when the interior exists.
 
 The route has tall grass but no wild encounter table yet, so it has no encounters.
@@ -31,21 +30,22 @@ The route has tall grass but no wild encounter table yet, so it has no encounter
 
 ## The castle tileset
 
-`data/tilesets/secondary/kanto_mega_castle` is new art, drawn for this project. It uses
-one palette (slot 7): dark stone, purple slate, crimson, gold, stained glass and wood.
-The stained glass colours (13 and 14) are lit in the evening and at night
-(`sLitPalettes` in `src/day_night.c`).
+`data/tilesets/secondary/kanto_mega_castle` is new art, drawn for this project. It uses two
+palettes: slot 7 for the blackstone, spires, banners, glass and gold, and slot 8 for the pale
+stone and moss (with the outline, dark stone, gold and spire blues shared). Each 8x8 tile uses
+one of them. The glass colours (13 and 14 of slot 7, also the lanterns' glow) are lit in the
+evening and at night (`sLitPalettes` in `src/day_night.c`).
 
 ## Tools
 
 `tools/mega_island/` generates the castle tileset and both layouts:
 
-- `art.py`: the pixel-art primitives (bricks, roofs, towers, windows, banners, gate,
-  gargoyles, fence, lamps) and the palette.
-- `castle_facade.py`: the castle and rampart drawing. Windows, banners and walls repeat
+- `art.py`: the pixel-art primitives (bricks, towers, spires, windows, banners, gates,
+  gargoyles, obelisks, paving, arcades, balustrades, fence, lamps) and the two palettes.
+- `castle_facade.py`: the castle, bastion and moat drawing. Windows, banners and walls repeat
   on an 8-pixel grid so the 60-wide facade fits the tile budget.
 - `build_castle.py`: composes the castle grounds, cuts them into 8x8 tiles (merging
-  flipped duplicates), and writes the tileset (`tiles.png`, palettes, metatiles,
+  flipped duplicates, and giving each tile the palette that has its colours), and writes the tileset (`tiles.png`, palettes, metatiles,
   attributes) and `data/layouts/MegaIsland_Castle`. Where a tree's tip or canopy stands in
   front of the castle, the metatile puts the castle on the bottom layer and the tree's top
   layer above it. `PREVIEW=out.png` renders the whole map instead of writing it.
@@ -54,10 +54,6 @@ The stained glass colours (13 and 14) are lit in the evening and at night
 - `build_route.py`: writes `data/layouts/MegaIsland` from primary and Sevii metatiles.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
-`art.py` has two colour themes for the same art: `dark` (the default, used in the game) and
-`light` (warm limestone, brighter glass and banners). Set `CASTLE_THEME=light` when running
-`build_castle.py` to build the other one.
-
 Run `python3 tools/mega_island/build_castle.py` and `python3 tools/mega_island/build_route.py`
 after changing the art or the layouts. The output is deterministic. The castle tileset
-uses 272 of the 384 secondary tiles and 325 of the 384 metatiles.
+uses 307 of the 384 secondary tiles and 358 of the 384 metatiles.

@@ -1,15 +1,16 @@
 # Gothic castle exterior pixel art, drawn with one 15-colour palette (index 0 = transparent).
 from PIL import Image
-import os
-# Colour themes (same indices, same art). Pick with CASTLE_THEME=dark|light when building.
-THEMES={
- 'dark':  [(0,0,0),(16,8,32),(32,32,56),(56,56,88),(80,80,112),(112,112,144),(152,152,176),
-           (56,32,80),(88,56,120),(128,88,160),(112,16,40),(176,40,56),(232,184,72),(40,40,120),(120,104,216),(88,56,40)],
- 'light': [(0,0,0),(48,40,48),(104,96,104),(144,136,136),(184,176,168),(216,208,192),(244,240,224),
-           (56,72,112),(88,112,160),(128,160,200),(152,32,48),(208,64,72),(240,200,88),(56,96,176),(144,192,240),(128,80,48)],
-}
-PAL=THEMES[os.environ.get('CASTLE_THEME','dark')]
+# Two 16-colour palettes (tileset slots 7 and 8). The art uses indices 0-31: 0-15 are palette A,
+# 16-31 palette B. Each 8x8 tile must fit one palette; colours both palettes share (outline, dark
+# stone, gold, spire blues) are matched by RGB, so a tile may mix them with either palette's colours.
+PAL_A=[(0,0,0),(8,12,20),(20,28,36),(36,48,56),(56,72,80),(80,100,108),(120,140,148),
+       (32,32,80),(56,64,144),(104,120,200),(56,24,88),(96,48,144),(216,176,96),(24,56,96),(88,152,200),(64,44,40)]
 T,OUT,S0,S1,S2,S3,S4,R0,R1,R2,C0,C1,G,W0,W1,WD=range(16)
+PAL_B=[(0,0,0),PAL_A[OUT],PAL_A[S0],PAL_A[S1],PAL_A[S2],PAL_A[S3],
+       (120,116,112),(160,156,148),(196,190,180),(224,218,206),(244,240,232),(64,108,52),PAL_A[S4],
+       PAL_A[G],PAL_A[R1],PAL_A[R2]]
+P0,P1,P2,P3,P4,M0=22,23,24,25,26,27   # pale stone ramp and moss, palette B
+PAL=PAL_A+PAL_B
 class Canvas:
     def __init__(s,w,h): s.w,s.h=w,h; s.p=[[0]*w for _ in range(h)]
     def set(s,x,y,c):
@@ -259,7 +260,7 @@ def gargoyle2(c,x0,y0):
     # head with horns
     fill_ellipse(g,16,13,5,5,lambda x,y: S4 if x<14 and y<12 else (S3 if x<15 else S2))
     fill_poly(g,[(12,10),(9,3),(14,8)],lambda x,y: S4 if x<11 else S3)
-    g.set(13,13,C1); g.set(13,14,C0)                       # eye
+    g.set(13,13,W1); g.set(13,14,W0)                       # glowing eye
     g.hline(14,16,2,OUT)                                      # snarl
     g.set(14,17,S4)                                           # fang
     # claws gripping the ledge
@@ -372,14 +373,14 @@ def gate_pillar(c,x0,y0):
             if y%10==4 and y>15: col=S0
             c.set(x0+x,y0+y,col)
     # lantern
-    c.rect(x0+5,y0+3,6,9,OUT); c.rect(x0+6,y0+4,4,7,G); c.rect(x0+7,y0+5,2,5,C1)
+    c.rect(x0+5,y0+3,6,9,OUT); c.rect(x0+6,y0+4,4,7,G); c.rect(x0+7,y0+5,2,5,W1)
     c.hline(x0+4,y0+2,8,OUT); c.hline(x0+5,y0+1,6,S1); c.hline(x0+4,y0+12,8,OUT); c.hline(x0+5,y0+13,6,S1)
 
 def lamp_post(c,x0,y0):
     # 16x32 iron lamp post.
     c.vline(x0+7,y0+10,20,OUT); c.vline(x0+8,y0+10,20,S1)
     c.rect(x0+5,y0+28,6,4,OUT); c.rect(x0+6,y0+28,4,3,S1)
-    c.rect(x0+4,y0+2,8,8,OUT); c.rect(x0+5,y0+3,6,6,G); c.rect(x0+6,y0+4,4,4,C1); c.set(x0+7,y0+5,G)
+    c.rect(x0+4,y0+2,8,8,OUT); c.rect(x0+5,y0+3,6,6,G); c.rect(x0+6,y0+4,4,4,W1); c.set(x0+7,y0+5,G)
     c.hline(x0+3,y0+1,10,OUT); c.hline(x0+6,y0,4,OUT)
 
 def dead_tree(c,x0,y0):
@@ -484,3 +485,80 @@ def stone_rampart(c,x0,x1,ytop,ybot,cx):
                 col=S3 if (d<2 and rx<5) else (S1 if rx>=59 else S2)
                 if (y-6)%24==23: col=OUT
             c.set(gx,gy,col)
+
+# ---- pieces for the blackstone design (pale stone uses palette B) ----
+
+def pale_paving(c,x0,y0,w,h):
+    # Pale weathered flagstones (period 16 px by absolute position), with a few moss specks.
+    for gy in range(y0,y0+h):
+        for gx in range(x0,x0+w):
+            ch=FLAG_A[gy%16][gx%16]
+            if ch=='#': col=P0
+            else:
+                up=FLAG_A[(gy-1)%16][gx%16]; left=FLAG_A[gy%16][(gx-1)%16]
+                col=P3 if (up=='#' or left=='#') else P2
+                lx,ly=gx%16,gy%16           # specks repeat every 16 px, like the slabs
+                if (lx*5+ly*3+ord(ch))%13==0: col=P1
+                if (lx,ly) in ((3,9),(12,2)): col=M0
+            c.set(gx,gy,col)
+
+def pale_gate(c,x,y,w,h):
+    # Pointed archway with a pale stone frame and black iron-bound doors.
+    cx=x+w/2-0.5; half=w/2
+    for j in range(h):
+        for i in range(w):
+            dx=abs(x+i-cx)
+            arch=half*(1-max(0,(half-j))/half)**0.5 if j<half else half
+            if dx>=arch+0.5: continue
+            if dx>=arch-4: col=P3 if dx>=arch-1.5 else P2
+            elif dx>=arch-5: col=OUT
+            else:
+                col=S1
+                if abs(x+i-cx)<0.6: col=OUT
+                elif (j%12)==5: col=OUT
+                elif (j%12)==6: col=S0
+                elif ((x+i)%6==2 and j%12==9): col=G
+            c.set(x+i,y+j,col)
+    c.rect(int(cx)-2,y,4,4,P4); c.set(int(cx),y+2,G)
+
+def arcade_wall(c,x0,x1,ytop,ybot,cx):
+    # The bastion's front: dark ashlar with a blind arcade of pointed arches every 32 px,
+    # a pale coping along the top and a plinth at the foot.
+    for gx in range(x0,x1):
+        rx=(gx-cx)%32
+        for gy in range(ytop,ybot):
+            y=gy-ytop
+            if y<5: col=P4 if y==0 else (P3 if y<3 else (P1 if y==3 else OUT))
+            elif ybot-gy<=6: col=S1 if ybot-gy>1 else S0
+            else:
+                course=(y-5)//8; by=(y-5)%8; bx=(rx+(course%2)*8)%16
+                col=S2 if by and bx else S1
+                if by==1 and bx: col=S3
+                # blind arch: pillars at rx 0-3, pointed head between y 10 and 24
+                ay=y-10
+                if rx<4: col=S3 if rx<2 else S1
+                elif ay>=0 and ybot-gy>6:
+                    half=14; d=abs(rx-17.5)
+                    top=half*(1-max(0,(half-ay))/half)**0.5 if ay<half else half
+                    if d<top-1: col=S0
+                    elif d<top+0.5: col=OUT if rx>=17 else S3
+            c.set(gx,gy,col)
+
+def obelisk(c,x,y,h):
+    # A slim dark pillar ending in a blue spire, 16 px wide.
+    for j in range(h):
+        if j<20:
+            half=max(1,int(5*(j+1)/20+0.5))
+            for i in range(-half,half): c.set(x+8+i,y+j,R2 if i<0 else R1)
+        else:
+            for i in range(4,12): c.set(x+i,y+j,S3 if i<6 else (S2 if i<10 else S1))
+    c.rect(x+3,y+20,10,3,S3); c.rect(x+2,y+h-6,12,6,S2); c.hline(x+2,y+h-6,12,S3)
+    c.set(x+7,y-3,G); c.set(x+8,y-3,G); c.set(x+7,y-2,G); c.set(x+8,y-2,G)
+
+def pale_balustrade(c,x0,x1,y):
+    # A low pale parapet: rail, balusters and base, 12 px tall.
+    for gx in range(x0,x1):
+        c.set(gx,y,P4); c.set(gx,y+1,P3); c.set(gx,y+2,OUT)
+        for j in range(3,9):
+            c.set(gx,y+j,(P2 if (gx%6) in (1,2) else (P0 if (gx%6)==3 else 0)) if j<8 else P1)
+        c.set(gx,y+9,P3); c.set(gx,y+10,P1); c.set(gx,y+11,OUT)

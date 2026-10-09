@@ -10,7 +10,7 @@ PRIM_ATTRS=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/prima
 random.seed(7)
 
 # ---- compose the map art (indexed canvas the size of the map) ----
-MW,MH=60,38
+MW,MH=60,42
 CX=30*16                    # gate axis (between cols 29 and 30)
 c=Canvas(MW*16,MH*16)
 import castle_facade
@@ -20,32 +20,40 @@ coll=[[0]*MW for _ in range(MH)]
 layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (above player)
 for y in range(0,10):                    # the castle
     for x in range(MW): coll[y][x]=1
-for y in (10,11):                        # terrace on top of the rampart
-    for x in range(MW): ground[y][x]='flag'
-for x in (23,24,25,34,35,36):            # gargoyles on the terrace (the row below stays a walkway)
+for x in (23,24,25,34,35,36):            # gargoyles by the gate
     coll[10][x]=1
-for y in range(12,18):                   # rampart wall and moat, except the staircase and bridge
+for y in range(10,15):                   # forecourt lawns, between the paths
+    for x in list(range(17,24))+list(range(36,43)):
+        if y>=11: ground[y][x]='lawn'
+for x in (25,26,33,34):                  # obelisks at the top of the staircase
+    coll[14][x]=1
+for x in range(MW):                      # front parapet of the forecourt
+    if not 28<=x<=31: coll[15][x]=1
+for y in range(16,22):                   # bastion wall and moat, except the staircase and bridge
     for x in range(MW):
         if not 28<=x<=31: coll[y][x]=1
-for y in (16,17):                        # the moat runs the whole width, into the forest on both sides
+for y in (20,21):                        # the moat runs the whole width, into the forest on both sides
     for x in range(MW): ground[y][x]='water'
-for x in (27,32):                        # balustrades and bridge parapets
-    for y in range(11,19): coll[y][x]=1
+for y in range(8,20):                    # corner towers
+    for x in (12,13,14,45,46,47):
+        if y>=12: coll[y][x]=1
+for x in (27,32):                        # balustrades
+    for y in range(14,23): coll[y][x]=1
 for x in (25,26,27,32,33,34):            # gargoyles at the end of the bridge
-    coll[19][x]=1; coll[20][x]=1; layer[18][x]=0
-# courtyard: plaza beyond the moat, path south; flagstones stop at the fence (the path beyond is
-# grass from the shared primary tileset, so the route shows this map's edge correctly)
-for y in range(18,23):
+    coll[23][x]=1; coll[24][x]=1; layer[22][x]=0
+# courtyard beyond the moat; flagstones stop at the fence (the path beyond is grass from the shared
+# primary tileset, so the route shows this map's edge correctly)
+for y in range(22,27):
     for x in range(28,32): ground[y][x]='flag'
-for y in range(19,22):
+for y in range(23,26):
     for x in range(22,38): ground[y][x]='flag'
-FR=23
-for x in range(14,46):
+FR=27
+for x in range(16,44):
     if 27<=x<=32: continue
     fence(c,x*16,FR*16-8); coll[FR][x]=1; layer[FR-1][x]=0
 for px in (27,32):
     gate_pillar(c,px*16,(FR-2)*16+8); coll[FR][px]=1; coll[FR-1][px]=1; layer[FR-2][px]=0
-for (lx,ly) in ((23,21),(36,21),(27,27),(32,27)):
+for (lx,ly) in ((23,25),(36,25),(27,31),(32,31)):
     lamp_post(c,lx*16,(ly-1)*16); coll[ly][lx]=1; layer[ly-1][lx]=0
 c.outline()
 OVER=c
@@ -62,9 +70,9 @@ def tree_block(grid,x0,y0,w,h):
             if ty==y0 and ty>0: grid[ty-1][tx]=0xe; grid[ty-1][tx+1]=0xf
 prim=[[None]*MW for _ in range(MH)]
 # the wings disappear into the forest on both sides; the moat runs between the forests
-tree_block(prim,0,8,14,8); tree_block(prim,46,8,14,8)
-tree_block(prim,0,20,16,MH-20); tree_block(prim,44,20,16,MH-20)
-tree_block(prim,16,30,12,MH-30); tree_block(prim,32,30,12,MH-30)
+tree_block(prim,0,8,12,12); tree_block(prim,48,8,12,12)
+tree_block(prim,0,24,16,MH-24); tree_block(prim,44,24,16,MH-24)
+tree_block(prim,16,34,12,MH-34); tree_block(prim,32,34,12,MH-34)
 for y in range(MH):
     for x in range(MW):
         if prim[y][x] is not None:
@@ -72,15 +80,24 @@ for y in range(MH):
 
 # ---- tileset building ----
 tiles=[]; tindex={}
-def add_tile(px):   # px: 8 rows of 8 colour indices; returns (index, hflip, vflip)
+A_IDX={rgb:i for i,rgb in enumerate(PAL_A) if i}
+B_IDX={rgb:i for i,rgb in enumerate(PAL_B) if i}
+def to_bank(px):
+    # Picks the palette (7 or 8) that has every colour of the tile; returns (pal, local pixels).
+    rgbs={PAL[p] for r in px for p in r if p}
+    for pal,idx in ((7,A_IDX),(8,B_IDX)):
+        if rgbs<=set(idx):
+            return pal,[[idx[PAL[p]] if p else 0 for p in r] for r in px]
+    raise SystemExit('tile mixes colours of both palettes: %s' % sorted(rgbs))
+def add_tile(px):   # px: 8 rows of 8 art colour indices; returns (index, hflip, vflip, palette)
+    pal,px=to_bank(px)
     rows=[tuple(r) for r in px]
     cands=[(tuple(rows),0,0),(tuple(r[::-1] for r in rows),1,0),(tuple(rows[::-1]),0,1),(tuple(r[::-1] for r in rows[::-1]),1,1)]
     for k,h,v in cands:
-        if k in tindex: return tindex[k],h,v
-    tindex[cands[0][0]]=len(tiles); tiles.append(cands[0][0]); return len(tiles)-1,0,0
+        if k in tindex: return tindex[k],h,v,pal
+    tindex[cands[0][0]]=len(tiles); tiles.append(cands[0][0]); return len(tiles)-1,0,0,pal
 add_tile([[0]*8]*8)   # secondary tile 0 = transparent
-SEC_PAL=7
-def tile_entry(i,h,v,pal=SEC_PAL): return (640+i)|(h<<10)|(v<<11)|(pal<<12)
+def tile_entry(i,h,v,pal): return (640+i)|(h<<10)|(v<<11)|(pal<<12)
 def cell_tiles(canvas,x0,y0):
     out=[]
     for ty in (0,8):
@@ -96,7 +113,7 @@ def metatile(bottom,top,attr):
     if key in mindex: return mindex[key]
     mindex[key]=640+len(metatiles); metatiles.append(key); attrs.append(attr); return mindex[key]
 # own flagstone ground metatiles
-fc=Canvas(32,16); flagstone(fc,0,0,0); flagstone(fc,16,0,1)
+fc=Canvas(32,16); pale_paving(fc,0,0,32,16)
 FLAG=[]
 for v in range(2):
     t=cell_tiles(fc,v*16,0)
@@ -104,6 +121,7 @@ for v in range(2):
 def ground_bottom(kind,x,y):
     if kind=='flag': return FLAG[(x+y)%2]
     if kind=='water': return list(PRIM.meta[0x12b][:4])
+    if kind=='lawn': return list(PRIM.meta[random.choice(GRASS)][:4])
     m=random.choice(GRASS)
     return list(PRIM.meta[m][:4])
 grid=[[0]*MW for _ in range(MH)]
@@ -141,11 +159,11 @@ if os.environ.get('PREVIEW'):
             if prim[y][x] is None and ground[y][x]=='flag':
                 for i in range(4):
                     e=FLAG[(x+y)%2][i]
-                    t=e&0x3ff; pal=PAL
+                    t=e&0x3ff; pal=PAL_A if (e>>12)==7 else PAL_B
                     T=tiles[t-640]; hf=e>>10&1; vf=e>>11&1
                     for yy in range(8):
                         for xx in range(8):
-                            img.putpixel((x*16+(i&1)*8+xx,y*16+(i>>1)*8+yy),PAL[T[7-yy if vf else yy][7-xx if hf else xx]])
+                            img.putpixel((x*16+(i&1)*8+xx,y*16+(i>>1)*8+yy),pal[T[7-yy if vf else yy][7-xx if hf else xx]])
     art=OVER.img(); img.paste(art,(0,0),art)
     for y in range(MH):
         for x in range(MW):
@@ -164,7 +182,7 @@ os.makedirs(TSDIR+'palettes',exist_ok=True)
 from PIL import Image
 n=len(tiles); rows_=(n+15)//16
 im=Image.new('P',(128,rows_*8),0)
-im.putpalette([v for col in PAL for v in col])
+im.putpalette([v for col in PAL_A for v in col])
 for i,t in enumerate(tiles):
     for y in range(8):
         for x in range(8): im.putpixel(((i%16)*8+x,(i//16)*8+y),t[y][x])
@@ -173,7 +191,7 @@ def write_pal(path,cols):
     with open(path,'w',newline='\r\n') as f:
         f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in cols))
 for p in range(16):
-    write_pal(TSDIR+'palettes/%02d.pal'%p, PAL if p==SEC_PAL else [(0,0,0)]*16)
+    write_pal(TSDIR+'palettes/%02d.pal'%p, PAL_A if p==7 else (PAL_B if p==8 else [(0,0,0)]*16))
 with open(TSDIR+'metatiles.bin','wb') as f:
     for b,t,a in metatiles: f.write(struct.pack('<8H',*b,*t))
 with open(TSDIR+'metatile_attributes.bin','wb') as f:
