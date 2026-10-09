@@ -503,6 +503,8 @@ const u8 *const gMonIconTable[] =
     [SPECIES_SHARPEDO_MEGA] = gMonIcon_Sharpedo,
     [SPECIES_SABLEYE_MEGA] = gMonIcon_Sableye,
     [SPECIES_ABSOL_MEGA] = gMonIcon_Absol,
+    [SPECIES_GARDEVOIR_MEGA] = gMonIcon_Gardevoir,
+    [SPECIES_ALTARIA_MEGA] = gMonIcon_Altaria,
     // </mega-evolutions>
 };
 
@@ -988,6 +990,8 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_SHARPEDO_MEGA] = 0,
     [SPECIES_SABLEYE_MEGA] = 2,
     [SPECIES_ABSOL_MEGA] = 0,
+    [SPECIES_GARDEVOIR_MEGA] = 1,
+    [SPECIES_ALTARIA_MEGA] = 0,
     // </mega-evolutions>
 };
 

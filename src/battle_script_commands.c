@@ -923,17 +923,14 @@ static void Cmd_attackcanceler(void)
         gCurrentActionFuncId = B_ACTION_FINISHED;
         return;
     }
-    // Aerilate / Refrigerate: NORMAL moves become FLYING / ICE. Moves that set their
-    // own type first (Hidden Power, Weather Ball in weather) keep it.
-    if ((gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE || gBattleMons[gBattlerAttacker].ability == ABILITY_REFRIGERATE)
+    // Aerilate / Refrigerate / Pixilate: NORMAL moves become FLYING / ICE / FAIRY.
+    // Moves that set their own type first (Hidden Power, Weather Ball in weather) keep it.
+    if (IsAteAbility(gBattleMons[gBattlerAttacker].ability)
      && !gBattleStruct->dynamicMoveType
      && gBattleMoves[gCurrentMove].type == TYPE_NORMAL
      && gCurrentMove != MOVE_STRUGGLE)
     {
-        if (gBattleMons[gBattlerAttacker].ability == ABILITY_AERILATE)
-            gBattleStruct->dynamicMoveType = TYPE_FLYING | F_DYNAMIC_TYPE_SET;
-        else
-            gBattleStruct->dynamicMoveType = TYPE_ICE | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->dynamicMoveType = GetAteAbilityType(gBattleMons[gBattlerAttacker].ability) | F_DYNAMIC_TYPE_SET;
         gBattleStruct->ateBoost = TRUE;
     }
     if (gBattleMons[gBattlerAttacker].hp == 0 && !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
@@ -1357,9 +1354,19 @@ static void Cmd_damagecalc(void)
 void AI_CalcDmg(u8 attacker, u8 defender)
 {
     u16 sideStatus = gSideStatuses[GET_BATTLER_SIDE(defender)];
+    u8 moveType = gBattleStruct->dynamicMoveType;
+    bool8 savedAteBoost = gBattleStruct->ateBoost;
+
+    // An -ate ability changes the move's type (and so physical or special) and its power.
+    if (moveType == 0 && GetMoveTypeForBattler(attacker, gCurrentMove) != gBattleMoves[gCurrentMove].type)
+    {
+        moveType = GetMoveTypeForBattler(attacker, gCurrentMove) | F_DYNAMIC_TYPE_SET;
+        gBattleStruct->ateBoost = TRUE;
+    }
     gBattleMoveDamage = CalculateBaseDamage(&gBattleMons[attacker], &gBattleMons[defender], gCurrentMove,
                                             sideStatus, gDynamicBasePower,
-                                            gBattleStruct->dynamicMoveType, attacker, defender);
+                                            moveType, attacker, defender);
+    gBattleStruct->ateBoost = savedAteBoost;
     gDynamicBasePower = 0;
     gBattleMoveDamage = gBattleMoveDamage * gCritMultiplier * gBattleScripting.dmgMultiplier;
 
@@ -1598,7 +1605,7 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     if (move == MOVE_STRUGGLE)
         return 0;
 
-    moveType = gBattleMoves[move].type;
+    moveType = GetMoveTypeForBattler(attacker, move);
 
     // check stab
     if (IS_BATTLER_OF_TYPE(attacker, moveType))
@@ -7090,7 +7097,10 @@ static void Cmd_stockpiletohpheal(void)
 
 static void Cmd_negativedamage(void)
 {
-    gBattleMoveDamage = -(gHpDealt / 2);
+    if (gBattleMoves[gCurrentMove].effect == EFFECT_DRAINING_KISS)
+        gBattleMoveDamage = -(gHpDealt * 3 / 4);
+    else
+        gBattleMoveDamage = -(gHpDealt / 2);
     if (gBattleMoveDamage == 0)
         gBattleMoveDamage = -1;
 
@@ -8264,7 +8274,7 @@ static void Cmd_settypetorandomresistance(void)
 
         for (rands = 0; rands < 1000; rands++)
         {
-            while (((i = Random() % 128) > sizeof(gTypeEffectiveness) / 3));
+            while (((i = Random() % 128) >= sizeof(gTypeEffectiveness) / 3));
 
             i *= 3;
 
@@ -8290,10 +8300,10 @@ static void Cmd_settypetorandomresistance(void)
             default:
                 if (TYPE_EFFECT_ATK_TYPE(j) == gLastHitByType[gBattlerAttacker]
                  && TYPE_EFFECT_MULTIPLIER(j) <= 5
-                 && !IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_EFFECT_DEF_TYPE(i)))
+                 && !IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_EFFECT_DEF_TYPE(j)))
                 {
-                    SET_BATTLER_TYPE(gBattlerAttacker, TYPE_EFFECT_DEF_TYPE(rands));
-                    PREPARE_TYPE_BUFFER(gBattleTextBuff1, TYPE_EFFECT_DEF_TYPE(rands))
+                    SET_BATTLER_TYPE(gBattlerAttacker, TYPE_EFFECT_DEF_TYPE(j));
+                    PREPARE_TYPE_BUFFER(gBattleTextBuff1, TYPE_EFFECT_DEF_TYPE(j))
 
                     gBattlescriptCurrInstr += 5;
                     return;
@@ -9079,9 +9089,9 @@ static void Cmd_hiddenpowercalc(void)
 
     gDynamicBasePower = (40 * powerBits) / 63 + 30;
 
-    // Subtract 3 instead of 1 below because 2 types are excluded (TYPE_NORMAL and TYPE_MYSTERY)
+    // Hidden Power can be any of the 15 types from Fighting to Dark (Normal, Mystery and Fairy are excluded)
     // The final + 1 skips past Normal, and the following conditional skips TYPE_MYSTERY
-    gBattleStruct->dynamicMoveType = ((NUMBER_OF_MON_TYPES - 3) * typeBits) / 63 + 1;
+    gBattleStruct->dynamicMoveType = ((TYPE_DARK - 2) * typeBits) / 63 + 1;
     if (gBattleStruct->dynamicMoveType >= TYPE_MYSTERY)
         gBattleStruct->dynamicMoveType++;
     gBattleStruct->dynamicMoveType |= F_DYNAMIC_TYPE_IGNORE_PHYSICALITY | F_DYNAMIC_TYPE_SET;

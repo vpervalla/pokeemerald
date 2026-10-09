@@ -463,4 +463,6 @@ const u32 gMonFrontPic_BanetteMega[] = INCGFX_U32("graphics/pokemon/banette/mega
 const u32 gMonFrontPic_SharpedoMega[] = INCGFX_U32("graphics/pokemon/sharpedo/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_SableyeMega[] = INCGFX_U32("graphics/pokemon/sableye/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/anim_front.png", ".4bpp.lz");
 // </mega-evolutions>

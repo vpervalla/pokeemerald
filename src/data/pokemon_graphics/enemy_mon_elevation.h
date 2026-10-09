@@ -78,5 +78,6 @@ const u8 gEnemyMonElevation[NUM_SPECIES_WITH_FORMS] =
     [SPECIES_GLALIE_MEGA] = 8,
     [SPECIES_BANETTE_MEGA] = 5,
     [SPECIES_SHARPEDO_MEGA] = 1,
+    [SPECIES_ALTARIA_MEGA] = 6,
     // </mega-evolutions>
 };

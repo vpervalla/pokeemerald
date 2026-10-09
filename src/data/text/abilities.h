@@ -95,6 +95,7 @@ static const u8 sSheerForceDescription[] = _("Ups power, drops effects.");
 static const u8 sPranksterDescription[] = _("Status moves go first.");
 static const u8 sStrongJawDescription[] = _("Powers up biting moves.");
 static const u8 sMagicBounceDescription[] = _("Reflects status moves.");
+static const u8 sPixilateDescription[] = _("NORMAL moves become FAIRY.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -195,6 +196,7 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_PRANKSTER] = _("PRANKSTER"),
     [ABILITY_STRONG_JAW] = _("STRONG JAW"),
     [ABILITY_MAGIC_BOUNCE] = _("MAGIC BOUNCE"),
+    [ABILITY_PIXILATE] = _("PIXILATE"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -296,4 +298,5 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_PRANKSTER] = sPranksterDescription,
     [ABILITY_STRONG_JAW] = sStrongJawDescription,
     [ABILITY_MAGIC_BOUNCE] = sMagicBounceDescription,
+    [ABILITY_PIXILATE] = sPixilateDescription,
 };

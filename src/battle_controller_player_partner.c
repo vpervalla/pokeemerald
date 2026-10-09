@@ -1514,9 +1514,16 @@ static void PlayerPartnerHandleChooseMove(void)
 {
     u8 chosenMoveId;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
+    bool8 megaEvolve = ShouldAIMegaEvolve(gActiveBattler);
+    struct BattlePokemon savedMon;
 
+    // Pick the move as the Mega, since it Mega Evolves before moving.
+    if (megaEvolve)
+        SetBattleMonToMegaForAI(gActiveBattler, &savedMon);
     BattleAI_SetupAIData(ALL_MOVES_MASK);
     chosenMoveId = BattleAI_ChooseMoveOrAction();
+    if (megaEvolve)
+        RestoreBattleMonAfterAI(gActiveBattler, &savedMon);
 
     if (gBattleMoves[moveInfo->moves[chosenMoveId]].target & (MOVE_TARGET_USER | MOVE_TARGET_USER_OR_SELECTED))
         gBattlerTarget = gActiveBattler;
@@ -1527,7 +1534,7 @@ static void PlayerPartnerHandleChooseMove(void)
             gBattlerTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
     }
 
-    BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, chosenMoveId | (gBattlerTarget << 8));
+    BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, chosenMoveId | (megaEvolve ? RET_MEGA_EVOLUTION : 0) | (gBattlerTarget << 8));
     PlayerPartnerBufferExecCompleted();
 }
 

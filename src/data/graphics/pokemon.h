@@ -2980,4 +2980,12 @@ const u32 gMonStillFrontPic_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/meg
 const u32 gMonBackPic_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

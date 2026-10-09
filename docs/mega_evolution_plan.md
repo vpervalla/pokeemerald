@@ -10,7 +10,7 @@ every mechanic below has to be built by hand.
 | # | Decision | Recommendation | Why it matters |
 |---|----------|----------------|----------------|
 | D1 | Which Megas | All 40 Megas of Gen 1–3 species (plus Primal Kyogre and Groudon as phase 6) | Gen 4+ Megas (Lucario, Garchomp, …) have no base species here |
-| D2 | Add the Fairy type? | **No** for v1. Keep Gen 3 typings: Mega Altaria is Dragon/Flying, Mega Mawile is Steel, Mega Gardevoir is Psychic. Pixilate becomes "Normal moves get 1.3x and become Psychic", or Pixilate is swapped for an existing ability | A Fairy type touches the type chart, the type icons, the summary and pokédex UI, the Hidden Power math, contests and the move data. That is its own project |
+| D2 | Add the Fairy type? | **Yes** (see `docs/fairy_type_plan.md`). Mega Gardevoir is Psychic/Fairy, Mega Altaria is Dragon/Fairy and Mega Mawile is Steel/Fairy, and Pixilate is the real ability | Fairy moves are special in this engine, which splits physical and special by type |
 | D3 | Turn-order rules | Gen 7: Mega Evolve at the start of the turn, and turn order uses the Mega's speed | Gen 6 used the pre-Mega speed. Gen 7 is simpler, because the order is computed after evolving |
 | D4 | Link and recorded battles | Turn Megas off in `BATTLE_TYPE_LINK` and `BATTLE_TYPE_RECORDED*` for v1 | The action protocol and the Frontier records would otherwise need a new field. Re-enable in phase 7 |
 | D5 | Key item gating | A new key item, `ITEM_MEGA_RING`, given by an NPC (for example after Steven, or in the Kanto post-game) | It decides where the story hook goes |
@@ -298,7 +298,7 @@ Evolving opponent:
   already started the sandstorm.
 - The phase 1 and 2 scenarios still pass.
 
-### Phase 4 status: in progress
+### Phase 4 status: done
 
 **Done: Mega Charizard X, Blastoise and Pidgeot**, with three new abilities
 (`ABILITY_TOUGH_CLAWS` 78, `ABILITY_MEGA_LAUNCHER` 79, `ABILITY_NO_GUARD` 80):
@@ -482,8 +482,63 @@ Tested in mGBA, each against the same run without the Mega Stone:
   once and Sableye is paralyzed. Mega Ampharos (Mold Breaker) paralyzes a Mega Sableye.
 - The earlier scenarios still pass.
 
-**Next:**
-- Gardevoir and Altaria (Pixilate) need a decision, because this game has no Fairy type.
+**Done: Mega Gardevoir (Psychic/Fairy) and Mega Altaria (Dragon/Fairy)**, on top of
+the Fairy type branch, with **Pixilate** (`ABILITY_PIXILATE` 97): Normal moves become
+Fairy and get 1.2x, the same code as Aerilate and Refrigerate (`IsAteAbility`). Fairy
+moves are special in this engine, so a Normal move turned Fairy uses Sp. Atk. The
+import tool's Mega Mawile row is now Steel/Fairy, matching the Fairy branch.
+
+Tested in mGBA, each against the same run without the Mega Stone:
+- Both Mega Evolve on both sides, with the right sprites. "Wild GARDEVOIR's
+  GARDEVOIRITE" fits the message box.
+- Mega Gardevoir's Tackle has power 42 and hits a Gengar (the control's doesn't
+  affect it). Its Hyper Voice has power 108 (control 90).
+- Mega Altaria's Body Slam has power 102 and hits a Gengar.
+- Dragonite's Dragon Claw doesn't affect Mega Altaria; the control takes 99.
+- Mega Mawile is Steel/Fairy.
+- The earlier scenarios still pass.
+
+All 41 Megas of Gen 1–3 species are in: 40 by Mega Stone (both Charizard and
+Mewtwo forms included) and Mega Rayquaza by Dragon Ascent.
+
+### Phase 5 status: in progress
+
+**Done: the opponent and partner AI.** The story parts (the Mega Ring event, stone
+placement, trainer parties) are still to do.
+
+- `ShouldAIMegaEvolve`: trainers' Pokémon and the in-game partner Mega Evolve whenever
+  `CanMegaEvolve` allows it. Wild Pokémon never do, even holding a Mega Stone.
+- `OpponentHandleChooseMove` and `PlayerPartnerHandleChooseMove` set
+  `RET_MEGA_EVOLUTION`. Before the AI scores its moves, `SetBattleMonToMegaForAI` gives
+  the battler its Mega stats, types and ability, and `RestoreBattleMonAfterAI` puts its
+  data back afterwards. So the AI picks its move as the Mega it is about to become: for
+  example, its speed checks use the Mega's Speed.
+- The AI knows -ate abilities: `GetMoveTypeForBattler` gives a Normal move the
+  Aerilate, Refrigerate or Pixilate type in `TypeCalc`, `AI_CalcDmg` (with the 1.2x)
+  and the AI's `get_curr_move_type`.
+- The AI doesn't use Magic Coat-affected moves on a Magic Bounce target, unless it has
+  Mold Breaker. This uses a new AI script command, `if_move_flag` (0x52, an unused
+  slot before).
+- Mega Evolving records the new ability for the AI (`RecordAbilityBattle`), so it
+  doesn't keep using the ability it saw before (Absol's Pressure on a Mega Absol).
+- In a double battle, the engine already allows one Mega per trainer: when both of a
+  trainer's Pokémon hold a stone, the first to choose Mega Evolves.
+
+Tested in mGBA against Wallace's AI (and Tate and Liza's for doubles), over 4 RNG seeds:
+- The trainer's Gardevoir Mega Evolves on turn 1. A wild Gardevoir holding the stone
+  doesn't.
+- Against a Gengar, an Altaria holding Altarianite with Body Slam and Double Kick
+  always uses Body Slam (Pixilate makes it Fairy, which hits Ghosts). Without the
+  stone it picks either, since neither affects Gengar.
+- Against a Sableye that Mega Evolves on turn 1, the AI's Thunder Wave on turn 1 is
+  bounced; on turn 2 it uses Ember instead, on every seed.
+- In a double battle with Gardevoir (Gardevoirite) and Altaria (Altarianite), only
+  Gardevoir Mega Evolves, on both turns.
+- The earlier scenarios still pass.
+- Not tested in a real game yet: the partner (Steven in the Mossdeep multi battle), since
+  no partner holds a stone until the trainer parties are done.
+
+**Next:** the Mega Ring event, stone placement and trainer parties.
 
 ## 9. Testing
 

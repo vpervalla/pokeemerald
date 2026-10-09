@@ -91,6 +91,7 @@ AI_CheckBadMove_CheckSoundproof_:
 	if_equal MOVE_POWER_OTHER, AI_CheckBadMove_CheckSoundproof  @ Pointless check
 AI_CheckBadMove_CheckSoundproof:
 	get_ability AI_TARGET
+	if_equal ABILITY_MAGIC_BOUNCE, AI_CBM_CheckMagicBounce
 	if_not_equal ABILITY_SOUNDPROOF, AI_CheckBadMove_CheckEffect
 	if_move MOVE_GROWL, Score_Minus10
 	if_move MOVE_ROAR, Score_Minus10
@@ -101,6 +102,13 @@ AI_CheckBadMove_CheckSoundproof:
 	if_move MOVE_UPROAR, Score_Minus10
 	if_move MOVE_METAL_SOUND, Score_Minus10
 	if_move MOVE_GRASS_WHISTLE, Score_Minus10
+	goto AI_CheckBadMove_CheckEffect
+
+@ Magic Bounce sends Magic Coat-affected moves back, unless the user has Mold Breaker.
+AI_CBM_CheckMagicBounce:
+	get_ability AI_USER
+	if_equal ABILITY_MOLD_BREAKER, AI_CheckBadMove_CheckEffect
+	if_move_flag FLAG_MAGIC_COAT_AFFECTED, Score_Minus10
 AI_CheckBadMove_CheckEffect:
 	if_effect EFFECT_SLEEP, AI_CBM_Sleep
 	if_effect EFFECT_EXPLOSION, AI_CBM_Explosion
@@ -653,6 +661,7 @@ AI_CheckViability:
 	if_target_is_ally AI_Ret
 	if_effect EFFECT_SLEEP, AI_CV_Sleep
 	if_effect EFFECT_ABSORB, AI_CV_Absorb
+	if_effect EFFECT_DRAINING_KISS, AI_CV_Absorb
 	if_effect EFFECT_EXPLOSION, AI_CV_SelfKO
 	if_effect EFFECT_DREAM_EATER, AI_CV_DreamEater
 	if_effect EFFECT_MIRROR_MOVE, AI_CV_MirrorMove
@@ -1181,6 +1190,7 @@ AI_CV_SpAtkDown_SpecialTypeList:
 	.byte TYPE_ICE
 	.byte TYPE_DRAGON
 	.byte TYPE_DARK
+	.byte TYPE_FAIRY
 	.byte -1
 
 AI_CV_SpDefDown:
@@ -1391,6 +1401,7 @@ AI_CV_LightScreen_SpecialTypeList:
 	.byte TYPE_ICE
 	.byte TYPE_DRAGON
 	.byte TYPE_DARK
+	.byte TYPE_FAIRY
 	.byte -1
 
 AI_CV_Rest:
@@ -2179,6 +2190,7 @@ AI_CV_MirrorCoat_SpecialTypeList:
 	.byte TYPE_ICE
 	.byte TYPE_DRAGON
 	.byte TYPE_DARK
+	.byte TYPE_FAIRY
 	.byte -1
 
 AI_CV_ChargeUpMove:

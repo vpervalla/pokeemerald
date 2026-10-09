@@ -693,7 +693,7 @@ void HandleAction_ActionFinished(void)
 static const u16 sSoundMovesTable[] =
 {
     MOVE_GROWL, MOVE_ROAR, MOVE_SING, MOVE_SUPERSONIC, MOVE_SCREECH, MOVE_SNORE,
-    MOVE_UPROAR, MOVE_METAL_SOUND, MOVE_GRASS_WHISTLE, MOVE_HYPER_VOICE, SOUND_MOVES_END
+    MOVE_UPROAR, MOVE_METAL_SOUND, MOVE_GRASS_WHISTLE, MOVE_HYPER_VOICE, MOVE_DISARMING_VOICE, SOUND_MOVES_END
 };
 
 u8 GetBattlerForBattleScript(u8 caseId)
@@ -4165,8 +4165,32 @@ void MegaEvolve(u8 battler)
     u16 megaSpecies = GetBattlerMegaEvolutionSpecies(battler);
 
     SetBattleMonToMegaSpecies(battler, megaSpecies);
+    // Everyone sees the new ability, so the AI forgets the one it knew from before.
+    RecordAbilityBattle(battler, gBattleMons[battler].ability);
     gBattleStruct->megaEvolvedBattlers |= gBitTable[battler];
     gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]] = megaSpecies;
+}
+
+// Wild Pokémon never Mega Evolve. Trainers' Pokémon and partners always do when they can,
+// since Mega Evolving is never worse.
+bool8 ShouldAIMegaEvolve(u8 battler)
+{
+    if (GetBattlerSide(battler) == B_SIDE_OPPONENT && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return FALSE;
+    return CanMegaEvolve(battler);
+}
+
+// Mega Evolution happens before any move, so the AI picks its move as the Mega it is about
+// to become (stats, types, ability). saved gets the battler's data back afterwards.
+void SetBattleMonToMegaForAI(u8 battler, struct BattlePokemon *saved)
+{
+    *saved = gBattleMons[battler];
+    SetBattleMonToMegaSpecies(battler, GetBattlerMegaEvolutionSpecies(battler));
+}
+
+void RestoreBattleMonAfterAI(u8 battler, const struct BattlePokemon *saved)
+{
+    gBattleMons[battler] = *saved;
 }
 
 // The Mega battler can become: by its Mega Stone, or by a move (Rayquaza's Dragon Ascent).
@@ -4314,6 +4338,40 @@ bool8 IsAbilityOnFieldAlive(u8 ability)
             return TRUE;
     }
     return FALSE;
+}
+
+// Aerilate, Refrigerate and Pixilate change Normal moves to their type and power them up.
+// Returns that type, or TYPE_NONE for other abilities.
+u8 GetAteAbilityType(u8 ability)
+{
+    switch (ability)
+    {
+    case ABILITY_AERILATE:
+        return TYPE_FLYING;
+    case ABILITY_REFRIGERATE:
+        return TYPE_ICE;
+    case ABILITY_PIXILATE:
+        return TYPE_FAIRY;
+    }
+    return TYPE_NONE;
+}
+
+bool8 IsAteAbility(u8 ability)
+{
+    return GetAteAbilityType(ability) != TYPE_NONE;
+}
+
+// The type move has when battler uses it, for the AI: an -ate ability changes Normal moves.
+// Hidden Power sets its own type in battle, so it is left alone.
+u8 GetMoveTypeForBattler(u8 battler, u16 move)
+{
+    u8 type = gBattleMoves[move].type;
+
+    if (type == TYPE_NORMAL && move != MOVE_STRUGGLE
+     && gBattleMoves[move].effect != EFFECT_HIDDEN_POWER
+     && IsAteAbility(gBattleMons[battler].ability))
+        type = GetAteAbilityType(gBattleMons[battler].ability);
+    return type;
 }
 
 // TRUE if the move has an added effect that Sheer Force removes in exchange for more power.

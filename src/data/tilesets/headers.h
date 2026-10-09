@@ -1577,3 +1577,36 @@ const struct Tileset gTileset_KantoHallOfFame =
 };
 
 // END KANTO PORT
+
+const struct Tileset gTileset_KantoMegaCastle =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaCastle,
+    .palettes = gTilesetPalettes_KantoMegaCastle,
+    .metatiles = gMetatiles_KantoMegaCastle,
+    .metatileAttributes = gMetatileAttributes_KantoMegaCastle,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_KantoMegaArena =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaArena,
+    .palettes = gTilesetPalettes_KantoMegaArena,
+    .metatiles = gMetatiles_KantoMegaArena,
+    .metatileAttributes = gMetatileAttributes_KantoMegaArena,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_KantoMegaHall =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaHall,
+    .palettes = gTilesetPalettes_KantoMegaHall,
+    .metatiles = gMetatiles_KantoMegaHall,
+    .metatileAttributes = gMetatileAttributes_KantoMegaHall,
+    .callback = NULL,
+};

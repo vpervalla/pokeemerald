@@ -1562,9 +1562,16 @@ static void OpponentHandleChooseMove(void)
 
         if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER))
         {
+            bool8 megaEvolve = ShouldAIMegaEvolve(gActiveBattler);
+            struct BattlePokemon savedMon;
 
+            // Pick the move as the Mega, since it Mega Evolves before moving.
+            if (megaEvolve)
+                SetBattleMonToMegaForAI(gActiveBattler, &savedMon);
             BattleAI_SetupAIData(ALL_MOVES_MASK);
             chosenMoveId = BattleAI_ChooseMoveOrAction();
+            if (megaEvolve)
+                RestoreBattleMonAfterAI(gActiveBattler, &savedMon);
 
             switch (chosenMoveId)
             {
@@ -1586,7 +1593,7 @@ static void OpponentHandleChooseMove(void)
                     if (gAbsentBattlerFlags & gBitTable[gBattlerTarget])
                         gBattlerTarget = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
                 }
-                BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, (chosenMoveId) | (gBattlerTarget << 8));
+                BtlController_EmitTwoReturnValues(B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, (chosenMoveId) | (megaEvolve ? RET_MEGA_EVOLUTION : 0) | (gBattlerTarget << 8));
                 break;
             }
             OpponentBufferExecCompleted();

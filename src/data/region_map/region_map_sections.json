@@ -1674,6 +1674,14 @@
       "y": 11,
       "width": 1,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_MEGA_ISLAND",
+      "name": "APEX ISLAND",
+      "x": 20,
+      "y": 13,
+      "width": 1,
+      "height": 1
     }
   ]
 }

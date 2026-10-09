@@ -480,5 +480,7 @@ const struct CompressedSpritePalette gMonPaletteTable[] =
     SPECIES_PAL(SHARPEDO_MEGA, gMonPalette_SharpedoMega),
     SPECIES_PAL(SABLEYE_MEGA, gMonPalette_SableyeMega),
     SPECIES_PAL(ABSOL_MEGA, gMonPalette_AbsolMega),
+    SPECIES_PAL(GARDEVOIR_MEGA, gMonPalette_GardevoirMega),
+    SPECIES_PAL(ALTARIA_MEGA, gMonPalette_AltariaMega),
     // </mega-evolutions>
 };

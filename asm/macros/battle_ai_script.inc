@@ -467,8 +467,11 @@
 	.byte \battler
 	.endm
 
-	.macro nop_52
+	@ Jumps if the considered move has any of the given FLAG_* move flags.
+	.macro if_move_flag flags:req, ptr:req
 	.byte 0x52
+	.byte \flags
+	.4byte \ptr
 	.endm
 
 	.macro nop_53

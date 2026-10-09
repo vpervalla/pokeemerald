@@ -1,0 +1,28 @@
+{
+  "id": "MAP_MEGA_ISLAND_CASTLE_ROOM6",
+  "name": "MegaIsland_Castle_Room6",
+  "layout": "LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM",
+  "music": "MUS_RG_POKE_MANSION",
+  "region_map_section": "MAPSEC_MEGA_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 5,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_2F",
+      "dest_warp_id": "13"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

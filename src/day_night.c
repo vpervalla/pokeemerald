@@ -81,6 +81,8 @@ static const struct LitPalette sLitPalettes[] =
     {&gTileset_KantoIndigoPlateau,  10, NO_COPY, COLORS(12, 14)},               // Pokemon League
     {&gTileset_KantoSeviiIslands123, 11, NO_COPY, COLORS(8, 9)},
     {&gTileset_KantoSeviiIslands45, 9,  NO_COPY, (1 << 1) | COLORS(14, 15)},    // Purple houses
+    {&gTileset_KantoMegaCastle,     7,  NO_COPY, COLORS(13, 14)},               // Castle stained glass
+    {&gTileset_KantoMegaArena,      7,  NO_COPY, COLORS(13, 14)},               // Stadium stained glass
 };
 
 static EWRAM_DATA u16 sTintedPltt[PLTT_BUFFER_SIZE] = {0};

@@ -36,7 +36,7 @@ MEGAS = [
  ('TYRANITAR_MEGA',  'TYRANITAR', 'tyranitar/mega',  'TyranitarMega', 'TYRANITARITE',  'TYRANITARITE',  'tyranitarite',   (100,164,150,71,95,120),  ('ROCK','DARK'),      'SAND_STREAM'),
  ('SCEPTILE_MEGA',   'SCEPTILE',  'sceptile/mega',   'SceptileMega',  'SCEPTILITE',    'SCEPTILITE',    'sceptilite',     (70,110,75,145,145,85),   ('GRASS','DRAGON'),   'LIGHTNING_ROD'),
  ('SWAMPERT_MEGA',   'SWAMPERT',  'swampert/mega',   'SwampertMega',  'SWAMPERTITE',   'SWAMPERTITE',   'swampertite',    (100,150,110,70,95,110),  ('WATER','GROUND'),   'SWIFT_SWIM'),
- ('MAWILE_MEGA',     'MAWILE',    'mawile/mega',     'MawileMega',    'MAWILITE',      'MAWILITE',      'mawilite',       (50,105,125,50,55,95),    ('STEEL','STEEL'),    'HUGE_POWER'),
+ ('MAWILE_MEGA',     'MAWILE',    'mawile/mega',     'MawileMega',    'MAWILITE',      'MAWILITE',      'mawilite',       (50,105,125,50,55,95),    ('STEEL','FAIRY'),    'HUGE_POWER'),
  ('MEDICHAM_MEGA',   'MEDICHAM',  'medicham/mega',   'MedichamMega',  'MEDICHAMITE',   'MEDICHAMITE',   'medichamite',    (60,100,85,100,80,85),    ('FIGHTING','PSYCHIC'),'PURE_POWER'),
  ('MANECTRIC_MEGA',  'MANECTRIC', 'manectric/mega',  'ManectricMega', 'MANECTITE',     'MANECTITE',     'manectite',      (70,75,80,135,135,80),    ('ELECTRIC','ELECTRIC'),'INTIMIDATE'),
  ('LATIAS_MEGA',     'LATIAS',    'latias/mega',     'LatiasMega',    'LATIASITE',     'LATIASITE',     'latiasite',      (80,100,120,110,140,150), ('DRAGON','PSYCHIC'), 'LEVITATE'),
@@ -66,6 +66,8 @@ MEGAS = [
  ('SHARPEDO_MEGA', 'SHARPEDO', 'sharpedo/mega', 'SharpedoMega', 'SHARPEDONITE', 'SHARPEDONITE', 'sharpedonite', (70,140,70,105,110,65), ('WATER','DARK'), 'STRONG_JAW'),
  ('SABLEYE_MEGA', 'SABLEYE', 'sableye/mega', 'SableyeMega', 'SABLENITE', 'SABLENITE', 'sablenite', (50,85,125,20,85,115), ('DARK','GHOST'), 'MAGIC_BOUNCE'),
  ('ABSOL_MEGA', 'ABSOL', 'absol/mega', 'AbsolMega', 'ABSOLITE', 'ABSOLITE', 'absolite', (65,150,60,115,115,60), ('DARK','DARK'), 'MAGIC_BOUNCE'),
+ ('GARDEVOIR_MEGA', 'GARDEVOIR', 'gardevoir/mega', 'GardevoirMega', 'GARDEVOIRITE', 'GARDEVOIRITE', 'gardevoirite', (68,85,65,100,165,135), ('PSYCHIC','FAIRY'), 'PIXILATE'),
+ ('ALTARIA_MEGA', 'ALTARIA', 'altaria/mega', 'AltariaMega', 'ALTARIANITE', 'ALTARIANITE', 'altarianite', (75,110,110,80,110,105), ('DRAGON','FAIRY'), 'PIXILATE'),
 ]
 
 # Megas that need a move instead of a Mega Stone

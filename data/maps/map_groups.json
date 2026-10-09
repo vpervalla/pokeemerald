@@ -849,7 +849,19 @@
     "KantoBirthIsland_Exterior",
     "OneIsland_KindleRoad_EmberSpa",
     "KantoBirthIsland_Harbor",
-    "KantoNavelRock_Harbor"
+    "KantoNavelRock_Harbor",
+    "MegaIsland_Harbor",
+    "MegaIsland",
+    "MegaIsland_Castle",
+    "MegaIsland_Arena",
+    "MegaIsland_Castle_1F",
+    "MegaIsland_Castle_2F",
+    "MegaIsland_Castle_Room1",
+    "MegaIsland_Castle_Room2",
+    "MegaIsland_Castle_Room3",
+    "MegaIsland_Castle_Room4",
+    "MegaIsland_Castle_Room5",
+    "MegaIsland_Castle_Room6"
   ],
   "gMapGroup_KantoTownsAndRoutes": [
     "PalletTown",

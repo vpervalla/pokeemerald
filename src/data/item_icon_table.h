@@ -441,6 +441,8 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_SHARPEDONITE] = {gItemIcon_Sharpedonite, gItemIconPalette_Sharpedonite},
     [ITEM_SABLENITE] = {gItemIcon_Sablenite, gItemIconPalette_Sablenite},
     [ITEM_ABSOLITE] = {gItemIcon_Absolite, gItemIconPalette_Absolite},
+    [ITEM_GARDEVOIRITE] = {gItemIcon_Gardevoirite, gItemIconPalette_Gardevoirite},
+    [ITEM_ALTARIANITE] = {gItemIcon_Altarianite, gItemIconPalette_Altarianite},
     // </mega-evolutions>
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},

@@ -132,7 +132,7 @@ static void Cmd_get_move_type_from_result(void);
 static void Cmd_get_move_power_from_result(void);
 static void Cmd_get_move_effect_from_result(void);
 static void Cmd_get_protect_count(void);
-static void Cmd_nop_52(void);
+static void Cmd_if_move_flag(void);
 static void Cmd_nop_53(void);
 static void Cmd_nop_54(void);
 static void Cmd_nop_55(void);
@@ -241,7 +241,7 @@ static const BattleAICmdFunc sBattleAICmdTable[] =
     Cmd_get_move_power_from_result,                 // 0x4F
     Cmd_get_move_effect_from_result,                // 0x50
     Cmd_get_protect_count,                          // 0x51
-    Cmd_nop_52,                                     // 0x52
+    Cmd_if_move_flag,                               // 0x52
     Cmd_nop_53,                                     // 0x53
     Cmd_nop_54,                                     // 0x54
     Cmd_nop_55,                                     // 0x55
@@ -1131,7 +1131,7 @@ static void Cmd_get_type(void)
         AI_THINKING_STRUCT->funcResult = gBattleMons[gBattlerTarget].types[1];
         break;
     case AI_TYPE_MOVE: // type of move being pointed to
-        AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].type;
+        AI_THINKING_STRUCT->funcResult = GetMoveTypeForBattler(sBattler_AI, AI_THINKING_STRUCT->moveConsidered);
         break;
     }
     gAIScriptPtr += 2;
@@ -2183,8 +2183,12 @@ static void Cmd_get_protect_count(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_nop_52(void)
+static void Cmd_if_move_flag(void)
 {
+    if (gBattleMoves[AI_THINKING_STRUCT->moveConsidered].flags & gAIScriptPtr[1])
+        gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 2);
+    else
+        gAIScriptPtr += 6;
 }
 
 static void Cmd_nop_53(void)
