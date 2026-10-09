@@ -62,6 +62,34 @@ STONE, and the player has none.
    `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
    for MR. M., appears.
 
+## The tournament entrants
+
+Seven champions answered MR. M.'s invitation. With the player, that makes an 8-trainer bracket.
+Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
+generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
+70-75, and each one's ace, sent out last, holds its MEGA STONE.
+
+| Champion | Region | Mega | Where they wait |
+|----------|--------|------|-----------------|
+| The rival ({RIVAL}) | Kanto | Pidgeot (the rest of his team follows the player's starter, as in FRLG) | The entrance hall |
+| Lance | Johto | Gyarados | Guest room 2 |
+| Steven | Hoenn | Metagross | Guest room 3 |
+| Cynthia | Sinnoh | Salamence | Guest room 4 |
+| Alder | Unova | Heracross | Guest room 5 |
+| Diantha | Kalos | Gardevoir | Guest room 6 |
+| Leon | Galar | Charizard (Y) | Lost in the guest corridor |
+
+Guest room 1 is the player's. The teams use only Gen 1-3 POKéMON, standing in for the ones
+those champions use in their own games (Salamence for Garchomp, for example).
+
+Cynthia, Alder, Diantha and Leon are new characters. `tools/mega_island/champions/` draws their
+trainer pics (`cynthia.py` and the others; `export.py` writes `graphics/trainers/front_pics/champion_*.png`
+and their palettes; `TRAINER_PIC_CHAMPION_*`) and their overworld sprites (`overworld.py`, built
+from Lance's FRLG sprite; `OBJ_EVENT_GFX_CHAMPION_*`, using the Kanto NPC palettes). The rival,
+Lance and Steven use their existing sprites.
+
+In battle, the Kanto rival (TERRY in the trainer data) now shows the name the player gave him.
+
 ## The castle tilesets
 
 `data/tilesets/secondary/kanto_mega_castle` (the castle grounds), `kanto_mega_arena` (the

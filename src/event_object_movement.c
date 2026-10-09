@@ -482,6 +482,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_subsprites.h"
 #include "data/object_events/object_event_graphics_info.h"
 #include "data/object_events/kanto_object_events.h"
+#include "data/object_events/champion_object_events.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
@@ -1955,6 +1956,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
 
     if (graphicsId >= OBJ_EVENT_GFX_KANTO_START && graphicsId < OBJ_EVENT_GFX_KANTO_START + NUM_KANTO_OBJ_EVENT_GFX)
         return sKantoObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_KANTO_START];
+    if (graphicsId >= OBJ_EVENT_GFX_CHAMPION_START && graphicsId < OBJ_EVENT_GFX_CHAMPION_START + NUM_CHAMPION_OBJ_EVENT_GFX)
+        return sChampionObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_CHAMPION_START];
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
