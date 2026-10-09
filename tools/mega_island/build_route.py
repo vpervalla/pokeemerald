@@ -1,6 +1,6 @@
 # Builds the island route (MegaIsland), after the user's reference map: from the castle (north), a
 # grass plateau leads to two plank bridges over a rock band and a river; below, a meadow with tall
-# grass, the memorial pillar, a rock outcrop with a cave mound, a rest house, ledges and a forest;
+# grass, the memorial pillar, a rock outcrop with a cave, a rest house, terraces with stairs and woods;
 # at the bottom, the gate to the port. Also writes the port (the gate's south side, the harbor
 # building and the pier from Five Island) and the small cave. Rock and water are autotiled with
 # the rules FRLG's own maps use (autotile.py). Tilesets: kanto_general + kanto_sevii_islands_45.
@@ -11,7 +11,6 @@ REPO=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..')+'/'
 W,H=30,58
 WATER,TALL,FLOWER,BUSH,POST=0x12b,0xd,0x4,0x5,0xde
 GRASS=[0x8,0x8,0x9,0x10]
-LEDGE,LEDGE_L,LEDGE_R=0x87,0xb0,0xb1
 g=[[None]*W for _ in range(H)]; col=[[0]*W for _ in range(H)]
 def put(x,y,m,c=0):
     if 0<=x<W and 0<=y<H: g[y][x]=m; col[y][x]=c
@@ -96,11 +95,6 @@ for y in range(H):
 # wooden posts along the river's south bank, open at the bridges
 for x in range(W):
     if D[15][x]=='W' and x not in (2,5,12,18): put(x,16,POST,1)
-# ledges (jump south), with gaps to come back up
-def ledge(y,x0,x1):
-    for x in range(x0,x1+1): put(x,y,LEDGE,0)
-    put(x0,y,LEDGE_L,0); put(x1,y,LEDGE_R,0)
-ledge(29,8,16); ledge(29,21,28); ledge(37,0,9); ledge(37,15,24)
 # trees: canopy 1e/1f, trunks 16/17 (with a tree below) or 24/25, tips e/f in the row above
 def tree(x,y,below=False):
     put(x,y,0x1e,1); put(x+1,y,0x1f,1)
@@ -111,7 +105,7 @@ def forest(x0,y0,w,h):
     for ty in range(y0,y0+h,2):
         for tx in range(x0,x0+w,2): tree(tx,ty,below=(ty+2<y0+h))
     for tx in range(x0,x0+w,2): put(tx,y0-1,0xe); put(tx+1,y0-1,0xf)
-forest(0,40,10,18); forest(26,30,4,8); forest(20,48,10,10)
+forest(0,40,10,18); forest(26,35,4,6); forest(20,49,10,9)
 for (tx,ty) in ((22,0),(19,4),(8,13+5),(19,26),(25,21),(15,30),(6,33),(21,40)):
     lone_tree(tx,ty)
 # flowers and bushes
@@ -119,6 +113,35 @@ for (x,y) in ((7,3),(16,3),(10,17),(20,17),(25,18),(8,27),(20,28),(4,30),(9,35),
     put(x,y,FLOWER)
 for (x,y) in ((6,2),(12,2),(22,16),(17,27),(2,35),(23,38)):
     put(x,y,BUSH,1)
+# ---- terraces: the meadow steps down from the river (level 3) to the gate (level 0). A cell on
+# the high side of a drop becomes a rock wall one tile thick, as in Five Isle Meadow; stairs cut
+# through the south faces.
+LV={}
+def levels(y0,y1,row):
+    for y in range(y0,y1+1):
+        for x in range(W): LV[(x,y)]=int(row[x])
+levels(16,28,"333333333333333333333333333333")
+levels(29,31,"333333333322222222222333333333")
+levels(32,33,"222222222222222222222333333333")
+levels(34,37,"222222222222222222222222222222")
+levels(38,42,"111111111111222222222222222222")
+levels(43,47,"111111111111111111111111111111")
+levels(48,57,"111111111111000000000000000000")
+def lv(x,y): return LV.get((x,y),LV.get((min(max(x,0),W-1),min(max(y,16),57)),3))
+for (x,y),h in list(LV.items()):
+    lowS=lv(x,y+1)<h; lowW=lv(x-1,y)<h; lowE=lv(x+1,y)<h
+    m=None
+    if lowS and lowW: m=0x78
+    elif lowS and lowE: m=0x7a
+    elif lowS: m=0x79
+    elif lowW: m=0x70
+    elif lowE: m=0x72
+    elif lv(x+1,y+1)<h: m=0xb2
+    elif lv(x-1,y+1)<h: m=0xb3
+    if m is not None: put(x,y,m,1)
+def stairs(x,y): put(x,y,0x91,0); put(x+1,y,0x89,0)
+for (x,y) in ((14,28),(4,31),(24,33),(6,37),(14,42),(14,47),(22,42)):
+    stairs(x,y)
 # copied blocks: the memorial pillar (Memorial Pillar map) and a house (Four Island)
 def copy_block(layout,sx,sy,w,h,dx,dy):
     L={l['id']:l for l in json.load(open(REPO+'data/layouts/layouts.json'))['layouts'] if 'id' in l}[layout]
