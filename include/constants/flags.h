@@ -2016,18 +2016,14 @@
 #define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)
 #define FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE       (KANTO_EXTRA_FLAGS_START + 0x1F2)
 
-// The starters of Kanto, Johto and Hoenn that PROF. OAK gives after the National Dex, so that
-// every POKéMON can be caught without trading. Also at the end, clear of the generated flags.
-#define FLAG_OAK_OFFERED_STARTERS                   (KANTO_EXTRA_FLAGS_START + 0x1E0)
-#define FLAG_RECEIVED_STARTER_BULBASAUR             (KANTO_EXTRA_FLAGS_START + 0x1E1)
-#define FLAG_RECEIVED_STARTER_CHARMANDER            (KANTO_EXTRA_FLAGS_START + 0x1E2)
-#define FLAG_RECEIVED_STARTER_SQUIRTLE              (KANTO_EXTRA_FLAGS_START + 0x1E3)
-#define FLAG_RECEIVED_STARTER_CHIKORITA             (KANTO_EXTRA_FLAGS_START + 0x1E4)
-#define FLAG_RECEIVED_STARTER_CYNDAQUIL             (KANTO_EXTRA_FLAGS_START + 0x1E5)
-#define FLAG_RECEIVED_STARTER_TOTODILE              (KANTO_EXTRA_FLAGS_START + 0x1E6)
-#define FLAG_RECEIVED_STARTER_TREECKO               (KANTO_EXTRA_FLAGS_START + 0x1E7)
-#define FLAG_RECEIVED_STARTER_TORCHIC               (KANTO_EXTRA_FLAGS_START + 0x1E8)
-#define FLAG_RECEIVED_STARTER_MUDKIP                (KANTO_EXTRA_FLAGS_START + 0x1E9)
+// The side quests that give the two Kanto starters the player didn't choose (see docs/catch_them_all.md).
+// Also at the end of the extra flags, clear of the generated ones.
+#define FLAG_RESCUED_MT_MOON_GIRL                   (KANTO_EXTRA_FLAGS_START + 0x1E0) // Also hides her in MT. MOON
+#define FLAG_CAUGHT_MT_MOON_STARTER                 (KANTO_EXTRA_FLAGS_START + 0x1E1) // Also hides the POKéMON
+#define FLAG_HIDE_ROUTE4_POKEMON_CENTER_GIRL        (KANTO_EXTRA_FLAGS_START + 0x1E2) // Set on transition
+#define FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM          (KANTO_EXTRA_FLAGS_START + 0x1E3)
+#define FLAG_MET_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E4)
+#define FLAG_GOT_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E5) // Also hides the POKéMON
 
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
