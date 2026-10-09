@@ -44,3 +44,44 @@ The scripts are in `data/scripts/starter_quests.inc` (which species, which sprit
 generated Kanto NPCs in the scripts of `MtMoon_B2F`, `Route4_PokemonCenter_1F` and
 `CeruleanCity_House5`. The flags are at the end of the Kanto extra flags in
 `include/constants/flags.h`.
+
+## Version exclusives
+
+The Kanto wild encounters were ported from FireRed (`port_kanto.py encounters` skips LeafGreen's
+tables), so LeafGreen's exclusives were missing. `tools/kanto_port/add_leafgreen_exclusives.py`
+puts each of them in the areas where FireRed has its counterpart, comparing the two versions'
+tables slot by slot (pokefirered has both):
+
+- If the counterpart has other slots in that table, the LeafGreen species takes all of its
+  LeafGreen slots (MAGMAR keeps its 5% on MT. EMBER, since SPEAROW has other slots there).
+- If they share several slots, they split them and their rates as evenly as possible. Which of
+  the two gets the most common slot alternates from one area to the next.
+- If they share a single slot, the LeafGreen species takes it in every other area, unless it's
+  already in that area through another method (surfing, fishing…).
+
+Fishing slots are only exchanged within the same rod, and no other species loses a slot. Every
+FireRed species is still in at least one area.
+
+| LeafGreen species | Where (FireRed counterpart) |
+|---|---|
+| SANDSHREW | Routes 4, 8, 9, 10, 11, 23 (EKANS) |
+| SANDSLASH | Victory Road 1F, 3F (ARBOK) |
+| VULPIX | Routes 7, 8, Pokémon Mansion (GROWLITHE) |
+| BELLSPROUT | Routes 5, 6, 7, 12–15, 24, 25, Berry Forest, Cape Brink, Water Path (ODDISH) |
+| WEEPINBELL | Routes 12, 13, 15, Berry Forest, Cape Brink, Water Path (GLOOM) |
+| SLOWPOKE | Most water: surfing and fishing in 41 areas, Seafoam Islands (PSYDUCK) |
+| SLOWBRO | Seafoam Islands, Cerulean Cave, Berry Forest, Cape Brink, Cinnabar (GOLDUCK, SEADRA) |
+| STARYU | Super Rod at Pallet Town, Cinnabar Island, S.S. Anne, Five Island (SHELLDER) |
+| KINGLER | Super Rod at Routes 20, 21 and nine Sevii areas (SEADRA) |
+| MUK | Pokémon Mansion 1F, 3F (WEEZING) |
+| MAGMAR | Mt. Ember (SPEAROW) |
+| PINSIR | Safari Zone Center (SCYTHER, still in Safari Zone East and the Game Corner) |
+| MARILL | Surfing at Four Island, Icefall Cave, Ruin Valley (WOOPER) |
+| MISDREAVUS | Lost Cave, all rooms (MURKROW) |
+| SNEASEL | Icefall Cave 1F (DELIBIRD, still on B1F) |
+| REMORAID | Super Rod at Resort Gorgeous, Five Isle Meadow, Outcast Island, Water Path, Tanoby Ruins (QWILFISH) |
+| MANTINE | Surfing at Trainer Tower, Tanoby Ruins (TENTACOOL) |
+
+After running `port_kanto.py encounters` again, run the script again:
+
+    python3 tools/kanto_port/add_leafgreen_exclusives.py --frlg ../pokefirered --write
