@@ -20,44 +20,44 @@ coll=[[0]*MW for _ in range(MH)]
 layer=[[1]*MW for _ in range(MH)]         # 1 = COVERED (below player), 0 = NORMAL (above player)
 behav=[[0]*MW for _ in range(MH)]         # metatile behaviors (0 = MB_NORMAL)
 for x in (29,30):                        # the gate: stepping into it enters the stadium
-    behav[9][x]=96                        # MB_NON_ANIMATED_DOOR
-for y in range(0,10):                    # the castle
+    behav[11][x]=96                       # MB_NON_ANIMATED_DOOR
+for y in range(0,12):                    # the castle
     for x in range(MW): coll[y][x]=1
 for x in (23,24,25,34,35,36):            # gargoyles by the gate
-    coll[10][x]=1
-coll[9][29]=coll[9][30]=0                # the gate is walkable (it warps)
-for y in range(10,15):                   # forecourt lawns, between the paths
+    coll[12][x]=1
+coll[11][29]=coll[11][30]=0                # the gate is walkable (it warps)
+for y in range(12,15):                   # forecourt lawns, between the paths
     for x in list(range(17,24))+list(range(36,43)):
-        if y>=11: ground[y][x]='lawn'
+        if y>=13: ground[y][x]='lawn'
 for x in (25,26,33,34):                  # obelisks at the top of the staircase
     coll[14][x]=1
 for x in range(MW):                      # front parapet of the forecourt
     if not 28<=x<=31: coll[15][x]=1
-for y in range(16,22):                   # bastion wall and moat, except the staircase and bridge
+for y in range(16,20):                   # bastion wall and moat, except the staircase and bridge
     for x in range(MW):
         if not 28<=x<=31: coll[y][x]=1
-for y in (20,21):                        # the moat runs the whole width, into the forest on both sides
+for y in (18,19):                        # the moat runs the whole width, into the forest on both sides
     for x in range(MW): ground[y][x]='water'
-for y in range(8,20):                    # corner towers
+for y in range(13,18):                   # corner towers
     for x in (12,13,14,45,46,47):
-        if y>=12: coll[y][x]=1
+        coll[y][x]=1
 for x in (27,32):                        # balustrades
-    for y in range(14,23): coll[y][x]=1
+    for y in range(14,21): coll[y][x]=1
 for x in (25,26,27,32,33,34):            # gargoyles at the end of the bridge
-    coll[23][x]=1; coll[24][x]=1; layer[22][x]=0
+    coll[21][x]=1; coll[22][x]=1; layer[20][x]=0
 # courtyard beyond the moat; flagstones stop at the fence (the path beyond is grass from the shared
 # primary tileset, so the route shows this map's edge correctly)
-for y in range(22,27):
+for y in range(20,25):
     for x in range(28,32): ground[y][x]='flag'
-for y in range(23,26):
+for y in range(21,24):
     for x in range(22,38): ground[y][x]='flag'
-FR=27
+FR=25
 for x in range(16,44):
     if 27<=x<=32: continue
     fence(c,x*16,FR*16-8); coll[FR][x]=1; layer[FR-1][x]=0
 for px in (27,32):
     gate_pillar(c,px*16,(FR-2)*16+8); coll[FR][px]=1; coll[FR-1][px]=1; layer[FR-2][px]=0
-for (lx,ly) in ((23,25),(36,25),(27,31),(32,31)):
+for (lx,ly) in ((23,23),(36,23),(27,29),(32,29)):
     lamp_post(c,lx*16,(ly-1)*16); coll[ly][lx]=1; layer[ly-1][lx]=0
 c.outline()
 OVER=c
@@ -74,9 +74,9 @@ def tree_block(grid,x0,y0,w,h):
             if ty==y0 and ty>0: grid[ty-1][tx]=0xe; grid[ty-1][tx+1]=0xf
 prim=[[None]*MW for _ in range(MH)]
 # the wings disappear into the forest on both sides; the moat runs between the forests
-tree_block(prim,0,8,12,12); tree_block(prim,48,8,12,12)
-tree_block(prim,0,24,16,MH-24); tree_block(prim,44,24,16,MH-24)
-tree_block(prim,16,34,12,MH-34); tree_block(prim,32,34,12,MH-34)
+tree_block(prim,0,8,12,10); tree_block(prim,48,8,12,10)
+tree_block(prim,0,22,16,MH-22); tree_block(prim,44,22,16,MH-22)
+tree_block(prim,16,32,12,MH-32); tree_block(prim,32,32,12,MH-32)
 for y in range(MH):
     for x in range(MW):
         if prim[y][x] is not None:
@@ -101,7 +101,7 @@ def ground_bottom(kind,x,y):
     m=random.choice(GRASS)
     return list(PRIM.meta[m][:4])
 grid=[[0]*MW for _ in range(MH)]
-HIDDEN=5   # rows 0-4 are above anything the camera can show: they repeat row 5
+HIDDEN=6   # rows 0-5 are above anything the camera can show: they repeat row 6
 for y in range(HIDDEN,MH):
     for x in range(MW):
         has_art=any(OVER.get(x*16+i,y*16+j) for i in range(16) for j in range(16))

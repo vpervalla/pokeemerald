@@ -525,24 +525,24 @@ def pale_gate(c,x,y,w,h):
             c.set(x+i,y+j,col)
     c.rect(int(cx)-2,y,4,4,P4); c.set(int(cx),y+2,G)
 
-def arcade_wall(c,x0,x1,ytop,ybot,cx):
+def arcade_wall(c,x0,x1,ytop,ybot,cx,a0=10,half=14,cope=5):
     # The bastion's front: dark ashlar with a blind arcade of pointed arches every 32 px,
     # a pale coping along the top and a plinth at the foot.
     for gx in range(x0,x1):
         rx=(gx-cx)%32
         for gy in range(ytop,ybot):
             y=gy-ytop
-            if y<5: col=P4 if y==0 else (P3 if y<3 else (P1 if y==3 else OUT))
+            if y<cope: col=P4 if y==0 else (P3 if y<3 else (P1 if y==3 else OUT))
             elif ybot-gy<=6: col=S1 if ybot-gy>1 else S0
             else:
-                course=(y-5)//8; by=(y-5)%8; bx=(rx+(course%2)*8)%16
+                course=(y-cope)//8; by=(y-cope)%8; bx=(rx+(course%2)*8)%16
                 col=S2 if by and bx else S1
                 if by==1 and bx: col=S3
                 # blind arch: pillars at rx 0-3, pointed head between y 10 and 24
-                ay=y-10
+                ay=y-a0
                 if rx<4: col=S3 if rx<2 else S1
                 elif ay>=0 and ybot-gy>6:
-                    half=14; d=abs(rx-17.5)
+                    d=abs(rx-17.5)
                     top=half*(1-max(0,(half-ay))/half)**0.5 if ay<half else half
                     if d<top-1: col=S0
                     elif d<top+0.5: col=OUT if rx>=17 else S3
@@ -599,7 +599,7 @@ def turret(c,cx,ytop,ybody,ybot):
         for i in range(-half,half):
             c.set(cx+i,ybot-12+j,S2 if j%3 else S3)
 
-def cone_roof3q(c,cx,ytip,r,h):
+def cone_roof3q(c,cx,ytip,r,h,dark=R0):
     # A conical roof seen from the game's high camera: the cone rises from an elliptical eave
     # (we see the rim from above), shaded across, with shingle rows and a gold finial.
     ey=ytip+h; ry=max(3,r*0.38)
@@ -612,10 +612,10 @@ def cone_roof3q(c,cx,ytip,r,h):
             in_cone=gy<=ey and abs(dx)<=r*t
             if not (in_ell or in_cone): continue
             d=abs(dx)/r
-            col=R2 if dx<-r*0.35 else (R1 if dx<r*0.3 else R0)
-            if in_cone and not in_ell and (gy-ytip)%6==5: col=R0 if col!=R0 else OUT
+            col=R2 if dx<-r*0.35 else (R1 if dx<r*0.3 else dark)
+            if in_cone and not in_ell and (gy-ytip)%6==5: col=dark if col!=dark else OUT
             if in_ell and not in_cone:
-                col=R0 if gy>ey else col
+                col=dark if gy>ey else col
             c.set(gx,gy,col)
     for gx in range(cx-r-1,cx+r+1):           # eave rim: the lower half of the ellipse
         dx=gx+0.5-cx
@@ -623,3 +623,95 @@ def cone_roof3q(c,cx,ytip,r,h):
             y=int(ey+ry*(1-(dx/r)**2)**0.5)
             c.set(gx,y,OUT); c.set(gx,y-1,S1)
     c.vline(cx-1,ytip-5,5,G); c.vline(cx,ytip-5,5,G); c.set(cx-1,ytip-6,G); c.set(cx,ytip-6,G)
+
+# ---- pieces for the high camera: short vertical faces, tops seen from above ----
+
+def wall_top(c,x0,x1,yw):
+    # The top of a curtain wall seen from above, just above its face (which starts at yw): the
+    # roof's gutter behind, the wall-walk in shadow, and merlons (lit tops, short fronts) every 16 px.
+    for gx in range(x0,x1):
+        m=gx%16
+        for gy in range(yw-26,yw):
+            y=gy-yw                                   # -26..-1
+            if y<-24: col=OUT if y==-25 else R0      # the roof's gutter
+            elif y<-12:                               # walkway flagstones, in the merlons' shade
+                col=S0 if (gy%8==7 or (gx+(gy//8)*8)%16==15) else S1
+                if y==-24: col=OUT
+            elif m<8:                                 # merlon: lit top, then its short front
+                if y<-6: col=S4 if (y==-12 or m==0) else (S3 if m<7 else S2)
+                elif y==-6: col=S3
+                else: col=S2 if m<7 else S1
+                if y==-1: col=S1
+            else:                                     # crenel: the walkway, the sill and its front
+                if y<-5: col=S1 if y<-7 else S0
+                elif y==-5: col=S4
+                elif y==-4: col=S3
+                else: col=S2 if y<-1 else S1
+            c.set(gx,gy,col)
+    for gx in range(x0,x1): c.set(gx,yw,S0)
+
+def short_wall(c,x0,x1,ytop,ybot):
+    # A wall face: ashlar courses, a plinth at the foot.
+    stone_wall(c,x0,ytop,x1-x0,ybot-ytop)
+    for gx in range(x0,x1):
+        c.set(gx,ybot-9,S3)
+        for gy in range(ybot-8,ybot): c.set(gx,gy,S1 if gy%8 else S0)
+        c.set(gx,ybot-1,S0)
+
+def roof_top(c,x0,x1,ytop,ybot):
+    # A slate roof seen from above, rising away from the viewer: shingle rows every 8 px.
+    for gx in range(x0,x1):
+        for gy in range(ytop,ybot):
+            row=gy//8; bx=(gx+(row%2)*8)%16; by=gy%8
+            col=R1
+            if by==7: col=R0
+            elif by==6 or bx==15: col=R0 if by==6 else R0
+            elif by==0: col=R2
+            c.set(gx,gy,col)
+
+def dormer(c,cx,ybot):
+    # A gabled dormer on the roof: its little ridge runs up the roof (seen from above) and its
+    # pointed face has a lit lancet window. 20 px wide.
+    for j in range(16):                       # the dormer's roof, two slopes and a ridge
+        for i in range(-10,10):
+            col=R2 if i<-1 else (R1 if i<1 else R0)
+            if j%4==3: col=R1 if i<0 else OUT
+            c.set(cx+i,ybot-26+j,col)
+    for j in range(16):                       # the gable: pointed top, then a straight face
+        half=10 if j>=8 else max(1,int(10*(j+1)/8+0.5))
+        for i in range(-half,half):
+            col=S3 if i<0 else S2
+            if j>=4 and abs(i+0.5)<3.5: col=W0 if (j>5 and abs(i+0.5)>0.6) else OUT
+            if abs(i+0.5)<3.5 and j==4: col=S1
+            if abs(i+0.5)>=half-1: col=S1
+            c.set(cx+i,ybot-16+j,col)
+    c.set(cx-1,ybot-8,W1)
+    for i in range(-10,10): c.set(cx+i,ybot,OUT)
+
+def tower3q(c,cx,ybase,r,yrim,cone_h,er=None,cone=True,dark=R0):
+    # A round tower for the high camera: a short body between two ellipses (the rim and the base,
+    # both seen from above) and a squat cone roof whose eave is a wide ellipse.
+    import math
+    ry=max(3,round(r*0.42))
+    for i in range(-r,r):
+        f=math.sqrt(max(0,1-((i+0.5)/r)**2))
+        yt=int(yrim+ry*f); yb=int(ybase-ry+ry*f)
+        d=abs(i+0.5)/r
+        base=S3 if d<0.25 else (S2 if d<0.6 else (S1 if d<0.85 else S0))
+        for gy in range(yt,yb+1):
+            col=base
+            if gy%8==7: col=S0 if base!=S0 else OUT
+            elif ((int(abs(i+0.5))+(gy//8)%2*8)%16)==7 and d<0.85: col=S0
+            if gy==yb: col=OUT
+            c.set(cx+i,gy,col)
+    if cone:
+        er=er or r+3
+        cone_roof3q(c,cx,yrim-cone_h,er,cone_h,dark)
+
+def bartizan(c,cx,yw):
+    # A small turret corbelled out at the top of the wall (face starting at yw), under a blue spire.
+    r=10
+    for j in range(10):                       # corbel, tapering down
+        half=max(1,int(r*(10-j)/10+0.5))
+        for i in range(-half,half): c.set(cx+i,yw+14+j,S2 if j%3 else S3)
+    tower3q(c,cx,yw+16,r,yw,18,er=13)

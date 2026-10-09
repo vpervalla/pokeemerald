@@ -1,12 +1,12 @@
 # Draws the castle's inner courtyard, used as the tournament stadium. Imported by build_arena.py.
-# Map 32x30 cells. Rows 0-8: the inner face of the keep with the host's balcony; rows 9-11 and
-# cols 0-4 / 27-31: tiered stands; rows 12-24: a paved walkway around the field (rows 13-23,
+# Map 32x30 cells. Rows 0-9: the keep's roofs, wall-walk and short inner face, with the host's
+# balcony; rows 10-11 and cols 0-4 / 27-31: tiered stands; rows 12-24: a paved walkway around the field (rows 13-23,
 # cols 7-24); rows 25-29: the south wall top with the entrance passage (cols 15-16).
 from art import *
 
 MW,MH=32,30
 CX=256                       # centre axis (between cols 15 and 16)
-WALL_B=144                   # bottom of the north wall (row 9)
+WALL_B=160                   # bottom of the north wall (row 10)
 FX0,FX1,FY0,FY1=112,400,208,384   # the field
 
 def bench_tiers_south(c,x0,x1,y0,tiers):
@@ -89,24 +89,24 @@ def balcony(c):
     # The host's box, seen from above: a pale platform projecting from the keep, a throne, a
     # violet canopy with a gold fringe, a thin rail along the front and a short shadowed face.
     x0,x1=CX-48,CX+48
-    for gy in range(128,176):                          # platform floor
+    for gy in range(136,176):                          # platform floor
         for gx in range(x0,x1):
             ch=FLAG_A[gy%16][gx%16]
             c.set(gx,gy,P0 if ch=='#' else P3)
     tx=CX-12
-    for gy in range(144,168):                          # throne: back (dark) and seat (indigo)
+    for gy in range(152,174):                          # throne: back (dark) and seat (indigo)
         for gx in range(tx,tx+24):
-            i,j=gx-tx,gy-144
+            i,j=gx-tx,gy-152
             if j<8: col=S1 if 2<=i<=21 else 0
             elif j<22: col=R1 if 5<=i<=18 else (S2 if 2<=i<=21 else 0)
             else: col=S0 if 2<=i<=21 else 0
             if j==8 and 2<=i<=21: col=G
             if col: c.set(gx,gy,col)
-    c.rect(tx+10,145,4,3,G)
-    for gy in range(112,144):                          # canopy over the back of the box
+    c.rect(tx+10,153,4,3,G)
+    for gy in range(128,152):                          # canopy over the back of the box
         for gx in range(x0,x1):
             col=C1 if ((gx-x0)//8)%2 else C0
-            if gy>=140: col=G if (gx%4)<2 else C0      # fringe
+            if gy>=148: col=G if (gx%4)<2 else C0      # fringe
             c.set(gx,gy,col)
     for gx in range(x0,x1):                            # rail (top seen from above) and posts
         c.set(gx,174,P4); c.set(gx,175,P3)
@@ -135,23 +135,30 @@ def south_wall(c):
 
 def draw(c):
     W=MW*16
-    stone_wall(c,0,0,W,WALL_B)
-    for x in range(W):
-        for y in range(WALL_B-10,WALL_B): c.set(x,y,S1 if y%8 else S0)
-        c.set(x,WALL_B-11,S3)
+    # the inner face of the keep, for the high camera: roofs and the wall-walk above a short face
+    YW=WALL_B-24   # from the walkway (row 12) the camera sees down to about y 120
+    roof_top(c,0,W,0,YW-26)
+    wall_top(c,0,W,YW)
+    short_wall(c,0,W,YW,WALL_B)
     for k in range(1,5):
         off=64*k
         for x in (CX-off-5, CX+off-5):
-            if 0<=x<W-10: buttress(c,x,0,WALL_B)
+            if 0<=x<W-10:
+                for j in range(YW-4,WALL_B):
+                    for i in range(10):
+                        col=S3 if i<3 else (S2 if i<7 else S1)
+                        if j<YW: col=S4 if i<7 else S3
+                        if j%16==15 and j>=YW: col=S0
+                        c.set(x+i,j,col)
         for x in (CX-off+18, CX+off-46):
-            if 0<=x<W-28 and k>1: tall_window(c,x,0,28,WALL_B-24)
+            if 0<=x<W-28 and k>2: pointed_window(c,x+8,YW+3,12,16)   # k=2 bays carry the banners
     for k in (1,3):
-        for tx in (CX-64*k, CX+64*k): turret(c,tx,24,80,132)
+        for tx in (CX-64*k, CX+64*k): bartizan(c,tx,YW)
     for x in (CX-96-6, CX+96-6):
-        long_banner(c,x,WALL_B-30,12)
+        banner(c,x,YW+2,12,WALL_B-YW-8)
     balcony(c)
-    bench_tiers_south(c,80,CX-48,WALL_B,3)
-    bench_tiers_south(c,CX+48,W-80,WALL_B,3)
+    bench_tiers_south(c,80,CX-48,WALL_B,2)
+    bench_tiers_south(c,CX+48,W-80,WALL_B,2)
     bench_tiers_side(c,0,WALL_B,400,5,+1)
     bench_tiers_side(c,W,WALL_B,400,5,-1)
     # paved walkway around the field
