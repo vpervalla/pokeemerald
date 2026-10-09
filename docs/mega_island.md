@@ -12,7 +12,7 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | Map | Layout | What it is |
 |-----|--------|------------|
 | `MAP_MEGA_ISLAND_HARBOR` | `LAYOUT_KANTO_ISLAND_HARBOR` (shared) | The Seagallop dock. The sailor sails back to Vermilion. |
-| `MAP_MEGA_ISLAND` | `LAYOUT_MEGA_ISLAND`, 30x58, `kanto_general` + `kanto_sevii_islands_45` | The route: harbor building and pier (copied from Five Island), a beach, a meadow with tall grass across three cliff ledges whose stairs alternate sides, and a forest corridor north. Music `MUS_RG_SEVII_ROUTE`. |
+| `MAP_MEGA_ISLAND` | `LAYOUT_MEGA_ISLAND`, 30x58, `kanto_general` + `kanto_sevii_islands_45` | The route, after a reference map: from the castle in the north, a grass plateau leads to two plank bridges over a rock band and a river (with wooden posts along its bank). Below, a meadow with tall grass, the memorial pillar, a rock outcrop with a cave mouth (no cave yet), a small house (no interior yet), two rows of ledges and a forest; at the bottom, the harbor building and pier (copied from Five Island). Music `MUS_RG_SEVII_ROUTE`. |
 | `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 60x42, `kanto_general` + `kanto_mega_castle` | The castle grounds, in blackstone: near-black stone with a teal tint, indigo-blue spires, pale weathered stone and lawns. The castle is gigantic: its facade spans the whole map and its wings run into the forest on both sides. It is drawn for the game's high camera, so every face is short and the tops show: slate roofs, the crenellated wall-walk, squat round towers under blue cones, bartizans with blue spires, and a taller gatehouse with violet banners either side of a pointed gate (pale stone frame, black iron doors). From the forecourt the camera sees about 4.5 rows above the player, and the whole facade, cones included, fits in that. In front, a raised bastion carries a pale paved forecourt with two lawns, gargoyles by the gate and spired obelisks; its short front wall is a blind gothic arcade, with round corner towers under blue cones. A pale grand staircase goes down the bastion to a bridge over the moat, which runs the whole width and on into the forest. Below: a courtyard with gargoyles, an iron fence, lantern pillars and lamp posts, then a grass path south through the forest. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 15). |
 | `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 26x16, `kanto_building` + `kanto_mega_hall` | The entrance hall, behind the castle gate: dark marble, a violet runner from the entrance to the door of the court, a short stone wall with arched windows and candelabras, and pillars. Straight staircases in both top corners go up to the guest floor. The receptionist stands behind a wooden desk in front of the court door. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest corridor: wooden floor and a violet runner, six guest-room doors along the north wall with candelabras between them, and a flight of stairs down at each end. |
@@ -158,7 +158,9 @@ evening and at night (`sLitPalettes` in `src/day_night.c`), in both tilesets.
   `PREVIEW=out.png`.
 - `build_hall.py`: writes `kanto_mega_hall` and the hall, corridor and guest room layouts
   (`PREVIEW=out.png` too).
-- `build_route.py`: writes `data/layouts/MegaIsland` from primary and Sevii metatiles.
+- `build_route.py`: writes `data/layouts/MegaIsland` from a character design of the map. Rock and water
+  are autotiled by `autotile.py`, which learns from FRLG's own maps (Routes 3, 4, 9, 10, 22-25, Kindle
+  Road and others) which metatile each cell gets, given which of its neighbours are the same terrain.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
 Run `build_castle.py`, `build_arena.py`, `build_hall.py` and `build_route.py` after changing the art or the
