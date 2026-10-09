@@ -85,3 +85,37 @@ FireRed species is still in at least one area.
 After running `port_kanto.py encounters` again, run the script again:
 
     python3 tools/kanto_port/add_leafgreen_exclusives.py --frlg ../pokefirered --write
+
+## Trade evolutions
+
+Twelve double-exchange traders wait in Pokémon Centers along the way, using the mechanism tested
+in `TestArea_House`. The player gives a POKéMON, receives the trader's, and the two are traded
+straight back, so the player's POKéMON evolves on its way back, with its held item if its
+evolution needs one (METAL COAT, KING'S ROCK, DRAGON SCALE, UP-GRADE…).
+
+Each trader exchanges only once (`FLAG_DID_DOUBLE_EXCHANGE_*`). So that no exchange is wasted,
+they first check the chosen POKéMON with the `WouldMonEvolveThroughTrade` special: if it wouldn't
+evolve they refuse, and if it needs an item it isn't holding they name the item. Twelve traders
+cover the ten Kanto trade evolutions (ALAKAZAM, MACHAMP, GOLEM, GENGAR, STEELIX, SCIZOR, POLITOED,
+SLOWKING, KINGDRA, PORYGON2) with two to spare.
+
+| Pokémon Center | Trader | Their POKéMON |
+|---|---|---|
+| Cerulean City | DANTE (Cooltrainer) | PSYDUCK |
+| Vermilion City | MORGAN (Sailor) | SHELLDER |
+| Route 10 | BRUNO (Hiker) | GEODUDE |
+| Lavender Town | AGNES (Channeler) | GASTLY |
+| Celadon City | LILY (Beauty) | ODDISH |
+| Saffron City | OTTO (Scientist) | DROWZEE |
+| Fuchsia City | JOEY (Camper) | VENONAT |
+| Cinnabar Island | IGOR (Poké Maniac) | GROWLITHE |
+| One Island | WADE (Fisher) | TENTACOOL |
+| Three Island | RICK (Biker) | GRIMER |
+| Four Island | SUZY (Little girl) | SWINUB |
+| Seven Island | EDNA (Old woman) | PONYTA |
+
+They all stand at (10, 7), next to the table. The shared script is
+`data/scripts/double_exchange.inc`; each map has a short script that sets its
+`INGAME_TRADE_EXCHANGE_*` and checks its flag. Their POKéMON (in `src/data/trade.h`) never evolve
+through trade, so the first half of the exchange doesn't evolve them. Like any trade, the exchange
+registers the trader's POKéMON in the POKéDEX.

@@ -23,5 +23,6 @@ void DrawTextOnTradeWindow(u8 windowId, const u8 *str, u8 speed);
 void CreateDoubleExchangeTradePokemon(void);
 void CreateDoubleExchangeReturnPokemon(void);
 void RestoreDoubleExchangeFriendship(void);
+u8 WouldMonEvolveThroughTrade(void);
 
 #endif //GUARD_TRADE_H

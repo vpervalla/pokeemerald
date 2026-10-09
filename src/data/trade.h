@@ -1063,7 +1063,199 @@ static const struct InGameTrade sIngameTrades[] =
         .otGender = MALE,
         .sheen = 10,
         .requestedSpecies = SPECIES_MACHOKE
-    }
+    },
+    [INGAME_TRADE_EXCHANGE_CERULEAN_CITY] =
+    {
+        .nickname = _("DUCKY"),
+        .species = SPECIES_PSYDUCK,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 30417,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x1a3,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("DANTE"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_VERMILION_CITY] =
+    {
+        .nickname = _("CLAMMY"),
+        .species = SPECIES_SHELLDER,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 52098,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x2b7,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("MORGAN"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_ROUTE10] =
+    {
+        .nickname = _("ROCKY"),
+        .species = SPECIES_GEODUDE,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 11873,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0xc4,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("BRUNO"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_LAVENDER_TOWN] =
+    {
+        .nickname = _("WISP"),
+        .species = SPECIES_GASTLY,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 64521,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x3d1,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("AGNES"),
+        .otGender = FEMALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_CELADON_CITY] =
+    {
+        .nickname = _("PETAL"),
+        .species = SPECIES_ODDISH,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 27760,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x15e,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("LILY"),
+        .otGender = FEMALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_SAFFRON_CITY] =
+    {
+        .nickname = _("SNOOZE"),
+        .species = SPECIES_DROWZEE,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 48302,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0xf2,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("OTTO"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_FUCHSIA_CITY] =
+    {
+        .nickname = _("BUGSY"),
+        .species = SPECIES_VENONAT,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 9145,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x264,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("JOEY"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_CINNABAR_ISLAND] =
+    {
+        .nickname = _("BLAZE"),
+        .species = SPECIES_GROWLITHE,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 37756,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x1c9,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("IGOR"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_ONE_ISLAND] =
+    {
+        .nickname = _("JELLY"),
+        .species = SPECIES_TENTACOOL,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 21094,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0xb8,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("WADE"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_THREE_ISLAND] =
+    {
+        .nickname = _("GOOEY"),
+        .species = SPECIES_GRIMER,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 59613,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x2a2,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("RICK"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_FOUR_ISLAND] =
+    {
+        .nickname = _("PIGGY"),
+        .species = SPECIES_SWINUB,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 15388,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x336,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("SUZY"),
+        .otGender = FEMALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_SEVEN_ISLAND] =
+    {
+        .nickname = _("SUNNY"),
+        .species = SPECIES_PONYTA,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 42870,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x11d,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("EDNA"),
+        .otGender = FEMALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
 };
 
 static const u16 sIngameTradeMail[][MAIL_WORDS_COUNT + 1] =

@@ -110,3 +110,15 @@ Route10_PokemonCenter_1F_Text_ReceivedEverstoneFromAide:
     .string "from the AIDE.$"
 
 @ END KANTO NPCS
+
+@ A double-exchange trader (see data/scripts/double_exchange.inc). They exchange only once.
+Route10_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
+	lock
+	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_EXCHANGE_ROUTE10
+	goto_if_set FLAG_DID_DOUBLE_EXCHANGE_ROUTE10, EventScript_DoubleExchangeAlreadyDone
+	call EventScript_DoubleExchange
+	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleExchangeEnd
+	setflag FLAG_DID_DOUBLE_EXCHANGE_ROUTE10
+	release
+	end
