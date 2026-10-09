@@ -72,7 +72,7 @@ FireRed species is still in at least one area.
 | SLOWPOKE | Most water: surfing and fishing in 41 areas, Seafoam Islands (PSYDUCK) |
 | SLOWBRO | Seafoam Islands, Cerulean Cave, Berry Forest, Cape Brink, Cinnabar (GOLDUCK, SEADRA) |
 | STARYU | Super Rod at Pallet Town, Cinnabar Island, S.S. Anne, Five Island (SHELLDER) |
-| KINGLER | Super Rod at Routes 20, 21 and nine Sevii areas (SEADRA) |
+| KINGLER | Super Rod at Routes 20, 21 and eight Sevii areas (SEADRA) |
 | MUK | Pokémon Mansion 1F, 3F (WEEZING) |
 | MAGMAR | Mt. Ember (SPEAROW) |
 | PINSIR | Safari Zone Center (SCYTHER, still in Safari Zone East and the Game Corner) |
