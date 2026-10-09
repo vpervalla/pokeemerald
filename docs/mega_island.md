@@ -43,20 +43,24 @@ The route has tall grass but no wild encounter table yet, so it has no encounter
 Nobody can Mega Evolve during the first run through the League: no trainer holds a MEGA
 STONE, and the player has none.
 
-1. **Cinnabar Gym.** After the battle (and TM38), BLAINE tells the player how Mega Evolution
-   was discovered at the POKéMON MANSION while studying MEWTWO, and that MEWTWO Mega Evolved,
-   broke free and took the MEGA STONES. He gives the player the MEGA RING
-   (`FLAG_RECEIVED_MEGA_RING`) and explains how to use it (hold the stone, press START when
-   choosing a move, once per battle). A player who beat him before this change gets the ring
-   by talking to him again.
+1. **Cinnabar Gym.** After the battle (and TM38), BLAINE tells the player that Mega Evolution
+   was discovered at the POKéMON MANSION while studying MEWTWO, and that when MEWTWO broke
+   loose and destroyed the lab, the notes burned and the MEGA STONES were lost. He doesn't
+   know that MEWTWO itself can Mega Evolve: there is no record of it. He gives the player the
+   MEGA RING (`FLAG_RECEIVED_MEGA_RING`) and explains how to use it (hold the stone, press
+   START when choosing a move, once per battle). A player who beat him before this change
+   gets the ring by talking to him again.
 2. **Hall of Fame.** `PokemonLeague_HallOfFame_EventScript_GameClear` sets
    `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
    the credits). The port of FRLG's script had lost this step, so the game used to stop on a
    black screen. After the credits, Continue puts the player in their room in Pallet Town.
-3. **The invitation.** When the player comes downstairs, MOM gives them a letter that
-   appeared on the table: MEWTWO's invitation to the tournament, signed "M.". The MEGA STONE of
-   the player's starter is inside: VENUSAURITE or BLASTOISINITE, or both CHARIZARDITE X and Y
-   for CHARMANDER (from `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor appears.
+3. **The invitation.** When the player comes downstairs, MOM gives them a letter that a tall,
+   quiet gentleman in a long coat brought that morning. It's an invitation to a tournament
+   on an island east of Vermilion, signed "MR. M.". MR. M. is MEWTWO, which uses its powers
+   to be seen as a man; nothing in the letter says so. The MEGA STONE of the player's starter
+   is inside: VENUSAURITE or BLASTOISINITE, or both CHARIZARDITE X and Y for CHARMANDER (from
+   `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
+   for MR. M., appears.
 
 ## The castle tilesets
 

@@ -906,8 +906,8 @@ CinnabarIsland_Gym_Text_ZacPostBattle:
 
 @ END KANTO NPCS
 
-@ The Mega Evolution story: BLAINE was a researcher at the POKéMON MANSION when MEWTWO broke
-@ free. After the battle he tells the player about Mega Evolution and gives them the MEGA RING.
+@ The Mega Evolution story: BLAINE was a researcher at the POKéMON MANSION, where Mega Evolution
+@ was found while studying MEWTWO. He doesn't know that MEWTWO itself can Mega Evolve. After the battle he tells the player about Mega Evolution and gives them the MEGA RING.
 @ No MEGA STONE comes with it: the first one arrives with MEWTWO's invitation, after the League.
 CinnabarIsland_Gym_EventScript_GiveMegaRing::
 	msgbox CinnabarIsland_Gym_Text_BlaineMegaEvolution
@@ -933,11 +933,10 @@ CinnabarIsland_Gym_Text_BlaineMegaEvolution:
     .string "a KEY STONE, worn by the trainer…\p"
     .string "…and a MEGA STONE, held by the\n"
     .string "POKéMON it was made for.\p"
-    .string "One day, MEWTWO Mega Evolved\n"
-    .string "during a test.\p"
-    .string "Nothing could hold it any longer.\n"
-    .string "It tore the lab apart and fled…\l"
-    .string "…and our MEGA STONES went with it.\p"
+    .string "Then MEWTWO broke loose. It tore\n"
+    .string "the lab apart and vanished.\p"
+    .string "Our notes burned, and our MEGA\n"
+    .string "STONES were lost in the ruins.\p"
     .string "This ring holds the last KEY STONE\n"
     .string "we had. I want you to have it.$"
 
@@ -953,8 +952,8 @@ CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve:
     .string "before anyone moves that turn.\p"
     .string "Only once per battle, mind you!\p"
     .string "Not even the ELITE FOUR has a\n"
-    .string "MEGA STONE. They all went with\l"
-    .string "MEWTWO.\p"
-    .string "Hah! Who knows?\n"
-    .string "Maybe one day it will come looking\l"
-    .string "for a trainer like you!$"
+    .string "MEGA STONE. Nobody has seen one\l"
+    .string "since the fire.\p"
+    .string "Hah! But who knows?\n"
+    .string "Maybe they're still out there,\l"
+    .string "waiting for a trainer like you!$"

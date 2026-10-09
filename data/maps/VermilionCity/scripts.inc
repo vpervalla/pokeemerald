@@ -390,7 +390,7 @@ VermilionCity_Text_WelcomeToTheSSAnne:
 @ END KANTO NPCS
 
 @ The Mega Evolution story: the ship to APEX ISLAND. Its sailor appears once the player has
-@ MEWTWO's invitation (FLAG_HIDE_VERMILION_APEX_SAILOR is cleared in PalletTown_PlayersHouse_1F).
+@ MR. M.'s invitation (FLAG_HIDE_VERMILION_APEX_SAILOR is cleared in PalletTown_PlayersHouse_1F).
 VermilionCity_EventScript_ApexSailor::
 	lock
 	faceplayer
@@ -410,8 +410,8 @@ VermilionCity_EventScript_ApexSailorNotYet::
 
 VermilionCity_Text_ApexSailor:
     .string "Ahoy! You must be {PLAYER}.\p"
-    .string "I was told to wait for a trainer\n"
-    .string "with a glowing letter.\p"
+    .string "MR. M. asked me to wait for you.\n"
+    .string "You have his letter, don't you?\p"
     .string "This ship sails to APEX ISLAND,\n"
     .string "for the tournament.\p"
     .string "Are you ready to set sail?$"

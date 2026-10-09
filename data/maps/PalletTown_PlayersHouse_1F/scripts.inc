@@ -96,8 +96,8 @@ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest:
 @ END KANTO NPCS
 
 @ The Mega Evolution story: after the Hall of Fame, the player wakes up at home and MOM has a
-@ letter for them. It's MEWTWO's invitation to the tournament on APEX ISLAND, with the MEGA
-@ STONE of the player's starter inside.
+@ letter for them. It's the invitation to the tournament on APEX ISLAND, from a "MR. M." (MEWTWO, seen by MOM as a
+@ man thanks to its powers), with the MEGA STONE of the player's starter inside.
 
 PalletTown_PlayersHouse_1F_OnFrame:
 	map_script_2 VAR_MEGA_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomHasLetter
@@ -183,26 +183,28 @@ PalletTown_PlayersHouse_1F_Text_MomLetterCameForYou:
     .string "Good morning, CHAMPION!\p"
     .string "I'm so proud of you, dear.\p"
     .string "Oh, and a letter came for you.\p"
-    .string "There was no stamp, and nobody saw\n"
-    .string "a mailman.\p"
-    .string "It was just lying on the table this\n"
-    .string "morning, glowing faintly…\p"
+    .string "A tall gentleman in a long coat\n"
+    .string "brought it this morning.\p"
+    .string "Such a quiet man… I didn't even\n"
+    .string "hear him knock. He just said it was\l"
+    .string "for the new CHAMPION, and left.\p"
     .string "Here, it's for you.$"
 
 PalletTown_PlayersHouse_1F_Text_Invitation:
     .string "{PLAYER} opened the letter.\p"
     .string "“To {PLAYER},\n"
     .string "the new CHAMPION of KANTO.\p"
-    .string "I have watched your battles.\n"
+    .string "I have followed your battles with\n"
+    .string "great interest.\l"
     .string "You and your POKéMON fight as one.\p"
-    .string "Humans once tried to cage a power\n"
-    .string "they did not understand.\l"
-    .string "I took it from them.\p"
-    .string "Now I wish to see it in the hands\n"
-    .string "of the strongest trainers.\p"
+    .string "There is a power that can take a\n"
+    .string "POKéMON beyond its final form.\l"
+    .string "Few have ever seen it.\p"
+    .string "I wish to see it in the hands of\n"
+    .string "the strongest trainers.\p"
     .string "On an island east of VERMILION,\n"
-    .string "I have prepared a tournament.\l"
-    .string "You are invited.\p"
+    .string "I am holding a tournament.\l"
+    .string "You are cordially invited.\p"
     .string "A ship will wait for you at\n"
     .string "VERMILION HARBOR.$"
 
@@ -210,14 +212,16 @@ PalletTown_PlayersHouse_1F_Text_InvitationOneStone:
     .string "The stone in this letter is meant\n"
     .string "for {STR_VAR_3}.\l"
     .string "Awaken its power.\p"
-    .string "M.”$"
+    .string "Yours sincerely,\n"
+    .string "MR. M.”$"
 
 PalletTown_PlayersHouse_1F_Text_InvitationTwoStones:
     .string "The two stones in this letter are\n"
     .string "meant for {STR_VAR_3}.\l"
     .string "Each awakens a different power.\p"
     .string "Choose well.\p"
-    .string "M.”$"
+    .string "Yours sincerely,\n"
+    .string "MR. M.”$"
 
 PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter:
     .string "There was something in the letter!\p"
