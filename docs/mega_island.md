@@ -54,6 +54,10 @@ The stained glass colours (13 and 14) are lit in the evening and at night
 - `build_route.py`: writes `data/layouts/MegaIsland` from primary and Sevii metatiles.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
+`art.py` has two colour themes for the same art: `dark` (the default, used in the game) and
+`light` (warm limestone, brighter glass and banners). Set `CASTLE_THEME=light` when running
+`build_castle.py` to build the other one.
+
 Run `python3 tools/mega_island/build_castle.py` and `python3 tools/mega_island/build_route.py`
 after changing the art or the layouts. The output is deterministic. The castle tileset
 uses 272 of the 384 secondary tiles and 325 of the 384 metatiles.
