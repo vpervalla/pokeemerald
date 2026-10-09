@@ -72,7 +72,8 @@ static const struct LitPalette sLitPalettes[] =
 {
     {&gTileset_KantoGeneral,        7,  3,       COLORS(9, 13)},
     {&gTileset_KantoPalletTown,     9,  NO_COPY, COLORS(8, 10)},                // Oak's lab
-    {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum
+    {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum windows
+    {&gTileset_KantoPewterCity,     12, NO_COPY, COLORS(2, 4)},                 // Museum glass front (night_windows.py)
     {&gTileset_KantoCeladonCity,    10, NO_COPY, COLORS(10, 12)},               // Department Store
     {&gTileset_KantoVermilionCity,  9,  NO_COPY, COLORS(8, 9) | COLORS(14, 15)},
     {&gTileset_KantoSaffronCity,    9,  NO_COPY, COLORS(13, 14)},               // Silph Co.
