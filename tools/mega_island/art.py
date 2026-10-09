@@ -10,7 +10,11 @@ PAL_B=[(0,0,0),PAL_A[OUT],PAL_A[S0],PAL_A[S1],PAL_A[S2],PAL_A[S3],
        (120,116,112),(160,156,148),(196,190,180),(224,218,206),(244,240,232),(64,108,52),PAL_A[S4],
        PAL_A[G],PAL_A[R1],PAL_A[R2]]
 P0,P1,P2,P3,P4,M0=22,23,24,25,26,27   # pale stone ramp and moss, palette B
-PAL=PAL_A+PAL_B
+# Palette C (slot 9): interiors -- wood, bed linen, violet, rugs and candle light
+PAL_C=[(0,0,0),PAL_A[OUT],PAL_A[S0],PAL_A[S1],(52,34,30),(92,62,46),(132,92,62),(176,128,84),
+       (228,224,232),(180,176,200),PAL_A[C0],PAL_A[C1],PAL_A[G],(112,28,40),(168,52,60),(248,224,136)]
+WD0,WD1,WD2,WD3,L0,L1,RG0,RG1,FL=36,37,38,39,40,41,45,46,47
+PAL=PAL_A+PAL_B+PAL_C
 class Canvas:
     def __init__(s,w,h): s.w,s.h=w,h; s.p=[[0]*w for _ in range(h)]
     def set(s,x,y,c):

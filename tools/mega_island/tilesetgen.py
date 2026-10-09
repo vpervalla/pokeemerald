@@ -3,7 +3,7 @@
 # writes a secondary tileset and a layout.
 import os, struct
 from PIL import Image
-from art import PAL, PAL_A, PAL_B
+from art import PAL, PAL_A, PAL_B, PAL_C
 
 EMPTY_TOP=0   # primary tile 0 is blank
 
@@ -11,17 +11,17 @@ class Builder:
     def __init__(self):
         self.tiles=[]; self.tindex={}
         self.metatiles=[]; self.mindex={}; self.attrs=[]
-        self.A_IDX={rgb:i for i,rgb in enumerate(PAL_A) if i}
-        self.B_IDX={rgb:i for i,rgb in enumerate(PAL_B) if i}
+        # (slot, colour -> index) for each palette, tried in order
+        self.banks=[(slot,{rgb:i for i,rgb in enumerate(pal) if i}) for slot,pal in ((7,PAL_A),(8,PAL_B),(9,PAL_C))]
         self.add_tile([[0]*8]*8)   # secondary tile 0 = transparent
 
     def to_bank(self,px):
-        # Picks the palette (7 or 8) that has every colour of the tile; returns (pal, local pixels).
+        # Picks the palette (slot 7, 8 or 9) that has every colour of the tile; returns (pal, local pixels).
         rgbs={PAL[p] for r in px for p in r if p}
-        for pal,idx in ((7,self.A_IDX),(8,self.B_IDX)):
+        for pal,idx in self.banks:
             if rgbs<=set(idx):
                 return pal,[[idx[PAL[p]] if p else 0 for p in r] for r in px]
-        raise SystemExit('tile mixes colours of both palettes: %s' % sorted(rgbs))
+        raise SystemExit('tile mixes colours of different palettes: %s' % sorted(rgbs))
 
     def add_tile(self,px):   # px: 8 rows of 8 art colour indices; returns (index, hflip, vflip, palette)
         pal,px=self.to_bank(px)
@@ -67,7 +67,7 @@ class Builder:
                 for x in range(8): im.putpixel(((i%16)*8+x,(i//16)*8+y),t[y][x])
         im.save(tsdir+'tiles.png')
         for p in range(16):
-            cols=PAL_A if p==7 else (PAL_B if p==8 else [(0,0,0)]*16)
+            cols={7:PAL_A,8:PAL_B,9:PAL_C}.get(p,[(0,0,0)]*16)
             with open(tsdir+'palettes/%02d.pal'%p,'w',newline='\r\n') as f:
                 f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in cols))
         with open(tsdir+'metatiles.bin','wb') as f:

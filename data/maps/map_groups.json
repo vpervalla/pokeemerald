@@ -853,7 +853,9 @@
     "MegaIsland_Harbor",
     "MegaIsland",
     "MegaIsland_Castle",
-    "MegaIsland_Arena"
+    "MegaIsland_Arena",
+    "MegaIsland_Castle_1F",
+    "MegaIsland_Castle_2F"
   ],
   "gMapGroup_KantoTownsAndRoutes": [
     "PalletTown",
