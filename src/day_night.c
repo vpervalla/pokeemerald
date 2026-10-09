@@ -67,12 +67,14 @@ static const struct TintMultipliers sPhaseTints[DAY_NIGHT_PHASE_COUNT] =
 // Window glass lit in the evening and at night. Most Kanto windows use colours 9-13 of kanto_general's
 // palette 3, which roofs and water share, so tools/kanto_port/split_window_palettes.py moved the window
 // tiles to a copy of that palette in each Kanto secondary tileset's slot 7. Glass in a town's own
-// palettes is listed where nothing but windows uses its colours.
+// palettes is listed where nothing but windows uses its colours. Buildings you can't enter keep their
+// windows dark: tools/kanto_port/night_windows.py gives them unlit copies of their window metatiles.
 static const struct LitPalette sLitPalettes[] =
 {
     {&gTileset_KantoGeneral,        7,  3,       COLORS(9, 13)},
     {&gTileset_KantoPalletTown,     9,  NO_COPY, COLORS(8, 10)},                // Oak's lab
-    {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum
+    {&gTileset_KantoPewterCity,     11, NO_COPY, (1 << 5) | (1 << 6) | (1 << 12)}, // Museum windows
+    {&gTileset_KantoPewterCity,     12, NO_COPY, COLORS(2, 4)},                 // Museum glass front (night_windows.py)
     {&gTileset_KantoCeladonCity,    10, NO_COPY, COLORS(10, 12)},               // Department Store
     {&gTileset_KantoVermilionCity,  9,  NO_COPY, COLORS(8, 9) | COLORS(14, 15)},
     {&gTileset_KantoSaffronCity,    9,  NO_COPY, COLORS(13, 14)},               // Silph Co.
