@@ -97,6 +97,30 @@ one of them on a map at a time. The rival, Lance and Steven use their existing s
 
 In battle, the Kanto rival (TERRY in the trainer data) now shows the name the player gave him.
 
+## The tournament
+
+`VAR_MEGA_STORY_STATE` goes on counting: 3 registered (quarterfinal next), 4 semifinal next, 5 final
+next, 6 tournament won.
+
+1. **Registration.** The receptionist in the hall gives the quarterfinal pairings and registers the
+   player. Before each round she heals the player's team.
+2. **The matches** (`MegaIsland_Arena`). With a match to play, entering the court starts it: the
+   player walks to the south trainer box, the camera rises to MR. M. (a gentleman, for now) in his box
+   for the announcement, then shows both trainers, and the opponent battles from the north box.
+   MR. M. then gives the other results, and the player goes back to the hall.
+3. **Losing** heals the team (`trainerbattle_earlyrival` with `RIVAL_BATTLE_HEAL_AFTER`, no
+   whiteout), and the player can try the same round again.
+
+The bracket is fixed:
+
+| Round | The player's match | The other results |
+|-------|--------------------|-------------------|
+| Quarterfinals | vs Alder (Mega Heracross) | the rival beats Cynthia, Diantha beats Lance, Leon beats Steven |
+| Semifinals | vs the rival (Mega Pidgeot; his team follows the player's starter) | Leon beats Diantha |
+| Final | vs Leon (Mega Charizard Y) | |
+
+After the final MR. M. tells the player to rest and come to him: the story goes on from there.
+
 ## The castle tilesets
 
 `data/tilesets/secondary/kanto_mega_castle` (the castle grounds), `kanto_mega_arena` (the
