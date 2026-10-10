@@ -662,6 +662,8 @@ static void CB2_EndScriptedWildBattle(void)
 {
     CpuFill16(0, (void *)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    // Kanto: an uncatchable POKéMON (the ghost MAROWAK) is for this battle only, even if the player blacks out.
+    FlagClear(FLAG_UNCATCHABLE_WILD_BATTLE);
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {

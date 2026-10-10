@@ -91,6 +91,8 @@ Route25_SeaCottage_EventScript_BillWalkToTeleporterSouth::
 Route25_SeaCottage_EventScript_BillsMonList::
 	message Route25_SeaCottage_Text_SeeWhichMon
 	waitmessage
+	multichoice 0, 0, MULTI_KANTO_EEVEELUTIONS, FALSE
+	switch VAR_RESULT
 	case 0, Route25_SeaCottage_EventScript_ViewEevee
 	case 1, Route25_SeaCottage_EventScript_ViewFlareon
 	case 2, Route25_SeaCottage_EventScript_ViewJolteon

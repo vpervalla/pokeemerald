@@ -58,6 +58,8 @@ TwoIsland_House_EventScript_ChooseMoveToTeach::
 TwoIsland_House_EventScript_ChooseMushroom::
 	message TwoIsland_House_Text_IllNeedMushroomOrTwo
 	waitmessage
+	multichoice 0, 0, MULTI_KANTO_MUSHROOMS, TRUE
+	switch VAR_RESULT
 	case 0, TwoIsland_House_EventScript_GiveTinyMushrooms
 	case 1, TwoIsland_House_EventScript_GiveBigMushroom
 	end

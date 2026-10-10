@@ -18,6 +18,8 @@ CeladonCity_Condominiums_3F_EventScript_Computer3::
 CeladonCity_Condominiums_3F_EventScript_Designer::
 	lock
 	faceplayer
+	specialvar VAR_RESULT, HasAllKantoMons
+	goto_if_eq VAR_RESULT, TRUE, CeladonCity_Condominiums_3F_EventScript_CompletedPokedex
 	msgbox CeladonCity_Condominiums_3F_Text_ImGameDesignerShowMeFinishedPokedex
 	release
 	end
@@ -73,5 +75,20 @@ CeladonCity_Condominiums_3F_Text_ItsTheGameProgram:
 CeladonCity_Condominiums_3F_Text_SomeonesPlayingGame:
     .string "Someone's playing a game instead of\n"
     .string "working!$"
+
+CeladonCity_Condominiums_3F_EventScript_CompletedPokedex::
+	message CeladonCity_Condominiums_3F_Text_CompletedPokedexCongratulations
+	waitmessage
+	delay 60
+	special Special_ShowDiploma
+	waitstate
+	release
+	end
+
+CeladonCity_Condominiums_3F_Text_CompletedPokedexCongratulations:
+    .string "Wow! Excellent!\n"
+    .string "You completed your POKéDEX!\l"
+    .string "Congratulations!\l"
+    .string "…$"
 
 @ END KANTO NPCS

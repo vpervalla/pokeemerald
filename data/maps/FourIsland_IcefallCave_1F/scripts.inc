@@ -35,9 +35,11 @@ FourIsland_IcefallCave_1F_OnFrame:
 	.2byte 0
 
 FourIsland_IcefallCave_1F_OnLoad::
+	special SetIcefallCaveCrackedIceMetatiles
 	end
 
 FourIsland_IcefallCave_1F_OnResume::
+	setstepcallback STEP_CB_ICEFALL_CAVE_ICE
 	end
 
 @ END KANTO NPCS

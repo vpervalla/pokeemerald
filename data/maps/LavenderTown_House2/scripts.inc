@@ -12,6 +12,7 @@ LavenderTown_House2_EventScript_CheckCanRateMon::
 	special BufferMonNickname
 	special IsMonOTIDNotPlayers
 	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
+	specialvar VAR_RESULT, IsMonOTNameNotPlayers
 	special BufferMonNickname
 	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
 	msgbox LavenderTown_House2_Text_GiveItANicerName, MSGBOX_YESNO
@@ -30,6 +31,7 @@ LavenderTown_House2_EventScript_ChooseMon::
 LavenderTown_House2_EventScript_ChooseNewNickname::
 	msgbox LavenderTown_House2_Text_WhatShallNewNicknameBe
 	call Kanto_EventScript_ChangePokemonNickname
+	specialvar VAR_RESULT, NameRaterWasNicknameChanged
 	special BufferMonNickname
 	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_ChoseNewNickname
 	msgbox LavenderTown_House2_Text_FromNowOnShallBeKnownAsSameName

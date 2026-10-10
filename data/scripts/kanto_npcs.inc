@@ -127,6 +127,72 @@ Kanto_Braille_Text_Right:
 Kanto_Braille_Text_TUV:
 	.braille "TUV$"
 
+Kanto_Braille_Text_ANewWorld:
+	.braille "A NEW WORLD$"
+
+Kanto_Braille_Text_AWindowTo:
+	.braille "A WINDOW TO$"
+
+Kanto_Braille_Text_BeingAlive:
+	.braille "BEING ALIVE$"
+
+Kanto_Braille_Text_ConnectThe:
+	.braille "CONNECT THE$"
+
+Kanto_Braille_Text_Everything:
+	.braille "EVERYTHING$"
+
+Kanto_Braille_Text_Existence:
+	.braille "EXISTENCE$"
+
+Kanto_Braille_Text_Glittering:
+	.braille "GLITTERING$"
+
+Kanto_Braille_Text_HasMeaning1:
+	.braille "HAS MEANING$"
+
+Kanto_Braille_Text_HasMeaning2:
+	.braille "HAS MEANING$"
+
+Kanto_Braille_Text_HasMeaning3:
+	.braille "HAS MEANING$"
+
+Kanto_Braille_Text_HaveDreams:
+	.braille "HAVE DREAMS$"
+
+Kanto_Braille_Text_LetTheTwo:
+	.braille "LET THE TWO$"
+
+Kanto_Braille_Text_OneInBlue:
+	.braille "ONE IN BLUE$"
+
+Kanto_Braille_Text_OneInRed:
+	.braille "ONE IN RED$"
+
+Kanto_Braille_Text_Past:
+	.braille "PAST.$"
+
+Kanto_Braille_Text_PowerOpen:
+	.braille "POWER OPEN$"
+
+Kanto_Braille_Text_Sharing:
+	.braille "SHARING$"
+
+Kanto_Braille_Text_Stones:
+	.braille "STONES$"
+
+Kanto_Braille_Text_ThatGlows:
+	.braille "THAT GLOWS.$"
+
+Kanto_Braille_Text_TheNext:
+	.braille "THE NEXT$"
+
+Kanto_Braille_Text_TwoFriends:
+	.braille "TWO FRIENDS$"
+
+Kanto_Braille_Text_WorldWaits:
+	.braille "WORLD WAITS$"
+
 Kanto_Braille_Text_Up:
 	.braille "UP$"
 

@@ -56,6 +56,8 @@ static void SootopolisGymIcePerStepCallback(u8);
 static void CrackedFloorPerStepCallback(u8);
 static void Task_MuddySlope(u8);
 
+static void IcefallCaveIcePerStepCallback(u8 taskId);
+
 static const TaskFunc sPerStepCallbacks[] =
 {
     [STEP_CB_DUMMY]             = DummyPerStepCallback,
@@ -65,7 +67,8 @@ static const TaskFunc sPerStepCallbacks[] =
     [STEP_CB_SOOTOPOLIS_ICE]    = SootopolisGymIcePerStepCallback,
     [STEP_CB_TRUCK]             = EndTruckSequence,
     [STEP_CB_SECRET_BASE]       = SecretBasePerStepCallback,
-    [STEP_CB_CRACKED_FLOOR]     = CrackedFloorPerStepCallback
+    [STEP_CB_CRACKED_FLOOR]     = CrackedFloorPerStepCallback,
+    [STEP_CB_ICEFALL_CAVE_ICE]  = IcefallCaveIcePerStepCallback,
 };
 
 // Each array has 4 pairs of data, each pair representing two metatiles of a log and their relative position.
@@ -955,3 +958,123 @@ static void Task_MuddySlope(u8 taskId)
         }
     }
 }
+
+// Kanto (FRLG): the thin ice of Icefall Cave 1F. Stepping on thin ice cracks it, and stepping on
+// cracked ice breaks it, which sets VAR_TEMP_1 so the map's script drops the player to B1F.
+// Which ice is cracked is kept in the temp flags (FLAG_TEMP_1 + the coord's index).
+static const u8 sIcefallCaveIceCoords[][2] =
+{
+    {  8,  3 },
+    { 10,  5 },
+    { 15,  5 },
+    {  8,  9 },
+    {  9,  9 },
+    { 16,  9 },
+    {  8, 10 },
+    {  9, 10 },
+    {  8, 14 }
+};
+
+static void MarkIcefallCaveIceVisited(s16 x, s16 y)
+{
+    u8 i;
+    for (i = 0; i < ARRAY_COUNT(sIcefallCaveIceCoords); i++)
+    {
+        if (sIcefallCaveIceCoords[i][0] + MAP_OFFSET == x && sIcefallCaveIceCoords[i][1] + MAP_OFFSET == y)
+        {
+            FlagSet(FLAG_TEMP_1 + i);
+            break;
+        }
+    }
+}
+
+void SetIcefallCaveCrackedIceMetatiles(void)
+{
+    u8 i;
+    for (i = 0; i < ARRAY_COUNT(sIcefallCaveIceCoords); i++)
+    {
+        if (FlagGet(FLAG_TEMP_1 + i))
+            MapGridSetMetatileIdAt(sIcefallCaveIceCoords[i][0] + MAP_OFFSET, sIcefallCaveIceCoords[i][1] + MAP_OFFSET, METATILE_KantoSeafoamIslands_CrackedIce);
+    }
+}
+
+#define tState data[1]
+#define tPrevX data[2]
+#define tPrevY data[3]
+#define tIceX  data[4]
+#define tIceY  data[5]
+#define tDelay data[6]
+
+static void IcefallCaveIcePerStepCallback(u8 taskId)
+{
+    s16 x, y;
+    u8 tileBehavior;
+    s16 *data = gTasks[taskId].data;
+
+    switch (tState)
+    {
+    case 0:
+        PlayerGetDestCoords(&x, &y);
+        tPrevX = x;
+        tPrevY = y;
+        tState = 1;
+        break;
+    case 1:
+        PlayerGetDestCoords(&x, &y);
+        if (x == tPrevX && y == tPrevY)
+            return;
+        tPrevX = x;
+        tPrevY = y;
+        tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+        if (MetatileBehavior_IsThinIce(tileBehavior) == TRUE)
+        {
+            MarkIcefallCaveIceVisited(x, y);
+            tDelay = 4;
+            tState = 2;
+            tIceX = x;
+            tIceY = y;
+        }
+        else if (MetatileBehavior_IsCrackedIce(tileBehavior) == TRUE)
+        {
+            tDelay = 4;
+            tState = 3;
+            tIceX = x;
+            tIceY = y;
+        }
+        break;
+    case 2:
+        if (tDelay != 0)
+        {
+            tDelay--;
+        }
+        else
+        {
+            PlaySE(SE_ICE_CRACK);
+            MapGridSetMetatileIdAt(tIceX, tIceY, METATILE_KantoSeafoamIslands_CrackedIce);
+            CurrentMapDrawMetatileAt(tIceX, tIceY);
+            tState = 1;
+        }
+        break;
+    case 3:
+        if (tDelay != 0)
+        {
+            tDelay--;
+        }
+        else
+        {
+            PlaySE(SE_ICE_BREAK);
+            MapGridSetMetatileIdAt(tIceX, tIceY, METATILE_KantoSeafoamIslands_IceHole);
+            CurrentMapDrawMetatileAt(tIceX, tIceY);
+            VarSet(VAR_TEMP_1, 1);
+            tState = 1;
+        }
+        break;
+    }
+}
+
+#undef tState
+#undef tPrevX
+#undef tPrevY
+#undef tIceX
+#undef tIceY
+#undef tDelay

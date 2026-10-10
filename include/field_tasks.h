@@ -6,4 +6,6 @@ void ActivatePerStepCallback(u8 callbackId);
 void ResetFieldTasksArgs(void);
 void SetSootopolisGymCrackedIceMetatiles(void);
 
+void SetIcefallCaveCrackedIceMetatiles(void);
+
 #endif // GUARD_FIELD_TASKS_H

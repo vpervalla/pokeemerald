@@ -13,6 +13,8 @@ CeladonCity_Condominiums_RoofRoom_EventScript_Blackboard::
 	message CeladonCity_Condominiums_RoofRoom_Text_ReadWhichHeading
 	waitmessage
 	setvar VAR_0x8004, 4
+	multichoice 0, 0, MULTI_KANTO_LINKED_DIRECT_UNION, FALSE
+	switch VAR_RESULT
 	case 0, CeladonCity_Condominiums_RoofRoom_EventScript_WirelessClub
 	case 1, CeladonCity_Condominiums_RoofRoom_EventScript_DirectCorner
 	case 2, CeladonCity_Condominiums_RoofRoom_EventScript_UnionRoom
@@ -70,6 +72,8 @@ CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty::
 CeladonCity_Condominiums_RoofRoom_EventScript_ReadAnotherHeading::
 	message CeladonCity_Condominiums_RoofRoom_Text_ReadWhichHeading
 	waitmessage
+	multichoice 0, 0, MULTI_KANTO_LINKED_DIRECT_UNION, FALSE
+	switch VAR_RESULT
 	case 0, CeladonCity_Condominiums_RoofRoom_EventScript_WirelessClub
 	case 1, CeladonCity_Condominiums_RoofRoom_EventScript_DirectCorner
 	case 2, CeladonCity_Condominiums_RoofRoom_EventScript_UnionRoom

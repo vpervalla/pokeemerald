@@ -9,6 +9,8 @@ FiveIsland_ResortGorgeous_House_EventScript_Butler::
 
 FiveIsland_ResortGorgeous_House_EventScript_CheckForRequestedMon::
 	copyvar VAR_0x8004, VAR_RESORT_GORGEOUS_REQUESTED_MON
+	specialvar VAR_RESULT, DoesPlayerPartyContainSpecies
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_ResortGorgeous_House_EventScript_ShowRequestedMon
 	goto FiveIsland_ResortGorgeous_House_EventScript_RequestMon
 	end
 
@@ -24,6 +26,7 @@ FiveIsland_ResortGorgeous_House_EventScript_PokemonJournal::
 	end
 
 FiveIsland_ResortGorgeous_House_EventScript_RequestMon::
+	special SampleResortGorgeousMonAndReward
 	msgbox FiveIsland_ResortGorgeous_House_Text_WishToSeeMonPlease
 	release
 	end
@@ -71,5 +74,136 @@ FiveIsland_ResortGorgeous_House_Text_WishToSeeMonPlease:
     .string "A darling {STR_VAR_1}.\p"
     .string "I want to see one right away.\n"
     .string "Please, make my wish come true.$"
+
+FiveIsland_ResortGorgeous_House_EventScript_ShowRequestedMon::
+	special SampleResortGorgeousMonAndReward
+	msgbox FiveIsland_ResortGorgeous_House_Text_MonYouCaughtForMeThankYou
+	addobject LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER, FiveIsland_ResortGorgeous_House_Movement_ButlerEnter
+	waitmovement 0
+	msgbox FiveIsland_ResortGorgeous_House_Text_ButlerYesMyLady
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_SELPHY, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox FiveIsland_ResortGorgeous_House_Text_SelphyGiveTokenOfAppreciation
+	msgbox FiveIsland_ResortGorgeous_House_Text_ButlerIShallDoAsYouBid
+	closemessage
+	call_if_eq VAR_FACING, DIR_NORTH, FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerNorth
+	call_if_eq VAR_FACING, DIR_SOUTH, FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerSouth
+	call_if_eq VAR_FACING, DIR_EAST, FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerEast
+	call_if_eq VAR_FACING, DIR_WEST, FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerWest
+	copyobjectxytoperm LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER
+	msgbox FiveIsland_ResortGorgeous_House_Text_ButlerPleaseAcceptThisAsHerThanks
+	giveitem VAR_RESORT_GORGEOUS_REWARD
+	goto_if_eq VAR_RESULT, FALSE, FiveIsland_ResortGorgeous_House_EventScript_NoRoomForReward
+	setflag FLAG_TEMP_2
+	setvar VAR_RESORT_GORGEOUS_REQUESTED_MON, SPECIES_NONE
+	release
+	end
+
+FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerNorth::
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_SELPHY, Common_Movement_WalkInPlaceFasterDown
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER, FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerNorth
+	waitmovement 0
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	return
+
+FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerSouth::
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER, FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerSouth
+	waitmovement 0
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	return
+
+FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerEast::
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_SELPHY, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER, FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerEast
+	waitmovement 0
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	return
+
+FiveIsland_ResortGorgeous_House_EventScript_ButlerApproachPlayerWest::
+	applymovement LOCALID_RESORT_GORGEOUS_HOUSE_BUTLER, FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerWest
+	waitmovement 0
+	return
+
+FiveIsland_ResortGorgeous_House_EventScript_NoRoomForReward::
+	msgbox FiveIsland_ResortGorgeous_House_Text_ButlerBagAppearsToBeFull
+	msgbox FiveIsland_ResortGorgeous_House_Text_OhHowDisappointing
+	setflag FLAG_TEMP_2
+	setvar VAR_RESORT_GORGEOUS_REQUESTED_MON, SPECIES_NONE
+	release
+	end
+
+FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerNorth:
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	walk_down
+	walk_down
+	walk_in_place_faster_right
+	step_end
+
+FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerSouth:
+	walk_left
+	walk_left
+	walk_in_place_faster_down
+	step_end
+
+FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerEast:
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	step_end
+
+FiveIsland_ResortGorgeous_House_Movement_ButlerApproachPlayerWest:
+	walk_up
+	step_end
+
+FiveIsland_ResortGorgeous_House_Movement_ButlerEnter:
+	walk_in_place_down
+	step_end
+
+FiveIsland_ResortGorgeous_House_Text_MonYouCaughtForMeThankYou:
+    .string "SELPHY: Oh, hello, there.\p"
+    .string "Oh, my gracious. That must be the\n"
+    .string "{STR_VAR_1} you caught for me.\p"
+    .string "Giggle…\n"
+    .string "I see a resemblance to you.\p"
+    .string "Thank you so kindly.\p"
+    .string "… …  … …  … …\n"
+    .string "Is something the matter?\p"
+    .string "You may leave.\p"
+    .string "… …  … …  … …\n"
+    .string "Oh, fine. I understand now.\p"
+    .string "SEBASTIAN!\n"
+    .string "I need you here this instant!$"
+
+FiveIsland_ResortGorgeous_House_Text_ButlerYesMyLady:
+    .string "Butler: Yes, my lady.$"
+
+FiveIsland_ResortGorgeous_House_Text_SelphyGiveTokenOfAppreciation:
+    .string "SELPHY: See to it that this person\n"
+    .string "is given a token of appreciation.$"
+
+FiveIsland_ResortGorgeous_House_Text_ButlerIShallDoAsYouBid:
+    .string "Butler: I shall do as you bid,\n"
+    .string "my lady.$"
+
+FiveIsland_ResortGorgeous_House_Text_ButlerPleaseAcceptThisAsHerThanks:
+    .string "Butler: I sincerely thank you for\n"
+    .string "pleasing Lady SELPHY.\p"
+    .string "Please accept this as her thanks…$"
+
+FiveIsland_ResortGorgeous_House_Text_ButlerBagAppearsToBeFull:
+    .string "Butler: Your BAG appears to be\n"
+    .string "unfortunately full.$"
+
+FiveIsland_ResortGorgeous_House_Text_OhHowDisappointing:
+    .string "Oh…\n"
+    .string "How disappointing.$"
 
 @ END KANTO NPCS

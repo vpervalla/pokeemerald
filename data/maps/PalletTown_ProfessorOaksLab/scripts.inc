@@ -1199,6 +1199,7 @@ PalletTown_ProfessorOaksLab_Movement_WatchRivalEnterNorth:
 
 PalletTown_ProfessorOaksLab_OnFrame:
 	map_script_2 VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 1, PalletTown_ProfessorOaksLab_ChooseStarterScene
+	map_script_2 VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 7, PalletTown_ProfessorOaksLab_EventScript_EnterForNationalDexScene
 	.2byte 0
 
 PalletTown_ProfessorOaksLab_OnTransition::
@@ -1566,5 +1567,19 @@ PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide:
 PalletTown_ProfessorOaksLab_Text_ThoseArePokeBalls:
     .string "Those are POKé BALLS.\n"
     .string "They contain POKéMON!$"
+
+PalletTown_ProfessorOaksLab_EventScript_EnterForNationalDexScene::
+	lockall
+	setvar VAR_FACING, DIR_NORTH
+	applymovement LOCALID_OAKS_LAB_PROF_OAK, PalletTown_ProfessorOaksLab_Movement_OakEnter
+	waitmovement 0
+	removeobject LOCALID_OAKS_LAB_PROF_OAK
+	setobjectxyperm LOCALID_OAKS_LAB_PROF_OAK, 6, 3
+	setobjectmovementtype LOCALID_OAKS_LAB_PROF_OAK, MOVEMENT_TYPE_FACE_DOWN
+	clearflag FLAG_HIDE_OAK_IN_HIS_LAB
+	applymovement LOCALID_PLAYER, PalletTown_ProfessorOaksLab_Movement_PlayerEnter
+	waitmovement 0
+	goto PalletTown_ProfessorOaksLab_EventScript_NationalDexScene
+	end
 
 @ END KANTO NPCS

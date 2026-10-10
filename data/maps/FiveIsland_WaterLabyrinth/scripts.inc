@@ -20,9 +20,38 @@ FiveIsland_WaterLabyrinth_EventScript_EggGentleman::
 	goto_if_set FLAG_GOT_TOGEPI_EGG, FiveIsland_WaterLabyrinth_EventScript_PostEggComment
 	goto_if_set FLAG_NO_ROOM_FOR_TOGEPI_EGG, FiveIsland_WaterLabyrinth_EventScript_ReturnForEgg
 	msgbox FiveIsland_WaterLabyrinth_Text_LetMeTakeLookAtMons
+	specialvar VAR_RESULT, GetLeadMonFriendshipScore
+	goto_if_eq VAR_RESULT, FRIENDSHIP_MAX, FiveIsland_WaterLabyrinth_EventScript_LeadMonMaxFriendship
 	msgbox FiveIsland_WaterLabyrinth_Text_HmmISeeIsee
 	release
 	end
+
+FiveIsland_WaterLabyrinth_EventScript_LeadMonMaxFriendship::
+	msgbox FiveIsland_WaterLabyrinth_Text_TreatMonRightHaveThis
+	goto FiveIsland_WaterLabyrinth_EventScript_TryGiveEgg
+	end
+
+FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment::
+	msgbox FiveIsland_WaterLabyrinth_Text_CuteMonRemindsMeOfDaisy
+	release
+	end
+
+FiveIsland_WaterLabyrinth_Text_TreatMonRightHaveThis:
+    .string "Oh, impressive.\n"
+    .string "You treat your POKéMON right.\p"
+    .string "I think you can be entrusted with\n"
+    .string "this.\p"
+    .string "Please, I'd like you to have this.$"
+
+FiveIsland_WaterLabyrinth_Text_CuteMonRemindsMeOfDaisy:
+    .string "Oh, hello.\n"
+    .string "That's a cute {STR_VAR_2}.\p"
+    .string "Seeing it reminds me of a sweet \n"
+    .string "little girl I met while traveling.\p"
+    .string "She was gently grooming POKéMON…\n"
+    .string "She was a little angel.\p"
+    .string "That little girl's name…\n"
+    .string "I think it was DAISY.$"
 
 FiveIsland_WaterLabyrinth_EventScript_NoRoomForEgg::
 	setflag FLAG_NO_ROOM_FOR_TOGEPI_EGG
@@ -33,8 +62,12 @@ FiveIsland_WaterLabyrinth_EventScript_NoRoomForEgg::
 FiveIsland_WaterLabyrinth_EventScript_PostEggComment::
 	bufferspeciesname STR_VAR_2, SPECIES_TOGEPI
 	setvar VAR_0x8004, SPECIES_TOGEPI
+	specialvar VAR_RESULT, PlayerPartyContainsSpeciesWithPlayerID
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
 	bufferspeciesname STR_VAR_2, SPECIES_TOGETIC
 	setvar VAR_0x8004, SPECIES_TOGETIC
+	specialvar VAR_RESULT, PlayerPartyContainsSpeciesWithPlayerID
+	goto_if_eq VAR_RESULT, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
 	msgbox FiveIsland_WaterLabyrinth_Text_GladIMetSomeoneLikeYou
 	release
 	end

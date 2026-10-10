@@ -2241,3 +2241,9 @@ static u8 TrySpinPlayerForWarp(struct ObjectEvent *object, s16 *delayTimer)
     *delayTimer = 0;
     return sSpinDirections[object->facingDirection];
 }
+
+// Kanto (FRLG): the current at the bottom of Seafoam Islands B4F leaves the player on land.
+void SeafoamIslandsB4F_CurrentDumpsPlayerOnLand(void)
+{
+    CreateStopSurfingTask(DIR_NORTH);
+}

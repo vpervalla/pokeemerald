@@ -15,6 +15,7 @@
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_specials.h"
+#include "new_game.h"
 #include "field_weather.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -39,6 +40,7 @@
 #include "sound.h"
 #include "starter_choose.h"
 #include "string_util.h"
+#include "pokedex.h"
 #include "strings.h"
 #include "task.h"
 #include "tilesets.h"
@@ -4490,4 +4492,261 @@ u16 InitElevatorFloorSelectMenuPos(void)
     sKantoElevatorScrollOffset = stop != NULL ? stop->scrollOffset : 0;
     sKantoElevatorSelectedRow = stop != NULL ? stop->selectedRow : 0;
     return sKantoElevatorSelectedRow;
+}
+
+// Kanto (FRLG): the player arrives in Seafoam Islands B4F on the current from B3F, so start surfing.
+void ForcePlayerToStartSurfing(void)
+{
+    SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_SURFING);
+}
+
+// Kanto (FRLG): whether the party has a POKéMON of species VAR_0x8004 (or an EGG of it) that the
+// player caught or hatched themselves.
+bool8 PlayerPartyContainsSpeciesWithPlayerID(void)
+{
+    u8 partyCount = CalculatePlayerPartyCount();
+    u8 i;
+
+    for (i = 0; i < partyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG) == gSpecialVar_0x8004
+         && GetMonData(&gPlayerParty[i], MON_DATA_OT_ID) == GetTrainerId(gSaveBlock2Ptr->playerTrainerId))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Kanto (FRLG): picks the two trash cans with the switches in VERMILION GYM: VAR_0x8004 is the
+// first one (1-15) and VAR_0x8005 a can next to it.
+void SetVermilionTrashCans(void)
+{
+    u16 idx = (Random() % 15) + 1;
+    gSpecialVar_0x8004 = idx;
+    gSpecialVar_0x8005 = idx;
+    switch (gSpecialVar_0x8004)
+    {
+    case 1:
+        idx = Random() % 2;
+        if (idx == 0)
+            gSpecialVar_0x8005 += 1;
+        else
+            gSpecialVar_0x8005 += 5;
+        break;
+    case 2:
+    case 3:
+    case 4:
+        idx = Random() % 3;
+        if (idx == 0)
+            gSpecialVar_0x8005 += 1;
+        else if (idx == 1)
+            gSpecialVar_0x8005 += 5;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    case 5:
+        idx = Random() % 2;
+        if (idx == 0)
+            gSpecialVar_0x8005 += 5;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    case 6:
+        idx = Random() % 3;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else if (idx == 1)
+            gSpecialVar_0x8005 += 1;
+        else
+            gSpecialVar_0x8005 += 5;
+        break;
+    case 7:
+    case 8:
+    case 9:
+        idx = Random() % 4;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else if (idx == 1)
+            gSpecialVar_0x8005 += 1;
+        else if (idx == 2)
+            gSpecialVar_0x8005 += 5;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    case 10:
+        idx = Random() % 3;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else if (idx == 1)
+            gSpecialVar_0x8005 += 5;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    case 11:
+        idx = Random() % 2;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else
+            gSpecialVar_0x8005 += 1;
+        break;
+    case 12:
+    case 13:
+    case 14:
+        idx = Random() % 3;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else if (idx == 1)
+            gSpecialVar_0x8005 += 1;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    case 15:
+        idx = Random() % 2;
+        if (idx == 0)
+            gSpecialVar_0x8005 -= 5;
+        else
+            gSpecialVar_0x8005 -= 1;
+        break;
+    }
+    if (gSpecialVar_0x8005 > 15)
+    {
+        if (gSpecialVar_0x8004 % 5 == 1)
+            gSpecialVar_0x8005 = gSpecialVar_0x8004 + 1;
+        else if (gSpecialVar_0x8004 % 5 == 0)
+            gSpecialVar_0x8005 = gSpecialVar_0x8004 - 1;
+        else
+            gSpecialVar_0x8005 = gSpecialVar_0x8004 + 1;
+    }
+}
+
+// Kanto (FRLG): DAISY grooms a POKéMON again only after 500 steps.
+void RunMassageCooldownStepCounter(void)
+{
+    u16 count = VarGet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER);
+    if (count < 500)
+        VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, count + 1);
+}
+
+// Kanto (FRLG): DAISY grooms the party POKéMON VAR_0x8004.
+void DaisyMassageServices(void)
+{
+    AdjustFriendship(&gPlayerParty[gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
+    VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 0);
+}
+
+// Kanto (FRLG): the luck of the CELADON GAME CORNER slot machine the player sits at, at random
+// (0 to 5, like Emerald's SLOT_MACHINE_* ids): mostly the unluckiest.
+u8 GetRandomSlotMachineId(void)
+{
+    static const u8 sSlotMachineIndices[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5};
+    return sSlotMachineIndices[Random() % ARRAY_COUNT(sSlotMachineIndices)];
+}
+
+// Kanto (FRLG): the NAME RATER only renames POKéMON whose OT is the player (the OT ID is
+// checked by IsMonOTIDNotPlayers, this checks the OT name).
+bool8 IsMonOTNameNotPlayers(void)
+{
+    GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_OT_NAME, gStringVar1);
+    return StringCompare(gSaveBlock2Ptr->playerName, gStringVar1) != 0;
+}
+
+// Kanto (FRLG): whether the NAME RATER's new nickname differs from the old one (in gStringVar3).
+bool8 NameRaterWasNicknameChanged(void)
+{
+    GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar1);
+    return StringCompare(gStringVar3, gStringVar1) != 0;
+}
+
+// Kanto (FRLG): the species of the player's starter (VAR_STARTER_MON is 0 for BULBASAUR,
+// 1 for SQUIRTLE and 2 for CHARMANDER).
+u16 GetStarterSpecies(void)
+{
+    static const u16 sKantoStarters[] = {SPECIES_BULBASAUR, SPECIES_SQUIRTLE, SPECIES_CHARMANDER};
+    u16 starter = VarGet(VAR_STARTER_MON);
+
+    return sKantoStarters[starter < ARRAY_COUNT(sKantoStarters) ? starter : 0];
+}
+
+// Five Island's RESORT GORGEOUS: SELPHY asks to see a POKéMON the player has seen, within 250 steps (from FRLG)
+static const u16 sResortGorgeousDeluxeRewards[] = {
+    ITEM_BIG_PEARL,
+    ITEM_PEARL,
+    ITEM_STARDUST,
+    ITEM_STAR_PIECE,
+    ITEM_NUGGET,
+    ITEM_RARE_CANDY
+};
+
+void IncrementResortGorgeousStepCounter(void)
+{
+    u16 steps = VarGet(VAR_RESORT_GORGEOUS_STEP_COUNTER);
+    u16 requested = VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON);
+
+    if (requested != SPECIES_NONE && requested != 0xFFFF)
+    {
+        steps++;
+        if (steps >= 250)
+        {
+            VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, 0xFFFF);
+            VarSet(VAR_RESORT_GORGEOUS_STEP_COUNTER, 0);
+        }
+        else
+        {
+            VarSet(VAR_RESORT_GORGEOUS_STEP_COUNTER, steps);
+        }
+    }
+}
+
+static u16 SampleResortGorgeousMon(void)
+{
+    u16 i;
+    u16 species = SPECIES_BULBASAUR;
+
+    for (i = 0; i < 100; i++)
+    {
+        species = (Random() % (NUM_SPECIES - 1)) + 1;
+        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) == TRUE)
+            return species;
+    }
+    while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) != TRUE)
+    {
+        if (species == SPECIES_BULBASAUR)
+            species = NUM_SPECIES - 1;
+        else
+            species--;
+    }
+    return species;
+}
+
+static u16 SampleResortGorgeousReward(void)
+{
+    if ((Random() % 100) >= 30)
+        return ITEM_LUXURY_BALL;
+    else
+        return sResortGorgeousDeluxeRewards[Random() % ARRAY_COUNT(sResortGorgeousDeluxeRewards)];
+}
+
+void SampleResortGorgeousMonAndReward(void)
+{
+    u16 requestedSpecies = VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON);
+
+    if (requestedSpecies == SPECIES_NONE || requestedSpecies == 0xFFFF)
+    {
+        VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, SampleResortGorgeousMon());
+        VarSet(VAR_RESORT_GORGEOUS_REWARD, SampleResortGorgeousReward());
+        VarSet(VAR_RESORT_GORGEOUS_STEP_COUNTER, 0);
+    }
+    StringCopy(gStringVar1, gSpeciesNames[VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON)]);
+}
+
+bool8 DoesPlayerPartyContainSpecies(void)
+{
+    u8 partyCount = CalculatePlayerPartyCount();
+    u8 i;
+
+    for (i = 0; i < partyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG, NULL) == gSpecialVar_0x8004)
+            return TRUE;
+    }
+    return FALSE;
 }

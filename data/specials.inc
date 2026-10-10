@@ -545,6 +545,22 @@ gSpecials::
 	def_special CreateDoubleExchangeReturnPokemon
 	def_special RestoreDoubleExchangeFriendship
 	def_special WouldMonEvolveThroughTrade
+	@ Kanto (FRLG)
+	def_special SetIcefallCaveCrackedIceMetatiles
+	def_special SeafoamIslandsB4F_CurrentDumpsPlayerOnLand
+	def_special ForcePlayerToStartSurfing
+	def_special PlayerPartyContainsSpeciesWithPlayerID
+	def_special SetPostgameFlags
+	def_special IsNationalPokedexEnabled
+	def_special SetVermilionTrashCans
+	def_special DaisyMassageServices
+	def_special GetRandomSlotMachineId
+	def_special IsMonOTNameNotPlayers
+	def_special NameRaterWasNicknameChanged
+	def_special HasAllKantoMons
+	def_special GetStarterSpecies
+	def_special SampleResortGorgeousMonAndReward
+	def_special DoesPlayerPartyContainSpecies
 	@ From FRLG, used by the Kanto maps
 	def_special GetElevatorFloor
 	def_special InitElevatorFloorSelectMenuPos

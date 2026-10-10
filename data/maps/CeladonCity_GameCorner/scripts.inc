@@ -83,6 +83,9 @@ CeladonCity_GameCorner_EventScript_CoinsClerk::
 	showcoinsbox 0, 5
 	message CeladonCity_GameCorner_Text_WelcomeBuySomeCoins
 	waitmessage
+	multichoice 13, 0, MULTI_KANTO_GAME_CORNER_COIN_PURCHASE_COUNTER, FALSE
+	copyvar VAR_0x8009, VAR_RESULT
+	switch VAR_RESULT
 	case 0, CeladonCity_GameCorner_EventScript_BuyCoins
 	case 1, CeladonCity_GameCorner_EventScript_BuyCoins
 	case 2, CeladonCity_GameCorner_EventScript_ClerkDeclineBuy
@@ -296,6 +299,8 @@ CeladonCity_GameCorner_EventScript_SlotMachine::
 	setfieldeffectargument 0, LOCALID_PLAYER
 	setfieldeffectargument 1, MAP_GROUP(MAP_CELADON_CITY_GAME_CORNER)
 	setfieldeffectargument 2, MAP_NUM(MAP_CELADON_CITY_GAME_CORNER)
+	specialvar VAR_RESULT, GetRandomSlotMachineId
+	playslotmachine VAR_RESULT
 	releaseall
 	end
 

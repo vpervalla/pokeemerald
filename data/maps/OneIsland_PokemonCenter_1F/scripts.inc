@@ -48,6 +48,8 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, OneIsland_PokemonCenter_1F_EventScript_ExplainRainbowPass
 	goto_if_set FLAG_GOT_RUBY, OneIsland_PokemonCenter_1F_EventScript_GiveCelioRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4, OneIsland_PokemonCenter_1F_EventScript_CelioWaitingForRuby
+	specialvar VAR_RESULT, IsNationalPokedexEnabled
+	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
 	msgbox OneIsland_PokemonCenter_1F_Text_SorryForBeingPoorHost
 	closemessage
@@ -55,6 +57,44 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	waitmovement 0
 	release
 	end
+
+OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby::
+	msgbox OneIsland_PokemonCenter_1F_Text_CelioCaughtMoreMonMaybeICanBeUseful
+	applymovement LOCALID_CELIO, Kanto_Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox OneIsland_PokemonCenter_1F_Text_YoullBeTradingFromTrainersFarAway
+	applymovement LOCALID_CELIO, Kanto_Common_Movement_FacePlayer
+	waitmovement 0
+	msgbox OneIsland_PokemonCenter_1F_Text_NeedsSpecialGemstone
+	setvar VAR_MAP_SCENE_MT_EMBER_EXTERIOR, 1
+	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4
+	release
+	end
+
+OneIsland_PokemonCenter_1F_Text_CelioCaughtMoreMonMaybeICanBeUseful:
+    .string "CELIO: {PLAYER}, how have things\n"
+    .string "been for you?\p"
+    .string "Oh, is that right?\n"
+    .string "You've caught more POKéMON.\p"
+    .string "Do you know what?\n"
+    .string "Maybe I can be useful to you.$"
+
+OneIsland_PokemonCenter_1F_Text_NeedsSpecialGemstone:
+    .string "But, there is a slight catch.\p"
+    .string "For the link to work, the Machine\n"
+    .string "needs a special gemstone.\p"
+    .string "It's supposed to be on ONE ISLAND,\n"
+    .string "but I haven't found one yet.\p"
+    .string "Who knows where it could be.$"
+
+OneIsland_PokemonCenter_1F_Text_YoullBeTradingFromTrainersFarAway:
+    .string "I'm modifying the Network Machine\n"
+    .string "right now.\p"
+    .string "I'm changing it so it can handle\n"
+    .string "trades over long distances.\p"
+    .string "When I get finished, you'll be\n"
+    .string "trading for exotic POKéMON from\l"
+    .string "TRAINERS far away.$"
 
 OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact::
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioHearingRumorsAboutYou
@@ -155,6 +195,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire::
 	applymovement LOCALID_CELIO, Kanto_Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_ManagedToLinkWithHoennThankYou
+	special SetPostgameFlags
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
 	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
 	setflag FLAG_HIDE_LORELEI_IN_HER_HOUSE

@@ -29,7 +29,7 @@ DROPPED_COMMANDS = {"famechecker", "set_gym_trainers", "textcolor", "goto_if_que
                     "trainerbattle_rematch", "trainerbattle_rematch_double"}
 ALWAYS_DEFINED = {"TRUE", "FALSE", "YES", "NO", "NO_MUSIC"}
 # FRLG constants Emerald has under another name
-CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "MULTICHOICE_RIGHT_LEFT": "MULTI_RIGHTLEFT",
+CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "STEP_CB_ICE": "STEP_CB_ICEFALL_CAVE_ICE", "MULTICHOICE_RIGHT_LEFT": "MULTI_RIGHTLEFT",
                  "MULTICHOICE_YES_NO_INFO": "MULTI_YESNOINFO", "SCR_MENU_CANCEL": "MULTI_B_PRESSED",
                  "STDSTRING_ITEMS_POCKET": "STDSTRING_ITEMS", "STDSTRING_KEY_ITEMS_POCKET": "STDSTRING_KEYITEMS",
                  "STDSTRING_POKEBALLS_POCKET": "STDSTRING_POKEBALLS", "STDSTRING_TM_CASE": "STDSTRING_TMHMS",
@@ -38,7 +38,9 @@ CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "MULTICHOICE_RIGHT_LEFT": 
                  **{f"MULTICHOICE_{m}": f"MULTI_KANTO_{m}" for m in (
                      "DEPT_STORE_ELEVATOR", "ROCKET_HIDEOUT_ELEVATOR", "ROOFTOP_B1F", "ISLAND_23", "ISLAND_13",
                      "ISLAND_12", "SEAGALLOP_123", "SEAGALLOP_V23", "SEAGALLOP_V13", "SEAGALLOP_V12",
-                     "SEAGALLOP_VERMILION", "SEVII_NAVEL", "SEVII_BIRTH", "SEVII_NAVEL_BIRTH")},
+                     "SEAGALLOP_VERMILION", "SEVII_NAVEL", "SEVII_BIRTH", "SEVII_NAVEL_BIRTH",
+                     # and the other menus of the Kanto maps (but the Trainer Tower's modes)
+                     "EEVEELUTIONS", "BIKE_SHOP", "GAME_CORNER_POKEMON_PRIZES", "HELIX", "DOME", "AMBER", "HELIX_AMBER", "DOME_AMBER", "CELADON_VENDING_MACHINE", "GAME_CORNER_COIN_PURCHASE_COUNTER", "GAME_CORNER_TMPRIZES", "THIRSTY_GIRL_FRESH_WATER", "THIRSTY_GIRL_SODA_POP", "THIRSTY_GIRL_FRESH_WATER_SODA_POP", "THIRSTY_GIRL_LEMONADE", "THIRSTY_GIRL_FRESH_WATER_LEMONADE", "THIRSTY_GIRL_SODA_POP_LEMONADE", "THIRSTY_GIRL_FRESH_WATER_SODA_POP_LEMONADE", "GAME_CORNER_BATTLE_ITEM_PRIZES", "LINKED_DIRECT_UNION", "MUSHROOMS", "TRAINER_SCHOOL_WHITEBOARD")},
                  "LISTMENU_SILPHCO_FLOORS": "SCROLL_MULTI_KANTO_SILPH_CO_FLOORS",
                  "LISTMENU_BADGES": "SCROLL_MULTI_NONE", "LISTMENU_BERRY_POWDER": "SCROLL_MULTI_NONE"}
 # FRLG movements Emerald lacks -> the closest Emerald movement
@@ -49,7 +51,13 @@ SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBat
                    # FRLG's elevators work like Emerald's
                    "DrawElevatorCurrentFloorWindow": "ShowDeptStoreElevatorFloorSelect",
                    "CloseElevatorCurrentFloorWindow": "CloseDeptStoreElevatorWindow",
-                   "AnimateElevator": "MoveElevator", "ListMenu": "ShowScrollableMultichoice"}
+                   "AnimateElevator": "MoveElevator", "ListMenu": "ShowScrollableMultichoice",
+                   # Emerald's equivalents of FRLG's specials
+                   "GetDaycareCost": "GetDaycareCostAndPrepareString", "GetLeadMonFriendship": "GetLeadMonFriendshipScore",
+                   "IsThereRoomInAnyBoxForMorePokemon": "ScriptCheckFreePokemonStorageSpace",
+                   "GetPartyMonSpecies": "ScriptGetPartyMonSpecies",
+                   "SelectMoveDeleterMove": "MoveDeleterChooseMoveToForget", "ShowDiploma": "Special_ShowDiploma"}
+# FRLG's specials that were added to Emerald for the Kanto maps (src/field_specials.c and others) keep their names.
 # Vars FRLG scripts set that mean nothing in Emerald: lines using them are left out
 IGNORED_VARS = {"VAR_TEXT_COLOR"}
 
