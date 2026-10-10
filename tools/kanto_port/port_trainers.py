@@ -56,7 +56,9 @@ SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBat
                    "GetDaycareCost": "GetDaycareCostAndPrepareString", "GetLeadMonFriendship": "GetLeadMonFriendshipScore",
                    "IsThereRoomInAnyBoxForMorePokemon": "ScriptCheckFreePokemonStorageSpace",
                    "GetPartyMonSpecies": "ScriptGetPartyMonSpecies",
-                   "SelectMoveDeleterMove": "MoveDeleterChooseMoveToForget", "ShowDiploma": "Special_ShowDiploma"}
+                   "SelectMoveDeleterMove": "MoveDeleterChooseMoveToForget", "ShowDiploma": "Special_ShowDiploma",
+                   "Script_HasEnoughBerryPowder": "HasEnoughBerryPowder", "Script_TakeBerryPowder": "TakeBerryPowder",
+                   "ShakeScreen": "ShakeCamera"}
 # FRLG's specials that were added to Emerald for the Kanto maps (src/field_specials.c and others) keep their names.
 # Vars FRLG scripts set that mean nothing in Emerald: lines using them are left out
 IGNORED_VARS = {"VAR_TEXT_COLOR"}

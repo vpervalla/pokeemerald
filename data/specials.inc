@@ -561,6 +561,13 @@ gSpecials::
 	def_special GetStarterSpecies
 	def_special SampleResortGorgeousMonAndReward
 	def_special DoesPlayerPartyContainSpecies
+	def_special SetSeenMon
+	def_special ForcePlayerOntoBike
+	def_special BufferBigGuyOrBigGirlString
+	def_special GetMagikarpSizeRecordInfo
+	def_special CompareMagikarpSize
+	def_special GetHeracrossSizeRecordInfo
+	def_special CompareHeracrossSize
 	@ From FRLG, used by the Kanto maps
 	def_special GetElevatorFloor
 	def_special InitElevatorFloorSelectMenuPos

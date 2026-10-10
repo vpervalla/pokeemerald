@@ -92,9 +92,12 @@ CeruleanCity_House5_EventScript_ExchangePowderForItem::
 	msgbox Kanto_CeruleanCity_House1_Text_YoullExchangeBerryPowderForItem, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, CeruleanCity_House5_EventScript_ChooseExchangeItem
 	copyvar VAR_0x8004, VAR_0x8009
+	specialvar VAR_RESULT, HasEnoughBerryPowder
+	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House5_EventScript_NotEnoughBerryPowder
 	giveitem VAR_0x8008
 	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House5_EventScript_BagIsFull
 	copyvar VAR_0x8004, VAR_0x8009
+	special TakeBerryPowder
 	special PrintPlayerBerryPowderAmount
 	msgbox Kanto_CeruleanCity_House1_Text_TradeMoreBerryPowder, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, CeruleanCity_House5_EventScript_ChooseExchangeItem
@@ -171,6 +174,11 @@ CeruleanCity_House5_EventScript_Zinc::
 CeruleanCity_House5_Text_ExchangeWithWhat:
     .string "With what would you like to \n"
     .string "exchange it?$"
+
+CeruleanCity_House5_EventScript_NotEnoughBerryPowder::
+	msgbox Kanto_CeruleanCity_House1_Text_DontHaveEnoughBerryPowder
+	goto CeruleanCity_House5_EventScript_ChooseExchangeItem
+	end
 
 @ END KANTO NPCS
 

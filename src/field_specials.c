@@ -4750,3 +4750,27 @@ bool8 DoesPlayerPartyContainSpecies(void)
     }
     return FALSE;
 }
+
+// Kanto (FRLG): marks the POKéMON in VAR_0x8004 as seen, for the POKéMON the player sees outside
+// battles (signs, binoculars, the EEVEE collection…)
+void SetSeenMon(void)
+{
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(gSpecialVar_0x8004), FLAG_SET_SEEN);
+}
+
+// Kanto (FRLG): CYCLING ROAD puts the player on the bike
+void ForcePlayerOntoBike(void)
+{
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)
+        SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
+    Overworld_SetSavedMusic(MUS_RG_CYCLING);
+    Overworld_ChangeMusicTo(MUS_RG_CYCLING);
+}
+
+void BufferBigGuyOrBigGirlString(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        StringCopy(gStringVar1, gText_BigGuy);
+    else
+        StringCopy(gStringVar1, gText_BigGirl);
+}

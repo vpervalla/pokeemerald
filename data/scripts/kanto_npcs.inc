@@ -473,6 +473,10 @@ Kanto_CeruleanCity_House1_Text_TakeInterestInAllSortsOfThings:
     .string "Young one, it's important to take an\n"
     .string "interest in all sorts of things.$"
 
+Kanto_CeruleanCity_House1_Text_DontHaveEnoughBerryPowder:
+    .string "Hm? You don't have enough\n"
+    .string "BERRY POWDER.$"
+
 Kanto_CeruleanCity_House1_Text_TradeMoreBerryPowder:
     .string "This is fine BERRY POWDER indeed.\n"
     .string "It will make excellent medicine.\p"

@@ -207,6 +207,7 @@ Route25_SeaCottage_EventScript_ViewEevee::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_EEVEE
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -215,6 +216,7 @@ Route25_SeaCottage_EventScript_ViewFlareon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_FLAREON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -223,6 +225,7 @@ Route25_SeaCottage_EventScript_ViewJolteon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_JOLTEON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -231,6 +234,7 @@ Route25_SeaCottage_EventScript_ViewVaporeon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_VAPOREON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 

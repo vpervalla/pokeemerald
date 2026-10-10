@@ -129,3 +129,32 @@ Path), NIDORINA (Route 11), ELECTRODE, TANGELA and SEEL (Cinnabar Lab). The port
 ran Emerald's trade 0. Their trades are now in `src/data/trade.h` as `INGAME_TRADE_KANTO_*`
 (FireRed's versions, with ZYNX's mail), and `port_trainers.py` maps FRLG's `INGAME_TRADE_*`
 names to them, so porting the NPCs again keeps them.
+
+## Scripts the port had dropped
+
+`port_trainers.py` leaves out every line that uses a special, command or constant Emerald lacks,
+plus the lines testing its result. Some of those lines blocked POKéMON or broke whole events, so
+the missing FRLG specials were added (`src/field_specials.c`, `data/specials.inc`; they keep
+their FRLG names, so porting again keeps the lines), or mapped to Emerald's equivalents in
+`SPECIAL_RENAMES`. The scripts were then restored by hand inside the generated blocks.
+
+- **POKéMON TOWER 6F (MAROWAK):** without the SILPH SCOPE the GHOST can't be identified and the
+  player is pushed back. With it, the player battles MAROWAK, which dodges every BALL
+  (`FLAG_UNCATCHABLE_WILD_BATTLE`, checked in `Cmd_handleballthrow`), and winning calms its spirit.
+  Before this, the scene softlocked and blocked MR. FUJI and the POKé FLUTE (SNORLAX).
+- **Menus:** the Game Corner (coins and prizes, including ABRA, CLEFAIRY, DRATINI, SCYTHER and
+  PORYGON), the CINNABAR LAB fossils (OMANYTE, KABUTO, AERODACTYL), the Bike Shop, the Celadon
+  roof vending machines and the other `MULTI_KANTO_*` menus.
+- **Sevii Islands:** CELIO and the RUBY/SAPPHIRE quest (National POKéDEX checks), the WATER
+  LABYRINTH TOGEPI EGG (friendship check), Icefall Cave's cracked ice, the Seafoam currents and
+  the layouts the scripts switch to, the Dunsparce Tunnel, and the braille rooms.
+- **Roamer:** RAIKOU, ENTEI or SUICUNE (depending on the starter) roams the Kanto routes, as in
+  FireRed.
+- **Smaller things:** Vermilion Gym's trash cans, DAISY's grooming, the Name Rater, the move
+  deleter, the diploma, SELPHY's requests at RESORT GORGEOUS, the MAGIKARP and HERACROSS size
+  records, the BERRY POWDER vendor (it now takes the powder), Cycling Road's forced bike, the
+  POKéMON marked as seen by signs and binoculars (`SetSeenMon`), and screen shakes.
+
+Still missing (they don't affect which POKéMON can be caught): the Fan Club's rankings, the
+museum's fossil pictures, the S.S. ANNE departure cutscene, LORELEI's dolls, the help system,
+Trainer Tower, the e-Reader trainer, and the Birth Island DEOXYS puzzle (an event-only POKéMON).

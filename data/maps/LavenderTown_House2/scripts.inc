@@ -9,6 +9,8 @@ LavenderTown_House2_EventScript_CantNicknameTradeMon::
 	end
 
 LavenderTown_House2_EventScript_CheckCanRateMon::
+	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_RESULT, SPECIES_EGG, LavenderTown_House2_EventScript_CantNicknameEgg
 	special BufferMonNickname
 	special IsMonOTIDNotPlayers
 	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
@@ -98,5 +100,14 @@ LavenderTown_House2_Text_WantMeToRateNicknames:
 LavenderTown_House2_Text_WhatShallNewNicknameBe:
     .string "Ah, good. Then, what shall the new\n"
     .string "nickname be?$"
+
+LavenderTown_House2_EventScript_CantNicknameEgg::
+	msgbox LavenderTown_House2_Text_ThatIsMerelyAnEgg
+	release
+	end
+
+LavenderTown_House2_Text_ThatIsMerelyAnEgg:
+    .string "Now, now.\n"
+    .string "That is merely an EGG!$"
 
 @ END KANTO NPCS

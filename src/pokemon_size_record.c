@@ -186,3 +186,42 @@ void CompareLotadSize(void)
 
     gSpecialVar_Result = CompareMonSize(SPECIES_LOTAD, sizeRecord);
 }
+
+// Kanto (FRLG): the MAGIKARP record on ROUTE 12 and the HERACROSS record on SIX ISLAND
+void InitMagikarpSizeRecord(void)
+{
+    VarSet(VAR_MAGIKARP_SIZE_RECORD, DEFAULT_MAX_SIZE);
+}
+
+void GetMagikarpSizeRecordInfo(void)
+{
+    u16 *sizeRecord = GetVarPointer(VAR_MAGIKARP_SIZE_RECORD);
+
+    GetMonSizeRecordInfo(SPECIES_MAGIKARP, sizeRecord);
+}
+
+void CompareMagikarpSize(void)
+{
+    u16 *sizeRecord = GetVarPointer(VAR_MAGIKARP_SIZE_RECORD);
+
+    gSpecialVar_Result = CompareMonSize(SPECIES_MAGIKARP, sizeRecord);
+}
+
+void InitHeracrossSizeRecord(void)
+{
+    VarSet(VAR_HERACROSS_SIZE_RECORD, DEFAULT_MAX_SIZE);
+}
+
+void GetHeracrossSizeRecordInfo(void)
+{
+    u16 *sizeRecord = GetVarPointer(VAR_HERACROSS_SIZE_RECORD);
+
+    GetMonSizeRecordInfo(SPECIES_HERACROSS, sizeRecord);
+}
+
+void CompareHeracrossSize(void)
+{
+    u16 *sizeRecord = GetVarPointer(VAR_HERACROSS_SIZE_RECORD);
+
+    gSpecialVar_Result = CompareMonSize(SPECIES_HERACROSS, sizeRecord);
+}

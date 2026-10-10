@@ -10,6 +10,7 @@ TwoIsland_JoyfulGameCorner_MapScripts::
 TwoIsland_JoyfulGameCorner_EventScript_FoundLostelleScene::
 	lockall
 	msgbox TwoIsland_JoyfulGameCorner_Text_YouRescuedLostelle
+	special BufferBigGuyOrBigGirlString
 	msgbox TwoIsland_JoyfulGameCorner_Text_LostelleItsOkayDaddy
 	closemessage
 	applymovement LOCALID_JOYFUL_GAME_CORNER_LOSTELLE, Kanto_Common_Movement_WalkInPlaceFasterDown
