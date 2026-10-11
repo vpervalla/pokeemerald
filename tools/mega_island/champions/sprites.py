@@ -2,20 +2,50 @@
 # removed): each trainer pic is scaled to fit 64x64, and the overworld frames are cut from the
 # walking sheets (4 rows of 4 frames: down, left, right, up; columns: standing, step, standing,
 # other step). Every sprite gets its own 15-colour palette; on the maps the champions use the
-# special NPC palette slot (one champion per map). Run after changing the sources.
+# special NPC palette slot (one champion per map). The DS games' walking sprites are much bigger than
+# Gen 3's, so their figures are scaled down to the height of a Kanto NPC (about 21 px with the outline
+# drawn round them) in their 32x32 frames, feet on the same row. Run after changing the sources.
 import os
 from PIL import Image
 HERE=os.path.dirname(os.path.abspath(__file__))
 REPO=os.path.join(HERE,'..','..','..')+'/'
 BG=(112,200,160)
-# name: (overworld cell w, h, scale, crop box in the scaled cell, colours to drop, frame w, h)
+# name: (overworld cell w, h, scale, crop box in the scaled cell, colours to drop, frame w, h,
+#        figure height to shrink to, or None)
 OW={
- 'cynthia':(34,36,1,(1,3,33,35),[(57,41,57)],32,32),   # drop the round shadow of the DS games
- 'diantha':(32,32,1,(0,0,32,32),[],32,32),
- 'alder':  (16,24,1,(0,-8,16,24),[],16,32),
- 'leon':   (64,64,2,(0,0,32,32),[],32,32),
- 'alain':  (34,36,1,(1,3,33,35),[],32,32),
+ 'cynthia':(34,36,1,(1,3,33,35),[(57,41,57)],32,32,19),   # drop the round shadow of the DS games
+ 'diantha':(32,32,1,(0,0,32,32),[],32,32,19),
+ 'alder':  (16,24,1,(0,-8,16,24),[],16,32,None),           # already Gen 3 sized
+ 'leon':   (64,64,2,(0,0,32,32),[],32,32,19),
+ 'alain':  (34,36,1,(1,3,33,35),[],32,32,19),
 }
+OUTLINE=(40,36,44)
+def shrink(frames,h):
+    # Scales every frame by the same factor so the tallest figure is h px tall, keeps each centred
+    # with the feet on the bottom row, and draws a dark outline round the figure (Gen 3 style).
+    boxes=[f.getbbox() for f in frames]
+    k=h/max(b[3]-b[1] for b in boxes)
+    bottom=max(b[3] for b in boxes)
+    out=[]
+    for f in frames:
+        w,hh=f.size
+        sm=f.resize((round(w*k),round(hh*k)),Image.BOX)
+        sm.putalpha(sm.getchannel('A').point(lambda v:255 if v>=110 else 0))
+        o=Image.new('RGBA',f.size,(0,0,0,0))
+        o.paste(sm,(round(w/2*(1-k)),hh-2-round(bottom*k)),sm)
+        px=o.load(); add=[]
+        for y in range(hh):
+            for x in range(w):
+                if px[x,y][3]==0 and any(0<=x+dx<w and 0<=y+dy<hh and px[x+dx,y+dy][3]
+                                         for dx,dy in ((1,0),(-1,0),(0,1),(0,-1))):
+                    add.append((x,y))
+        for x,y in add: px[x,y]=OUTLINE+(255,)
+        out.append(o)
+    dy=31-out[0].getbbox()[3]          # the standing frame's feet on row 30, like Kanto NPCs
+    moved=[]
+    for o in out:
+        m=Image.new('RGBA',o.size,(0,0,0,0)); m.paste(o,(0,dy)); moved.append(m)
+    return moved
 def d(a,b): return sum((a[i]-b[i])**2 for i in range(3))
 def reduce(imgs,n=15):
     # Merge the closest colours (weighted by use) until n are left; black stays.
@@ -66,7 +96,7 @@ def front(name):
     index(pic,pal).save(REPO+f'graphics/trainers/front_pics/champion_{name}.png')
     write_pal(REPO+f'graphics/trainers/palettes/champion_{name}.pal',pal)
 def overworld(name):
-    cw,ch,sc,box,drop,fw,fh=OW[name]
+    cw,ch,sc,box,drop,fw,fh,fig=OW[name]
     sheet=Image.open(f'{HERE}/source/{name}_overworld.png').convert('RGBA')
     px=sheet.load()
     for y in range(sheet.height):
@@ -77,6 +107,7 @@ def overworld(name):
         if sc>1: im=im.resize((cw//sc,ch//sc),Image.BOX)
         return im.crop(box)
     frames=[cell(0,0),cell(3,0),cell(1,0),cell(0,1),cell(0,3),cell(3,1),cell(3,3),cell(1,1),cell(1,3)]
+    if fig: frames=shrink(frames,fig)
     pal=reduce(frames)
     strip=Image.new('RGBA',(fw*len(frames),fh),(0,0,0,0))
     for i,f in enumerate(frames): strip.paste(f,(i*fw,0))
