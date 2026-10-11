@@ -89,6 +89,7 @@ static EWRAM_DATA u16 sTintSource[PLTT_BUFFER_SIZE] = {0}; // The gPlttBufferFad
 static EWRAM_DATA u16 sUntintedColors[NUM_PALS_TOTAL] = {0}; // Per map BG palette, a bit for each lit colour
 static EWRAM_DATA struct TintMultipliers sTint = {0};
 static EWRAM_DATA u32 sLastTintFrame = 0;
+static EWRAM_DATA MainCallback sTintCallback = NULL; // The callback2 that last updated the tint
 static EWRAM_DATA u8 sClockPhase = 0;
 static EWRAM_DATA u8 sClockTimer = 0;
 static EWRAM_DATA bool8 sTintActive = FALSE;
@@ -829,6 +830,8 @@ static void UpdateSigns(bool8 lit)
             CreateSignSprites();
         sSignsShown = lit;
         sSignsDirty = FALSE;
+        // This frame's OAM was built before the sprites were made again, maybe with other palette slots.
+        BuildOamBuffer();
     }
 }
 
@@ -919,6 +922,7 @@ static bool8 StartTintUpdate(void)
     bool8 reentered = (gMain.vblankCounter1 - sLastTintFrame > 2);
 
     sLastTintFrame = gMain.vblankCounter1;
+    sTintCallback = gMain.callback2;
     if (reentered || ++sClockTimer >= CLOCK_CHECK_FRAMES)
     {
         sClockTimer = 0;
@@ -1040,12 +1044,23 @@ void DayNight_UpdateBattle(void)
     UpdateTint(reentered, tintedColors, FALSE);
 }
 
-// Replaces TransferPlttBuffer in the field and battle VBlanks. The tinted buffer is only used
-// while the field or battle keeps it up to date, so a screen that borrows their VBlank without
-// updating the tint (e.g. during a map load) gets the plain palettes.
+// Whether the tinted buffer is up to date: the field or battle updated it in the last frames, or
+// is still running and just hasn't finished a frame (e.g. crossing into a connected map loads it
+// within one long frame). A screen that borrows their VBlank without updating the tint (e.g. during
+// a map load) gets the plain palettes.
+static bool8 IsTintInUse(void)
+{
+    if (gMain.vblankCounter1 - sLastTintFrame <= 2)
+        return sTintActive;
+    if (gMain.callback2 != sTintCallback)
+        sTintCallback = NULL; // Left that screen: coming back to it doesn't make the old buffer current
+    return sTintActive && sTintCallback != NULL;
+}
+
+// Replaces TransferPlttBuffer in the field and battle VBlanks.
 void DayNight_TransferPlttBuffer(void)
 {
-    if (sTintActive && gMain.vblankCounter1 - sLastTintFrame <= 2)
+    if (IsTintInUse())
         TransferPlttBufferFrom(sTintedPltt);
     else
         TransferPlttBuffer();
@@ -1055,7 +1070,7 @@ void DayNight_TransferPlttBuffer(void)
 // gPlttBufferFaded, tinted first while the tint is in use, so a fade doesn't flash the untinted colours.
 const u16 *DayNight_GetPlttBufferToShow(void)
 {
-    if (sTintActive && gMain.vblankCounter1 - sLastTintFrame <= 2)
+    if (IsTintInUse())
     {
         TintPalettes(FALSE, sTintedColors, sLitColorsUsed);
         return sTintedPltt;
