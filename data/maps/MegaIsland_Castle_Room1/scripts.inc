@@ -51,7 +51,7 @@ MegaIsland_Castle_Room1_Text_GoToSleep:
 MegaIsland_Castle_Room1_Text_Morning:
 	.string "{PLAYER} slept soundly…\p"
 	.string "It's morning! Fanfares are ringing\n"
-	.string "from the court.\p"
+	.string "from the arena upstairs.\p"
 	.string "The tournament is about to begin!$"
 
 MegaIsland_Castle_Room1_Text_SoftBed:

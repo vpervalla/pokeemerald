@@ -18,18 +18,17 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_REST_HOUSE` | `LAYOUT_KANTO_SAFARI_ZONE_REST_HOUSE` (shared) | The rest house on the route: a woman restores the player's team, and an old man remembers when the castle appeared. |
 | `MAP_MEGA_ISLAND_CAVE` | `LAYOUT_MEGA_ISLAND_CAVE` (the Lost Cave's first room without its ladder) | A small cave in the outcrop: a MAX REVIVE (`FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE`) and a hiker who has seen the walls glow like the champions' stones. Music `MUS_RG_SEVII_CAVE`. |
 | `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 60x40, `kanto_general` + `kanto_mega_castle` | The castle grounds, to be built by hand. For now an empty grass map holding the pieces imported from the reference map: the castle (10x14, its two-tile door at the top centre, with the warps), the gate (the torii over the cobbled path with a komainu at each pillar, the low wall either side and its corners) at the bottom centre, and to the side a nobori banner and a komainu either way round, and a patch of cobbles. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 15). |
-| `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 26x16, `kanto_building` + `kanto_mega_hall` | The entrance hall, behind the castle gate: dark marble, a violet runner from the entrance to the door of the court, a short stone wall with arched windows and candelabras, and pillars. Straight staircases in both top corners go up to the guest floor. The receptionist stands behind a wooden desk in front of the court door. Music `MUS_RG_POKE_MANSION`. |
-| `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest corridor: wooden floor and a violet runner, six guest-room doors along the north wall with candelabras between them, and a flight of stairs down at each end. |
-| `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: a bed, a nightstand with a candle, a wardrobe, a rug and a round table, with a doormat back to the corridor. |
-| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 32x30, `kanto_general` + `kanto_mega_arena` | The castle's inner courtyard, used as the tournament stadium. North: the keep's roofs, wall-walk and short inner face (lancet windows, bartizans with blue spires, violet banners) with the host's box in the middle, seen from above: a pale platform with a throne under a violet canopy and a rail along its front. Tiered stands (two along the north side) run down both sides. A paved walkway with a blue-flame brazier at each corner surrounds the battlefield: pale sand with white lines, trainer boxes at both ends and a blue-and-gold Mega Evolution emblem in the centre circle. South: the wall-walk with the entrance passage from the hall. Music `MUS_RG_TRAINER_TOWER`. |
+| `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 22x14, `kanto_building` + `kanto_mega_hall` | The entrance hall, on the ground floor: polished wooden floor, a north wall of shoji panels with two hanging scrolls, and a red runner from the entrance to the registration desk, where the receptionist stands in front of a gold folding screen painted with a pine. The desk is a counter (`MB_COUNTER`), so she is spoken to across it. Two tatami waiting areas with low tables and cushions, paper lanterns and bonsai. Stairs in the top left corner go up to the guest floor. Music `MUS_RG_POKE_MANSION`. |
+| `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 24x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a wooden corridor with a red runner and paper lanterns, six sliding doors (fusuma, painted with blossom) to the guest rooms in the shoji wall, stairs down to the hall at the west end and up to the arena at the east end. |
+| `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: tatami, a futon under the closet's sliding doors, a paper lantern, an alcove (tokonoma) with a scroll and a vase of blossom, and a low table with tea and two cushions, with a wooden threshold back to the corridor. |
+| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall with a plaster-and-wood north wall hung with purple curtains with white crests. MR. M.'s dais (tatami on a wooden platform) stands in front of a gold folding screen in the middle. The battlefield is tatami in a wooden frame, with white lines, a trainer box at each end and a red emblem with a white triple swirl (mitsudomoe) in the middle. Rows of cushions for the spectators down both sides, paper lanterns at the field's corners, red-and-white banners in the hall's corners, and stairs down to the guest floor in the middle of the south wall. Music `MUS_RG_TRAINER_TOWER`. |
 
 The castle door's two tiles (`MB_NON_ANIMATED_DOOR`) lead
-into the entrance hall, whose doormat (`MB_SOUTH_ARROW_WARP`) leads back out. The court door
-in the hall (`MB_NON_ANIMATED_DOOR`) leads to the stadium's entrance passage, whose last tiles
-lead back to the hall. The top step of each hall staircase (`MB_NORTH_ARROW_WARP`) goes up to
-the guest corridor, and the outer step of each corridor staircase (`MB_WEST_ARROW_WARP`, `MB_EAST_ARROW_WARP`) comes
-back down. The corridor's doors (`MB_NON_ANIMATED_DOOR`) lead to the guest rooms, whose doormats
-lead back.
+into the entrance hall, whose entrance step (`MB_SOUTH_ARROW_WARP`) leads back out. The top step
+of the hall's stairs (`MB_NORTH_ARROW_WARP`) goes up to the guest floor, whose west stairs
+(`MB_WEST_ARROW_WARP`) come back down. Its east stairs (`MB_EAST_ARROW_WARP`) go up to the arena,
+whose stairs (`MB_SOUTH_ARROW_WARP`) come back down. The guest floor's doors
+(`MB_NON_ANIMATED_DOOR`) lead to the guest rooms, whose thresholds lead back.
 
 The route has tall grass but no wild encounter table yet, so it has no encounters.
 
@@ -111,10 +110,11 @@ In battle, the Kanto rival (TERRY in the trainer data) now shows the name the pl
 2. **The night.** The bed in guest room 1 (`MegaIsland_Castle_Room1_EventScript_Bed`) asks
    whether to sleep: the screen fades, the healing jingle plays, the team is healed, and it's
    morning (state 4). Before each later round the receptionist heals the team.
-3. **The matches** (`MegaIsland_Arena`). With a match to play, entering the court starts it: the
-   player walks to the south trainer box, the camera rises to MR. M. (a gentleman, for now) in his box
-   for the announcement, then shows both trainers, and the opponent battles from the north box.
-   MR. M. then gives the other results, and the player goes back to the hall.
+3. **The matches** (`MegaIsland_Arena`). With a match to play, coming up to the arena starts it:
+   the player walks from the stairs to the south trainer box, the camera rises to MR. M. (a
+   gentleman, for now) on his dais for the announcement, then shows both trainers, and the opponent
+   battles from the north box. MR. M. then gives the other results, and the player goes back down
+   to the desk in the hall.
 4. **Losing** was a dream. The battle ends without a whiteout (`trainerbattle_earlyrival` with
    `RIVAL_BATTLE_HEAL_AFTER`), the screen fades to white and the player wakes up in their bed
    (state 8). On the room's first frame they wake with a start: it was all a dream, it's morning,
@@ -132,32 +132,27 @@ After the final MR. M. tells the player to rest and come to him: the story goes 
 
 ## The castle tilesets
 
-`data/tilesets/secondary/kanto_mega_castle` (the castle grounds), `kanto_mega_arena` (the
-stadium) and `kanto_mega_hall` (the hall, the guest corridor and the guest rooms) are new art, drawn for this
-project.
+`data/tilesets/secondary/kanto_mega_castle` (the castle grounds), `kanto_mega_hall` (the hall, the
+guest floor and the guest rooms) and `kanto_mega_arena` (the arena) are new art.
 
 The castle grounds' tiles are imported from the reference map (`build_castle.py`), with six
 palettes of their own (slots 7-12) fitted to the art.
 
-The stadium and the interiors use the same two palettes: slot 7 for the blackstone, spires, banners,
-glass and gold, and slot 8 for the pale stone and moss (with the outline, dark stone, gold and spire
-blues shared). The interiors add a third palette, slot 9, for wood, linen, rugs and candle light.
-Each 8x8 tile uses one palette. The stadium's glass colours (13 and 14 of slot 7) are lit in the
-evening and at night too.
+The interiors are drawn in the castle's style (`interior.py`) and share three palettes: slot 7 for
+wood, paper, lantern light, red, gold and lacquer, slot 8 for tatami, blue cloth and stone, and
+slot 9 for the painted screens and doors (blossom, greens, purple cloth). Colours they share
+(outline, paper, wood) are matched by RGB. Each 8x8 tile uses one palette; furniture is on the
+metatiles' top layer and the floor under it on the bottom layer, so the two can use different ones.
 
 ## Tools
 
 `tools/mega_island/` generates the castle tilesets and their layouts:
 
-- `art.py`: the stadium's and the interiors' pixel-art primitives (bricks, towers, spires, windows, banners, gates,
-  gargoyles, obelisks, paving, arcades, balustrades, fence, lamps) and palettes, and the canvas. The
-  ones for the high camera (`wall_top`, `short_wall`, `roof_top`, `tower3q`, `bartizan`,
-  `cone_roof3q`) draw short faces and the tops seen from above: a tower's rim, base and
-  cone eave are ellipses.
-- `arena.py`: the stadium drawing.
-  `hall.py`: the interiors, drawn for the game's high camera: walls are a pale top edge and a
-  two-cell face, floors fill the view, stairs are straight flights. Windows, banners and walls repeat
-  on an 8-pixel grid so the 60-wide facade fits the tile budget.
+- `art.py`: the canvas the art is drawn on.
+- `interior.py`: the interiors' art and palettes: wooden floors, tatami, shoji and plaster walls,
+  sliding doors, stairs, scrolls, gold folding screens, curtains, the desk, lanterns, bonsai,
+  cushions, low tables, the futon, banners and the battlefield. Each map is drawn on two canvases,
+  the floor and walls (bottom layer) and the furniture (top layer).
 - `tilesetgen.py`: cuts the art into 8x8 tiles (merging flipped duplicates, and giving each
   tile the palette that has its colours; the palettes are a parameter), builds metatiles, and writes a tileset (`tiles.png`,
   palettes, metatiles, attributes) and a layout.
@@ -173,10 +168,9 @@ evening and at night too.
   renders the map.
 - The bottom rows of the castle grounds, which the route draws with its own tileset across
   the connection, use only primary metatiles, so they show correctly from the route.
-- `build_arena.py`: writes `kanto_mega_arena` and `data/layouts/MegaIsland_Arena`. It also takes
-  `PREVIEW=out.png`.
-- `build_hall.py`: writes `kanto_mega_hall` and the hall, corridor and guest room layouts
-  (`PREVIEW=out.png` too).
+- `build_interiors.py`: lays out the hall, the guest floor, the guest room and the arena with their
+  collision and behaviors, and writes `kanto_mega_hall`, `kanto_mega_arena` and the four layouts.
+  `PREVIEW=out.png` renders the four maps instead.
 - `build_route.py`: writes `data/layouts/MegaIsland` from a character design of the map, and the port
   and cave layouts. Rock and water
   are autotiled by `autotile.py`, which learns from FRLG's own maps (Routes 3, 4, 9, 10, 22-25, Kindle
@@ -185,7 +179,7 @@ evening and at night too.
   by where the lower ground is.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
-Run `build_castle.py`, `build_arena.py`, `build_hall.py` and `build_route.py` after changing the art or the
-layouts. The output is deterministic. The castle tileset uses all 384 secondary tiles (388 distinct tiles, merged)
-and 211 of the 384 metatiles, the stadium tileset 221 and 99, the interior tileset 139 and 91. Rows above
-anything the camera can show reuse the first visible row's metatiles (rows 0-4 in the stadium).
+Run `build_castle.py`, `build_interiors.py` and `build_route.py` after changing the art or the
+layouts. The output is deterministic. The castle tileset uses all 384 secondary tiles (388 distinct
+tiles, merged) and 211 of the 384 metatiles, the hall tileset 177 and 94, the arena tileset 159
+and 84.

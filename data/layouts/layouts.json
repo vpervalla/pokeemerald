@@ -7514,9 +7514,9 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_ARENA",
       "name": "MegaIsland_Arena_Layout",
-      "width": 32,
-      "height": 30,
-      "primary_tileset": "gTileset_KantoGeneral",
+      "width": 23,
+      "height": 22,
+      "primary_tileset": "gTileset_KantoBuilding",
       "secondary_tileset": "gTileset_KantoMegaArena",
       "border_filepath": "data/layouts/MegaIsland_Arena/border.bin",
       "blockdata_filepath": "data/layouts/MegaIsland_Arena/map.bin"
@@ -7524,8 +7524,8 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_CASTLE_1F",
       "name": "MegaIsland_Castle_1F_Layout",
-      "width": 26,
-      "height": 16,
+      "width": 22,
+      "height": 14,
       "primary_tileset": "gTileset_KantoBuilding",
       "secondary_tileset": "gTileset_KantoMegaHall",
       "border_filepath": "data/layouts/MegaIsland_Castle_1F/border.bin",
@@ -7534,7 +7534,7 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_CASTLE_2F",
       "name": "MegaIsland_Castle_2F_Layout",
-      "width": 26,
+      "width": 24,
       "height": 9,
       "primary_tileset": "gTileset_KantoBuilding",
       "secondary_tileset": "gTileset_KantoMegaHall",

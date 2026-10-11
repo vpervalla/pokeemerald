@@ -3,12 +3,11 @@
 # writes a secondary tileset and a layout.
 import os, struct
 from PIL import Image
-from art import PAL, PAL_A, PAL_B, PAL_C
 
 EMPTY_TOP=0   # primary tile 0 is blank
 
 class Builder:
-    def __init__(self,palettes=((7,PAL_A),(8,PAL_B),(9,PAL_C)),art_pal=PAL):
+    def __init__(self,palettes,art_pal):
         # palettes: (slot, 16 colours) for each palette of the tileset; art_pal: the art's colour
         # index -> RGB
         self.tiles=[]; self.tindex={}

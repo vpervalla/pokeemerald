@@ -33,7 +33,7 @@ MegaIsland_Castle_1F_EventScript_ReceptionistNextRound::
 	call_if_eq VAR_MEGA_STORY_STATE, 6, MegaIsland_Castle_1F_EventScript_BufferFinal
 	msgbox MegaIsland_Castle_1F_Text_RestoreBeforeMatch
 	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
-	msgbox MegaIsland_Castle_1F_Text_GoToTheCourt
+	msgbox MegaIsland_Castle_1F_Text_GoToTheArena
 	release
 	end
 
@@ -82,9 +82,9 @@ MegaIsland_Castle_1F_Text_RestoreBeforeMatch:
 	.string "{STR_VAR_1}.\p"
 	.string "Allow me to restore your POKéMON.$"
 
-MegaIsland_Castle_1F_Text_GoToTheCourt:
-	.string "Please go through to the court\n"
-	.string "when you are ready.\p"
+MegaIsland_Castle_1F_Text_GoToTheArena:
+	.string "The arena is on the top floor.\n"
+	.string "Go up when you are ready.\p"
 	.string "MR. M. is waiting.$"
 
 MegaIsland_Castle_1F_Text_NotYet:

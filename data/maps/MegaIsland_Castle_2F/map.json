@@ -16,7 +16,7 @@
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_CHAMPION_LEON",
-      "x": 13,
+      "x": 12,
       "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
@@ -34,56 +34,56 @@
       "y": 3,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "5"
+      "dest_warp_id": "2"
     },
     {
       "x": 1,
       "y": 4,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "5"
+      "dest_warp_id": "2"
     },
     {
       "x": 1,
       "y": 5,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "5"
+      "dest_warp_id": "2"
     },
     {
       "x": 1,
       "y": 6,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "5"
+      "dest_warp_id": "2"
     },
     {
-      "x": 24,
+      "x": 22,
       "y": 3,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "8"
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "0"
     },
     {
-      "x": 24,
+      "x": 22,
       "y": 4,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "8"
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "0"
     },
     {
-      "x": 24,
+      "x": 22,
       "y": 5,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "8"
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "0"
     },
     {
-      "x": 24,
+      "x": 22,
       "y": 6,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "8"
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
@@ -107,21 +107,21 @@
       "dest_warp_id": "0"
     },
     {
-      "x": 15,
+      "x": 13,
       "y": 1,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM4",
       "dest_warp_id": "0"
     },
     {
-      "x": 18,
+      "x": 16,
       "y": 1,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM5",
       "dest_warp_id": "0"
     },
     {
-      "x": 21,
+      "x": 19,
       "y": 1,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_ROOM6",

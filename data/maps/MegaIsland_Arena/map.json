@@ -5,8 +5,8 @@
   "music": "MUS_RG_TRAINER_TOWER",
   "region_map_section": "MAPSEC_MEGA_ISLAND",
   "requires_flash": false,
-  "weather": "WEATHER_SUNNY",
-  "map_type": "MAP_TYPE_ROUTE",
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
   "allow_cycling": false,
   "allow_escaping": false,
   "allow_running": true,
@@ -17,8 +17,8 @@
     {
       "local_id": "LOCALID_ARENA_MR_M",
       "graphics_id": "OBJ_EVENT_GFX_KANTO_GENTLEMAN",
-      "x": 16,
-      "y": 10,
+      "x": 11,
+      "y": 3,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -31,8 +31,8 @@
     {
       "local_id": "LOCALID_ARENA_OPPONENT",
       "graphics_id": "OBJ_EVENT_GFX_VAR_0",
-      "x": 16,
-      "y": 14,
+      "x": 11,
+      "y": 8,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -45,18 +45,25 @@
   ],
   "warp_events": [
     {
-      "x": 15,
-      "y": 29,
+      "x": 11,
+      "y": 21,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_2F",
+      "dest_warp_id": "4"
     },
     {
-      "x": 16,
-      "y": 29,
+      "x": 10,
+      "y": 21,
       "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
-      "dest_warp_id": "3"
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_2F",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 12,
+      "y": 21,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_CASTLE_2F",
+      "dest_warp_id": "4"
     }
   ],
   "coord_events": [],

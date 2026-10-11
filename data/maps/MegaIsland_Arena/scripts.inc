@@ -4,10 +4,10 @@ MegaIsland_Arena_MapScripts::
 	.byte 0
 
 @ MR. M.'s tournament. The player registers with the receptionist in the hall
-@ (VAR_MEGA_STORY_STATE 3) and sleeps in their guest room (4); then each time they come into the
-@ court with a match to play, they
-@ walk to the south trainer box and battle the opponent in the north one, with MR. M. watching
-@ from his box. Bracket:
+@ (VAR_MEGA_STORY_STATE 3) and sleeps in their guest room (4); then each time they come up to the
+@ arena, on the castle's top floor, with a match to play, they walk from the stairs to the south
+@ trainer box and battle the opponent in the north one, with MR. M. watching from his dais.
+@ Bracket:
 @   quarterfinals: PLAYER - ALDER, RIVAL - CYNTHIA, LANCE - DIANTHA, STEVEN - LEON
 @   semifinals:    PLAYER - RIVAL, DIANTHA - LEON
 @   final:         PLAYER - LEON
@@ -43,7 +43,8 @@ MegaIsland_Arena_EventScript_Match::
 	lockall
 	setvar VAR_TEMP_0, 2
 	getplayerxy VAR_0x8004, VAR_0x8005
-	call_if_eq VAR_0x8004, 15, MegaIsland_Arena_EventScript_PlayerToMiddle
+	call_if_eq VAR_0x8004, 10, MegaIsland_Arena_EventScript_StepRight
+	call_if_eq VAR_0x8004, 12, MegaIsland_Arena_EventScript_StepLeft
 	applymovement LOCALID_PLAYER, MegaIsland_Arena_Movement_PlayerToTrainerBox
 	waitmovement 0
 	special SpawnCameraObject
@@ -56,8 +57,13 @@ MegaIsland_Arena_EventScript_Match::
 	releaseall
 	end
 
-MegaIsland_Arena_EventScript_PlayerToMiddle::
+MegaIsland_Arena_EventScript_StepRight::
 	applymovement LOCALID_PLAYER, MegaIsland_Arena_Movement_StepRight
+	waitmovement 0
+	return
+
+MegaIsland_Arena_EventScript_StepLeft::
+	applymovement LOCALID_PLAYER, MegaIsland_Arena_Movement_StepLeft
 	waitmovement 0
 	return
 
@@ -159,7 +165,7 @@ MegaIsland_Arena_EventScript_Lost::
 	end
 
 MegaIsland_Arena_EventScript_BackToHall::
-	warp MAP_MEGA_ISLAND_CASTLE_1F, 12, 2
+	warp MAP_MEGA_ISLAND_CASTLE_1F, 10, 6
 	waitstate
 	releaseall
 	end
@@ -182,9 +188,11 @@ MegaIsland_Arena_Movement_CameraToMrM:
 	walk_up
 	walk_up
 	walk_up
+	walk_up
 	step_end
 
 MegaIsland_Arena_Movement_CameraToField:
+	walk_down
 	walk_down
 	walk_down
 	walk_down
@@ -207,15 +215,18 @@ MegaIsland_Arena_Movement_CameraFieldToMrM:
 	walk_up
 	walk_up
 	walk_up
+	walk_up
 	step_end
 
 MegaIsland_Arena_Movement_StepRight:
 	walk_right
 	step_end
 
+MegaIsland_Arena_Movement_StepLeft:
+	walk_left
+	step_end
+
 MegaIsland_Arena_Movement_PlayerToTrainerBox:
-	walk_up
-	walk_up
 	walk_up
 	walk_up
 	walk_up
