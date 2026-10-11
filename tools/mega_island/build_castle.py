@@ -1,111 +1,231 @@
-# Builds the castle tileset (kanto_mega_castle) and the castle grounds map, after the user's
-# reference map: a Japanese castle in a walled compound, a cobbled plaza with banners, and a torii
-# as the gate in the front wall. The art is in jcastle.py.
-import sys, struct, os, random
+# Imports the castle grounds' tiles from the user's reference map (reference/castle_grounds.png) and
+# writes them as the castle tileset (kanto_mega_castle), with the pieces laid out on an otherwise
+# empty grass map (the castle grounds) to be built by hand.
+#
+# The reference is a smoothed upscale (about 1.4x) of 16 px tile art: it is scaled back down to
+# its native size (640x420), and the pieces are cut out of it on its own 16 px grid. Grass around
+# them becomes transparent, over Kanto's grass. The pieces:
+#   - the castle (the biggest building), 10x14 metatiles, made symmetric from its right half, with
+#     the banners and komainu in front of its ground floor taken out;
+#   - the gate: the torii over the cobbled path, a komainu at the foot of each pillar, the low wall
+#     either side (rebuilt on a 16 px period from its clean panels, without the plants in front)
+#     and its corners, 16x6 metatiles;
+#   - a nobori banner either way round, a komainu either way round, a patch of cobbles.
+# Colours are reduced to six 15-colour palettes (slots 7-12), each 8x8 tile using one, and the
+# tiles merged with their closest neighbours until they fit the 384 secondary tiles.
+# PREVIEW=out.png also renders the map.
+import sys, os, struct, random
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
-from art import Canvas
-from jcastle import *
-import render, autotile, tilesetgen
-REPO=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..')+'/'
+import numpy as np
+from PIL import Image
+import render, tilesetgen
+HERE=os.path.dirname(os.path.abspath(__file__))+'/'
+REPO=HERE+'../../'
 TSDIR=REPO+'data/tilesets/secondary/kanto_mega_castle/'
 PRIM=render.TS('kanto_general',None)
-PRIM_ATTRS=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/primary/kanto_general/metatile_attributes.bin','rb').read())]
 random.seed(7)
 
+N=np.asarray(Image.open(HERE+'reference/castle_grounds.png').convert('RGB').resize((640,420),Image.BOX)).astype(int)
+AXIS=322    # the castle's and the torii's axis in the native image; the grid is at x = 2 mod 16
+
+def is_bg(p):
+    # grass, foliage and the light water around the pieces
+    r,g,b=p
+    return (g>r+18 and g>b+25) or (g>r+25 and b>r+15)
+
+def rgba(x0,y0,w,h):
+    # A piece of the native image as RGBA, transparent outside the image.
+    out=np.zeros((h,w,4),int)
+    for y in range(h):
+        for x in range(w):
+            if 0<=x0+x<640 and 0<=y0+y<420:
+                out[y,x,:3]=N[y0+y,x0+x]; out[y,x,3]=255
+    return out
+
+def clear_bg(a,rows=None):
+    # Makes the grass around a piece transparent: flood fill from its edges through grass.
+    h,w=a.shape[:2]; seen=np.zeros((h,w),bool)
+    stack=[(x,y) for x in range(w) for y in (0,h-1)]+[(x,y) for y in range(h) for x in (0,w-1)]
+    while stack:
+        x,y=stack.pop()
+        if not(0<=x<w and 0<=y<h) or seen[y,x]: continue
+        seen[y,x]=True
+        if a[y,x,3]==0 or is_bg(a[y,x,:3]):
+            a[y,x,3]=0
+            stack+=[(x+1,y),(x-1,y),(x,y+1),(x,y-1)]
+
+def mirror_right(a):
+    # A symmetric piece from its right half.
+    return np.concatenate([a[:,::-1],a],axis=1)
+
+# ---- the castle: right half, x 322-402, y 0-224 ----
+cr=rgba(AXIS,0,80,224)
+def patch(dst_x0,dst_x1,y0,y1,src_dx=None,src_x=None):
+    for y in range(y0,y1):
+        for x in range(dst_x0,dst_x1):
+            sx=x+src_dx if src_dx is not None else src_x
+            cr[y,x-AXIS,:3]=N[y,sx]
+patch(372,388,214,224,src_dx=-30)       # the banner: the window and wall from the next bay
+patch(356,372,217,224,src_x=340)        # the komainu: plain wall, row by row
+for y in range(17):                     # the bank of the island above, behind the roof's top
+    for x in range(80):
+        r,g,b=cr[y,x,:3]
+        if r>b+15: cr[y,x,3]=0
+clear_bg(cr)
+CASTLE=mirror_right(cr)
+
+# ---- the gate: right half, x 322-450, y 330-426 ----
+GY=330
+gr=rgba(AXIS,GY,128,96)
+def wall_column(x):
+    # The straight wall, y 380-407, on a 16 px period stretched from the clean bay at x 386-400.
+    return 386+int(((x-2)%16)*14.7/16)
+for x in range(370,432):                 # the wall behind the plants, rebuilt
+    for y in range(380,406):
+        gr[y-GY,x-AXIS,:3]=N[y,wall_column(x)]; gr[y-GY,x-AXIS,3]=255
+for x in range(358,450):                 # the plants in front of the wall
+    for y in range(406,426):
+        gr[y-GY,x-AXIS,3]=0
+for y in range(GY,376):                 # fence posts and banners around the gate
+    for x in range(AXIS,450):
+        if (x>=358 and not (x>=430 and y>=362)) or (x>340 and y<344): gr[y-GY,x-AXIS,3]=0
+gr[:,447-AXIS:,3]=0                      # a tree beyond the corner
+clear_bg(gr)
+gr[np.array([[is_bg(p) for p in row] for row in gr[:,:,:3]]),3]=0   # grass between the beams too
+GATE=mirror_right(gr)
+
+# ---- small pieces ----
+ban=rgba(372,298,16,64)
+for y in range(64):                      # the plaza's cobbles behind its top
+    for x in range(16):
+        r,g,b=ban[y,x,:3]
+        if max(r,g,b)-min(r,g,b)<14 and 150<r<215: ban[y,x,3]=0
+clear_bg(ban)
+kom=rgba(343,390,16,32)
+kom[:3,:,3]=0                            # the foot of the torii pillar above it
+kom[:6][kom[:6,:,:3].max(2)<90,3]=0
+clear_bg(kom)
+cob=rgba(290,290,48,48)
+PIECES={'castle':CASTLE,'gate':GATE,'banner_r':ban,'banner_l':ban[:,::-1].copy(),
+        'komainu_r':kom,'komainu_l':kom[:,::-1].copy(),'cobbles':cob}
+
+# ---- the map: grass, with the pieces laid out ----
 MW,MH=60,40
-CX=30*16              # the gate axis, between cols 29 and 30: the route below lines up with it
-CY0=32                # the castle's top (row 2); its bottom is the bottom of row 16
-WALL_Y=30             # the front wall (rows 30-31) with the torii; the back wall is rows 6-7
-WL,WR=12,47           # the side walls' columns
+PLACE={'castle':(25,2),'gate':(22,30),'banner_l':(16,18),'banner_r':(19,18),
+       'komainu_l':(16,24),'komainu_r':(19,24),'cobbles':(39,18)}
+art=np.zeros((MH*16,MW*16,4),int)
+for k,(cx,cy) in PLACE.items():
+    a=PIECES[k]; h,w=a.shape[:2]
+    reg=art[cy*16:cy*16+h,cx*16:cx*16+w]
+    m=a[:,:,3]>0
+    reg[m]=a[m]
 
-coll=[[0]*MW for _ in range(MH)]
-layer=[[1]*MW for _ in range(MH)]          # 1 = COVERED (below the player), 0 = NORMAL (above)
-behav=[[0]*MW for _ in range(MH)]          # metatile behaviors (0 = MB_NORMAL)
-def block(x0,y0,x1,y1):
-    for y in range(y0,y1+1):
-        for x in range(x0,x1+1): coll[y][x]=1
-def above(x,y0,y1):                        # rows the player walks behind
-    for y in range(y0,y1+1): layer[y][x]=0
+# ---- palettes: GBA colours, then six 15-colour palettes, one per 8x8 tile ----
+opq=art[:,:,3]>0
+cells=[(tx,ty) for ty in range(MH*2) for tx in range(MW*2) if opq[ty*8:ty*8+8,tx*8:tx*8+8].any()]
+PX=np.array([art[ty*8:ty*8+8,tx*8:tx*8+8,:3].reshape(64,3) for tx,ty in cells],float)
+AL=np.array([opq[ty*8:ty*8+8,tx*8:tx*8+8].reshape(64) for tx,ty in cells])
+rng=np.random.default_rng(7)
+def kmeans(X,k,it=20):
+    # k colours for the pixels X (k-means, from a spread-out start)
+    X=np.unique(X,axis=0) if len(X)<=k else X
+    C=[X[rng.integers(len(X))]]
+    for _ in range(1,min(k,len(X))):
+        d=np.min([((X-c)**2).sum(1) for c in C],axis=0)
+        C.append(X[np.argmax(d)])
+    C=np.array(C,float)
+    for _ in range(it):
+        lab=np.argmin(((X[:,None]-C[None])**2).sum(2),1)
+        for j in range(len(C)):
+            if (lab==j).any(): C[j]=X[lab==j].mean(0)
+    return C
+def gba(C): return np.minimum(248,np.round(C/8)*8)
+def tile_err(t,P):
+    X=PX[t][AL[t]]
+    return ((X[:,None]-P[None])**2).sum(2).min(1).sum()
+# Six palettes of 15 colours: start from tiles grouped by their mean colour, then alternately fit
+# each palette to its tiles and move each tile to the palette that draws it best.
+means=np.array([PX[t][AL[t]].mean(0) for t in range(len(cells))])
+grp=np.argmin(((means[:,None]-kmeans(means,6)[None])**2).sum(2),1)
+for _ in range(6):
+    P=[gba(kmeans(PX[grp==g][AL[grp==g]],15)) if (grp==g).any() else np.zeros((1,3)) for g in range(6)]
+    grp=np.array([min(range(6),key=lambda g:tile_err(t,P[g])) for t in range(len(cells))])
+P=[np.unique(p,axis=0) for p in P]
+print('palettes',[len(p) for p in P])
+PAL_RGB=[[(0,0,0)]+[tuple(int(v) for v in c) for c in p] for p in P]
+for p in PAL_RGB: p+=[(0,0,0)]*(16-len(p))
+tiles={}
+for t,c in enumerate(cells):
+    g=grp[t]
+    idx=1+np.argmin(((PX[t][:,None]-P[g][None])**2).sum(2),1)
+    tiles[c]=(g,np.where(AL[t],idx,0).reshape(8,8))
 
-# ---- the art ----
-GROUND=Canvas(MW*16,MH*16)                 # the plaza: no outline, it lies flat on the grass
-cells={(x,y) for y in range(17,25) for x in range(24,36)}
-cells|={(x,y) for y in range(25,34) for x in range(28,32)}
-plaza(GROUND,cells)
-
-c=Canvas(MW*16,MH*16)
-wall_v(c,WL*16+3,6*16,(WALL_Y+1)*16); wall_v(c,WR*16+3,6*16,(WALL_Y+1)*16)
-wall_h(c,WL*16+3,WR*16+13,6*16)             # the back wall
-block(WL,6,WR,7); block(WL,6,WL,WALL_Y+1); block(WR,6,WR,WALL_Y+1)
-castle(c,CX,CY0)
-block(24,2,35,16)
-for x in (29,30):                          # the door leads into the entrance hall
-    behav[16][x]=96                        # MB_NON_ANIMATED_DOOR
-    coll[16][x]=0
-wall_h(c,WL*16+3,27*16,WALL_Y*16); wall_h(c,33*16,WR*16+13,WALL_Y*16)
-block(WL,WALL_Y,27,WALL_Y+1); block(32,WALL_Y,WR,WALL_Y+1)
-torii(c,CX,WALL_Y*16-30,(WALL_Y+2)*16)
-for x in range(26,34): above(x,WALL_Y-2,WALL_Y-1)
-block(27,WALL_Y-2,27,WALL_Y-1); block(32,WALL_Y-2,32,WALL_Y-1)
-# komainu by the castle door and outside the gate
-for (x,yb) in ((27,18),(32,18),(27,33),(32,33)):
-    komainu(c,x*16,(yb+1)*16); block(x,yb,x,yb)
-    if yb==33: block(x,32,x,32)
-# banners along the approach, in pairs (the pole on the outer side)
-for (x,yb) in ((25,19),(25,23),(27,27)):
-    for xx,flip in ((x,False),(59-x,True)):
-        nobori(c,xx*16,(yb+1)*16,flip); block(xx,yb,xx,yb); above(xx,yb-2,yb-1)
-# stone lanterns in the gardens
-for (x,yb) in ((17,12),(21,19),(17,26)):
-    for xx in (x,59-x):
-        toro(c,xx*16,(yb+1)*16); block(xx,yb,xx,yb); above(xx,yb-1,yb-1)
-c.outline()
-OVER=Canvas(MW*16,MH*16)
-OVER.blit(GROUND,0,0); OVER.blit(c,0,0)
-
-# ---- primary pieces: the moat behind the castle, trees, flowers ----
-GRASS=[0x8,0x8,0x8,0x9,0x10]
-FLOWER,BUSH=0x4,0x5
-prim=[[None]*MW for _ in range(MH)]
-D=['W'*MW if y<6 else '.'*MW for y in range(MH)]
-for (x,y),m in autotile.fill(D,'W',autotile.learn(autotile.WATER,autotile.MAPS)[0]).items():
-    prim[y][x]=m; coll[y][x]=1
-def tree_block(x0,y0,w,h):
-    # 2x2 trees (canopy 1e/1f, trunk 16/17 or 24/25), tips (e/f) in the row above.
-    for ty in range(y0,y0+h,2):
-        for tx in range(x0,x0+w,2):
-            prim[ty][tx]=0x1e; prim[ty][tx+1]=0x1f
-            last=ty+2>=y0+h
-            prim[ty+1][tx]=0x24 if last else 0x16; prim[ty+1][tx+1]=0x25 if last else 0x17
-            block(tx,ty,tx+1,ty+1)
-            if ty==y0: prim[ty-1][tx]=0xe; prim[ty-1][tx+1]=0xf
-tree_block(0,8,WL,MH-8); tree_block(WR+1,8,MW-WR-1,MH-8)          # the forest around the walls
-tree_block(WL,34,10,6); tree_block(38,34,10,6)                    # and along the road south
-for (x,y,w,h) in ((13,9,4,4),(20,9,2,2),(13,21,2,4),(21,23,2,2)):  # the gardens
-    tree_block(x,y,w,h); tree_block(59-x-w+1,y,w,h)
-for (x,y) in ((19,11),(14,15),(22,14),(15,19),(19,25),(22,28),(14,28)):
-    prim[y][x]=FLOWER; prim[y][59-x]=FLOWER
-for (x,y) in ((16,16),(20,16),(18,22)):
-    prim[y][x]=BUSH; prim[y][59-x]=BUSH; block(x,y,x,y); block(59-x,y,59-x,y)
+# ---- merge near-identical tiles until they fit ----
+def key(pi,t):
+    return min((pi,t.tobytes()),(pi,t[:,::-1].tobytes()),(pi,t[::-1].tobytes()),(pi,t[::-1,::-1].tobytes()))
+LIMIT=383                                 # secondary tile 0 is the transparent one
+uniq={}
+for c,(pi,t) in tiles.items(): uniq.setdefault(key(pi,t),[]).append(c)
+print('unique tiles',len(uniq))
+if len(uniq)>LIMIT:
+    keys=list(uniq)
+    rgb=np.array([[[0,0,0] if v==0 else PAL_RGB[k[0]][v] for v in np.frombuffer(k[1],dtype=int)] for k in keys],float)
+    alpha=np.array([[v!=0 for v in np.frombuffer(k[1],dtype=int)] for k in keys])
+    pal_of=np.array([k[0] for k in keys])
+    n=len(keys); D=np.full((n,n),np.inf)
+    for i in range(n):
+        d=((rgb[i]-rgb)**2).sum(2).sum(1)+1e6*(alpha[i]!=alpha).sum(1)
+        d[pal_of!=pal_of[i]]=np.inf; d[i]=np.inf; D[i]=d
+    alive=np.ones(n,bool); rep=list(range(n)); weight=np.array([len(uniq[k]) for k in keys],float)
+    while alive.sum()>LIMIT:
+        # merge the pair whose merging costs least (distance times the uses of the tile dropped)
+        W=D*np.minimum(weight[:,None],weight[None,:])
+        i,j=np.unravel_index(np.argmin(W),W.shape)
+        keep,drop=(i,j) if weight[i]>=weight[j] else (j,i)
+        alive[drop]=False; D[drop,:]=np.inf; D[:,drop]=np.inf
+        weight[keep]+=weight[drop]
+        for r in range(n):
+            if rep[r]==drop: rep[r]=keep
+    for r,k in enumerate(keys):
+        if rep[r]!=r:
+            pi,tb=keys[rep[r]]
+            t=np.frombuffer(tb,dtype=int).reshape(8,8)
+            for c in uniq[k]:
+                # the representative, flipped to match this tile's orientation as well as it can
+                orig=tiles[c][1]
+                tiles[c]=(pi,min((t,t[:,::-1],t[::-1],t[::-1,::-1]),key=lambda v:((v!=0)!=(orig!=0)).sum()+0.001*np.abs(v-orig).sum()))
 
 # ---- the tileset and layout ----
-B=tilesetgen.Builder(((7,PAL_J),(8,PAL_K)),PAL)
+ART_PAL=[c for p in PAL_RGB for c in p]
+B=tilesetgen.Builder(tuple((7+i,p) for i,p in enumerate(PAL_RGB)),ART_PAL)
+class Cv:
+    # the art as palette-indexed pixels (index = palette*16 + colour), for the Builder
+    def get(s,x,y):
+        tx,ty=x//8,y//8
+        if (tx,ty) not in tiles: return 0
+        pi,t=tiles[(tx,ty)]; v=t[y%8,x%8]
+        return pi*16+v if v else 0
+CV=Cv()
+GRASS=[0x8,0x8,0x8,0x9,0x10]
 GRASS_BOTTOM=list(PRIM.meta[0x8][:4])
+DOOR=[(29,15),(30,15)]                    # the castle door's two halves
 grid=[[0]*MW for _ in range(MH)]
+coll=[[0]*MW for _ in range(MH)]
 for y in range(MH):
     for x in range(MW):
-        art=B.cell_tiles(OVER,x*16,y*16)
-        p=prim[y][x]
-        if all(e is None for e in art):
-            grid[y][x]=p if p is not None else random.choice(GRASS); continue
-        top=[B.tile_entry(*e) if e else tilesetgen.EMPTY_TOP for e in art]
-        if p is not None:
-            pm=PRIM.meta[p]
-            assert not any(t&0x3ff for t in pm[4:]), ('art over a primary top layer',x,y)
-            bottom=list(pm[:4])                 # the moat's water under the castle's roof
-        else:
-            bottom=GRASS_BOTTOM
-        grid[y][x]=B.metatile(bottom,top,(layer[y][x]<<12)|behav[y][x])
+        e=B.cell_tiles(CV,x*16,y*16)
+        if all(v is None for v in e):
+            grid[y][x]=random.choice(GRASS); continue
+        top=[B.tile_entry(*v) if v else tilesetgen.EMPTY_TOP for v in e]
+        # COVERED (below the player), but the torii's beams are above it; the door is
+        # MB_NON_ANIMATED_DOOR
+        over=26<=x<=33 and 30<=y<=32
+        attr=((0 if over else 1)<<12)|(96 if (x,y) in DOOR else 0)
+        grid[y][x]=B.metatile(GRASS_BOTTOM,top,attr)
+        # the pieces block, except the door, the path through the torii and the cobbles
+        solid=opq[y*16:y*16+16,x*16:x*16+16].mean()>0.4
+        if (x,y) in DOOR or (x in (29,30) and 30<=y<=35) or (39<=x<42 and 18<=y<21): solid=False
+        coll[y][x]=1 if solid else 0
 B.check()
 B.write_tileset(TSDIR)
 tilesetgen.write_layout(REPO+'data/layouts/MegaIsland_Castle/',grid,coll,
