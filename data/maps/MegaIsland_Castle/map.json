@@ -15,21 +15,21 @@
   "connections": [
     {
       "map": "MAP_MEGA_ISLAND",
-      "offset": 15,
+      "offset": 4,
       "direction": "down"
     }
   ],
   "object_events": [],
   "warp_events": [
     {
-      "x": 29,
+      "x": 19,
       "y": 15,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
       "dest_warp_id": "0"
     },
     {
-      "x": 30,
+      "x": 20,
       "y": 15,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_1F",
