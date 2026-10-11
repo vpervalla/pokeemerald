@@ -8,19 +8,23 @@ from art import PAL, PAL_A, PAL_B, PAL_C
 EMPTY_TOP=0   # primary tile 0 is blank
 
 class Builder:
-    def __init__(self):
+    def __init__(self,palettes=((7,PAL_A),(8,PAL_B),(9,PAL_C)),art_pal=PAL):
+        # palettes: (slot, 16 colours) for each palette of the tileset; art_pal: the art's colour
+        # index -> RGB
         self.tiles=[]; self.tindex={}
         self.metatiles=[]; self.mindex={}; self.attrs=[]
+        self.palettes=dict(palettes); self.art_pal=art_pal
         # (slot, colour -> index) for each palette, tried in order
-        self.banks=[(slot,{rgb:i for i,rgb in enumerate(pal) if i}) for slot,pal in ((7,PAL_A),(8,PAL_B),(9,PAL_C))]
+        self.banks=[(slot,{rgb:i for i,rgb in enumerate(pal) if i}) for slot,pal in palettes]
         self.add_tile([[0]*8]*8)   # secondary tile 0 = transparent
 
     def to_bank(self,px):
-        # Picks the palette (slot 7, 8 or 9) that has every colour of the tile; returns (pal, local pixels).
-        rgbs={PAL[p] for r in px for p in r if p}
+        # Picks the palette that has every colour of the tile; returns (slot, local pixels).
+        P=self.art_pal
+        rgbs={P[p] for r in px for p in r if p}
         for pal,idx in self.banks:
             if rgbs<=set(idx):
-                return pal,[[idx[PAL[p]] if p else 0 for p in r] for r in px]
+                return pal,[[idx[P[p]] if p else 0 for p in r] for r in px]
         raise SystemExit('tile mixes colours of different palettes: %s' % sorted(rgbs))
 
     def add_tile(self,px):   # px: 8 rows of 8 art colour indices; returns (index, hflip, vflip, palette)
@@ -61,13 +65,13 @@ class Builder:
         os.makedirs(tsdir+'palettes',exist_ok=True)
         n=len(self.tiles); rows_=(n+15)//16
         im=Image.new('P',(128,rows_*8),0)
-        im.putpalette([v for col in PAL_A for v in col])
+        im.putpalette([v for col in self.palettes[min(self.palettes)] for v in col])
         for i,t in enumerate(self.tiles):
             for y in range(8):
                 for x in range(8): im.putpixel(((i%16)*8+x,(i//16)*8+y),t[y][x])
         im.save(tsdir+'tiles.png')
         for p in range(16):
-            cols={7:PAL_A,8:PAL_B,9:PAL_C}.get(p,[(0,0,0)]*16)
+            cols=self.palettes.get(p,[(0,0,0)]*16)
             with open(tsdir+'palettes/%02d.pal'%p,'w',newline='\r\n') as f:
                 f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in cols))
         with open(tsdir+'metatiles.bin','wb') as f:
