@@ -234,12 +234,10 @@ MtMoon_B2F_Text_YouWantHelixFossil:
 
 @ END KANTO NPCS
 
-@ LUNA got lost in MT. MOON, and a wild CHARMANDER (a SQUIRTLE if the player chose CHARMANDER) corners
-@ her at the end of the passage below the STAR PIECE. Walking up to them starts the scene. If the
-@ player doesn't catch the POKéMON, LUNA still gets away, and it stays there to be battled again.
+@ LUNA got lost in MT. MOON, and a wild CHARMANDER corners her at the end of the passage below the
+@ STAR PIECE. Walking up to them starts the scene. If the player doesn't catch the POKéMON, LUNA still gets away, and it stays there to be battled again.
 
 MtMoon_B2F_OnTransitionLuna:
-	call EventScript_SetMtMoonStarterGfx
 	call_if_unset FLAG_RESCUED_MT_MOON_GIRL, MtMoon_B2F_EventScript_ReadyLunaScene
 	goto MtMoon_B2F_OnTransition
 

@@ -4,19 +4,34 @@ The goal is for every species to be obtainable in a single game, with no trades.
 
 ## Kanto starters
 
-The player picks one of BULBASAUR, CHARMANDER and SQUIRTLE in Oak's lab. The other two come from
-two side quests early in the game, a little like in Pokémon Yellow, but they take more effort.
-The species of each quest depends on the player's starter (`VAR_STARTER_MON`):
+The player picks one of BULBASAUR, CHARMANDER and SQUIRTLE in Oak's lab. Each of the three also
+has its own side quest, always in the same place whichever starter the player chose, a little like
+in Pokémon Yellow, but they take more effort:
 
-| Starter    | MT. MOON   | CERULEAN CITY |
-|------------|------------|---------------|
-| BULBASAUR  | CHARMANDER | SQUIRTLE      |
-| SQUIRTLE   | CHARMANDER | BULBASAUR     |
-| CHARMANDER | SQUIRTLE   | BULBASAUR     |
+| POKéMON    | Where                                   | Level |
+|------------|-----------------------------------------|-------|
+| BULBASAUR  | VIRIDIAN FOREST, then VERMILION CITY    | 20    |
+| CHARMANDER | MT. MOON                                | 10    |
+| SQUIRTLE   | CERULEAN CITY                           | 12    |
 
-The POKéMON are shown on the map with their PC box icon as an overworld sprite
-(`OBJ_EVENT_GFX_STARTER_*`, in `src/data/object_events/starter_object_events.h`), through
-`VAR_OBJ_GFX_ID_0`, which each map sets on transition.
+So the player can end up with two of their own starter's species, from Oak and from its quest.
+
+CHARMANDER and SQUIRTLE are shown on the map with their PC box icon as an overworld sprite
+(`OBJ_EVENT_GFX_STARTER_*`, in `src/data/object_events/starter_object_events.h`). BULBASAUR and
+the BEEDRILL use pokeemerald-expansion's follower sprites (`OBJ_EVENT_GFX_BULBASAUR` and
+`OBJ_EVENT_GFX_BEEDRILL`, in `src/data/object_events/story_mon_object_events.h`, made by
+`tools/viridian_bulbasaur/sprites.py`).
+
+### VIRIDIAN FOREST: the lost BULBASAUR
+
+- In VERMILION CITY (`VermilionCity_House2`, with ELYSSA), a TRAINER lost their BULBASAUR in
+  VIRIDIAN FOREST when a swarm of BEEDRILL attacked them. It ran into the trees to the north-east.
+- Behind two trees that need CUT, in the forest's north-east corner, a path leads to a small
+  clearing where two BEEDRILL have cornered the BULBASAUR against a tree. Stepping into the
+  clearing starts the scene: two wild battles against the BEEDRILL at level 20, one after the
+  other. Each BEEDRILL beaten or caught stays gone; running or blacking out leaves the rest there.
+- Once both are gone, the BULBASAUR thanks the player, shows the tag with its address in
+  VERMILION CITY and runs home. Its TRAINER then gives the player one of their own BULBASAUR.
 
 ### MT. MOON: LUNA, lost in the cave
 
@@ -34,13 +49,13 @@ The POKéMON are shown on the map with their PC box icon as an overworld sprite
 ### CERULEAN CITY: the abandoned POKéMON
 
 - In the house full of plants (`CeruleanCity_House5`, with the BERRY POWDER man), a woman looks
-  after POKéMON that were hurt or abandoned. Her BULBASAUR was left on NUGGET BRIDGE by its
+  after POKéMON that were hurt or abandoned. Her SQUIRTLE was left on NUGGET BRIDGE by its
   TRAINER after it lost a battle, and it doesn't trust TRAINERS anymore.
 - Each time the player talks to her, they show their lead POKéMON to it. It comes out only if
   that POKéMON's friendship is 150 or more (`GetLeadMonFriendshipScore`). At 100 to 149, she says
   they're almost there. Then the POKéMON joins the player at level 12, after a YES/NO question.
 
-The scripts are in `data/scripts/starter_quests.inc` (which species, which sprite) and after the
-generated Kanto NPCs in the scripts of `MtMoon_B2F`, `Route4_PokemonCenter_1F` and
-`CeruleanCity_House5`. The flags are at the end of the Kanto extra flags in
+The scripts are in `data/scripts/starter_quests.inc` (which species) and after the generated
+Kanto NPCs in the scripts of `ViridianForest`, `VermilionCity_House2`, `MtMoon_B2F`,
+`Route4_PokemonCenter_1F` and `CeruleanCity_House5`. The flags are at the end of the Kanto extra flags in
 `include/constants/flags.h`.
