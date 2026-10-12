@@ -5,8 +5,9 @@ MegaIsland_Arena_MapScripts::
 
 @ MR. M.'s tournament. The player registers with the receptionist in the hall
 @ (VAR_MEGA_STORY_STATE 3) and sleeps in their guest room (4); then each time they come up to the
-@ arena, on the castle's top floor, with a match to play, they walk from the stairs to the south
-@ trainer box and battle the opponent in the north one, with MR. M. watching from his dais.
+@ arena, on the castle's top floor, with a match to play, they walk from the entrance to the south
+@ end of the battlefield and battle the opponent at the north end, with MR. M. watching from his red
+@ mat between the statues.
 @ Bracket:
 @   quarterfinals: PLAYER - ALDER, RIVAL - CYNTHIA, LANCE - DIANTHA, STEVEN - LEON
 @   semifinals:    PLAYER - RIVAL, DIANTHA - LEON
@@ -159,13 +160,13 @@ MegaIsland_Arena_EventScript_Lost::
 	special RemoveCameraObject
 	setvar VAR_MEGA_STORY_STATE, 8
 	fadescreen FADE_TO_WHITE
-	warpsilent MAP_MEGA_ISLAND_CASTLE_ROOM1, 2, 4
+	warpsilent MAP_MEGA_ISLAND_CASTLE_ROOM1, 2, 5
 	waitstate
 	releaseall
 	end
 
 MegaIsland_Arena_EventScript_BackToHall::
-	warp MAP_MEGA_ISLAND_CASTLE_1F, 10, 6
+	warp MAP_MEGA_ISLAND_CASTLE_1F, 11, 7
 	waitstate
 	releaseall
 	end

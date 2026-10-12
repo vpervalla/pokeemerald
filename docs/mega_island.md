@@ -18,17 +18,18 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_REST_HOUSE` | `LAYOUT_KANTO_SAFARI_ZONE_REST_HOUSE` (shared) | The rest house on the route: a woman restores the player's team, and an old man remembers when the castle appeared. |
 | `MAP_MEGA_ISLAND_CAVE` | `LAYOUT_MEGA_ISLAND_CAVE` (the Lost Cave's first room without its ladder) | A small cave in the outcrop: a MAX REVIVE (`FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE`) and a hiker who has seen the walls glow like the champions' stones. Music `MUS_RG_SEVII_CAVE`. |
 | `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 38x37, `kanto_general` + `kanto_mega_castle` | The castle grounds, built by hand from the pieces imported from the reference map: the castle at the top (its two-tile door at (19,15), with the warps) between rock walls, lawns with a pond, trees, flowers and two smaller buildings, a cobbled approach with Mewtwo statues by the door and banners down to the torii in the low wall (with a statue at the foot of each pillar), and below it a road through the forest to the route. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 4). |
-| `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 22x14, `kanto_building` + `kanto_mega_hall` | The entrance hall, on the ground floor: polished wooden floor, a north wall of shoji panels with two hanging scrolls, and a red runner from the entrance to the registration desk, where the receptionist stands in front of a gold folding screen painted with a pine. The desk is a counter (`MB_COUNTER`), so she is spoken to across it. Two tatami waiting areas with low tables and cushions, paper lanterns and bonsai. Stairs in the top left corner go up to the guest floor. Music `MUS_RG_POKE_MANSION`. |
-| `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 24x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a wooden corridor with a red runner and paper lanterns, six sliding doors (fusuma, painted with blossom) to the guest rooms in the shoji wall, stairs down to the hall at the west end and up to the arena at the east end. |
-| `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: tatami, a futon under the closet's sliding doors, a paper lantern, an alcove (tokonoma) with a scroll and a vase of blossom, and a low table with tea and two cushions, with a wooden threshold back to the corridor. |
-| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall with a plaster-and-wood north wall hung with purple curtains with white crests. MR. M.'s dais (tatami on a wooden platform) stands in front of a gold folding screen in the middle. The battlefield is tatami in a wooden frame, with white lines, a trainer box at each end and a red emblem with a white triple swirl (mitsudomoe) in the middle. Rows of cushions for the spectators down both sides, paper lanterns at the field's corners, red-and-white banners in the hall's corners, and stairs down to the guest floor in the middle of the south wall. Music `MUS_RG_TRAINER_TOWER`. |
+| `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 23x16, `kanto_building` + `kanto_mega_hall` | The entrance hall, on the ground floor, in the style of the Pokémon Mansion: its walls, windows and checked floor, and its pink carpet from the entrance (a red mat and a three-wide door mat) up to the registration desk, between two pillars. The desk is the Celadon Hotel's counter (`MB_COUNTER`), so the receptionist is spoken to across it; two Mewtwo statues stand behind it. Two waiting areas with a table and chairs (one with an open book), plants, and the mansion's stairs in the top left corner, up to the guest floor. Music `MUS_RG_POKE_MANSION`. |
+| `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a corridor with windows, plants and two Mewtwo statues, the mansion's stairs down to the hall at the west end and up to the arena at the east end, and the six guest rooms' doors (door mats) in the south wall. |
+| `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: the mansion's walls and floor, a bed (from the S.S. Anne's cabins), a table with a chair, plants, and the way out (a red mat and a door mat) in the south wall. |
+| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall in the mansion's style with four windows. MR. M. stands on a red mat between two Mewtwo statues with their eyes lit, at the north end. The battlefield is Agatha's (the Elite Four's lilac floor with white lines and a Poké Ball in the middle), lengthened. Rows of chairs for the spectators down both sides, pillars in the corners, plants, and the way down to the guest floor (a red mat and a door mat) in the middle of the south wall. Music `MUS_RG_TRAINER_TOWER`. |
 
-The castle door's two tiles (`MB_NON_ANIMATED_DOOR`) lead
-into the entrance hall, whose entrance step (`MB_SOUTH_ARROW_WARP`) leads back out. The top step
-of the hall's stairs (`MB_NORTH_ARROW_WARP`) goes up to the guest floor, whose west stairs
-(`MB_WEST_ARROW_WARP`) come back down. Its east stairs (`MB_EAST_ARROW_WARP`) go up to the arena,
-whose stairs (`MB_SOUTH_ARROW_WARP`) come back down. The guest floor's doors
-(`MB_NON_ANIMATED_DOOR`) lead to the guest rooms, whose thresholds lead back.
+The castle door's two tiles (`MB_NON_ANIMATED_DOOR`) lead into the entrance hall, whose
+entrance (`MB_SOUTH_ARROW_WARP`, three cells on the carpet's red mat) leads back out. The hall's
+stairs go up to the guest floor: as in the mansion, the player steps onto the lowest step and walks
+east (`MB_EAST_ARROW_WARP`). The guest floor's stairs down are entered from the east, on the top step
+(`MB_WEST_ARROW_WARP`), and its stairs up to the arena like the hall's. The arena's way out
+(`MB_SOUTH_ARROW_WARP`) goes back down to the guest floor. The guest floor's doors
+(`MB_SOUTH_ARROW_WARP` above each door mat) lead to the guest rooms, whose ways out lead back.
 
 The route has tall grass but no wild encounter table yet, so it has no encounters.
 
@@ -133,26 +134,25 @@ After the final MR. M. tells the player to rest and come to him: the story goes 
 ## The castle tilesets
 
 `data/tilesets/secondary/kanto_mega_castle` (the castle grounds), `kanto_mega_hall` (the hall, the
-guest floor and the guest rooms) and `kanto_mega_arena` (the arena) are new art.
+guest floor and the guest rooms) and `kanto_mega_arena` (the arena) are the castle's tilesets.
 
 The castle grounds' tiles are imported from the reference map (`build_castle.py`), with six
 palettes of their own (slots 7-12) fitted to the art.
 
-The interiors are drawn in the castle's style (`interior.py`) and share three palettes: slot 7 for
-wood, paper, lantern light, red, gold and lacquer, slot 8 for tatami, blue cloth and stone, and
-slot 9 for the painted screens and doors (blossom, greens, purple cloth). Colours they share
-(outline, paper, wood) are matched by RGB. Each 8x8 tile uses one palette; furniture is on the
-metatiles' top layer and the floor under it on the bottom layer, so the two can use different ones.
+The interiors have no new art: they are built after the Pokémon Mansion from Kanto's own tilesets
+(`build_interiors.py`). Every cell is an existing metatile, or a piece of furniture from another
+tileset standing on the mansion's floor: its top layer, and its bottom layer where that isn't its
+own floor. The pieces come from `kanto_pokemon_mansion` (walls, windows, the floor and its shadows,
+the pink carpet and red mats, stairs, pillars, the Mewtwo statues, plants, tables and chairs),
+`kanto_restaurant_hotel` (the desk), `kanto_ss_anne` (the bed), `kanto_pokemon_league` (Agatha's
+battlefield) and `kanto_building` (the black edge and the door mats). Their tiles are copied (merging
+identical and flipped ones), and so are their palettes, each source palette into the secondary slot
+that already holds the same colours, its own slot if it's free, or the first free one.
 
 ## Tools
 
 `tools/mega_island/` generates the castle tilesets and their layouts:
 
-- `art.py`: the canvas the art is drawn on.
-- `interior.py`: the interiors' art and palettes: wooden floors, tatami, shoji and plaster walls,
-  sliding doors, stairs, scrolls, gold folding screens, curtains, the desk, lanterns, bonsai,
-  cushions, low tables, the futon, banners and the battlefield. Each map is drawn on two canvases,
-  the floor and walls (bottom layer) and the furniture (top layer).
 - `tilesetgen.py`: cuts the art into 8x8 tiles (merging flipped duplicates, and giving each
   tile the palette that has its colours; the palettes are a parameter), builds metatiles, and writes a tileset (`tiles.png`,
   palettes, metatiles, attributes) and a layout.
@@ -176,9 +176,11 @@ metatiles' top layer and the floor under it on the bottom layer, so the two can 
   map's secondary tileset: 7 rows above the player and 8 below. So the castle grounds' last 7 rows
   and the route's first 8 must use only primary (`kanto_general`) metatiles, or the cells drawn with
   one map's tileset show as garbage in the other. Edit the maps with that in mind.
-- `build_interiors.py`: lays out the hall, the guest floor, the guest room and the arena with their
-  collision and behaviors, and writes `kanto_mega_hall`, `kanto_mega_arena` and the four layouts.
-  `PREVIEW=out.png` renders the four maps instead.
+- `build_interiors.py`: builds the hall, the guest floor, the guest room and the arena from existing
+  metatiles (see above): a small vocabulary of the mansion's pieces (its room shell, stairs, statues,
+  pillars, tables, plants, carpet and exits) placed on each map, with their collision and behaviors.
+  It writes `kanto_mega_hall`, `kanto_mega_arena` and the four layouts. `PREVIEW=out.png` also
+  renders the four maps.
 - `build_route.py`: writes `data/layouts/MegaIsland` from a character design of the map, and the port
   and cave layouts. Rock and water
   are autotiled by `autotile.py`, which learns from FRLG's own maps (Routes 3, 4, 9, 10, 22-25, Kindle
@@ -189,5 +191,5 @@ metatiles' top layer and the floor under it on the bottom layer, so the two can 
 
 Run `build_castle.py`, `build_interiors.py` and `build_route.py` after changing the art or the
 layouts. The output is deterministic. The castle tileset uses all 384 secondary tiles (none merged)
-and 207 of the 384 metatiles, the hall tileset 177 and 94, the arena tileset 159
-and 84.
+and 207 of the 384 metatiles, the hall tileset 90 and 91, the arena tileset 64
+and 69.

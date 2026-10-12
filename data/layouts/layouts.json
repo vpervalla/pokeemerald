@@ -7524,8 +7524,8 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_CASTLE_1F",
       "name": "MegaIsland_Castle_1F_Layout",
-      "width": 22,
-      "height": 14,
+      "width": 23,
+      "height": 16,
       "primary_tileset": "gTileset_KantoBuilding",
       "secondary_tileset": "gTileset_KantoMegaHall",
       "border_filepath": "data/layouts/MegaIsland_Castle_1F/border.bin",
@@ -7534,7 +7534,7 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_CASTLE_2F",
       "name": "MegaIsland_Castle_2F_Layout",
-      "width": 24,
+      "width": 26,
       "height": 9,
       "primary_tileset": "gTileset_KantoBuilding",
       "secondary_tileset": "gTileset_KantoMegaHall",
