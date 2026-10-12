@@ -4424,7 +4424,7 @@
     {
       "id": "LAYOUT_VIRIDIAN_FOREST",
       "name": "ViridianForest_Layout",
-      "width": 54,
+      "width": 72,
       "height": 69,
       "primary_tileset": "gTileset_KantoGeneral",
       "secondary_tileset": "gTileset_KantoViridianForest",
