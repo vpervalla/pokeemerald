@@ -17,7 +17,7 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND` | `LAYOUT_MEGA_ISLAND`, 30x50, `kanto_general` + `kanto_sevii_islands_45` | The route, after a reference map: from the castle in the north, a grass plateau leads to two plank bridges over a rock band and a river (with wooden posts along its bank). Below, a meadow with tall grass, the memorial pillar, a rock outcrop with the cave's mouth, the rest house and woods, on terraces that step down from the river to the gate: rock walls one tile thick (as in Five Isle Meadow) with stairs between the levels; at the bottom, the north side of the gate to the port (as on Route 5). Music `MUS_RG_SEVII_ROUTE`. |
 | `MAP_MEGA_ISLAND_REST_HOUSE` | `LAYOUT_KANTO_SAFARI_ZONE_REST_HOUSE` (shared) | The rest house on the route: a woman restores the player's team, and an old man remembers when the castle appeared. |
 | `MAP_MEGA_ISLAND_CAVE` | `LAYOUT_MEGA_ISLAND_CAVE` (the Lost Cave's first room without its ladder) | A small cave in the outcrop: a MAX REVIVE (`FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE`) and a hiker who has seen the walls glow like the champions' stones. Music `MUS_RG_SEVII_CAVE`. |
-| `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 38x37, `kanto_general` + `kanto_mega_castle` | The castle grounds, built by hand from the pieces imported from the reference map: the castle at the top (its two-tile door at (19,15), with the warps) between rock walls, lawns with a pond, trees, flowers and two smaller buildings, a cobbled approach with komainu and banners down to the torii in the low wall, and below it a road through the forest to the route. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 4). |
+| `MAP_MEGA_ISLAND_CASTLE` | `LAYOUT_MEGA_ISLAND_CASTLE`, 38x37, `kanto_general` + `kanto_mega_castle` | The castle grounds, built by hand from the pieces imported from the reference map: the castle at the top (its two-tile door at (19,15), with the warps) between rock walls, lawns with a pond, trees, flowers and two smaller buildings, a cobbled approach with Mewtwo statues by the door and banners down to the torii in the low wall (with a statue at the foot of each pillar), and below it a road through the forest to the route. Music `MUS_RG_POKE_MANSION`, weather `WEATHER_SUNNY`. Connected below to the route (offset 4). |
 | `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 22x14, `kanto_building` + `kanto_mega_hall` | The entrance hall, on the ground floor: polished wooden floor, a north wall of shoji panels with two hanging scrolls, and a red runner from the entrance to the registration desk, where the receptionist stands in front of a gold folding screen painted with a pine. The desk is a counter (`MB_COUNTER`), so she is spoken to across it. Two tatami waiting areas with low tables and cushions, paper lanterns and bonsai. Stairs in the top left corner go up to the guest floor. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 24x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a wooden corridor with a red runner and paper lanterns, six sliding doors (fusuma, painted with blossom) to the guest rooms in the shoji wall, stairs down to the hall at the west end and up to the arena at the east end. |
 | `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: tatami, a futon under the closet's sliding doors, a paper lantern, an alcove (tokonoma) with a scroll and a vase of blossom, and a low table with tea and two cushions, with a wooden threshold back to the corridor. |
@@ -159,17 +159,19 @@ metatiles' top layer and the floor under it on the bottom layer, so the two can 
 - `build_castle.py`: imports the castle grounds' tiles from `reference/castle_grounds.png`, the
   reference map. It is a smoothed upscale (about 1.4x) of 16 px tile art, so it is scaled back to
   its native 640x420 and the pieces are cut out on its own grid: the castle (made symmetric from
-  its right half, without the banners and komainu in front of its ground floor), the gate (the
-  torii and komainu as they are; the wall rebuilt on a 16 px period from its clean panels, without
-  the plants in front), the banners, komainu and cobbles. Grass around them is transparent, over
-  Kanto's grass. The colours are fitted to six 15-colour palettes (each 8x8 tile picks the one that
-  draws it best) and the closest tiles are merged until they fit the 384 secondary tiles. It writes
-  `kanto_mega_castle` and the layout, with the pieces laid out on grass. `PREVIEW=out.png` also
-  renders the map. The castle grounds are now edited by hand in Porymap: running it again rewrites
-  their layout with the pieces on grass, so keep a copy of `data/layouts/MegaIsland_Castle/map.bin`.
-  It would also undo a hand edit to the tileset: in the reference the castle's door is one tile
-  wide but straddles two cells, so it was widened in `tiles.png` to fill both door cells (six tiles,
-  the right cell using the left one's mirrored).
+  its right half, without the banners and komainu in front of its ground floor, and its door
+  widened to fill its two cells, which it straddles in the reference), the gate (the torii as it
+  is, a statue at the foot of each pillar; the wall rebuilt on a 16 px period from its clean
+  panels, without the plants in front), the banners and cobbles, and the Mewtwo statues. Grass
+  around them is transparent, over Kanto's grass. The colours are fitted to six 15-colour palettes
+  (each 8x8 tile picks the one that draws it best) and the closest tiles are merged if they don't
+  fit the 384 secondary tiles. It writes `kanto_mega_castle`.
+  The castle grounds are built by hand from the pieces in Porymap, and re-running it keeps that
+  layout: `reference/castle_pieces.bin` records which metatile each piece cell got, and the
+  hand-built layout's metatiles are translated cell by cell to the new ones. `--pieces` writes the
+  pieces laid out on grass as the layout instead. `PREVIEW=out.png` renders the map.
+- `statues.py`: the Mewtwo statue (16x32, a stone figure on a pedestal), drawn by hand after the
+  user's reference sprite, and its red-eyed variant (a piece of its own in the tileset, not placed).
 - Across a connection the engine keeps the rows it has already drawn when it swaps in the other
   map's secondary tileset: 7 rows above the player and 8 below. So the castle grounds' last 7 rows
   and the route's first 8 must use only primary (`kanto_general`) metatiles, or the cells drawn with
@@ -186,6 +188,6 @@ metatiles' top layer and the floor under it on the bottom layer, so the two can 
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
 Run `build_castle.py`, `build_interiors.py` and `build_route.py` after changing the art or the
-layouts. The output is deterministic. The castle tileset uses all 384 secondary tiles (388 distinct
-tiles, merged) and 211 of the 384 metatiles, the hall tileset 177 and 94, the arena tileset 159
+layouts. The output is deterministic. The castle tileset uses all 384 secondary tiles (none merged)
+and 207 of the 384 metatiles, the hall tileset 177 and 94, the arena tileset 159
 and 84.

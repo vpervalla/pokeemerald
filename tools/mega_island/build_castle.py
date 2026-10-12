@@ -7,18 +7,26 @@
 # them becomes transparent, over Kanto's grass. The pieces:
 #   - the castle (the biggest building), 10x14 metatiles, made symmetric from its right half, with
 #     the banners and komainu in front of its ground floor taken out;
-#   - the gate: the torii over the cobbled path, a komainu at the foot of each pillar, the low wall
+#   - the gate: the torii over the cobbled path, a statue at the foot of each pillar, the low wall
 #     either side (rebuilt on a 16 px period from its clean panels, without the plants in front)
 #     and its corners, 16x6 metatiles;
-#   - a nobori banner either way round, a komainu either way round, a patch of cobbles.
+#   - a nobori banner either way round, a patch of cobbles;
+#   - the Mewtwo statues (statues.py, drawn by hand after the user's reference), which stand where
+#     the reference has komainu: at the gate's pillars, and as pieces of their own (plain, and with
+#     red eyes).
+# The castle's door is widened to fill its two cells (in the reference it straddles them).
 # Colours are reduced to six 15-colour palettes (slots 7-12), each 8x8 tile using one, and the
 # tiles merged with their closest neighbours until they fit the 384 secondary tiles.
-# PREVIEW=out.png also renders the map.
+# The castle grounds are built by hand from these pieces in Porymap, so this doesn't overwrite their
+# layout: it keeps the pieces' own layout (which metatile each piece cell got) in
+# reference/castle_pieces.bin, and translates the hand-built layout's metatiles from the old pieces
+# layout to the new one, cell by cell. --pieces also writes the pieces laid out on grass as the
+# layout (the start of a new design). PREVIEW=out.png renders the map.
 import sys, os, struct, random
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from PIL import Image
-import render, tilesetgen
+import render, tilesetgen, statues
 HERE=os.path.dirname(os.path.abspath(__file__))+'/'
 REPO=HERE+'../../'
 TSDIR=REPO+'data/tilesets/secondary/kanto_mega_castle/'
@@ -73,6 +81,20 @@ for y in range(17):                     # the bank of the island above, behind t
         if r>b+15: cr[y,x,3]=0
 clear_bg(cr)
 CASTLE=mirror_right(cr)
+def widen_door(c):
+    # The door unit (4 px posts round a 16 px doorway) is 24 px wide, centred on the cell boundary at
+    # x 80: stretch it to fill the two cells (x 64-96), the posts at their outer edges and the
+    # doorway 24 px wide, with the transom's three lit panels redrawn even (rows 207-214).
+    old=c[:,64:96].copy()
+    def src(x): return 4+x if x<4 else 8+int((x-4)*8/12)
+    for y in range(200,224):
+        for x in range(16):
+            c[y,64+x]=old[y,src(x)]; c[y,95-x]=old[y,src(x)]
+    for y in range(207,215):
+        G,P,Sd,D,Tt=(old[y,k] for k in (8,9,12,13,14))
+        for i,v in enumerate((G,P,P,P,P,Sd,D,Tt,P,P,P,P)):
+            c[y,68+i]=v; c[y,91-i]=v
+widen_door(CASTLE)
 
 # ---- the gate: right half, x 322-450, y 330-426 ----
 GY=330
@@ -92,6 +114,14 @@ for y in range(GY,376):                 # fence posts and banners around the gat
 gr[:,447-AXIS:,3]=0                      # a tree beyond the corner
 clear_bg(gr)
 gr[np.array([[is_bg(p) for p in row] for row in gr[:,:,:3]]),3]=0   # grass between the beams too
+def put_statue(a,x0,y0,red=False):
+    for y,row in enumerate(statues.statue(red)):
+        for x,p in enumerate(row):
+            if p[3]: a[y0+y,x0+x]=p
+STATUE=np.zeros((32,16,4),int); put_statue(STATUE,0,0)
+STATUE_RED=np.zeros((32,16,4),int); put_statue(STATUE_RED,0,0,red=True)
+gr[62:96,20:38,3]=0                      # the komainu at the pillar's foot (x 342-359, y 392-425)
+put_statue(gr,16,64)                     # a statue under the pillar instead, in one cell (x 338-353)
 GATE=mirror_right(gr)
 
 # ---- small pieces ----
@@ -101,18 +131,14 @@ for y in range(64):                      # the plaza's cobbles behind its top
         r,g,b=ban[y,x,:3]
         if max(r,g,b)-min(r,g,b)<14 and 150<r<215: ban[y,x,3]=0
 clear_bg(ban)
-kom=rgba(343,390,16,32)
-kom[:3,:,3]=0                            # the foot of the torii pillar above it
-kom[:6][kom[:6,:,:3].max(2)<90,3]=0
-clear_bg(kom)
 cob=rgba(290,290,48,48)
 PIECES={'castle':CASTLE,'gate':GATE,'banner_r':ban,'banner_l':ban[:,::-1].copy(),
-        'komainu_r':kom,'komainu_l':kom[:,::-1].copy(),'cobbles':cob}
+        'statue_r':STATUE,'statue_l':STATUE,'statue_red':STATUE_RED,'cobbles':cob}
 
 # ---- the map: grass, with the pieces laid out ----
 MW,MH=60,40
 PLACE={'castle':(25,2),'gate':(22,30),'banner_l':(16,18),'banner_r':(19,18),
-       'komainu_l':(16,24),'komainu_r':(19,24),'cobbles':(39,18)}
+       'statue_l':(16,24),'statue_r':(19,24),'statue_red':(22,24),'cobbles':(39,18)}
 art=np.zeros((MH*16,MW*16,4),int)
 for k,(cx,cy) in PLACE.items():
     a=PIECES[k]; h,w=a.shape[:2]
@@ -228,8 +254,29 @@ for y in range(MH):
         coll[y][x]=1 if solid else 0
 B.check()
 B.write_tileset(TSDIR)
-tilesetgen.write_layout(REPO+'data/layouts/MegaIsland_Castle/',grid,coll,
-    (0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
+LAYOUT=REPO+'data/layouts/MegaIsland_Castle/'
+PIECES_BIN=HERE+'reference/castle_pieces.bin'
+if os.path.exists(PIECES_BIN) and '--pieces' not in sys.argv:
+    # translate the hand-built layout: the old pieces layout says which piece cell each old secondary
+    # metatile was, the new one which metatile that cell is now
+    old=[v for (v,) in struct.iter_unpack('<H',open(PIECES_BIN,'rb').read())]
+    votes={}
+    for i,o in enumerate(old):
+        if o>=640: votes.setdefault(o,{}).setdefault(grid[i//MW][i%MW],0); votes[o][grid[i//MW][i%MW]]+=1
+    remap={o:max(v,key=v.get) for o,v in votes.items()}
+    split={hex(o):sorted(hex(n) for n in v) for o,v in votes.items() if len(v)>1}
+    if split: print('old metatiles whose cells now differ (the commonest wins):',split)
+    hand=[v for (v,) in struct.iter_unpack('<H',open(LAYOUT+'map.bin','rb').read())]
+    missing=sorted({hex(v&0x3ff) for v in hand if (v&0x3ff)>=640 and (v&0x3ff) not in remap})
+    if missing: sys.exit('the castle grounds use metatiles that are not in the pieces layout: %s' % missing)
+    hand=[(v&~0x3ff)|remap[v&0x3ff] if (v&0x3ff)>=640 else v for v in hand]
+    open(LAYOUT+'map.bin','wb').write(b''.join(struct.pack('<H',v) for v in hand))
+    print('castle grounds layout translated to the new metatiles')
+else:
+    tilesetgen.write_layout(LAYOUT,grid,coll,
+        (0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
+    print('pieces written as the castle grounds layout')
+open(PIECES_BIN,'wb').write(b''.join(struct.pack('<H',grid[y][x]) for y in range(MH) for x in range(MW)))
 print('written')
 if os.environ.get('PREVIEW'):
     render.render_layout('LAYOUT_MEGA_ISLAND_CASTLE',os.environ['PREVIEW'])
