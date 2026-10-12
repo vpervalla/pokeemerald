@@ -167,6 +167,9 @@ metatiles' top layer and the floor under it on the bottom layer, so the two can 
   `kanto_mega_castle` and the layout, with the pieces laid out on grass. `PREVIEW=out.png` also
   renders the map. The castle grounds are now edited by hand in Porymap: running it again rewrites
   their layout with the pieces on grass, so keep a copy of `data/layouts/MegaIsland_Castle/map.bin`.
+  It would also undo a hand edit to the tileset: in the reference the castle's door is one tile
+  wide but straddles two cells, so it was widened in `tiles.png` to fill both door cells (six tiles,
+  the right cell using the left one's mirrored).
 - Across a connection the engine keeps the rows it has already drawn when it swaps in the other
   map's secondary tileset: 7 rows above the player and 8 below. So the castle grounds' last 7 rows
   and the route's first 8 must use only primary (`kanto_general`) metatiles, or the cells drawn with
