@@ -1,7 +1,7 @@
 // The new game scene with Prof. Oak, ported from FireRed/LeafGreen (pokefirered's oak_speech.c).
 // It replaces Prof. Birch's speech. FRLG's controls guide and Pikachu intro pages that come
 // before Oak are not included, since they describe FRLG's help system.
-// The player can be Brendan, May, Red, Leaf, Ethan or Kris, and names Oak's grandson, their rival.
+// The player can be Brendan, May, Red, Leaf, Ethan or Kris. Oak's grandson, their rival, is always GARY.
 #include "global.h"
 #include "bg.h"
 #include "data.h"
@@ -131,7 +131,7 @@ static const u8 sText_TellMeALittleAboutYourself[] = _("But first, tell me a lit
 static const u8 sText_AskWhoYouAre[] = _("Now tell me…\nWho are you?");
 static const u8 sText_YourNameWhatIsIt[] = _("Let's begin with your name.\nWhat is it?\p");
 static const u8 sText_SoYourNameIsPlayer[] = _("Right…\nSo your name is {PLAYER}.");
-static const u8 sText_WhatWasHisName[] = _("This is my grandson.\pHe's been your rival since you both\nwere babies.\p…Erm, what was his name now?");
+static const u8 sText_ThisIsMyGrandson[] = _("This is my grandson.\pHe's been your rival since you both\nwere babies.\pHis name is {STR_VAR_1}!\p");
 static const u8 sText_YourRivalsNameWhatWasIt[] = _("Your rival's name, what was it now?");
 static const u8 sText_ConfirmRivalName[] = _("…Er, was it {STR_VAR_1}?");
 static const u8 sText_RememberRivalsName[] = _("That's right! I remember now!\nHis name is {STR_VAR_1}!\p");
@@ -854,27 +854,6 @@ static void Task_OakSpeech_FadeOutForPlayerNamingScreen(u8 taskId)
     }
 }
 
-static void Task_OakSpeech_MoveRivalDisplayNameOptions(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-
-    if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
-    {
-        if (tTrainerPicPosX > -60)
-        {
-            tTrainerPicPosX -= 2;
-            gSpriteCoordOffsetX += 2;
-            ChangeBgX(2, 0x200, BG_COORD_SUB);
-        }
-        else
-        {
-            tTrainerPicPosX = -60;
-            PrintNameChoiceOptions(taskId, sOakSpeechResources->hasPlayerBeenNamed);
-            gTasks[taskId].func = Task_OakSpeech_HandleRivalNameInput;
-        }
-    }
-}
-
 static void Task_OakSpeech_RepeatNameQuestion(u8 taskId)
 {
     PrintNameChoiceOptions(taskId, sOakSpeechResources->hasPlayerBeenNamed);
@@ -1042,11 +1021,14 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
+    // The rival is always GARY: Oak introduces him without asking for a name
     if (tTrainerPicFadeState != 0)
     {
-        OakSpeechPrintMessage(sText_WhatWasHisName);
-        sOakSpeechResources->hasPlayerBeenNamed = TRUE;
-        gTasks[taskId].func = Task_OakSpeech_MoveRivalDisplayNameOptions;
+        StringCopy(gSaveBlock2Ptr->rivalName, sNameChoice_Gary);
+        StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
+        OakSpeechPrintMessage(sText_ThisIsMyGrandson);
+        tTimer = 40;
+        gTasks[taskId].func = Task_OakSpeech_FadeOutRivalPic;
     }
 }
 
