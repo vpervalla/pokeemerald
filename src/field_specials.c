@@ -1447,6 +1447,12 @@ void LoadWallyZigzagoon(void)
     SetMonData(&gPlayerParty[0], MON_DATA_MOVE4, &monData);
 }
 
+// PLAYER_COSTUME_EMERALD (Brendan / May) or PLAYER_COSTUME_FRLG (Red / Leaf)
+u16 GetPlayerCostume(void)
+{
+    return gSaveBlock2Ptr->playerCostume;
+}
+
 bool8 IsStarterInParty(void)
 {
     u8 i;

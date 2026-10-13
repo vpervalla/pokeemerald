@@ -59,9 +59,9 @@ STONE, and the player has none.
 3. **The invitation.** When the player comes downstairs, MOM gives them a letter that a tall,
    quiet gentleman in a long coat brought that morning. It's an invitation to a tournament
    on an island east of Vermilion, signed "MR. M.". MR. M. is MEWTWO, which uses its powers
-   to be seen as a man; nothing in the letter says so. The MEGA STONE of the player's starter
-   is inside: VENUSAURITE or BLASTOISINITE, or both CHARIZARDITE X and Y for CHARMANDER (from
-   `VAR_STARTER_MON`). `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
+   to be seen as a man; nothing in the letter says so. The MEGA STONES of the three Kanto
+   starters are inside: VENUSAURITE, CHARIZARDITE X and Y, and BLASTOISINITE. (The player's own
+   starter is PIKACHU, which can't Mega Evolve; the Kanto starters come from side quests.) `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
    for MR. M., appears.
 
 ## The tournament entrants

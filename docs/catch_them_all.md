@@ -4,17 +4,20 @@ The goal is for every species to be obtainable in a single game, with no trades.
 
 ## Kanto starters
 
-The player picks one of BULBASAUR, CHARMANDER and SQUIRTLE in Oak's lab. Each of the three also
-has its own side quest, always in the same place whichever starter the player chose, a little like
-in Pokémon Yellow, but they take more effort:
+The player arrives at Oak's lab too late: RED took CHARMANDER, LEAF took BULBASAUR and the rival
+took SQUIRTLE (ETHAN stands in for RED, or KRIS for LEAF, when the player is dressed as them). There
+is no rival battle in the lab, and OAK gives the player a PIKACHU instead, at level 5.
+`VAR_STARTER_MON` is set to 2, as if the player had picked CHARMANDER, so the rival's teams always
+follow his SQUIRTLE.
+
+Each Kanto starter then has its own side quest, always in the same place, a little like in Pokémon
+Yellow, but they take more effort:
 
 | POKéMON    | Where                                   | Level |
 |------------|-----------------------------------------|-------|
 | BULBASAUR  | VIRIDIAN FOREST, then VERMILION CITY    | 20    |
 | CHARMANDER | MT. MOON                                | 10    |
 | SQUIRTLE   | CERULEAN CITY                           | 12    |
-
-So the player can end up with two of their own starter's species, from Oak and from its quest.
 
 CHARMANDER and SQUIRTLE are shown on the map with their PC box icon as an overworld sprite
 (`OBJ_EVENT_GFX_STARTER_*`, in `src/data/object_events/starter_object_events.h`). BULBASAUR and

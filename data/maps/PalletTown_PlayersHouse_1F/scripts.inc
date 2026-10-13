@@ -97,7 +97,8 @@ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest:
 
 @ The Mega Evolution story: after the Hall of Fame, the player wakes up at home and MOM has a
 @ letter for them. It's the invitation to the tournament on APEX ISLAND, from a "MR. M." (MEWTWO, seen by MOM as a
-@ man thanks to its powers), with the MEGA STONE of the player's starter inside.
+@ man thanks to its powers), with the MEGA STONES of the three Kanto starters inside: the player's own
+@ starter is PIKACHU, which can't Mega Evolve, and the starters come from side quests.
 
 PalletTown_PlayersHouse_1F_OnFrame:
 	map_script_2 VAR_MEGA_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomHasLetter
@@ -112,11 +113,16 @@ PalletTown_PlayersHouse_1F_EventScript_MomHasLetter::
 	waitmovement 0
 	msgbox PalletTown_PlayersHouse_1F_Text_MomLetterCameForYou
 	closemessage
-	call PalletTown_PlayersHouse_1F_EventScript_BufferStarterStone
 	msgbox PalletTown_PlayersHouse_1F_Text_Invitation
-	goto_if_eq VAR_STARTER_MON, 2, PalletTown_PlayersHouse_1F_EventScript_TwoCharizardStones
-	msgbox PalletTown_PlayersHouse_1F_Text_InvitationOneStone
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, VAR_0x8004, 1, MUS_RG_OBTAIN_KEY_ITEM
+	msgbox PalletTown_PlayersHouse_1F_Text_InvitationKantoStones
+	bufferitemname STR_VAR_1, ITEM_VENUSAURITE
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, ITEM_VENUSAURITE, 1, MUS_RG_OBTAIN_KEY_ITEM
+	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_X
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_CHARIZARDITE_X, 1, MUS_RG_OBTAIN_KEY_ITEM
+	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_Y
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_CHARIZARDITE_Y, 1, MUS_RG_OBTAIN_KEY_ITEM
+	bufferitemname STR_VAR_1, ITEM_BLASTOISINITE
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_BLASTOISINITE, 1, MUS_RG_OBTAIN_KEY_ITEM
 PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomDoYourBest
 	closemessage
@@ -126,36 +132,6 @@ PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff::
 	waitmovement 0
 	releaseall
 	end
-
-@ The MEGA STONE that belongs to the starter's final evolution: VAR_0x8004 is the stone,
-@ STR_VAR_1 its name and STR_VAR_3 the POKéMON's.
-PalletTown_PlayersHouse_1F_EventScript_BufferStarterStone::
-	setvar VAR_0x8004, ITEM_VENUSAURITE
-	setvar VAR_0x8005, SPECIES_VENUSAUR
-	call_if_eq VAR_STARTER_MON, 1, PalletTown_PlayersHouse_1F_EventScript_StoneBlastoise
-	call_if_eq VAR_STARTER_MON, 2, PalletTown_PlayersHouse_1F_EventScript_StoneCharizard
-	bufferitemname STR_VAR_1, VAR_0x8004
-	bufferspeciesname STR_VAR_3, VAR_0x8005
-	return
-
-PalletTown_PlayersHouse_1F_EventScript_StoneBlastoise::
-	setvar VAR_0x8004, ITEM_BLASTOISINITE
-	setvar VAR_0x8005, SPECIES_BLASTOISE
-	return
-
-@ CHARIZARD has two MEGA STONES, and the letter holds both.
-PalletTown_PlayersHouse_1F_EventScript_TwoCharizardStones::
-	msgbox PalletTown_PlayersHouse_1F_Text_InvitationTwoStones
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, ITEM_CHARIZARDITE_X, 1, MUS_RG_OBTAIN_KEY_ITEM
-	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_Y
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundSecondStone, ITEM_CHARIZARDITE_Y, 1, MUS_RG_OBTAIN_KEY_ITEM
-	goto PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff
-	end
-
-PalletTown_PlayersHouse_1F_EventScript_StoneCharizard::
-	setvar VAR_0x8004, ITEM_CHARIZARDITE_X
-	setvar VAR_0x8005, SPECIES_CHARIZARD
-	return
 
 PalletTown_PlayersHouse_1F_Movement_MomNoticesPlayer:
 	face_right
@@ -208,18 +184,12 @@ PalletTown_PlayersHouse_1F_Text_Invitation:
     .string "A ship will wait for you at\n"
     .string "VERMILION HARBOR.$"
 
-PalletTown_PlayersHouse_1F_Text_InvitationOneStone:
-    .string "The stone in this letter is meant\n"
-    .string "for {STR_VAR_3}.\l"
-    .string "Awaken its power.\p"
-    .string "Yours sincerely,\n"
-    .string "MR. M.”$"
-
-PalletTown_PlayersHouse_1F_Text_InvitationTwoStones:
-    .string "The two stones in this letter are\n"
-    .string "meant for {STR_VAR_3}.\l"
-    .string "Each awakens a different power.\p"
-    .string "Choose well.\p"
+PalletTown_PlayersHouse_1F_Text_InvitationKantoStones:
+    .string "The stones in this letter are meant\n"
+    .string "for the three POKéMON of PROF.\l"
+    .string "OAK's lab: VENUSAUR, CHARIZARD\l"
+    .string "and BLASTOISE.\p"
+    .string "Find them, and awaken their power.\p"
     .string "Yours sincerely,\n"
     .string "MR. M.”$"
 
@@ -227,7 +197,7 @@ PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter:
     .string "There was something in the letter!\p"
     .string "{PLAYER} found the {STR_VAR_1}!$"
 
-PalletTown_PlayersHouse_1F_Text_FoundSecondStone:
+PalletTown_PlayersHouse_1F_Text_FoundAnotherStone:
     .string "There was another one!\p"
     .string "{PLAYER} found the {STR_VAR_1}!$"
 
