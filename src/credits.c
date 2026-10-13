@@ -1207,9 +1207,9 @@ static bool8 LoadBikeScene(u8 scene, u8 taskId)
         gMain.state++;
         break;
     case 2:
-        if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        if (gSaveBlock2Ptr->playerCostume != PLAYER_COSTUME_EMERALD)
         {
-            // Red or Leaf runs alongside the rival on their bike
+            // Red, Leaf, Ethan or Kris runs alongside the rival on their bike
             if (gSaveBlock2Ptr->playerGender == MALE)
                 LoadCompressedSpriteSheet(gSpriteSheet_CreditsRivalMay);
             else

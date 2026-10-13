@@ -1,7 +1,7 @@
 // The new game scene with Prof. Oak, ported from FireRed/LeafGreen (pokefirered's oak_speech.c).
 // It replaces Prof. Birch's speech. FRLG's controls guide and Pikachu intro pages that come
 // before Oak are not included, since they describe FRLG's help system.
-// The player can be Brendan, May, Red or Leaf, and names Oak's grandson, their rival.
+// The player can be Brendan, May, Red, Leaf, Ethan or Kris, and names Oak's grandson, their rival.
 #include "global.h"
 #include "bg.h"
 #include "data.h"
@@ -112,6 +112,10 @@ static const u16 sOakSpeech_Red_Pal[] = INCGFX_U16("graphics/oak_speech/red/pal.
 static const u32 sOakSpeech_Red_Tiles[] = INCGFX_U32("graphics/oak_speech/red/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Leaf_Pal[] = INCGFX_U16("graphics/oak_speech/leaf/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Leaf_Tiles[] = INCGFX_U32("graphics/oak_speech/leaf/pic.png", ".8bpp.lz");
+static const u16 sOakSpeech_Ethan_Pal[] = INCGFX_U16("graphics/oak_speech/ethan/pal.pal", ".gbapal");
+static const u32 sOakSpeech_Ethan_Tiles[] = INCGFX_U32("graphics/oak_speech/ethan/pic.png", ".8bpp.lz");
+static const u16 sOakSpeech_Kris_Pal[] = INCGFX_U16("graphics/oak_speech/kris/pal.pal", ".gbapal");
+static const u32 sOakSpeech_Kris_Tiles[] = INCGFX_U32("graphics/oak_speech/kris/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Oak_Pal[] = INCGFX_U16("graphics/oak_speech/oak/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Oak_Tiles[] = INCGFX_U32("graphics/oak_speech/oak/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Rival_Pal[] = INCGFX_U16("graphics/oak_speech/rival/pal.pal", ".gbapal");
@@ -138,6 +142,8 @@ static const u8 sText_Brendan[] = _("BRENDAN");
 static const u8 sText_May[] = _("MAY");
 static const u8 sText_Red[] = _("RED");
 static const u8 sText_Leaf[] = _("LEAF");
+static const u8 sText_Ethan[] = _("ETHAN");
+static const u8 sText_Kris[] = _("KRIS");
 
 static const u8 sNameChoice_Red[] = _("RED");
 static const u8 sNameChoice_Fire[] = _("FIRE");
@@ -224,9 +230,9 @@ static const struct WindowTemplate sIntro_WindowTemplates[] =
     {
         .bg = 0,
         .tilemapLeft = 18,
-        .tilemapTop = 5,
+        .tilemapTop = 2,
         .width = 9,
-        .height = 8,
+        .height = 12,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -259,6 +265,8 @@ enum
     PLAYER_CHOICE_MAY,
     PLAYER_CHOICE_RED,
     PLAYER_CHOICE_LEAF,
+    PLAYER_CHOICE_ETHAN,
+    PLAYER_CHOICE_KRIS,
     PLAYER_CHOICE_COUNT
 };
 
@@ -271,6 +279,8 @@ static const struct MenuAction sMenuActions_PlayerChoice[PLAYER_CHOICE_COUNT] =
     [PLAYER_CHOICE_MAY]     = {sText_May,     {NULL}},
     [PLAYER_CHOICE_RED]     = {sText_Red,     {NULL}},
     [PLAYER_CHOICE_LEAF]    = {sText_Leaf,    {NULL}},
+    [PLAYER_CHOICE_ETHAN]   = {sText_Ethan,   {NULL}},
+    [PLAYER_CHOICE_KRIS]    = {sText_Kris,    {NULL}},
 };
 
 #define GFX_TAG_PLATFORM 0x1000
@@ -433,6 +443,8 @@ enum
     MAY_PIC,
     RED_PIC,
     LEAF_PIC,
+    ETHAN_PIC,
+    KRIS_PIC,
     RIVAL_PIC,
     OAK_PIC
 };
@@ -758,6 +770,8 @@ static void Task_OakSpeech_HandleGenderInput(u8 taskId)
     case PLAYER_CHOICE_MAY:
     case PLAYER_CHOICE_RED:
     case PLAYER_CHOICE_LEAF:
+    case PLAYER_CHOICE_ETHAN:
+    case PLAYER_CHOICE_KRIS:
         PlaySE(SE_SELECT);
         gSaveBlock2Ptr->playerGender = PLAYER_CHOICE_GENDER(input);
         gSaveBlock2Ptr->playerCostume = PLAYER_CHOICE_COSTUME(input);
@@ -1363,6 +1377,14 @@ static void LoadTrainerPic(u16 whichPic)
         LoadPalette(sOakSpeech_Leaf_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Leaf_Pal));
         LZ77UnCompVram(sOakSpeech_Leaf_Tiles, (void *)VRAM + 0x600);
         break;
+    case ETHAN_PIC:
+        LoadPalette(sOakSpeech_Ethan_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Ethan_Pal));
+        LZ77UnCompVram(sOakSpeech_Ethan_Tiles, (void *)VRAM + 0x600);
+        break;
+    case KRIS_PIC:
+        LoadPalette(sOakSpeech_Kris_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Kris_Pal));
+        LZ77UnCompVram(sOakSpeech_Kris_Tiles, (void *)VRAM + 0x600);
+        break;
     case RIVAL_PIC:
         LoadPalette(sOakSpeech_Rival_Pal, BG_PLTT_ID(6), sizeof(sOakSpeech_Rival_Pal));
         LZ77UnCompVram(sOakSpeech_Rival_Tiles, (void *)VRAM + 0x600);
@@ -1387,6 +1409,8 @@ static void LoadPlayerPic(void)
 {
     if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
         LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? RED_PIC : LEAF_PIC);
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? ETHAN_PIC : KRIS_PIC);
     else
         LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? BRENDAN_PIC : MAY_PIC);
 }

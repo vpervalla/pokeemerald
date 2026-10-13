@@ -149,6 +149,10 @@ static const u16 sRegionMapPlayerIcon_RedPal[] = INCGFX_U16("graphics/pokenav/re
 static const u8 sRegionMapPlayerIcon_RedGfx[] = INCGFX_U8("graphics/pokenav/region_map/red_icon.png", ".4bpp");
 static const u16 sRegionMapPlayerIcon_LeafPal[] = INCGFX_U16("graphics/pokenav/region_map/leaf_icon.png", ".gbapal");
 static const u8 sRegionMapPlayerIcon_LeafGfx[] = INCGFX_U8("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_EthanPal[] = INCGFX_U16("graphics/pokenav/region_map/ethan_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_EthanGfx[] = INCGFX_U8("graphics/pokenav/region_map/ethan_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_KrisPal[] = INCGFX_U16("graphics/pokenav/region_map/kris_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_KrisGfx[] = INCGFX_U8("graphics/pokenav/region_map/kris_icon.png", ".4bpp");
 
 #include "data/region_map/region_map_layout.h"
 #include "data/region_map/region_map_layout_kanto.h"
@@ -1621,6 +1625,19 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         {
             sheet.data = sRegionMapPlayerIcon_RedGfx;
             palette.data = sRegionMapPlayerIcon_RedPal;
+        }
+    }
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+    {
+        if (gSaveBlock2Ptr->playerGender == FEMALE)
+        {
+            sheet.data = sRegionMapPlayerIcon_KrisGfx;
+            palette.data = sRegionMapPlayerIcon_KrisPal;
+        }
+        else
+        {
+            sheet.data = sRegionMapPlayerIcon_EthanGfx;
+            palette.data = sRegionMapPlayerIcon_EthanPal;
         }
     }
     else if (gSaveBlock2Ptr->playerGender == FEMALE)

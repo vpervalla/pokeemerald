@@ -359,6 +359,22 @@ const u32 gObjectEventPic_LeafSurfRun[] = INCGFX_U32("graphics/object_events/pic
 const u32 gObjectEventPic_LeafBike[] = INCGFX_U32("graphics/object_events/pics/people/leaf/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u32 gObjectEventPic_LeafItem[] = INCGFX_U32("graphics/object_events/pics/people/leaf/item.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_LeafFish[] = INCGFX_U32("graphics/object_events/pics/people/leaf/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
+
+// Ethan and Kris as the player, for the Johto player costume
+const u16 gObjectEventPal_PlayerEthan[] = INCGFX_U16("graphics/object_events/palettes/player_ethan.pal", ".gbapal");
+const u16 gObjectEventPal_PlayerEthanReflection[] = INCGFX_U16("graphics/object_events/palettes/player_ethan_reflection.pal", ".gbapal");
+const u32 gObjectEventPic_EthanNormal[] = INCGFX_U32("graphics/object_events/pics/people/ethan/normal.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_EthanSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/ethan/surf_run.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_EthanBike[] = INCGFX_U32("graphics/object_events/pics/people/ethan/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_EthanItem[] = INCGFX_U32("graphics/object_events/pics/people/ethan/item.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_EthanFish[] = INCGFX_U32("graphics/object_events/pics/people/ethan/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_PlayerKris[] = INCGFX_U16("graphics/object_events/palettes/player_kris.pal", ".gbapal");
+const u16 gObjectEventPal_PlayerKrisReflection[] = INCGFX_U16("graphics/object_events/palettes/player_kris_reflection.pal", ".gbapal");
+const u32 gObjectEventPic_KrisNormal[] = INCGFX_U32("graphics/object_events/pics/people/kris/normal.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_KrisSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/kris/surf_run.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_KrisBike[] = INCGFX_U32("graphics/object_events/pics/people/kris/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_KrisItem[] = INCGFX_U32("graphics/object_events/pics/people/kris/item.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_KrisFish[] = INCGFX_U32("graphics/object_events/pics/people/kris/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u16 gObjectEventPal_BirthIslandStone[] = INCGFX_U16("graphics/object_events/palettes/birth_island_stone.pal", ".gbapal");
 const u32 gObjectEventPic_BirthIslandStone[] = INCGFX_U32("graphics/object_events/pics/misc/birth_island_stone.png", ".4bpp");
 const u16 gObjectEventPal_Deoxys[] = INCGFX_U16("graphics/object_events/palettes/deoxys.pal", ".gbapal");

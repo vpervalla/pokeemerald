@@ -1405,6 +1405,8 @@ static void NamingScreen_CreatePlayerIcon(void)
 
     if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
         rivalGfxId = GetFRLGAvatarGraphicsIdByGender(sNamingScreen->monSpecies);
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        rivalGfxId = GetJohtoAvatarGraphicsIdByGender(sNamingScreen->monSpecies);
     else
         rivalGfxId = GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, sNamingScreen->monSpecies);
     spriteId = CreateObjectGraphicsSprite(rivalGfxId, SpriteCallbackDummy, 56, 37, 0);

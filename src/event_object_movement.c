@@ -472,6 +472,10 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF         0x1124
 #define OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION 0x1125
+#define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN            0x1126
+#define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION 0x1127
+#define OBJ_EVENT_PAL_TAG_PLAYER_KRIS             0x1128
+#define OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION  0x1129
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -522,6 +526,10 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
     {gObjectEventPal_PlayerRedLeaf,         OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF},
     {gObjectEventPal_PlayerRedLeafReflection, OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION},
+    {gObjectEventPal_PlayerEthan,           OBJ_EVENT_PAL_TAG_PLAYER_ETHAN},
+    {gObjectEventPal_PlayerEthanReflection, OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION},
+    {gObjectEventPal_PlayerKris,            OBJ_EVENT_PAL_TAG_PLAYER_KRIS},
+    {gObjectEventPal_PlayerKrisReflection,  OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION},
     KANTO_OBJECT_EVENT_SPRITE_PALETTES
     CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
 #ifdef BUGFIX
@@ -553,6 +561,20 @@ static const u16 sReflectionPaletteTags_PlayerRedLeaf[] = {
     OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF_REFLECTION,
 };
 
+static const u16 sReflectionPaletteTags_PlayerEthan[] = {
+    OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION,
+};
+
+static const u16 sReflectionPaletteTags_PlayerKris[] = {
+    OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION,
+};
+
 static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
     OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
     OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER,
@@ -564,6 +586,8 @@ static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_BRENDAN,           sReflectionPaletteTags_Brendan},
     {OBJ_EVENT_PAL_TAG_MAY,               sReflectionPaletteTags_May},
     {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,   sReflectionPaletteTags_PlayerRedLeaf},
+    {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN,      sReflectionPaletteTags_PlayerEthan},
+    {OBJ_EVENT_PAL_TAG_PLAYER_KRIS,       sReflectionPaletteTags_PlayerKris},
     {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
     {OBJ_EVENT_PAL_TAG_NONE,              NULL},
 };
@@ -649,6 +673,8 @@ static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_BRENDAN,          sReflectionPaletteTags_Brendan},
     {OBJ_EVENT_PAL_TAG_MAY,              sReflectionPaletteTags_May},
     {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,  sReflectionPaletteTags_PlayerRedLeaf},
+    {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN,     sReflectionPaletteTags_PlayerEthan},
+    {OBJ_EVENT_PAL_TAG_PLAYER_KRIS,      sReflectionPaletteTags_PlayerKris},
     {OBJ_EVENT_PAL_TAG_QUINTY_PLUMP,     sReflectionPaletteTags_QuintyPlump},
     {OBJ_EVENT_PAL_TAG_TRUCK,            sReflectionPaletteTags_Truck},
     {OBJ_EVENT_PAL_TAG_VIGOROTH,         sReflectionPaletteTags_VigorothMover},
@@ -1942,6 +1968,28 @@ static const struct ObjectEventGraphicsInfo *GetFRLGPlayerGraphicsInfo(u16 graph
     }
 }
 
+// Same for the Johto costume: Ethan and Kris replace Brendan and May.
+// There is no art for diving, watering berries or decorating either.
+static const struct ObjectEventGraphicsInfo *GetJohtoPlayerGraphicsInfo(u16 graphicsId)
+{
+    switch (graphicsId)
+    {
+    case OBJ_EVENT_GFX_BRENDAN_NORMAL:     return &gObjectEventGraphicsInfo_EthanPlayerNormal;
+    case OBJ_EVENT_GFX_BRENDAN_MACH_BIKE:  return &gObjectEventGraphicsInfo_EthanPlayerMachBike;
+    case OBJ_EVENT_GFX_BRENDAN_ACRO_BIKE:  return &gObjectEventGraphicsInfo_EthanPlayerAcroBike;
+    case OBJ_EVENT_GFX_BRENDAN_SURFING:    return &gObjectEventGraphicsInfo_EthanPlayerSurfing;
+    case OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE: return &gObjectEventGraphicsInfo_EthanPlayerFieldMove;
+    case OBJ_EVENT_GFX_BRENDAN_FISHING:    return &gObjectEventGraphicsInfo_EthanPlayerFishing;
+    case OBJ_EVENT_GFX_MAY_NORMAL:         return &gObjectEventGraphicsInfo_KrisPlayerNormal;
+    case OBJ_EVENT_GFX_MAY_MACH_BIKE:      return &gObjectEventGraphicsInfo_KrisPlayerMachBike;
+    case OBJ_EVENT_GFX_MAY_ACRO_BIKE:      return &gObjectEventGraphicsInfo_KrisPlayerAcroBike;
+    case OBJ_EVENT_GFX_MAY_SURFING:        return &gObjectEventGraphicsInfo_KrisPlayerSurfing;
+    case OBJ_EVENT_GFX_MAY_FIELD_MOVE:     return &gObjectEventGraphicsInfo_KrisPlayerFieldMove;
+    case OBJ_EVENT_GFX_MAY_FISHING:        return &gObjectEventGraphicsInfo_KrisPlayerFishing;
+    default:                               return NULL;
+    }
+}
+
 const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
 {
     u8 bard;
@@ -1968,6 +2016,12 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         const struct ObjectEventGraphicsInfo *frlgInfo = GetFRLGPlayerGraphicsInfo(graphicsId);
         if (frlgInfo != NULL)
             return frlgInfo;
+    }
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+    {
+        const struct ObjectEventGraphicsInfo *johtoInfo = GetJohtoPlayerGraphicsInfo(graphicsId);
+        if (johtoInfo != NULL)
+            return johtoInfo;
     }
 
     return gObjectEventGraphicsInfoPointers[graphicsId];

@@ -2061,6 +2061,24 @@ static const struct SpriteTemplate sTrainerBackSpriteTemplates[] =
         .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_BattleSpriteStartSlideLeft,
     },
+    [TRAINER_BACK_PIC_ETHAN] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Ethan,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
+    [TRAINER_BACK_PIC_KRIS] = {
+        .tileTag = TAG_NONE,
+        .paletteTag = 0,
+        .oam = &gOamData_BattleSpritePlayerSide,
+        .anims = NULL,
+        .images = gTrainerBackPicTable_Kris,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
+        .callback = SpriteCB_BattleSpriteStartSlideLeft,
+    },
 };
 
 #define NUM_SECRET_BASE_CLASSES 5
@@ -7013,6 +7031,13 @@ u16 GetPlayerFrontTrainerPicId(void)
         else
             return FacilityClassToPicIndex(FACILITY_CLASS_RED);
     }
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+    {
+        if (gSaveBlock2Ptr->playerGender != MALE)
+            return FacilityClassToPicIndex(FACILITY_CLASS_KRIS);
+        else
+            return FacilityClassToPicIndex(FACILITY_CLASS_ETHAN);
+    }
     return PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
 }
 
@@ -7021,6 +7046,8 @@ u8 GetPlayerBackTrainerPicId(void)
 {
     if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
         return gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_RED;
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        return gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_ETHAN;
     else
         return gSaveBlock2Ptr->playerGender + TRAINER_BACK_PIC_BRENDAN;
 }

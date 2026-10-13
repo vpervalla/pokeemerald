@@ -97,6 +97,8 @@ enum {
     TAG_HEAD_FEMALE,
     TAG_HEAD_RED,
     TAG_HEAD_LEAF,
+    TAG_HEAD_ETHAN,
+    TAG_HEAD_KRIS,
 };
 
 // Error return codes. Never read
@@ -187,6 +189,10 @@ static const u16 sRedHead_Pal[]                  = INCGFX_U16("graphics/pokenav/
 static const u32 sRedHead_Gfx[]                  = INCGFX_U32("graphics/pokenav/region_map/red_icon.png", ".4bpp");
 static const u16 sLeafHead_Pal[]                 = INCGFX_U16("graphics/pokenav/region_map/leaf_icon.png", ".gbapal");
 static const u32 sLeafHead_Gfx[]                 = INCGFX_U32("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
+static const u16 sEthanHead_Pal[]                = INCGFX_U16("graphics/pokenav/region_map/ethan_icon.png", ".gbapal");
+static const u32 sEthanHead_Gfx[]                = INCGFX_U32("graphics/pokenav/region_map/ethan_icon.png", ".4bpp");
+static const u16 sKrisHead_Pal[]                 = INCGFX_U16("graphics/pokenav/region_map/kris_icon.png", ".gbapal");
+static const u32 sKrisHead_Gfx[]                 = INCGFX_U32("graphics/pokenav/region_map/kris_icon.png", ".4bpp");
 static const u32 sMapCursor_Gfx[]                = INCGFX_U32("graphics/frontier_pass/map_cursor.png", ".4bpp.lz");
 static const u32 sMapScreen_Tilemap[]            = INCGFX_U32("graphics/frontier_pass/map_screen.bin", ".lz");
 static const u32 sMapAndCard_ZoomedOut_Tilemap[] = INCGFX_U32("graphics/frontier_pass/small_map_and_card.bin", ".lz");
@@ -389,6 +395,8 @@ static const struct SpritePalette sSpritePalettes[] =
     {sFemaleHead_Pal,               TAG_HEAD_FEMALE},
     {sRedHead_Pal,                  TAG_HEAD_RED},
     {sLeafHead_Pal,                 TAG_HEAD_LEAF},
+    {sEthanHead_Pal,                TAG_HEAD_ETHAN},
+    {sKrisHead_Pal,                 TAG_HEAD_KRIS},
     {}
 };
 
@@ -1713,6 +1721,17 @@ static void InitFrontierMapSprites(void)
             LoadSpriteSheet(&sheet);
             sprite.paletteTag = gSaveBlock2Ptr->playerGender + TAG_HEAD_RED; // TAG_HEAD_LEAF if gender is FEMALE
         }
+        else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        {
+            // Ethan's or Kris's head, from the region map player icons
+            struct SpriteSheet sheet = {
+                .data = gSaveBlock2Ptr->playerGender == MALE ? sEthanHead_Gfx : sKrisHead_Gfx,
+                .size = 0x80,
+                .tag = TAG_HEAD_MALE,
+            };
+            LoadSpriteSheet(&sheet);
+            sprite.paletteTag = gSaveBlock2Ptr->playerGender + TAG_HEAD_ETHAN; // TAG_HEAD_KRIS if gender is FEMALE
+        }
         else
         {
             LoadCompressedSpriteSheet(sHeadsSpriteSheet);
@@ -1731,7 +1750,7 @@ static void InitFrontierMapSprites(void)
 
         sMapData->playerHeadSprite = &gSprites[spriteId];
         sMapData->playerHeadSprite->oam.priority = 0;
-        if (gSaveBlock2Ptr->playerGender != MALE && gSaveBlock2Ptr->playerCostume != PLAYER_COSTUME_FRLG)
+        if (gSaveBlock2Ptr->playerGender != MALE && gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_EMERALD)
             StartSpriteAnim(sMapData->playerHeadSprite, 1);
     }
 }
