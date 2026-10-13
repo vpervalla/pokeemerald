@@ -128,7 +128,7 @@ static const u8 sText_ThisWorld[] = _("This world…");
 static const u8 sText_IsInhabitedFarAndWide[] = _("…is inhabited far and wide by\ncreatures called POKéMON.\p");
 static const u8 sText_IStudyPokemon[] = _("For some people, POKéMON are pets.\nOthers use them for battling.\pAs for myself…\pI study POKéMON as a profession.\p");
 static const u8 sText_TellMeALittleAboutYourself[] = _("But first, tell me a little about\nyourself.\p");
-static const u8 sText_AskPlayerGender[] = _("Now tell me. Are you a boy?\nOr are you a girl?");
+static const u8 sText_AskWhoYouAre[] = _("Now tell me…\nWho are you?");
 static const u8 sText_YourNameWhatIsIt[] = _("Let's begin with your name.\nWhat is it?\p");
 static const u8 sText_SoYourNameIsPlayer[] = _("Right…\nSo your name is {PLAYER}.");
 static const u8 sText_WhatWasHisName[] = _("This is my grandson.\pHe's been your rival since you both\nwere babies.\p…Erm, what was his name now?");
@@ -229,7 +229,7 @@ static const struct WindowTemplate sIntro_WindowTemplates[] =
     [WIN_INTRO_CHARACTERS] =
     {
         .bg = 0,
-        .tilemapLeft = 18,
+        .tilemapLeft = 20,
         .tilemapTop = 2,
         .width = 9,
         .height = 12,
@@ -449,6 +449,16 @@ enum
     OAK_PIC
 };
 
+static const u8 sPlayerChoicePics[PLAYER_CHOICE_COUNT] =
+{
+    [PLAYER_CHOICE_BRENDAN] = BRENDAN_PIC,
+    [PLAYER_CHOICE_MAY]     = MAY_PIC,
+    [PLAYER_CHOICE_RED]     = RED_PIC,
+    [PLAYER_CHOICE_LEAF]    = LEAF_PIC,
+    [PLAYER_CHOICE_ETHAN]   = ETHAN_PIC,
+    [PLAYER_CHOICE_KRIS]    = KRIS_PIC,
+};
+
 static void VBlankCB_NewGameScene(void)
 {
     LoadOam();
@@ -474,6 +484,7 @@ static void CB2_NewGameScene(void)
 #define tPlatformSpriteId(i)        data[7 + i] // The platform is built of three sprites,
                                  // data[8]     // so these are used to hold their sprite IDs
                                  // data[9]     //
+#define tPreviewChoice              data[12] // The character whose pic is shown while choosing
 #define tMenuWindowId               data[13]
 
 static void Task_NewGameScene(u8 taskId)
@@ -739,7 +750,7 @@ static void Task_OakSpeech_AskPlayerGender(u8 taskId)
         {
             tTrainerPicPosX = -60;
             ClearTrainerPic();
-            OakSpeechPrintMessage(sText_AskPlayerGender);
+            OakSpeechPrintMessage(sText_AskWhoYouAre);
             gTasks[taskId].func = Task_OakSpeech_ShowGenderOptions;
         }
     }
@@ -756,6 +767,11 @@ static void Task_OakSpeech_ShowGenderOptions(u8 taskId)
         PrintMenuTable(windowId, PLAYER_CHOICE_COUNT, sMenuActions_PlayerChoice);
         InitMenuInUpperLeftCornerNormal(windowId, PLAYER_CHOICE_COUNT, 0);
         CopyWindowToVram(windowId, COPYWIN_FULL);
+
+        // Fade in the highlighted character on Oak's platform
+        gTasks[taskId].tPreviewChoice = 0;
+        LoadTrainerPic(sPlayerChoicePics[0]);
+        CreateFadeOutTask(taskId, 2);
         gTasks[taskId].func = Task_OakSpeech_HandleGenderInput;
     }
 }
@@ -763,6 +779,14 @@ static void Task_OakSpeech_ShowGenderOptions(u8 taskId)
 static void Task_OakSpeech_HandleGenderInput(u8 taskId)
 {
     s8 input = Menu_ProcessInputNoWrap();
+    u8 cursorPos = Menu_GetCursorPos();
+
+    // Show the character under the cursor
+    if (cursorPos != gTasks[taskId].tPreviewChoice)
+    {
+        gTasks[taskId].tPreviewChoice = cursorPos;
+        LoadTrainerPic(sPlayerChoicePics[cursorPos]);
+    }
 
     switch (input)
     {
@@ -793,8 +817,10 @@ static void Task_OakSpeech_ClearGenderWindows(u8 taskId)
 
 static void Task_OakSpeech_LoadPlayerPic(u8 taskId)
 {
+    // The chosen character is already shown, faded in while choosing
+    if (!gTasks[taskId].tTrainerPicFadeState)
+        return;
     LoadPlayerPic();
-    CreateFadeOutTask(taskId, 2);
     gTasks[taskId].tTimer = 32;
     gTasks[taskId].func = Task_OakSpeech_YourNameWhatIsIt;
 }
