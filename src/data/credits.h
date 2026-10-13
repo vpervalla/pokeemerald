@@ -40,6 +40,7 @@ enum
     PAGE_ARTWORK_1,
     PAGE_ARTWORK_2,
     PAGE_ARTWORK_3,
+    PAGE_KRIS_SPRITES,
     PAGE_COORDINATORS,
     PAGE_ENGLISH_VERSION,
     PAGE_TRANSLATOR,
@@ -99,6 +100,8 @@ static const u8 sCreditsText_WorldDirector[]                  = _("World Directo
 static const u8 sCreditsText_BattleFrontierData[]             = _("Battle Frontier Data");
 static const u8 sCreditsText_SupportProgrammers[]             = _("Support Programmers");
 static const u8 sCreditsText_Artwork[]                        = _("Artwork");
+static const u8 sCreditsText_KrisSprites[]                    = _("KRIS Sprites");
+static const u8 sCreditsText_GregarLink10[]                   = _("GregarLink10");
 static const u8 sCreditsText_LeadProgrammer[]                 = _("Lead Programmer");
 static const u8 sCreditsText_LeadGraphicArtist[]              = _("Lead Graphic Artist");
 static const u8 sCreditsText_SatoshiTajiri[]                  = _("Satoshi Tajiri");
@@ -258,6 +261,7 @@ static const struct CreditsEntry sCreditsEntry_WorldDirector                    
 static const struct CreditsEntry sCreditsEntry_BattleFrontierData               = { 8,  TRUE, sCreditsText_BattleFrontierData};
 static const struct CreditsEntry sCreditsEntry_SupportProgrammers               = {10,  TRUE, sCreditsText_SupportProgrammers};
 static const struct CreditsEntry sCreditsEntry_Artwork                          = {12,  TRUE, sCreditsText_Artwork};
+static const struct CreditsEntry sCreditsEntry_KrisSprites                      = {12,  TRUE, sCreditsText_KrisSprites};
 static const struct CreditsEntry sCreditsEntry_LeadProgrammer                   = {10,  TRUE, sCreditsText_LeadProgrammer};
 static const struct CreditsEntry sCreditsEntry_LeadGraphicArtist                = { 9,  TRUE, sCreditsText_LeadGraphicArtist};
 static const struct CreditsEntry sCreditsEntry_SatoshiTajiri                    = {11, FALSE, sCreditsText_SatoshiTajiri};
@@ -347,6 +351,7 @@ static const struct CreditsEntry sCreditsEntry_RuiKawaguchi                     
 static const struct CreditsEntry sCreditsEntry_ShunsukeKohori                   = {11, FALSE, sCreditsText_ShunsukeKohori};
 static const struct CreditsEntry sCreditsEntry_SachikoNakamichi                 = {11, FALSE, sCreditsText_SachikoNakamichi};
 static const struct CreditsEntry sCreditsEntry_FujikoNomura                     = {11, FALSE, sCreditsText_FujikoNomura};
+static const struct CreditsEntry sCreditsEntry_GregarLink10                     = {11, FALSE, sCreditsText_GregarLink10};
 static const struct CreditsEntry sCreditsEntry_KazukiYoshihara                  = {11, FALSE, sCreditsText_KazukiYoshihara};
 static const struct CreditsEntry sCreditsEntry_RetsujiNomoto                    = {11, FALSE, sCreditsText_RetsujiNomoto};
 static const struct CreditsEntry sCreditsEntry_AzusaTajima                      = {11, FALSE, sCreditsText_AzusaTajima};
@@ -662,6 +667,15 @@ static const struct CreditsEntry *const sCreditsEntryPointerTable[PAGE_COUNT][EN
         &sCreditsEntry_YokoWatanabe,
         &sCreditsEntry_SakaeKimura,
         &sCreditsEntry_ChiakiShinkai,
+        _,
+    },
+    // Kris's overworld, battle and intro sprites come from GregarLink10's
+    // "PKMN Trainer from Crystal (DS style)" sheet
+    [PAGE_KRIS_SPRITES] = {
+        _,
+        &sCreditsEntry_KrisSprites,
+        &sCreditsEntry_GregarLink10,
+        _,
         _,
     },
     [PAGE_COORDINATORS] = {
