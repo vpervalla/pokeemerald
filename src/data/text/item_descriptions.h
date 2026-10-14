@@ -1755,9 +1755,4 @@ static const u8 sAltarianiteDesc[] = _(
     "A MEGA STONE that\n"
     "lets ALTARIA Mega\n"
     "Evolve in battle.");
-
-static const u8 sMachampiteDesc[] = _(
-    "A MEGA STONE that\n"
-    "lets MACHAMP Mega\n"
-    "Evolve in battle.");
 // </mega-evolutions>

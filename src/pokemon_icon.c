@@ -505,7 +505,6 @@ const u8 *const gMonIconTable[] =
     [SPECIES_ABSOL_MEGA] = gMonIcon_Absol,
     [SPECIES_GARDEVOIR_MEGA] = gMonIcon_Gardevoir,
     [SPECIES_ALTARIA_MEGA] = gMonIcon_Altaria,
-    [SPECIES_MACHAMP_MEGA] = gMonIcon_Machamp,
     // </mega-evolutions>
 };
 
@@ -993,7 +992,6 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_ABSOL_MEGA] = 0,
     [SPECIES_GARDEVOIR_MEGA] = 1,
     [SPECIES_ALTARIA_MEGA] = 0,
-    [SPECIES_MACHAMP_MEGA] = 0,
     // </mega-evolutions>
 };
 

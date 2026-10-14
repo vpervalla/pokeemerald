@@ -1673,7 +1673,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchBulbasa
         .iv = 255,
         .lvl = 75,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
+        .heldItem = ITEM_NONE,
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
@@ -1718,7 +1718,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchCharman
         .iv = 255,
         .lvl = 75,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
+        .heldItem = ITEM_NONE,
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
@@ -1763,7 +1763,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchSquirtl
         .iv = 255,
         .lvl = 75,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
+        .heldItem = ITEM_NONE,
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
@@ -1798,7 +1798,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchSquirtl
         .iv = 255,
         .lvl = 78,
         .species = SPECIES_BLASTOISE,
-        .heldItem = ITEM_SITRUS_BERRY,
+        .heldItem = ITEM_BLASTOISINITE, // Added: given to the player after the rematch (the rival always has SQUIRTLE)
         .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
     },
 };

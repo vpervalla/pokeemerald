@@ -7,10 +7,6 @@ The Mega Evolution battle sprites (`graphics/pokemon/*/mega*/`), the Mega Stone 
 had a single frame were doubled into a two-frame `anim_front.png`, and every PNG was
 re-saved as a 4-bit indexed image; the pixels and palettes are unchanged.
 
-Mega Machamp isn't an official Mega Evolution: it was added for the SAFFRON CITY DOJO rematch.
-Its sprites are pokeemerald-expansion's Gigantamax Machamp (`graphics/pokemon/machamp/gmax/`,
-commit `73b3fbeb`), and the MACHAMPITE icon is the Medichamite icon with a new palette.
-
 pokeemerald-expansion credits these resources for its sprites:
 
 - [Sugimori Palettes and Sprites](https://www.pokecommunity.com/showthread.php?t=336945)

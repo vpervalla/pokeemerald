@@ -820,6 +820,4 @@ const u32 gItemIcon_Gardevoirite[] = INCGFX_U32("graphics/items/icons/gardevoiri
 const u32 gItemIconPalette_Gardevoirite[] = INCGFX_U32("graphics/items/icon_palettes/gardevoirite.pal", ".gbapal.lz");
 const u32 gItemIcon_Altarianite[] = INCGFX_U32("graphics/items/icons/altarianite.png", ".4bpp.lz");
 const u32 gItemIconPalette_Altarianite[] = INCGFX_U32("graphics/items/icon_palettes/altarianite.pal", ".gbapal.lz");
-const u32 gItemIcon_Machampite[] = INCGFX_U32("graphics/items/icons/machampite.png", ".4bpp.lz");
-const u32 gItemIconPalette_Machampite[] = INCGFX_U32("graphics/items/icon_palettes/machampite.pal", ".gbapal.lz");
 // </mega-evolutions>

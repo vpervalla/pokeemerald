@@ -3,8 +3,8 @@
 @ MR. M. left with them, and gives it to the player after the battle (see gym_rematches.inc for the
 @ GYM LEADERS'). Each room calls its script after the post-battle text, and again whenever the
 @ player talks to them, so with a full BAG the stone waits until they make room.
-@ The champion (the rival) gives the HERACRONITE of his HERACROSS. The player goes straight on to the
-@ Hall of Fame, so with a full BAG it's sent to the PC instead.
+@ The champion (the rival, whose starter is always SQUIRTLE) gives the BLASTOISINITE of his
+@ BLASTOISE. The player goes straight on to the Hall of Fame, so with a full BAG it's sent to the PC.
 
 EliteFourMega_EventScript_Lorelei::
 	goto_if_unset FLAG_SYS_CAN_LINK_WITH_RS, EliteFourMega_EventScript_Return
@@ -59,15 +59,15 @@ EliteFourMega_EventScript_Champion::
 	goto_if_set FLAG_GOT_MEGA_STONE_FROM_CHAMPION, EliteFourMega_EventScript_Return
 	msgbox EliteFourMega_Text_ChampionGiveStone
 	setflag FLAG_GOT_MEGA_STONE_FROM_CHAMPION
-	giveitem ITEM_HERACRONITE
+	giveitem ITEM_BLASTOISINITE
 	goto_if_eq VAR_RESULT, FALSE, EliteFourMega_EventScript_ChampionStoneToPC
-	bufferspeciesname STR_VAR_1, SPECIES_HERACROSS
-	bufferitemname STR_VAR_2, ITEM_HERACRONITE
+	bufferspeciesname STR_VAR_1, SPECIES_BLASTOISE
+	bufferitemname STR_VAR_2, ITEM_BLASTOISINITE
 	msgbox GymRematch_Text_ExplainStone
 	return
 
 EliteFourMega_EventScript_ChampionStoneToPC::
-	addpcitem ITEM_HERACRONITE
+	addpcitem ITEM_BLASTOISINITE
 	msgbox EliteFourMega_Text_ChampionStoneToPC
 	return
 
@@ -116,13 +116,13 @@ EliteFourMega_Text_ChampionGiveStone:
     .string "Some guy in a long coat gave me\n"
     .string "this stone. A MEGA STONE.\p"
     .string "He said to hand it to whoever\n"
-    .string "beats my HERACROSS. Whatever!\p"
+    .string "beats my BLASTOISE. Whatever!\p"
     .string "Take it. I've got my own stone\n"
     .string "anyway!$"
 
 EliteFourMega_Text_ChampionStoneToPC:
     .string "Your BAG is full, so the\n"
-    .string "HERACRONITE was sent to your PC.$"
+    .string "BLASTOISINITE was sent to your PC.$"
 
 EliteFourMega_Text_BagFull:
     .string "Your BAG is full.\n"

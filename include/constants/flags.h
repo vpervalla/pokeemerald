@@ -2035,7 +2035,7 @@
 #define FLAG_GOT_FOSSIL_FROM_MIGUEL                 (KANTO_EXTRA_FLAGS_START + 0x1E7)
 #define FLAG_HIDE_DOJO_TRAINERS                     (KANTO_EXTRA_FLAGS_START + 0x1E8) // Set on transition
 #define FLAG_HIDE_DOJO_REMATCH_TRAINERS             (KANTO_EXTRA_FLAGS_START + 0x1E9) // Set on transition
-#define FLAG_GOT_MACHAMPITE_FROM_KOICHI             (KANTO_EXTRA_FLAGS_START + 0x1EA)
+#define FLAG_GOT_HERACRONITE_FROM_KOICHI            (KANTO_EXTRA_FLAGS_START + 0x1EA)
 
 // The MEGA STONES given after MR. M.'s invitation by the post-game LEAF (or KRIS) and RED (or ETHAN),
 // by the KANTO GYM LEADERS after their rematch (see data/scripts/gym_rematches.inc), and by the
@@ -2043,7 +2043,6 @@
 #define FLAG_GOT_VENUSAURITE_FROM_LEAF              (KANTO_EXTRA_FLAGS_START + 0x1CC) // Also shows her until set
 #define FLAG_GOT_CHARIZARDITE_X_FROM_RED            (KANTO_EXTRA_FLAGS_START + 0x1CD) // Also shows him until set
 #define FLAG_GOT_MEGA_STONE_FROM_BROCK              (KANTO_EXTRA_FLAGS_START + 0x1CE)
-#define FLAG_GOT_MEGA_STONE_FROM_MISTY              (KANTO_EXTRA_FLAGS_START + 0x1CF)
 #define FLAG_GOT_MEGA_STONE_FROM_LT_SURGE           (KANTO_EXTRA_FLAGS_START + 0x1D0)
 #define FLAG_GOT_MEGA_STONE_FROM_ERIKA              (KANTO_EXTRA_FLAGS_START + 0x1D1)
 #define FLAG_GOT_MEGA_STONE_FROM_KOGA               (KANTO_EXTRA_FLAGS_START + 0x1D2)

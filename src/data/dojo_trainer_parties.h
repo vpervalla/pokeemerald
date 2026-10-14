@@ -1,5 +1,5 @@
 // The SAFFRON CITY DOJO's rematch after the ELITE FOUR (see SaffronCity_Dojo). MASTER KOICHI
-// Mega Evolves his MACHAMP (Mega Machamp: No Guard, so DYNAMIC PUNCH always hits).
+// Mega Evolves his HERACROSS, and gives the player its HERACRONITE.
 
 static const struct TrainerMonItemCustomMoves sParty_DojoMike[] = {
     {
@@ -129,15 +129,15 @@ static const struct TrainerMonItemCustomMoves sParty_DojoKoichi[] = {
     {
         .iv = 255,
         .lvl = 67,
-        .species = SPECIES_HERACROSS,
+        .species = SPECIES_MACHAMP,
         .heldItem = ITEM_NONE,
-        .moves = {MOVE_MEGAHORN, MOVE_BRICK_BREAK, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE},
+        .moves = {MOVE_DYNAMIC_PUNCH, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_BULK_UP},
     },
     {
         .iv = 255,
         .lvl = 70,
-        .species = SPECIES_MACHAMP,
-        .heldItem = ITEM_MACHAMPITE,
-        .moves = {MOVE_DYNAMIC_PUNCH, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_BULK_UP},
+        .species = SPECIES_HERACROSS,
+        .heldItem = ITEM_HERACRONITE,
+        .moves = {MOVE_MEGAHORN, MOVE_BRICK_BREAK, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE},
     },
 };

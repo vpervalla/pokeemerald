@@ -2988,8 +2988,4 @@ const u32 gMonStillFrontPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria
 const u32 gMonBackPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/shiny.pal", ".gbapal.lz");
-const u32 gMonStillFrontPic_MachampMega[] = INCGFX_U32("graphics/pokemon/machamp/mega/front.png", ".4bpp.lz");
-const u32 gMonBackPic_MachampMega[] = INCGFX_U32("graphics/pokemon/machamp/mega/back.png", ".4bpp.lz");
-const u32 gMonPalette_MachampMega[] = INCGFX_U32("graphics/pokemon/machamp/mega/normal.pal", ".gbapal.lz");
-const u32 gMonShinyPalette_MachampMega[] = INCGFX_U32("graphics/pokemon/machamp/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

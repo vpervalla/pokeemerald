@@ -1,5 +1,6 @@
 // The KANTO GYM LEADERS' rematches after MR. M.'s invitation (see data/scripts/gym_rematches.inc).
-// Each leader's ace, sent out last, holds the MEGA STONE they give the player when beaten.
+// Each leader's ace, sent out last, holds the MEGA STONE they give the player when beaten (MISTY
+// has none: her ace is STARMIE).
 
 static const struct TrainerMonItemCustomMoves sParty_RematchBrock[] = {
     {
@@ -78,16 +79,16 @@ static const struct TrainerMonItemCustomMoves sParty_RematchMisty[] = {
     {
         .iv = 250,
         .lvl = 68,
-        .species = SPECIES_STARMIE,
+        .species = SPECIES_BLASTOISE,
         .heldItem = ITEM_SITRUS_BERRY,
-        .moves = {MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
+        .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
     },
     {
         .iv = 250,
         .lvl = 70,
-        .species = SPECIES_BLASTOISE,
-        .heldItem = ITEM_BLASTOISINITE,
-        .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
+        .species = SPECIES_STARMIE,
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = {MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
     },
 };
 

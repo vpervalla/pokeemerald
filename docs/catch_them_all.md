@@ -110,13 +110,12 @@ In FireRed, the SAFFRON CITY DOJO gives either HITMONLEE or HITMONCHAN. Here, af
 `src/data/dojo_trainers.h` and `dojo_trainer_parties.h`):
 
 - The four BLACK BELTS (levels 60 to 63) battle on sight, as the first time.
-- MASTER KOICHI only fights once all four are beaten. His team ends with a level 70 MACHAMP that
-  holds a MACHAMPITE and Mega Evolves into Mega Machamp (Fighting, No Guard, 90/170/110/65/65/105).
-  Mega Machamp isn't an official Mega: it was added with `tools/mega_evolutions/import_megas.py`.
+- MASTER KOICHI only fights once all four are beaten. His team ends with a level 70 HERACROSS that
+  holds a HERACRONITE and Mega Evolves.
 - Beating him lets the player take the POKé BALL still on the altar
   (`SaffronCity_Dojo_EventScript_CheckCanTakeHitmon`), and he tells them so: the other POKéMON,
-  or both if they never took one. He also gives them his MACHAMPITE
-  (`FLAG_GOT_MACHAMPITE_FROM_KOICHI`; with a full BAG he gives it the next time they talk). Until
+  or both if they never took one. He also gives them his HERACRONITE
+  (`FLAG_GOT_HERACRONITE_FROM_KOICHI`; with a full BAG he gives it the next time they talk). Until
   the altar is empty, he reminds them of the POKéMON waiting there.
 
 Before the ELITE FOUR, nothing changes. Breeding a HITMON with DITTO for a TYROGUE is still another

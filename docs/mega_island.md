@@ -79,7 +79,7 @@ stone until the player comes back with room for it.
 | LEAF (or KRIS) | CERULEAN CITY, by CERULEAN CAVE | Post-game (`docs/catch_them_all.md`) | VENUSAURITE | `FLAG_GOT_VENUSAURITE_FROM_LEAF` |
 | RED (or ETHAN) | CERULEAN CAVE B1F | Post-game | CHARIZARDITE X | `FLAG_GOT_CHARIZARDITE_X_FROM_RED` |
 | BROCK | PEWTER CITY GYM | Rematch | AERODACTYLITE | `FLAG_GOT_MEGA_STONE_FROM_BROCK` |
-| MISTY | CERULEAN CITY GYM | Rematch | BLASTOISINITE | `FLAG_GOT_MEGA_STONE_FROM_MISTY` |
+| MISTY | CERULEAN CITY GYM | Rematch | None (her ace is STARMIE) | |
 | LT. SURGE | VERMILION CITY GYM | Rematch | AMPHAROSITE | `FLAG_GOT_MEGA_STONE_FROM_LT_SURGE` |
 | ERIKA | CELADON CITY GYM | Rematch | BEEDRILLITE | `FLAG_GOT_MEGA_STONE_FROM_ERIKA` |
 | KOGA | FUCHSIA CITY GYM | Rematch | SCIZORITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
@@ -90,9 +90,9 @@ stone until the player comes back with room for it.
 | BRUNO | POKéMON LEAGUE | ELITE FOUR rematch | STEELIXITE | `FLAG_GOT_MEGA_STONE_FROM_BRUNO` |
 | AGATHA | POKéMON LEAGUE | ELITE FOUR rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_AGATHA` |
 | LANCE | POKéMON LEAGUE | ELITE FOUR rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_LANCE` |
-| The rival | POKéMON LEAGUE | Champion rematch | HERACRONITE | `FLAG_GOT_MEGA_STONE_FROM_CHAMPION` |
+| The rival | POKéMON LEAGUE | Champion rematch | BLASTOISINITE | `FLAG_GOT_MEGA_STONE_FROM_CHAMPION` |
 
-MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
+MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
 
 - **LEAF and RED** give their stone right after the battle (`data/scripts/lab_trainers.inc`), then
   leave. They now stay on the map until they've given it, not just until they're beaten.
@@ -110,8 +110,8 @@ MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
   a MEGA STONE (`*_2` parties in `src/data/kanto_trainer_parties.h`; LORELEI has a sixth
   POKéMON, a SLOWBRO). Their levels climb from 70 (LORELEI) to 75 (LANCE's DRAGONITE). After the battle, and whenever the player talks to them again, they give
   it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion, the
-  rival, gives the HERACRONITE of the HERACROSS in his rematch teams, then the Hall of Fame
-  follows; with a full BAG it goes to the PC. He keeps his PIDGEOTITE for the tournament.
+  rival, gives the BLASTOISINITE of his BLASTOISE (his starter is always SQUIRTLE; only that
+  rematch team holds it), then the Hall of Fame follows; with a full BAG it goes to the PC. He keeps his PIDGEOTITE for the tournament.
 - **Registration** needs a POKéMON that can Mega Evolve: the castle receptionist checks it with
   the `CanPlayerMegaEvolve` special (`src/field_specials.c`). The player must have the MEGA RING,
   and a party POKéMON must hold its MEGA STONE, or have its stone in the BAG. Otherwise she
@@ -125,7 +125,7 @@ generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties
 75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
 Each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once (the
 `*GiveStone` scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): ALDER the PINSIRITE
-(his HERACROSS's HERACRONITE already comes from the champion rematch), the rival his PIDGEOTITE and
+(his HERACROSS's HERACRONITE already comes from MASTER KOICHI), the rival his PIDGEOTITE and
 LEON his CHARIZARDITE Y (`FLAG_GOT_MEGA_STONE_FROM_ALDER`, `_RIVAL`, `_LEON`).
 After a lost match, waking up in guest room 1, these stones were part of the dream too: the
 `RemoveTournamentMegaStones` special (`src/field_specials.c`) takes each one back from the BAG,

@@ -251,7 +251,7 @@ SaffronCity_Dojo_Text_YouWantHitmonlee:
     .string "HITMONLEE?$"
 
 @ Added: after the ELITE FOUR (FLAG_SYS_GAME_CLEAR), the DOJO's trainers are replaced by stronger
-@ ones (TRAINER_DOJO_*, see src/data/dojo_trainers.h). Beating MASTER KOICHI, whose MACHAMP Mega
+@ ones (TRAINER_DOJO_*, see src/data/dojo_trainers.h). Beating MASTER KOICHI, whose HERACROSS Mega
 @ Evolves, earns the POKéMON the player didn't pick the first time, so both HITMONLEE and
 @ HITMONCHAN can be caught in one game.
 SaffronCity_Dojo_OnTransition:
@@ -318,11 +318,11 @@ SaffronCity_Dojo_EventScript_RematchKoichiReward:
 	msgbox SaffronCity_Dojo_Text_RematchKoichiMasteredDojo
 	call_if_set FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_RematchKoichiTakeOtherMon
 	call_if_unset FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_RematchKoichiTakeBothMons
-	msgbox SaffronCity_Dojo_Text_RematchKoichiTakeMachampite
-	giveitem ITEM_MACHAMPITE
+	msgbox SaffronCity_Dojo_Text_RematchKoichiTakeHeracronite
+	giveitem ITEM_HERACRONITE
 	goto_if_eq VAR_RESULT, FALSE, SaffronCity_Dojo_EventScript_RematchKoichiBagFull
-	setflag FLAG_GOT_MACHAMPITE_FROM_KOICHI
-	msgbox SaffronCity_Dojo_Text_RematchKoichiExplainMachampite
+	setflag FLAG_GOT_HERACRONITE_FROM_KOICHI
+	msgbox SaffronCity_Dojo_Text_RematchKoichiExplainHeracronite
 	release
 	end
 
@@ -345,7 +345,7 @@ SaffronCity_Dojo_EventScript_RematchKoichiBeatStudents:
 	end
 
 SaffronCity_Dojo_EventScript_RematchKoichiDefeated:
-	goto_if_unset FLAG_GOT_MACHAMPITE_FROM_KOICHI, SaffronCity_Dojo_EventScript_RematchKoichiReward
+	goto_if_unset FLAG_GOT_HERACRONITE_FROM_KOICHI, SaffronCity_Dojo_EventScript_RematchKoichiReward
 	goto_if_unset FLAG_HIDE_DOJO_HITMONLEE_BALL, SaffronCity_Dojo_EventScript_RematchKoichiMonWaiting
 	goto_if_unset FLAG_HIDE_DOJO_HITMONCHAN_BALL, SaffronCity_Dojo_EventScript_RematchKoichiMonWaiting
 	msgbox SaffronCity_Dojo_Text_RematchKoichiPostBattle
@@ -368,7 +368,7 @@ SaffronCity_Dojo_Text_RematchMikeDefeat:
 SaffronCity_Dojo_Text_RematchMikePostBattle:
     .string "Our MASTER is stronger than ever.\n"
     .string "He found a stone from a far-off\p"
-    .string "land that awakens MACHAMP's\n"
+    .string "land that awakens HERACROSS's\n"
     .string "true power…$"
 
 SaffronCity_Dojo_Text_RematchAaronIntro:
@@ -420,9 +420,9 @@ SaffronCity_Dojo_Text_RematchKoichiIntro:
     .string "Since your last visit, I traveled\n"
     .string "far and found this MEGA STONE.\p"
     .string "It awakens the true power of\n"
-    .string "MACHAMP, the pride of my DOJO!\p"
+    .string "HERACROSS, my finest partner!\p"
     .string "Behold the strength of a\n"
-    .string "Mega-Evolved MACHAMP!$"
+    .string "Mega-Evolved HERACROSS!$"
 
 SaffronCity_Dojo_Text_RematchKoichiDefeat:
     .string "Hwa!\n"
@@ -444,12 +444,13 @@ SaffronCity_Dojo_Text_RematchKoichiTakeBothMons:
     .string "You may take them both!\n"
     .string "They are yours now.$"
 
-SaffronCity_Dojo_Text_RematchKoichiTakeMachampite:
+SaffronCity_Dojo_Text_RematchKoichiTakeHeracronite:
     .string "And take this too. It is the\n"
-    .string "MEGA STONE of my MACHAMP.$"
+    .string "MEGA STONE of my HERACROSS.$"
 
-SaffronCity_Dojo_Text_RematchKoichiExplainMachampite:
-    .string "Let a MACHAMP hold the MACHAMPITE.\p"
+SaffronCity_Dojo_Text_RematchKoichiExplainHeracronite:
+    .string "Let a HERACROSS hold the\n"
+    .string "HERACRONITE.\p"
     .string "With a MEGA RING, it will Mega\n"
     .string "Evolve in battle, as mine did!$"
 
@@ -463,7 +464,7 @@ SaffronCity_Dojo_Text_RematchKoichiMonWaiting:
     .string "Take it. It is yours now.$"
 
 SaffronCity_Dojo_Text_RematchKoichiPostBattle:
-    .string "KOICHI: My MACHAMP and I will\n"
+    .string "KOICHI: My HERACROSS and I will\n"
     .string "train until we can match you.\p"
     .string "Come back and fight us again\n"
     .string "some day!$"
