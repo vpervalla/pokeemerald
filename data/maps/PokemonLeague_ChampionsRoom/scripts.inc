@@ -57,6 +57,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	setflag FLAG_DEFEATED_CHAMP
 	setflag FLAG_TEMP_4
 	msgbox PokemonLeague_ChampionsRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Champion  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	playbgm MUS_RG_SLOW_PALLET, 0
 	addobject LOCALID_CHAMPIONS_ROOM_PROF_OAK
 	msgbox PokemonLeague_ChampionsRoom_Text_OakPlayer

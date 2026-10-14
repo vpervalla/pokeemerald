@@ -90,6 +90,7 @@ stone until the player comes back with room for it.
 | BRUNO | POKéMON LEAGUE | ELITE FOUR rematch | STEELIXITE | `FLAG_GOT_MEGA_STONE_FROM_BRUNO` |
 | AGATHA | POKéMON LEAGUE | ELITE FOUR rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_AGATHA` |
 | LANCE | POKéMON LEAGUE | ELITE FOUR rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_LANCE` |
+| The rival | POKéMON LEAGUE | Champion rematch | HERACRONITE | `FLAG_GOT_MEGA_STONE_FROM_CHAMPION` |
 
 MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
 
@@ -108,8 +109,9 @@ MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
   network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`). In that rematch, one POKéMON of each holds
   a MEGA STONE (`*_2` parties in `src/data/kanto_trainer_parties.h`; LORELEI has a sixth
   POKéMON, a SLOWBRO). After the battle, and whenever the player talks to them again, they give
-  it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion's rematch
-  is unchanged: the rival keeps his stone for the tournament.
+  it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion, the
+  rival, gives the HERACRONITE of the HERACROSS in his rematch teams, then the Hall of Fame
+  follows; with a full BAG it goes to the PC. He keeps his PIDGEOTITE for the tournament.
 - **Registration** needs a POKéMON that can Mega Evolve: the castle receptionist checks it with
   the `CanPlayerMegaEvolve` special (`src/field_specials.c`). The player must have the MEGA RING,
   and a party POKéMON must hold its MEGA STONE, or have its stone in the BAG. Otherwise she

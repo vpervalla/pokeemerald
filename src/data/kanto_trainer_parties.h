@@ -1673,7 +1673,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchBulbasa
         .iv = 255,
         .lvl = 72,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_NONE,
+        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
@@ -1718,7 +1718,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchCharman
         .iv = 255,
         .lvl = 72,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_NONE,
+        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
@@ -1763,7 +1763,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoChampionRematchSquirtl
         .iv = 255,
         .lvl = 72,
         .species = SPECIES_HERACROSS,
-        .heldItem = ITEM_NONE,
+        .heldItem = ITEM_HERACRONITE, // Added: given to the player after the rematch
         .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB},
     },
     {
