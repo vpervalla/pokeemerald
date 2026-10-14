@@ -2055,6 +2055,9 @@
 #define FLAG_GOT_MEGA_STONE_FROM_AGATHA             (KANTO_EXTRA_FLAGS_START + 0x1D8)
 #define FLAG_GOT_MEGA_STONE_FROM_LANCE              (KANTO_EXTRA_FLAGS_START + 0x1D9)
 #define FLAG_GOT_MEGA_STONE_FROM_CHAMPION           (KANTO_EXTRA_FLAGS_START + 0x1DA) // The rival, after the champion rematch
+#define FLAG_GOT_MEGA_STONE_FROM_ALDER              (KANTO_EXTRA_FLAGS_START + 0x1DB) // MR. M.'s tournament: quarterfinal
+#define FLAG_GOT_MEGA_STONE_FROM_RIVAL              (KANTO_EXTRA_FLAGS_START + 0x1DC) // Semifinal
+#define FLAG_GOT_MEGA_STONE_FROM_LEON               (KANTO_EXTRA_FLAGS_START + 0x1DD) // Final
 
 // The double-exchange traders in the Pokémon Centers: set once each has exchanged.
 #define FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY         (KANTO_EXTRA_FLAGS_START + 0x1c0)

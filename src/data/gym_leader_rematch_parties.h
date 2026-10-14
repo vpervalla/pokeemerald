@@ -296,9 +296,9 @@ static const struct TrainerMonItemCustomMoves sParty_RematchBlaine[] = {
     {
         .iv = 250,
         .lvl = 67,
-        .species = SPECIES_HOUNDOOM,
+        .species = SPECIES_CHARIZARD,
         .heldItem = ITEM_NONE,
-        .moves = {MOVE_FLAMETHROWER, MOVE_CRUNCH, MOVE_WILL_O_WISP, MOVE_SOLAR_BEAM},
+        .moves = {MOVE_FLAMETHROWER, MOVE_SOLAR_BEAM, MOVE_AERIAL_ACE, MOVE_SUNNY_DAY},
     },
     {
         .iv = 250,
@@ -310,9 +310,9 @@ static const struct TrainerMonItemCustomMoves sParty_RematchBlaine[] = {
     {
         .iv = 250,
         .lvl = 70,
-        .species = SPECIES_CHARIZARD,
-        .heldItem = ITEM_CHARIZARDITE_Y,
-        .moves = {MOVE_FLAMETHROWER, MOVE_SOLAR_BEAM, MOVE_AERIAL_ACE, MOVE_SUNNY_DAY},
+        .species = SPECIES_HOUNDOOM,
+        .heldItem = ITEM_HOUNDOOMINITE,
+        .moves = {MOVE_FLAMETHROWER, MOVE_CRUNCH, MOVE_WILL_O_WISP, MOVE_SOLAR_BEAM},
     },
 };
 

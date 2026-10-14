@@ -84,7 +84,7 @@ stone until the player comes back with room for it.
 | ERIKA | CELADON CITY GYM | Rematch | BEEDRILLITE | `FLAG_GOT_MEGA_STONE_FROM_ERIKA` |
 | KOGA | FUCHSIA CITY GYM | Rematch | SCIZORITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
 | SABRINA | SAFFRON CITY GYM | Rematch | ALAKAZITE | `FLAG_GOT_MEGA_STONE_FROM_SABRINA` |
-| BLAINE | CINNABAR ISLAND GYM | Rematch | CHARIZARDITE Y | `FLAG_GOT_MEGA_STONE_FROM_BLAINE` |
+| BLAINE | CINNABAR ISLAND GYM | Rematch | HOUNDOOMINITE | `FLAG_GOT_MEGA_STONE_FROM_BLAINE` |
 | GIOVANNI | VIRIDIAN CITY GYM | Rematch | KANGASKHANITE | `FLAG_GOT_MEGA_STONE_FROM_GIOVANNI` |
 | LORELEI | POKéMON LEAGUE | ELITE FOUR rematch | SLOWBRONITE | `FLAG_GOT_MEGA_STONE_FROM_LORELEI` |
 | BRUNO | POKéMON LEAGUE | ELITE FOUR rematch | STEELIXITE | `FLAG_GOT_MEGA_STONE_FROM_BRUNO` |
@@ -123,6 +123,10 @@ Seven champions answered MR. M.'s invitation. With the player, that makes an 8-t
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
 generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
 75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
+Each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once (the
+`*GiveStone` scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): ALDER the PINSIRITE
+(his HERACROSS's HERACRONITE already comes from the champion rematch), the rival his PIDGEOTITE and
+LEON his CHARIZARDITE Y (`FLAG_GOT_MEGA_STONE_FROM_ALDER`, `_RIVAL`, `_LEON`).
 The rounds get harder: the semifinal opponent (the rival) is 2 levels higher (78-81), and the final
 one (LEON) 4 levels higher (80-84). MEWTWO, after the tournament, is lv 85.
 

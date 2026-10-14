@@ -232,7 +232,7 @@ GymRematch_EventScript_SabrinaDeclined::
 	release
 	end
 
-@ BLAINE, CINNABAR ISLAND GYM: CHARIZARD and the CHARIZARDITE Y
+@ BLAINE, CINNABAR ISLAND GYM: HOUNDOOM and the HOUNDOOMINITE
 GymRematch_EventScript_Blaine::
 	lock
 	faceplayer
@@ -248,11 +248,11 @@ GymRematch_EventScript_Blaine::
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_BlaineGiveStone::
 	msgbox GymRematch_Text_BlaineGiveStone
-	giveitem ITEM_CHARIZARDITE_Y
+	giveitem ITEM_HOUNDOOMINITE
 	goto_if_eq VAR_RESULT, FALSE, GymRematch_EventScript_BagFull
 	setflag FLAG_GOT_MEGA_STONE_FROM_BLAINE
-	bufferspeciesname STR_VAR_1, SPECIES_CHARIZARD
-	bufferitemname STR_VAR_2, ITEM_CHARIZARDITE_Y
+	bufferspeciesname STR_VAR_1, SPECIES_HOUNDOOM
+	bufferitemname STR_VAR_2, ITEM_HOUNDOOMINITE
 	msgbox GymRematch_Text_ExplainStone
 	msgbox GymRematch_Text_BlaineAfterGift
 	release
@@ -510,7 +510,7 @@ GymRematch_Text_BlaineIntro:
     .string "He told me to give it to whoever\n"
     .string "could beat its POKéMON.\p"
     .string "So! Ready to face a Mega-Evolved\n"
-    .string "CHARIZARD?$"
+    .string "HOUNDOOM?$"
 
 GymRematch_Text_BlaineAccept:
     .string "Hah! Burn, baby, burn!$"
@@ -521,13 +521,15 @@ GymRematch_Text_BlaineDefeat:
 
 GymRematch_Text_BlaineGiveStone:
     .string "BLAINE: Hah! A deal's a deal.\n"
-    .string "Take the CHARIZARDITE Y!$"
+    .string "Take the HOUNDOOMINITE!$"
 
 GymRematch_Text_BlaineAfterGift:
     .string "BLAINE: That man… I wonder\n"
     .string "who he really was.\p"
     .string "Who else would know where our\n"
-    .string "stones were? Hah!$"
+    .string "stones were? Hah!\p"
+    .string "HOUNDOUR roam the SAFARI ZONE,\n"
+    .string "if you want one of your own!$"
 
 GymRematch_Text_BlaineDeclined:
     .string "BLAINE: Hah! Cold feet? Come\n"

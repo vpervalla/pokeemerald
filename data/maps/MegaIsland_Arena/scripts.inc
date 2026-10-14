@@ -87,6 +87,7 @@ MegaIsland_Arena_EventScript_Quarterfinal::
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
 	msgbox MegaIsland_Arena_Text_AlderAfter
+	call MegaIsland_Arena_EventScript_AlderGiveStone
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
 	waitmovement 0
@@ -128,6 +129,7 @@ MegaIsland_Arena_EventScript_AfterRival::
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
 	msgbox MegaIsland_Arena_Text_RivalAfter
+	call MegaIsland_Arena_EventScript_RivalGiveStone
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
 	waitmovement 0
@@ -147,6 +149,7 @@ MegaIsland_Arena_EventScript_Final::
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
 	msgbox MegaIsland_Arena_Text_LeonAfter
+	call MegaIsland_Arena_EventScript_LeonGiveStone
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
 	waitmovement 0
@@ -399,3 +402,79 @@ MegaIsland_Arena_Text_MewtwoInvitesToCave:
 
 MegaIsland_Arena_Text_MewtwoVanished:
 	.string "MEWTWO vanished!$"
+
+@ Added: each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once
+@ (a lost tournament starts again from the quarterfinal). With a full BAG it goes to the PC, as
+@ the tournament moves on.
+MegaIsland_Arena_EventScript_AlderGiveStone::
+	goto_if_set FLAG_GOT_MEGA_STONE_FROM_ALDER, MegaIsland_Arena_EventScript_Return
+	msgbox MegaIsland_Arena_Text_AlderGiveStone
+	setflag FLAG_GOT_MEGA_STONE_FROM_ALDER
+	bufferitemname STR_VAR_2, ITEM_PINSIRITE
+	giveitem ITEM_PINSIRITE
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Arena_EventScript_AlderStoneToPC
+	bufferspeciesname STR_VAR_1, SPECIES_PINSIR
+	msgbox GymRematch_Text_ExplainStone
+	return
+
+MegaIsland_Arena_EventScript_AlderStoneToPC::
+	addpcitem ITEM_PINSIRITE
+	msgbox MegaIsland_Arena_Text_StoneToPC
+	return
+
+MegaIsland_Arena_EventScript_RivalGiveStone::
+	goto_if_set FLAG_GOT_MEGA_STONE_FROM_RIVAL, MegaIsland_Arena_EventScript_Return
+	msgbox MegaIsland_Arena_Text_RivalGiveStone
+	setflag FLAG_GOT_MEGA_STONE_FROM_RIVAL
+	bufferitemname STR_VAR_2, ITEM_PIDGEOTITE
+	giveitem ITEM_PIDGEOTITE
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Arena_EventScript_RivalStoneToPC
+	bufferspeciesname STR_VAR_1, SPECIES_PIDGEOT
+	msgbox GymRematch_Text_ExplainStone
+	return
+
+MegaIsland_Arena_EventScript_RivalStoneToPC::
+	addpcitem ITEM_PIDGEOTITE
+	msgbox MegaIsland_Arena_Text_StoneToPC
+	return
+
+MegaIsland_Arena_EventScript_LeonGiveStone::
+	goto_if_set FLAG_GOT_MEGA_STONE_FROM_LEON, MegaIsland_Arena_EventScript_Return
+	msgbox MegaIsland_Arena_Text_LeonGiveStone
+	setflag FLAG_GOT_MEGA_STONE_FROM_LEON
+	bufferitemname STR_VAR_2, ITEM_CHARIZARDITE_Y
+	giveitem ITEM_CHARIZARDITE_Y
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Arena_EventScript_LeonStoneToPC
+	bufferspeciesname STR_VAR_1, SPECIES_CHARIZARD
+	msgbox GymRematch_Text_ExplainStone
+	return
+
+MegaIsland_Arena_EventScript_LeonStoneToPC::
+	addpcitem ITEM_CHARIZARDITE_Y
+	msgbox MegaIsland_Arena_Text_StoneToPC
+	return
+
+MegaIsland_Arena_EventScript_Return::
+	return
+
+MegaIsland_Arena_Text_AlderGiveStone:
+	.string "ALDER: Here, take this.\n"
+	.string "The PINSIRITE!\p"
+	.string "My PINSIR and I never quite\n"
+	.string "mastered it.\p"
+	.string "Perhaps you and yours will!$"
+
+MegaIsland_Arena_Text_RivalGiveStone:
+	.string "{RIVAL}: And take this. My\n"
+	.string "PIDGEOTITE.\p"
+	.string "Don't get the wrong idea!\n"
+	.string "I'll just win it back later!$"
+
+MegaIsland_Arena_Text_LeonGiveStone:
+	.string "LEON: Here, my CHARIZARDITE Y.\p"
+	.string "Let a CHARIZARD of yours burn as\n"
+	.string "bright as mine did today!$"
+
+MegaIsland_Arena_Text_StoneToPC:
+	.string "Your BAG is full, so the\n"
+	.string "{STR_VAR_2} was sent to your PC.$"
