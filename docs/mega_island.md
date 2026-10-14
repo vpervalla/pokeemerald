@@ -108,7 +108,7 @@ MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
   (LORELEI is away on FOUR ISLAND) and reopens with their stronger teams once the Sevii Islands'
   network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`). In that rematch, one POKéMON of each holds
   a MEGA STONE (`*_2` parties in `src/data/kanto_trainer_parties.h`; LORELEI has a sixth
-  POKéMON, a SLOWBRO). After the battle, and whenever the player talks to them again, they give
+  POKéMON, a SLOWBRO). Their levels climb from 70 (LORELEI) to 75 (LANCE's DRAGONITE). After the battle, and whenever the player talks to them again, they give
   it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion, the
   rival, gives the HERACRONITE of the HERACROSS in his rematch teams, then the Hall of Fame
   follows; with a full BAG it goes to the PC. He keeps his PIDGEOTITE for the tournament.

@@ -2651,35 +2651,35 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourAgatha[] = {
 static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourAgatha2[] = {
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 72,
         .species = SPECIES_GENGAR,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_CONFUSE_RAY, MOVE_HYPNOSIS},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 72,
         .species = SPECIES_CROBAT,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_SLUDGE_BOMB, MOVE_AIR_CUTTER, MOVE_SHADOW_BALL, MOVE_CONFUSE_RAY},
     },
     {
         .iv = 255,
-        .lvl = 65,
+        .lvl = 72,
         .species = SPECIES_MISDREAVUS,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_ATTRACT},
     },
     {
         .iv = 255,
-        .lvl = 68,
+        .lvl = 73,
         .species = SPECIES_ARBOK,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_SLUDGE_BOMB, MOVE_EARTHQUAKE, MOVE_GIGA_DRAIN, MOVE_DOUBLE_TEAM},
     },
     {
         .iv = 255,
-        .lvl = 70,
+        .lvl = 74,
         .species = SPECIES_GENGAR,
         .heldItem = ITEM_GENGARITE, // Added: given to the player after the rematch
         .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_SLUDGE_BOMB},
@@ -2727,35 +2727,35 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourBruno[] = {
 static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourBruno2[] = {
     {
         .iv = 255,
-        .lvl = 65,
+        .lvl = 71,
         .species = SPECIES_STEELIX,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_ROCK_TOMB},
     },
     {
         .iv = 255,
-        .lvl = 65,
+        .lvl = 71,
         .species = SPECIES_HITMONCHAN,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_SKY_UPPERCUT, MOVE_MACH_PUNCH, MOVE_ROCK_SLIDE, MOVE_COUNTER},
     },
     {
         .iv = 255,
-        .lvl = 65,
+        .lvl = 71,
         .species = SPECIES_HITMONLEE,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_MEGA_KICK, MOVE_FORESIGHT, MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 72,
         .species = SPECIES_STEELIX,
         .heldItem = ITEM_STEELIXITE, // Added: given to the player after the rematch
         .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_DRAGON_BREATH},
     },
     {
         .iv = 255,
-        .lvl = 68,
+        .lvl = 73,
         .species = SPECIES_MACHAMP,
         .heldItem = ITEM_PERSIM_BERRY,
         .moves = {MOVE_CROSS_CHOP, MOVE_EARTHQUAKE, MOVE_BRICK_BREAK, MOVE_ROCK_SLIDE},
@@ -2803,35 +2803,35 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance[] = {
 static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance2[] = {
     {
         .iv = 255,
-        .lvl = 68,
+        .lvl = 73,
         .species = SPECIES_GYARADOS,
         .heldItem = ITEM_GYARADOSITE, // Added: given to the player after the rematch
         .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_THUNDER_WAVE},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 73,
         .species = SPECIES_DRAGONITE,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_HYPER_BEAM, MOVE_EARTHQUAKE, MOVE_DRAGON_CLAW, MOVE_FLAMETHROWER},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 73,
         .species = SPECIES_KINGDRA,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_SURF, MOVE_ICE_BEAM},
     },
     {
         .iv = 255,
-        .lvl = 70,
+        .lvl = 74,
         .species = SPECIES_AERODACTYL,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_HYPER_BEAM, MOVE_ANCIENT_POWER, MOVE_AERIAL_ACE, MOVE_EARTHQUAKE},
     },
     {
         .iv = 255,
-        .lvl = 72,
+        .lvl = 75,
         .species = SPECIES_DRAGONITE,
         .heldItem = ITEM_PERSIM_BERRY,
         .moves = {MOVE_HYPER_BEAM, MOVE_OUTRAGE, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
@@ -2879,35 +2879,35 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLorelei[] = {
 static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLorelei2[] = {
     {
         .iv = 255,
-        .lvl = 64,
+        .lvl = 70,
         .species = SPECIES_DEWGONG,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_SIGNAL_BEAM, MOVE_DOUBLE_TEAM},
     },
     {
         .iv = 255,
-        .lvl = 63,
+        .lvl = 70,
         .species = SPECIES_CLOYSTER,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_SUPERSONIC, MOVE_RAIN_DANCE},
     },
     {
         .iv = 255,
-        .lvl = 63,
+        .lvl = 70,
         .species = SPECIES_PILOSWINE,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_BLIZZARD, MOVE_EARTHQUAKE, MOVE_DOUBLE_EDGE, MOVE_ROCK_SLIDE},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 71,
         .species = SPECIES_JYNX,
         .heldItem = ITEM_NONE,
         .moves = {MOVE_ICE_BEAM, MOVE_PSYCHIC, MOVE_LOVELY_KISS, MOVE_ATTRACT},
     },
     {
         .iv = 255,
-        .lvl = 66,
+        .lvl = 71,
         .species = SPECIES_LAPRAS,
         .heldItem = ITEM_CHERI_BERRY,
         .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDER},
@@ -2915,7 +2915,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLorelei2[] = 
     // Added: her MEGA STONE, given to the player after the rematch
     {
         .iv = 255,
-        .lvl = 67,
+        .lvl = 72,
         .species = SPECIES_SLOWBRO,
         .heldItem = ITEM_SLOWBRONITE,
         .moves = {MOVE_SURF, MOVE_PSYCHIC, MOVE_ICE_BEAM, MOVE_CALM_MIND},
