@@ -46,11 +46,11 @@ EliteFourMega_EventScript_Lance::
 	goto_if_unset FLAG_SYS_CAN_LINK_WITH_RS, EliteFourMega_EventScript_Return
 	goto_if_set FLAG_GOT_MEGA_STONE_FROM_LANCE, EliteFourMega_EventScript_Return
 	msgbox EliteFourMega_Text_LanceGiveStone
-	giveitem ITEM_GYARADOSITE
+	giveitem ITEM_DRAGONINITE
 	goto_if_eq VAR_RESULT, FALSE, EliteFourMega_EventScript_BagFull
 	setflag FLAG_GOT_MEGA_STONE_FROM_LANCE
-	bufferspeciesname STR_VAR_1, SPECIES_GYARADOS
-	bufferitemname STR_VAR_2, ITEM_GYARADOSITE
+	bufferspeciesname STR_VAR_1, SPECIES_DRAGONITE
+	bufferitemname STR_VAR_2, ITEM_DRAGONINITE
 	msgbox GymRematch_Text_ExplainStone
 	return
 
@@ -108,7 +108,7 @@ EliteFourMega_Text_LanceGiveStone:
     .string "A man in a long coat entrusted\n"
     .string "me with this MEGA STONE.\p"
     .string "He asked me to give it to the\n"
-    .string "trainer who defeated my GYARADOS.\p"
+    .string "trainer who defeated my DRAGONITE.\p"
     .string "It belongs to you now.$"
 
 EliteFourMega_Text_ChampionGiveStone:

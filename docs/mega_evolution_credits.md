@@ -5,7 +5,9 @@ The Mega Evolution battle sprites (`graphics/pokemon/*/mega*/`), the Mega Stone 
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion) (commit
 `6057b187`), imported with `tools/mega_evolutions/import_megas.py`. Front sprites that
 had a single frame were doubled into a two-frame `anim_front.png`, and every PNG was
-re-saved as a 4-bit indexed image; the pixels and palettes are unchanged.
+re-saved as a 4-bit indexed image; the pixels and palettes are unchanged. Mega Dragonite
+(`graphics/pokemon/dragonite/mega/`) and the Dragoninite icon were imported later, from commit
+`73b3fbeb`.
 
 pokeemerald-expansion credits these resources for its sprites:
 

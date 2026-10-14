@@ -9,7 +9,7 @@ MegaIsland_Castle_Room2_Text_Lance:
 	.string "LANCE: {PLAYER}. So the new\n"
 	.string "CHAMPION is here as well.\p"
 	.string "MR. M.'s letter came with a stone\n"
-	.string "for my GYARADOS.\p"
+	.string "for my DRAGONITE.\p"
 	.string "I have trained dragons all my life,\n"
 	.string "yet I never knew they could change\l"
 	.string "like this.\p"

@@ -4255,6 +4255,7 @@ static bool8 IsAbilityIgnoredByMoldBreaker(u8 ability)
     case ABILITY_MAGIC_BOUNCE:
     case ABILITY_MAGMA_ARMOR:
     case ABILITY_MARVEL_SCALE:
+    case ABILITY_MULTISCALE:
     case ABILITY_OBLIVIOUS:
     case ABILITY_OWN_TEMPO:
     case ABILITY_SAND_VEIL:

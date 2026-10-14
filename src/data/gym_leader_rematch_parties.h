@@ -1,6 +1,5 @@
 // The KANTO GYM LEADERS' rematches after MR. M.'s invitation (see data/scripts/gym_rematches.inc).
-// Each leader's ace, sent out last, holds the MEGA STONE they give the player when beaten (MISTY
-// has none: her ace is STARMIE).
+// Each leader's ace, sent out last, holds the MEGA STONE they give the player when beaten.
 
 static const struct TrainerMonItemCustomMoves sParty_RematchBrock[] = {
     {
@@ -72,23 +71,23 @@ static const struct TrainerMonItemCustomMoves sParty_RematchMisty[] = {
     {
         .iv = 250,
         .lvl = 67,
-        .species = SPECIES_GYARADOS,
-        .heldItem = ITEM_NONE,
-        .moves = {MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_DOUBLE_EDGE, MOVE_HYDRO_PUMP},
-    },
-    {
-        .iv = 250,
-        .lvl = 68,
         .species = SPECIES_BLASTOISE,
-        .heldItem = ITEM_SITRUS_BERRY,
+        .heldItem = ITEM_NONE,
         .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
     },
     {
         .iv = 250,
-        .lvl = 70,
+        .lvl = 68,
         .species = SPECIES_STARMIE,
-        .heldItem = ITEM_LEFTOVERS,
+        .heldItem = ITEM_SITRUS_BERRY,
         .moves = {MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
+    },
+    {
+        .iv = 250,
+        .lvl = 70,
+        .species = SPECIES_GYARADOS,
+        .heldItem = ITEM_GYARADOSITE,
+        .moves = {MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_DOUBLE_EDGE, MOVE_HYDRO_PUMP},
     },
 };
 

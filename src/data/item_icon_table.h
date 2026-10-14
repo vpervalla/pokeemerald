@@ -443,6 +443,7 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_ABSOLITE] = {gItemIcon_Absolite, gItemIconPalette_Absolite},
     [ITEM_GARDEVOIRITE] = {gItemIcon_Gardevoirite, gItemIconPalette_Gardevoirite},
     [ITEM_ALTARIANITE] = {gItemIcon_Altarianite, gItemIconPalette_Altarianite},
+    [ITEM_DRAGONINITE] = {gItemIcon_Dragoninite, gItemIconPalette_Dragoninite},
     // </mega-evolutions>
     // Return to field arrow
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},

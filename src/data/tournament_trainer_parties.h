@@ -168,16 +168,16 @@ static const struct TrainerMonItemCustomMoves sParty_TournamentLance[] = {
     {
         .iv = 255,
         .lvl = 77,
-        .species = SPECIES_DRAGONITE,
+        .species = SPECIES_GYARADOS,
         .heldItem = ITEM_SITRUS_BERRY,
-        .moves = {MOVE_HYPER_BEAM, MOVE_THUNDER, MOVE_BLIZZARD, MOVE_DRAGON_CLAW},
+        .moves = {MOVE_DRAGON_DANCE, MOVE_WATERFALL, MOVE_EARTHQUAKE, MOVE_CRUNCH},
     },
     {
         .iv = 255,
         .lvl = 80,
-        .species = SPECIES_GYARADOS,
-        .heldItem = ITEM_GYARADOSITE,
-        .moves = {MOVE_DRAGON_DANCE, MOVE_WATERFALL, MOVE_EARTHQUAKE, MOVE_CRUNCH},
+        .species = SPECIES_DRAGONITE,
+        .heldItem = ITEM_DRAGONINITE,
+        .moves = {MOVE_HYPER_BEAM, MOVE_THUNDER, MOVE_BLIZZARD, MOVE_DRAGON_CLAW},
     },
 };
 

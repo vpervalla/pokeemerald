@@ -540,6 +540,12 @@ Tested in mGBA against Wallace's AI (and Tate and Liza's for doubles), over 4 RN
 
 **Next:** the Mega Ring event, stone placement and trainer parties.
 
+**Added later: Mega Dragonite** (from Pokémon Legends: Z-A; `SPECIES_DRAGONITE_MEGA`, the
+DRAGONINITE), for LANCE. Dragon/Flying, 91/124/115/100/145/125, with **Multiscale**
+(`ABILITY_MULTISCALE` 98): at full HP it takes half damage, in `Cmd_typecalc` and
+`TypeCalc`, after Filter. Mold Breaker ignores it. A custom Mega Machamp (MACHAMPITE) was
+added and later removed; DRAGONINITE took its item id.
+
 ## 9. Testing
 
 - `make` and `make modern` must both build. Watch the ROM size, because each Mega adds

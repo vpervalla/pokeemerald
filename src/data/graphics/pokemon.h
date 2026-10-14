@@ -2988,4 +2988,8 @@ const u32 gMonStillFrontPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria
 const u32 gMonBackPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/front.png", ".4bpp.lz");
+const u32 gMonBackPic_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/back.png", ".4bpp.lz");
+const u32 gMonPalette_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

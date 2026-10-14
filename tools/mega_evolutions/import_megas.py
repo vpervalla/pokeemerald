@@ -68,6 +68,8 @@ MEGAS = [
  ('ABSOL_MEGA', 'ABSOL', 'absol/mega', 'AbsolMega', 'ABSOLITE', 'ABSOLITE', 'absolite', (65,150,60,115,115,60), ('DARK','DARK'), 'MAGIC_BOUNCE'),
  ('GARDEVOIR_MEGA', 'GARDEVOIR', 'gardevoir/mega', 'GardevoirMega', 'GARDEVOIRITE', 'GARDEVOIRITE', 'gardevoirite', (68,85,65,100,165,135), ('PSYCHIC','FAIRY'), 'PIXILATE'),
  ('ALTARIA_MEGA', 'ALTARIA', 'altaria/mega', 'AltariaMega', 'ALTARIANITE', 'ALTARIANITE', 'altarianite', (75,110,110,80,110,105), ('DRAGON','FAIRY'), 'PIXILATE'),
+ # From Pokémon Legends: Z-A: LANCE's in MR. M.'s tournament and the ELITE FOUR rematch
+ ('DRAGONITE_MEGA', 'DRAGONITE', 'dragonite/mega', 'DragoniteMega', 'DRAGONINITE', 'DRAGONINITE', 'dragoninite', (91,124,115,100,145,125), ('DRAGON','FLYING'), 'MULTISCALE'),
 ]
 
 # Megas that need a move instead of a Mega Stone

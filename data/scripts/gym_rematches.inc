@@ -1,5 +1,5 @@
 @ The KANTO GYM LEADERS' rematches, after MR. M.'s invitation (VAR_MEGA_STORY_STATE 2 or more).
-@ MR. M. (MEWTWO, seen as a tall man in a long coat) gave each leader but MISTY one of the MEGA STONES taken
+@ MR. M. (MEWTWO, seen as a tall man in a long coat) gave each leader one of the MEGA STONES taken
 @ from the POKéMON MANSION, to pass on to the trainer who beats them. Their ace holds it in the
 @ rematch (TRAINER_REMATCH_*, see src/data/gym_leader_rematch_trainers.h). The player needs a
 @ POKéMON that can Mega Evolve to enter the tournament (CanPlayerMegaEvolve).
@@ -47,7 +47,7 @@ GymRematch_EventScript_BrockDeclined::
 	release
 	end
 
-@ MISTY, CERULEAN CITY GYM: no MEGA STONE (her ace is STARMIE)
+@ MISTY, CERULEAN CITY GYM: GYARADOS and the GYARADOSITE
 GymRematch_EventScript_Misty::
 	lock
 	faceplayer
@@ -57,8 +57,25 @@ GymRematch_EventScript_Misty::
 	msgbox GymRematch_Text_MistyAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_MISTY, GymRematch_Text_MistyDefeat
+	goto GymRematch_EventScript_MistyGiveStone
+	end
+
+@ Also where the player comes back to if their BAG was full
+GymRematch_EventScript_MistyGiveStone::
+	msgbox GymRematch_Text_MistyGiveStone
+	giveitem ITEM_GYARADOSITE
+	goto_if_eq VAR_RESULT, FALSE, GymRematch_EventScript_BagFull
+	setflag FLAG_GOT_MEGA_STONE_FROM_MISTY
+	bufferspeciesname STR_VAR_1, SPECIES_GYARADOS
+	bufferitemname STR_VAR_2, ITEM_GYARADOSITE
+	msgbox GymRematch_Text_ExplainStone
+	msgbox GymRematch_Text_MistyAfterGift
+	release
+	end
+
 GymRematch_EventScript_MistyDefeated::
-	msgbox GymRematch_Text_MistyPostBattle
+	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_MISTY, GymRematch_EventScript_MistyGiveStone
+	msgbox GymRematch_Text_MistyAfterGift
 	release
 	end
 
@@ -333,23 +350,29 @@ GymRematch_Text_BrockDeclined:
 
 GymRematch_Text_MistyIntro:
     .string "MISTY: Oh, it's the CHAMPION!\p"
-    .string "I've trained every day since you\n"
-    .string "beat me. My STARMIE shines\l"
-    .string "brighter than ever!\p"
-    .string "Want to battle?$"
+    .string "Listen to this. A quiet man in a\n"
+    .string "long coat gave me a MEGA STONE…\p"
+    .string "…and asked me to give it to the\n"
+    .string "first trainer who can beat me.\p"
+    .string "My GYARADOS has been practicing\n"
+    .string "all week! Want to battle?$"
 
 GymRematch_Text_MistyAccept:
     .string "All right! Here we go!$"
 
 GymRematch_Text_MistyDefeat:
-    .string "MISTY: Waah!\n"
-    .string "You're still too strong!$"
+    .string "MISTY: Waah! Even a Mega\n"
+    .string "GYARADOS wasn't enough?$"
 
-GymRematch_Text_MistyPostBattle:
-    .string "MISTY: Everyone keeps talking\n"
-    .string "about MEGA STONES…\p"
-    .string "Hmph! My STARMIE doesn't need\n"
-    .string "one to shine!$"
+GymRematch_Text_MistyGiveStone:
+    .string "MISTY: Fine, fine…\n"
+    .string "Here's the GYARADOSITE!$"
+
+GymRematch_Text_MistyAfterGift:
+    .string "MISTY: Even a weak MAGIKARP\n"
+    .string "becomes a GYARADOS one day.\p"
+    .string "Fish one up anywhere, and raise\n"
+    .string "it with care!$"
 
 GymRematch_Text_MistyDeclined:
     .string "MISTY: Scared of water?\n"

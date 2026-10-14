@@ -1469,6 +1469,11 @@ static void Cmd_typecalc(void)
      && !(gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
         gBattleMoveDamage = gBattleMoveDamage * 3 / 4;
 
+    // Multiscale: halves the damage taken at full HP
+    if (gBattleMons[gBattlerTarget].ability == ABILITY_MULTISCALE
+     && gBattleMons[gBattlerTarget].hp == gBattleMons[gBattlerTarget].maxHP && gBattleMoveDamage > 1)
+        gBattleMoveDamage /= 2;
+
     if (gBattleMons[gBattlerTarget].ability == ABILITY_WONDER_GUARD && AttacksThisTurn(gBattlerAttacker, gCurrentMove) == 2
      && (!(gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) || ((gMoveResultFlags & (MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE)) == (MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE)))
      && gBattleMoves[gCurrentMove].power)
@@ -1648,6 +1653,10 @@ u8 TypeCalc(u16 move, u8 attacker, u8 defender)
     if (gBattleMons[defender].ability == ABILITY_FILTER && (flags & MOVE_RESULT_SUPER_EFFECTIVE)
      && !(flags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
         gBattleMoveDamage = gBattleMoveDamage * 3 / 4;
+
+    if (gBattleMons[defender].ability == ABILITY_MULTISCALE
+     && gBattleMons[defender].hp == gBattleMons[defender].maxHP && gBattleMoveDamage > 1)
+        gBattleMoveDamage /= 2;
 
     if (gBattleMons[defender].ability == ABILITY_WONDER_GUARD && !(flags & MOVE_RESULT_MISSED)
         && AttacksThisTurn(attacker, move) == 2

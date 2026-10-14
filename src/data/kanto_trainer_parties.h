@@ -2805,7 +2805,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance2[] = {
         .iv = 255,
         .lvl = 73,
         .species = SPECIES_GYARADOS,
-        .heldItem = ITEM_GYARADOSITE, // Added: given to the player after the rematch
+        .heldItem = ITEM_NONE,
         .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_THUNDER_WAVE},
     },
     {
@@ -2833,7 +2833,7 @@ static const struct TrainerMonItemCustomMoves sParty_KantoEliteFourLance2[] = {
         .iv = 255,
         .lvl = 75,
         .species = SPECIES_DRAGONITE,
-        .heldItem = ITEM_PERSIM_BERRY,
+        .heldItem = ITEM_DRAGONINITE, // Added: given to the player after the rematch
         .moves = {MOVE_HYPER_BEAM, MOVE_OUTRAGE, MOVE_THUNDERBOLT, MOVE_ICE_BEAM},
     },
 };

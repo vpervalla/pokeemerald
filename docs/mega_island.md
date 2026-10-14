@@ -79,7 +79,7 @@ stone until the player comes back with room for it.
 | LEAF (or KRIS) | CERULEAN CITY, by CERULEAN CAVE | Post-game (`docs/catch_them_all.md`) | VENUSAURITE | `FLAG_GOT_VENUSAURITE_FROM_LEAF` |
 | RED (or ETHAN) | CERULEAN CAVE B1F | Post-game | CHARIZARDITE X | `FLAG_GOT_CHARIZARDITE_X_FROM_RED` |
 | BROCK | PEWTER CITY GYM | Rematch | AERODACTYLITE | `FLAG_GOT_MEGA_STONE_FROM_BROCK` |
-| MISTY | CERULEAN CITY GYM | Rematch | None (her ace is STARMIE) | |
+| MISTY | CERULEAN CITY GYM | Rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_MISTY` |
 | LT. SURGE | VERMILION CITY GYM | Rematch | AMPHAROSITE | `FLAG_GOT_MEGA_STONE_FROM_LT_SURGE` |
 | ERIKA | CELADON CITY GYM | Rematch | BEEDRILLITE | `FLAG_GOT_MEGA_STONE_FROM_ERIKA` |
 | KOGA | FUCHSIA CITY GYM | Rematch | SCIZORITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
@@ -89,7 +89,7 @@ stone until the player comes back with room for it.
 | LORELEI | POKéMON LEAGUE | ELITE FOUR rematch | SLOWBRONITE | `FLAG_GOT_MEGA_STONE_FROM_LORELEI` |
 | BRUNO | POKéMON LEAGUE | ELITE FOUR rematch | STEELIXITE | `FLAG_GOT_MEGA_STONE_FROM_BRUNO` |
 | AGATHA | POKéMON LEAGUE | ELITE FOUR rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_AGATHA` |
-| LANCE | POKéMON LEAGUE | ELITE FOUR rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_LANCE` |
+| LANCE | POKéMON LEAGUE | ELITE FOUR rematch | DRAGONINITE | `FLAG_GOT_MEGA_STONE_FROM_LANCE` |
 | The rival | POKéMON LEAGUE | Champion rematch | BLASTOISINITE | `FLAG_GOT_MEGA_STONE_FROM_CHAMPION` |
 
 MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
@@ -137,7 +137,7 @@ one (LEON) 4 levels higher (80-84). MEWTWO, after the tournament, is lv 85.
 | Champion | Region | Mega | Where they wait |
 |----------|--------|------|-----------------|
 | The rival ({RIVAL}) | Kanto | Pidgeot (the rest of his team follows the player's starter, as in FRLG) | The entrance hall |
-| Lance | Johto | Gyarados | Guest room 2 |
+| Lance | Johto | Dragonite | Guest room 2 |
 | Steven | Hoenn | Metagross | Guest room 3 |
 | Cynthia | Sinnoh | Salamence | Guest room 4 |
 | Alder | Unova | Heracross | Guest room 5 |
