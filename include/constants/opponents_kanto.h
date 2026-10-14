@@ -514,7 +514,17 @@
 #define TRAINER_RED_CERULEAN_CAVE                     1361
 #define TRAINER_ETHAN_CERULEAN_CAVE                   1362
 
-#define NUM_KANTO_TRAINERS 499
+// Added for the KANTO GYM LEADERS' rematches after MR. M.'s invitation (not generated)
+#define TRAINER_REMATCH_BROCK                         1363
+#define TRAINER_REMATCH_MISTY                         1364
+#define TRAINER_REMATCH_LT_SURGE                      1365
+#define TRAINER_REMATCH_ERIKA                         1366
+#define TRAINER_REMATCH_KOGA                          1367
+#define TRAINER_REMATCH_SABRINA                       1368
+#define TRAINER_REMATCH_BLAINE                        1369
+#define TRAINER_REMATCH_GIOVANNI                      1370
+
+#define NUM_KANTO_TRAINERS 507
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

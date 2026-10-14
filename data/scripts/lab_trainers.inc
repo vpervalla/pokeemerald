@@ -4,6 +4,8 @@
 @ MEWTWO was, before it left for APEX ISLAND) after the Hall of Fame. When the player is dressed as LEAF, KRIS takes her place, and when they're
 @ dressed as RED, ETHAN takes his (their sprites do the same, see GetObjectEventGraphicsInfo).
 @ Talking to them starts the battle. Afterwards they leave, and each LEAF also hides the earlier ones.
+@ The post-game LEAF and RED give the player the MEGA STONE of their ace before leaving (with a full
+@ BAG they wait for the player to make room).
 
 @ STR_VAR_1 is LEAF or KRIS, and VAR_0x8009 is TRUE for KRIS.
 LabTrainers_EventScript_BufferLeafName::
@@ -33,13 +35,13 @@ LabTrainers_EventScript_Return::
 	return
 
 @ Called on transition by CERULEAN CITY and CERULEAN CAVE B1F: the post-game trainers appear once the
-@ game is clear, until they're beaten.
+@ game is clear, until they've given the player their MEGA STONE.
 LabTrainers_EventScript_UpdatePostgameTrainers::
 	setflag FLAG_HIDE_LEAF_CERULEAN_CAVE
 	setflag FLAG_HIDE_RED_CERULEAN_CAVE
 	goto_if_unset FLAG_SYS_GAME_CLEAR, LabTrainers_EventScript_Return
-	call_if_unset FLAG_DEFEATED_LEAF_POSTGAME, LabTrainers_EventScript_ShowPostgameLeaf
-	call_if_unset FLAG_DEFEATED_RED_POSTGAME, LabTrainers_EventScript_ShowPostgameRed
+	call_if_unset FLAG_GOT_VENUSAURITE_FROM_LEAF, LabTrainers_EventScript_ShowPostgameLeaf
+	call_if_unset FLAG_GOT_CHARIZARDITE_X_FROM_RED, LabTrainers_EventScript_ShowPostgameRed
 	return
 
 LabTrainers_EventScript_ShowPostgameLeaf::
@@ -122,6 +124,7 @@ LabTrainers_EventScript_LeafRoute23After::
 LabTrainers_EventScript_LeafCeruleanCave::
 	lock
 	faceplayer
+	goto_if_set FLAG_DEFEATED_LEAF_POSTGAME, LabTrainers_EventScript_LeafGiveVenusaurite
 	playbgm MUS_RG_ENCOUNTER_GIRL, 0
 	call LabTrainers_EventScript_BufferLeafName
 	msgbox LabTrainers_Text_LeafCeruleanCaveIntro
@@ -133,18 +136,29 @@ LabTrainers_EventScript_LeafCeruleanCave::
 LabTrainers_EventScript_KrisCeruleanCaveBattle::
 	trainerbattle_no_intro TRAINER_KRIS_CERULEAN_CAVE, LabTrainers_Text_LeafCeruleanCaveDefeat
 LabTrainers_EventScript_LeafCeruleanCaveAfter::
-	msgbox LabTrainers_Text_LeafCeruleanCaveAfter
 	setflag FLAG_HIDE_LEAF_ROUTE24
 	setflag FLAG_HIDE_LEAF_CELADON
 	setflag FLAG_HIDE_LEAF_ROUTE23
 	setflag FLAG_DEFEATED_LEAF_POSTGAME
+	msgbox LabTrainers_Text_LeafTakeVenusaurite
+LabTrainers_EventScript_LeafGiveVenusaurite::
+	giveitem ITEM_VENUSAURITE
+	goto_if_eq VAR_RESULT, FALSE, LabTrainers_EventScript_LeafBagFull
+	setflag FLAG_GOT_VENUSAURITE_FROM_LEAF
+	msgbox LabTrainers_Text_LeafCeruleanCaveAfter
 	goto LabTrainers_EventScript_LeafLeaves
+
+LabTrainers_EventScript_LeafBagFull::
+	msgbox LabTrainers_Text_LeafBagFull
+	release
+	end
 
 @ CERULEAN CAVE B1F, where MEWTWO was, after the Hall of Fame
 LabTrainers_EventScript_RedCeruleanCave::
 	lock
 	faceplayer
 	call LabTrainers_EventScript_BufferRedName
+	goto_if_set FLAG_DEFEATED_RED_POSTGAME, LabTrainers_EventScript_RedGiveCharizarditeX
 	msgbox LabTrainers_Text_RedIntro
 	closemessage
 	goto_if_eq VAR_0x8009, TRUE, LabTrainers_EventScript_EthanCeruleanCaveBattle
@@ -155,9 +169,20 @@ LabTrainers_EventScript_EthanCeruleanCaveBattle::
 	trainerbattle_no_intro TRAINER_ETHAN_CERULEAN_CAVE, LabTrainers_Text_RedDefeat
 LabTrainers_EventScript_RedCeruleanCaveAfter::
 	call LabTrainers_EventScript_BufferRedName
-	msgbox LabTrainers_Text_RedAfter
 	setflag FLAG_DEFEATED_RED_POSTGAME
+	msgbox LabTrainers_Text_RedTakeCharizarditeX
+LabTrainers_EventScript_RedGiveCharizarditeX::
+	giveitem ITEM_CHARIZARDITE_X
+	goto_if_eq VAR_RESULT, FALSE, LabTrainers_EventScript_RedBagFull
+	setflag FLAG_GOT_CHARIZARDITE_X_FROM_RED
+	call LabTrainers_EventScript_BufferRedName
+	msgbox LabTrainers_Text_RedAfter
 	goto LabTrainers_EventScript_LeafLeaves
+
+LabTrainers_EventScript_RedBagFull::
+	msgbox LabTrainers_Text_RedBagFull
+	release
+	end
 
 LabTrainers_Text_Leaf:
     .string "LEAF$"
@@ -234,7 +259,20 @@ LabTrainers_Text_LeafCeruleanCaveDefeat:
     .string "Incredible…\n"
     .string "You really are the CHAMPION.$"
 
+LabTrainers_Text_LeafTakeVenusaurite:
+    .string "A tall man in a long coat gave me\n"
+    .string "this stone, a MEGA STONE.\p"
+    .string "He said to give it to the trainer\n"
+    .string "who beat my VENUSAUR with it.\p"
+    .string "So it's yours, {PLAYER}!$"
+
+LabTrainers_Text_LeafBagFull:
+    .string "Oh, your BAG is full!\n"
+    .string "Make some room. I'll wait here.$"
+
 LabTrainers_Text_LeafCeruleanCaveAfter:
+    .string "If you ever raise a VENUSAUR,\n"
+    .string "let it hold that stone!\p"
     .string "Thanks for battling with me all\n"
     .string "this time, {PLAYER}.\p"
     .string "The cave is all yours.\n"
@@ -248,7 +286,15 @@ LabTrainers_Text_RedIntro:
 LabTrainers_Text_RedDefeat:
     .string "…$"
 
-LabTrainers_Text_RedAfter:
+LabTrainers_Text_RedTakeCharizarditeX:
     .string "{STR_VAR_1}: …\p"
+    .string "{STR_VAR_1} held out a MEGA STONE.$"
+
+LabTrainers_Text_RedBagFull:
+    .string "{STR_VAR_1}: …\p"
+    .string "Your BAG is full. {STR_VAR_1} seems\n"
+    .string "willing to wait.$"
+
+LabTrainers_Text_RedAfter:
     .string "{STR_VAR_1} gave a small nod, and\n"
     .string "left without a word.$"

@@ -40,6 +40,7 @@ CinnabarIsland_Gym_EventScript_Zac::
 	end
 
 CinnabarIsland_Gym_EventScript_Blaine::
+	goto_if_ge VAR_MEGA_STORY_STATE, 2, GymRematch_EventScript_Blaine  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle

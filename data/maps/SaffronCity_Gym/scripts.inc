@@ -34,6 +34,7 @@ SaffronCity_Gym_EventScript_Tasha::
 	end
 
 SaffronCity_Gym_EventScript_Sabrina::
+	goto_if_ge VAR_MEGA_STORY_STATE, 2, GymRematch_EventScript_Sabrina  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_SABRINA, SaffronCity_Gym_Text_SabrinaIntro, SaffronCity_Gym_Text_SabrinaDefeat, SaffronCity_Gym_EventScript_DefeatedSabrina, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM04_FROM_SABRINA, SaffronCity_Gym_EventScript_GiveTM04
 	msgbox SaffronCity_Gym_Text_ExplainTM04

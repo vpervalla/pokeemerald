@@ -10265,4 +10265,5 @@ const struct Trainer gTrainers[] = {
 #include "tournament_trainers.h"
 #include "lab_trainers.h"
 #include "dojo_trainers.h"
+#include "gym_leader_rematch_trainers.h"
 };

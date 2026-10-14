@@ -577,3 +577,4 @@ gSpecials::
 	def_special DoSeagallopFerryScene
 	def_special GetSeagallopNumber
 	def_special IsPlayerLeftOfVermilionSailor
+	def_special CanPlayerMegaEvolve

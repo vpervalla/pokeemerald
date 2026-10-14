@@ -12,10 +12,19 @@ MegaIsland_Castle_1F_EventScript_Receptionist::
 	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Castle_1F_EventScript_ReceptionistChampion
 	goto_if_eq VAR_MEGA_STORY_STATE, 3, MegaIsland_Castle_1F_EventScript_ReceptionistGoToSleep
 	goto_if_ge VAR_MEGA_STORY_STATE, 4, MegaIsland_Castle_1F_EventScript_ReceptionistNextRound
+	specialvar VAR_RESULT, CanPlayerMegaEvolve
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Castle_1F_EventScript_ReceptionistCantMegaEvolve
 	msgbox MegaIsland_Castle_1F_Text_Register, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MegaIsland_Castle_1F_EventScript_ReceptionistNotYet
 	setvar VAR_MEGA_STORY_STATE, 3
 	msgbox MegaIsland_Castle_1F_Text_Registered
+	release
+	end
+
+@ Only a trainer who can Mega Evolve a POKéMON in their party may enter (see CanPlayerMegaEvolve).
+@ The post-game LEAF and RED, and the GYM LEADERS in their rematches, give MEGA STONES.
+MegaIsland_Castle_1F_EventScript_ReceptionistCantMegaEvolve::
+	msgbox MegaIsland_Castle_1F_Text_CantMegaEvolve
 	release
 	end
 
@@ -93,6 +102,21 @@ MegaIsland_Castle_1F_Text_GoToTheArena:
 	.string "The arena is on the top floor.\n"
 	.string "Go up when you are ready.\p"
 	.string "MR. M. is waiting.$"
+
+MegaIsland_Castle_1F_Text_CantMegaEvolve:
+	.string "Welcome to the castle, {PLAYER}.\p"
+	.string "MR. M.'s tournament is a battle\n"
+	.string "of Mega Evolution.\p"
+	.string "Only trainers who can Mega Evolve\n"
+	.string "one of their POKéMON may enter.\p"
+	.string "None of your POKéMON can Mega\n"
+	.string "Evolve yet, I'm afraid.\p"
+	.string "MR. M. has entrusted MEGA STONES\n"
+	.string "to strong trainers in KANTO.\p"
+	.string "Defeat them, and they will give\n"
+	.string "you their stone.\p"
+	.string "Return with a POKéMON and its\n"
+	.string "MEGA STONE, and I'll register you.$"
 
 MegaIsland_Castle_1F_Text_NotYet:
 	.string "Take your time. The tournament\n"

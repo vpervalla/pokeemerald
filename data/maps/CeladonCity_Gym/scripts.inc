@@ -34,6 +34,7 @@ CeladonCity_Gym_EventScript_Lisa::
 	end
 
 CeladonCity_Gym_EventScript_Erika::
+	goto_if_ge VAR_MEGA_STORY_STATE, 2, GymRematch_EventScript_Erika  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
 	msgbox CeladonCity_Gym_Text_ErikaPostBattle

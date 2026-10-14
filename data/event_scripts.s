@@ -1496,6 +1496,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/scripts/kanto_npcs.inc"
 	.include "data/scripts/starter_quests.inc"
 	.include "data/scripts/lab_trainers.inc"
+	.include "data/scripts/gym_rematches.inc"
 	.include "data/scripts/double_exchange.inc"
 	.include "data/scripts/kanto_received_item.inc"
 	.include "data/text/frontier_brain.inc"

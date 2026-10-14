@@ -61,9 +61,48 @@ STONE, and the player has none.
    to be seen as a man; nothing in the letter says so. The MEGA RING
    (`FLAG_RECEIVED_MEGA_RING`) is inside, and the letter explains how to use it (the POKéMON holds
    its stone, press START when choosing a move, once per battle). No MEGA STONE comes with it:
-   the letter says they are hidden, waiting for worthy trainers. A save that already got the
-   ring from BLAINE (before this change) doesn't get a second one. `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
-   for MR. M., appears.
+   only trainers who can Mega Evolve may enter, and MR. M. has entrusted the stones to strong
+   trainers of Kanto. A save that already got the ring from BLAINE (before this change) doesn't
+   get a second one. `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works for
+   MR. M., appears.
+4. **The first MEGA STONE.** Before registering, the player has to earn a stone (below).
+
+## The MEGA STONES before the tournament
+
+MR. M. took the MEGA STONES from the ruins of the POKéMON MANSION and, as a tall man in a long
+coat, left one with each strong trainer of Kanto, asking them to give it to the trainer who beats
+it. Each trainer's ace holds its stone and Mega Evolves in battle. With a full BAG, they keep the
+stone until the player comes back with room for it.
+
+| Trainer | Where | Battle | MEGA STONE | Flag |
+|---------|-------|--------|------------|------|
+| LEAF (or KRIS) | CERULEAN CITY, by CERULEAN CAVE | Post-game (`docs/catch_them_all.md`) | VENUSAURITE | `FLAG_GOT_VENUSAURITE_FROM_LEAF` |
+| RED (or ETHAN) | CERULEAN CAVE B1F | Post-game | CHARIZARDITE X | `FLAG_GOT_CHARIZARDITE_X_FROM_RED` |
+| BROCK | PEWTER CITY GYM | Rematch | AERODACTYLITE | `FLAG_GOT_MEGA_STONE_FROM_BROCK` |
+| MISTY | CERULEAN CITY GYM | Rematch | BLASTOISINITE | `FLAG_GOT_MEGA_STONE_FROM_MISTY` |
+| LT. SURGE | VERMILION CITY GYM | Rematch | AMPHAROSITE | `FLAG_GOT_MEGA_STONE_FROM_LT_SURGE` |
+| ERIKA | CELADON CITY GYM | Rematch | BEEDRILLITE | `FLAG_GOT_MEGA_STONE_FROM_ERIKA` |
+| KOGA | FUCHSIA CITY GYM | Rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
+| SABRINA | SAFFRON CITY GYM | Rematch | ALAKAZITE | `FLAG_GOT_MEGA_STONE_FROM_SABRINA` |
+| BLAINE | CINNABAR ISLAND GYM | Rematch | CHARIZARDITE Y | `FLAG_GOT_MEGA_STONE_FROM_BLAINE` |
+| GIOVANNI | VIRIDIAN CITY GYM | Rematch | KANGASKHANITE | `FLAG_GOT_MEGA_STONE_FROM_GIOVANNI` |
+
+MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
+
+- **LEAF and RED** give their stone right after the battle (`data/scripts/lab_trainers.inc`), then
+  leave. They now stay on the map until they've given it, not just until they're beaten.
+- **The GYM LEADERS' rematches** (`data/scripts/gym_rematches.inc`) start once
+  `VAR_MEGA_STORY_STATE` is 2 or more: each leader's script in the gym jumps to its rematch.
+  The leader asks whether to battle, and gives the stone after winning. The rematch teams are lv
+  66-70, six POKéMON each, with the ace at lv 70 (`TRAINER_REMATCH_*`,
+  `src/data/gym_leader_rematch_trainers.h` and `gym_leader_rematch_parties.h`). Each rematch
+  happens once. Afterwards the leader repeats where to find the POKéMON for their stone.
+  GIOVANNI, who leaves his gym after the first battle, comes back for his rematch
+  (`ViridianCity_Gym_OnTransition`).
+- **Registration** needs a POKéMON that can Mega Evolve: the castle receptionist checks it with
+  the `CanPlayerMegaEvolve` special (`src/field_specials.c`). The player must have the MEGA RING,
+  and a party POKéMON must hold its MEGA STONE, or have its stone in the BAG. Otherwise she
+  explains the rule and doesn't register them.
 
 ## The tournament entrants
 

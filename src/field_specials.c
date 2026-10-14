@@ -19,6 +19,7 @@
 #include "field_weather.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "item.h"
 #include "item_icon.h"
 #include "link.h"
 #include "list_menu.h"
@@ -1453,6 +1454,33 @@ void LoadWallyZigzagoon(void)
 u16 GetPlayerCostume(void)
 {
     return gSaveBlock2Ptr->playerCostume;
+}
+
+// Whether the player can Mega Evolve a POKéMON in their party: they have the MEGA RING, and the
+// POKéMON holds its MEGA STONE or its stone is in the BAG. Checked before MR. M.'s tournament.
+bool8 CanPlayerMegaEvolve(void)
+{
+    u8 i;
+    u16 item;
+    u8 partyCount = CalculatePlayerPartyCount();
+
+    if (!CheckBagHasItem(ITEM_MEGA_RING, 1))
+        return FALSE;
+
+    for (i = 0; i < partyCount; i++)
+    {
+        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG, NULL);
+        if (species == SPECIES_NONE || species == SPECIES_EGG)
+            continue;
+        if (GetMegaEvolutionSpecies(species, GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, NULL)) != SPECIES_NONE)
+            return TRUE;
+        for (item = FIRST_MEGA_STONE; item <= LAST_MEGA_STONE; item++)
+        {
+            if (GetMegaEvolutionSpecies(species, item) != SPECIES_NONE && CheckBagHasItem(item, 1))
+                return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 bool8 IsStarterInParty(void)
