@@ -220,9 +220,9 @@ static const struct TrainerMonItemCustomMoves sParty_RematchKoga[] = {
     {
         .iv = 250,
         .lvl = 70,
-        .species = SPECIES_GENGAR,
-        .heldItem = ITEM_GENGARITE,
-        .moves = {MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_THUNDERBOLT, MOVE_HYPNOSIS},
+        .species = SPECIES_SCIZOR,
+        .heldItem = ITEM_SCIZORITE,
+        .moves = {MOVE_SILVER_WIND, MOVE_METAL_CLAW, MOVE_AERIAL_ACE, MOVE_SWORDS_DANCE},
     },
 };
 

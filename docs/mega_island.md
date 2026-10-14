@@ -82,10 +82,14 @@ stone until the player comes back with room for it.
 | MISTY | CERULEAN CITY GYM | Rematch | BLASTOISINITE | `FLAG_GOT_MEGA_STONE_FROM_MISTY` |
 | LT. SURGE | VERMILION CITY GYM | Rematch | AMPHAROSITE | `FLAG_GOT_MEGA_STONE_FROM_LT_SURGE` |
 | ERIKA | CELADON CITY GYM | Rematch | BEEDRILLITE | `FLAG_GOT_MEGA_STONE_FROM_ERIKA` |
-| KOGA | FUCHSIA CITY GYM | Rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
+| KOGA | FUCHSIA CITY GYM | Rematch | SCIZORITE | `FLAG_GOT_MEGA_STONE_FROM_KOGA` |
 | SABRINA | SAFFRON CITY GYM | Rematch | ALAKAZITE | `FLAG_GOT_MEGA_STONE_FROM_SABRINA` |
 | BLAINE | CINNABAR ISLAND GYM | Rematch | CHARIZARDITE Y | `FLAG_GOT_MEGA_STONE_FROM_BLAINE` |
 | GIOVANNI | VIRIDIAN CITY GYM | Rematch | KANGASKHANITE | `FLAG_GOT_MEGA_STONE_FROM_GIOVANNI` |
+| LORELEI | POKéMON LEAGUE | ELITE FOUR rematch | SLOWBRONITE | `FLAG_GOT_MEGA_STONE_FROM_LORELEI` |
+| BRUNO | POKéMON LEAGUE | ELITE FOUR rematch | STEELIXITE | `FLAG_GOT_MEGA_STONE_FROM_BRUNO` |
+| AGATHA | POKéMON LEAGUE | ELITE FOUR rematch | GENGARITE | `FLAG_GOT_MEGA_STONE_FROM_AGATHA` |
+| LANCE | POKéMON LEAGUE | ELITE FOUR rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_LANCE` |
 
 MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
 
@@ -99,6 +103,13 @@ MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
   happens once. Afterwards the leader repeats where to find the POKéMON for their stone.
   GIOVANNI, who leaves his gym after the first battle, comes back for his rematch
   (`ViridianCity_Gym_OnTransition`).
+- **The ELITE FOUR** keep FireRed's rematch: the LEAGUE is closed after the first Hall of Fame
+  (LORELEI is away on FOUR ISLAND) and reopens with their stronger teams once the Sevii Islands'
+  network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`). In that rematch, one POKéMON of each holds
+  a MEGA STONE (`*_2` parties in `src/data/kanto_trainer_parties.h`; LORELEI has a sixth
+  POKéMON, a SLOWBRO). After the battle, and whenever the player talks to them again, they give
+  it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion's rematch
+  is unchanged: the rival keeps his stone for the tournament.
 - **Registration** needs a POKéMON that can Mega Evolve: the castle receptionist checks it with
   the `CanPlayerMegaEvolve` special (`src/field_specials.c`). The player must have the MEGA RING,
   and a party POKéMON must hold its MEGA STONE, or have its stone in the BAG. Otherwise she

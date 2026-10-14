@@ -20,6 +20,7 @@ PokemonLeague_LoreleisRoom_EventScript_DefeatedLorelei::
 	setflag FLAG_DEFEATED_LORELEI
 	call Kanto_PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_LoreleisRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Lorelei  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	release
 	end
 
@@ -50,6 +51,7 @@ PokemonLeague_LoreleisRoom_EventScript_Lorelei::
 
 PokemonLeague_LoreleisRoom_EventScript_PostBattle::
 	msgbox PokemonLeague_LoreleisRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Lorelei  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	release
 	end
 

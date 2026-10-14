@@ -21,6 +21,7 @@ PokemonLeague_LancesRoom_EventScript_DefeatedLance::
 	setflag FLAG_DEFEATED_LANCE
 	call Kanto_PokemonLeague_EventScript_OpenDoorLance
 	msgbox PokemonLeague_LancesRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Lance  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	closemessage
 	release
 	end
@@ -58,6 +59,7 @@ PokemonLeague_LancesRoom_EventScript_Lance::
 
 PokemonLeague_LancesRoom_EventScript_PostBattle::
 	msgbox PokemonLeague_LancesRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Lance  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	release
 	end
 

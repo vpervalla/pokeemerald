@@ -48,6 +48,7 @@ PokemonLeague_BrunosRoom_EventScript_DefeatedBruno::
 	setflag FLAG_DEFEATED_BRUNO
 	call Kanto_PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_BrunosRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Bruno  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	closemessage
 	call_if_eq VAR_FACING, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
 	call_if_eq VAR_FACING, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft
@@ -69,6 +70,7 @@ PokemonLeague_BrunosRoom_EventScript_Intro::
 
 PokemonLeague_BrunosRoom_EventScript_PostBattle::
 	msgbox PokemonLeague_BrunosRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Bruno  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	closemessage
 	call_if_eq VAR_FACING, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
 	call_if_eq VAR_FACING, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft

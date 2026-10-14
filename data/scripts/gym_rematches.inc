@@ -158,7 +158,7 @@ GymRematch_EventScript_ErikaDeclined::
 	release
 	end
 
-@ KOGA, FUCHSIA CITY GYM: GENGAR and the GENGARITE
+@ KOGA, FUCHSIA CITY GYM: SCIZOR and the SCIZORITE
 GymRematch_EventScript_Koga::
 	lock
 	faceplayer
@@ -174,11 +174,11 @@ GymRematch_EventScript_Koga::
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_KogaGiveStone::
 	msgbox GymRematch_Text_KogaGiveStone
-	giveitem ITEM_GENGARITE
+	giveitem ITEM_SCIZORITE
 	goto_if_eq VAR_RESULT, FALSE, GymRematch_EventScript_BagFull
 	setflag FLAG_GOT_MEGA_STONE_FROM_KOGA
-	bufferspeciesname STR_VAR_1, SPECIES_GENGAR
-	bufferitemname STR_VAR_2, ITEM_GENGARITE
+	bufferspeciesname STR_VAR_1, SPECIES_SCIZOR
+	bufferitemname STR_VAR_2, ITEM_SCIZORITE
 	msgbox GymRematch_Text_ExplainStone
 	msgbox GymRematch_Text_KogaAfterGift
 	release
@@ -445,7 +445,7 @@ GymRematch_Text_KogaIntro:
     .string "A man in a long coat slipped past\n"
     .string "my invisible walls… Impressive.\p"
     .string "He left me a MEGA STONE, to give\n"
-    .string "to one who can best my GENGAR.\p"
+    .string "to one who can best my SCIZOR.\p"
     .string "Will you face the full power of\n"
     .string "a ninja master?$"
 
@@ -458,13 +458,13 @@ GymRematch_Text_KogaDefeat:
 
 GymRematch_Text_KogaGiveStone:
     .string "KOGA: A ninja keeps his word.\n"
-    .string "This GENGARITE is yours.$"
+    .string "This SCIZORITE is yours.$"
 
 GymRematch_Text_KogaAfterGift:
-    .string "KOGA: GASTLY haunt the\n"
-    .string "POKéMON TOWER.\p"
-    .string "Raise one into a GENGAR, and its\n"
-    .string "shadow will grow even deeper!$"
+    .string "KOGA: SCYTHER hide in the\n"
+    .string "SAFARI ZONE.\p"
+    .string "With a METAL COAT, it becomes a\n"
+    .string "SCIZOR, as swift as any ninja!$"
 
 GymRematch_Text_KogaDeclined:
     .string "KOGA: A wise ninja knows when\n"

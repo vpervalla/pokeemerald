@@ -33,6 +33,7 @@ PokemonLeague_AgathasRoom_EventScript_DefeatedAgatha::
 	setflag FLAG_DEFEATED_AGATHA
 	call Kanto_PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_AgathasRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Agatha  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	release
 	end
 
@@ -49,6 +50,7 @@ PokemonLeague_AgathasRoom_EventScript_Intro::
 
 PokemonLeague_AgathasRoom_EventScript_PostBattle::
 	msgbox PokemonLeague_AgathasRoom_Text_PostBattle
+	call EliteFourMega_EventScript_Agatha  @ added: MEGA STONE after the rematch, see data/scripts/elite_four_mega_stones.inc
 	release
 	end
 

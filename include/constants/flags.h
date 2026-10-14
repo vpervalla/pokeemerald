@@ -2038,7 +2038,8 @@
 #define FLAG_GOT_MACHAMPITE_FROM_KOICHI             (KANTO_EXTRA_FLAGS_START + 0x1EA)
 
 // The MEGA STONES given after MR. M.'s invitation by the post-game LEAF (or KRIS) and RED (or ETHAN),
-// and by the KANTO GYM LEADERS after their rematch (see data/scripts/gym_rematches.inc).
+// by the KANTO GYM LEADERS after their rematch (see data/scripts/gym_rematches.inc), and by the
+// ELITE FOUR after theirs (data/scripts/elite_four_mega_stones.inc).
 #define FLAG_GOT_VENUSAURITE_FROM_LEAF              (KANTO_EXTRA_FLAGS_START + 0x1CC) // Also shows her until set
 #define FLAG_GOT_CHARIZARDITE_X_FROM_RED            (KANTO_EXTRA_FLAGS_START + 0x1CD) // Also shows him until set
 #define FLAG_GOT_MEGA_STONE_FROM_BROCK              (KANTO_EXTRA_FLAGS_START + 0x1CE)
@@ -2049,6 +2050,10 @@
 #define FLAG_GOT_MEGA_STONE_FROM_SABRINA            (KANTO_EXTRA_FLAGS_START + 0x1D3)
 #define FLAG_GOT_MEGA_STONE_FROM_BLAINE             (KANTO_EXTRA_FLAGS_START + 0x1D4)
 #define FLAG_GOT_MEGA_STONE_FROM_GIOVANNI           (KANTO_EXTRA_FLAGS_START + 0x1D5)
+#define FLAG_GOT_MEGA_STONE_FROM_LORELEI            (KANTO_EXTRA_FLAGS_START + 0x1D6) // The ELITE FOUR, after their rematch
+#define FLAG_GOT_MEGA_STONE_FROM_BRUNO              (KANTO_EXTRA_FLAGS_START + 0x1D7)
+#define FLAG_GOT_MEGA_STONE_FROM_AGATHA             (KANTO_EXTRA_FLAGS_START + 0x1D8)
+#define FLAG_GOT_MEGA_STONE_FROM_LANCE              (KANTO_EXTRA_FLAGS_START + 0x1D9)
 
 // The double-exchange traders in the Pokémon Centers: set once each has exchanged.
 #define FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY         (KANTO_EXTRA_FLAGS_START + 0x1c0)
