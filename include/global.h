@@ -525,7 +525,7 @@ struct SaveBlock2
              //u16 padding1:4;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
-    /*0x90*/ u8 playerCostume; // PLAYER_COSTUME_EMERALD, PLAYER_COSTUME_FRLG
+    /*0x90*/ u8 playerCostume; // PLAYER_COSTUME_EMERALD, PLAYER_COSTUME_FRLG, PLAYER_COSTUME_JOHTO
     /*0x91*/ u8 filler_91[0x7];
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;

@@ -67,6 +67,10 @@ static const u16 sRedCredits_Pal[]        = INCGFX_U16("graphics/credits/red_run
 static const u32 sRedCredits_Gfx[]        = INCGFX_U32("graphics/credits/red_running.png", ".4bpp.lz");
 static const u16 sLeafCredits_Pal[]       = INCGFX_U16("graphics/credits/leaf_running.png", ".gbapal");
 static const u32 sLeafCredits_Gfx[]       = INCGFX_U32("graphics/credits/leaf_running.png", ".4bpp.lz");
+static const u16 sEthanCredits_Pal[]      = INCGFX_U16("graphics/credits/ethan_running.png", ".gbapal");
+static const u32 sEthanCredits_Gfx[]      = INCGFX_U32("graphics/credits/ethan_running.png", ".4bpp.lz");
+static const u16 sKrisCredits_Pal[]       = INCGFX_U16("graphics/credits/kris_running.png", ".gbapal");
+static const u32 sKrisCredits_Gfx[]       = INCGFX_U32("graphics/credits/kris_running.png", ".4bpp.lz");
 static const u16 sMayCredits_Pal[]        = INCGFX_U16("graphics/intro/scene_2/may_credits.png", ".gbapal");
 static const u16 sUnused[0xF0]            = {0};
 static const u32 sMayCredits_Gfx[]        = INCGFX_U32("graphics/intro/scene_2/may_credits.png", ".4bpp.lz");
@@ -1172,6 +1176,7 @@ static const struct SpriteTemplate sSpriteTemplate_FRLGPlayer =
     .callback = SpriteCB_Player
 };
 
+// Ethan and Kris use the same layout, made from their overworld running frames
 u8 CreateCreditsFRLGPlayerSprite(s16 x, s16 y, u8 gender)
 {
     struct CompressedSpriteSheet sheet = {
@@ -1183,6 +1188,12 @@ u8 CreateCreditsFRLGPlayerSprite(s16 x, s16 y, u8 gender)
         .data = gender == MALE ? sRedCredits_Pal : sLeafCredits_Pal,
         .tag = TAG_FRLG_PLAYER,
     };
+
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+    {
+        sheet.data = gender == MALE ? sEthanCredits_Gfx : sKrisCredits_Gfx;
+        palette.data = gender == MALE ? sEthanCredits_Pal : sKrisCredits_Pal;
+    }
 
     LoadCompressedSpriteSheet(&sheet);
     LoadSpritePalette(&palette);

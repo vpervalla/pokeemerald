@@ -1248,6 +1248,13 @@ u8 GetFRLGAvatarGraphicsIdByGender(u8 gender)
     return sFRLGAvatarGfxIds[gender];
 }
 
+// Ethan and Kris have no graphics ids of their own: the player's ids are
+// drawn with their sprites when the Johto costume is chosen.
+u8 GetJohtoAvatarGraphicsIdByGender(u8 gender)
+{
+    return sPlayerAvatarGfxIds[PLAYER_AVATAR_STATE_NORMAL][gender];
+}
+
 u8 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
     return sRSAvatarGfxIds[gender];

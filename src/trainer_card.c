@@ -1893,11 +1893,15 @@ static void CreateTrainerCardTrainerPic(void)
     else
     {
         u8 cardType = sData->cardType;
+        u16 picId;
 
-        // Show Red or Leaf on the player's own card if they chose them
+        // Show Red, Leaf, Ethan or Kris on the player's own card if they chose them
         if (!sData->isLink && gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
             cardType = CARD_TYPE_FRLG;
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[cardType][sData->trainerCard.gender]),
+        picId = FacilityClassToPicIndex(sTrainerPicFacilityClass[cardType][sData->trainerCard.gender]);
+        if (!sData->isLink && gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+            picId = GetPlayerFrontTrainerPicId();
+        CreateTrainerCardTrainerPicSprite(picId,
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],

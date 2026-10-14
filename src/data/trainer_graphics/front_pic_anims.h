@@ -370,6 +370,14 @@ static const union AnimCmd *const sAnims_RubySapphireMay[] ={
     sAnim_GeneralFrame0,
 };
 
+static const union AnimCmd *const sAnims_Ethan[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_Kris[] ={
+    sAnim_GeneralFrame0,
+};
+
 const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
 {
     [TRAINER_PIC_HIKER] = sAnims_Hiker,
@@ -465,6 +473,8 @@ const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
     [TRAINER_PIC_LEAF] = sAnims_Leaf,
     [TRAINER_PIC_RS_BRENDAN] = sAnims_RubySapphireBrendan,
     [TRAINER_PIC_RS_MAY] = sAnims_RubySapphireMay,
+    [TRAINER_PIC_ETHAN] = sAnims_Ethan,
+    [TRAINER_PIC_KRIS] = sAnims_Kris,
     KANTO_TRAINER_FRONT_ANIMS
     CHAMPION_TRAINER_FRONT_ANIMS
 };

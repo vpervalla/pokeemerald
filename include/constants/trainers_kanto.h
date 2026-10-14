@@ -92,7 +92,10 @@
 #define TRAINER_PIC_CHAMPION_DIANTHA                 156
 #define TRAINER_PIC_CHAMPION_LEON                    157
 #define TRAINER_PIC_ALAIN                            158
-#define TRAINER_PIC_KANTO_END 159
+// Added for the Johto player costume (not generated)
+#define TRAINER_PIC_ETHAN                            159
+#define TRAINER_PIC_KRIS                             160
+#define TRAINER_PIC_KANTO_END 161
 
 // Entries for gTrainerClassNames and gTrainerMoneyTable
 #define KANTO_TRAINER_CLASS_NAMES \

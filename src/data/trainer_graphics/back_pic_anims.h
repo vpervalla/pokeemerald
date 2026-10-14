@@ -95,6 +95,19 @@ static const union AnimCmd *const sBackAnims_Red[] =
     sAnimCmd_Red_1,
 };
 
+// Ethan's and Kris's throws have the same five frames as Red's
+static const union AnimCmd *const sBackAnims_Ethan[] =
+{
+    sAnim_GeneralFrame0,
+    sAnimCmd_Red_1,
+};
+
+static const union AnimCmd *const sBackAnims_Kris[] =
+{
+    sAnim_GeneralFrame0,
+    sAnimCmd_Red_1,
+};
+
 static const union AnimCmd *const sBackAnims_Leaf[] =
 {
     sAnim_GeneralFrame0,
@@ -142,4 +155,6 @@ const union AnimCmd *const *const gTrainerBackAnimsPtrTable[] =
     [TRAINER_BACK_PIC_WALLY] = sBackAnims_Wally,
     [TRAINER_BACK_PIC_STEVEN] = sBackAnims_Steven,
     [TRAINER_BACK_PIC_OLD_MAN] = sBackAnims_OldMan,
+    [TRAINER_BACK_PIC_ETHAN] = sBackAnims_Ethan,
+    [TRAINER_BACK_PIC_KRIS] = sBackAnims_Kris,
 };

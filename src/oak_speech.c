@@ -1,7 +1,7 @@
 // The new game scene with Prof. Oak, ported from FireRed/LeafGreen (pokefirered's oak_speech.c).
 // It replaces Prof. Birch's speech. FRLG's controls guide and Pikachu intro pages that come
 // before Oak are not included, since they describe FRLG's help system.
-// The player can be Brendan, May, Red or Leaf, and names Oak's grandson, their rival.
+// The player can be Brendan, May, Red, Leaf, Ethan or Kris. Oak's grandson, their rival, is always GARY.
 #include "global.h"
 #include "bg.h"
 #include "data.h"
@@ -112,6 +112,10 @@ static const u16 sOakSpeech_Red_Pal[] = INCGFX_U16("graphics/oak_speech/red/pal.
 static const u32 sOakSpeech_Red_Tiles[] = INCGFX_U32("graphics/oak_speech/red/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Leaf_Pal[] = INCGFX_U16("graphics/oak_speech/leaf/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Leaf_Tiles[] = INCGFX_U32("graphics/oak_speech/leaf/pic.png", ".8bpp.lz");
+static const u16 sOakSpeech_Ethan_Pal[] = INCGFX_U16("graphics/oak_speech/ethan/pal.pal", ".gbapal");
+static const u32 sOakSpeech_Ethan_Tiles[] = INCGFX_U32("graphics/oak_speech/ethan/pic.png", ".8bpp.lz");
+static const u16 sOakSpeech_Kris_Pal[] = INCGFX_U16("graphics/oak_speech/kris/pal.pal", ".gbapal");
+static const u32 sOakSpeech_Kris_Tiles[] = INCGFX_U32("graphics/oak_speech/kris/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Oak_Pal[] = INCGFX_U16("graphics/oak_speech/oak/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Oak_Tiles[] = INCGFX_U32("graphics/oak_speech/oak/pic.png", ".8bpp.lz");
 static const u16 sOakSpeech_Rival_Pal[] = INCGFX_U16("graphics/oak_speech/rival/pal.pal", ".gbapal");
@@ -124,10 +128,10 @@ static const u8 sText_ThisWorld[] = _("This world…");
 static const u8 sText_IsInhabitedFarAndWide[] = _("…is inhabited far and wide by\ncreatures called POKéMON.\p");
 static const u8 sText_IStudyPokemon[] = _("For some people, POKéMON are pets.\nOthers use them for battling.\pAs for myself…\pI study POKéMON as a profession.\p");
 static const u8 sText_TellMeALittleAboutYourself[] = _("But first, tell me a little about\nyourself.\p");
-static const u8 sText_AskPlayerGender[] = _("Now tell me. Are you a boy?\nOr are you a girl?");
+static const u8 sText_AskWhoYouAre[] = _("Now tell me…\nWho are you?");
 static const u8 sText_YourNameWhatIsIt[] = _("Let's begin with your name.\nWhat is it?\p");
 static const u8 sText_SoYourNameIsPlayer[] = _("Right…\nSo your name is {PLAYER}.");
-static const u8 sText_WhatWasHisName[] = _("This is my grandson.\pHe's been your rival since you both\nwere babies.\p…Erm, what was his name now?");
+static const u8 sText_ThisIsMyGrandson[] = _("This is my grandson.\pHe's been your rival since you both\nwere babies.\pHis name is {STR_VAR_1}!\p");
 static const u8 sText_YourRivalsNameWhatWasIt[] = _("Your rival's name, what was it now?");
 static const u8 sText_ConfirmRivalName[] = _("…Er, was it {STR_VAR_1}?");
 static const u8 sText_RememberRivalsName[] = _("That's right! I remember now!\nHis name is {STR_VAR_1}!\p");
@@ -138,6 +142,8 @@ static const u8 sText_Brendan[] = _("BRENDAN");
 static const u8 sText_May[] = _("MAY");
 static const u8 sText_Red[] = _("RED");
 static const u8 sText_Leaf[] = _("LEAF");
+static const u8 sText_Ethan[] = _("ETHAN");
+static const u8 sText_Kris[] = _("KRIS");
 
 static const u8 sNameChoice_Red[] = _("RED");
 static const u8 sNameChoice_Fire[] = _("FIRE");
@@ -223,10 +229,10 @@ static const struct WindowTemplate sIntro_WindowTemplates[] =
     [WIN_INTRO_CHARACTERS] =
     {
         .bg = 0,
-        .tilemapLeft = 18,
-        .tilemapTop = 5,
+        .tilemapLeft = 20,
+        .tilemapTop = 2,
         .width = 9,
-        .height = 8,
+        .height = 12,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -259,6 +265,8 @@ enum
     PLAYER_CHOICE_MAY,
     PLAYER_CHOICE_RED,
     PLAYER_CHOICE_LEAF,
+    PLAYER_CHOICE_ETHAN,
+    PLAYER_CHOICE_KRIS,
     PLAYER_CHOICE_COUNT
 };
 
@@ -271,6 +279,8 @@ static const struct MenuAction sMenuActions_PlayerChoice[PLAYER_CHOICE_COUNT] =
     [PLAYER_CHOICE_MAY]     = {sText_May,     {NULL}},
     [PLAYER_CHOICE_RED]     = {sText_Red,     {NULL}},
     [PLAYER_CHOICE_LEAF]    = {sText_Leaf,    {NULL}},
+    [PLAYER_CHOICE_ETHAN]   = {sText_Ethan,   {NULL}},
+    [PLAYER_CHOICE_KRIS]    = {sText_Kris,    {NULL}},
 };
 
 #define GFX_TAG_PLATFORM 0x1000
@@ -433,8 +443,20 @@ enum
     MAY_PIC,
     RED_PIC,
     LEAF_PIC,
+    ETHAN_PIC,
+    KRIS_PIC,
     RIVAL_PIC,
     OAK_PIC
+};
+
+static const u8 sPlayerChoicePics[PLAYER_CHOICE_COUNT] =
+{
+    [PLAYER_CHOICE_BRENDAN] = BRENDAN_PIC,
+    [PLAYER_CHOICE_MAY]     = MAY_PIC,
+    [PLAYER_CHOICE_RED]     = RED_PIC,
+    [PLAYER_CHOICE_LEAF]    = LEAF_PIC,
+    [PLAYER_CHOICE_ETHAN]   = ETHAN_PIC,
+    [PLAYER_CHOICE_KRIS]    = KRIS_PIC,
 };
 
 static void VBlankCB_NewGameScene(void)
@@ -462,6 +484,7 @@ static void CB2_NewGameScene(void)
 #define tPlatformSpriteId(i)        data[7 + i] // The platform is built of three sprites,
                                  // data[8]     // so these are used to hold their sprite IDs
                                  // data[9]     //
+#define tPreviewChoice              data[12] // The character whose pic is shown while choosing
 #define tMenuWindowId               data[13]
 
 static void Task_NewGameScene(u8 taskId)
@@ -727,7 +750,7 @@ static void Task_OakSpeech_AskPlayerGender(u8 taskId)
         {
             tTrainerPicPosX = -60;
             ClearTrainerPic();
-            OakSpeechPrintMessage(sText_AskPlayerGender);
+            OakSpeechPrintMessage(sText_AskWhoYouAre);
             gTasks[taskId].func = Task_OakSpeech_ShowGenderOptions;
         }
     }
@@ -744,6 +767,11 @@ static void Task_OakSpeech_ShowGenderOptions(u8 taskId)
         PrintMenuTable(windowId, PLAYER_CHOICE_COUNT, sMenuActions_PlayerChoice);
         InitMenuInUpperLeftCornerNormal(windowId, PLAYER_CHOICE_COUNT, 0);
         CopyWindowToVram(windowId, COPYWIN_FULL);
+
+        // Fade in the highlighted character on Oak's platform
+        gTasks[taskId].tPreviewChoice = 0;
+        LoadTrainerPic(sPlayerChoicePics[0]);
+        CreateFadeOutTask(taskId, 2);
         gTasks[taskId].func = Task_OakSpeech_HandleGenderInput;
     }
 }
@@ -751,6 +779,14 @@ static void Task_OakSpeech_ShowGenderOptions(u8 taskId)
 static void Task_OakSpeech_HandleGenderInput(u8 taskId)
 {
     s8 input = Menu_ProcessInputNoWrap();
+    u8 cursorPos = Menu_GetCursorPos();
+
+    // Show the character under the cursor
+    if (cursorPos != gTasks[taskId].tPreviewChoice)
+    {
+        gTasks[taskId].tPreviewChoice = cursorPos;
+        LoadTrainerPic(sPlayerChoicePics[cursorPos]);
+    }
 
     switch (input)
     {
@@ -758,6 +794,8 @@ static void Task_OakSpeech_HandleGenderInput(u8 taskId)
     case PLAYER_CHOICE_MAY:
     case PLAYER_CHOICE_RED:
     case PLAYER_CHOICE_LEAF:
+    case PLAYER_CHOICE_ETHAN:
+    case PLAYER_CHOICE_KRIS:
         PlaySE(SE_SELECT);
         gSaveBlock2Ptr->playerGender = PLAYER_CHOICE_GENDER(input);
         gSaveBlock2Ptr->playerCostume = PLAYER_CHOICE_COSTUME(input);
@@ -779,8 +817,10 @@ static void Task_OakSpeech_ClearGenderWindows(u8 taskId)
 
 static void Task_OakSpeech_LoadPlayerPic(u8 taskId)
 {
+    // The chosen character is already shown, faded in while choosing
+    if (!gTasks[taskId].tTrainerPicFadeState)
+        return;
     LoadPlayerPic();
-    CreateFadeOutTask(taskId, 2);
     gTasks[taskId].tTimer = 32;
     gTasks[taskId].func = Task_OakSpeech_YourNameWhatIsIt;
 }
@@ -811,27 +851,6 @@ static void Task_OakSpeech_FadeOutForPlayerNamingScreen(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         sOakSpeechResources->hasPlayerBeenNamed = FALSE;
         gTasks[taskId].func = Task_OakSpeech_DoNamingScreen;
-    }
-}
-
-static void Task_OakSpeech_MoveRivalDisplayNameOptions(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-
-    if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
-    {
-        if (tTrainerPicPosX > -60)
-        {
-            tTrainerPicPosX -= 2;
-            gSpriteCoordOffsetX += 2;
-            ChangeBgX(2, 0x200, BG_COORD_SUB);
-        }
-        else
-        {
-            tTrainerPicPosX = -60;
-            PrintNameChoiceOptions(taskId, sOakSpeechResources->hasPlayerBeenNamed);
-            gTasks[taskId].func = Task_OakSpeech_HandleRivalNameInput;
-        }
     }
 }
 
@@ -1002,11 +1021,14 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
+    // The rival is always GARY: Oak introduces him without asking for a name
     if (tTrainerPicFadeState != 0)
     {
-        OakSpeechPrintMessage(sText_WhatWasHisName);
-        sOakSpeechResources->hasPlayerBeenNamed = TRUE;
-        gTasks[taskId].func = Task_OakSpeech_MoveRivalDisplayNameOptions;
+        StringCopy(gSaveBlock2Ptr->rivalName, sNameChoice_Gary);
+        StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
+        OakSpeechPrintMessage(sText_ThisIsMyGrandson);
+        tTimer = 40;
+        gTasks[taskId].func = Task_OakSpeech_FadeOutRivalPic;
     }
 }
 
@@ -1363,6 +1385,14 @@ static void LoadTrainerPic(u16 whichPic)
         LoadPalette(sOakSpeech_Leaf_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Leaf_Pal));
         LZ77UnCompVram(sOakSpeech_Leaf_Tiles, (void *)VRAM + 0x600);
         break;
+    case ETHAN_PIC:
+        LoadPalette(sOakSpeech_Ethan_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Ethan_Pal));
+        LZ77UnCompVram(sOakSpeech_Ethan_Tiles, (void *)VRAM + 0x600);
+        break;
+    case KRIS_PIC:
+        LoadPalette(sOakSpeech_Kris_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Kris_Pal));
+        LZ77UnCompVram(sOakSpeech_Kris_Tiles, (void *)VRAM + 0x600);
+        break;
     case RIVAL_PIC:
         LoadPalette(sOakSpeech_Rival_Pal, BG_PLTT_ID(6), sizeof(sOakSpeech_Rival_Pal));
         LZ77UnCompVram(sOakSpeech_Rival_Tiles, (void *)VRAM + 0x600);
@@ -1387,6 +1417,8 @@ static void LoadPlayerPic(void)
 {
     if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
         LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? RED_PIC : LEAF_PIC);
+    else if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? ETHAN_PIC : KRIS_PIC);
     else
         LoadTrainerPic(gSaveBlock2Ptr->playerGender == MALE ? BRENDAN_PIC : MAY_PIC);
 }
