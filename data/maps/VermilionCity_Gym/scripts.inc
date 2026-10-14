@@ -97,6 +97,7 @@ VermilionCity_Gym_EventScript_GymStatuePostVictory::
 
 VermilionCity_Gym_EventScript_InitTrashCans::
 	goto_if_set FLAG_FOUND_BOTH_VERMILION_GYM_SWITCHES, Kanto_EventScript_Return
+	special SetVermilionTrashCans
 	copyvar VAR_TEMP_0, VAR_0x8004
 	copyvar VAR_TEMP_1, VAR_0x8005
 	return
@@ -258,6 +259,7 @@ VermilionCity_Gym_EventScript_TrySwitchTwo::
 	goto_if_eq VAR_0x8005, VAR_0x8008, VermilionCity_Gym_EventScript_FoundSwitchTwo
 	msgbox VermilionCity_Gym_Text_OnlyTrashLocksWereReset
 	clearflag FLAG_TEMP_1
+	special SetVermilionTrashCans
 	copyvar VAR_TEMP_0, VAR_0x8004
 	copyvar VAR_TEMP_1, VAR_0x8005
 	call VermilionCity_Gym_EventScript_SetBeamsOn

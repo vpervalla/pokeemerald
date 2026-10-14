@@ -64,11 +64,14 @@ PalletTown_RivalsHouse_EventScript_GroomMon::
 	lock
 	faceplayer
 	goto_if_ge VAR_0x8004, PARTY_SIZE, PalletTown_RivalsHouse_EventScript_DeclineGrooming
+	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_RESULT, SPECIES_EGG, PalletTown_RivalsHouse_EventScript_CantGroomEgg
 	msgbox PalletTown_RivalsHouse_Text_LookingNiceInNoTime
 	closemessage
 	fadescreen FADE_TO_BLACK
 	playfanfare MUS_RG_HEAL
 	waitfanfare
+	special DaisyMassageServices
 	fadescreen FADE_FROM_BLACK
 	special BufferMonNickname
 	msgbox PalletTown_RivalsHouse_Text_ThereYouGoAllDone
@@ -136,6 +139,8 @@ PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest::
 
 PalletTown_RivalsHouse_EventScript_RateMonFriendship::
 	msgbox PalletTown_RivalsHouse_Text_MayISeeFirstMon
+	specialvar VAR_RESULT, GetLeadMonFriendshipScore
+	switch VAR_RESULT
 	case 0, PalletTown_RivalsHouse_EventScript_MonFriendshipLowest
 	case 1, PalletTown_RivalsHouse_EventScript_MonFriendshipLower
 	case 2, PalletTown_RivalsHouse_EventScript_MonFriendshipLow
@@ -275,5 +280,14 @@ PalletTown_RivalsHouse_Text_WhyWouldMonHateYouSoMuch:
     .string "this, but…\p"
     .string "Is there some reason why your\n"
     .string "POKéMON would hate you so much?$"
+
+PalletTown_RivalsHouse_EventScript_CantGroomEgg::
+	msgbox PalletTown_RivalsHouse_Text_CantGroomAnEgg
+	release
+	end
+
+PalletTown_RivalsHouse_Text_CantGroomAnEgg:
+    .string "Oh, sorry. I honestly can't\n"
+    .string "groom an EGG.$"
 
 @ END KANTO NPCS

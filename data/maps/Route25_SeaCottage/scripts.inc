@@ -91,6 +91,8 @@ Route25_SeaCottage_EventScript_BillWalkToTeleporterSouth::
 Route25_SeaCottage_EventScript_BillsMonList::
 	message Route25_SeaCottage_Text_SeeWhichMon
 	waitmessage
+	multichoice 0, 0, MULTI_KANTO_EEVEELUTIONS, FALSE
+	switch VAR_RESULT
 	case 0, Route25_SeaCottage_EventScript_ViewEevee
 	case 1, Route25_SeaCottage_EventScript_ViewFlareon
 	case 2, Route25_SeaCottage_EventScript_ViewJolteon
@@ -205,6 +207,7 @@ Route25_SeaCottage_EventScript_ViewEevee::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_EEVEE
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -213,6 +216,7 @@ Route25_SeaCottage_EventScript_ViewFlareon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_FLAREON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -221,6 +225,7 @@ Route25_SeaCottage_EventScript_ViewJolteon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_JOLTEON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 
@@ -229,6 +234,7 @@ Route25_SeaCottage_EventScript_ViewVaporeon::
 	waitbuttonpress
 	hidemonpic
 	setvar VAR_0x8004, SPECIES_VAPOREON
+	special SetSeenMon
 	goto Route25_SeaCottage_EventScript_BillsMonList
 	end
 

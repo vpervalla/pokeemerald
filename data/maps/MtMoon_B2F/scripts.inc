@@ -110,6 +110,7 @@ MtMoon_B2F_EventScript_Miguel::
 
 MtMoon_B2F_EventScript_MiguelFossilPicked::
 	msgbox MtMoon_B2F_Text_LabOnCinnabarRegeneratesFossils
+	msgbox MtMoon_B2F_Text_MiguelGoingToMuseum
 	release
 	end
 
@@ -231,6 +232,12 @@ MtMoon_B2F_Text_YouWantDomeFossil:
 
 MtMoon_B2F_Text_YouWantHelixFossil:
     .string "Do you want the HELIX FOSSIL?$"
+
+@ Added: MIGUEL takes his fossil to the PEWTER CITY MUSEUM (FLAG_GOT_FOSSIL_FROM_MT_MOON hides him
+@ here), where he gives it to the player later (see PewterCity_Museum_1F).
+MtMoon_B2F_Text_MiguelGoingToMuseum:
+    .string "Me, I'm taking mine to the MUSEUM\n"
+    .string "in PEWTER CITY to study it!$"
 
 @ END KANTO NPCS
 

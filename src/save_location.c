@@ -137,3 +137,10 @@ void SetChampionSaveWarp(void)
 {
     gSaveBlock2Ptr->specialSaveWarpFlags |= CHAMPION_SAVEWARP;
 }
+
+// Kanto (FRLG): set when CELIO links the network with HOENN, after the RUBY and SAPPHIRE quest.
+void SetPostgameFlags(void)
+{
+    gSaveBlock2Ptr->specialSaveWarpFlags |= CHAMPION_SAVEWARP;
+    gSaveBlock2Ptr->gcnLinkFlags |= (1 << 1) | (1 << 2) | (1 << 3) | (1 << 15);
+}

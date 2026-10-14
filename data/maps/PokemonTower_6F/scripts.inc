@@ -26,13 +26,41 @@ PokemonTower_6F_EventScript_ItemXAccuracy::
 	finditem ITEM_X_ACCURACY
 	end
 
+@ Emerald's battles have no GHOST that can't be identified: without the SILPH SCOPE the ghost
+@ drives the player back, and with it the player battles MAROWAK, which can't be caught
+@ (FLAG_UNCATCHABLE_WILD_BATTLE). The player is pushed back unless they win.
 PokemonTower_6F_EventScript_MarowakGhost::
 	lockall
 	msgbox PokemonTower_6F_Text_BeGoneIntruders
+	checkitem ITEM_SILPH_SCOPE
+	goto_if_eq VAR_RESULT, FALSE, PokemonTower_6F_EventScript_GhostCantBeIdentified
+	msgbox PokemonTower_6F_Text_SilphScopeUnveiledGhost
+	closemessage
 	setwildbattle SPECIES_MAROWAK, 30
-	waitstate
+	setflag FLAG_UNCATCHABLE_WILD_BATTLE
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, PokemonTower_6F_EventScript_DefeatedMarowakGhost
+	goto PokemonTower_6F_EventScript_PushPlayerBack
+
+PokemonTower_6F_EventScript_GhostCantBeIdentified::
+	msgbox PokemonTower_6F_Text_GhostCantBeIdentified
+	closemessage
+PokemonTower_6F_EventScript_PushPlayerBack::
 	applymovement LOCALID_PLAYER, PokemonTower_6F_Movement_ForcePlayerUp
 	waitmovement 0
+	releaseall
+	end
+
+PokemonTower_6F_EventScript_DefeatedMarowakGhost::
+	message PokemonTower_6F_Text_GhostWasCubonesMother
+	waitmessage
+	waitse
+	playmoncry SPECIES_MAROWAK, CRY_MODE_NORMAL
+	waitbuttonpress
+	waitmoncry
+	msgbox PokemonTower_6F_Text_MothersSpiritWasCalmed
+	setvar VAR_MAP_SCENE_POKEMON_TOWER_6F, 1
 	releaseall
 	end
 
@@ -74,5 +102,26 @@ PokemonTower_6F_Text_JenniferIntro:
 
 PokemonTower_6F_Text_JenniferPostBattle:
     .string "What's going on here?$"
+
+PokemonTower_6F_Text_GhostCantBeIdentified:
+    .string "The GHOST appeared!\p"
+    .string "Darn!\n"
+    .string "The GHOST can't be ID'd!\p"
+    .string "GHOST: Get out…\n"
+    .string "Get out…$"
+
+PokemonTower_6F_Text_SilphScopeUnveiledGhost:
+    .string "The GHOST appeared!\p"
+    .string "SILPH SCOPE unveiled the GHOST's\n"
+    .string "identity!\p"
+    .string "The GHOST was MAROWAK!$"
+
+PokemonTower_6F_Text_GhostWasCubonesMother:
+    .string "The ghost was the restless spirit\n"
+    .string "of CUBONE's mother!$"
+
+PokemonTower_6F_Text_MothersSpiritWasCalmed:
+    .string "The mother's spirit was calmed.\p"
+    .string "It departed to the afterlife…$"
 
 @ END KANTO NPCS

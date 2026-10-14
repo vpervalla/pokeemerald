@@ -10,6 +10,7 @@ ThreeIsland_House1_EventScript_DisplayCase::
 ThreeIsland_House1_EventScript_Lostelle::
 	lock
 	faceplayer
+	special BufferBigGuyOrBigGirlString
 	msgbox ThreeIsland_House1_Text_YoureAlwaysSoCool
 	release
 	end

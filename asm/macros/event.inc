@@ -1990,6 +1990,13 @@
 	.endm
 
 	@ Prints a braille message, waits for an A or B press, then closes the message.
+	@ From FRLG: shows a braille message and waits for the player to press a button
+	@ (FRLG also draws a blinking cursor after the text). Used by the Kanto maps.
+	.macro braillemessage_wait text:req
+	braillemessage \text
+	waitbuttonpress
+	.endm
+
 	.macro braillemsgbox text:req
 	braillemessage \text
 	waitbuttonpress

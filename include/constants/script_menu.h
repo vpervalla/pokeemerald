@@ -137,6 +137,28 @@
 #define MULTI_KANTO_SEVII_NAVEL            125
 #define MULTI_KANTO_SEVII_BIRTH            126
 #define MULTI_KANTO_SEVII_NAVEL_BIRTH      127
+#define MULTI_KANTO_EEVEELUTIONS                          128
+#define MULTI_KANTO_BIKE_SHOP                             129
+#define MULTI_KANTO_GAME_CORNER_POKEMON_PRIZES            130
+#define MULTI_KANTO_HELIX                                 131
+#define MULTI_KANTO_DOME                                  132
+#define MULTI_KANTO_AMBER                                 133
+#define MULTI_KANTO_HELIX_AMBER                           134
+#define MULTI_KANTO_DOME_AMBER                            135
+#define MULTI_KANTO_CELADON_VENDING_MACHINE               136
+#define MULTI_KANTO_GAME_CORNER_COIN_PURCHASE_COUNTER     137
+#define MULTI_KANTO_GAME_CORNER_TMPRIZES                  138
+#define MULTI_KANTO_THIRSTY_GIRL_FRESH_WATER              139
+#define MULTI_KANTO_THIRSTY_GIRL_SODA_POP                 140
+#define MULTI_KANTO_THIRSTY_GIRL_FRESH_WATER_SODA_POP     141
+#define MULTI_KANTO_THIRSTY_GIRL_LEMONADE                 142
+#define MULTI_KANTO_THIRSTY_GIRL_FRESH_WATER_LEMONADE     143
+#define MULTI_KANTO_THIRSTY_GIRL_SODA_POP_LEMONADE        144
+#define MULTI_KANTO_THIRSTY_GIRL_FRESH_WATER_SODA_POP_LEMONADE 145
+#define MULTI_KANTO_GAME_CORNER_BATTLE_ITEM_PRIZES        146
+#define MULTI_KANTO_LINKED_DIRECT_UNION                   147
+#define MULTI_KANTO_MUSHROOMS                             148
+#define MULTI_KANTO_TRAINER_SCHOOL_WHITEBOARD             149
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

@@ -7550,6 +7550,46 @@
       "secondary_tileset": "gTileset_KantoMegaHall",
       "border_filepath": "data/layouts/MegaIsland_Castle_GuestRoom/border.bin",
       "blockdata_filepath": "data/layouts/MegaIsland_Castle_GuestRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEAFOAM_ISLANDS_B3F_CURRENT_STOPPED",
+      "name": "SeafoamIslands_B3F_CurrentStopped_Layout",
+      "width": 38,
+      "height": 24,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoSeafoamIslands",
+      "border_filepath": "data/layouts/SeafoamIslands_B3F_CurrentStopped/border.bin",
+      "blockdata_filepath": "data/layouts/SeafoamIslands_B3F_CurrentStopped/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEAFOAM_ISLANDS_B4F_CURRENT_STOPPED",
+      "name": "SeafoamIslands_B4F_CurrentStopped_Layout",
+      "width": 38,
+      "height": 24,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoSeafoamIslands",
+      "border_filepath": "data/layouts/SeafoamIslands_B4F_CurrentStopped/border.bin",
+      "blockdata_filepath": "data/layouts/SeafoamIslands_B4F_CurrentStopped/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEVEN_ISLAND_HOUSE_ROOM1_DOOR_OPEN",
+      "name": "SevenIsland_House_Room1_DoorOpen_Layout",
+      "width": 11,
+      "height": 9,
+      "primary_tileset": "gTileset_KantoBuilding",
+      "secondary_tileset": "gTileset_KantoGenericBuilding2",
+      "border_filepath": "data/layouts/SevenIsland_House_Room1_DoorOpen/border.bin",
+      "blockdata_filepath": "data/layouts/SevenIsland_House_Room1_DoorOpen/map.bin"
+    },
+    {
+      "id": "LAYOUT_THREE_ISLAND_DUNSPARCE_TUNNEL_DUG_OUT",
+      "name": "ThreeIsland_DunsparceTunnel_DugOut_Layout",
+      "width": 30,
+      "height": 7,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoCave",
+      "border_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/border.bin",
+      "blockdata_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/map.bin"
     }
   ]
 }

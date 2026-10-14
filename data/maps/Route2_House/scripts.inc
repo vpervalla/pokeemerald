@@ -22,6 +22,7 @@ Route2_House_EventScript_NotRequestedMon::
 Route2_House_EventScript_Reyley::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_MR_MIME
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_MIMIEN_TRADE, Route2_House_EventScript_AlreadyTraded
 	msgbox Kanto_Trade_Text_LookingForMonWannaTradeForMon, MSGBOX_YESNO

@@ -55,3 +55,15 @@ FourIsland_PokemonCenter_1F_Text_RareIceMonsInCave:
     .string "see that POKéMON.$"
 
 @ END KANTO NPCS
+
+@ A double-exchange trader (see data/scripts/double_exchange.inc). They exchange only once.
+FourIsland_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
+	lock
+	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_EXCHANGE_FOUR_ISLAND
+	goto_if_set FLAG_DID_DOUBLE_EXCHANGE_FOUR_ISLAND, EventScript_DoubleExchangeAlreadyDone
+	call EventScript_DoubleExchange
+	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleExchangeEnd
+	setflag FLAG_DID_DOUBLE_EXCHANGE_FOUR_ISLAND
+	release
+	end

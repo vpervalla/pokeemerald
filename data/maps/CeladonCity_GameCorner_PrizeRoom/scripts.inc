@@ -34,6 +34,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon::
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
+	multichoice 10, 0, MULTI_KANTO_GAME_CORNER_BATTLE_ITEM_PRIZES, FALSE
+	switch VAR_RESULT
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_SmokeBall
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_MiracleSeed
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_Charcoal
@@ -46,6 +48,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem::
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
+	multichoice 11, 0, MULTI_KANTO_GAME_CORNER_POKEMON_PRIZES, FALSE
+	switch VAR_RESULT
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_Abra
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_Clefairy
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_DratiniPinsir
@@ -58,6 +62,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
+	multichoice 11, 0, MULTI_KANTO_GAME_CORNER_TMPRIZES, FALSE
+	switch VAR_RESULT
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_TM13
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_TM23
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_TM24

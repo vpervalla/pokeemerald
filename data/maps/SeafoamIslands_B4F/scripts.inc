@@ -70,6 +70,7 @@ SeafoamIslands_B4F_EventScript_EnterByFalling::
 	getplayerxy VAR_0x8008, VAR_0x8009
 	call_if_lt VAR_0x8008, 9, SeafoamIslands_B4F_EventScript_RideCurrentFar
 	call_if_ge VAR_0x8008, 9, SeafoamIslands_B4F_EventScript_RideCurrentClose
+	special SeafoamIslandsB4F_CurrentDumpsPlayerOnLand
 	setvar VAR_TEMP_1, 0
 	releaseall
 	end
@@ -107,6 +108,7 @@ SeafoamIslands_B4F_EventScript_SetCalmWaterNearStairs::
 	end
 
 SeafoamIslands_B4F_EventScript_SetNoCurrentLayout::
+	setmaplayoutindex LAYOUT_SEAFOAM_ISLANDS_B4F_CURRENT_STOPPED
 	return
 
 SeafoamIslands_B4F_EventScript_ShowArticuno::
@@ -132,6 +134,7 @@ SeafoamIslands_B4F_EventScript_UpwardCurrent::
 
 SeafoamIslands_B4F_EventScript_WarpInOnCurrent::
 	turnobject LOCALID_PLAYER, DIR_NORTH
+	special ForcePlayerToStartSurfing
 	end
 
 SeafoamIslands_B4F_Movement_EnterOnCurrent:

@@ -2031,17 +2031,36 @@
 #define FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM          (KANTO_EXTRA_FLAGS_START + 0x1E3)
 #define FLAG_MET_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E4)
 #define FLAG_GOT_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E5) // Also hides the POKéMON
+#define FLAG_HIDE_PEWTER_MUSEUM_MIGUEL              (KANTO_EXTRA_FLAGS_START + 0x1E6) // Set on transition
+#define FLAG_GOT_FOSSIL_FROM_MIGUEL                 (KANTO_EXTRA_FLAGS_START + 0x1E7)
+#define FLAG_HIDE_DOJO_TRAINERS                     (KANTO_EXTRA_FLAGS_START + 0x1E8) // Set on transition
+#define FLAG_HIDE_DOJO_REMATCH_TRAINERS             (KANTO_EXTRA_FLAGS_START + 0x1E9) // Set on transition
+#define FLAG_GOT_MACHAMPITE_FROM_KOICHI             (KANTO_EXTRA_FLAGS_START + 0x1EA)
+
+// The double-exchange traders in the Pokémon Centers: set once each has exchanged.
+#define FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY         (KANTO_EXTRA_FLAGS_START + 0x1c0)
+#define FLAG_DID_DOUBLE_EXCHANGE_VERMILION_CITY        (KANTO_EXTRA_FLAGS_START + 0x1c1)
+#define FLAG_DID_DOUBLE_EXCHANGE_ROUTE10               (KANTO_EXTRA_FLAGS_START + 0x1c2)
+#define FLAG_DID_DOUBLE_EXCHANGE_LAVENDER_TOWN         (KANTO_EXTRA_FLAGS_START + 0x1c3)
+#define FLAG_DID_DOUBLE_EXCHANGE_CELADON_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c4)
+#define FLAG_DID_DOUBLE_EXCHANGE_SAFFRON_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c5)
+#define FLAG_DID_DOUBLE_EXCHANGE_FUCHSIA_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c6)
+#define FLAG_DID_DOUBLE_EXCHANGE_CINNABAR_ISLAND       (KANTO_EXTRA_FLAGS_START + 0x1c7)
+#define FLAG_DID_DOUBLE_EXCHANGE_ONE_ISLAND            (KANTO_EXTRA_FLAGS_START + 0x1c8)
+#define FLAG_DID_DOUBLE_EXCHANGE_THREE_ISLAND          (KANTO_EXTRA_FLAGS_START + 0x1c9)
+#define FLAG_DID_DOUBLE_EXCHANGE_FOUR_ISLAND           (KANTO_EXTRA_FLAGS_START + 0x1ca)
+#define FLAG_DID_DOUBLE_EXCHANGE_SEVEN_ISLAND          (KANTO_EXTRA_FLAGS_START + 0x1cb)
 
 // The trainers who took the Kanto starters from OAK's lab: LEAF (or KRIS), met four times, and RED (or ETHAN)
 // after the Hall of Fame. Each LEAF hides the earlier ones when beaten. The post-game ones are shown on
 // transition once the game is clear and until they're beaten.
-#define FLAG_HIDE_LEAF_ROUTE24                      (KANTO_EXTRA_FLAGS_START + 0x1E6)
-#define FLAG_HIDE_LEAF_CELADON                      (KANTO_EXTRA_FLAGS_START + 0x1E7)
-#define FLAG_HIDE_LEAF_ROUTE23                      (KANTO_EXTRA_FLAGS_START + 0x1E8)
-#define FLAG_HIDE_LEAF_CERULEAN_CAVE                (KANTO_EXTRA_FLAGS_START + 0x1E9)
-#define FLAG_DEFEATED_LEAF_POSTGAME                 (KANTO_EXTRA_FLAGS_START + 0x1EA)
-#define FLAG_HIDE_RED_CERULEAN_CAVE                      (KANTO_EXTRA_FLAGS_START + 0x1EB)
-#define FLAG_DEFEATED_RED_POSTGAME                  (KANTO_EXTRA_FLAGS_START + 0x1EC)
+#define FLAG_HIDE_LEAF_ROUTE24                      (KANTO_EXTRA_FLAGS_START + 0x1F8)
+#define FLAG_HIDE_LEAF_CELADON                      (KANTO_EXTRA_FLAGS_START + 0x1F9)
+#define FLAG_HIDE_LEAF_ROUTE23                      (KANTO_EXTRA_FLAGS_START + 0x1FA)
+#define FLAG_HIDE_LEAF_CERULEAN_CAVE                (KANTO_EXTRA_FLAGS_START + 0x1FB)
+#define FLAG_DEFEATED_LEAF_POSTGAME                 (KANTO_EXTRA_FLAGS_START + 0x1FC)
+#define FLAG_HIDE_RED_CERULEAN_CAVE                      (KANTO_EXTRA_FLAGS_START + 0x1FD)
+#define FLAG_DEFEATED_RED_POSTGAME                  (KANTO_EXTRA_FLAGS_START + 0x1FE)
 
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
@@ -2049,7 +2068,8 @@
 #define FLAG_ENABLE_MULTI_CORRIDOR_DOOR         (SPECIAL_FLAGS_START + 0x2)
 #define FLAG_SPECIAL_FLAG_UNUSED_0x4003         (SPECIAL_FLAGS_START + 0x3) // Unused Flag
 #define FLAG_STORING_ITEMS_IN_PYRAMID_BAG       (SPECIAL_FLAGS_START + 0x4)
-// FLAG_SPECIAL_FLAG_0x4005 - 0x407F also exist and are unused
+#define FLAG_UNCATCHABLE_WILD_BATTLE            (SPECIAL_FLAGS_START + 0x5) // Kanto: the POKéMON dodges every BALL (the ghost MAROWAK)
+// FLAG_SPECIAL_FLAG_0x4006 - 0x407F also exist and are unused
 #define SPECIAL_FLAGS_END                       (SPECIAL_FLAGS_START + 0x7F)
 #define NUM_SPECIAL_FLAGS                       (SPECIAL_FLAGS_END - SPECIAL_FLAGS_START + 1)
 

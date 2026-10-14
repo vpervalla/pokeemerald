@@ -18,6 +18,8 @@ FuchsiaCity_SafariZone_Entrance_EventScript_AskEnterSafariZone::
 FuchsiaCity_SafariZone_Entrance_EventScript_CheckSpaceForMons::
 	getpartysize
 	goto_if_ne VAR_RESULT, PARTY_SIZE, Kanto_EventScript_Return
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, TRUE, Kanto_EventScript_Return
 	msgbox Kanto_SafariZone_Text_ExcuseMeYourPCBoxIsFull
 	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end

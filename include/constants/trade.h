@@ -10,6 +10,34 @@
 #define INGAME_TRADE_HORSEA 2
 #define INGAME_TRADE_MEOWTH 3
 #define INGAME_TRADE_KADABRA 4 // TestArea_House: test case for trade-evolution exchanges
+// The double-exchange traders in the Pokémon Centers (data/scripts/double_exchange.inc). Each one exchanges once.
+#define INGAME_TRADE_EXCHANGE_CERULEAN_CITY 5
+#define INGAME_TRADE_EXCHANGE_VERMILION_CITY 6
+#define INGAME_TRADE_EXCHANGE_ROUTE10 7
+#define INGAME_TRADE_EXCHANGE_LAVENDER_TOWN 8
+#define INGAME_TRADE_EXCHANGE_CELADON_CITY 9
+#define INGAME_TRADE_EXCHANGE_SAFFRON_CITY 10
+#define INGAME_TRADE_EXCHANGE_FUCHSIA_CITY 11
+#define INGAME_TRADE_EXCHANGE_CINNABAR_ISLAND 12
+#define INGAME_TRADE_EXCHANGE_ONE_ISLAND 13
+#define INGAME_TRADE_EXCHANGE_THREE_ISLAND 14
+#define INGAME_TRADE_EXCHANGE_FOUR_ISLAND 15
+#define INGAME_TRADE_EXCHANGE_SEVEN_ISLAND 16
+// The in-game trades of FireRed's Kanto NPCs (FRLG's INGAME_TRADE_*, see tools/kanto_port/port_trainers.py)
+#define INGAME_TRADE_KANTO_MR_MIME 17
+#define INGAME_TRADE_KANTO_JYNX 18
+#define INGAME_TRADE_KANTO_NIDORAN 19
+#define INGAME_TRADE_KANTO_FARFETCHD 20
+#define INGAME_TRADE_KANTO_NIDORINOA 21
+#define INGAME_TRADE_KANTO_LICKITUNG 22
+#define INGAME_TRADE_KANTO_ELECTRODE 23
+#define INGAME_TRADE_KANTO_TANGELA 24
+#define INGAME_TRADE_KANTO_SEEL 25
+
+// Return values for WouldMonEvolveThroughTrade
+#define TRADE_EVO_NONE       0
+#define TRADE_EVO_YES        1
+#define TRADE_EVO_NEEDS_ITEM 2 // Its trade evolution needs a held item, whose name is in gStringVar3
 
 // Return values for CanTradeSelectedMon and CanSpinTradeMon
 #define CAN_TRADE_MON              0
