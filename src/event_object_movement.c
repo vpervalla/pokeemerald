@@ -12,6 +12,7 @@
 #include "field_effect.h"
 #include "field_effect_helpers.h"
 #include "field_player_avatar.h"
+#include "graphics.h"
 #include "fieldmap.h"
 #include "mauville_old_man.h"
 #include "metatile_behavior.h"
@@ -487,6 +488,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/object_event_graphics_info.h"
 #include "data/object_events/kanto_object_events.h"
 #include "data/object_events/champion_object_events.h"
+#include "data/object_events/starter_object_events.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
@@ -532,6 +534,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_PlayerKrisReflection,  OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION},
     KANTO_OBJECT_EVENT_SPRITE_PALETTES
     CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
+    STARTER_OBJECT_EVENT_SPRITE_PALETTES
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
@@ -2007,6 +2010,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sKantoObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_KANTO_START];
     if (graphicsId >= OBJ_EVENT_GFX_CHAMPION_START && graphicsId < OBJ_EVENT_GFX_CHAMPION_START + NUM_CHAMPION_OBJ_EVENT_GFX)
         return sChampionObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_CHAMPION_START];
+    if (graphicsId >= OBJ_EVENT_GFX_STARTER_START && graphicsId < OBJ_EVENT_GFX_STARTER_START + NUM_STARTER_OBJ_EVENT_GFX)
+        return sStarterObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_STARTER_START];
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;

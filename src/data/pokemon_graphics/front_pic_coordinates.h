@@ -486,5 +486,6 @@ const struct MonCoords gMonFrontPicCoords[] =
     [SPECIES_ABSOL_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 2 },
     [SPECIES_GARDEVOIR_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     [SPECIES_ALTARIA_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
+    [SPECIES_MACHAMP_MEGA] = { .size = MON_COORDS_SIZE(64, 64), .y_offset = 0 },
     // </mega-evolutions>
 };

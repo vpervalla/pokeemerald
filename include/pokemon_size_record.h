@@ -9,4 +9,7 @@ void InitLotadSizeRecord(void);
 void GetLotadSizeRecordInfo(void);
 void CompareLotadSize(void);
 
+void InitMagikarpSizeRecord(void);
+void InitHeracrossSizeRecord(void);
+
 #endif // GUARD_POKEMON_SIZE_RECORD_H

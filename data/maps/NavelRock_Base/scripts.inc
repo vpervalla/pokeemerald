@@ -25,12 +25,14 @@ NavelRock_Base_EventScript_Lugia::
 	setvar VAR_0x8005, 3
 	setvar VAR_0x8006, 4
 	setvar VAR_0x8007, 2
+	special ShakeCamera
 	delay 30
 	playse SE_THUNDERSTORM_STOP
 	setvar VAR_0x8004, 0
 	setvar VAR_0x8005, 3
 	setvar VAR_0x8006, 4
 	setvar VAR_0x8007, 2
+	special ShakeCamera
 	delay 30
 	delay 50
 	waitse

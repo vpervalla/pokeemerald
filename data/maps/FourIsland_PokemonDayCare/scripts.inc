@@ -28,6 +28,7 @@ FourIsland_PokemonDayCare_ComeAgain::
 	end
 
 FourIsland_PokemonDayCare_CostPrompt::
+	special GetDaycareCostAndPrepareString
 	msgbox Kanto_DayCare_Text_ItWillCostX, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, FourIsland_PokemonDayCare_CheckEnoughMoney
 	goto FourIsland_PokemonDayCare_ComeAgain

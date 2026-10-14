@@ -2016,13 +2016,42 @@
 #define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)
 #define FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE       (KANTO_EXTRA_FLAGS_START + 0x1F2)
 
+// The side quests that give the two Kanto starters the player didn't choose (see docs/catch_them_all.md).
+// Also at the end of the extra flags, clear of the generated ones.
+#define FLAG_RESCUED_MT_MOON_GIRL                   (KANTO_EXTRA_FLAGS_START + 0x1E0) // Also hides her in MT. MOON
+#define FLAG_CAUGHT_MT_MOON_STARTER                 (KANTO_EXTRA_FLAGS_START + 0x1E1) // Also hides the POKéMON
+#define FLAG_HIDE_ROUTE4_POKEMON_CENTER_GIRL        (KANTO_EXTRA_FLAGS_START + 0x1E2) // Set on transition
+#define FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM          (KANTO_EXTRA_FLAGS_START + 0x1E3)
+#define FLAG_MET_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E4)
+#define FLAG_GOT_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E5) // Also hides the POKéMON
+#define FLAG_HIDE_PEWTER_MUSEUM_MIGUEL              (KANTO_EXTRA_FLAGS_START + 0x1E6) // Set on transition
+#define FLAG_GOT_FOSSIL_FROM_MIGUEL                 (KANTO_EXTRA_FLAGS_START + 0x1E7)
+#define FLAG_HIDE_DOJO_TRAINERS                     (KANTO_EXTRA_FLAGS_START + 0x1E8) // Set on transition
+#define FLAG_HIDE_DOJO_REMATCH_TRAINERS             (KANTO_EXTRA_FLAGS_START + 0x1E9) // Set on transition
+#define FLAG_GOT_MACHAMPITE_FROM_KOICHI             (KANTO_EXTRA_FLAGS_START + 0x1EA)
+
+// The double-exchange traders in the Pokémon Centers: set once each has exchanged.
+#define FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY         (KANTO_EXTRA_FLAGS_START + 0x1c0)
+#define FLAG_DID_DOUBLE_EXCHANGE_VERMILION_CITY        (KANTO_EXTRA_FLAGS_START + 0x1c1)
+#define FLAG_DID_DOUBLE_EXCHANGE_ROUTE10               (KANTO_EXTRA_FLAGS_START + 0x1c2)
+#define FLAG_DID_DOUBLE_EXCHANGE_LAVENDER_TOWN         (KANTO_EXTRA_FLAGS_START + 0x1c3)
+#define FLAG_DID_DOUBLE_EXCHANGE_CELADON_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c4)
+#define FLAG_DID_DOUBLE_EXCHANGE_SAFFRON_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c5)
+#define FLAG_DID_DOUBLE_EXCHANGE_FUCHSIA_CITY          (KANTO_EXTRA_FLAGS_START + 0x1c6)
+#define FLAG_DID_DOUBLE_EXCHANGE_CINNABAR_ISLAND       (KANTO_EXTRA_FLAGS_START + 0x1c7)
+#define FLAG_DID_DOUBLE_EXCHANGE_ONE_ISLAND            (KANTO_EXTRA_FLAGS_START + 0x1c8)
+#define FLAG_DID_DOUBLE_EXCHANGE_THREE_ISLAND          (KANTO_EXTRA_FLAGS_START + 0x1c9)
+#define FLAG_DID_DOUBLE_EXCHANGE_FOUR_ISLAND           (KANTO_EXTRA_FLAGS_START + 0x1ca)
+#define FLAG_DID_DOUBLE_EXCHANGE_SEVEN_ISLAND          (KANTO_EXTRA_FLAGS_START + 0x1cb)
+
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
 #define FLAG_DONT_TRANSITION_MUSIC              (SPECIAL_FLAGS_START + 0x1)
 #define FLAG_ENABLE_MULTI_CORRIDOR_DOOR         (SPECIAL_FLAGS_START + 0x2)
 #define FLAG_SPECIAL_FLAG_UNUSED_0x4003         (SPECIAL_FLAGS_START + 0x3) // Unused Flag
 #define FLAG_STORING_ITEMS_IN_PYRAMID_BAG       (SPECIAL_FLAGS_START + 0x4)
-// FLAG_SPECIAL_FLAG_0x4005 - 0x407F also exist and are unused
+#define FLAG_UNCATCHABLE_WILD_BATTLE            (SPECIAL_FLAGS_START + 0x5) // Kanto: the POKéMON dodges every BALL (the ghost MAROWAK)
+// FLAG_SPECIAL_FLAG_0x4006 - 0x407F also exist and are unused
 #define SPECIAL_FLAGS_END                       (SPECIAL_FLAGS_START + 0x7F)
 #define NUM_SPECIAL_FLAGS                       (SPECIAL_FLAGS_END - SPECIAL_FLAGS_START + 1)
 

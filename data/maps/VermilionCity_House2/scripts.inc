@@ -16,6 +16,7 @@ VermilionCity_House2_EventScript_DeclineTrade::
 VermilionCity_House2_EventScript_Elyssa::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_FARFETCHD
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_CH_DING_TRADE, VermilionCity_House2_EventScript_AlreadyTraded
 	msgbox VermilionCity_House2_Text_DoYouHaveMonWantToTradeForMyMon, MSGBOX_YESNO

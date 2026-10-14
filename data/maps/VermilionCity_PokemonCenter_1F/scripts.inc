@@ -98,3 +98,15 @@ VermilionCity_PokemonCenter_1F_Text_UseDeviceForRematches:
     .string "use it, though.$"
 
 @ END KANTO NPCS
+
+@ A double-exchange trader (see data/scripts/double_exchange.inc). They exchange only once.
+VermilionCity_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
+	lock
+	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_EXCHANGE_VERMILION_CITY
+	goto_if_set FLAG_DID_DOUBLE_EXCHANGE_VERMILION_CITY, EventScript_DoubleExchangeAlreadyDone
+	call EventScript_DoubleExchange
+	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleExchangeEnd
+	setflag FLAG_DID_DOUBLE_EXCHANGE_VERMILION_CITY
+	release
+	end

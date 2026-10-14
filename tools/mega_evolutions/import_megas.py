@@ -11,7 +11,7 @@ running it again regenerates it instead of adding to it.
 To add a Mega, add a row to MEGAS and run this from the pokeemerald root:
 
     git clone --depth 1 --filter=blob:none --sparse https://github.com/rh-hideout/pokeemerald-expansion.git exp
-    git -C exp sparse-checkout set --no-cone '/graphics/pokemon/*/mega*/' '/graphics/items/icons/' \
+    git -C exp sparse-checkout set --no-cone '/graphics/pokemon/*/mega*/' '/graphics/pokemon/machamp/gmax/' '/graphics/items/icons/' \
         '/graphics/items/icon_palettes/' '/src/data/pokemon/species_info/'
     python3 tools/mega_evolutions/import_megas.py exp
 
@@ -68,7 +68,15 @@ MEGAS = [
  ('ABSOL_MEGA', 'ABSOL', 'absol/mega', 'AbsolMega', 'ABSOLITE', 'ABSOLITE', 'absolite', (65,150,60,115,115,60), ('DARK','DARK'), 'MAGIC_BOUNCE'),
  ('GARDEVOIR_MEGA', 'GARDEVOIR', 'gardevoir/mega', 'GardevoirMega', 'GARDEVOIRITE', 'GARDEVOIRITE', 'gardevoirite', (68,85,65,100,165,135), ('PSYCHIC','FAIRY'), 'PIXILATE'),
  ('ALTARIA_MEGA', 'ALTARIA', 'altaria/mega', 'AltariaMega', 'ALTARIANITE', 'ALTARIANITE', 'altarianite', (75,110,110,80,110,105), ('DRAGON','FAIRY'), 'PIXILATE'),
+ # Not an official Mega: MASTER KOICHI's in the SAFFRON CITY DOJO rematch. Its sprite is the
+ # expansion's Gigantamax Machamp (see EXP_SOURCES) and its stone icon is ours (see LOCAL_ICONS).
+ ('MACHAMP_MEGA', 'MACHAMP', 'machamp/mega', 'MachampMega', 'MACHAMPITE', 'MACHAMPITE', 'machampite', (90,170,110,65,65,105), ('FIGHTING','FIGHTING'), 'NO_GUARD'),
 ]
+
+# Megas whose sprites and coordinates come from another expansion form: (graphics dir, species)
+EXP_SOURCES = {'MACHAMP_MEGA': ('machamp/gmax', 'MACHAMP_GMAX')}
+# Mega Stone icons the expansion doesn't have: they are kept in graphics/items/ as they are
+LOCAL_ICONS = {'machampite'}
 
 # Megas that need a move instead of a Mega Stone
 MOVE_MEGAS = {'RAYQUAZA_MEGA': 'DRAGON_ASCENT'}
@@ -80,7 +88,7 @@ def read_expansion_coords():
     src = ''.join(rd(p) for p in sorted(glob.glob(os.path.join(EXP, 'src/data/pokemon/species_info/gen_*_families.h'))))
     data = {}
     for m in MEGAS:
-        i = src.index('[SPECIES_%s] =' % m[0]); blk = src[i:src.index('\n    },', i)]
+        i = src.index('[SPECIES_%s] =' % EXP_SOURCES.get(m[0], (None, m[0]))[1]); blk = src[i:src.index('\n    },', i)]
         def field(k):
             f = re.search(r'\.%s\s*=\s*(MON_COORDS_SIZE\(\d+,\s*\d+\)|[^,\n]+)' % k, blk)
             return f.group(1).strip() if f else None
@@ -109,7 +117,7 @@ DATA = read_expansion_coords()
 # ---------- assets ----------
 for m in MEGAS:
     const, base, gdir, sym, stone, sname, sfile = m[:7]
-    src = os.path.join(EXP, 'graphics/pokemon', gdir); dst = os.path.join('graphics/pokemon', gdir)
+    src = os.path.join(EXP, 'graphics/pokemon', EXP_SOURCES.get(const, (gdir,))[0]); dst = os.path.join('graphics/pokemon', gdir)
     if os.path.isdir(dst): shutil.rmtree(dst)
     os.makedirs(dst)
     front = os.path.join(src, 'anim_front.png') if os.path.exists(os.path.join(src, 'anim_front.png')) else os.path.join(src, 'front.png')
@@ -117,7 +125,7 @@ for m in MEGAS:
     stillfront(os.path.join(dst, 'anim_front.png'), os.path.join(dst, 'front.png'))
     to4bit(os.path.join(src, 'back.png'), os.path.join(dst, 'back.png'))
     for p in ('normal.pal', 'shiny.pal'): shutil.copy(os.path.join(src, p), os.path.join(dst, p))
-    if sfile is None:
+    if sfile is None or sfile in LOCAL_ICONS:
         continue
     to4bit(os.path.join(EXP, 'graphics/items/icons', sfile + '.png'), os.path.join('graphics/items/icons', sfile + '.png'))
     shutil.copy(os.path.join(EXP, 'graphics/items/icon_palettes', sfile + '.pal'), os.path.join('graphics/items/icon_palettes', sfile + '.pal'))

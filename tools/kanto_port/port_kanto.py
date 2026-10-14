@@ -314,6 +314,10 @@ def cmd_maps(args):
         new_name = map_name[name]
         if fj["layout"] not in done_layouts:
             done_layouts[fj["layout"]] = port_layout(fj["layout"])
+        # The layouts its scripts switch to (setmaplayoutindex), like Seafoam Islands with the current stopped
+        for alt in re.findall(r"setmaplayoutindex (LAYOUT_\w+)", read(f"{frlg}/data/maps/{name}/scripts.inc")):
+            if alt not in done_layouts:
+                done_layouts[alt] = port_layout(alt)
         if os.path.exists(f"data/maps/{new_name}/map.json") and not args.force:
             skipped_existing.append(new_name)
             continue  # already ported; may have been edited since (e.g. in Porymap)

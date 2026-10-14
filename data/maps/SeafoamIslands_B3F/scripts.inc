@@ -47,6 +47,7 @@ SeafoamIslands_B3F_EventScript_RideCurrentFar::
 	return
 
 SeafoamIslands_B3F_EventScript_SetNoCurrentLayout::
+	setmaplayoutindex LAYOUT_SEAFOAM_ISLANDS_B3F_CURRENT_STOPPED
 	return
 
 SeafoamIslands_B3F_EventScript_StoppedCurrent::

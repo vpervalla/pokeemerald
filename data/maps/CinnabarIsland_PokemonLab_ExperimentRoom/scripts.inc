@@ -37,7 +37,7 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelix::
 	return
 
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedMtMoonFossil::
-	goto_if_set FLAG_GOT_HELIX_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelix
+	goto_if_set FLAG_GOT_HELIX_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelixThenDome  @ changed: MIGUEL gives the other fossil
 	goto_if_set FLAG_GOT_DOME_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedDome
 	goto CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_SetResultFalse
 	end
@@ -45,6 +45,8 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedMtMoonFossil::
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilAmber::
 	message CinnabarIsland_PokemonLab_ExperimentRoom_Text_HaveYouAFossilForMe
 	waitmessage
+	multichoice 0, 0, MULTI_KANTO_AMBER, FALSE
+	switch VAR_RESULT
 	case 0, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowOldAmber
 	case 1, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
 	case 127, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
@@ -55,12 +57,16 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilDome::
 	waitmessage
 	call CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckAddOldAmberToList
 	goto_if_eq VAR_RESULT, TRUE, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilDomeAmber
+	multichoice 0, 0, MULTI_KANTO_DOME, FALSE
+	switch VAR_RESULT
 	case 0, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowDomeFossil
 	case 1, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
 	case 127, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
 	end
 
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilDomeAmber::
+	multichoice 0, 0, MULTI_KANTO_DOME_AMBER, FALSE
+	switch VAR_RESULT
 	case 0, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowDomeFossil
 	case 1, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowOldAmber
 	case 2, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
@@ -72,12 +78,16 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilHelix::
 	waitmessage
 	call CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckAddOldAmberToList
 	goto_if_eq VAR_RESULT, TRUE, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilHelixAmber
+	multichoice 0, 0, MULTI_KANTO_HELIX, FALSE
+	switch VAR_RESULT
 	case 0, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowHelixFossil
 	case 1, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
 	case 127, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
 	end
 
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ChooseFossilHelixAmber::
+	multichoice 0, 0, MULTI_KANTO_HELIX_AMBER, FALSE
+	switch VAR_RESULT
 	case 0, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowHelixFossil
 	case 1, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowOldAmber
 	case 2, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_DontShowFossil
@@ -129,6 +139,7 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_FossilStillReviving::
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_Garett::
 	lock
 	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_KANTO_SEEL
 	call Kanto_EventScript_GetInGameTradeSpeciesInfo
 	goto_if_set FLAG_DID_SEELOR_TRADE, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_AlreadyTraded
 	msgbox Kanto_Trade_Text_LookingForMonWannaTradeForMon, MSGBOX_YESNO
@@ -316,5 +327,12 @@ CinnabarIsland_PokemonLab_ExperimentRoom_Text_ThatFossilIsOfMonMakeItLiveAgain:
 CinnabarIsland_PokemonLab_ExperimentRoom_Text_YouComeAgain:
     .string "Aiyah!\n"
     .string "You come again!$"
+
+@ Added: with MIGUEL's fossil (PewterCity_Museum_1F) the player can have both MT. MOON fossils.
+CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelixThenDome:
+	goto_if_unset FLAG_REVIVED_HELIX, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_SetResultFalse
+	goto_if_set FLAG_GOT_DOME_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedDome
+	setvar VAR_RESULT, TRUE
+	return
 
 @ END KANTO NPCS

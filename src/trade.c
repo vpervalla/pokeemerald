@@ -12,6 +12,7 @@
 #include "field_screen_effect.h"
 #include "gpu_regs.h"
 #include "graphics.h"
+#include "item.h"
 #include "international_string_util.h"
 #include "librfu.h"
 #include "link.h"
@@ -45,6 +46,7 @@
 #include "window.h"
 #include "constants/contest.h"
 #include "constants/items.h"
+#include "constants/hold_effects.h"
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
@@ -178,6 +180,8 @@ EWRAM_DATA u8 gSelectedTradeMonPositions[2] = {0};
 // so the second half can trade it back to them.
 static EWRAM_DATA struct Pokemon sDoubleExchangeMon = {0};
 static EWRAM_DATA struct Mail sDoubleExchangeMail = {0};
+
+extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 static EWRAM_DATA struct {
     u8 bg2hofs;
     u8 bg3hofs;
@@ -4669,6 +4673,41 @@ void RestoreDoubleExchangeFriendship(void)
 {
     u8 friendship = GetMonData(&sDoubleExchangeMon, MON_DATA_FRIENDSHIP);
     SetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_FRIENDSHIP, &friendship);
+}
+
+// Whether the chosen party Pokémon (gSpecialVar_0x8005) would evolve if it were traded, like
+// GetEvolutionTargetSpecies's EVO_MODE_TRADE but without taking its held item.
+// Returns TRADE_EVO_NEEDS_ITEM, with the item's name in gStringVar3, if its trade evolution needs an
+// item it isn't holding.
+u8 WouldMonEvolveThroughTrade(void)
+{
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8005];
+    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+    u16 heldItem = GetMonData(mon, MON_DATA_HELD_ITEM);
+    u16 neededItem = ITEM_NONE;
+    int i;
+
+    if (GetMonData(mon, MON_DATA_IS_EGG) || GetItemHoldEffect(heldItem) == HOLD_EFFECT_PREVENT_EVOLVE)
+        return TRADE_EVO_NONE;
+    for (i = 0; i < EVOS_PER_MON; i++)
+    {
+        switch (gEvolutionTable[species][i].method)
+        {
+        case EVO_TRADE:
+            return TRADE_EVO_YES;
+        case EVO_TRADE_ITEM:
+            if (gEvolutionTable[species][i].param == heldItem)
+                return TRADE_EVO_YES;
+            neededItem = gEvolutionTable[species][i].param;
+            break;
+        }
+    }
+    if (neededItem != ITEM_NONE)
+    {
+        CopyItemName(neededItem, gStringVar3);
+        return TRADE_EVO_NEEDS_ITEM;
+    }
+    return TRADE_EVO_NONE;
 }
 
 static void CB2_UpdateLinkTrade(void)
