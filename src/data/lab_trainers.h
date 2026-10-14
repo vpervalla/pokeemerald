@@ -1,0 +1,111 @@
+// The trainers who took the Kanto starters from OAK's lab (see lab_trainer_parties.h).
+
+    [TRAINER_LEAF_ROUTE24] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_LEAF,
+        .trainerName = _("LEAF"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafRoute24),
+    },
+
+    [TRAINER_KRIS_ROUTE24] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KRIS,
+        .trainerName = _("KRIS"),
+        .items = {},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafRoute24),
+    },
+
+    [TRAINER_LEAF_CELADON] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_LEAF,
+        .trainerName = _("LEAF"),
+        .items = {ITEM_SUPER_POTION},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafCeladon),
+    },
+
+    [TRAINER_KRIS_CELADON] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KRIS,
+        .trainerName = _("KRIS"),
+        .items = {ITEM_SUPER_POTION},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafCeladon),
+    },
+
+    [TRAINER_LEAF_ROUTE23] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_LEAF,
+        .trainerName = _("LEAF"),
+        .items = {ITEM_HYPER_POTION, ITEM_HYPER_POTION},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafRoute23),
+    },
+
+    [TRAINER_KRIS_ROUTE23] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KRIS,
+        .trainerName = _("KRIS"),
+        .items = {ITEM_HYPER_POTION, ITEM_HYPER_POTION},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafRoute23),
+    },
+
+    [TRAINER_LEAF_CERULEAN_CAVE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_LEAF,
+        .trainerName = _("LEAF"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafCeruleanCave),
+    },
+
+    [TRAINER_KRIS_CERULEAN_CAVE] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_KRIS,
+        .trainerName = _("KRIS"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabLeafCeruleanCave),
+    },
+
+    [TRAINER_RED_MT_EMBER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_RED,
+        .trainerName = _("RED"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabRedMtEmber),
+    },
+
+    [TRAINER_ETHAN_MT_EMBER] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_ETHAN,
+        .trainerName = _("ETHAN"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_LabRedMtEmber),
+    },

@@ -154,4 +154,12 @@
 #define OBJ_EVENT_GFX_STARTER_SQUIRTLE    (OBJ_EVENT_GFX_STARTER_START + 2)
 #define NUM_STARTER_OBJ_EVENT_GFX 3
 
+// Added for the trainers who took the Kanto starters from OAK's lab (not generated). Each one shows
+// RED or LEAF, or ETHAN or KRIS in place of whichever the player is dressed as (see
+// GetObjectEventGraphicsInfo). See src/data/object_events/lab_trainer_object_events.h.
+#define OBJ_EVENT_GFX_LAB_TRAINER_START (OBJ_EVENT_GFX_STARTER_START + NUM_STARTER_OBJ_EVENT_GFX)
+#define OBJ_EVENT_GFX_RED_OR_ETHAN      (OBJ_EVENT_GFX_LAB_TRAINER_START + 0)
+#define OBJ_EVENT_GFX_LEAF_OR_KRIS      (OBJ_EVENT_GFX_LAB_TRAINER_START + 1)
+#define NUM_LAB_TRAINER_OBJ_EVENT_GFX 2
+
 #endif // GUARD_CONSTANTS_EVENT_OBJECTS_KANTO_H

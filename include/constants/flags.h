@@ -2032,6 +2032,17 @@
 #define FLAG_MET_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E4)
 #define FLAG_GOT_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E5) // Also hides the POKéMON
 
+// The trainers who took the Kanto starters from OAK's lab: LEAF (or KRIS), met four times, and RED (or ETHAN)
+// after the Hall of Fame. Each LEAF hides the earlier ones when beaten. The post-game ones are shown on
+// transition once the game is clear and until they're beaten.
+#define FLAG_HIDE_LEAF_ROUTE24                      (KANTO_EXTRA_FLAGS_START + 0x1E6)
+#define FLAG_HIDE_LEAF_CELADON                      (KANTO_EXTRA_FLAGS_START + 0x1E7)
+#define FLAG_HIDE_LEAF_ROUTE23                      (KANTO_EXTRA_FLAGS_START + 0x1E8)
+#define FLAG_HIDE_LEAF_CERULEAN_CAVE                (KANTO_EXTRA_FLAGS_START + 0x1E9)
+#define FLAG_DEFEATED_LEAF_POSTGAME                 (KANTO_EXTRA_FLAGS_START + 0x1EA)
+#define FLAG_HIDE_RED_MT_EMBER                      (KANTO_EXTRA_FLAGS_START + 0x1EB)
+#define FLAG_DEFEATED_RED_POSTGAME                  (KANTO_EXTRA_FLAGS_START + 0x1EC)
+
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
 #define FLAG_DONT_TRANSITION_MUSIC              (SPECIAL_FLAGS_START + 0x1)

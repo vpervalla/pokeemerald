@@ -494,7 +494,20 @@
 
 #define TRAINER_ALAIN                                 1347
 
-#define NUM_KANTO_TRAINERS 484
+// The trainers who took the Kanto starters from OAK's lab (not generated). LEAF and KRIS, and RED and
+// ETHAN, share their parties: KRIS replaces LEAF, and ETHAN replaces RED, when the player is dressed as them.
+#define TRAINER_LEAF_ROUTE24                          1348
+#define TRAINER_KRIS_ROUTE24                          1349
+#define TRAINER_LEAF_CELADON                          1350
+#define TRAINER_KRIS_CELADON                          1351
+#define TRAINER_LEAF_ROUTE23                          1352
+#define TRAINER_KRIS_ROUTE23                          1353
+#define TRAINER_LEAF_CERULEAN_CAVE                    1354
+#define TRAINER_KRIS_CERULEAN_CAVE                    1355
+#define TRAINER_RED_MT_EMBER                          1356
+#define TRAINER_ETHAN_MT_EMBER                        1357
+
+#define NUM_KANTO_TRAINERS 494
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

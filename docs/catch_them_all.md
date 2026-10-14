@@ -10,6 +10,24 @@ is no rival battle in the lab, and OAK gives the player a PIKACHU instead, at le
 `VAR_STARTER_MON` is set to 2, as if the player had picked CHARMANDER, so the rival's teams always
 follow his SQUIRTLE.
 
+The trainers who took the starters meet the player again (`data/scripts/lab_trainers.inc`). Talking
+to them starts the battle; afterwards they leave. LEAF (or KRIS) battles the player four times, and
+each time she's beaten she also hides the earlier ones the player skipped:
+
+| Battle    | Where                                      | Team                                                                      |
+|-----------|--------------------------------------------|---------------------------------------------------------------------------|
+| Early     | ROUTE 24, past NUGGET BRIDGE               | NIDORAN♀ 13, CLEFAIRY 13, BULBASAUR 15                                    |
+| Middle    | CELADON CITY, outside the DEPT. STORE      | NIDORINA 30, CLEFAIRY 30, PONYTA 31, PSYDUCK 30, IVYSAUR 33              |
+| Late      | ROUTE 23, by VICTORY ROAD                  | NIDOQUEEN 50, CLEFABLE 49, RAPIDASH 50, GOLDUCK 50, DRAGONAIR 51, VENUSAUR 53 |
+| Post-game | CERULEAN CITY, by CERULEAN CAVE (Surf)     | NIDOQUEEN 74, CLEFABLE 74, RAPIDASH 75, STARMIE 75, DRAGONITE 76, VENUSAUR 78 (VENUSAURITE) |
+
+RED (or ETHAN) waits at the summit of MT. EMBER after the Hall of Fame: SNORLAX 77, LAPRAS 77,
+ESPEON 76, AERODACTYL 76, GENGAR 76 and CHARIZARD 80 with CHARIZARDITE X.
+
+The NPCs use `OBJ_EVENT_GFX_RED_OR_ETHAN` and `OBJ_EVENT_GFX_LEAF_OR_KRIS`, which pick the sprite
+from the player's costume. LEAF and KRIS, and RED and ETHAN, are separate trainers with the same
+parties (`src/data/lab_trainers.h` and `lab_trainer_parties.h`).
+
 Each Kanto starter then has its own side quest, always in the same place, a little like in Pokémon
 Yellow, but they take more effort:
 

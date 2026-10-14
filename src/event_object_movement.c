@@ -490,6 +490,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/champion_object_events.h"
 #include "data/object_events/story_mon_object_events.h"
 #include "data/object_events/starter_object_events.h"
+#include "data/object_events/lab_trainer_object_events.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
@@ -2016,6 +2017,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sStoryMonObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_STORY_MON_START];
     if (graphicsId >= OBJ_EVENT_GFX_STARTER_START && graphicsId < OBJ_EVENT_GFX_STARTER_START + NUM_STARTER_OBJ_EVENT_GFX)
         return sStarterObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_STARTER_START];
+    if (graphicsId >= OBJ_EVENT_GFX_LAB_TRAINER_START && graphicsId < OBJ_EVENT_GFX_LAB_TRAINER_START + NUM_LAB_TRAINER_OBJ_EVENT_GFX)
+        return GetLabTrainerGraphicsInfo(graphicsId);
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
