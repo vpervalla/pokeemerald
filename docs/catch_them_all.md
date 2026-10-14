@@ -62,6 +62,23 @@ MUSEUM (1F, next to the fossil cases; `FLAG_HIDE_PEWTER_MUSEUM_MIGUEL` is set on
 The scripts are after the generated NPCs in `PewterCity_Museum_1F` and
 `CinnabarIsland_PokemonLab_ExperimentRoom`.
 
+## The other DOJO POKéMON
+
+In FireRed, the SAFFRON CITY DOJO gives either HITMONLEE or HITMONCHAN. Here, after the ELITE FOUR
+(`FLAG_SYS_GAME_CLEAR`), the DOJO's trainers are swapped on transition for stronger ones
+(`FLAG_HIDE_DOJO_TRAINERS` / `FLAG_HIDE_DOJO_REMATCH_TRAINERS`, trainers `TRAINER_DOJO_*` in
+`src/data/dojo_trainers.h` and `dojo_trainer_parties.h`):
+
+- The four BLACK BELTS (levels 60 to 63) battle on sight, as the first time.
+- MASTER KOICHI only fights once all four are beaten. His team ends with a level 70 MACHAMP that
+  holds a MACHAMPITE and Mega Evolves into Mega Machamp (Fighting, No Guard, 90/170/110/65/65/105).
+  Mega Machamp isn't an official Mega: it was added with `tools/mega_evolutions/import_megas.py`.
+- Beating him lets the player take the POKé BALL still on the altar
+  (`SaffronCity_Dojo_EventScript_CheckCanTakeHitmon`).
+
+Before the ELITE FOUR, nothing changes. Breeding a HITMON with DITTO for a TYROGUE is still another
+way.
+
 ## Version exclusives
 
 The Kanto wild encounters were ported from FireRed (`port_kanto.py encounters` skips LeafGreen's

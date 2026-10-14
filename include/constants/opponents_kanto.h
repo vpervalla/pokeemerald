@@ -494,7 +494,14 @@
 
 #define TRAINER_ALAIN                                 1347
 
-#define NUM_KANTO_TRAINERS 484
+// Added for the SAFFRON CITY DOJO rematch after the ELITE FOUR (not generated)
+#define TRAINER_DOJO_MIKE                             1348
+#define TRAINER_DOJO_AARON                            1349
+#define TRAINER_DOJO_HIDEKI                           1350
+#define TRAINER_DOJO_HITOSHI                          1351
+#define TRAINER_DOJO_KOICHI                           1352
+
+#define NUM_KANTO_TRAINERS 489
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

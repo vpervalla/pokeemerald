@@ -337,6 +337,7 @@ STATIC_ASSERT(NUM_SPECIES_WITH_FORMS <= SPECIES_SHINY_TAG, SpeciesPaletteTagsOve
 #include "data/trainer_parties.h"
 #include "data/kanto_trainer_parties.h"
 #include "data/tournament_trainer_parties.h"
+#include "data/dojo_trainer_parties.h"
 #include "data/text/trainer_class_names.h"
 #include "data/trainers.h"
 #include "data/text/species_names.h"
