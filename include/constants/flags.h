@@ -2024,6 +2024,8 @@
 #define FLAG_GOT_MOON_STONE_FROM_LUNAS_MOM          (KANTO_EXTRA_FLAGS_START + 0x1E3)
 #define FLAG_MET_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E4)
 #define FLAG_GOT_CERULEAN_STARTER                   (KANTO_EXTRA_FLAGS_START + 0x1E5) // Also hides the POKéMON
+#define FLAG_HIDE_PEWTER_MUSEUM_MIGUEL              (KANTO_EXTRA_FLAGS_START + 0x1E6) // Set on transition
+#define FLAG_GOT_FOSSIL_FROM_MIGUEL                 (KANTO_EXTRA_FLAGS_START + 0x1E7)
 
 // The double-exchange traders in the Pokémon Centers: set once each has exchanged.
 #define FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY         (KANTO_EXTRA_FLAGS_START + 0x1c0)

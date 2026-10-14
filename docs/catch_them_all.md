@@ -45,6 +45,23 @@ generated Kanto NPCs in the scripts of `MtMoon_B2F`, `Route4_PokemonCenter_1F` a
 `CeruleanCity_House5`. The flags are at the end of the Kanto extra flags in
 `include/constants/flags.h`.
 
+## The other MT. MOON fossil
+
+In FireRed, the player and MIGUEL each take one of the two fossils on MT. MOON B2F, so either
+KABUTO or OMANYTE needs a trade. Here MIGUEL leaves MT. MOON once the fossils are taken (his
+object is hidden by `FLAG_GOT_FOSSIL_FROM_MT_MOON`) and studies his fossil at the PEWTER CITY
+MUSEUM (1F, next to the fossil cases; `FLAG_HIDE_PEWTER_MUSEUM_MIGUEL` is set on transition).
+
+- Until the player's own fossil has been revived at the CINNABAR LAB, he asks to see the POKéMON
+  it becomes.
+- Once it has been revived, he wants to see it (or its evolution) in the party. Then he gives the
+  player his fossil (`FLAG_GOT_FOSSIL_FROM_MIGUEL`, and the fossil's `FLAG_GOT_*_FOSSIL`).
+- The CINNABAR LAB revives it like the first one. The doctor only says he has revived every
+  fossil once each MT. MOON fossil the player got has been revived.
+
+The scripts are after the generated NPCs in `PewterCity_Museum_1F` and
+`CinnabarIsland_PokemonLab_ExperimentRoom`.
+
 ## Version exclusives
 
 The Kanto wild encounters were ported from FireRed (`port_kanto.py encounters` skips LeafGreen's

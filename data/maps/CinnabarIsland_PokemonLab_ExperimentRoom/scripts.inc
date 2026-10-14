@@ -37,7 +37,7 @@ CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelix::
 	return
 
 CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedMtMoonFossil::
-	goto_if_set FLAG_GOT_HELIX_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelix
+	goto_if_set FLAG_GOT_HELIX_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelixThenDome  @ changed: MIGUEL gives the other fossil
 	goto_if_set FLAG_GOT_DOME_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedDome
 	goto CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_SetResultFalse
 	end
@@ -327,5 +327,12 @@ CinnabarIsland_PokemonLab_ExperimentRoom_Text_ThatFossilIsOfMonMakeItLiveAgain:
 CinnabarIsland_PokemonLab_ExperimentRoom_Text_YouComeAgain:
     .string "Aiyah!\n"
     .string "You come again!$"
+
+@ Added: with MIGUEL's fossil (PewterCity_Museum_1F) the player can have both MT. MOON fossils.
+CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedHelixThenDome:
+	goto_if_unset FLAG_REVIVED_HELIX, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_SetResultFalse
+	goto_if_set FLAG_GOT_DOME_FOSSIL, CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_CheckRevivedDome
+	setvar VAR_RESULT, TRUE
+	return
 
 @ END KANTO NPCS
