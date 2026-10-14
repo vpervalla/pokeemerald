@@ -122,7 +122,7 @@ MASTER KOICHI's MACHAMPITE, from the SAFFRON CITY DOJO rematch, counts too.
 Seven champions answered MR. M.'s invitation. With the player, that makes an 8-trainer bracket.
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
 generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
-70-75, and each one's ace, sent out last, holds its MEGA STONE.
+75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
 
 | Champion | Region | Mega | Where they wait |
 |----------|--------|------|-----------------|
