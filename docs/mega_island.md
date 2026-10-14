@@ -123,6 +123,8 @@ Seven champions answered MR. M.'s invitation. With the player, that makes an 8-t
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
 generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
 75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
+The rounds get harder: the semifinal opponent (the rival) is 2 levels higher (78-81), and the final
+one (LEON) 4 levels higher (80-84). MEWTWO, after the tournament, is lv 85.
 
 | Champion | Region | Mega | Where they wait |
 |----------|--------|------|-----------------|
@@ -194,7 +196,7 @@ broke free and took the stones, and why it gathered the champions. It won't batt
 audience: it invites the player to the cave on the island's route, and vanishes (state 9).
 
 In the cave (`MegaIsland_Cave`) MEWTWO waits at the back, and the hiker has left. Talking to it
-starts a legendary battle at lv 80. MEWTWO holds MEWTWONITE X and Mega Evolves on its first
+starts a legendary battle at lv 85. MEWTWO holds MEWTWONITE X and Mega Evolves on its first
 turn: wild POKéMON don't Mega Evolve, except a legendary holding its stone
 (`OpponentHandleChooseMove`). Catching it (it keeps the stone) ends the story (state 10). If it's
 beaten it says strength alone won't bind it and vanishes, and if the player runs it stays: either

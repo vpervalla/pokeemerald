@@ -4,7 +4,7 @@ MegaIsland_Cave_MapScripts::
 	.byte 0
 
 @ After the tournament MEWTWO (MR. M.) waits here for the player (VAR_MEGA_STORY_STATE 9), and the
-@ hiker keeps away. It's a legendary battle at lv 80: MEWTWO holds MEWTWONITE X and Mega Evolves.
+@ hiker keeps away. It's a legendary battle at lv 85: MEWTWO holds MEWTWONITE X and Mega Evolves.
 @ Only catching it ends the story (state 10, and the player gets the stone with it); if it's
 @ beaten or the player runs, it waits here again next time.
 MegaIsland_Cave_OnTransition:
@@ -40,7 +40,7 @@ MegaIsland_Cave_EventScript_Mewtwo::
 	playmoncry SPECIES_MEWTWO, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_MEWTWO, 80, ITEM_MEWTWONITE_X
+	setwildbattle SPECIES_MEWTWO, 85, ITEM_MEWTWONITE_X
 	setflag FLAG_SYS_SPECIAL_WILD_BATTLE
 	special BattleSetup_StartLegendaryBattle
 	waitstate
