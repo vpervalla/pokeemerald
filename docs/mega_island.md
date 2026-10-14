@@ -103,7 +103,8 @@ In battle, the Kanto rival (TERRY in the trainer data) now shows the name the pl
 ## The tournament
 
 `VAR_MEGA_STORY_STATE` goes on counting: 3 registered (asleep tonight), 4 quarterfinal next,
-5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match.
+5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match, 9 MEWTWO
+waiting in the island's cave, 10 MEWTWO caught.
 
 1. **Registration.** The receptionist in the hall gives the quarterfinal pairings and registers the
    player: the tournament begins tomorrow morning, and their room is upstairs (guest room 1, the
@@ -129,7 +130,23 @@ The bracket is fixed:
 | Semifinals | vs the rival (Mega Pidgeot; his team follows the player's starter) | Leon beats Diantha |
 | Final | vs Leon (Mega Charizard Y) | |
 
-After the final MR. M. tells the player to rest and come to him: the story goes on from there.
+After the final MR. M. tells the player to rest and come to him, and the receptionist reminds
+them that he waits in the arena.
+
+## MEWTWO
+
+MEWTWO is no longer in CERULEAN CAVE: RED (or ETHAN) waits there instead (see
+`docs/catch_them_all.md`). After the tournament (state 7), MR. M. stands on his dais in the
+arena. Talking to him, he reveals himself: in a flash he becomes MEWTWO, tells the player how it
+broke free and took the stones, and why it gathered the champions. It won't battle before an
+audience: it invites the player to the cave on the island's route, and vanishes (state 9).
+
+In the cave (`MegaIsland_Cave`) MEWTWO waits at the back, and the hiker has left. Talking to it
+starts a legendary battle at lv 80. MEWTWO holds MEWTWONITE X and Mega Evolves on its first
+turn: wild POKéMON don't Mega Evolve, except a legendary holding its stone
+(`OpponentHandleChooseMove`). Catching it (it keeps the stone) ends the story (state 10). If it's
+beaten it says strength alone won't bind it and vanishes, and if the player runs it stays: either
+way it waits in the cave again, so it can always be caught.
 
 ## The castle tilesets
 

@@ -3,11 +3,13 @@ MegaIsland_Castle_1F_MapScripts::
 
 @ The receptionist registers the player for MR. M.'s tournament, and heals their team between
 @ rounds. VAR_MEGA_STORY_STATE: 2 invited, 3 registered (to sleep in guest room 1), 4 quarterfinal
-@ next, 5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match. The matches are in MegaIsland_Arena.
+@ next, 5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match,
+@ 9 MEWTWO waiting in the island's cave, 10 MEWTWO caught. The matches are in MegaIsland_Arena.
 MegaIsland_Castle_1F_EventScript_Receptionist::
 	lock
 	faceplayer
 	goto_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Castle_1F_EventScript_ReceptionistChampion
+	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Castle_1F_EventScript_ReceptionistChampion
 	goto_if_eq VAR_MEGA_STORY_STATE, 3, MegaIsland_Castle_1F_EventScript_ReceptionistGoToSleep
 	goto_if_ge VAR_MEGA_STORY_STATE, 4, MegaIsland_Castle_1F_EventScript_ReceptionistNextRound
 	msgbox MegaIsland_Castle_1F_Text_Register, MSGBOX_YESNO
@@ -47,9 +49,14 @@ MegaIsland_Castle_1F_EventScript_BufferFinal::
 
 MegaIsland_Castle_1F_EventScript_ReceptionistChampion::
 	msgbox MegaIsland_Castle_1F_Text_Champion
+	call_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Castle_1F_EventScript_MrMWaits
 	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
 	release
 	end
+
+MegaIsland_Castle_1F_EventScript_MrMWaits::
+	msgbox MegaIsland_Castle_1F_Text_MrMWaits
+	return
 
 MegaIsland_Castle_1F_EventScript_ReceptionistHeal::
 	closemessage
@@ -121,3 +128,7 @@ MegaIsland_Castle_1F_Text_Blue:
 	.string "I'm the one who's walking out of\n"
 	.string "here with the trophy!\p"
 	.string "Smell ya later!$"
+
+MegaIsland_Castle_1F_Text_MrMWaits:
+	.string "MR. M. is waiting for you in the\n"
+	.string "arena, whenever you are ready.$"

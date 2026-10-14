@@ -17,6 +17,8 @@ MegaIsland_Arena_OnTransition:
 	setvar VAR_TEMP_0, 0
 	setflag FLAG_TEMP_1
 	setflag FLAG_TEMP_2
+	setflag FLAG_TEMP_3
+	call_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Arena_EventScript_ShowMrM
 	goto_if_lt VAR_MEGA_STORY_STATE, 4, MegaIsland_Arena_OnTransitionEnd
 	goto_if_gt VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_OnTransitionEnd
 	clearflag FLAG_TEMP_1
@@ -27,6 +29,11 @@ MegaIsland_Arena_OnTransition:
 	call_if_eq VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_SetOpponentLeon
 MegaIsland_Arena_OnTransitionEnd:
 	end
+
+@ After the final MR. M. waits on his dais for the champion (state 7).
+MegaIsland_Arena_EventScript_ShowMrM:
+	clearflag FLAG_TEMP_2
+	return
 
 MegaIsland_Arena_SetOpponentRival:
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_KANTO_BLUE
@@ -337,3 +344,58 @@ MegaIsland_Arena_Text_TournamentWon:
 	.string "Rest now. When you are ready,\n"
 	.string "there is something I must show you.$"
 
+
+@ After the tournament (state 7) MR. M. reveals that he is MEWTWO, and doesn't battle the player here:
+@ he leaves for the cave on the island's route and waits for them there (state 9, see MegaIsland_Cave).
+MegaIsland_Arena_EventScript_MrM::
+	lock
+	faceplayer
+	msgbox MegaIsland_Arena_Text_MrMReveal
+	closemessage
+	playse SE_M_TELEPORT
+	fadescreen FADE_TO_WHITE
+	removeobject LOCALID_ARENA_MR_M
+	clearflag FLAG_TEMP_3
+	addobject LOCALID_ARENA_MEWTWO
+	fadescreen FADE_FROM_WHITE
+	playmoncry SPECIES_MEWTWO, CRY_MODE_ENCOUNTER
+	waitmoncry
+	msgbox MegaIsland_Arena_Text_MewtwoInvitesToCave
+	closemessage
+	playse SE_M_TELEPORT
+	fadescreen FADE_TO_WHITE
+	removeobject LOCALID_ARENA_MEWTWO
+	fadescreen FADE_FROM_WHITE
+	setvar VAR_MEGA_STORY_STATE, 9
+	msgbox MegaIsland_Arena_Text_MewtwoVanished
+	release
+	end
+
+MegaIsland_Arena_Text_MrMReveal:
+	.string "MR. M: You came.\p"
+	.string "I have watched every one of your\n"
+	.string "battles, {PLAYER}.\p"
+	.string "You fight as one with your\n"
+	.string "POKéMON. I did not think that\l"
+	.string "possible for a human.\p"
+	.string "It is time you saw who invited\n"
+	.string "you here.$"
+
+MegaIsland_Arena_Text_MewtwoInvitesToCave:
+	.string "MEWTWO: …Yes. I am MEWTWO.\p"
+	.string "Humans made me. Humans caged me.\n"
+	.string "I broke free, and I took the\l"
+	.string "stones they hoarded.\p"
+	.string "I gathered the strongest trainers\n"
+	.string "to learn what they could do\l"
+	.string "with this power.\p"
+	.string "You surpassed them all.\p"
+	.string "Now I will see if you can surpass\n"
+	.string "me.\p"
+	.string "Not here, before an audience.\p"
+	.string "Come to the cave on this island's\n"
+	.string "road. Come alone.\p"
+	.string "There, I will hold nothing back.$"
+
+MegaIsland_Arena_Text_MewtwoVanished:
+	.string "MEWTWO vanished!$"
