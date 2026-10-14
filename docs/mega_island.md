@@ -48,11 +48,9 @@ STONE, and the player has none.
 
 1. **Cinnabar Gym.** After the battle (and TM38), BLAINE tells the player that Mega Evolution
    was discovered at the POKéMON MANSION while studying MEWTWO, and that when MEWTWO broke
-   loose and destroyed the lab, the notes burned and the MEGA STONES were lost. He doesn't
-   know that MEWTWO itself can Mega Evolve: there is no record of it. He gives the player the
-   MEGA RING (`FLAG_RECEIVED_MEGA_RING`) and explains how to use it (hold the stone, press
-   START when choosing a move, once per battle). A player who beat him before this change
-   gets the ring by talking to him again.
+   loose and destroyed the lab, the notes burned and every stone, KEY STONE included, was lost.
+   He doesn't know that MEWTWO itself can Mega Evolve: there is no record of it. He gives
+   nothing Mega-related.
 2. **Hall of Fame.** `PokemonLeague_HallOfFame_EventScript_GameClear` sets
    `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
    the credits). The port of FRLG's script had lost this step, so the game used to stop on a
@@ -60,9 +58,11 @@ STONE, and the player has none.
 3. **The invitation.** When the player comes downstairs, MOM gives them a letter that a tall,
    quiet gentleman in a long coat brought that morning. It's an invitation to a tournament
    on an island east of Vermilion, signed "MR. M.". MR. M. is MEWTWO, which uses its powers
-   to be seen as a man; nothing in the letter says so. The MEGA STONES of the three Kanto
-   starters are inside: VENUSAURITE, CHARIZARDITE X and Y, and BLASTOISINITE. (The player's own
-   starter is PIKACHU, which can't Mega Evolve; the Kanto starters come from side quests.) `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
+   to be seen as a man; nothing in the letter says so. The MEGA RING
+   (`FLAG_RECEIVED_MEGA_RING`) is inside, and the letter explains how to use it (the POKéMON holds
+   its stone, press START when choosing a move, once per battle). No MEGA STONE comes with it:
+   the letter says they are hidden, waiting for worthy trainers. A save that already got the
+   ring from BLAINE (before this change) doesn't get a second one. `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works
    for MR. M., appears.
 
 ## The tournament entrants

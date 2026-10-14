@@ -97,8 +97,7 @@ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest:
 
 @ The Mega Evolution story: after the Hall of Fame, the player wakes up at home and MOM has a
 @ letter for them. It's the invitation to the tournament on APEX ISLAND, from a "MR. M." (MEWTWO, seen by MOM as a
-@ man thanks to its powers), with the MEGA STONES of the three Kanto starters inside: the player's own
-@ starter is PIKACHU, which can't Mega Evolve, and the starters come from side quests.
+@ man thanks to its powers), with the MEGA RING inside. The MEGA STONES are found elsewhere.
 
 PalletTown_PlayersHouse_1F_OnFrame:
 	map_script_2 VAR_MEGA_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomHasLetter
@@ -114,15 +113,10 @@ PalletTown_PlayersHouse_1F_EventScript_MomHasLetter::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomLetterCameForYou
 	closemessage
 	msgbox PalletTown_PlayersHouse_1F_Text_Invitation
-	msgbox PalletTown_PlayersHouse_1F_Text_InvitationKantoStones
-	bufferitemname STR_VAR_1, ITEM_VENUSAURITE
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter, ITEM_VENUSAURITE, 1, MUS_RG_OBTAIN_KEY_ITEM
-	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_X
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_CHARIZARDITE_X, 1, MUS_RG_OBTAIN_KEY_ITEM
-	bufferitemname STR_VAR_1, ITEM_CHARIZARDITE_Y
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_CHARIZARDITE_Y, 1, MUS_RG_OBTAIN_KEY_ITEM
-	bufferitemname STR_VAR_1, ITEM_BLASTOISINITE
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundAnotherStone, ITEM_BLASTOISINITE, 1, MUS_RG_OBTAIN_KEY_ITEM
+	msgbox PalletTown_PlayersHouse_1F_Text_InvitationMegaRing
+	goto_if_set FLAG_RECEIVED_MEGA_RING, PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundRingInLetter, ITEM_MEGA_RING, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_RECEIVED_MEGA_RING
 PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomDoYourBest
 	closemessage
@@ -184,22 +178,23 @@ PalletTown_PlayersHouse_1F_Text_Invitation:
     .string "A ship will wait for you at\n"
     .string "VERMILION HARBOR.$"
 
-PalletTown_PlayersHouse_1F_Text_InvitationKantoStones:
-    .string "The stones in this letter are meant\n"
-    .string "for the three POKéMON of PROF.\l"
-    .string "OAK's lab: VENUSAUR, CHARIZARD\l"
-    .string "and BLASTOISE.\p"
+PalletTown_PlayersHouse_1F_Text_InvitationMegaRing:
+    .string "With this letter is a ring. Its\n"
+    .string "KEY STONE unlocks that power.\p"
+    .string "A POKéMON must hold its own MEGA\n"
+    .string "STONE. Then, in battle, press\l"
+    .string "START when you choose a move,\l"
+    .string "and it will Mega Evolve.\l"
+    .string "Only once per battle.\p"
+    .string "The MEGA STONES are hidden away,\n"
+    .string "waiting for worthy trainers.\l"
     .string "Find them, and awaken their power.\p"
     .string "Yours sincerely,\n"
     .string "MR. M.”$"
 
-PalletTown_PlayersHouse_1F_Text_FoundStoneInLetter:
+PalletTown_PlayersHouse_1F_Text_FoundRingInLetter:
     .string "There was something in the letter!\p"
-    .string "{PLAYER} found the {STR_VAR_1}!$"
-
-PalletTown_PlayersHouse_1F_Text_FoundAnotherStone:
-    .string "There was another one!\p"
-    .string "{PLAYER} found the {STR_VAR_1}!$"
+    .string "{PLAYER} found the MEGA RING!$"
 
 PalletTown_PlayersHouse_1F_Text_MomDoYourBest:
     .string "MOM: A tournament on an island?\n"
