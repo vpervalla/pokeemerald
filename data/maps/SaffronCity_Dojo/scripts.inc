@@ -310,7 +310,32 @@ SaffronCity_Dojo_EventScript_RematchKoichi::
 	goto_if_not_defeated TRAINER_DOJO_HITOSHI, SaffronCity_Dojo_EventScript_RematchKoichiBeatStudents
 	msgbox SaffronCity_Dojo_Text_RematchKoichiIntro
 	trainerbattle_no_intro TRAINER_DOJO_KOICHI, SaffronCity_Dojo_Text_RematchKoichiDefeat
+	goto SaffronCity_Dojo_EventScript_RematchKoichiReward
+	end
+
+@ Also where the player comes back to if their BAG was full
+SaffronCity_Dojo_EventScript_RematchKoichiReward:
+	msgbox SaffronCity_Dojo_Text_RematchKoichiMasteredDojo
+	call_if_set FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_RematchKoichiTakeOtherMon
+	call_if_unset FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_RematchKoichiTakeBothMons
+	msgbox SaffronCity_Dojo_Text_RematchKoichiTakeMachampite
+	giveitem ITEM_MACHAMPITE
+	goto_if_eq VAR_RESULT, FALSE, SaffronCity_Dojo_EventScript_RematchKoichiBagFull
+	setflag FLAG_GOT_MACHAMPITE_FROM_KOICHI
+	msgbox SaffronCity_Dojo_Text_RematchKoichiExplainMachampite
+	release
+	end
+
+SaffronCity_Dojo_EventScript_RematchKoichiTakeOtherMon:
 	msgbox SaffronCity_Dojo_Text_RematchKoichiTakeOtherMon
+	return
+
+SaffronCity_Dojo_EventScript_RematchKoichiTakeBothMons:
+	msgbox SaffronCity_Dojo_Text_RematchKoichiTakeBothMons
+	return
+
+SaffronCity_Dojo_EventScript_RematchKoichiBagFull:
+	msgbox SaffronCity_Dojo_Text_RematchKoichiBagFull
 	release
 	end
 
@@ -320,7 +345,15 @@ SaffronCity_Dojo_EventScript_RematchKoichiBeatStudents:
 	end
 
 SaffronCity_Dojo_EventScript_RematchKoichiDefeated:
+	goto_if_unset FLAG_GOT_MACHAMPITE_FROM_KOICHI, SaffronCity_Dojo_EventScript_RematchKoichiReward
+	goto_if_unset FLAG_HIDE_DOJO_HITMONLEE_BALL, SaffronCity_Dojo_EventScript_RematchKoichiMonWaiting
+	goto_if_unset FLAG_HIDE_DOJO_HITMONCHAN_BALL, SaffronCity_Dojo_EventScript_RematchKoichiMonWaiting
 	msgbox SaffronCity_Dojo_Text_RematchKoichiPostBattle
+	release
+	end
+
+SaffronCity_Dojo_EventScript_RematchKoichiMonWaiting:
+	msgbox SaffronCity_Dojo_Text_RematchKoichiMonWaiting
 	release
 	end
 
@@ -395,13 +428,39 @@ SaffronCity_Dojo_Text_RematchKoichiDefeat:
     .string "Hwa!\n"
     .string "Even the power of Mega Evolution\lcould not stop you!$"
 
-SaffronCity_Dojo_Text_RematchKoichiTakeOtherMon:
+SaffronCity_Dojo_Text_RematchKoichiMasteredDojo:
     .string "KOICHI: You have mastered our\n"
-    .string "DOJO, CHAMPION.\p"
+    .string "DOJO, CHAMPION.$"
+
+SaffronCity_Dojo_Text_RematchKoichiTakeOtherMon:
     .string "The fighting POKéMON still\n"
-    .string "waiting by the wall is yours.\p"
-    .string "Take it, and train it as hard as\n"
-    .string "you trained to beat me!$"
+    .string "waiting on the altar…\p"
+    .string "You may take it as well!\n"
+    .string "It is yours now.$"
+
+SaffronCity_Dojo_Text_RematchKoichiTakeBothMons:
+    .string "The two fighting POKéMON on the\n"
+    .string "altar, HITMONLEE and HITMONCHAN…\p"
+    .string "You may take them both!\n"
+    .string "They are yours now.$"
+
+SaffronCity_Dojo_Text_RematchKoichiTakeMachampite:
+    .string "And take this too. It is the\n"
+    .string "MEGA STONE of my MACHAMP.$"
+
+SaffronCity_Dojo_Text_RematchKoichiExplainMachampite:
+    .string "Let a MACHAMP hold the MACHAMPITE.\p"
+    .string "With a MEGA RING, it will Mega\n"
+    .string "Evolve in battle, as mine did!$"
+
+SaffronCity_Dojo_Text_RematchKoichiBagFull:
+    .string "Hm? Your BAG is full.\n"
+    .string "Make some room and come back.$"
+
+SaffronCity_Dojo_Text_RematchKoichiMonWaiting:
+    .string "KOICHI: Don't forget the POKéMON\n"
+    .string "waiting for you on the altar!\p"
+    .string "Take it. It is yours now.$"
 
 SaffronCity_Dojo_Text_RematchKoichiPostBattle:
     .string "KOICHI: My MACHAMP and I will\n"
