@@ -127,6 +127,10 @@ Each opponent the player beats gives them the MEGA STONE of a POKéMON in their 
 `*GiveStone` scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): ALDER the PINSIRITE
 (his HERACROSS's HERACRONITE already comes from the champion rematch), the rival his PIDGEOTITE and
 LEON his CHARIZARDITE Y (`FLAG_GOT_MEGA_STONE_FROM_ALDER`, `_RIVAL`, `_LEON`).
+After a lost match, waking up in guest room 1, these stones were part of the dream too: the
+`RemoveTournamentMegaStones` special (`src/field_specials.c`) takes each one back from the BAG,
+the PC or a POKéMON holding it (party, then boxes), clears its flag so it can be won again, and the
+player is told. Nothing else gives these three stones, so the copy it takes is always the one won.
 The rounds get harder: the semifinal opponent (the rival) is 2 levels higher (78-81), and the final
 one (LEON) 4 levels higher (80-84). MEWTWO, after the tournament, is lv 85.
 

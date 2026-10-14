@@ -1483,6 +1483,73 @@ bool8 CanPlayerMegaEvolve(void)
     return FALSE;
 }
 
+// Removes one itemId from the BAG, the PC, or a POKéMON holding it (party first, then boxes).
+static bool8 RemoveOneItemAnywhere(u16 itemId)
+{
+    u32 i, box, pos;
+    u16 heldItem;
+
+    if (RemoveBagItem(itemId, 1))
+        return TRUE;
+
+    for (i = 0; i < PC_ITEMS_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->pcItems[i].itemId == itemId)
+        {
+            RemovePCItem(i, 1);
+            return TRUE;
+        }
+    }
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, NULL) == itemId)
+        {
+            heldItem = ITEM_NONE;
+            SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &heldItem);
+            return TRUE;
+        }
+    }
+
+    for (box = 0; box < TOTAL_BOXES_COUNT; box++)
+    {
+        for (pos = 0; pos < IN_BOX_COUNT; pos++)
+        {
+            if (GetBoxMonDataAt(box, pos, MON_DATA_HELD_ITEM) == itemId)
+            {
+                heldItem = ITEM_NONE;
+                SetBoxMonDataAt(box, pos, MON_DATA_HELD_ITEM, &heldItem);
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
+// After a lost match in MR. M.'s tournament it was all a dream: the MEGA STONES the opponents gave
+// are taken back, wherever they are, and can be won again. Returns TRUE if any was taken back.
+bool8 RemoveTournamentMegaStones(void)
+{
+    static const u16 sTournamentStones[][2] = {
+        {FLAG_GOT_MEGA_STONE_FROM_ALDER, ITEM_PINSIRITE},
+        {FLAG_GOT_MEGA_STONE_FROM_RIVAL, ITEM_PIDGEOTITE},
+        {FLAG_GOT_MEGA_STONE_FROM_LEON,  ITEM_CHARIZARDITE_Y},
+    };
+    u32 i;
+    bool8 removed = FALSE;
+
+    for (i = 0; i < ARRAY_COUNT(sTournamentStones); i++)
+    {
+        if (FlagGet(sTournamentStones[i][0]))
+        {
+            RemoveOneItemAnywhere(sTournamentStones[i][1]);
+            FlagClear(sTournamentStones[i][0]);
+            removed = TRUE;
+        }
+    }
+    return removed;
+}
+
 bool8 IsStarterInParty(void)
 {
     u8 i;

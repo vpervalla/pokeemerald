@@ -578,3 +578,4 @@ gSpecials::
 	def_special GetSeagallopNumber
 	def_special IsPlayerLeftOfVermilionSailor
 	def_special CanPlayerMegaEvolve
+	def_special RemoveTournamentMegaStones

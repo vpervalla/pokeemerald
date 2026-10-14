@@ -4,7 +4,8 @@ MegaIsland_Castle_Room1_MapScripts::
 
 @ The player's guest room. After registering (VAR_MEGA_STORY_STATE 3) the player sleeps here and
 @ the tournament begins the next morning (4). After losing a match they wake up here (8): it was
-@ all a dream, and the tournament begins again.
+@ all a dream, and the tournament begins again. The MEGA STONES won in the tournament are gone too,
+@ and can be won again.
 MegaIsland_Castle_Room1_OnFrame:
 	map_script_2 VAR_MEGA_STORY_STATE, 8, MegaIsland_Castle_Room1_EventScript_WakeFromDream
 	.2byte 0
@@ -41,8 +42,15 @@ MegaIsland_Castle_Room1_EventScript_WakeFromDream::
 	setvar VAR_MEGA_STORY_STATE, 4
 	special HealPlayerParty
 	msgbox MegaIsland_Castle_Room1_Text_WasADream
+	specialvar VAR_RESULT, RemoveTournamentMegaStones
+	call_if_eq VAR_RESULT, TRUE, MegaIsland_Castle_Room1_EventScript_StonesGone
 	releaseall
 	end
+
+@ The MEGA STONES won in the tournament were part of the dream too (see RemoveTournamentMegaStones)
+MegaIsland_Castle_Room1_EventScript_StonesGone::
+	msgbox MegaIsland_Castle_Room1_Text_StonesGone
+	return
 
 MegaIsland_Castle_Room1_Text_GoToSleep:
 	.string "A soft, warm bed.\n"
@@ -62,3 +70,8 @@ MegaIsland_Castle_Room1_Text_WasADream:
 	.string "…It was all a dream.\p"
 	.string "It's morning, and the tournament is\n"
 	.string "about to begin!$"
+
+MegaIsland_Castle_Room1_Text_StonesGone:
+	.string "The MEGA STONES won in the\n"
+	.string "tournament… are gone.\p"
+	.string "That was part of the dream too!$"
