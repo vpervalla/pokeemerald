@@ -21,7 +21,8 @@ each time she's beaten she also hides the earlier ones the player skipped:
 | Late      | ROUTE 23, by VICTORY ROAD                  | NIDOQUEEN 50, CLEFABLE 49, RAPIDASH 50, GOLDUCK 50, DRAGONAIR 51, VENUSAUR 53 |
 | Post-game | CERULEAN CITY, by CERULEAN CAVE (Surf)     | NIDOQUEEN 74, CLEFABLE 74, RAPIDASH 75, STARMIE 75, DRAGONITE 76, VENUSAUR 78 (VENUSAURITE) |
 
-RED (or ETHAN) waits at the summit of MT. EMBER after the Hall of Fame: SNORLAX 77, LAPRAS 77,
+RED (or ETHAN) waits deep in CERULEAN CAVE (B1F), where MEWTWO used to be, after the Hall of Fame.
+MEWTWO isn't there anymore: it's MR. M., on APEX ISLAND. His team: SNORLAX 77, LAPRAS 77,
 ESPEON 76, AERODACTYL 76, GENGAR 76 and CHARIZARD 80 with CHARIZARDITE X.
 
 The NPCs use `OBJ_EVENT_GFX_RED_OR_ETHAN` and `OBJ_EVENT_GFX_LEAF_OR_KRIS`, which pick the sprite

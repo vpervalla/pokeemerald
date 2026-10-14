@@ -1,5 +1,5 @@
 MtEmber_Summit_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, MtEmber_Summit_OnTransitionLabTrainers
+	map_script MAP_SCRIPT_ON_TRANSITION, MtEmber_Summit_OnTransition
 	map_script MAP_SCRIPT_ON_RESUME, MtEmber_Summit_OnResume
 	.byte 0
 
@@ -58,8 +58,3 @@ MtEmber_Summit_OnTransition::
 	end
 
 @ END KANTO NPCS
-
-@ Shows the post-game trainer who took a Kanto starter from OAK's lab (data/scripts/lab_trainers.inc).
-MtEmber_Summit_OnTransitionLabTrainers:
-	call LabTrainers_EventScript_UpdatePostgameTrainers
-	goto MtEmber_Summit_OnTransition

@@ -504,8 +504,8 @@
 #define TRAINER_KRIS_ROUTE23                          1353
 #define TRAINER_LEAF_CERULEAN_CAVE                    1354
 #define TRAINER_KRIS_CERULEAN_CAVE                    1355
-#define TRAINER_RED_MT_EMBER                          1356
-#define TRAINER_ETHAN_MT_EMBER                        1357
+#define TRAINER_RED_CERULEAN_CAVE                          1356
+#define TRAINER_ETHAN_CERULEAN_CAVE                        1357
 
 #define NUM_KANTO_TRAINERS 494
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)

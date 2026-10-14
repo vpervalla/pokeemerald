@@ -1,7 +1,7 @@
 @ The trainers who took the Kanto starters from OAK's lab (see docs/catch_them_all.md). LEAF took
 @ BULBASAUR, and battles the player four times: ROUTE 24, CELADON CITY, ROUTE 23 by VICTORY ROAD, and
-@ by CERULEAN CAVE after the Hall of Fame. RED took CHARMANDER, and waits at the summit of MT. EMBER
-@ after the Hall of Fame. When the player is dressed as LEAF, KRIS takes her place, and when they're
+@ by CERULEAN CAVE after the Hall of Fame. RED took CHARMANDER, and waits deep in CERULEAN CAVE (where
+@ MEWTWO was, before it left for APEX ISLAND) after the Hall of Fame. When the player is dressed as LEAF, KRIS takes her place, and when they're
 @ dressed as RED, ETHAN takes his (their sprites do the same, see GetObjectEventGraphicsInfo).
 @ Talking to them starts the battle. Afterwards they leave, and each LEAF also hides the earlier ones.
 
@@ -32,11 +32,11 @@ LabTrainers_EventScript_BufferRedName::
 LabTrainers_EventScript_Return::
 	return
 
-@ Called on transition by CERULEAN CITY and MT. EMBER's summit: the post-game trainers appear once the
+@ Called on transition by CERULEAN CITY and CERULEAN CAVE B1F: the post-game trainers appear once the
 @ game is clear, until they're beaten.
 LabTrainers_EventScript_UpdatePostgameTrainers::
 	setflag FLAG_HIDE_LEAF_CERULEAN_CAVE
-	setflag FLAG_HIDE_RED_MT_EMBER
+	setflag FLAG_HIDE_RED_CERULEAN_CAVE
 	goto_if_unset FLAG_SYS_GAME_CLEAR, LabTrainers_EventScript_Return
 	call_if_unset FLAG_DEFEATED_LEAF_POSTGAME, LabTrainers_EventScript_ShowPostgameLeaf
 	call_if_unset FLAG_DEFEATED_RED_POSTGAME, LabTrainers_EventScript_ShowPostgameRed
@@ -47,7 +47,7 @@ LabTrainers_EventScript_ShowPostgameLeaf::
 	return
 
 LabTrainers_EventScript_ShowPostgameRed::
-	clearflag FLAG_HIDE_RED_MT_EMBER
+	clearflag FLAG_HIDE_RED_CERULEAN_CAVE
 	return
 
 LabTrainers_EventScript_LeafLeaves::
@@ -140,20 +140,20 @@ LabTrainers_EventScript_LeafCeruleanCaveAfter::
 	setflag FLAG_DEFEATED_LEAF_POSTGAME
 	goto LabTrainers_EventScript_LeafLeaves
 
-@ MT. EMBER's summit, after the Hall of Fame
-LabTrainers_EventScript_RedMtEmber::
+@ CERULEAN CAVE B1F, where MEWTWO was, after the Hall of Fame
+LabTrainers_EventScript_RedCeruleanCave::
 	lock
 	faceplayer
 	call LabTrainers_EventScript_BufferRedName
 	msgbox LabTrainers_Text_RedIntro
 	closemessage
-	goto_if_eq VAR_0x8009, TRUE, LabTrainers_EventScript_EthanMtEmberBattle
-	trainerbattle_no_intro TRAINER_RED_MT_EMBER, LabTrainers_Text_RedDefeat
-	goto LabTrainers_EventScript_RedMtEmberAfter
+	goto_if_eq VAR_0x8009, TRUE, LabTrainers_EventScript_EthanCeruleanCaveBattle
+	trainerbattle_no_intro TRAINER_RED_CERULEAN_CAVE, LabTrainers_Text_RedDefeat
+	goto LabTrainers_EventScript_RedCeruleanCaveAfter
 
-LabTrainers_EventScript_EthanMtEmberBattle::
-	trainerbattle_no_intro TRAINER_ETHAN_MT_EMBER, LabTrainers_Text_RedDefeat
-LabTrainers_EventScript_RedMtEmberAfter::
+LabTrainers_EventScript_EthanCeruleanCaveBattle::
+	trainerbattle_no_intro TRAINER_ETHAN_CERULEAN_CAVE, LabTrainers_Text_RedDefeat
+LabTrainers_EventScript_RedCeruleanCaveAfter::
 	call LabTrainers_EventScript_BufferRedName
 	msgbox LabTrainers_Text_RedAfter
 	setflag FLAG_DEFEATED_RED_POSTGAME
@@ -225,8 +225,8 @@ LabTrainers_Text_LeafRoute23After:
 LabTrainers_Text_LeafCeruleanCaveIntro:
     .string "{PLAYER}! Congratulations,\n"
     .string "CHAMPION!\p"
-    .string "They say the strongest POKéMON of\n"
-    .string "all lives in this cave…\p"
+    .string "They say the strongest TRAINER of\n"
+    .string "all waits deep in this cave…\p"
     .string "But first, I want a real rematch.\n"
     .string "My VENUSAUR has a new power too!$"
 

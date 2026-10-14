@@ -1,5 +1,6 @@
 // The trainers who took the Kanto starters from OAK's lab. LEAF (or KRIS) took BULBASAUR and meets the
-// player four times; RED (or ETHAN) took CHARMANDER and waits on MT. EMBER after the Hall of Fame.
+// player four times; RED (or ETHAN) took CHARMANDER and waits deep in CERULEAN CAVE, where
+// MEWTWO used to be, after the Hall of Fame.
 // The ace, with its MEGA STONE when it has one, is last.
 
 static const struct TrainerMonItemCustomMoves sParty_LabLeafRoute24[] = {
@@ -154,7 +155,7 @@ static const struct TrainerMonItemCustomMoves sParty_LabLeafCeruleanCave[] = {
     },
 };
 
-static const struct TrainerMonItemCustomMoves sParty_LabRedMtEmber[] = {
+static const struct TrainerMonItemCustomMoves sParty_LabRedCeruleanCave[] = {
     {
         .iv = 255,
         .lvl = 77,

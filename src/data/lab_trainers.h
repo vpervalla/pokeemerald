@@ -88,7 +88,7 @@
         .party = ITEM_CUSTOM_MOVES(sParty_LabLeafCeruleanCave),
     },
 
-    [TRAINER_RED_MT_EMBER] = {
+    [TRAINER_RED_CERULEAN_CAVE] = {
         .trainerClass = TRAINER_CLASS_RIVAL,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
         .trainerPic = TRAINER_PIC_RED,
@@ -96,10 +96,10 @@
         .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
-        .party = ITEM_CUSTOM_MOVES(sParty_LabRedMtEmber),
+        .party = ITEM_CUSTOM_MOVES(sParty_LabRedCeruleanCave),
     },
 
-    [TRAINER_ETHAN_MT_EMBER] = {
+    [TRAINER_ETHAN_CERULEAN_CAVE] = {
         .trainerClass = TRAINER_CLASS_RIVAL,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
         .trainerPic = TRAINER_PIC_ETHAN,
@@ -107,5 +107,5 @@
         .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
-        .party = ITEM_CUSTOM_MOVES(sParty_LabRedMtEmber),
+        .party = ITEM_CUSTOM_MOVES(sParty_LabRedCeruleanCave),
     },
