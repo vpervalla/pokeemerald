@@ -931,8 +931,8 @@ AI_CV_DefenseUp4:
 	get_move_power_from_result
 	if_equal 0, AI_CV_DefenseUp5
 	get_last_used_bank_move AI_TARGET
-	get_move_type_from_result
-	if_not_in_bytes AI_CV_DefenseUp_PhysicalTypes, AI_CV_DefenseUp_ScoreDown2
+	get_move_category_from_result
+	if_not_equal DAMAGE_CATEGORY_PHYSICAL, AI_CV_DefenseUp_ScoreDown2
 	if_random_less_than 60, AI_CV_DefenseUp_End
 AI_CV_DefenseUp5:
 	if_random_less_than 60, AI_CV_DefenseUp_End
@@ -940,18 +940,6 @@ AI_CV_DefenseUp_ScoreDown2:
 	score -2
 AI_CV_DefenseUp_End:
 	end
-
-AI_CV_DefenseUp_PhysicalTypes:
-	.byte TYPE_NORMAL
-	.byte TYPE_FIGHTING
-	.byte TYPE_POISON
-	.byte TYPE_GROUND
-	.byte TYPE_FLYING
-	.byte TYPE_ROCK
-	.byte TYPE_BUG
-	.byte TYPE_GHOST
-	.byte TYPE_STEEL
-	.byte -1
 
 AI_CV_SpeedUp:
 	if_target_faster AI_CV_SpeedUp2
@@ -1002,8 +990,8 @@ AI_CV_SpDefUp4:
 	get_move_power_from_result
 	if_equal 0, AI_CV_SpDefUp5
 	get_last_used_bank_move AI_TARGET
-	get_move_type_from_result
-	if_in_bytes AI_CV_SpDefUp_PhysicalTypes, AI_CV_SpDefUp_ScoreDown2
+	get_move_category_from_result
+	if_equal DAMAGE_CATEGORY_PHYSICAL, AI_CV_SpDefUp_ScoreDown2
 	if_random_less_than 60, AI_CV_SpDefUp_End
 AI_CV_SpDefUp5:
 	if_random_less_than 60, AI_CV_SpDefUp_End
@@ -1011,18 +999,6 @@ AI_CV_SpDefUp_ScoreDown2:
 	score -2
 AI_CV_SpDefUp_End:
 	end
-
-AI_CV_SpDefUp_PhysicalTypes:
-	.byte TYPE_NORMAL
-	.byte TYPE_FIGHTING
-	.byte TYPE_POISON
-	.byte TYPE_GROUND
-	.byte TYPE_FLYING
-	.byte TYPE_ROCK
-	.byte TYPE_BUG
-	.byte TYPE_GHOST
-	.byte TYPE_STEEL
-	.byte -1
 
 AI_CV_AccuracyUp:
 	if_stat_level_less_than AI_USER, STAT_ACC, 9, AI_CV_AccuracyUp2
@@ -1636,8 +1612,8 @@ AI_CV_Counter3:
 	score +1
 AI_CV_Counter4:
 	get_last_used_bank_move AI_TARGET
-	get_move_type_from_result
-	if_not_in_bytes AI_CV_Counter_PhysicalTypeList, AI_CV_Counter_ScoreDown1
+	get_move_category_from_result
+	if_not_equal DAMAGE_CATEGORY_PHYSICAL, AI_CV_Counter_ScoreDown1
 	if_random_less_than 100, AI_CV_Counter_End
 	score +1
 	goto AI_CV_Counter_End
@@ -2134,8 +2110,8 @@ AI_CV_MirrorCoat3:
 	score +1
 AI_CV_MirrorCoat4:
 	get_last_used_bank_move AI_TARGET
-	get_move_type_from_result
-	if_not_in_bytes AI_CV_MirrorCoat_SpecialTypeList, AI_CV_MirrorCoat_ScoreDown1
+	get_move_category_from_result
+	if_not_equal DAMAGE_CATEGORY_SPECIAL, AI_CV_MirrorCoat_ScoreDown1
 	if_random_less_than 100, AI_CV_MirrorCoat_End
 	score +1
 	goto AI_CV_MirrorCoat_End
