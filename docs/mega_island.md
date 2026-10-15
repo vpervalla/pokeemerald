@@ -134,6 +134,8 @@ Seven champions answered MR. M.'s invitation. With the player, that makes an 8-t
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
 generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
 75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
+LANCE, STEVEN, CYNTHIA, DIANTHA and ALAIN, met only in the daily tournament, are lv 85-90, and
+give no stone (their POKéMON can't be caught in Kanto).
 Each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once (the
 `*GiveStone` scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): ALDER the PINSIRITE
 (his HERACROSS's HERACRONITE already comes from MASTER KOICHI), the rival his PIDGEOTITE and
