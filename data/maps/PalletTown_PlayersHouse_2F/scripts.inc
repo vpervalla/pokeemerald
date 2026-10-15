@@ -11,11 +11,19 @@ PalletTown_PlayersHouse_2F_EventScript_NES::
 
 PalletTown_PlayersHouse_2F_EventScript_PC::
 	lockall
-	setvar VAR_0x8004, 1
+	setvar VAR_0x8004, PC_LOCATION_PALLET_HOUSE
+	special DoPCTurnOnEffect
 	playse SE_PC_ON
 	msgbox Kanto_Text_PlayerBootedUpPC
 	special BedroomPC
 	waitstate
+	releaseall
+	end
+
+PalletTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC::
+	setvar VAR_0x8004, PC_LOCATION_PALLET_HOUSE
+	playse SE_PC_OFF
+	special DoPCTurnOffEffect
 	releaseall
 	end
 

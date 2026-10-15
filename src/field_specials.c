@@ -1051,6 +1051,8 @@ static void PCTurnOnEffect(struct Task *task)
 // The Kanto tilesets' PC metatiles have different IDs from Hoenn's
 #define METATILE_KantoBuilding_PC_Off 0x062
 #define METATILE_KantoBuilding_PC_On  0x063
+#define METATILE_KantoGenericBuilding1_PlayersPC_Off 0x28F
+#define METATILE_KantoGenericBuilding1_PlayersPC_On  0x28A
 
 static u16 GetOtherPCMetatileId(bool32 screenOn)
 {
@@ -1059,29 +1061,27 @@ static u16 GetOtherPCMetatileId(bool32 screenOn)
     return screenOn ? METATILE_Building_PC_On : METATILE_Building_PC_Off;
 }
 
+// gSpecialVar_0x8004 is expected to be some PC_LOCATION_* value.
+static u16 GetPCMetatileId(bool32 screenOn)
+{
+    switch (gSpecialVar_0x8004)
+    {
+    case PC_LOCATION_OTHER:
+        return GetOtherPCMetatileId(screenOn);
+    case PC_LOCATION_BRENDANS_HOUSE:
+        return screenOn ? METATILE_BrendansMaysHouse_BrendanPC_On : METATILE_BrendansMaysHouse_BrendanPC_Off;
+    case PC_LOCATION_MAYS_HOUSE:
+        return screenOn ? METATILE_BrendansMaysHouse_MayPC_On : METATILE_BrendansMaysHouse_MayPC_Off;
+    case PC_LOCATION_PALLET_HOUSE:
+        return screenOn ? METATILE_KantoGenericBuilding1_PlayersPC_On : METATILE_KantoGenericBuilding1_PlayersPC_Off;
+    }
+    return 0;
+}
+
 static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
 {
-    u16 metatileId = 0;
-    if (isScreenOn)
-    {
-        // Screen is on, set it off
-        if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = GetOtherPCMetatileId(FALSE);
-        else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
-            metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
-        else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
-            metatileId = METATILE_BrendansMaysHouse_MayPC_Off;
-    }
-    else
-    {
-        // Screen is off, set it on
-        if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = GetOtherPCMetatileId(TRUE);
-        else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
-            metatileId = METATILE_BrendansMaysHouse_BrendanPC_On;
-        else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
-            metatileId = METATILE_BrendansMaysHouse_MayPC_On;
-    }
+    // Flip the screen: on becomes off and off becomes on
+    u16 metatileId = GetPCMetatileId(!isScreenOn);
     MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
 }
 
@@ -1115,12 +1115,7 @@ static void PCTurnOffEffect(void)
         break;
     }
 
-    if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-        metatileId = GetOtherPCMetatileId(FALSE);
-    else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
-        metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
-    else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
-        metatileId = METATILE_BrendansMaysHouse_MayPC_Off;
+    metatileId = GetPCMetatileId(FALSE);
 
     MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
     DrawWholeMapView();
