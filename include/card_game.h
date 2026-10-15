@@ -29,9 +29,12 @@ struct PokemonCardInfo
     u8 weakness;        // CARD_TYPE_* or CARD_TYPE_NONE
     u8 stage;           // CARD_STAGE_*
     u8 retreatCost;
-    bool8 isEx;         // knocked out, it gives 2 trophies
+    bool8 isEx;         // knocked out, it gives CARD_EX_TROPHIES (CARD_MEGA_EX_TROPHIES if isMega)
     u8 numAttacks;
     struct CardAttack attacks[CARD_MAX_ATTACKS];
+    u8 ability;         // CARD_ABILITY_*
+    u8 abilityArg;
+    bool8 isMega;
 };
 
 struct TrainerCardInfo
@@ -40,7 +43,16 @@ struct TrainerCardInfo
     u8 kind;            // CARD_KIND_ITEM, _SUPPORTER or _TOOL
     u8 effect;          // CARD_TRAINER_*
     u8 effectArg;
+    u8 effectType;      // CARD_TYPE_* the effect is limited to, CARD_TYPE_NONE for any
 };
+
+struct CardDeckData
+{
+    const u16 *cards;                       // CARD_DECK_SIZE cards
+    u8 zoneTypes[CARD_MAX_ZONE_TYPES];      // CARD_TYPE_NONE padded
+};
+
+extern const struct CardDeckData gCardDecks[CARD_DECKS_COUNT];
 
 u8 CardGame_GetCardKind(u16 cardId);
 const struct PokemonCardInfo *CardGame_GetPokemonInfo(u16 cardId);  // NULL if not a Pokémon
@@ -59,6 +71,8 @@ struct CardInPlay
     u8 status;                  // CARD_STATUS_*
     u8 statusTurn;              // turn the rotation status was given (Paralysis wears off after it)
     u8 turnPlayed;              // turn it was put in play or last evolved
+    u8 abilityUsedTurn;         // turn its ability was last used
+    u8 cantAttackTurn;          // turn it can't attack in (CARD_EFFECT_CANT_ATTACK_NEXT)
 };
 
 struct CardDuelSide
@@ -75,6 +89,8 @@ struct CardDuelSide
     u8 zoneEnergy;              // Energy to attach this turn, CARD_TYPE_NONE if none (or used)
     u8 nextEnergy;              // shown in advance
     u8 retreatDiscount;         // this turn
+    u8 attackBonus;             // this turn, for attacks of attackBonusType (CARD_TYPE_NONE: all)
+    u8 attackBonusType;
     bool8 setupDone;
     bool8 energyAttached;       // this turn
     bool8 supporterPlayed;      // this turn
@@ -117,6 +133,10 @@ struct CardDuelEvent
 #define CARD_EVENT_DECK_EMPTY       20  // side could not draw
 #define CARD_EVENT_HAND_FULL        21  // side could not draw
 #define CARD_EVENT_GAME_OVER        22  // side: winner, or CARD_RESULT_DRAW
+#define CARD_EVENT_ABILITY          23  // value: CARD_ABILITY_*
+#define CARD_EVENT_REVEAL_HAND      24  // side: whose hand is shown
+#define CARD_EVENT_SWITCH           25  // side's Active was switched with slot by the opponent
+#define CARD_EVENT_COUNT            26
 
 #define CARD_MAX_EVENTS 48
 
@@ -129,6 +149,7 @@ struct CardDuel
     u8 firstSide;
     u8 winner;              // CARD_SIDE_*, CARD_RESULT_DRAW, or CARD_SIDE_NONE while playing
     u8 promoteMask;         // (1 << side) for each side that must promote
+    bool8 promoteMidTurn;   // after the promotion, the current turn goes on
     u8 eventCount;
     u8 forcedFlipCount;     // debug/tests: the next flips come from forcedFlips, bit 0 first
     u32 forcedFlips;
@@ -143,11 +164,12 @@ struct CardDuel
 #define CARD_ACTION_END_SETUP       1
 #define CARD_ACTION_ATTACH_ENERGY   2   // the zone's Energy to slot
 #define CARD_ACTION_EVOLVE          3   // handIndex onto slot
-#define CARD_ACTION_PLAY_TRAINER    4   // handIndex, slot: target (or CARD_SLOT_NONE)
+#define CARD_ACTION_PLAY_TRAINER    4   // handIndex, slot: target (or CARD_SLOT_NONE), arg: the Stage 2 for Rare Candy
 #define CARD_ACTION_RETREAT         5   // slot: the Bench Pokémon that comes up
-#define CARD_ACTION_ATTACK          6   // arg: attack index; ends the turn
+#define CARD_ACTION_ATTACK          6   // arg: attack index, slot: the target of a CARD_EFFECT_SNIPE attack; ends the turn
 #define CARD_ACTION_END_TURN        7
 #define CARD_ACTION_PROMOTE         8   // slot: the Bench Pokémon that comes up
+#define CARD_ACTION_USE_ABILITY     9   // slot: the Pokémon using it, arg: the opponent's target slot (CARD_ABILITY_SNIPE)
 
 struct CardAction
 {
@@ -157,7 +179,7 @@ struct CardAction
     u8 arg;
 };
 
-#define CARD_MAX_ACTIONS 64
+#define CARD_MAX_ACTIONS 96
 
 struct CardDuelSetup
 {
@@ -188,12 +210,22 @@ void Duel_DamageSlot(struct CardDuel *duel, u8 side, u8 slot, u16 damage);
 void Duel_HealSlot(struct CardDuel *duel, u8 side, u8 slot, u16 amount);
 void Duel_GiveStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status);
 void Duel_DiscardEnergy(struct CardDuel *duel, u8 side, u8 slot, u8 count, u8 preferredType);
+void Duel_EvolveSlot(struct CardDuel *duel, u8 side, u8 slot, u16 cardId);
+void Duel_SwitchActive(struct CardDuel *duel, u8 side, u8 slot);
+void Duel_SwitchToRandomBench(struct CardDuel *duel, u8 side);
+bool8 Duel_HasBenchPokemon(const struct CardDuelSide *side);
+u8 Duel_GetCardType(u16 cardId);
 
 // src/card_game_effects.c
-bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot);
-void CardEffects_PlayTrainer(struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot);
+bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot, u8 arg);
+void CardEffects_PlayTrainer(struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot, u16 extraCard);
 u16 CardEffects_GetToolHpBonus(u16 tool);
 bool8 CardEffects_BeforeAttack(struct CardDuel *duel, u8 side, const struct CardAttack *attack, u16 *damage);
-void CardEffects_AfterAttack(struct CardDuel *duel, u8 side, const struct CardAttack *attack);
+void CardEffects_AfterAttack(struct CardDuel *duel, u8 side, const struct CardAttack *attack, u8 target);
+u16 CardEffects_ModifyDamageTaken(const struct CardDuel *duel, u8 side, u8 slot, u16 damage);
+void CardEffects_AfterDamagedByAttack(struct CardDuel *duel, u8 side, u8 slot);
+bool8 CardEffects_CanUseAbility(const struct CardDuel *duel, u8 side, u8 slot, u8 target);
+void CardEffects_UseAbility(struct CardDuel *duel, u8 side, u8 slot, u8 target);
+bool8 CardEffects_HasFreeRetreat(const struct CardInPlay *mon);
 
 #endif // GUARD_CARD_GAME_H

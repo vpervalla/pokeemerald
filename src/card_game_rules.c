@@ -7,7 +7,7 @@
 
 static void StartTurn(struct CardDuel *duel);
 static void EndTurn(struct CardDuel *duel);
-static void DoAttack(struct CardDuel *duel, u8 attackId);
+static void DoAttack(struct CardDuel *duel, u8 attackId, u8 target);
 static void ResolveKnockOuts(struct CardDuel *duel);
 static bool8 CheckGameOver(struct CardDuel *duel);
 static void SetGameOver(struct CardDuel *duel, u8 winner);
@@ -41,7 +41,7 @@ static bool8 IsSlotFilled(const struct CardDuelSide *side, u8 slot)
     return slot < CARD_SLOT_COUNT && side->slots[slot].cardId != CARD_NONE;
 }
 
-static bool8 HasBenchPokemon(const struct CardDuelSide *side)
+bool8 Duel_HasBenchPokemon(const struct CardDuelSide *side)
 {
     u8 slot;
 
@@ -55,7 +55,7 @@ static bool8 HasBenchPokemon(const struct CardDuelSide *side)
 
 static bool8 HasAnyPokemon(const struct CardDuelSide *side)
 {
-    return side->slots[CARD_SLOT_ACTIVE].cardId != CARD_NONE || HasBenchPokemon(side);
+    return side->slots[CARD_SLOT_ACTIVE].cardId != CARD_NONE || Duel_HasBenchPokemon(side);
 }
 
 static u8 GetFirstEmptyBenchSlot(const struct CardDuelSide *side)
@@ -75,6 +75,8 @@ static u8 GetRetreatCost(const struct CardDuelSide *side)
     const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(side->slots[CARD_SLOT_ACTIVE].cardId);
 
     if (info == NULL || info->retreatCost <= side->retreatDiscount)
+        return 0;
+    if (CardEffects_HasFreeRetreat(&side->slots[CARD_SLOT_ACTIVE]))
         return 0;
     return info->retreatCost - side->retreatDiscount;
 }
@@ -125,6 +127,13 @@ static u8 RollEnergy(struct CardDuel *duel, const struct CardDuelSide *side)
 static bool8 IsZoneType(u8 type)
 {
     return type >= CARD_TYPE_GRASS && type <= CARD_TYPE_METAL;
+}
+
+u8 Duel_GetCardType(u16 cardId)
+{
+    const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(cardId);
+
+    return info != NULL ? info->type : CARD_TYPE_NONE;
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -517,7 +526,9 @@ static bool8 IsLegalTurnAction(const struct CardDuel *duel, u8 sideId, const str
         if (trainer->kind == CARD_KIND_TOOL
          && (!IsSlotFilled(side, action->slot) || side->slots[action->slot].tool != CARD_NONE))
             return FALSE;
-        return CardEffects_CanPlayTrainer(duel, sideId, trainer, action->slot);
+        if (trainer->effect == CARD_TRAINER_RARE_CANDY && action->arg == action->handIndex)
+            return FALSE;
+        return CardEffects_CanPlayTrainer(duel, sideId, trainer, action->slot, action->arg);
     case CARD_ACTION_RETREAT:
         return !side->retreated
             && IsSlotFilled(side, CARD_SLOT_ACTIVE)
@@ -528,10 +539,17 @@ static bool8 IsLegalTurnAction(const struct CardDuel *duel, u8 sideId, const str
         // The first player can't attack on the first turn
         if (duel->turn <= 1 || !IsSlotFilled(side, CARD_SLOT_ACTIVE))
             return FALSE;
-        if (active->status & (CARD_STATUS_ASLEEP | CARD_STATUS_PARALYZED))
+        if ((active->status & (CARD_STATUS_ASLEEP | CARD_STATUS_PARALYZED)) || active->cantAttackTurn == duel->turn)
             return FALSE;
         pokemon = CardGame_GetPokemonInfo(active->cardId);
-        return action->arg < pokemon->numAttacks && Duel_CanPayAttack(active, &pokemon->attacks[action->arg]);
+        if (action->arg >= pokemon->numAttacks || !Duel_CanPayAttack(active, &pokemon->attacks[action->arg]))
+            return FALSE;
+        // A sniping attack names its target; the others hit the Active
+        if (pokemon->attacks[action->arg].effect == CARD_EFFECT_SNIPE)
+            return IsSlotFilled(&duel->sides[sideId ^ 1], action->slot);
+        return action->slot == CARD_SLOT_ACTIVE;
+    case CARD_ACTION_USE_ABILITY:
+        return IsSlotFilled(side, action->slot) && CardEffects_CanUseAbility(duel, sideId, action->slot, action->arg);
     case CARD_ACTION_END_TURN:
         return TRUE;
     }
@@ -595,17 +613,28 @@ u8 Duel_GetLegalActions(const struct CardDuel *duel, u8 sideId, struct CardActio
         break;
     case CARD_PHASE_MAIN:
         for (i = 0; i < CARD_MAX_ATTACKS; i++)
-            TryAddAction(duel, sideId, actions, &count, CARD_ACTION_ATTACK, 0, 0, i);
+        {
+            for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+                TryAddAction(duel, sideId, actions, &count, CARD_ACTION_ATTACK, 0, slot, i);
+        }
         for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+        {
             TryAddAction(duel, sideId, actions, &count, CARD_ACTION_ATTACH_ENERGY, 0, slot, 0);
+            for (i = 0; i < CARD_SLOT_COUNT; i++)
+                TryAddAction(duel, sideId, actions, &count, CARD_ACTION_USE_ABILITY, 0, slot, i);
+        }
         for (i = 0; i < side->handCount; i++)
         {
+            const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(side->hand[i]);
+            u8 arg, argCount = (trainer != NULL && trainer->effect == CARD_TRAINER_RARE_CANDY) ? side->handCount : 1;
+
             TryAddAction(duel, sideId, actions, &count, CARD_ACTION_PLAY_BASIC, i, GetFirstEmptyBenchSlot(side), 0);
             TryAddAction(duel, sideId, actions, &count, CARD_ACTION_PLAY_TRAINER, i, CARD_SLOT_NONE, 0);
             for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
             {
                 TryAddAction(duel, sideId, actions, &count, CARD_ACTION_EVOLVE, i, slot, 0);
-                TryAddAction(duel, sideId, actions, &count, CARD_ACTION_PLAY_TRAINER, i, slot, 0);
+                for (arg = 0; arg < argCount; arg++)
+                    TryAddAction(duel, sideId, actions, &count, CARD_ACTION_PLAY_TRAINER, i, slot, arg);
             }
         }
         for (slot = CARD_SLOT_BENCH_1; slot < CARD_SLOT_COUNT; slot++)
@@ -629,7 +658,7 @@ static void PutPokemonInPlay(struct CardDuel *duel, u8 sideId, u8 slot, u16 card
     Duel_PushEvent(duel, CARD_EVENT_PLAY_POKEMON, sideId, slot, cardId);
 }
 
-static void Evolve(struct CardDuel *duel, u8 sideId, u8 slot, u16 cardId)
+void Duel_EvolveSlot(struct CardDuel *duel, u8 sideId, u8 slot, u16 cardId)
 {
     struct CardInPlay *mon = &duel->sides[sideId].slots[slot];
 
@@ -639,6 +668,7 @@ static void Evolve(struct CardDuel *duel, u8 sideId, u8 slot, u16 cardId)
         mon->evolvedFrom[1] = mon->cardId;
     mon->cardId = cardId;
     mon->turnPlayed = duel->turn;
+    mon->cantAttackTurn = 0;
     Duel_PushEvent(duel, CARD_EVENT_EVOLVE, sideId, slot, cardId);
     // Evolving cures every Special Condition
     CureStatus(duel, sideId, slot, mon->status);
@@ -652,23 +682,82 @@ static void SwapWithActive(struct CardDuelSide *side, u8 slot)
     side->slots[slot] = temp;
 }
 
+// The Active goes to the Bench, which cures its Special Conditions and ends the effects on it
+static void MoveActiveToBench(struct CardDuel *duel, u8 sideId, u8 slot)
+{
+    struct CardDuelSide *side = &duel->sides[sideId];
+
+    CureStatus(duel, sideId, CARD_SLOT_ACTIVE, side->slots[CARD_SLOT_ACTIVE].status);
+    side->slots[CARD_SLOT_ACTIVE].cantAttackTurn = 0;
+    SwapWithActive(side, slot);
+}
+
+// The opponent's effects switch side's Active with the Benched Pokémon in slot
+void Duel_SwitchActive(struct CardDuel *duel, u8 sideId, u8 slot)
+{
+    if (!IsBenchSlot(slot) || !IsSlotFilled(&duel->sides[sideId], slot))
+        return;
+    MoveActiveToBench(duel, sideId, slot);
+    Duel_PushEvent(duel, CARD_EVENT_SWITCH, sideId, slot, duel->sides[sideId].slots[CARD_SLOT_ACTIVE].cardId);
+}
+
+void Duel_SwitchToRandomBench(struct CardDuel *duel, u8 sideId)
+{
+    struct CardDuelSide *side = &duel->sides[sideId];
+    u8 slot, count = 0, pick;
+
+    for (slot = CARD_SLOT_BENCH_1; slot < CARD_SLOT_COUNT; slot++)
+    {
+        if (IsSlotFilled(side, slot))
+            count++;
+    }
+    if (count == 0)
+        return;
+    pick = Duel_Random(duel) % count;
+    for (slot = CARD_SLOT_BENCH_1; slot < CARD_SLOT_COUNT; slot++)
+    {
+        if (IsSlotFilled(side, slot) && pick-- == 0)
+        {
+            Duel_SwitchActive(duel, sideId, slot);
+            return;
+        }
+    }
+}
+
 static void Retreat(struct CardDuel *duel, u8 sideId, u8 slot)
 {
     struct CardDuelSide *side = &duel->sides[sideId];
 
     Duel_DiscardEnergy(duel, sideId, CARD_SLOT_ACTIVE, GetRetreatCost(side), CARD_TYPE_NONE);
-    // Going to the Bench cures every Special Condition
-    CureStatus(duel, sideId, CARD_SLOT_ACTIVE, side->slots[CARD_SLOT_ACTIVE].status);
-    SwapWithActive(side, slot);
+    MoveActiveToBench(duel, sideId, slot);
     side->retreated = TRUE;
     Duel_PushEvent(duel, CARD_EVENT_RETREAT, sideId, slot, side->slots[CARD_SLOT_ACTIVE].cardId);
 }
 
-static void PlayTrainer(struct CardDuel *duel, u8 sideId, u8 handIndex, u8 slot)
+static void PlayTrainer(struct CardDuel *duel, u8 sideId, u8 handIndex, u8 slot, u8 arg)
 {
     struct CardDuelSide *side = &duel->sides[sideId];
-    u16 cardId = RemoveFromHand(side, handIndex);
-    const struct TrainerCardInfo *info = CardGame_GetTrainerInfo(cardId);
+    const struct TrainerCardInfo *info = CardGame_GetTrainerInfo(side->hand[handIndex]);
+    u16 cardId, extraCard = CARD_NONE;
+
+    // Rare Candy also takes the Stage 2 from the hand: remove the later card first
+    if (info->effect == CARD_TRAINER_RARE_CANDY)
+    {
+        if (arg > handIndex)
+        {
+            extraCard = RemoveFromHand(side, arg);
+            cardId = RemoveFromHand(side, handIndex);
+        }
+        else
+        {
+            cardId = RemoveFromHand(side, handIndex);
+            extraCard = RemoveFromHand(side, arg);
+        }
+    }
+    else
+    {
+        cardId = RemoveFromHand(side, handIndex);
+    }
 
     Duel_PushEvent(duel, CARD_EVENT_PLAY_TRAINER, sideId, slot, cardId);
     if (info->kind == CARD_KIND_SUPPORTER)
@@ -679,9 +768,45 @@ static void PlayTrainer(struct CardDuel *duel, u8 sideId, u8 handIndex, u8 slot)
     }
     else
     {
-        CardEffects_PlayTrainer(duel, sideId, info, slot);
         AddToDiscard(side, cardId);
+        CardEffects_PlayTrainer(duel, sideId, info, slot, extraCard);
     }
+    ResolveKnockOuts(duel);
+    CheckGameOver(duel);
+}
+
+// A Pokémon knocked out during its opponent's turn (by an ability or a Trainer) is replaced
+// right away, then the turn goes on.
+static void PromoteMidTurn(struct CardDuel *duel)
+{
+    u8 sideId;
+
+    if (duel->phase != CARD_PHASE_MAIN)
+        return;
+    duel->promoteMask = 0;
+    for (sideId = 0; sideId < CARD_SIDE_COUNT; sideId++)
+    {
+        if (duel->sides[sideId].slots[CARD_SLOT_ACTIVE].cardId == CARD_NONE)
+            duel->promoteMask |= 1 << sideId;
+    }
+    if (duel->promoteMask != 0)
+    {
+        duel->phase = CARD_PHASE_PROMOTE;
+        duel->promoteMidTurn = TRUE;
+    }
+}
+
+static void UseAbility(struct CardDuel *duel, u8 sideId, u8 slot, u8 target)
+{
+    struct CardInPlay *mon = &duel->sides[sideId].slots[slot];
+    const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(mon->cardId);
+
+    mon->abilityUsedTurn = duel->turn;
+    Duel_PushEvent(duel, CARD_EVENT_ABILITY, sideId, slot, info->ability);
+    CardEffects_UseAbility(duel, sideId, slot, target);
+    ResolveKnockOuts(duel);
+    if (!CheckGameOver(duel))
+        PromoteMidTurn(duel);
 }
 
 bool8 Duel_DoAction(struct CardDuel *duel, u8 sideId, const struct CardAction *action)
@@ -709,16 +834,20 @@ bool8 Duel_DoAction(struct CardDuel *duel, u8 sideId, const struct CardAction *a
         side->energyAttached = TRUE;
         break;
     case CARD_ACTION_EVOLVE:
-        Evolve(duel, sideId, action->slot, RemoveFromHand(side, action->handIndex));
+        Duel_EvolveSlot(duel, sideId, action->slot, RemoveFromHand(side, action->handIndex));
         break;
     case CARD_ACTION_PLAY_TRAINER:
-        PlayTrainer(duel, sideId, action->handIndex, action->slot);
+        PlayTrainer(duel, sideId, action->handIndex, action->slot, action->arg);
+        PromoteMidTurn(duel);
+        break;
+    case CARD_ACTION_USE_ABILITY:
+        UseAbility(duel, sideId, action->slot, action->arg);
         break;
     case CARD_ACTION_RETREAT:
         Retreat(duel, sideId, action->slot);
         break;
     case CARD_ACTION_ATTACK:
-        DoAttack(duel, action->arg);
+        DoAttack(duel, action->arg, action->slot);
         if (duel->phase == CARD_PHASE_MAIN)
             EndTurn(duel);
         break;
@@ -730,7 +859,17 @@ bool8 Duel_DoAction(struct CardDuel *duel, u8 sideId, const struct CardAction *a
         Duel_PushEvent(duel, CARD_EVENT_PROMOTE, sideId, action->slot, side->slots[CARD_SLOT_ACTIVE].cardId);
         duel->promoteMask &= ~(1 << sideId);
         if (duel->promoteMask == 0)
-            StartTurn(duel);
+        {
+            if (duel->promoteMidTurn)
+            {
+                duel->promoteMidTurn = FALSE;
+                duel->phase = CARD_PHASE_MAIN;
+            }
+            else
+            {
+                StartTurn(duel);
+            }
+        }
         break;
     }
     return TRUE;
@@ -745,15 +884,16 @@ void Duel_Forfeit(struct CardDuel *duel, u8 side)
 // ---------------------------------------------------------------------------------------------
 // Attacks, knockouts and the flow of turns
 
-static void DoAttack(struct CardDuel *duel, u8 attackId)
+static void DoAttack(struct CardDuel *duel, u8 attackId, u8 target)
 {
     u8 sideId = duel->currentSide;
     u8 opponentId = sideId ^ 1;
-    struct CardInPlay *attacker = &duel->sides[sideId].slots[CARD_SLOT_ACTIVE];
-    struct CardInPlay *defender = &duel->sides[opponentId].slots[CARD_SLOT_ACTIVE];
+    struct CardDuelSide *side = &duel->sides[sideId];
+    struct CardInPlay *attacker = &side->slots[CARD_SLOT_ACTIVE];
     const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(attacker->cardId);
-    const struct PokemonCardInfo *defenderInfo = CardGame_GetPokemonInfo(defender->cardId);
     const struct CardAttack *attack = &info->attacks[attackId];
+    u8 targetSlot = attack->effect == CARD_EFFECT_SNIPE ? target : CARD_SLOT_ACTIVE;
+    const struct PokemonCardInfo *defenderInfo = CardGame_GetPokemonInfo(duel->sides[opponentId].slots[targetSlot].cardId);
     u16 damage;
 
     Duel_PushEvent(duel, CARD_EVENT_ATTACK, sideId, CARD_SLOT_ACTIVE, attackId);
@@ -770,11 +910,20 @@ static void DoAttack(struct CardDuel *duel, u8 attackId)
     }
     if (damage != 0 && defenderInfo != NULL)
     {
-        if (defenderInfo->weakness != CARD_TYPE_NONE && defenderInfo->weakness == info->type)
+        if (side->attackBonus != 0 && (side->attackBonusType == CARD_TYPE_NONE || side->attackBonusType == info->type))
+            damage += side->attackBonus;
+        // Weakness only counts against the Active Pokémon
+        if (targetSlot == CARD_SLOT_ACTIVE && defenderInfo->weakness != CARD_TYPE_NONE && defenderInfo->weakness == info->type)
             damage += CARD_WEAKNESS_BONUS;
-        Duel_DamageSlot(duel, opponentId, CARD_SLOT_ACTIVE, damage);
+        damage = CardEffects_ModifyDamageTaken(duel, opponentId, targetSlot, damage);
+        if (damage != 0)
+        {
+            Duel_DamageSlot(duel, opponentId, targetSlot, damage);
+            if (targetSlot == CARD_SLOT_ACTIVE)
+                CardEffects_AfterDamagedByAttack(duel, opponentId, CARD_SLOT_ACTIVE);
+        }
     }
-    CardEffects_AfterAttack(duel, sideId, attack);
+    CardEffects_AfterAttack(duel, sideId, attack, targetSlot);
     ResolveKnockOuts(duel);
     CheckGameOver(duel);
 }
@@ -785,7 +934,10 @@ static void KnockOut(struct CardDuel *duel, u8 sideId, u8 slot)
     struct CardDuelSide *other = &duel->sides[sideId ^ 1];
     struct CardInPlay *mon = &side->slots[slot];
     const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(mon->cardId);
-    u8 trophies = (info != NULL && info->isEx) ? 2 : 1;
+    u8 trophies = 1;
+
+    if (info != NULL && info->isEx)
+        trophies = info->isMega ? CARD_MEGA_EX_TROPHIES : CARD_EX_TROPHIES;
 
     Duel_PushEvent(duel, CARD_EVENT_KNOCK_OUT, sideId, slot, mon->cardId);
     other->trophies += trophies;
@@ -914,6 +1066,8 @@ static void StartTurn(struct CardDuel *duel)
     side->supporterPlayed = FALSE;
     side->retreated = FALSE;
     side->retreatDiscount = 0;
+    side->attackBonus = 0;
+    side->attackBonusType = CARD_TYPE_NONE;
     Duel_PushEvent(duel, CARD_EVENT_TURN_START, duel->currentSide, CARD_SLOT_NONE, duel->turn);
     Duel_DrawCard(duel, duel->currentSide);
     // The first player gets no Energy on the first turn

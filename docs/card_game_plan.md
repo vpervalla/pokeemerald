@@ -20,7 +20,7 @@ the battle engine, though its card data is generated from the battle data.
 | D1 | Which Pocket rules | All the core rules in section 1. Leave out Pocket's later additions (Fossil Items, Ultra Beasts, Pokémon Tools beyond 2-3, Special Conditions beyond the 5 classic ones) | The core is complete and fits a GBA screen; the rest is content, not rules |
 | D2 | Where cards come from | Catching a species unlocks its Pokémon card. **ex** cards and Trainer cards come from daily booster packs, shop packs and opponents' rewards | Ties the game to "catch them all", and costs no save space for the Pokémon cards |
 | D2b | Which species get a card | Only those the player can obtain: the generator reads the Kanto, Sevii and Mega Island encounters in `src/data/wild_encounters.json`, adds their evolutions and the gift/trade/static Pokémon, and skips species only found in Hoenn | A card that can never be owned is wasted ROM and an empty slot in the collection |
-| D3 | What the ex cards are | The 48 Mega forms already in the game (`src/data/pokemon/mega_evolutions.h`), as Basic or evolved "Mega ex" cards worth 2 trophies, plus a few legendaries ex | Reuses existing species, graphics and names |
+| D3 | What the ex cards are | The Mega forms already in the game (`src/data/pokemon/mega_evolutions.h`), as Basic or evolved "Mega ex" cards worth **3 trophies** (as in Pocket's Mega Rising set), plus maybe a few legendaries ex worth 2 later | Reuses existing species, graphics and names |
 | D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | Hundreds of hand-designed cards is months of balancing; a generator gets most of the way |
 | D5 | Supporters | The Kanto gym leaders (as in Pocket itself), Prof. Oak, Bill, the rival and the Elite Four. Beating a leader in a duel gives their Supporter card | Natural story hook and reward, and the cards already exist in Pocket to copy |
 | D6 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
@@ -68,7 +68,7 @@ the battle engine, though its card data is generated from the battle data.
 - Damage = attack's damage, **+20 if the defender is weak** to the attacker's type (each
   type has one weakness, no resistances), plus/minus effects (Giovanni +10, …).
 - A Pokémon whose damage reaches its HP is **Knocked Out**: its owner moves a Bench
-  Pokémon up. The attacker's player earns **1 trophy**, or **2 trophies for an ex**.
+  Pokémon up. The attacker's player earns **1 trophy**, **2 for an ex**, or **3 for a Mega ex**.
 - **Win**: first to **3 trophies**, or the opponent has no Pokémon in play after a
   knockout. Both reaching 3 at once (or both losing their last Pokémon), or reaching the
   turn limit (**30 turns**, Pocket's sudden-death rule replaced by a draw), is a draw.
@@ -174,8 +174,8 @@ Reads the game's own data and writes `pokemon_cards.h`, which is checked in:
   `EFFECT_SLEEP` → Asleep, `EFFECT_CONFUSE_HIT` → Confused, `EFFECT_MULTI_HIT` →
   "flip 2 coins, 30× heads", `EFFECT_ABSORB` → heal, `EFFECT_RECOIL` → self damage,
   and so on (`include/constants/battle_move_effects.h`).
-- A hand-written **overrides** file (`pokemon_cards_overrides.h`, applied by the
-  script) for the v1 set, the ex cards and every ability, so rerunning the script never
+- A hand-written **overrides** file (`src/data/card_game/pokemon_card_overrides.json`, applied
+  by the script) for the v1 set, the ex cards and every ability, so rerunning the script never
   loses balancing work.
 
 ### Effects: `src/card_game_effects.c`
@@ -400,7 +400,7 @@ next to the rematch battle.
 | Phase | Deliverable | Rough size |
 |-------|-------------|------------|
 | 1 ✅ | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
-| 2 | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
+| 2 ✅ | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
 | 3 | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 | AI as in section 4 | 500 lines |
@@ -424,6 +424,33 @@ phases:
 - Abilities are not in yet (phase 2, with the first cards that have one).
 - The engine adds about 8 KB of ROM and no static RAM: `struct CardDuel` is allocated for the
   duel.
+
+**Phase 2 status (done).**
+
+- `tools/card_game/gen_cards.py` writes `include/constants/card_game_cards.h` and
+  `src/data/card_game/pokemon_cards.h`: **255 Pokémon cards**, every species the player can
+  meet in Kanto, the Sevii Islands and Mega Island (wild, gifts, trades, statics, prize room)
+  with their whole evolution families, plus **28 Mega ex** (the Megas whose line has cards).
+  Rerun it after changing the overrides or the game's data.
+- `src/data/card_game/pokemon_card_overrides.json` hand-tunes 52 cards: the starters, Pikachu
+  and Raichu, the Pokémon of the first decks, 6 Mega ex (Venusaur, Charizard Y, Blastoise,
+  Gengar, Alakazam, Pidgeot) and the 10 cards with an ability.
+- The engine has 18 attack effects, 9 abilities (Powder Heal, Psy Shadow, Gas Leak, Sleep
+  Pendulum, Drive Off, Water Shuriken-like, damage reduction, Rough Skin-like counter, free
+  retreat; used with `CARD_ACTION_USE_ABILITY`) and **16 Trainer cards**: Potion, Poké Ball,
+  X Speed, Hand Scope, Red Card, Rare Candy, Giant Cape, Rocky Helmet, Prof. Oak's Research,
+  Brock, Misty, Lt. Surge, Erika, Sabrina, Blaine, Giovanni. Supporters that Pocket limits to
+  named Pokémon work here for a type (Brock: Fighting, Lt. Surge: Lightning…).
+- A Pokémon knocked out during its opponent's turn (by an ability) is replaced right away and
+  the turn goes on (`promoteMidTurn`).
+- Where Pocket lets a player choose (Sabrina, Drive Off, Red Card's shuffle), a random Bench
+  Pokémon is used for now; the screen can make it a choice later.
+- `src/data/card_game/decks.h`: the starter deck (Grass, Kanto bugs and birds) and three NPC
+  decks (Bug Catcher: Grass, Hiker: Fighting, Swimmer: Water).
+- `tools/card_game/run_tests.sh` now also builds `test_data.c`, which checks every real card
+  and deck and plays random games between the decks. Random play only catches broken decks;
+  balancing them waits for the AI (phase 5).
+- The card game now adds about 22 KB of ROM, still no static RAM.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

@@ -20,6 +20,11 @@ typedef u32 bool32;
 #define TRUE  1
 #define FALSE 0
 
+// Strings stay plain C strings on the host
+#define _(x) x
+
+#include "constants/global.h"
+
 #define ARRAY_COUNT(array) (size_t)(sizeof(array) / sizeof((array)[0]))
 
 #endif // GUARD_GLOBAL_H

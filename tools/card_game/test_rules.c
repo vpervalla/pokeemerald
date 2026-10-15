@@ -26,12 +26,38 @@ enum
     T_FIRE_EVO,     // evolves from T_FIRE
     T_SPARK_EVO,    // evolves from T_SPARK
     T_WALL_EVO,     // evolves from T_WALL
+    T_MULTI,        // flip several coins / damage the Bench
+    T_QUAKE,        // damages its own Bench / discards the defender's Energy
+    T_BEAM,         // can't attack next turn / draws
+    T_PUMP,         // bonus with extra Energy / switches the defender
+    T_REVENGE,      // bonus if the defender is damaged / snipes
+    T_HEALER,       // abilities...
+    T_ATTACHER,
+    T_GASSER,
+    T_HYPNO,
+    T_DRIVER,
+    T_SNIPER,
+    T_SHELL,
+    T_SPIKY,
+    T_LIGHT,
+    T_MEGA,         // a Mega ex
     T_POKEMON_END,
-    T_POTION = 20,
+    T_POTION = 40,
     T_POKE_BALL,
     T_X_SPEED,
     T_RESEARCH,
     T_CAPE,
+    T_HAND_SCOPE,
+    T_RED_CARD,
+    T_RARE_CANDY,
+    T_HELMET,
+    T_BROCK,
+    T_MISTY,
+    T_SURGE,
+    T_ERIKA,
+    T_SABRINA,
+    T_BLAINE,
+    T_GIOVANNI,
     T_CARD_END,
 };
 
@@ -42,6 +68,7 @@ enum
 #define P CARD_TYPE_PSYCHIC
 #define D CARD_TYPE_DARKNESS
 #define C CARD_TYPE_COLORLESS
+#define F CARD_TYPE_FIGHTING
 
 static const struct PokemonCardInfo sCards[T_POKEMON_END] =
 {
@@ -69,6 +96,26 @@ static const struct PokemonCardInfo sCards[T_POKEMON_END] =
     [T_FIRE_EVO] = {0, T_FIRE, 100, R, W, CARD_STAGE_1, 2, FALSE, 1, {{NULL, {R, C}, 60, CARD_EFFECT_NONE, 0}}},
     [T_SPARK_EVO] = {0, T_SPARK, 130, L, CARD_TYPE_FIGHTING, CARD_STAGE_1, 1, TRUE, 1, {{NULL, {L, C}, 70, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_PARALYZED}}},
     [T_WALL_EVO] = {0, T_WALL, 320, C, CARD_TYPE_NONE, CARD_STAGE_1, 4, FALSE, 1, {{NULL, {C, C}, 30, CARD_EFFECT_NONE, 0}}},
+    [T_MULTI] = {0, T_NONE, 100, C, F, CARD_STAGE_BASIC, 1, FALSE, 2, {{NULL, {C}, 30, CARD_EFFECT_FLIP_MULTI, 3},
+                                                                       {NULL, {C}, 10, CARD_EFFECT_SPREAD_BENCH, 10}}},
+    [T_QUAKE] = {0, T_NONE, 100, F, G, CARD_STAGE_BASIC, 1, FALSE, 2, {{NULL, {F}, 50, CARD_EFFECT_SELF_BENCH_DAMAGE, 10},
+                                                                       {NULL, {F}, 30, CARD_EFFECT_FLIP_DISCARD_ENERGY, 0}}},
+    [T_BEAM] = {0, T_NONE, 120, C, F, CARD_STAGE_BASIC, 2, FALSE, 2, {{NULL, {C}, 100, CARD_EFFECT_CANT_ATTACK_NEXT, 0},
+                                                                      {NULL, {C}, 20, CARD_EFFECT_DRAW, 2}}},
+    [T_PUMP] = {0, T_NONE, 120, W, L, CARD_STAGE_BASIC, 2, FALSE, 2, {{NULL, {W}, 50, CARD_EFFECT_BONUS_EXTRA_ENERGY, 60},
+                                                                      {NULL, {W}, 30, CARD_EFFECT_SWITCH_DEFENDER, 0}}},
+    [T_REVENGE] = {0, T_NONE, 100, D, F, CARD_STAGE_BASIC, 1, FALSE, 2, {{NULL, {D}, 30, CARD_EFFECT_BONUS_IF_DAMAGED, 30},
+                                                                         {NULL, {D}, 20, CARD_EFFECT_SNIPE, 0}}},
+    [T_HEALER] = {0, T_NONE, 90, G, R, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {G}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_HEAL_ALL, 20},
+    [T_ATTACHER] = {0, T_NONE, 90, P, D, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {P}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_ATTACH_OWN_TYPE, 0},
+    [T_GASSER] = {0, T_NONE, 90, D, F, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {D}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_POISON_DEFENDER, 0},
+    [T_HYPNO] = {0, T_NONE, 90, P, D, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {P}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_FLIP_SLEEP, 0},
+    [T_DRIVER] = {0, T_NONE, 90, C, L, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {C}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_DRIVE_OFF, 0},
+    [T_SNIPER] = {0, T_NONE, 90, W, L, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {W}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_SNIPE, 20},
+    [T_SHELL] = {0, T_NONE, 100, W, L, CARD_STAGE_BASIC, 2, FALSE, 1, {{NULL, {W}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_REDUCE_DAMAGE, 20},
+    [T_SPIKY] = {0, T_NONE, 100, D, F, CARD_STAGE_BASIC, 1, FALSE, 1, {{NULL, {D}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_COUNTER, 20},
+    [T_LIGHT] = {0, T_NONE, 100, C, F, CARD_STAGE_BASIC, 3, FALSE, 1, {{NULL, {C}, 10, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_FREE_RETREAT, 0},
+    [T_MEGA] = {0, T_NONE, 150, P, D, CARD_STAGE_BASIC, 2, TRUE, 1, {{NULL, {P}, 50, CARD_EFFECT_NONE, 0}}, CARD_ABILITY_NONE, 0, TRUE},
 };
 
 static const struct TrainerCardInfo sTrainers[T_CARD_END - T_POTION] =
@@ -78,6 +125,17 @@ static const struct TrainerCardInfo sTrainers[T_CARD_END - T_POTION] =
     [T_X_SPEED - T_POTION] = {NULL, CARD_KIND_ITEM, CARD_TRAINER_RETREAT_DISCOUNT, 1},
     [T_RESEARCH - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_DRAW, 2},
     [T_CAPE - T_POTION] = {NULL, CARD_KIND_TOOL, CARD_TRAINER_TOOL_HP, 20},
+    [T_HAND_SCOPE - T_POTION] = {NULL, CARD_KIND_ITEM, CARD_TRAINER_HAND_SCOPE, 0},
+    [T_RED_CARD - T_POTION] = {NULL, CARD_KIND_ITEM, CARD_TRAINER_RED_CARD, 3},
+    [T_RARE_CANDY - T_POTION] = {NULL, CARD_KIND_ITEM, CARD_TRAINER_RARE_CANDY, 0},
+    [T_HELMET - T_POTION] = {NULL, CARD_KIND_TOOL, CARD_TRAINER_TOOL_COUNTER, 20},
+    [T_BROCK - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACH_ENERGY, 0, F},
+    [T_MISTY - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_FLIP_ATTACH_ENERGY, 0, W},
+    [T_SURGE - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_GATHER_ENERGY, 0, L},
+    [T_ERIKA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_HEAL_TYPE, 50, G},
+    [T_SABRINA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_SWITCH_OPPONENT, 0},
+    [T_BLAINE - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 30, R},
+    [T_GIOVANNI - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 10, CARD_TYPE_NONE},
 };
 
 u8 CardGame_GetCardKind(u16 cardId)
@@ -114,6 +172,14 @@ static const u16 sDeckA[CARD_DECK_SIZE] = {
 static const u16 sDeckB[CARD_DECK_SIZE] = {
     T_FIRE, T_FIRE, T_FIRE_EVO, T_FIRE_EVO, T_SPARK, T_SPARK, T_SPARK_EVO, T_SPARK_EVO, T_WALL, T_WALL_EVO,
     T_SLEEPER, T_EX, T_POTION, T_POTION, T_POKE_BALL, T_POKE_BALL, T_RESEARCH, T_RESEARCH, T_X_SPEED, T_CAPE,
+};
+static const u16 sDeckC[CARD_DECK_SIZE] = {
+    T_MULTI, T_MULTI, T_QUAKE, T_QUAKE, T_PUMP, T_PUMP, T_REVENGE, T_BEAM, T_HEALER, T_GASSER,
+    T_DRIVER, T_SNIPER, T_SPIKY, T_LIGHT, T_GIOVANNI, T_POTION, T_POTION, T_POKE_BALL, T_POKE_BALL, T_RESEARCH,
+};
+static const u16 sDeckD[CARD_DECK_SIZE] = {
+    T_BASIC, T_BASIC, T_STAGE1, T_STAGE2, T_STAGE2, T_RARE_CANDY, T_RARE_CANDY, T_SHELL, T_ATTACHER, T_HYPNO,
+    T_MEGA, T_HAND_SCOPE, T_RED_CARD, T_HELMET, T_BROCK, T_MISTY, T_SURGE, T_ERIKA, T_SABRINA, T_BLAINE,
 };
 static const u16 sDeckNoBasic[CARD_DECK_SIZE] = {
     T_STAGE1, T_STAGE1, T_STAGE2, T_STAGE2, T_FIRE_EVO, T_FIRE_EVO, T_SPARK_EVO, T_SPARK_EVO, T_WALL_EVO, T_WALL_EVO,
@@ -788,6 +854,306 @@ static void Test_Forfeit(void)
     CHECK(duel.phase == CARD_PHASE_OVER && duel.winner == CARD_SIDE_OPPONENT);
 }
 
+static void Test_AttackEffects(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSide *me, *them;
+
+    sTest = "attack effects";
+    // Flip 3 coins, 30 per heads; then 10 to each opponent's Benched Pokémon
+    StartDuel(&duel, T_MULTI, T_WALL, CARD_SIDE_OPPONENT);
+    me = &duel.sides[0];
+    them = &duel.sides[1];
+    them->slots[1].cardId = T_BASIC;
+    them->slots[3].cardId = T_FIRE;
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, C, 1);
+    ForceFlips(&duel, 5, 3); // heads, tails, heads
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 60);
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 1));
+    CHECK(them->slots[0].damage == 70 && them->slots[1].damage == 10 && them->slots[3].damage == 10);
+
+    // Damage to its own Bench; flip to discard the defender's Energy
+    StartDuel(&duel, T_QUAKE, T_WALL, CARD_SIDE_OPPONENT);
+    me = &duel.sides[0];
+    them = &duel.sides[1];
+    me->slots[2].cardId = T_BASIC;
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, F, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 50 && me->slots[2].damage == 10 && me->slots[0].damage == 0);
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_OPPONENT, 0, R, 2);
+    ForceFlips(&duel, 1, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 1));
+    CHECK(Duel_CountEnergy(&them->slots[0]) == 1);
+
+    // Can't attack during the next turn; drawing
+    StartDuel(&duel, T_BEAM, T_WALL, CARD_SIDE_OPPONENT);
+    me = &duel.sides[0];
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, C, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    EndTurn(&duel);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 1));
+    EndTurn(&duel);
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 1));
+    CHECK(me->handCount == 5); // 3 turns' draws + 2
+
+    // Bonus with 2 extra Energy of its type; switching the defender out
+    StartDuel(&duel, T_PUMP, T_WALL, CARD_SIDE_OPPONENT);
+    them = &duel.sides[1];
+    them->slots[2].cardId = T_FIRE;
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, W, 1);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, P, 2);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 50); // the extra Energy isn't Water
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, W, 2);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 160);
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 1));
+    CHECK(them->slots[0].cardId == T_FIRE && them->slots[2].cardId == T_WALL && them->slots[2].damage == 190);
+    CHECK(CountEvents(&duel, CARD_EVENT_SWITCH) == 1);
+
+    // Bonus against a damaged defender; sniping a Benched Pokémon (no weakness there)
+    StartDuel(&duel, T_REVENGE, T_WALL, CARD_SIDE_OPPONENT);
+    them = &duel.sides[1];
+    them->slots[1].cardId = T_POISONER; // weak to Fighting, not Darkness
+    them->slots[2].cardId = T_EX;       // weak to Darkness
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, D, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 30);
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 90);
+    EndTurn(&duel);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 3, 1)); // empty slot
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 1, 0)); // not a sniping attack
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 2, 1));
+    CHECK(them->slots[2].damage == 20 && them->slots[0].damage == 90);
+}
+
+static void Test_Abilities(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSide *me, *them;
+
+    sTest = "abilities";
+    // Heal 20 from each of yours, once a turn, not when nothing is damaged
+    StartDuel(&duel, T_HEALER, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    me->slots[0].damage = 30;
+    me->slots[1].cardId = T_BASIC;
+    me->slots[1].damage = 10;
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 1)); // no target
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 1, 0)); // T_BASIC has none
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    CHECK(me->slots[0].damage == 10 && me->slots[1].damage == 0);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    EndTurn(&duel);
+    EndTurn(&duel);
+    CHECK(Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+
+    // Attach its type's Energy to the Active of that type, from the Bench
+    StartDuel(&duel, T_SLEEPER, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[1].cardId = T_ATTACHER;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 1, 0));
+    CHECK(me->slots[0].energy[P] == 1);
+    me->slots[0].cardId = T_FIRE;
+    EndTurn(&duel);
+    EndTurn(&duel);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 1, 0)); // Active isn't Psychic
+
+    // Poison the opponent's Active, only from the Active Spot
+    StartDuel(&duel, T_GASSER, T_WALL, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    CHECK(them->slots[0].status == CARD_STATUS_POISONED);
+    duel.sides[0].slots[1] = duel.sides[0].slots[0];
+    duel.sides[0].slots[1].abilityUsedTurn = 0;
+    them->slots[0].status = 0;
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 1, 0));
+
+    // Flip: Asleep
+    StartDuel(&duel, T_HYPNO, T_WALL, CARD_SIDE_PLAYER);
+    ForceFlips(&duel, 1, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    CHECK(duel.sides[1].slots[0].status == CARD_STATUS_ASLEEP);
+
+    // Drive off the opponent's Active
+    StartDuel(&duel, T_DRIVER, T_WALL, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0)); // no Bench
+    them->slots[3].cardId = T_FIRE;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    CHECK(them->slots[0].cardId == T_FIRE && them->slots[3].cardId == T_WALL);
+
+    // Snipe 20: a knocked out Active is replaced right away, and the turn goes on
+    StartDuel(&duel, T_SNIPER, T_BASIC, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    them->slots[2].cardId = T_FIRE;
+    them->slots[0].damage = 60;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0));
+    CHECK(duel.sides[0].trophies == 1);
+    CHECK(duel.phase == CARD_PHASE_PROMOTE && duel.promoteMidTurn);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_END_TURN, 0, 0, 0));
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_PROMOTE, 0, 2, 0));
+    CHECK(duel.phase == CARD_PHASE_MAIN && duel.currentSide == CARD_SIDE_PLAYER && duel.turn == 1);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_USE_ABILITY, 0, 0, 0)); // used this turn
+
+    // Takes 20 less; hits back for 20; retreats for free
+    StartDuel(&duel, T_SHELL, T_FIRE, CARD_SIDE_OPPONENT);
+    EndTurn(&duel);
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_OPPONENT, 0, R, 1);
+    duel.currentSide = CARD_SIDE_OPPONENT;
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(duel.sides[0].slots[0].damage == 10);
+    duel.sides[0].slots[0].cardId = T_SPIKY;
+    duel.sides[0].slots[0].damage = 0;
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(duel.sides[0].slots[0].damage == 30 && duel.sides[1].slots[0].damage == 20);
+    duel.sides[0].slots[0].cardId = T_LIGHT;
+    duel.sides[0].slots[1].cardId = T_BASIC;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_RETREAT, 0, 1, 0));
+}
+
+static void Test_MoreTrainers(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSide *me, *them;
+    u8 candy;
+
+    sTest = "more trainers";
+    // Hand Scope, Red Card
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    them = &duel.sides[1];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_HAND_SCOPE);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0)); // empty hand
+    AddToHand(&duel, CARD_SIDE_OPPONENT, T_POTION);
+    AddToHand(&duel, CARD_SIDE_OPPONENT, T_POTION);
+    AddToHand(&duel, CARD_SIDE_OPPONENT, T_POTION);
+    AddToHand(&duel, CARD_SIDE_OPPONENT, T_POTION);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    CHECK(CountEvents(&duel, CARD_EVENT_REVEAL_HAND) == 1);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_RED_CARD);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    CHECK(them->handCount == 3);
+
+    // Rare Candy: Basic to Stage 2, not on the first turns
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    candy = AddToHand(&duel, CARD_SIDE_PLAYER, T_RARE_CANDY);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_STAGE1);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_STAGE2);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, candy, 0, 2));
+    EndTurn(&duel);
+    EndTurn(&duel);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, candy, 0, 1)); // a Stage 1
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, candy, 0, candy));
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, candy, 0, 2));
+    CHECK(me->slots[0].cardId == T_STAGE2 && me->handCount == 2 && me->hand[0] == T_STAGE1);
+    CHECK(me->discard[me->discardCount - 1] == T_RARE_CANDY);
+
+    // Rocky Helmet
+    StartDuel(&duel, T_BASIC, T_FIRE, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_HELMET);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, 0, 0));
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_OPPONENT, 0, R, 1);
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(me->slots[0].damage == 50 && duel.sides[1].slots[0].damage == 20);
+
+    // Brock: a Fighting Energy to a Fighting Pokémon; Misty: flips until tails
+    StartDuel(&duel, T_QUAKE, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[1].cardId = T_PUMP;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_BROCK);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, 1, 0));
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, 0, 0));
+    CHECK(me->slots[0].energy[F] == 1);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_MISTY);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, 1, 0)); // one Supporter a turn
+    EndTurn(&duel);
+    EndTurn(&duel);
+    ForceFlips(&duel, 3, 3); // heads, heads, tails
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_MISTY), 1, 0));
+    CHECK(me->slots[1].energy[W] == 2);
+
+    // Lt. Surge: the Bench's Lightning Energy to the Lightning Active
+    StartDuel(&duel, T_SPARK, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[1].cardId = T_BASIC;
+    me->slots[1].energy[L] = 2;
+    me->slots[1].energy[G] = 1;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_SURGE);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    CHECK(me->slots[0].energy[L] == 2 && me->slots[1].energy[L] == 0 && me->slots[1].energy[G] == 1);
+
+    // Erika: heal 50 from a Grass Pokémon
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[0].damage = 60;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_ERIKA);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, 0, 0));
+    CHECK(me->slots[0].damage == 10);
+
+    // Sabrina: the opponent's Active is switched out
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_SABRINA);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    them->slots[2].cardId = T_FIRE;
+    them->slots[0].status = CARD_STATUS_POISONED;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    CHECK(them->slots[0].cardId == T_FIRE && them->slots[2].status == 0);
+
+    // Blaine: Fire attacks +30 this turn; Giovanni: all attacks +10
+    StartDuel(&duel, T_FIRE, T_WALL, CARD_SIDE_OPPONENT);
+    them = &duel.sides[1];
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, R, 1);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_BLAINE);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_BLAINE), CARD_SLOT_NONE, 0));
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 60);
+    EndTurn(&duel);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0)); // the bonus is gone
+    CHECK(them->slots[0].damage == 90);
+    EndTurn(&duel);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_GIOVANNI);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_GIOVANNI), CARD_SLOT_NONE, 0));
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(them->slots[0].damage == 130);
+}
+
+static void Test_MegaEx(void)
+{
+    struct CardDuel duel;
+
+    sTest = "mega ex";
+    StartDuel(&duel, T_EX, T_MEGA, CARD_SIDE_OPPONENT);
+    AddToHand(&duel, CARD_SIDE_OPPONENT, T_FIRE);
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_PLAY_BASIC, 0, 1, 0));
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, P, 1);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(duel.sides[0].trophies == CARD_MEGA_EX_TROPHIES);
+    CHECK(duel.phase == CARD_PHASE_OVER && duel.winner == CARD_SIDE_PLAYER);
+}
+
 // Every card of a side is somewhere: deck, hand, discard pile or in play
 static int CountCards(const struct CardDuelSide *side)
 {
@@ -845,17 +1211,25 @@ static int PickRandomAction(const struct CardAction *actions, int count, u32 *rn
 static void Test_RandomPlay(void)
 {
     struct CardDuel duel, replay;
-    struct CardDuelSetup a = MakeSetup(sDeckA, G, P);
-    struct CardDuelSetup b = MakeSetup(sDeckB, R, L);
+    struct CardDuelSetup setups[4];
+    struct CardDuelSetup a, b;
     struct CardAction actions[CARD_MAX_ACTIONS];
     u32 seed, rng = 99;
     int steps, side, count, pick, i, results[3] = {0, 0, 0};
-    static int eventCounts[CARD_EVENT_GAME_OVER + 1];
+    static int eventCounts[CARD_EVENT_COUNT];
     bool8 ok;
 
     sTest = "random play";
-    for (seed = 0; seed < 3000; seed++)
+    setups[0] = MakeSetup(sDeckA, G, P);
+    setups[1] = MakeSetup(sDeckB, R, L);
+    setups[2] = MakeSetup(sDeckC, F, W);
+    setups[2].zoneTypes[2] = D;
+    setups[3] = MakeSetup(sDeckD, G, P);
+    setups[3].zoneTypes[2] = W;
+    for (seed = 0; seed < 4000; seed++)
     {
+        a = setups[seed % 4];
+        b = setups[(seed / 4 + seed) % 4];
         CHECK(Duel_Init(&duel, &a, &b, seed));
         for (steps = 0; steps < 2000 && duel.phase != CARD_PHASE_OVER; steps++)
         {
@@ -892,7 +1266,7 @@ static void Test_RandomPlay(void)
     printf("  random play: player %d, opponent %d, draws %d\n", results[0], results[1], results[2]);
     CHECK(results[0] > 0 && results[1] > 0);
     // Every kind of event happened in some game
-    for (i = 0; i <= CARD_EVENT_GAME_OVER; i++)
+    for (i = 0; i < CARD_EVENT_COUNT; i++)
     {
         if (eventCounts[i] == 0)
             printf("  random play never had event %d\n", i);
@@ -900,8 +1274,8 @@ static void Test_RandomPlay(void)
     }
 
     // The same seed and actions give the same duel
-    CHECK(Duel_Init(&duel, &a, &b, 42));
-    CHECK(Duel_Init(&replay, &a, &b, 42));
+    CHECK(Duel_Init(&duel, &setups[0], &setups[1], 42));
+    CHECK(Duel_Init(&replay, &setups[0], &setups[1], 42));
     CHECK(memcmp(&duel, &replay, sizeof(duel)) == 0);
 }
 
@@ -929,6 +1303,10 @@ int main(void)
     Test_DrawLimits();
     Test_TurnLimit();
     Test_Forfeit();
+    Test_AttackEffects();
+    Test_Abilities();
+    Test_MoreTrainers();
+    Test_MegaEx();
     Test_RandomPlay();
     printf("%d checks, %d failures\n", sChecks, sFailures);
     return sFailures != 0;
