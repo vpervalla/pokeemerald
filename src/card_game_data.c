@@ -1,5 +1,6 @@
 #include "global.h"
 #include "card_game.h"
+#include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/species.h"
 

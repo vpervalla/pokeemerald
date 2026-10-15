@@ -5,6 +5,7 @@
 #include "battle_pyramid_bag.h"
 #include "berry.h"
 #include "berry_powder.h"
+#include "card_game.h"
 #include "bike.h"
 #include "coins.h"
 #include "data.h"
@@ -637,6 +638,37 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId)
         CleanupOverworldWindowsAndTilemaps();
         OpenPokeblockCase(PBLOCK_CASE_FIELD, CB2_ReturnToField);
         DestroyTask(taskId);
+    }
+}
+
+// The card game's deck builder
+static void CB2_OpenCardCaseFromBag(void)
+{
+    OpenCardDeckBuilder(CB2_ReturnToBagMenuPocket);
+}
+
+static void Task_OpenRegisteredCardCase(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        OpenCardDeckBuilder(CB2_ReturnToField);
+        DestroyTask(taskId);
+    }
+}
+
+void ItemUseOutOfBattle_CardCase(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenCardCaseFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredCardCase;
     }
 }
 

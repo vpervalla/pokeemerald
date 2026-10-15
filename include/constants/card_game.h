@@ -127,6 +127,13 @@
 #define CARD_DECK_NO_BASIC          3
 #define CARD_DECK_UNKNOWN_CARD      4
 #define CARD_DECK_NO_ENERGY_TYPE    5
+#define CARD_DECK_NOT_OWNED         6   // more copies of a card than the player has
+
+// CardGameSave.flags
+#define CARD_SAVE_FLAG_STARTER      (1 << 0)    // got the starter deck
+
+#define CARD_SAVED_DECKS            3
+#define CARD_PACK_SIZE              5
 
 // Card ids: the Pokémon cards are generated (tools/card_game/gen_cards.py), the Trainers follow
 #define CARD_NONE                   0

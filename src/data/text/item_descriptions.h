@@ -1555,6 +1555,11 @@ static const u8 sOldSeaMapDesc[] = _(
     "that shows the way\n"
     "to a certain island.");
 
+static const u8 sCardCaseDesc[] = _(
+    "A case for game\n"
+    "cards. Build your\n"
+    "decks with it.");
+
 // <mega-evolutions>
 static const u8 sMegaRingDesc[] = _(
     "A ring that lets\n"

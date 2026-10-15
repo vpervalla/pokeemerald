@@ -983,6 +983,26 @@ struct ExternalEventFlags
 
 } __attribute__((packed));/*size = 0x15*/
 
+// The card game's collection and decks (src/card_game_collection.c, docs/card_game_plan.md).
+// The Pokémon cards of species the player has caught need no space: they count as owned.
+struct CardGameSave
+{
+    u8 pokemonCopies[64];   // 2 bits per Pokémon card below CARD_FIRST_EX: copies received
+    u8 exCopies[48];        // per ex card, from CARD_FIRST_EX
+    u8 trainerCopies[48];   // per Trainer card, from CARD_POKEMON_END
+    u16 decks[3][20];       // CARD_DECK_SIZE cards each, CARD_NONE padded
+    u16 deckZones[3];       // the Energy Zone of each deck: 3 CARD_TYPE_*, 4 bits each
+    u8 activeDeck;
+    u8 flags;               // CARD_SAVE_FLAG_*
+    u8 opponentsBeaten[10];
+    u16 wins;
+    u16 losses;
+    u16 draws;
+    u8 unused[80];
+};
+
+STATIC_ASSERT(sizeof(struct CardGameSave) == 0x180, CardGameSaveSize);
+
 struct SaveBlock1
 {
     /*0x00*/ struct Coords16 pos;
@@ -1066,7 +1086,7 @@ struct SaveBlock1
     /*0x31DC*/ struct Roamer roamer;
     /*0x31F8*/ struct EnigmaBerry enigmaBerry;
     /*0x322C*/ struct MysteryGiftSave mysteryGift;
-    /*0x3598*/ u8 unused_3598[0x180];
+    /*0x3598*/ struct CardGameSave cardGame;
     /*0x3718*/ u32 trainerHillTimes[NUM_TRAINER_HILL_MODES];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;

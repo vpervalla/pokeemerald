@@ -404,7 +404,7 @@ next to the rematch battle.
 | 3 ✅ | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 ✅ | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 ✅ | AI as in section 4 | 500 lines |
-| 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
+| 6 ✅ | Save struct, deck builder, Card Case item, pack opening | 800 lines |
 | 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
 | 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
 | 9 | Content: the full generated card pool, more Trainers and ex | data |
@@ -518,6 +518,32 @@ phases:
   the current decks, which don't have the cards HARD plays better (Giovanni, Blaine, Sabrina);
   the NPC decks of phase 7-8 should use them.
 - Duels against the AI now end in a few minutes, instead of reaching the turn limit.
+
+**Phase 6 status (done).**
+
+- Save: `struct CardGameSave` (`include/global.h`) takes the place of `SaveBlock1.unused_3598`,
+  0x180 bytes, so nothing else moves. It differs a little from section 3: the Pokémon cards of
+  species not caught can be received too (from packs and the starter deck), 2 bits each.
+  Caught species still count as 2 copies for free. Also 3 decks with their Energy types, the
+  deck in use, a flag for the starter deck, and the wins, losses and draws.
+- `src/card_game_collection.c`: owned copies, giving cards, the saved decks, checking a deck
+  (rules and owned copies), the results, and the pack rolls (40% Pokémon, 55% Trainers, 5% ex).
+  Specials: `CardGame_GiveStarterDeck`, `CardGame_CheckActiveDeck` (VAR_RESULT),
+  `OpenCardPack` and `OpenCardDeckBuilderFromScript`.
+- **CARD CASE** (`ITEM_CARD_CASE`, the TM Case's icon): USE from the Key Items pocket, or
+  registered to SELECT, opens the deck builder.
+- `src/card_game_deck.c`: the deck builder (your cards, A adds; RIGHT: the deck, A takes out;
+  SELECT: Energy types, 3 at most; L/R: decks 1-3; START: duel with this deck, if it follows the
+  rules; the highlighted card described with its icon) and the pack screen (each card with its
+  picture and description, and how many you have).
+- Duels use the player's deck in use (the starter deck if it can't be played, for the debug
+  duel) and record the result.
+- The debug START menu entry (`CARD_GAME_DEBUG`) gives the CARD CASE and the starter deck the
+  first time, then offers a duel, a pack or the deck builder.
+- Fixed: the START menu faded to black before the debug script.
+- Checked in mGBA: getting the CARD CASE, a pack, the deck builder from the bag (adding,
+  removing, the rules check, the deck in use, Energy types, the other decks, back to the bag),
+  and a duel with the saved deck.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

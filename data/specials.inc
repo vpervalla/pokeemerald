@@ -582,3 +582,7 @@ gSpecials::
 	def_special RandomizeTournamentOpponents
 	def_special GetTournamentOpponent
 	def_special PlayCardGame, waitstate=1
+	def_special CardGame_GiveStarterDeck
+	def_special CardGame_CheckActiveDeck
+	def_special OpenCardPack, waitstate=1
+	def_special OpenCardDeckBuilderFromScript, waitstate=1

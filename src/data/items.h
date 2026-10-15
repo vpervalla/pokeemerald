@@ -5044,4 +5044,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
     // </mega-evolutions>
+
+    [ITEM_CARD_CASE] =
+    {
+        .name = _("CARD CASE"),
+        .itemId = ITEM_CARD_CASE,
+        .price = 0,
+        .description = sCardCaseDesc,
+        .importance = 1,
+        .registrability = TRUE,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CardCase,
+    },
 };

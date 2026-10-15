@@ -259,6 +259,7 @@
 #define CARD_SABLEYE_MEGA_EX                 253
 #define CARD_ABSOL_MEGA_EX                   254
 #define CARD_DRAGONITE_MEGA_EX               255
+#define CARD_FIRST_EX                        228  // the ex cards come last
 #define CARD_POKEMON_END                     256
 
 #endif // GUARD_CONSTANTS_CARD_GAME_CARDS_H

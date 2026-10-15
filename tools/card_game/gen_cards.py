@@ -507,6 +507,8 @@ def write_constants(cards):
     lines = [HEADER, '#ifndef GUARD_CONSTANTS_CARD_GAME_CARDS_H', '#define GUARD_CONSTANTS_CARD_GAME_CARDS_H', '']
     for i, card in enumerate(cards):
         lines.append('#define %-36s %d' % (card.id, i + 1))
+    first_ex = next((i + 1 for i, card in enumerate(cards) if card.is_ex), len(cards) + 1)
+    lines.append('#define %-36s %d  // the ex cards come last' % ('CARD_FIRST_EX', first_ex))
     lines.append('#define %-36s %d' % ('CARD_POKEMON_END', len(cards) + 1))
     lines += ['', '#endif // GUARD_CONSTANTS_CARD_GAME_CARDS_H', '']
     with open(os.path.join(ROOT, OUT_CONSTANTS), 'w', encoding='utf-8') as f:

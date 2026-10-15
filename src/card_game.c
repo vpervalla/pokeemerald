@@ -254,7 +254,7 @@ static const u8 sText_TypeNameD[] = _("DARKNESS");
 static const u8 sText_TypeNameM[] = _("METAL");
 static const u8 sText_TypeNameN[] = _("DRAGON");
 static const u8 sText_TypeNameC[] = _("COLORLESS");
-static const u8 *const sTypeNames[CARD_TYPE_COUNT] =
+const u8 *const gCardTypeNames[CARD_TYPE_COUNT] =
 {
     sText_TypeNameNone, sText_TypeNameG, sText_TypeNameR, sText_TypeNameW, sText_TypeNameL, sText_TypeNameP,
     sText_TypeNameF, sText_TypeNameD, sText_TypeNameM, sText_TypeNameN, sText_TypeNameC,
@@ -496,18 +496,6 @@ static const u8 *const sTrainerTexts[][2] =
     [CARD_TRAINER_ATTACK_BONUS]       = {sTrainer_Bonus, sTrainer_BonusAfter},
 };
 
-// Item icons for the Trainer cards that are items in the game
-static const u16 sTrainerItemIcons[][2] =
-{
-    {CARD_POTION, ITEM_POTION},
-    {CARD_POKE_BALL, ITEM_POKE_BALL},
-    {CARD_X_SPEED, ITEM_X_SPEED},
-    {CARD_HAND_SCOPE, ITEM_SCOPE_LENS},
-    {CARD_RARE_CANDY, ITEM_RARE_CANDY},
-    {CARD_GIANT_CAPE, ITEM_SILK_SCARF},
-    {CARD_ROCKY_HELMET, ITEM_HARD_STONE},
-};
-
 // ---------------------------------------------------------------------------------------------
 // Graphics
 
@@ -690,13 +678,17 @@ static void StartDuel(void)
     struct CardDuelSetup player, opponent;
     u8 i;
 
-    player.deck = gCardDecks[CARD_DECK_STARTER].cards;
+    // The player's deck, or the starter deck if it can't be played (scripts check it first,
+    // with CardGame_CheckActiveDeck; this is for the debug duel)
+    if (!CardGame_GetPlayerDeck(&player))
+    {
+        player.deck = gCardDecks[CARD_DECK_STARTER].cards;
+        for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
+            player.zoneTypes[i] = gCardDecks[CARD_DECK_STARTER].zoneTypes[i];
+    }
     opponent.deck = gCardDecks[sScreen->opponentDeck].cards;
     for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
-    {
-        player.zoneTypes[i] = gCardDecks[CARD_DECK_STARTER].zoneTypes[i];
         opponent.zoneTypes[i] = gCardDecks[sScreen->opponentDeck].zoneTypes[i];
-    }
     Duel_Init(&sScreen->duel, &player, &opponent, Random32());
     Duel_ClearEvents(&sScreen->duel); // the opening draws and coin flip show on the board
     sScreen->display = sScreen->duel;
@@ -823,6 +815,7 @@ static void ExitCardGame(void)
         gSpecialVar_Result = CARD_GAME_RESULT_DRAW;
     else
         gSpecialVar_Result = CARD_GAME_RESULT_LOST;
+    CardGame_RecordResult(gSpecialVar_Result);
     SetMainCallback2(sScreen->exitCallback);
     FreeAllWindowBuffers();
     Free(GetBgTilemapBuffer(1));
@@ -841,7 +834,7 @@ static u8 *AppendNumber(u8 *dst, u16 number)
     return ConvertIntToDecimalStringN(dst, number, STR_CONV_MODE_LEFT_ALIGN, digits);
 }
 
-static u8 *AppendCardName(u8 *dst, u16 cardId)
+u8 *CardGame_AppendCardName(u8 *dst, u16 cardId)
 {
     const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
     const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(cardId);
@@ -1090,7 +1083,7 @@ static void DrawSideTexts(u8 sideId)
     if (active->cardId != CARD_NONE)
     {
         *text = EOS;
-        AppendCardName(text, active->cardId);
+        CardGame_AppendCardName(text, active->cardId);
         if (active->tool != CARD_NONE)
             StringAppend(text, sText_Plus);
         PrintOnBoard(windowId, text, 2, 1, 92);
@@ -1277,7 +1270,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         if (event->side == CARD_SIDE_PLAYER)
         {
             dst = StringAppend(dst, sText_YouDrew);
-            dst = AppendCardName(dst, event->value);
+            dst = CardGame_AppendCardName(dst, event->value);
             StringAppend(dst, sText_Dot);
         }
         else
@@ -1289,7 +1282,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     case CARD_EVENT_ENERGY_ZONE:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, sText_Gets);
-        dst = StringAppend(dst, sTypeNames[event->value]);
+        dst = StringAppend(dst, gCardTypeNames[event->value]);
         StringAppend(dst, sText_EnergyDot);
         return TRUE;
     case CARD_EVENT_COIN:
@@ -1299,32 +1292,32 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     case CARD_EVENT_PLAY_TRAINER:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, sText_Played);
-        dst = AppendCardName(dst, event->value);
+        dst = CardGame_AppendCardName(dst, event->value);
         StringAppend(dst, sText_Dot);
         return TRUE;
     case CARD_EVENT_ATTACH_ENERGY:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, sText_Attached);
-        dst = StringAppend(dst, sTypeNames[event->value]);
+        dst = StringAppend(dst, gCardTypeNames[event->value]);
         dst = StringAppend(dst, sText_EnergyTo);
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         StringAppend(dst, sText_Dot);
         return TRUE;
     case CARD_EVENT_EVOLVE:
         dst = StringAppend(dst, sText_Evolution);
-        dst = AppendCardName(dst, event->value);
+        dst = CardGame_AppendCardName(dst, event->value);
         StringAppend(dst, sText_Exclamation);
         return TRUE;
     case CARD_EVENT_RETREAT:
     case CARD_EVENT_PROMOTE:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, event->type == CARD_EVENT_RETREAT ? sText_RetreatedTo : sText_SentOut);
-        dst = AppendCardName(dst, event->value);
+        dst = CardGame_AppendCardName(dst, event->value);
         StringAppend(dst, sText_Dot);
         return TRUE;
     case CARD_EVENT_ATTACK:
         info = CardGame_GetPokemonInfo(event->cardId);
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, sText_Used);
         dst = StringAppend(dst, info->attacks[event->value].name);
         StringAppend(dst, sText_Exclamation);
@@ -1334,26 +1327,26 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         return TRUE;
     case CARD_EVENT_DAMAGE:
     case CARD_EVENT_HEAL:
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, event->type == CARD_EVENT_DAMAGE ? sText_Took : sText_Healed);
         dst = AppendNumber(dst, event->value);
         StringAppend(dst, event->type == CARD_EVENT_DAMAGE ? sText_Damage : sText_Dot);
         return TRUE;
     case CARD_EVENT_STATUS:
     case CARD_EVENT_STATUS_CURED:
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, event->type == CARD_EVENT_STATUS ? sText_IsNow : sText_IsNoLonger);
         dst = AppendStatusName(dst, event->value);
         StringAppend(dst, sText_Dot);
         return TRUE;
     case CARD_EVENT_DISCARD_ENERGY:
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, sText_Discarded);
         dst = AppendNumber(dst, event->value);
         StringAppend(dst, sText_EnergyDot);
         return TRUE;
     case CARD_EVENT_KNOCK_OUT:
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         StringAppend(dst, sText_KnockedOut);
         return TRUE;
     case CARD_EVENT_TROPHY:
@@ -1370,7 +1363,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     case CARD_EVENT_GAME_OVER:
         return FALSE; // shown by STATE_RESULT
     case CARD_EVENT_ABILITY:
-        dst = AppendCardName(dst, event->cardId);
+        dst = CardGame_AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, sText_UsedAbility);
         dst = StringAppend(dst, sAbilityTexts[event->value][0]);
         StringAppend(dst, sText_Exclamation);
@@ -1387,12 +1380,12 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
             {
                 if (i != 0)
                     dst = StringAppend(dst, sText_Comma);
-                dst = AppendCardName(dst, side->hand[i]);
+                dst = CardGame_AppendCardName(dst, side->hand[i]);
             }
         }
         return TRUE;
     case CARD_EVENT_SWITCH:
-        dst = AppendCardName(dst, event->value);
+        dst = CardGame_AppendCardName(dst, event->value);
         StringAppend(dst, sText_WasSwitchedIn);
         return TRUE;
     }
@@ -1648,7 +1641,7 @@ static u8 *AppendEffectText(u8 *dst, const u8 *before, u16 number, const u8 *aft
     return dst;
 }
 
-static u8 *AppendAttackText(u8 *dst, const struct CardAttack *attack)
+u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack)
 {
     const struct EffectText *effect = &sEffectTexts[attack->effect];
 
@@ -1703,11 +1696,11 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
     if (info->evolvesFrom != CARD_NONE)
     {
         end = StringAppend(end, sText_From);
-        end = AppendCardName(end, info->evolvesFrom);
+        end = CardGame_AppendCardName(end, info->evolvesFrom);
         end = StringAppend(end, sText_CloseParen);
     }
     y = PrintDetail(text, x, y);
-    end = StringCopy(text, sTypeNames[info->type]);
+    end = StringCopy(text, gCardTypeNames[info->type]);
     end = StringAppend(end, sText_Space);
     end = AppendNumber(end, mon != NULL ? GetRemainingHp(mon) : info->hp);
     if (mon != NULL)
@@ -1720,14 +1713,14 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
         AppendStatusLetters(end, mon->status);
     y = PrintDetail(text, x, y);
     end = StringCopy(text, sText_Weakness);
-    end = StringAppend(end, sTypeNames[info->weakness]);
+    end = StringAppend(end, gCardTypeNames[info->weakness]);
     end = StringAppend(end, sText_Retreat);
     AppendNumber(end, info->retreatCost);
     y = PrintDetail(text, x, y);
     if (mon != NULL && mon->tool != CARD_NONE)
     {
         end = StringCopy(text, sText_ToolAttached);
-        AppendCardName(end, mon->tool);
+        CardGame_AppendCardName(end, mon->tool);
         y = PrintDetail(text, x, y);
     }
 
@@ -1748,7 +1741,7 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
     for (i = 0; i < info->numAttacks; i++)
     {
         *text = EOS;
-        AppendAttackText(text, &info->attacks[i]);
+        CardGame_AppendAttackText(text, &info->attacks[i]);
         y = PrintDetail(text, x, y);
     }
     if (info->isEx)
@@ -1758,29 +1751,41 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
     }
 }
 
+u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info)
+{
+    return StringAppend(dst, info->kind == CARD_KIND_SUPPORTER ? sText_Supporter : (info->kind == CARD_KIND_TOOL ? sText_Tool : sText_Item));
+}
+
+u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
+{
+    dst = StringAppend(dst, sTrainerTexts[info->effect][0]);
+    if (sTrainerTexts[info->effect][1] != NULL)
+        dst = AppendEffectText(dst, NULL, info->effectArg, sTrainerTexts[info->effect][1]);
+    if (info->effectType != CARD_TYPE_NONE)
+    {
+        dst = StringAppend(dst, gCardTypeNames[info->effectType]);
+        dst = StringAppend(dst, sEffect_Dot);
+    }
+    return dst;
+}
+
 static void ShowTrainerDetails(const struct TrainerCardInfo *info)
 {
     u8 *text = sScreen->text;
-    u8 *end;
     u8 y = 18;
 
-    StringCopy(text, info->kind == CARD_KIND_SUPPORTER ? sText_Supporter : (info->kind == CARD_KIND_TOOL ? sText_Tool : sText_Item));
+    *text = EOS;
+    CardGame_AppendTrainerKind(text, info);
     y = PrintDetail(text, 72, y);
-    end = StringCopy(text, sTrainerTexts[info->effect][0]);
-    if (sTrainerTexts[info->effect][1] != NULL)
-        end = AppendEffectText(end, NULL, info->effectArg, sTrainerTexts[info->effect][1]);
-    if (info->effectType != CARD_TYPE_NONE)
-    {
-        end = StringAppend(end, sTypeNames[info->effectType]);
-        StringAppend(end, sEffect_Dot);
-    }
+    *text = EOS;
+    CardGame_AppendTrainerText(text, info);
     PrintDetail(text, 72, y);
 }
 
 static void CreateDetailPicture(u16 cardId)
 {
     const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
-    u8 i;
+    const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(cardId);
 
     sScreen->detailIsItem = FALSE;
     if (pokemon != NULL)
@@ -1792,22 +1797,18 @@ static void CreateDetailPicture(u16 cardId)
             gSprites[sScreen->detailSprite].oam.priority = 0;
         return;
     }
-    for (i = 0; i < ARRAY_COUNT(sTrainerItemIcons); i++)
+    if (trainer != NULL && trainer->iconItem != ITEM_NONE)
     {
-        if (sTrainerItemIcons[i][0] == cardId)
+        sScreen->detailSprite = AddItemIconSprite(TAG_DETAIL_ITEM, TAG_DETAIL_ITEM, trainer->iconItem);
+        if (sScreen->detailSprite == MAX_SPRITES)
         {
-            sScreen->detailSprite = AddItemIconSprite(TAG_DETAIL_ITEM, TAG_DETAIL_ITEM, sTrainerItemIcons[i][1]);
-            if (sScreen->detailSprite == MAX_SPRITES)
-            {
-                sScreen->detailSprite = SPRITE_NONE;
-                return;
-            }
-            gSprites[sScreen->detailSprite].x = 36;
-            gSprites[sScreen->detailSprite].y = 44;
-            gSprites[sScreen->detailSprite].oam.priority = 0;
-            sScreen->detailIsItem = TRUE;
+            sScreen->detailSprite = SPRITE_NONE;
             return;
         }
+        gSprites[sScreen->detailSprite].x = 36;
+        gSprites[sScreen->detailSprite].y = 44;
+        gSprites[sScreen->detailSprite].oam.priority = 0;
+        sScreen->detailIsItem = TRUE;
     }
 }
 
@@ -1821,7 +1822,7 @@ static void ShowViewedCard(void)
     DestroyDetailSprite();
     FillWindowPixelBuffer(WIN_DETAIL, PIXEL_FILL(1));
     *text = EOS;
-    AppendCardName(text, view->cardId);
+    CardGame_AppendCardName(text, view->cardId);
     AddTextPrinterParameterized(WIN_DETAIL, FONT_NORMAL, text, 72, 2, TEXT_SKIP_DRAW, NULL);
     if (pokemon != NULL)
         ShowPokemonDetails(view, pokemon);
@@ -1872,20 +1873,20 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
     {
     case CARD_ACTION_PLAY_BASIC:
         dst = StringAppend(dst, action->slot == CARD_SLOT_ACTIVE ? sText_ToActive : sText_ToBench);
-        AppendCardName(dst, handCard);
+        CardGame_AppendCardName(dst, handCard);
         break;
     case CARD_ACTION_END_SETUP:
         StringAppend(dst, sText_StartDuel);
         break;
     case CARD_ACTION_ATTACH_ENERGY:
         dst = StringAppend(dst, sText_Attach);
-        dst = StringAppend(dst, sTypeNames[side->zoneEnergy]);
+        dst = StringAppend(dst, gCardTypeNames[side->zoneEnergy]);
         dst = StringAppend(dst, sText_EnergyTo);
-        AppendCardName(dst, side->slots[action->slot].cardId);
+        CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
         break;
     case CARD_ACTION_EVOLVE:
         dst = StringAppend(dst, sText_Evolve);
-        dst = AppendCardName(dst, handCard);
+        dst = CardGame_AppendCardName(dst, handCard);
         if (action->slot != CARD_SLOT_ACTIVE)
         {
             dst = StringAppend(dst, sText_At);
@@ -1895,21 +1896,21 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         break;
     case CARD_ACTION_PLAY_TRAINER:
         dst = StringAppend(dst, sText_Play);
-        dst = AppendCardName(dst, handCard);
+        dst = CardGame_AppendCardName(dst, handCard);
         if (action->slot < CARD_SLOT_COUNT)
         {
             dst = StringAppend(dst, sText_On);
             if (CardGame_GetTrainerInfo(handCard)->effect == CARD_TRAINER_RARE_CANDY)
             {
-                dst = AppendCardName(dst, side->hand[action->arg]);
+                dst = CardGame_AppendCardName(dst, side->hand[action->arg]);
                 dst = StringAppend(dst, sText_Space);
             }
-            AppendCardName(dst, side->slots[action->slot].cardId);
+            CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
         }
         break;
     case CARD_ACTION_RETREAT:
         dst = StringAppend(dst, sText_RetreatTo);
-        AppendCardName(dst, side->slots[action->slot].cardId);
+        CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
         break;
     case CARD_ACTION_ATTACK:
         info = CardGame_GetPokemonInfo(side->slots[CARD_SLOT_ACTIVE].cardId);
@@ -1920,17 +1921,17 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         if (info->attacks[action->arg].effect == CARD_EFFECT_SNIPE)
         {
             dst = StringAppend(dst, sText_At);
-            AppendCardName(dst, opponent->slots[action->slot].cardId);
+            CardGame_AppendCardName(dst, opponent->slots[action->slot].cardId);
         }
         break;
     case CARD_ACTION_USE_ABILITY:
         dst = StringAppend(dst, sText_Ability);
-        dst = AppendCardName(dst, side->slots[action->slot].cardId);
+        dst = CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
         info = CardGame_GetPokemonInfo(side->slots[action->slot].cardId);
         if (info->ability == CARD_ABILITY_SNIPE)
         {
             dst = StringAppend(dst, sText_At);
-            AppendCardName(dst, opponent->slots[action->arg].cardId);
+            CardGame_AppendCardName(dst, opponent->slots[action->arg].cardId);
         }
         break;
     case CARD_ACTION_END_TURN:
@@ -1938,7 +1939,7 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         break;
     case CARD_ACTION_PROMOTE:
         dst = StringAppend(dst, sText_SendOut);
-        AppendCardName(dst, side->slots[action->slot].cardId);
+        CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
         break;
     }
 }

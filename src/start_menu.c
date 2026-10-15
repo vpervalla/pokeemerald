@@ -631,7 +631,11 @@ static bool8 HandleStartMenuInput(void)
         if (gMenuCallback != StartMenuSaveCallback
             && gMenuCallback != StartMenuExitCallback
             && gMenuCallback != StartMenuSafariZoneRetireCallback
-            && gMenuCallback != StartMenuBattlePyramidRetireCallback)
+            && gMenuCallback != StartMenuBattlePyramidRetireCallback
+#ifdef CARD_GAME_DEBUG
+            && gMenuCallback != StartMenuCardDuelCallback
+#endif
+            )
         {
            FadeScreen(FADE_TO_BLACK, 0);
         }

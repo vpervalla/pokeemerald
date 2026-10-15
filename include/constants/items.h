@@ -453,6 +453,9 @@ enum {
     ITEM_ALTARIANITE,
     ITEM_DRAGONINITE,
 
+    // Card game
+    ITEM_CARD_CASE,
+
     ITEMS_COUNT
 };
 

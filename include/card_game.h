@@ -44,6 +44,7 @@ struct TrainerCardInfo
     u8 effect;          // CARD_TRAINER_*
     u8 effectArg;
     u8 effectType;      // CARD_TYPE_* the effect is limited to, CARD_TYPE_NONE for any
+    u16 iconItem;       // ITEM_* whose icon shows the card, ITEM_NONE for none
 };
 
 struct CardDeckData
@@ -234,7 +235,32 @@ bool8 CardEffects_HasFreeRetreat(const struct CardInPlay *mon);
 // src/card_game_ai.c
 void CardAi_ChooseAction(struct CardDuel *duel, u8 side, u8 level, struct CardAction *actions, struct CardAction *chosen);
 
+// src/card_game_collection.c: the player's cards and decks (saved in gSaveBlock1Ptr->cardGame)
+u8 CardGame_GetOwnedCopies(u16 cardId);
+bool8 CardGame_GiveCard(u16 cardId);
+u8 CardGame_CountCopies(const u16 *deck, u16 cardId);
+u16 *CardGame_GetSavedDeck(u8 deckIndex);
+void CardGame_GetDeckZone(u8 deckIndex, u8 *zoneTypes);
+void CardGame_SetDeckZone(u8 deckIndex, const u8 *zoneTypes);
+u8 CardGame_ValidateSavedDeck(u8 deckIndex);
+bool8 CardGame_GetPlayerDeck(struct CardDuelSetup *setup);
+void CardGame_RecordResult(u8 result);
+u16 CardGame_RollPackCard(void);
+void CardGame_GiveStarterDeck(void);
+void CardGame_CheckActiveDeck(void);
+void OpenCardPack(void);
+void OpenCardDeckBuilderFromScript(void);
+
+// src/card_game_deck.c: the deck builder and the pack opening screen
+void OpenCardDeckBuilder(void (*exitCallback)(void));
+void OpenCardPackScreen(const u16 *cards, u8 count, void (*exitCallback)(void));
+
 // src/card_game.c
 void PlayCardGame(void);
+u8 *CardGame_AppendCardName(u8 *dst, u16 cardId);
+u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack);
+u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);
+u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info);
+extern const u8 *const gCardTypeNames[CARD_TYPE_COUNT];
 
 #endif // GUARD_CARD_GAME_H
