@@ -103,7 +103,7 @@
       "x": 36,
       "y": 4,
       "script": "PokemonMansion_B1F_EventScript_ItemMewtwoniteY",
-      "flag": "FLAG_HIDE_MANSION_MEWTWONITE_Y"
+      "flag": "FLAG_ITEM_MANSION_MEWTWONITE_Y"
     }
   ],
   "warp_events": [
