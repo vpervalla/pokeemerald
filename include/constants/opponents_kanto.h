@@ -524,10 +524,11 @@
 #define TRAINER_REMATCH_BLAINE                        1369
 #define TRAINER_REMATCH_GIOVANNI                      1370
 
-// Added for MR. M.'s daily tournament: the story's opponents at lv 85-90, like the other champions
-#define TRAINER_TOURNAMENT_REPLAY_RIVAL               1371
-#define TRAINER_TOURNAMENT_REPLAY_ALDER               1372
-#define TRAINER_TOURNAMENT_REPLAY_LEON                1373
+// Added for MR. M.'s first tournament (the story): its three opponents at their story levels. The
+// TRAINER_TOURNAMENT_* above are the daily tournament's, at lv 85-90.
+#define TRAINER_TOURNAMENT_STORY_STEVEN               1371
+#define TRAINER_TOURNAMENT_STORY_CYNTHIA              1372
+#define TRAINER_TOURNAMENT_STORY_LEON                 1373
 
 #define NUM_KANTO_TRAINERS 510
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)

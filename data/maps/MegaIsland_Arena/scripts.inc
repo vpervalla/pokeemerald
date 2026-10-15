@@ -9,8 +9,8 @@ MegaIsland_Arena_MapScripts::
 @ end of the battlefield and battle the opponent at the north end, with MR. M. watching from his red
 @ mat between the statues.
 @ Bracket:
-@   quarterfinals: PLAYER - ALDER, RIVAL - CYNTHIA, LANCE - DIANTHA, STEVEN - LEON
-@   semifinals:    PLAYER - RIVAL, DIANTHA - LEON
+@   quarterfinals: PLAYER - STEVEN, CYNTHIA - RIVAL, LANCE - DIANTHA, ALDER - LEON
+@   semifinals:    PLAYER - CYNTHIA, DIANTHA - LEON
 @   final:         PLAYER - LEON
 @ Losing: the player wakes up in bed, it was a dream, and the tournament starts again.
 @ After the story, the tournament is replayed each day with random opponents (see the end of this file).
@@ -26,8 +26,8 @@ MegaIsland_Arena_OnTransition:
 	clearflag FLAG_TEMP_1
 	clearflag FLAG_TEMP_2
 	setvar VAR_TEMP_0, 1
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_ALDER
-	call_if_eq VAR_MEGA_STORY_STATE, 5, MegaIsland_Arena_SetOpponentRival
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_STEVEN
+	call_if_eq VAR_MEGA_STORY_STATE, 5, MegaIsland_Arena_SetOpponentCynthia
 	call_if_eq VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_SetOpponentLeon
 MegaIsland_Arena_OnTransitionEnd:
 	end
@@ -37,8 +37,8 @@ MegaIsland_Arena_EventScript_ShowMrM:
 	clearflag FLAG_TEMP_2
 	return
 
-MegaIsland_Arena_SetOpponentRival:
-	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_KANTO_BLUE
+MegaIsland_Arena_SetOpponentCynthia:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_CYNTHIA
 	return
 
 MegaIsland_Arena_SetOpponentLeon:
@@ -83,14 +83,13 @@ MegaIsland_Arena_EventScript_Quarterfinal::
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToField
 	waitmovement 0
-	msgbox MegaIsland_Arena_Text_AlderIntro
+	msgbox MegaIsland_Arena_Text_StevenIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_AlderDefeat, MegaIsland_Arena_Text_AlderVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_STORY_STEVEN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_StevenDefeat, MegaIsland_Arena_Text_StevenVictory
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
-	msgbox MegaIsland_Arena_Text_AlderAfter
-	call MegaIsland_Arena_EventScript_AlderGiveStone
+	msgbox MegaIsland_Arena_Text_StevenAfter
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
 	waitmovement 0
@@ -103,36 +102,13 @@ MegaIsland_Arena_EventScript_Semifinal::
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToField
 	waitmovement 0
-	msgbox MegaIsland_Arena_Text_RivalIntro
+	msgbox MegaIsland_Arena_Text_CynthiaIntro
 	closemessage
 	special RemoveCameraObject
-	switch VAR_STARTER_MON
-	case 0, MegaIsland_Arena_EventScript_BattleRivalCharmander
-	case 1, MegaIsland_Arena_EventScript_BattleRivalBulbasaur
-	case 2, MegaIsland_Arena_EventScript_BattleRivalSquirtle
-	end
-
-@ The rival has the starter that beats the player's, as in FRLG
-MegaIsland_Arena_EventScript_BattleRivalCharmander::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_CHARMANDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_RivalDefeat, MegaIsland_Arena_Text_RivalVictory
-	goto MegaIsland_Arena_EventScript_AfterRival
-	end
-
-MegaIsland_Arena_EventScript_BattleRivalBulbasaur::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_BULBASAUR, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_RivalDefeat, MegaIsland_Arena_Text_RivalVictory
-	goto MegaIsland_Arena_EventScript_AfterRival
-	end
-
-MegaIsland_Arena_EventScript_BattleRivalSquirtle::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_SQUIRTLE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_RivalDefeat, MegaIsland_Arena_Text_RivalVictory
-	goto MegaIsland_Arena_EventScript_AfterRival
-	end
-
-MegaIsland_Arena_EventScript_AfterRival::
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_STORY_CYNTHIA, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_CynthiaDefeat, MegaIsland_Arena_Text_CynthiaVictory
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
-	msgbox MegaIsland_Arena_Text_RivalAfter
-	call MegaIsland_Arena_EventScript_RivalGiveStone
+	msgbox MegaIsland_Arena_Text_CynthiaAfter
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraFieldToMrM
 	waitmovement 0
@@ -148,7 +124,7 @@ MegaIsland_Arena_EventScript_Final::
 	msgbox MegaIsland_Arena_Text_LeonIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_LeonDefeat, MegaIsland_Arena_Text_LeonVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_STORY_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_LeonDefeat, MegaIsland_Arena_Text_LeonVictory
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_Lost
 	call MegaIsland_Arena_EventScript_CameraOnField
 	msgbox MegaIsland_Arena_Text_LeonAfter
@@ -257,57 +233,61 @@ MegaIsland_Arena_Text_QuarterfinalIntro:
 	.string "POKéMON is the strongest.\p"
 	.string "The first quarterfinal:\n"
 	.string "{PLAYER} of KANTO against\l"
-	.string "ALDER of UNOVA!$"
+	.string "STEVEN of HOENN!$"
 
-MegaIsland_Arena_Text_AlderIntro:
-	.string "ALDER: Ha ha! Let's see what you've\n"
-	.string "got, youngster!\p"
-	.string "Don't hold anything back!$"
+MegaIsland_Arena_Text_StevenIntro:
+	.string "STEVEN: So we meet on the field,\n"
+	.string "{PLAYER}.\p"
+	.string "My METAGROSS and I are curious\n"
+	.string "about this new power. Show us!$"
 
-MegaIsland_Arena_Text_AlderDefeat:
-	.string "Splendid! Your bond is the real\n"
-	.string "thing!$"
+MegaIsland_Arena_Text_StevenDefeat:
+	.string "Your bond is stronger than\n"
+	.string "any stone.$"
 
-MegaIsland_Arena_Text_AlderVictory:
-	.string "A fine battle!\n"
-	.string "Come back stronger, youngster.$"
+MegaIsland_Arena_Text_StevenVictory:
+	.string "A good battle.\n"
+	.string "Come back stronger!$"
 
-MegaIsland_Arena_Text_AlderAfter:
-	.string "ALDER: Ha ha ha! I haven't had a\n"
-	.string "battle like that in years!\p"
-	.string "Go on and win the whole thing!$"
+MegaIsland_Arena_Text_StevenAfter:
+	.string "STEVEN: I came for a rare stone,\n"
+	.string "and found a rare trainer.\p"
+	.string "Go on. Win this for both of us!$"
 
 MegaIsland_Arena_Text_QuarterfinalResults:
 	.string "MR. M: {PLAYER} advances to the\n"
 	.string "semifinals.\p"
 	.string "In the other quarterfinals,\n"
-	.string "{RIVAL} defeated CYNTHIA,\p"
+	.string "CYNTHIA defeated {RIVAL},\p"
 	.string "DIANTHA defeated LANCE,\n"
-	.string "and LEON defeated STEVEN.\p"
+	.string "and LEON defeated ALDER.\p"
 	.string "Rest your POKéMON, {PLAYER}.\n"
 	.string "The semifinals will follow.$"
 
 MegaIsland_Arena_Text_SemifinalIntro:
 	.string "MR. M: The first semifinal:\n"
-	.string "{PLAYER} against {RIVAL},\l"
-	.string "both of KANTO!$"
+	.string "{PLAYER} of KANTO against\l"
+	.string "CYNTHIA of SINNOH!$"
 
-MegaIsland_Arena_Text_RivalIntro:
-	.string "{RIVAL}: Heh! Of course it comes\n"
-	.string "down to us again, {PLAYER}!\p"
-	.string "This time, I'm taking it all!$"
+MegaIsland_Arena_Text_CynthiaIntro:
+	.string "CYNTHIA: The old myths spoke of\n"
+	.string "this power…\p"
+	.string "Now let's see whose bond can\n"
+	.string "truly master it!$"
 
-MegaIsland_Arena_Text_RivalDefeat:
-	.string "What?! Not again!$"
+MegaIsland_Arena_Text_CynthiaDefeat:
+	.string "That was wonderful…\n"
+	.string "You've earned the final.$"
 
-MegaIsland_Arena_Text_RivalVictory:
-	.string "Hah! Smell ya later!$"
+MegaIsland_Arena_Text_CynthiaVictory:
+	.string "You'll be even stronger\n"
+	.string "next time.$"
 
-MegaIsland_Arena_Text_RivalAfter:
-	.string "{RIVAL}: …Fine. You win this one.\p"
-	.string "But you'd better win the final,\n"
-	.string "or I'll never let you hear the end\l"
-	.string "of it!$"
+MegaIsland_Arena_Text_CynthiaAfter:
+	.string "CYNTHIA: Your POKéMON trust you\n"
+	.string "completely. I could feel it.\p"
+	.string "Leon is waiting. Show him what\n"
+	.string "you showed me!$"
 
 MegaIsland_Arena_Text_SemifinalResults:
 	.string "MR. M: {PLAYER} advances to the\n"
@@ -406,9 +386,9 @@ MegaIsland_Arena_Text_MewtwoInvitesToCave:
 MegaIsland_Arena_Text_MewtwoVanished:
 	.string "MEWTWO vanished!$"
 
-@ Added: each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once
-@ (a lost tournament starts again from the quarterfinal). With a full BAG it goes to the PC, as
-@ the tournament moves on.
+@ Added: the opponents whose POKéMON can be caught in KANTO give the MEGA STONE of one of them, once:
+@ LEON after the story's final, ALDER and the rival the first time they're beaten in the daily
+@ tournament. With a full BAG it goes to the PC, as the tournament moves on.
 MegaIsland_Arena_EventScript_AlderGiveStone::
 	goto_if_set FLAG_GOT_MEGA_STONE_FROM_ALDER, MegaIsland_Arena_EventScript_Return
 	msgbox MegaIsland_Arena_Text_AlderGiveStone
@@ -484,8 +464,9 @@ MegaIsland_Arena_Text_StoneToPC:
 
 @ Added: from VAR_MEGA_STORY_STATE 9 on, a new tournament is held each day (see MegaIsland_Castle_1F):
 @ three rounds against opponents drawn at random among the eight other champions, ALAIN included
-@ (RandomizeTournamentOpponents, GetTournamentOpponent), all at lv 85-90: the rival, ALDER and LEON
-@ use lv 85-90 copies of their story teams (TRAINER_TOURNAMENT_REPLAY_*). There is no MR. M. any more, nor any MEGA
+@ (RandomizeTournamentOpponents, GetTournamentOpponent), all at lv 85-90 (the story's tournament uses
+@ TRAINER_TOURNAMENT_STORY_* copies of STEVEN, CYNTHIA and LEON at lower levels). The rival (always
+@ with SQUIRTLE) and ALDER give their MEGA STONE the first time they're beaten. There is no MR. M. any more, nor any MEGA
 @ STONE to win (the tournament ones are given once), and a lost match just ends the day's tournament.
 MegaIsland_Arena_OnTransitionReplay:
 	goto_if_eq VAR_TOURNAMENT_ROUND, 0, MegaIsland_Arena_OnTransitionEnd
@@ -572,7 +553,7 @@ MegaIsland_Arena_EventScript_ReplayRival::
 	msgbox MegaIsland_Arena_Text_ReplayRivalIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_RIVAL, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_SQUIRTLE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
@@ -612,7 +593,7 @@ MegaIsland_Arena_EventScript_ReplayAlder::
 	msgbox MegaIsland_Arena_Text_ReplayAlderIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
@@ -632,7 +613,7 @@ MegaIsland_Arena_EventScript_ReplayLeon::
 	msgbox MegaIsland_Arena_Text_ReplayLeonIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
@@ -685,6 +666,7 @@ MegaIsland_Arena_EventScript_ReplayLost::
 
 MegaIsland_Arena_EventScript_ReplayAfterRival::
 	msgbox MegaIsland_Arena_Text_ReplayRivalAfter
+	call MegaIsland_Arena_EventScript_RivalGiveStone
 	return
 
 MegaIsland_Arena_EventScript_ReplayAfterLance::
@@ -701,6 +683,7 @@ MegaIsland_Arena_EventScript_ReplayAfterCynthia::
 
 MegaIsland_Arena_EventScript_ReplayAfterAlder::
 	msgbox MegaIsland_Arena_Text_ReplayAlderAfter
+	call MegaIsland_Arena_EventScript_AlderGiveStone
 	return
 
 MegaIsland_Arena_EventScript_ReplayAfterDiantha::

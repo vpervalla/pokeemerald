@@ -132,21 +132,21 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
 
 Seven champions answered MR. M.'s invitation. With the player, that makes an 8-trainer bracket.
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
-generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. They are lv
-75-80 (raised by 5 so they match RED), and each one's ace, sent out last, holds its MEGA STONE.
-In the daily tournament every champion is lv 85-90: LANCE, STEVEN, CYNTHIA, DIANTHA and ALAIN,
-met only there, give no stone (their POKéMON can't be caught in Kanto), and the rival, ALDER and
-LEON use lv 85-90 copies of their story teams (`TRAINER_TOURNAMENT_REPLAY_*`).
-Each opponent the player beats gives them the MEGA STONE of a POKéMON in their party, once (the
-`*GiveStone` scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): ALDER the PINSIRITE
-(his HERACROSS's HERACRONITE already comes from MASTER KOICHI), the rival his PIDGEOTITE and
-LEON his CHARIZARDITE Y (`FLAG_GOT_MEGA_STONE_FROM_ALDER`, `_RIVAL`, `_LEON`).
-After a lost match, waking up in guest room 1, these stones were part of the dream too: the
-`RemoveTournamentMegaStones` special (`src/field_specials.c`) takes each one back from the BAG,
-the PC or a POKéMON holding it (party, then boxes), clears its flag so it can be won again, and the
-player is told. Nothing else gives these three stones, so the copy it takes is always the one won.
-The rounds get harder: the semifinal opponent (the rival) is 2 levels higher (78-81), and the final
-one (LEON) 4 levels higher (80-84). MEWTWO, after the tournament, is lv 85.
+generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. Each one's
+ace, sent out last, holds its MEGA STONE. The `TRAINER_TOURNAMENT_*` teams are the daily
+tournament's (below), all lv 85-90. The story's tournament uses copies of its three opponents at
+rising levels (`TRAINER_TOURNAMENT_STORY_*`): STEVEN 76-80 in the quarterfinal, CYNTHIA 78-81 in
+the semifinal and LEON 80-84 in the final. MEWTWO, after the tournament, is lv 85.
+
+Only champions whose POKéMON can be caught in Kanto give a MEGA STONE, once (the `*GiveStone`
+scripts in `MegaIsland_Arena`; with a full BAG it goes to the PC): LEON his CHARIZARDITE Y after
+the story's final, and ALDER the PINSIRITE (his HERACROSS's HERACRONITE comes from MASTER KOICHI)
+and the rival his PIDGEOTITE the first time they're beaten in the daily tournament
+(`FLAG_GOT_MEGA_STONE_FROM_LEON`, `_ALDER`, `_RIVAL`). After a lost match in the story's
+tournament, waking up in guest room 1, LEON's stone was part of the dream too: the
+`RemoveTournamentMegaStones` special (`src/field_specials.c`) takes it back from the BAG, the PC
+or a POKéMON holding it (party, then boxes), clears its flag so it can be won again, and the
+player is told. (As it's given after the final, this only matters for an old save.)
 
 | Champion | Region | Mega | Where they wait |
 |----------|--------|------|-----------------|
@@ -202,8 +202,8 @@ The bracket is fixed:
 
 | Round | The player's match | The other results |
 |-------|--------------------|-------------------|
-| Quarterfinals | vs Alder (Mega Heracross) | the rival beats Cynthia, Diantha beats Lance, Leon beats Steven |
-| Semifinals | vs the rival (Mega Pidgeot; his team follows the player's starter) | Leon beats Diantha |
+| Quarterfinals | vs Steven (Mega Metagross) | Cynthia beats the rival, Diantha beats Lance, Leon beats Alder |
+| Semifinals | vs Cynthia (Mega Salamence) | Leon beats Diantha |
 | Final | vs Leon (Mega Charizard Y) | |
 
 After the final MR. M. tells the player to rest and come to him, and the receptionist reminds

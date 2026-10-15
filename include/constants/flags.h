@@ -2055,9 +2055,9 @@
 #define FLAG_GOT_MEGA_STONE_FROM_AGATHA             (KANTO_EXTRA_FLAGS_START + 0x1D8)
 #define FLAG_GOT_MEGA_STONE_FROM_LANCE              (KANTO_EXTRA_FLAGS_START + 0x1D9)
 #define FLAG_GOT_MEGA_STONE_FROM_CHAMPION           (KANTO_EXTRA_FLAGS_START + 0x1DA) // The rival, after the champion rematch
-#define FLAG_GOT_MEGA_STONE_FROM_ALDER              (KANTO_EXTRA_FLAGS_START + 0x1DB) // MR. M.'s tournament: quarterfinal
-#define FLAG_GOT_MEGA_STONE_FROM_RIVAL              (KANTO_EXTRA_FLAGS_START + 0x1DC) // Semifinal
-#define FLAG_GOT_MEGA_STONE_FROM_LEON               (KANTO_EXTRA_FLAGS_START + 0x1DD) // Final
+#define FLAG_GOT_MEGA_STONE_FROM_ALDER              (KANTO_EXTRA_FLAGS_START + 0x1DB) // MR. M.'s daily tournament
+#define FLAG_GOT_MEGA_STONE_FROM_RIVAL              (KANTO_EXTRA_FLAGS_START + 0x1DC) // MR. M.'s daily tournament
+#define FLAG_GOT_MEGA_STONE_FROM_LEON               (KANTO_EXTRA_FLAGS_START + 0x1DD) // MR. M.'s tournament: the story's final
 #define FLAG_ITEM_MANSION_MEWTWONITE_Y              (KANTO_EXTRA_FLAGS_START + 0x1DF) // POKéMON MANSION B1F
 #define FLAG_ITEM_SEVAULT_CANYON_TYRANITARITE       (KANTO_EXTRA_FLAGS_START + 0x1EB) // Where LARVITAR live
 

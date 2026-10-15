@@ -110,30 +110,30 @@
         .party = ITEM_CUSTOM_MOVES(sParty_Alain),
     },
 
-    // The story's opponents in the daily tournament (the rival always has SQUIRTLE)
-    [TRAINER_TOURNAMENT_REPLAY_RIVAL] = {
+    // MR. M.'s first tournament (the story): its three opponents at their story levels
+    [TRAINER_TOURNAMENT_STORY_STEVEN] = {
         .trainerClass = TRAINER_CLASS_CHAMPION,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
-        .trainerPic = TRAINER_PIC_KANTO_CHAMPION_RIVAL,
-        .trainerName = _("TERRY"),
+        .trainerPic = TRAINER_PIC_STEVEN,
+        .trainerName = _("STEVEN"),
         .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
-        .party = ITEM_CUSTOM_MOVES(sParty_TournamentReplayRival),
+        .party = ITEM_CUSTOM_MOVES(sParty_TournamentStorySteven),
     },
 
-    [TRAINER_TOURNAMENT_REPLAY_ALDER] = {
+    [TRAINER_TOURNAMENT_STORY_CYNTHIA] = {
         .trainerClass = TRAINER_CLASS_CHAMPION,
-        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
-        .trainerPic = TRAINER_PIC_CHAMPION_ALDER,
-        .trainerName = _("ALDER"),
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_FEMALE | F_TRAINER_FEMALE,
+        .trainerPic = TRAINER_PIC_CHAMPION_CYNTHIA,
+        .trainerName = _("CYNTHIA"),
         .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
-        .party = ITEM_CUSTOM_MOVES(sParty_TournamentReplayAlder),
+        .party = ITEM_CUSTOM_MOVES(sParty_TournamentStoryCynthia),
     },
 
-    [TRAINER_TOURNAMENT_REPLAY_LEON] = {
+    [TRAINER_TOURNAMENT_STORY_LEON] = {
         .trainerClass = TRAINER_CLASS_CHAMPION,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
         .trainerPic = TRAINER_PIC_CHAMPION_LEON,
@@ -141,5 +141,5 @@
         .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
-        .party = ITEM_CUSTOM_MOVES(sParty_TournamentReplayLeon),
+        .party = ITEM_CUSTOM_MOVES(sParty_TournamentStoryLeon),
     },

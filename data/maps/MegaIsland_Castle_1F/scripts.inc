@@ -113,10 +113,10 @@ MegaIsland_Castle_1F_Text_Register:
 	.string "Eight trainers from eight regions\n"
 	.string "will battle until one remains.\p"
 	.string "The quarterfinals will be:\n"
-	.string "{PLAYER} against ALDER,\p"
-	.string "{RIVAL} against CYNTHIA,\n"
+	.string "{PLAYER} against STEVEN,\p"
+	.string "CYNTHIA against {RIVAL},\n"
 	.string "LANCE against DIANTHA,\p"
-	.string "and STEVEN against LEON.\p"
+	.string "and ALDER against LEON.\p"
 	.string "Shall I register you?$"
 
 MegaIsland_Castle_1F_Text_Registered:

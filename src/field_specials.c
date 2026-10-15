@@ -1528,12 +1528,11 @@ static bool8 RemoveOneItemAnywhere(u16 itemId)
 
 // After a lost match in MR. M.'s tournament it was all a dream: the MEGA STONES the opponents gave
 // are taken back, wherever they are, and can be won again. Returns TRUE if any was taken back.
+// Only LEON's is given in the story's tournament (ALDER's and the rival's come in the daily one).
 bool8 RemoveTournamentMegaStones(void)
 {
     static const u16 sTournamentStones[][2] = {
-        {FLAG_GOT_MEGA_STONE_FROM_ALDER, ITEM_PINSIRITE},
-        {FLAG_GOT_MEGA_STONE_FROM_RIVAL, ITEM_PIDGEOTITE},
-        {FLAG_GOT_MEGA_STONE_FROM_LEON,  ITEM_CHARIZARDITE_Y},
+        {FLAG_GOT_MEGA_STONE_FROM_LEON, ITEM_CHARIZARDITE_Y},
     };
     u32 i;
     bool8 removed = FALSE;
