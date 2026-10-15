@@ -14,7 +14,7 @@ CeruleanCity_Gym_EventScript_Diana::
 	end
 
 CeruleanCity_Gym_EventScript_Misty::
-	goto_if_ge VAR_MEGA_STORY_STATE, 2, GymRematch_EventScript_Misty  @ added: post-game rematch, see data/scripts/gym_rematches.inc
+	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Misty  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
 	msgbox CeruleanCity_Gym_Text_ExplainTM03

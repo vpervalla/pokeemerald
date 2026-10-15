@@ -69,14 +69,19 @@ PokemonLeague_HallOfFame_Text_OakCongratulations:
 @ END KANTO NPCS
 
 @ The end of the League: record the team in the Hall of Fame, roll the credits and save
-@ (GameClear; the game continues in the player's room). The first time, MEWTWO's invitation to the
-@ tournament is waiting at home (see PalletTown_PlayersHouse_1F).
+@ (GameClear; the game continues in the player's room). The second time, after the League's rematch
+@ (it reopens once the Sevii Islands quest is done, FLAG_SYS_CAN_LINK_WITH_RS), MEWTWO's invitation to
+@ the tournament is waiting at home (see PalletTown_PlayersHouse_1F).
 PokemonLeague_HallOfFame_EventScript_GameClear::
-	call_if_eq VAR_MEGA_STORY_STATE, 0, PokemonLeague_HallOfFame_EventScript_InvitationWaiting
+	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_HallOfFame_EventScript_CheckInvitation
 	fadescreenspeed FADE_TO_BLACK, 24
 	special GameClear
 	releaseall
 	end
+
+PokemonLeague_HallOfFame_EventScript_CheckInvitation::
+	call_if_eq VAR_MEGA_STORY_STATE, 0, PokemonLeague_HallOfFame_EventScript_InvitationWaiting
+	return
 
 PokemonLeague_HallOfFame_EventScript_InvitationWaiting::
 	setvar VAR_MEGA_STORY_STATE, 1

@@ -95,9 +95,11 @@ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest:
 
 @ END KANTO NPCS
 
-@ The Mega Evolution story: after the Hall of Fame, the player wakes up at home and MOM has a
-@ letter for them. It's the invitation to the tournament on APEX ISLAND, from a "MR. M." (MEWTWO, seen by MOM as a
-@ man thanks to its powers), with the MEGA RING inside. The MEGA STONES are found elsewhere.
+@ The Mega Evolution story: after the second Hall of Fame (the League's rematch, once the Sevii
+@ Islands quest is done), the player wakes up at home and MOM has a letter for them. It's the
+@ invitation to the tournament on APEX ISLAND, from a "MR. M." (MEWTWO, seen by MOM as a man thanks
+@ to its powers), with the APEX TICKET for the ship inside. BLAINE gave the MEGA RING, and the
+@ MEGA STONES come from strong trainers.
 
 PalletTown_PlayersHouse_1F_OnFrame:
 	map_script_2 VAR_MEGA_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomHasLetter
@@ -113,10 +115,8 @@ PalletTown_PlayersHouse_1F_EventScript_MomHasLetter::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomLetterCameForYou
 	closemessage
 	msgbox PalletTown_PlayersHouse_1F_Text_Invitation
-	msgbox PalletTown_PlayersHouse_1F_Text_InvitationMegaRing
-	goto_if_set FLAG_RECEIVED_MEGA_RING, PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff
-	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundRingInLetter, ITEM_MEGA_RING, 1, MUS_RG_OBTAIN_KEY_ITEM
-	setflag FLAG_RECEIVED_MEGA_RING
+	msgbox PalletTown_PlayersHouse_1F_Text_InvitationTicket
+	kanto_giveitem_msg PalletTown_PlayersHouse_1F_Text_FoundTicketInLetter, ITEM_APEX_TICKET, 1, MUS_RG_OBTAIN_KEY_ITEM
 PalletTown_PlayersHouse_1F_EventScript_MomSeesPlayerOff::
 	msgbox PalletTown_PlayersHouse_1F_Text_MomDoYourBest
 	closemessage
@@ -178,14 +178,9 @@ PalletTown_PlayersHouse_1F_Text_Invitation:
     .string "A ship will wait for you at\n"
     .string "VERMILION HARBOR.$"
 
-PalletTown_PlayersHouse_1F_Text_InvitationMegaRing:
-    .string "With this letter is a ring. Its\n"
-    .string "KEY STONE unlocks that power.\p"
-    .string "A POKéMON must hold its own MEGA\n"
-    .string "STONE. Then, in battle, press\l"
-    .string "START when you choose a move,\l"
-    .string "and it will Mega Evolve.\l"
-    .string "Only once per battle.\p"
+PalletTown_PlayersHouse_1F_Text_InvitationTicket:
+    .string "With this letter is a ticket for\n"
+    .string "the ship.\p"
     .string "Only trainers who can Mega Evolve\n"
     .string "may enter my tournament.\p"
     .string "I have entrusted the MEGA STONES\n"
@@ -194,9 +189,9 @@ PalletTown_PlayersHouse_1F_Text_InvitationMegaRing:
     .string "Yours sincerely,\n"
     .string "MR. M.”$"
 
-PalletTown_PlayersHouse_1F_Text_FoundRingInLetter:
+PalletTown_PlayersHouse_1F_Text_FoundTicketInLetter:
     .string "There was something in the letter!\p"
-    .string "{PLAYER} found the MEGA RING!$"
+    .string "{PLAYER} found the APEX TICKET!$"
 
 PalletTown_PlayersHouse_1F_Text_MomDoYourBest:
     .string "MOM: A tournament on an island?\n"

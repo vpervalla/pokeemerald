@@ -396,12 +396,18 @@ VermilionCity_EventScript_ApexSailor::
 	faceplayer
 	msgbox VermilionCity_Text_ApexSailor, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_ApexSailorNotYet
+	checkitem ITEM_APEX_TICKET
+	call_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_ShowApexTicket  @ a save from before the ticket sails anyway
 	msgbox VermilionCity_Text_ApexSailorAllAboard
 	closemessage
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	setvar VAR_0x8006, SEAGALLOP_MEGA_ISLAND
 	goto Kanto_EventScript_SetSail
 	end
+
+VermilionCity_EventScript_ShowApexTicket::
+	msgbox VermilionCity_Text_ShowApexTicket
+	return
 
 VermilionCity_EventScript_ApexSailorNotYet::
 	msgbox VermilionCity_Text_ApexSailorNotYet
@@ -411,10 +417,14 @@ VermilionCity_EventScript_ApexSailorNotYet::
 VermilionCity_Text_ApexSailor:
     .string "Ahoy! You must be {PLAYER}.\p"
     .string "MR. M. asked me to wait for you.\n"
-    .string "You have his letter, don't you?\p"
+    .string "You have his ticket, don't you?\p"
     .string "This ship sails to APEX ISLAND,\n"
     .string "for the tournament.\p"
     .string "Are you ready to set sail?$"
+
+VermilionCity_Text_ShowApexTicket:
+    .string "{PLAYER} showed the APEX TICKET.\p"
+    .string "Yes, that's MR. M.'s ticket!$"
 
 VermilionCity_Text_ApexSailorAllAboard:
     .string "All aboard!$"

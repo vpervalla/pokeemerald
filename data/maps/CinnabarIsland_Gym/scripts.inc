@@ -40,9 +40,10 @@ CinnabarIsland_Gym_EventScript_Zac::
 	end
 
 CinnabarIsland_Gym_EventScript_Blaine::
-	goto_if_ge VAR_MEGA_STORY_STATE, 2, GymRematch_EventScript_Blaine  @ added: post-game rematch, see data/scripts/gym_rematches.inc
+	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Blaine  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
+	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle
 	release
 	end
@@ -205,7 +206,7 @@ CinnabarIsland_Gym_EventScript_GiveTM38::
 	kanto_giveitem_msg CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine, ITEM_TM38
 	setflag FLAG_GOT_TM38_FROM_BLAINE
 	msgbox CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove
-	goto CinnabarIsland_Gym_EventScript_MegaEvolutionStory  @ added: Mega Evolution story
+	goto CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
 	end
 
 CinnabarIsland_Gym_EventScript_GymGuy::
@@ -908,10 +909,14 @@ CinnabarIsland_Gym_Text_ZacPostBattle:
 
 @ The Mega Evolution story: BLAINE was a researcher at the POKéMON MANSION, where Mega Evolution
 @ was found while studying MEWTWO. He doesn't know that MEWTWO itself can Mega Evolve. After the battle
-@ (once, with TM38) he tells the player about Mega Evolution. He has no MEGA RING to give: the ring
-@ arrives with MEWTWO's invitation, after the League.
-CinnabarIsland_Gym_EventScript_MegaEvolutionStory::
+@ he tells the player about Mega Evolution and gives them the MEGA RING. No MEGA STONE comes with it:
+@ after the League, strong trainers of Kanto give them (see data/scripts/gym_rematches.inc). A player
+@ who beat him without getting the ring gets it by talking to him again, also in the post-game.
+CinnabarIsland_Gym_EventScript_GiveMegaRing::
 	msgbox CinnabarIsland_Gym_Text_BlaineMegaEvolution
+	kanto_giveitem_msg CinnabarIsland_Gym_Text_ReceivedMegaRing, ITEM_MEGA_RING, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_RECEIVED_MEGA_RING
+	msgbox CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve
 	release
 	end
 
@@ -933,9 +938,25 @@ CinnabarIsland_Gym_Text_BlaineMegaEvolution:
     .string "POKéMON it was made for.\p"
     .string "Then MEWTWO broke loose. It tore\n"
     .string "the lab apart and vanished.\p"
-    .string "Our notes burned, and our stones\n"
-    .string "were lost in the ruins. Every one\l"
-    .string "of them, KEY STONE and all.\p"
+    .string "Our notes burned, and our MEGA\n"
+    .string "STONES were lost in the ruins.\p"
+    .string "This ring holds the last KEY STONE\n"
+    .string "we had. I want you to have it.$"
+
+CinnabarIsland_Gym_Text_ReceivedMegaRing:
+    .string "{PLAYER} received the MEGA RING\n"
+    .string "from BLAINE.$"
+
+CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve:
+    .string "If a MEGA STONE ever comes your\n"
+    .string "way, give it to its POKéMON.\p"
+    .string "In battle, press START when you\n"
+    .string "choose a move. It will Mega Evolve\l"
+    .string "before anyone moves that turn.\p"
+    .string "Only once per battle, mind you!\p"
+    .string "Not even the ELITE FOUR has a\n"
+    .string "MEGA STONE. Nobody has seen one\l"
+    .string "since the fire.\p"
     .string "Hah! But who knows?\n"
     .string "Maybe they're still out there,\l"
     .string "waiting for a trainer like you!$"

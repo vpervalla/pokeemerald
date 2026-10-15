@@ -679,13 +679,14 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
-    [ITEM_034] =
+    [ITEM_APEX_TICKET] =
     {
-        .name = _("????????"),
-        .itemId = ITEM_NONE,
+        .name = _("APEX TICKET"),
+        .itemId = ITEM_APEX_TICKET,
         .price = 0,
-        .description = sDummyDesc,
-        .pocket = POCKET_ITEMS,
+        .description = sApexTicketDesc,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },

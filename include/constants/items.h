@@ -62,7 +62,7 @@ enum {
     ITEM_BLUE_SHARD,
     ITEM_YELLOW_SHARD,
     ITEM_GREEN_SHARD,
-    ITEM_034,
+    ITEM_APEX_TICKET, // Was the unused ITEM_034: MR. M.'s ticket for the ship to APEX ISLAND
     ITEM_035,
     ITEM_036,
     ITEM_037,

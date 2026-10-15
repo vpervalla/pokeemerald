@@ -1,4 +1,4 @@
-@ The KANTO GYM LEADERS' rematches, after MR. M.'s invitation (VAR_MEGA_STORY_STATE 2 or more).
+@ The KANTO GYM LEADERS' rematches, after the Hall of Fame (FLAG_SYS_GAME_CLEAR).
 @ MR. M. (MEWTWO, seen as a tall man in a long coat) gave each leader one of the MEGA STONES taken
 @ from the POKéMON MANSION, to pass on to the trainer who beats them. Their ace holds it in the
 @ rematch (TRAINER_REMATCH_*, see src/data/gym_leader_rematch_trainers.h). The player needs a
@@ -236,6 +236,7 @@ GymRematch_EventScript_SabrinaDeclined::
 GymRematch_EventScript_Blaine::
 	lock
 	faceplayer
+	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing
 	goto_if_defeated TRAINER_REMATCH_BLAINE, GymRematch_EventScript_BlaineDefeated
 	msgbox GymRematch_Text_BlaineIntro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_BlaineDeclined

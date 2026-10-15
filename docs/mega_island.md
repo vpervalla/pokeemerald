@@ -44,28 +44,31 @@ The route has tall grass but no wild encounter table yet, so it has no encounter
 ## The story so far
 
 Nobody can Mega Evolve during the first run through the League: no trainer holds a MEGA
-STONE, and the player has none.
+STONE, and the player has none. The tournament comes after the League's rematch.
 
 1. **Cinnabar Gym.** After the battle (and TM38), BLAINE tells the player that Mega Evolution
    was discovered at the POKéMON MANSION while studying MEWTWO, and that when MEWTWO broke
-   loose and destroyed the lab, the notes burned and every stone, KEY STONE included, was lost.
-   He doesn't know that MEWTWO itself can Mega Evolve: there is no record of it. He gives
-   nothing Mega-related.
-2. **Hall of Fame.** `PokemonLeague_HallOfFame_EventScript_GameClear` sets
-   `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
-   the credits). The port of FRLG's script had lost this step, so the game used to stop on a
-   black screen. After the credits, Continue puts the player in their room in Pallet Town.
-3. **The invitation.** When the player comes downstairs, MOM gives them a letter that a tall,
+   loose and destroyed the lab, the notes burned and the MEGA STONES were lost. He doesn't
+   know that MEWTWO itself can Mega Evolve: there is no record of it. He gives the player the
+   MEGA RING, the last KEY STONE he had (`FLAG_RECEIVED_MEGA_RING`), and explains how to use it
+   (hold the stone, press START when choosing a move, once per battle). A player who beat him
+   without getting it gets it by talking to him again, before or after the Hall of Fame.
+2. **The first Hall of Fame** (`FLAG_SYS_GAME_CLEAR`). The Kanto trainers who hold MEGA STONES
+   can now be battled for them (below): LEAF, RED, the GYM LEADERS' rematches and the DOJO. The
+   LEAGUE closes, as in FireRed, until the Sevii Islands quest is done.
+3. **The second Hall of Fame**, after the LEAGUE's rematch (`FLAG_SYS_CAN_LINK_WITH_RS`), where the
+   ELITE FOUR and the champion also give MEGA STONES. `PokemonLeague_HallOfFame_EventScript_GameClear`
+   sets `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
+   the credits). After the credits, Continue puts the player in their room in Pallet Town.
+4. **The invitation.** When the player comes downstairs, MOM gives them a letter that a tall,
    quiet gentleman in a long coat brought that morning. It's an invitation to a tournament
    on an island east of Vermilion, signed "MR. M.". MR. M. is MEWTWO, which uses its powers
-   to be seen as a man; nothing in the letter says so. The MEGA RING
-   (`FLAG_RECEIVED_MEGA_RING`) is inside, and the letter explains how to use it (the POKéMON holds
-   its stone, press START when choosing a move, once per battle). No MEGA STONE comes with it:
-   only trainers who can Mega Evolve may enter, and MR. M. has entrusted the stones to strong
-   trainers of Kanto. A save that already got the ring from BLAINE (before this change) doesn't
-   get a second one. `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works for
-   MR. M., appears.
-4. **The first MEGA STONE.** Before registering, the player has to earn a stone (below).
+   to be seen as a man; nothing in the letter says so. Inside is the APEX TICKET
+   (`ITEM_APEX_TICKET`, a key item in the unused `ITEM_034` slot) for the ship. The letter says
+   only trainers who can Mega Evolve may enter, and that MR. M. has entrusted the stones to strong
+   trainers of Kanto. `VAR_MEGA_STORY_STATE` becomes 2, and the Vermilion sailor, who works for
+   MR. M., appears. He checks the ticket (a save from before the ticket sails anyway).
+5. **Registration.** The player needs a POKéMON that can Mega Evolve (below).
 
 ## The MEGA STONES before the tournament
 
@@ -96,8 +99,8 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
 
 - **LEAF and RED** give their stone right after the battle (`data/scripts/lab_trainers.inc`), then
   leave. They now stay on the map until they've given it, not just until they're beaten.
-- **The GYM LEADERS' rematches** (`data/scripts/gym_rematches.inc`) start once
-  `VAR_MEGA_STORY_STATE` is 2 or more: each leader's script in the gym jumps to its rematch.
+- **The GYM LEADERS' rematches** (`data/scripts/gym_rematches.inc`) start after the first Hall
+  of Fame (`FLAG_SYS_GAME_CLEAR`): each leader's script in the gym jumps to its rematch.
   The leader asks whether to battle, and gives the stone after winning. The rematch teams are lv
   66-70, six POKéMON each, with the ace at lv 70 (`TRAINER_REMATCH_*`,
   `src/data/gym_leader_rematch_trainers.h` and `gym_leader_rematch_parties.h`). Each rematch

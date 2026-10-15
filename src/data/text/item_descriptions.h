@@ -1002,6 +1002,11 @@ static const u8 sSuperRodDesc[] = _(
     "rod for catching\n"
     "wild POKéMON.");
 
+static const u8 sApexTicketDesc[] = _(
+    "MR. M.'s ticket for\n"
+    "the ship to APEX\n"
+    "ISLAND.");
+
 static const u8 sSSTicketDesc[] = _(
     "The ticket required\n"
     "for sailing on a\n"
