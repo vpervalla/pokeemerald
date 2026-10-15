@@ -402,7 +402,7 @@ next to the rematch battle.
 | 1 ✅ | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
 | 2 ✅ | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
 | 3 ✅ | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
-| 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
+| 4 ✅ | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 | AI as in section 4 | 500 lines |
 | 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
 | 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
@@ -471,6 +471,31 @@ phases:
   the hand view, forfeiting, the result message and the return to the field.
 - Events now carry the card they were about (`CardDuelEvent.cardId`), so a message can name a
   Pokémon that has just been knocked out.
+
+**Phase 4 status (done).**
+
+- The table: a green board drawn from `graphics/card_game/board.png` (the opponent's half
+  darker), with a slot frame for each Active and Bench place. Each half shows, from the edge
+  in: the info panel (name, deck and hand counts, trophies as stars) and the Bench; then the
+  Energy Zone (this turn's and the next Energy as pips), the Active and its details (name,
+  HP, conditions, its Energy as pips).
+- The Pokémon in play are their party icons (Mega ex use their base species' icon), the
+  Active ones animated. Bench slots show HP and Energy count.
+- The board follows the events as they are shown (`sScreen->display`), instead of jumping to
+  the end of the action: damage, healing, knockouts, switches and trophies happen in order.
+- Animations: the attacker lunges, a damaged Pokémon shakes, a knocked out (or newly played,
+  evolved or switched in) one blinks, and coin flips spin a coin (heads: a Poké Ball, tails: a
+  gold coin) before showing the result. A few sound effects.
+- The menu is a 2-line list at the bottom with scroll arrows. SELECT (or "Look at the cards")
+  opens the card viewer: the hand, then every Pokémon in play on both sides, with the front
+  picture (or an item icon for Trainers that are items), stage and what it evolves from, HP,
+  type, weakness, retreat cost, the Tool, the ability and the attacks with their cost and
+  effect spelled out. LEFT/RIGHT to browse, B to go back.
+- `tools/card_game/gen_graphics.py` draws the board tiles, the pips (an Energy of each type,
+  trophies) and the coin; rerun it to change them.
+- Checked in mGBA: setup, many full duels, the coin flips (Misty's repeated flips too),
+  knockouts and trophies, the card viewer on hand, Bench and opponent's cards, and a Mega ex
+  card's picture and text.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

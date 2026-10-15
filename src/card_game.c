@@ -4,12 +4,15 @@
 #include "data.h"
 #include "event_data.h"
 #include "gpu_regs.h"
+#include "item_icon.h"
 #include "list_menu.h"
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
 #include "overworld.h"
 #include "palette.h"
+#include "pokemon.h"
+#include "pokemon_icon.h"
 #include "random.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -18,68 +21,163 @@
 #include "task.h"
 #include "text.h"
 #include "text_window.h"
+#include "trainer_pokemon_sprites.h"
 #include "window.h"
+#include "constants/items.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
-// The card game's duel screen (phase 3 of docs/card_game_plan.md): a text board, the rules
-// engine's events played back as messages, and a menu of the player's legal actions.
-// Phase 4 replaces the text with graphics.
+// The card game's duel screen (docs/card_game_plan.md): the table with the Pokémon in play, the
+// rules engine's events played back one at a time (animated, with a message), a menu of the
+// player's legal actions, and a viewer for the cards in hand and in play.
 //
 // Started from a script with `special PlayCardGame` (VAR_0x8004: the opponent's deck,
 // CARD_DECK_*), it sets VAR_RESULT to CARD_GAME_RESULT_* and returns to the field.
+//
+// The board is drawn from sScreen->display, a copy of the duel that follows the events as they
+// are shown (the engine has already played the whole action), and catches up with the real
+// duel once they are all shown.
+
+// Screen layout, in tiles: the opponent's half on top, the player's below, the messages at the
+// bottom. Each half has an info panel and the Bench on its outer row, and the Energy Zone, the
+// Active Pokémon and its details on its inner row.
+#define ROW_OPPONENT_OUTER  0
+#define ROW_OPPONENT_INNER  4
+#define ROW_PLAYER_INNER    8
+#define ROW_PLAYER_OUTER    12
+#define ROW_MESSAGE         16
+#define SLOT_TILE_X         12  // the Active's slot, and the first Bench slot
+#define SLOT_TILE_WIDTH     6
+#define SLOT_TILE_HEIGHT    4
 
 enum
 {
-    WIN_OPPONENT,
-    WIN_PLAYER,
+    WIN_OPPONENT_INFO,
+    WIN_OPPONENT_BENCH,
+    WIN_OPPONENT_ZONE,
+    WIN_OPPONENT_ACTIVE,
+    WIN_PLAYER_INFO,
+    WIN_PLAYER_BENCH,
+    WIN_PLAYER_ZONE,
+    WIN_PLAYER_ACTIVE,
     WIN_MESSAGE,
-    WIN_MENU,
+    WIN_DETAIL,
 };
 
-#define FRAME_BASE_TILE     0x3E0
-#define FRAME_PALETTE       14
-#define TEXT_PALETTE        15
+// Per side: info, Bench, Energy Zone, Active
+static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
+{
+    [CARD_SIDE_PLAYER] = {WIN_PLAYER_INFO, WIN_PLAYER_BENCH, WIN_PLAYER_ZONE, WIN_PLAYER_ACTIVE},
+    [CARD_SIDE_OPPONENT] = {WIN_OPPONENT_INFO, WIN_OPPONENT_BENCH, WIN_OPPONENT_ZONE, WIN_OPPONENT_ACTIVE},
+};
+#define SIDE_WIN_INFO   0
+#define SIDE_WIN_BENCH  1
+#define SIDE_WIN_ZONE   2
+#define SIDE_WIN_ACTIVE 3
+
+#define TEXT_PALETTE    15
+#define BOARD_PALETTE   1
+
+// Board tiles (graphics/card_game/board.png, made by tools/card_game/gen_graphics.py): per side
+// a table tile, then the 9 tiles of a slot frame
+#define BOARD_TILE_OPPONENT 0
+#define BOARD_TILE_PLAYER   10
+
+#define TAG_PIPS            0x4C00
+#define TAG_COIN            0x4C01
+#define TAG_ARROWS          0x4C02
+#define TAG_DETAIL_ITEM     0x4C04
+
+#define PIP_TROPHY          11  // pips.png: then the card types, a trophy won and one to win
+#define PIP_TROPHY_EMPTY    12
+#define MAX_PIPS            40
+#define MAX_ACTIVE_PIPS     10
 
 #define LABEL_LENGTH        40
-#define MENU_VIEW_HAND      (CARD_MAX_ACTIONS + 0)
+#define MENU_VIEW_CARDS     (CARD_MAX_ACTIONS + 0)
 #define MENU_FORFEIT        (CARD_MAX_ACTIONS + 1)
 #define MENU_ITEMS_MAX      (CARD_MAX_ACTIONS + 2)
 
-#define MESSAGE_FRAMES      50  // a message stays this long unless A or B skips it
+#define MESSAGE_FRAMES      45  // a message stays this long unless A or B skips it
 #define AI_DELAY_FRAMES     20
+#define COIN_SPIN_FRAMES    30
+
+// With the Trainer ID 0, a personality whose halves don't cancel out: not shiny
+#define NOT_SHINY_PERSONALITY 0x0000FFFF
+
+// The cards the viewer shows: the hand, then the Pokémon in play
+#define VIEW_MAX            (CARD_HAND_MAX + CARD_SLOT_COUNT * CARD_SIDE_COUNT)
 
 enum
 {
     STATE_FADE_IN,
     STATE_NEXT,
+    STATE_ANIMATE,
     STATE_MESSAGE,
     STATE_MENU,
     STATE_CONFIRM_FORFEIT,
+    STATE_VIEW_CARDS,
     STATE_AI_WAIT,
     STATE_RESULT,
     STATE_FADE_OUT,
 };
 
+enum
+{
+    ANIM_NONE,
+    ANIM_LUNGE,     // the attacker moves towards the opponent
+    ANIM_SHAKE,     // a damaged Pokémon
+    ANIM_BLINK,     // a knocked out Pokémon, or one that just came in
+    ANIM_COIN,
+};
+
+struct CardView
+{
+    u16 cardId;
+    u8 side;
+    u8 slot;    // CARD_SLOT_NONE: in the hand
+};
+
 struct CardGameScreen
 {
     struct CardDuel duel;
+    struct CardDuel display;            // what the board shows, see above
     MainCallback exitCallback;
     u8 opponentDeck;
     u8 state;
     u8 nextEvent;
     u8 listTaskId;
-    u8 handPage;            // while showing the hand, the next card to show
+    u8 arrowTaskId;
     bool8 forfeited;
     bool8 menuShown;
+    bool8 eventApplied;                 // the current event has been applied to the display
     u16 timer;
     u16 menuScroll;
     u16 menuRow;
+    // Sprites
+    u8 iconSprites[CARD_SIDE_COUNT][CARD_SLOT_COUNT];
+    u16 iconCards[CARD_SIDE_COUNT][CARD_SLOT_COUNT];
+    u8 pipSprites[MAX_PIPS];
+    u8 pipCount;
+    u8 coinSprite;
+    u16 detailSprite;
+    bool8 detailIsItem;
+    // The current animation
+    u8 anim;
+    u8 animSide;
+    u8 animSlot;
+    u8 animFrame;
+    u8 coinHeads;
+    // Card viewer
+    u8 viewCount;
+    u8 viewIndex;
+    struct CardView views[VIEW_MAX];
+    // Action menu
     u8 actionCount;
     struct CardAction actions[CARD_MAX_ACTIONS];
     struct ListMenuItem items[MENU_ITEMS_MAX];
     u8 labels[MENU_ITEMS_MAX][LABEL_LENGTH];
-    u8 text[160];
+    u8 text[200];
 };
 
 static EWRAM_DATA struct CardGameScreen *sScreen = NULL;
@@ -87,28 +185,46 @@ static EWRAM_DATA struct CardGameScreen *sScreen = NULL;
 static void CB2_InitCardGame(void);
 static void Task_FadeToCardGame(u8 taskId);
 static void Task_CardGame(u8 taskId);
-static void DrawBoard(void);
+static void RefreshBoard(void);
 static void ShowMessage(const u8 *text);
 static void OpenActionMenu(void);
 static void CloseActionMenu(void);
+static void OpenCardViewer(void);
+static void ShowViewedCard(void);
+static void CloseCardViewer(void);
+
+static const u32 sBoardTiles[] = INCGFX_U32("graphics/card_game/board.png", ".4bpp");
+static const u16 sBoardPalette[] = INCGFX_U16("graphics/card_game/board.png", ".gbapal");
+static const u32 sPipTiles[] = INCGFX_U32("graphics/card_game/pips.png", ".4bpp");
+static const u16 sPipPalette[] = INCGFX_U16("graphics/card_game/pips.png", ".gbapal");
+static const u32 sCoinTiles[] = INCGFX_U32("graphics/card_game/coin.png", ".4bpp");
+static const u16 sCoinPalette[] = INCGFX_U16("graphics/card_game/coin.png", ".gbapal");
+
+static const u16 sBackdropColor = RGB(4, 10, 6);
+
+// White text with a dark shadow, over the table
+static const u8 sBoardTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
+
+// ---------------------------------------------------------------------------------------------
+// Texts
 
 static const u8 sText_You[] = _("YOU");
-static const u8 sText_Trophies[] = _("  TROPHIES ");
-static const u8 sText_Deck[] = _("  DECK ");
+static const u8 sText_Deck[] = _("DECK ");
 static const u8 sText_Hand[] = _("  HAND ");
-static const u8 sText_Energy[] = _("ENERGY ");
-static const u8 sText_Next[] = _(" NEXT ");
-static const u8 sText_Active[] = _("ACTIVE ");
-static const u8 sText_Empty[] = _("-");
+static const u8 sText_EnergyLabel[] = _("ENERGY");
+static const u8 sText_NextLabel[] = _("NEXT");
+static const u8 sText_Hp[] = _("HP ");
+static const u8 sText_E[] = _("E");
+static const u8 sText_Plus[] = _("+");
 static const u8 sText_Slash[] = _("/");
 static const u8 sText_Space[] = _(" ");
 static const u8 sText_Mega[] = _("MEGA ");
 static const u8 sText_Ex[] = _(" ex");
-static const u8 sText_Tool[] = _(" +TOOL");
-static const u8 sText_Bench1[] = _("1 ");
-static const u8 sText_Bench2[] = _("2 ");
-static const u8 sText_Bench3[] = _("3 ");
-static const u8 *const sBenchLabels[] = {sText_Active, sText_Bench1, sText_Bench2, sText_Bench3};
+static const u8 sText_Bench1[] = _("1");
+static const u8 sText_Bench2[] = _("2");
+static const u8 sText_Bench3[] = _("3");
+static const u8 sText_ActiveSpot[] = _("ACTIVE");
+static const u8 *const sSlotNames[] = {sText_ActiveSpot, sText_Bench1, sText_Bench2, sText_Bench3};
 
 static const u8 sText_TypeNone[] = _("");
 static const u8 sText_TypeG[] = _("G");
@@ -125,6 +241,23 @@ static const u8 *const sTypeLetters[CARD_TYPE_COUNT] =
 {
     sText_TypeNone, sText_TypeG, sText_TypeR, sText_TypeW, sText_TypeL, sText_TypeP,
     sText_TypeF, sText_TypeD, sText_TypeM, sText_TypeN, sText_TypeC,
+};
+
+static const u8 sText_TypeNameNone[] = _("NONE");
+static const u8 sText_TypeNameG[] = _("GRASS");
+static const u8 sText_TypeNameR[] = _("FIRE");
+static const u8 sText_TypeNameW[] = _("WATER");
+static const u8 sText_TypeNameL[] = _("LIGHTNING");
+static const u8 sText_TypeNameP[] = _("PSYCHIC");
+static const u8 sText_TypeNameF[] = _("FIGHTING");
+static const u8 sText_TypeNameD[] = _("DARKNESS");
+static const u8 sText_TypeNameM[] = _("METAL");
+static const u8 sText_TypeNameN[] = _("DRAGON");
+static const u8 sText_TypeNameC[] = _("COLORLESS");
+static const u8 *const sTypeNames[CARD_TYPE_COUNT] =
+{
+    sText_TypeNameNone, sText_TypeNameG, sText_TypeNameR, sText_TypeNameW, sText_TypeNameL, sText_TypeNameP,
+    sText_TypeNameF, sText_TypeNameD, sText_TypeNameM, sText_TypeNameN, sText_TypeNameC,
 };
 
 static const u8 sText_Asleep[] = _(" SLP");
@@ -154,12 +287,12 @@ static const u8 sText_At[] = _(" at ");
 static const u8 sText_Ability[] = _("Ability of ");
 static const u8 sText_EndTurn[] = _("End turn");
 static const u8 sText_SendOut[] = _("Send out ");
-static const u8 sText_ViewHand[] = _("Look at your hand");
+static const u8 sText_ViewCards[] = _("Look at the cards");
 static const u8 sText_Forfeit[] = _("Forfeit");
 
 // Messages
 static const u8 sText_DuelStart[] = _("A card duel against ");
-static const u8 sText_ChooseActive[] = _("!\nChoose your Active and Bench POKéMON.");
+static const u8 sText_ChooseActive[] = _("! Choose your Active and Bench POKéMON.");
 static const u8 sText_GoesFirst[] = _(" goes first!");
 static const u8 sText_TurnOf[] = _("Turn ");
 static const u8 sText_TurnSeparator[] = _(": ");
@@ -182,7 +315,6 @@ static const u8 sText_Healed[] = _(" healed ");
 static const u8 sText_IsNow[] = _(" is now ");
 static const u8 sText_IsNoLonger[] = _(" is no longer ");
 static const u8 sText_Discarded[] = _(" discarded ");
-static const u8 sText_EnergyCount[] = _(" Energy.");
 static const u8 sText_KnockedOut[] = _(" was knocked out!");
 static const u8 sText_Earned[] = _(" earned ");
 static const u8 sText_Trophy[] = _(" trophy!");
@@ -193,18 +325,191 @@ static const u8 sText_HandFull[] = _("'s hand is full.");
 static const u8 sText_YouWin[] = _("You won the duel!");
 static const u8 sText_YouLose[] = _("You lost the duel...");
 static const u8 sText_ItsADraw[] = _("The duel is a draw.");
-static const u8 sText_UsedAbility[] = _(" used its ability!");
+static const u8 sText_UsedAbility[] = _(" used ");
 static const u8 sText_HandOf[] = _("Hand of ");
 static const u8 sText_Colon[] = _(": ");
 static const u8 sText_Comma[] = _(", ");
 static const u8 sText_Dot[] = _(".");
-static const u8 sText_YourHand[] = _("Your hand: ");
-static const u8 sText_HandEmpty[] = _("Your hand is empty.");
 static const u8 sText_WasSwitchedIn[] = _(" was switched in.");
 static const u8 sText_ForfeitConfirm[] = _("Forfeit the duel?\nA: yes  B: no");
 static const u8 sText_Exclamation[] = _("!");
 
-static const u16 sBackdropColor = RGB(4, 12, 7);
+// Card viewer
+static const u8 sText_YourHand[] = _("YOUR HAND ");
+static const u8 sText_YourPokemon[] = _("YOUR ");
+static const u8 sText_TheirPokemon[] = _("OPPONENT'S ");
+static const u8 sText_BenchSpot[] = _("BENCH ");
+static const u8 sText_ViewerHelp[] = _("  {LEFT_ARROW}{RIGHT_ARROW} other cards  B: back");
+static const u8 sText_Basic[] = _("BASIC ");
+static const u8 sText_Stage1[] = _("STAGE 1 ");
+static const u8 sText_Stage2[] = _("STAGE 2 ");
+static const u8 sText_From[] = _("(from ");
+static const u8 sText_CloseParen[] = _(")");
+static const u8 sText_ExRule[] = _("ex: knocked out, it gives 2 trophies.");
+static const u8 sText_MegaExRule[] = _("MEGA ex: knocked out, it gives 3 trophies.");
+static const u8 sText_Weakness[] = _("WEAKNESS ");
+static const u8 sText_Retreat[] = _("  RETREAT ");
+static const u8 sText_AbilityLabel[] = _("ABILITY ");
+static const u8 sText_Item[] = _("ITEM");
+static const u8 sText_Supporter[] = _("SUPPORTER (one a turn)");
+static const u8 sText_Tool[] = _("POKéMON TOOL");
+static const u8 sText_ToolAttached[] = _("TOOL: ");
+static const u8 sText_ViewerHp[] = _(" HP");
+static const u8 sText_LeftBracket[] = _("(");
+static const u8 sText_RightBracket[] = _(") ");
+
+// Attack effects: text before and after the effect's number (or status)
+struct EffectText
+{
+    const u8 *before;
+    const u8 *after;
+    bool8 hasNumber;
+    bool8 hasStatus;
+};
+
+static const u8 sEffect_Status[] = _("The defender is now ");
+static const u8 sEffect_FlipStatus[] = _("Flip a coin. Heads: the defender is now ");
+static const u8 sEffect_HealSelf[] = _("Heal ");
+static const u8 sEffect_HealSelfAfter[] = _(" from this POKéMON.");
+static const u8 sEffect_SelfDamage[] = _("This POKéMON also takes ");
+static const u8 sEffect_DamageAfter[] = _(" damage.");
+static const u8 sEffect_FlipBonus[] = _("Flip a coin. Heads: ");
+static const u8 sEffect_MoreDamage[] = _(" more damage.");
+static const u8 sEffect_FlipOrFail[] = _("Flip a coin. Tails: this attack does nothing.");
+static const u8 sEffect_Discard[] = _("Discard ");
+static const u8 sEffect_DiscardAfter[] = _(" Energy of its type from it.");
+static const u8 sEffect_DiscardAll[] = _("Discard all Energy from this POKéMON.");
+static const u8 sEffect_FlipMulti[] = _("Flip ");
+static const u8 sEffect_FlipMultiAfter[] = _(" coins: this damage for each heads.");
+static const u8 sEffect_Snipe[] = _("It hits 1 of your opponent's POKéMON.");
+static const u8 sEffect_Spread[] = _("Also ");
+static const u8 sEffect_SpreadAfter[] = _(" damage to each opponent's Benched POKéMON.");
+static const u8 sEffect_SelfBenchAfter[] = _(" damage to each of your Benched POKéMON.");
+static const u8 sEffect_FlipDiscard[] = _("Flip a coin. Heads: the defender discards an Energy.");
+static const u8 sEffect_CantAttack[] = _("It can't attack during your next turn.");
+static const u8 sEffect_ExtraEnergyAfter[] = _(" more damage with 2 extra Energy of its type.");
+static const u8 sEffect_Draw[] = _("Draw ");
+static const u8 sEffect_DrawAfter[] = _(" cards.");
+static const u8 sEffect_Switch[] = _("Your opponent's Active is switched with a Benched POKéMON.");
+static const u8 sEffect_IfDamagedAfter[] = _(" more damage if the defender is damaged.");
+static const u8 sEffect_Dot[] = _(".");
+
+static const struct EffectText sEffectTexts[CARD_EFFECT_COUNT] =
+{
+    [CARD_EFFECT_STATUS]              = {sEffect_Status, sEffect_Dot, FALSE, TRUE},
+    [CARD_EFFECT_FLIP_STATUS]         = {sEffect_FlipStatus, sEffect_Dot, FALSE, TRUE},
+    [CARD_EFFECT_HEAL_SELF]           = {sEffect_HealSelf, sEffect_HealSelfAfter, TRUE, FALSE},
+    [CARD_EFFECT_SELF_DAMAGE]         = {sEffect_SelfDamage, sEffect_DamageAfter, TRUE, FALSE},
+    [CARD_EFFECT_FLIP_BONUS]          = {sEffect_FlipBonus, sEffect_MoreDamage, TRUE, FALSE},
+    [CARD_EFFECT_FLIP_OR_FAIL]        = {sEffect_FlipOrFail, NULL, FALSE, FALSE},
+    [CARD_EFFECT_DISCARD_ENERGY]      = {sEffect_Discard, sEffect_DiscardAfter, TRUE, FALSE},
+    [CARD_EFFECT_DISCARD_ALL_ENERGY]  = {sEffect_DiscardAll, NULL, FALSE, FALSE},
+    [CARD_EFFECT_FLIP_MULTI]          = {sEffect_FlipMulti, sEffect_FlipMultiAfter, TRUE, FALSE},
+    [CARD_EFFECT_SNIPE]               = {sEffect_Snipe, NULL, FALSE, FALSE},
+    [CARD_EFFECT_SPREAD_BENCH]        = {sEffect_Spread, sEffect_SpreadAfter, TRUE, FALSE},
+    [CARD_EFFECT_SELF_BENCH_DAMAGE]   = {sEffect_Spread, sEffect_SelfBenchAfter, TRUE, FALSE},
+    [CARD_EFFECT_FLIP_DISCARD_ENERGY] = {sEffect_FlipDiscard, NULL, FALSE, FALSE},
+    [CARD_EFFECT_CANT_ATTACK_NEXT]    = {sEffect_CantAttack, NULL, FALSE, FALSE},
+    [CARD_EFFECT_BONUS_EXTRA_ENERGY]  = {NULL, sEffect_ExtraEnergyAfter, TRUE, FALSE},
+    [CARD_EFFECT_DRAW]                = {sEffect_Draw, sEffect_DrawAfter, TRUE, FALSE},
+    [CARD_EFFECT_SWITCH_DEFENDER]     = {sEffect_Switch, NULL, FALSE, FALSE},
+    [CARD_EFFECT_BONUS_IF_DAMAGED]    = {NULL, sEffect_IfDamagedAfter, TRUE, FALSE},
+};
+
+// Abilities: name, and text before and after abilityArg (NULL after: no number)
+static const u8 sAbility_HealAll[] = _("POWDER HEAL");
+static const u8 sAbility_HealAllText[] = _("Once a turn: heal ");
+static const u8 sAbility_HealAllAfter[] = _(" from each of your POKéMON.");
+static const u8 sAbility_Attach[] = _("ENERGY SHADOW");
+static const u8 sAbility_AttachText[] = _("Once a turn: attach an Energy of its type to your Active of that type.");
+static const u8 sAbility_Poison[] = _("GAS LEAK");
+static const u8 sAbility_PoisonText[] = _("Once a turn, as the Active: the opponent's Active is now POISONED.");
+static const u8 sAbility_Sleep[] = _("SLEEP PENDULUM");
+static const u8 sAbility_SleepText[] = _("Once a turn: flip a coin. Heads: the opponent's Active is now ASLEEP.");
+static const u8 sAbility_DriveOff[] = _("DRIVE OFF");
+static const u8 sAbility_DriveOffText[] = _("Once a turn, as the Active: the opponent's Active is switched out.");
+static const u8 sAbility_Snipe[] = _("SHARP SHOT");
+static const u8 sAbility_SnipeText[] = _("Once a turn: ");
+static const u8 sAbility_SnipeAfter[] = _(" damage to 1 of your opponent's POKéMON.");
+static const u8 sAbility_Reduce[] = _("HARD SHELL");
+static const u8 sAbility_ReduceText[] = _("It takes ");
+static const u8 sAbility_ReduceAfter[] = _(" less damage from attacks.");
+static const u8 sAbility_Counter[] = _("ROUGH SKIN");
+static const u8 sAbility_CounterText[] = _("As the Active, damaged by an attack: ");
+static const u8 sAbility_CounterAfter[] = _(" damage to the attacker.");
+static const u8 sAbility_FreeRetreat[] = _("LIGHT FEET");
+static const u8 sAbility_FreeRetreatText[] = _("It retreats for free.");
+
+static const u8 *const sAbilityTexts[CARD_ABILITY_COUNT][3] =
+{
+    [CARD_ABILITY_HEAL_ALL]        = {sAbility_HealAll, sAbility_HealAllText, sAbility_HealAllAfter},
+    [CARD_ABILITY_ATTACH_OWN_TYPE] = {sAbility_Attach, sAbility_AttachText, NULL},
+    [CARD_ABILITY_POISON_DEFENDER] = {sAbility_Poison, sAbility_PoisonText, NULL},
+    [CARD_ABILITY_FLIP_SLEEP]      = {sAbility_Sleep, sAbility_SleepText, NULL},
+    [CARD_ABILITY_DRIVE_OFF]       = {sAbility_DriveOff, sAbility_DriveOffText, NULL},
+    [CARD_ABILITY_SNIPE]           = {sAbility_Snipe, sAbility_SnipeText, sAbility_SnipeAfter},
+    [CARD_ABILITY_REDUCE_DAMAGE]   = {sAbility_Reduce, sAbility_ReduceText, sAbility_ReduceAfter},
+    [CARD_ABILITY_COUNTER]         = {sAbility_Counter, sAbility_CounterText, sAbility_CounterAfter},
+    [CARD_ABILITY_FREE_RETREAT]    = {sAbility_FreeRetreat, sAbility_FreeRetreatText, NULL},
+};
+
+// Trainers: text before and after effectArg, and the effect's type if it has one
+static const u8 sTrainer_Draw[] = _("Draw ");
+static const u8 sTrainer_DrawAfter[] = _(" cards.");
+static const u8 sTrainer_Heal[] = _("Heal ");
+static const u8 sTrainer_HealAfter[] = _(" from 1 of your POKéMON.");
+static const u8 sTrainer_HealTypeAfter[] = _(" from 1 of your POKéMON of this type: ");
+static const u8 sTrainer_PokeBall[] = _("Put a random Basic POKéMON from your deck into your hand.");
+static const u8 sTrainer_XSpeed[] = _("This turn, your Active's retreat cost is ");
+static const u8 sTrainer_XSpeedAfter[] = _(" less.");
+static const u8 sTrainer_ToolHp[] = _("The POKéMON it is attached to gets ");
+static const u8 sTrainer_ToolHpAfter[] = _(" more HP.");
+static const u8 sTrainer_HandScope[] = _("Your opponent reveals their hand.");
+static const u8 sTrainer_RedCard[] = _("Your opponent shuffles their hand into their deck and draws ");
+static const u8 sTrainer_RareCandy[] = _("A Basic POKéMON evolves straight into a Stage 2 from your hand.");
+static const u8 sTrainer_Helmet[] = _("Attached to your Active, damaged by an attack: ");
+static const u8 sTrainer_HelmetAfter[] = _(" damage to the attacker.");
+static const u8 sTrainer_AttachEnergy[] = _("Attach an Energy to 1 of your POKéMON of this type: ");
+static const u8 sTrainer_FlipAttach[] = _("Flip coins until tails: an Energy for each heads, to 1 of your POKéMON of this type: ");
+static const u8 sTrainer_Gather[] = _("Move all Energy of this type from your Bench to your Active of that type: ");
+static const u8 sTrainer_Switch[] = _("Your opponent's Active is switched with a Benched POKéMON.");
+static const u8 sTrainer_Bonus[] = _("This turn, your attacks do ");
+static const u8 sTrainer_BonusTypeAfter[] = _(" more damage, with POKéMON of this type: ");
+static const u8 sTrainer_BonusAfter[] = _(" more damage.");
+
+static const u8 *const sTrainerTexts[][2] =
+{
+    [CARD_TRAINER_DRAW]               = {sTrainer_Draw, sTrainer_DrawAfter},
+    [CARD_TRAINER_HEAL]               = {sTrainer_Heal, sTrainer_HealAfter},
+    [CARD_TRAINER_POKE_BALL]          = {sTrainer_PokeBall, NULL},
+    [CARD_TRAINER_RETREAT_DISCOUNT]   = {sTrainer_XSpeed, sTrainer_XSpeedAfter},
+    [CARD_TRAINER_TOOL_HP]            = {sTrainer_ToolHp, sTrainer_ToolHpAfter},
+    [CARD_TRAINER_HAND_SCOPE]         = {sTrainer_HandScope, NULL},
+    [CARD_TRAINER_RED_CARD]           = {sTrainer_RedCard, sEffect_Dot},
+    [CARD_TRAINER_RARE_CANDY]         = {sTrainer_RareCandy, NULL},
+    [CARD_TRAINER_TOOL_COUNTER]       = {sTrainer_Helmet, sTrainer_HelmetAfter},
+    [CARD_TRAINER_ATTACH_ENERGY]      = {sTrainer_AttachEnergy, NULL},
+    [CARD_TRAINER_FLIP_ATTACH_ENERGY] = {sTrainer_FlipAttach, NULL},
+    [CARD_TRAINER_GATHER_ENERGY]      = {sTrainer_Gather, NULL},
+    [CARD_TRAINER_HEAL_TYPE]          = {sTrainer_Heal, sTrainer_HealTypeAfter},
+    [CARD_TRAINER_SWITCH_OPPONENT]    = {sTrainer_Switch, NULL},
+    [CARD_TRAINER_ATTACK_BONUS]       = {sTrainer_Bonus, sTrainer_BonusAfter},
+};
+
+// Item icons for the Trainer cards that are items in the game
+static const u16 sTrainerItemIcons[][2] =
+{
+    {CARD_POTION, ITEM_POTION},
+    {CARD_POKE_BALL, ITEM_POKE_BALL},
+    {CARD_X_SPEED, ITEM_X_SPEED},
+    {CARD_HAND_SCOPE, ITEM_SCOPE_LENS},
+    {CARD_RARE_CANDY, ITEM_RARE_CANDY},
+    {CARD_GIANT_CAPE, ITEM_SILK_SCARF},
+    {CARD_ROCKY_HELMET, ITEM_HARD_STONE},
+};
+
+// ---------------------------------------------------------------------------------------------
+// Graphics
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -217,48 +522,125 @@ static const struct BgTemplate sBgTemplates[] =
         .priority = 0,
         .baseTile = 0,
     },
+    {
+        .bg = 1,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 30,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 2,
+        .baseTile = 0,
+    },
 };
 
+#define BOARD_WINDOW(left, top, w, base) {.bg = 0, .tilemapLeft = left, .tilemapTop = top, .width = w, .height = 4, .paletteNum = TEXT_PALETTE, .baseBlock = base}
+
+// The card viewer covers the board, so it shares the board windows' tiles
 static const struct WindowTemplate sWindowTemplates[] =
 {
-    [WIN_OPPONENT] = {
+    [WIN_OPPONENT_INFO]   = BOARD_WINDOW(0, ROW_OPPONENT_OUTER, 12, 1),
+    [WIN_OPPONENT_BENCH]  = BOARD_WINDOW(SLOT_TILE_X, ROW_OPPONENT_OUTER, 18, 1 + 48),
+    [WIN_OPPONENT_ZONE]   = BOARD_WINDOW(0, ROW_OPPONENT_INNER, 12, 1 + 48 + 72),
+    [WIN_OPPONENT_ACTIVE] = BOARD_WINDOW(SLOT_TILE_X + SLOT_TILE_WIDTH, ROW_OPPONENT_INNER, 12, 1 + 48 * 2 + 72),
+    [WIN_PLAYER_INFO]     = BOARD_WINDOW(0, ROW_PLAYER_OUTER, 12, 1 + 48 * 3 + 72),
+    [WIN_PLAYER_BENCH]    = BOARD_WINDOW(SLOT_TILE_X, ROW_PLAYER_OUTER, 18, 1 + 48 * 4 + 72),
+    [WIN_PLAYER_ZONE]     = BOARD_WINDOW(0, ROW_PLAYER_INNER, 12, 1 + 48 * 4 + 72 * 2),
+    [WIN_PLAYER_ACTIVE]   = BOARD_WINDOW(SLOT_TILE_X + SLOT_TILE_WIDTH, ROW_PLAYER_INNER, 12, 1 + 48 * 5 + 72 * 2),
+    [WIN_MESSAGE] = {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = ROW_MESSAGE,
+        .width = 30,
+        .height = 4,
+        .paletteNum = TEXT_PALETTE,
+        .baseBlock = 481,
+    },
+    [WIN_DETAIL] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 30,
-        .height = 6,
+        .height = 16,
         .paletteNum = TEXT_PALETTE,
         .baseBlock = 1,
     },
-    [WIN_PLAYER] = {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 6,
-        .width = 30,
-        .height = 6,
-        .paletteNum = TEXT_PALETTE,
-        .baseBlock = 1 + 30 * 6,
-    },
-    [WIN_MESSAGE] = {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 13,
-        .width = 28,
-        .height = 6,
-        .paletteNum = TEXT_PALETTE,
-        .baseBlock = 1 + 30 * 6 * 2,
-    },
-    [WIN_MENU] = {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 13,
-        .width = 28,
-        .height = 6,
-        .paletteNum = TEXT_PALETTE,
-        .baseBlock = 1 + 30 * 6 * 2 + 28 * 6,
-    },
     DUMMY_WIN_TEMPLATE,
 };
+
+static const struct OamData sOam_Pip =
+{
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(8x8),
+    .size = SPRITE_SIZE(8x8),
+    .priority = 1,
+};
+
+static const struct OamData sOam_Coin =
+{
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 0,
+};
+
+static const struct SpriteSheet sSpriteSheets[] =
+{
+    {sPipTiles, sizeof(sPipTiles), TAG_PIPS},
+    {sCoinTiles, sizeof(sCoinTiles), TAG_COIN},
+    {0},
+};
+
+static const struct SpritePalette sSpritePalettes[] =
+{
+    {sPipPalette, TAG_PIPS},
+    {sCoinPalette, TAG_COIN},
+    {0},
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Pip =
+{
+    .tileTag = TAG_PIPS,
+    .paletteTag = TAG_PIPS,
+    .oam = &sOam_Pip,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Coin =
+{
+    .tileTag = TAG_COIN,
+    .paletteTag = TAG_COIN,
+    .oam = &sOam_Coin,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+// Where a slot's icon is, by side and slot (pixels, the icon's center)
+static s16 GetSlotX(u8 slot)
+{
+    if (slot == CARD_SLOT_ACTIVE)
+        return SLOT_TILE_X * 8 + SLOT_TILE_WIDTH * 4;
+    return (SLOT_TILE_X + (slot - CARD_SLOT_BENCH_1) * SLOT_TILE_WIDTH) * 8 + 17;
+}
+
+static s16 GetSlotY(u8 side, u8 slot)
+{
+    u8 row;
+
+    if (side == CARD_SIDE_PLAYER)
+        row = slot == CARD_SLOT_ACTIVE ? ROW_PLAYER_INNER : ROW_PLAYER_OUTER;
+    else
+        row = slot == CARD_SLOT_ACTIVE ? ROW_OPPONENT_INNER : ROW_OPPONENT_OUTER;
+    return row * 8 + 16;
+}
 
 // ---------------------------------------------------------------------------------------------
 // Entry and exit
@@ -316,6 +698,60 @@ static void StartDuel(void)
         opponent.zoneTypes[i] = gCardDecks[sScreen->opponentDeck].zoneTypes[i];
     }
     Duel_Init(&sScreen->duel, &player, &opponent, Random32());
+    Duel_ClearEvents(&sScreen->duel); // the opening draws and coin flip show on the board
+    sScreen->display = sScreen->duel;
+}
+
+static void DrawSlotFrame(u8 x, u8 y, u8 width, u8 height, u16 baseTile)
+{
+    FillBgTilemapBufferRect(1, baseTile + 1, x, y, 1, 1, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 2, x + 1, y, width - 2, 1, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 3, x + width - 1, y, 1, 1, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 4, x, y + 1, 1, height - 2, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 5, x + 1, y + 1, width - 2, height - 2, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 6, x + width - 1, y + 1, 1, height - 2, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 7, x, y + height - 1, 1, 1, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 8, x + 1, y + height - 1, width - 2, 1, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, baseTile + 9, x + width - 1, y + height - 1, 1, 1, BOARD_PALETTE);
+}
+
+static void DrawTable(void)
+{
+    u8 i;
+
+    FillBgTilemapBufferRect(1, BOARD_TILE_OPPONENT, 0, 0, 32, ROW_PLAYER_INNER, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, BOARD_TILE_PLAYER, 0, ROW_PLAYER_INNER, 32, 32 - ROW_PLAYER_INNER, BOARD_PALETTE);
+    DrawSlotFrame(SLOT_TILE_X, ROW_OPPONENT_INNER, SLOT_TILE_WIDTH, SLOT_TILE_HEIGHT, BOARD_TILE_OPPONENT);
+    DrawSlotFrame(SLOT_TILE_X, ROW_PLAYER_INNER, SLOT_TILE_WIDTH, SLOT_TILE_HEIGHT, BOARD_TILE_PLAYER);
+    for (i = 0; i < CARD_BENCH_MAX; i++)
+    {
+        DrawSlotFrame(SLOT_TILE_X + i * SLOT_TILE_WIDTH, ROW_OPPONENT_OUTER, SLOT_TILE_WIDTH, SLOT_TILE_HEIGHT, BOARD_TILE_OPPONENT);
+        DrawSlotFrame(SLOT_TILE_X + i * SLOT_TILE_WIDTH, ROW_PLAYER_OUTER, SLOT_TILE_WIDTH, SLOT_TILE_HEIGHT, BOARD_TILE_PLAYER);
+    }
+    CopyBgTilemapBufferToVram(1);
+}
+
+static void InitSprites(void)
+{
+    u8 side, slot, i;
+
+    LoadSpriteSheets(sSpriteSheets);
+    LoadSpritePalettes(sSpritePalettes);
+    LoadMonIconPalettes();
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+        {
+            sScreen->iconSprites[side][slot] = SPRITE_NONE;
+            sScreen->iconCards[side][slot] = CARD_NONE;
+        }
+    }
+    for (i = 0; i < MAX_PIPS; i++)
+        sScreen->pipSprites[i] = SPRITE_NONE;
+    sScreen->coinSprite = CreateSprite(&sSpriteTemplate_Coin, DISPLAY_WIDTH / 2, (ROW_PLAYER_INNER) * 8, 0);
+    gSprites[sScreen->coinSprite].invisible = TRUE;
+    sScreen->detailSprite = SPRITE_NONE;
+    sScreen->arrowTaskId = TASK_NONE;
 }
 
 static void CB2_InitCardGame(void)
@@ -332,36 +768,41 @@ static void CB2_InitCardGame(void)
         InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
         ChangeBgX(0, 0, BG_COORD_SET);
         ChangeBgY(0, 0, BG_COORD_SET);
+        ChangeBgX(1, 0, BG_COORD_SET);
+        ChangeBgY(1, 0, BG_COORD_SET);
+        SetBgTilemapBuffer(1, AllocZeroed(BG_SCREEN_SIZE));
         InitWindows(sWindowTemplates);
         DeactivateAllTextPrinters();
         ResetPaletteFade();
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
+        ResetAllPicSprites();
         FreeAllSpritePalettes();
         gMain.state++;
         break;
     case 1:
         LoadPalette(&sBackdropColor, BG_PLTT_ID(0), PLTT_SIZEOF(1));
+        LoadPalette(sBoardPalette, BG_PLTT_ID(BOARD_PALETTE), PLTT_SIZE_4BPP);
         LoadPalette(gStandardMenuPalette, BG_PLTT_ID(TEXT_PALETTE), PLTT_SIZE_4BPP);
-        LoadUserWindowBorderGfx(WIN_MESSAGE, FRAME_BASE_TILE, BG_PLTT_ID(FRAME_PALETTE));
+        LoadBgTiles(1, sBoardTiles, sizeof(sBoardTiles), 0);
+        InitSprites();
         gMain.state++;
         break;
     case 2:
         StartDuel();
-        FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 32, 32);
-        DrawBoard();
-        DrawStdFrameWithCustomTileAndPalette(WIN_MESSAGE, FALSE, FRAME_BASE_TILE, FRAME_PALETTE);
+        DrawTable();
+        RefreshBoard();
         StringCopy(sScreen->text, sText_DuelStart);
         StringAppend(sScreen->text, gCardDecks[sScreen->opponentDeck].name);
         StringAppend(sScreen->text, sText_ChooseActive);
         ShowMessage(sScreen->text);
-        Duel_ClearEvents(&sScreen->duel); // the opening draws and coin flip are shown on the board
         gMain.state++;
         break;
     case 3:
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
         ShowBg(0);
+        ShowBg(1);
         SetVBlankCallback(VBlankCB_CardGame);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         CreateTask(Task_CardGame, 0);
@@ -384,11 +825,14 @@ static void ExitCardGame(void)
         gSpecialVar_Result = CARD_GAME_RESULT_LOST;
     SetMainCallback2(sScreen->exitCallback);
     FreeAllWindowBuffers();
+    Free(GetBgTilemapBuffer(1));
+    FreeMonIconPalettes();
+    ResetSpriteData();
     FREE_AND_SET_NULL(sScreen);
 }
 
 // ---------------------------------------------------------------------------------------------
-// Text
+// Text helpers
 
 static u8 *AppendNumber(u8 *dst, u16 number)
 {
@@ -437,57 +881,37 @@ static u8 *AppendStatusName(u8 *dst, u8 status)
     return StringAppend(dst, sText_StatusBurned);
 }
 
-static u8 *AppendEnergyLetters(u8 *dst, const struct CardInPlay *mon)
+static u8 *AppendStatusLetters(u8 *dst, u8 status)
 {
-    u8 type, i;
-
-    for (type = CARD_TYPE_GRASS; type < CARD_TYPE_COUNT; type++)
-    {
-        for (i = 0; i < mon->energy[type]; i++)
-            dst = StringAppend(dst, sTypeLetters[type]);
-    }
+    if (status & CARD_STATUS_ASLEEP)
+        dst = StringAppend(dst, sText_Asleep);
+    if (status & CARD_STATUS_PARALYZED)
+        dst = StringAppend(dst, sText_Paralyzed);
+    if (status & CARD_STATUS_CONFUSED)
+        dst = StringAppend(dst, sText_Confused);
+    if (status & CARD_STATUS_POISONED)
+        dst = StringAppend(dst, sText_Poisoned);
+    if (status & CARD_STATUS_BURNED)
+        dst = StringAppend(dst, sText_Burned);
     return dst;
 }
 
-// "PIDGEY 40/50 GGC PSN +TOOL"
-static void FormatPokemonInPlay(u8 *dst, const struct CardInPlay *mon)
+static u8 *AppendCost(u8 *dst, const struct CardAttack *attack)
 {
-    const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(mon->cardId);
-    u16 maxHp;
+    u8 i;
 
-    *dst = EOS;
-    if (info == NULL)
-    {
-        StringAppend(dst, sText_Empty);
-        return;
-    }
-    maxHp = Duel_GetMaxHp(mon);
-    dst = AppendCardName(dst, mon->cardId);
-    dst = StringAppend(dst, sText_Space);
-    dst = AppendNumber(dst, mon->damage >= maxHp ? 0 : maxHp - mon->damage);
-    dst = StringAppend(dst, sText_Slash);
-    dst = AppendNumber(dst, maxHp);
-    if (Duel_CountEnergy(mon) != 0)
-    {
-        dst = StringAppend(dst, sText_Space);
-        dst = AppendEnergyLetters(dst, mon);
-    }
-    if (mon->status & CARD_STATUS_ASLEEP)
-        dst = StringAppend(dst, sText_Asleep);
-    if (mon->status & CARD_STATUS_PARALYZED)
-        dst = StringAppend(dst, sText_Paralyzed);
-    if (mon->status & CARD_STATUS_CONFUSED)
-        dst = StringAppend(dst, sText_Confused);
-    if (mon->status & CARD_STATUS_POISONED)
-        dst = StringAppend(dst, sText_Poisoned);
-    if (mon->status & CARD_STATUS_BURNED)
-        dst = StringAppend(dst, sText_Burned);
-    if (mon->tool != CARD_NONE)
-        dst = StringAppend(dst, sText_Tool);
+    dst = StringAppend(dst, sText_LeftBracket);
+    for (i = 0; i < CARD_ATTACK_MAX_COST && attack->cost[i] != CARD_TYPE_NONE; i++)
+        dst = StringAppend(dst, sTypeLetters[attack->cost[i]]);
+    return StringAppend(dst, sText_RightBracket);
 }
 
-// ---------------------------------------------------------------------------------------------
-// Board
+static u16 GetRemainingHp(const struct CardInPlay *mon)
+{
+    u16 maxHp = Duel_GetMaxHp(mon);
+
+    return mon->damage >= maxHp ? 0 : maxHp - mon->damage;
+}
 
 // Cuts the text so it fits in width pixels
 static void TruncateToWidth(u8 *text, u8 fontId, u16 width)
@@ -496,12 +920,6 @@ static void TruncateToWidth(u8 *text, u8 fontId, u16 width)
 
     while (length != 0 && GetStringWidth(fontId, text, 0) > width)
         text[--length] = EOS;
-}
-
-static void PrintSmall(u8 windowId, u8 *text, u8 x, u8 y, u16 width)
-{
-    TruncateToWidth(text, FONT_SMALL, width);
-    AddTextPrinterParameterized(windowId, FONT_SMALL, text, x, y, TEXT_SKIP_DRAW, NULL);
 }
 
 // Breaks the text into lines at spaces, so each fits in width pixels
@@ -536,60 +954,300 @@ static void WrapText(u8 *text, u8 fontId, u16 width)
     }
 }
 
-static void DrawSide(u8 sideId)
+static void PrintOnBoard(u8 windowId, u8 *text, u8 x, u8 y, u16 width)
 {
-    const struct CardDuelSide *side = &sScreen->duel.sides[sideId];
-    u8 windowId = sideId == CARD_SIDE_PLAYER ? WIN_PLAYER : WIN_OPPONENT;
+    TruncateToWidth(text, FONT_SMALL, width);
+    AddTextPrinterParameterized3(windowId, FONT_SMALL, x, y, sBoardTextColors, TEXT_SKIP_DRAW, text);
+}
+
+// ---------------------------------------------------------------------------------------------
+// The board
+
+static u16 GetIconSpeciesForCard(u16 cardId)
+{
+    const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(cardId);
+
+    if (info == NULL)
+        return SPECIES_NONE;
+    return info->isMega ? GetMegaBaseSpecies(info->species) : info->species;
+}
+
+static void RefreshIcons(void)
+{
+    u8 side, slot, spriteId;
+    u16 cardId;
+
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+        {
+            cardId = sScreen->display.sides[side].slots[slot].cardId;
+            if (cardId == sScreen->iconCards[side][slot])
+                continue;
+            if (sScreen->iconSprites[side][slot] != SPRITE_NONE)
+                FreeAndDestroyMonIconSprite(&gSprites[sScreen->iconSprites[side][slot]]);
+            sScreen->iconSprites[side][slot] = SPRITE_NONE;
+            sScreen->iconCards[side][slot] = cardId;
+            if (cardId == CARD_NONE)
+                continue;
+            // The Active Pokémon move; the Benched ones stay still
+            spriteId = CreateMonIcon(GetIconSpeciesForCard(cardId),
+                                     slot == CARD_SLOT_ACTIVE ? SpriteCB_MonIcon : SpriteCallbackDummy,
+                                     GetSlotX(slot), GetSlotY(side, slot), 1, 0, FALSE);
+            gSprites[spriteId].oam.priority = 1;
+            sScreen->iconSprites[side][slot] = spriteId;
+        }
+    }
+}
+
+static void AddPip(u8 pip, s16 x, s16 y)
+{
+    u8 spriteId;
+
+    if (sScreen->pipCount >= MAX_PIPS)
+        return;
+    spriteId = CreateSprite(&sSpriteTemplate_Pip, x, y, 0);
+    if (spriteId == MAX_SPRITES)
+        return;
+    gSprites[spriteId].oam.tileNum = GetSpriteTileStartByTag(TAG_PIPS) + pip;
+    sScreen->pipSprites[sScreen->pipCount++] = spriteId;
+}
+
+static void RefreshPips(void)
+{
+    u8 i, side, type, count;
+    s16 x, top;
+
+    for (i = 0; i < sScreen->pipCount; i++)
+        DestroySprite(&gSprites[sScreen->pipSprites[i]]);
+    sScreen->pipCount = 0;
+
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        const struct CardDuelSide *s = &sScreen->display.sides[side];
+        const struct CardInPlay *active = &s->slots[CARD_SLOT_ACTIVE];
+
+        // Trophies, in the info panel
+        top = (side == CARD_SIDE_PLAYER ? ROW_PLAYER_OUTER : ROW_OPPONENT_OUTER) * 8;
+        for (i = 0; i < CARD_WIN_TROPHIES; i++)
+            AddPip(i < s->trophies ? PIP_TROPHY : PIP_TROPHY_EMPTY, 8 + i * 10, top + 28);
+
+        // This turn's Energy and the next one
+        top = (side == CARD_SIDE_PLAYER ? ROW_PLAYER_INNER : ROW_OPPONENT_INNER) * 8;
+        if (s->zoneEnergy != CARD_TYPE_NONE)
+            AddPip(s->zoneEnergy, 50, top + 7);
+        if (s->nextEnergy != CARD_TYPE_NONE)
+            AddPip(s->nextEnergy, 50, top + 23);
+
+        // The Active's Energy, under its details
+        count = 0;
+        x = (SLOT_TILE_X + SLOT_TILE_WIDTH) * 8 + 6;
+        for (type = CARD_TYPE_GRASS; type < CARD_TYPE_COUNT; type++)
+        {
+            for (i = 0; i < active->energy[type] && count < MAX_ACTIVE_PIPS; i++, count++)
+                AddPip(type, x + count * 9, top + 28);
+        }
+    }
+}
+
+static void DrawSideTexts(u8 sideId)
+{
+    const struct CardDuelSide *side = &sScreen->display.sides[sideId];
+    const struct CardInPlay *active = &side->slots[CARD_SLOT_ACTIVE];
     u8 *text = sScreen->text;
     u8 *end;
-    u8 slot;
+    u8 windowId, slot;
 
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-
-    // Who, trophies, deck, hand
-    end = sideId == CARD_SIDE_PLAYER ? StringCopy(text, sText_You) : StringCopy(text, gCardDecks[sScreen->opponentDeck].name);
-    end = StringAppend(end, sText_Trophies);
-    end = AppendNumber(end, side->trophies);
-    end = StringAppend(end, sText_Deck);
+    // Info: who, deck and hand (the trophies are pips)
+    windowId = sSideWindows[sideId][SIDE_WIN_INFO];
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    if (sideId == CARD_SIDE_PLAYER)
+        StringCopy_PlayerName(text, gSaveBlock2Ptr->playerName);
+    else
+        StringCopy(text, gCardDecks[sScreen->opponentDeck].name);
+    PrintOnBoard(windowId, text, 2, 1, 92);
+    end = StringCopy(text, sText_Deck);
     end = AppendNumber(end, side->deckCount);
     end = StringAppend(end, sText_Hand);
     AppendNumber(end, side->handCount);
-    PrintSmall(windowId, text, 2, 0, 236);
+    PrintOnBoard(windowId, text, 2, 12, 92);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
 
-    // The Active, then the Bench in two columns, and the Energy Zone in the last place
-    for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+    // Energy Zone (the Energy are pips)
+    windowId = sSideWindows[sideId][SIDE_WIN_ZONE];
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    StringCopy(text, sText_EnergyLabel);
+    PrintOnBoard(windowId, text, 2, 1, 40);
+    StringCopy(text, sText_NextLabel);
+    PrintOnBoard(windowId, text, 2, 17, 40);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+
+    // The Active: name, HP and conditions (the Energy are pips)
+    windowId = sSideWindows[sideId][SIDE_WIN_ACTIVE];
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    if (active->cardId != CARD_NONE)
     {
-        u8 x = (slot == 2) ? 122 : 2;
-        u8 y = (slot == 0) ? 12 : (slot == 3 ? 36 : 24);
-
-        end = StringCopy(text, sBenchLabels[slot]);
-        FormatPokemonInPlay(end, &side->slots[slot]);
-        PrintSmall(windowId, text, x, y, slot == 0 ? 236 : 116);
+        *text = EOS;
+        AppendCardName(text, active->cardId);
+        if (active->tool != CARD_NONE)
+            StringAppend(text, sText_Plus);
+        PrintOnBoard(windowId, text, 2, 1, 92);
+        end = StringCopy(text, sText_Hp);
+        end = AppendNumber(end, GetRemainingHp(active));
+        end = StringAppend(end, sText_Slash);
+        end = AppendNumber(end, Duel_GetMaxHp(active));
+        AppendStatusLetters(end, active->status);
+        PrintOnBoard(windowId, text, 2, 12, 92);
     }
-    end = StringCopy(text, sText_Energy);
-    end = StringAppend(end, side->zoneEnergy != CARD_TYPE_NONE ? sTypeLetters[side->zoneEnergy] : sText_Empty);
-    end = StringAppend(end, sText_Next);
-    StringAppend(end, sTypeLetters[side->nextEnergy]);
-    PrintSmall(windowId, text, 122, 36, 116);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+
+    // The Bench: HP and Energy count, right of each icon
+    windowId = sSideWindows[sideId][SIDE_WIN_BENCH];
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    for (slot = CARD_SLOT_BENCH_1; slot < CARD_SLOT_COUNT; slot++)
+    {
+        const struct CardInPlay *mon = &side->slots[slot];
+        u8 x = (slot - CARD_SLOT_BENCH_1) * SLOT_TILE_WIDTH * 8 + 32;
+
+        if (mon->cardId == CARD_NONE)
+            continue;
+        AppendNumber(text, GetRemainingHp(mon));
+        PrintOnBoard(windowId, text, x, 3, 15);
+        if (Duel_CountEnergy(mon) != 0)
+        {
+            end = StringCopy(text, sText_E);
+            AppendNumber(end, Duel_CountEnergy(mon));
+            PrintOnBoard(windowId, text, x, 16, 15);
+        }
+    }
     PutWindowTilemap(windowId);
     CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 
-static void DrawBoard(void)
+static void RefreshBoard(void)
 {
-    DrawSide(CARD_SIDE_OPPONENT);
-    DrawSide(CARD_SIDE_PLAYER);
+    DrawSideTexts(CARD_SIDE_OPPONENT);
+    DrawSideTexts(CARD_SIDE_PLAYER);
+    RefreshIcons();
+    RefreshPips();
 }
 
 static void ShowMessage(const u8 *text)
 {
     if (text != sScreen->text)
         StringCopy(sScreen->text, text);
-    WrapText(sScreen->text, FONT_NORMAL, 220);
+    WrapText(sScreen->text, FONT_NORMAL, 228);
     FillWindowPixelBuffer(WIN_MESSAGE, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_MESSAGE, FONT_NORMAL, sScreen->text, 0, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(WIN_MESSAGE, FONT_NORMAL, sScreen->text, 4, 0, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemap(WIN_MESSAGE);
     CopyWindowToVram(WIN_MESSAGE, COPYWIN_FULL);
+}
+
+// ---------------------------------------------------------------------------------------------
+// The display follows the events
+
+static void ClearInPlay(struct CardInPlay *mon)
+{
+    u8 *bytes = (u8 *)mon;
+    u8 i;
+
+    for (i = 0; i < sizeof(*mon); i++)
+        bytes[i] = 0;
+}
+
+static void SwapWithActive(struct CardDuelSide *side, u8 slot)
+{
+    struct CardInPlay temp = side->slots[CARD_SLOT_ACTIVE];
+
+    side->slots[CARD_SLOT_ACTIVE] = side->slots[slot];
+    side->slots[slot] = temp;
+}
+
+static void ApplyEventToDisplay(const struct CardDuelEvent *event)
+{
+    struct CardDuelSide *side;
+    struct CardInPlay *mon = NULL;
+    u8 type, count;
+
+    if (event->side >= CARD_SIDE_COUNT)
+        return;
+    side = &sScreen->display.sides[event->side];
+    if (event->slot < CARD_SLOT_COUNT)
+        mon = &side->slots[event->slot];
+
+    switch (event->type)
+    {
+    case CARD_EVENT_DRAW:
+        if (side->deckCount != 0)
+            side->deckCount--;
+        side->handCount++;
+        break;
+    case CARD_EVENT_ENERGY_ZONE:
+        side->zoneEnergy = event->value;
+        side->nextEnergy = sScreen->duel.sides[event->side].nextEnergy;
+        break;
+    case CARD_EVENT_PLAY_POKEMON:
+        ClearInPlay(mon);
+        mon->cardId = event->value;
+        if (side->handCount != 0)
+            side->handCount--;
+        break;
+    case CARD_EVENT_PLAY_TRAINER:
+        if (side->handCount != 0)
+            side->handCount--;
+        break;
+    case CARD_EVENT_ATTACH_ENERGY:
+        mon->energy[event->value]++;
+        if (side->zoneEnergy == event->value)
+            side->zoneEnergy = CARD_TYPE_NONE;
+        break;
+    case CARD_EVENT_EVOLVE:
+        mon->cardId = event->value;
+        mon->status = 0;
+        if (side->handCount != 0)
+            side->handCount--;
+        break;
+    case CARD_EVENT_RETREAT:
+    case CARD_EVENT_PROMOTE:
+    case CARD_EVENT_SWITCH:
+        SwapWithActive(side, event->slot);
+        side->slots[event->slot].status = 0;
+        break;
+    case CARD_EVENT_DAMAGE:
+        mon->damage += event->value;
+        break;
+    case CARD_EVENT_HEAL:
+        mon->damage = mon->damage > event->value ? mon->damage - event->value : 0;
+        break;
+    case CARD_EVENT_STATUS:
+        if (event->value & CARD_STATUS_ROTATION)
+            mon->status &= ~CARD_STATUS_ROTATION;
+        mon->status |= event->value;
+        break;
+    case CARD_EVENT_STATUS_CURED:
+        mon->status &= ~event->value;
+        break;
+    case CARD_EVENT_DISCARD_ENERGY:
+        count = event->value;
+        for (type = CARD_TYPE_COUNT - 1; type > CARD_TYPE_NONE && count != 0; type--)
+        {
+            while (mon->energy[type] != 0 && count != 0)
+            {
+                mon->energy[type]--;
+                count--;
+            }
+        }
+        break;
+    case CARD_EVENT_KNOCK_OUT:
+        ClearInPlay(mon);
+        break;
+    case CARD_EVENT_TROPHY:
+        side->trophies += event->value;
+        break;
+    }
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -616,8 +1274,6 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         StringAppend(dst, sText_PlayersTurn);
         return TRUE;
     case CARD_EVENT_DRAW:
-        if (duel->phase == CARD_PHASE_SETUP)
-            return FALSE;
         if (event->side == CARD_SIDE_PLAYER)
         {
             dst = StringAppend(dst, sText_YouDrew);
@@ -633,7 +1289,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     case CARD_EVENT_ENERGY_ZONE:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, sText_Gets);
-        dst = StringAppend(dst, sTypeLetters[event->value]);
+        dst = StringAppend(dst, sTypeNames[event->value]);
         StringAppend(dst, sText_EnergyDot);
         return TRUE;
     case CARD_EVENT_COIN:
@@ -649,7 +1305,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     case CARD_EVENT_ATTACH_ENERGY:
         dst = AppendSideName(dst, event->side);
         dst = StringAppend(dst, sText_Attached);
-        dst = StringAppend(dst, sTypeLetters[event->value]);
+        dst = StringAppend(dst, sTypeNames[event->value]);
         dst = StringAppend(dst, sText_EnergyTo);
         dst = AppendCardName(dst, event->cardId);
         StringAppend(dst, sText_Dot);
@@ -694,7 +1350,7 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         dst = AppendCardName(dst, event->cardId);
         dst = StringAppend(dst, sText_Discarded);
         dst = AppendNumber(dst, event->value);
-        StringAppend(dst, sText_EnergyCount);
+        StringAppend(dst, sText_EnergyDot);
         return TRUE;
     case CARD_EVENT_KNOCK_OUT:
         dst = AppendCardName(dst, event->cardId);
@@ -715,7 +1371,9 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         return FALSE; // shown by STATE_RESULT
     case CARD_EVENT_ABILITY:
         dst = AppendCardName(dst, event->cardId);
-        StringAppend(dst, sText_UsedAbility);
+        dst = StringAppend(dst, sText_UsedAbility);
+        dst = StringAppend(dst, sAbilityTexts[event->value][0]);
+        StringAppend(dst, sText_Exclamation);
         return TRUE;
     case CARD_EVENT_REVEAL_HAND:
         {
@@ -725,18 +1383,12 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
             dst = StringAppend(dst, sText_HandOf);
             dst = AppendSideName(dst, event->side);
             dst = StringAppend(dst, sText_Colon);
-            for (i = 0; i < side->handCount && i < 4; i++)
+            for (i = 0; i < side->handCount && i < 5; i++)
             {
-                if (i == 2)
-                {
-                    *dst++ = CHAR_NEWLINE;
-                    *dst = EOS;
-                }
-                else if (i != 0)
+                if (i != 0)
                     dst = StringAppend(dst, sText_Comma);
                 dst = AppendCardName(dst, side->hand[i]);
             }
-            *dst = EOS;
         }
         return TRUE;
     case CARD_EVENT_SWITCH:
@@ -747,55 +1399,461 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
     return FALSE;
 }
 
-// Shows the next event's message; FALSE when there are none left
-static bool8 ShowNextEvent(void)
-{
-    struct CardDuel *duel = &sScreen->duel;
+// ---------------------------------------------------------------------------------------------
+// Animations
 
-    while (sScreen->nextEvent < duel->eventCount)
+static struct Sprite *GetAnimIcon(void)
+{
+    u8 spriteId = sScreen->iconSprites[sScreen->animSide][sScreen->animSlot];
+
+    return spriteId == SPRITE_NONE ? NULL : &gSprites[spriteId];
+}
+
+static void StartAnimation(const struct CardDuelEvent *event)
+{
+    sScreen->anim = ANIM_NONE;
+    sScreen->animFrame = 0;
+    sScreen->animSide = event->side;
+    sScreen->animSlot = event->slot;
+    switch (event->type)
     {
-        if (FormatEvent(sScreen->text, &duel->events[sScreen->nextEvent++]))
-        {
-            ShowMessage(sScreen->text);
-            return TRUE;
-        }
+    case CARD_EVENT_ATTACK:
+        sScreen->anim = ANIM_LUNGE;
+        break;
+    case CARD_EVENT_DAMAGE:
+        sScreen->anim = ANIM_SHAKE;
+        PlaySE(SE_M_COMET_PUNCH);
+        break;
+    case CARD_EVENT_KNOCK_OUT:
+    case CARD_EVENT_PLAY_POKEMON:
+    case CARD_EVENT_EVOLVE:
+    case CARD_EVENT_PROMOTE:
+    case CARD_EVENT_RETREAT:
+    case CARD_EVENT_SWITCH:
+        sScreen->anim = ANIM_BLINK;
+        if (event->type == CARD_EVENT_RETREAT || event->type == CARD_EVENT_PROMOTE || event->type == CARD_EVENT_SWITCH)
+            sScreen->animSlot = CARD_SLOT_ACTIVE;
+        break;
+    case CARD_EVENT_COIN:
+        sScreen->anim = ANIM_COIN;
+        sScreen->coinHeads = event->value;
+        gSprites[sScreen->coinSprite].invisible = FALSE;
+        PlaySE(SE_BALL_BOUNCE_1);
+        break;
+    case CARD_EVENT_HEAL:
+        PlaySE(SE_USE_ITEM);
+        break;
+    case CARD_EVENT_TROPHY:
+        PlaySE(SE_SUCCESS);
+        break;
     }
-    Duel_ClearEvents(duel);
-    sScreen->nextEvent = 0;
+}
+
+// Runs a frame of the animation; FALSE when it's over
+static bool8 RunAnimation(void)
+{
+    struct Sprite *icon = GetAnimIcon();
+    u8 frame = sScreen->animFrame++;
+    struct Sprite *coin = &gSprites[sScreen->coinSprite];
+
+    switch (sScreen->anim)
+    {
+    case ANIM_LUNGE:
+        if (icon == NULL || frame >= 16)
+        {
+            if (icon != NULL)
+                icon->y2 = 0;
+            return FALSE;
+        }
+        // Towards the other side and back
+        icon->y2 = (frame < 8 ? frame : 16 - frame) * (sScreen->animSide == CARD_SIDE_PLAYER ? -2 : 2);
+        return TRUE;
+    case ANIM_SHAKE:
+        if (icon == NULL || frame >= 18)
+        {
+            if (icon != NULL)
+                icon->x2 = 0;
+            return FALSE;
+        }
+        icon->x2 = (frame & 2) ? 3 : -3;
+        return TRUE;
+    case ANIM_BLINK:
+        if (icon == NULL || frame >= 20)
+        {
+            if (icon != NULL)
+                icon->invisible = FALSE;
+            return FALSE;
+        }
+        icon->invisible = (frame & 4) != 0;
+        return TRUE;
+    case ANIM_COIN:
+        if (frame >= COIN_SPIN_FRAMES)
+        {
+            coin->oam.tileNum = GetSpriteTileStartByTag(TAG_COIN) + (sScreen->coinHeads ? 0 : 32);
+            return FALSE;
+        }
+        // Heads, edge, tails, edge...
+        switch ((frame / 3) % 4)
+        {
+        case 0:
+            coin->oam.tileNum = GetSpriteTileStartByTag(TAG_COIN);
+            break;
+        case 2:
+            coin->oam.tileNum = GetSpriteTileStartByTag(TAG_COIN) + 32;
+            break;
+        default:
+            coin->oam.tileNum = GetSpriteTileStartByTag(TAG_COIN) + 16;
+            break;
+        }
+        coin->y2 = -(s16)((frame * (COIN_SPIN_FRAMES - frame)) / 8);
+        return TRUE;
+    }
     return FALSE;
 }
 
-// The player's hand, a few cards per message
-static bool8 ShowHandPage(void)
+static bool8 IsAppliedAfterAnimation(u8 eventType)
 {
-    const struct CardDuelSide *side = &sScreen->duel.sides[CARD_SIDE_PLAYER];
-    u8 *dst = sScreen->text;
-    u8 i;
+    return eventType == CARD_EVENT_DAMAGE || eventType == CARD_EVENT_KNOCK_OUT;
+}
 
-    if (side->handCount == 0 && sScreen->handPage == 0)
+// Starts showing the next event; FALSE when there are none left
+static bool8 StartNextEvent(void)
+{
+    struct CardDuel *duel = &sScreen->duel;
+    const struct CardDuelEvent *event;
+
+    while (sScreen->nextEvent < duel->eventCount)
     {
-        StringCopy(dst, sText_HandEmpty);
-        sScreen->handPage = 1;
+        event = &duel->events[sScreen->nextEvent++];
+        if (!FormatEvent(sScreen->text, event))
+        {
+            ApplyEventToDisplay(event);
+            continue;
+        }
         ShowMessage(sScreen->text);
+        sScreen->eventApplied = !IsAppliedAfterAnimation(event->type);
+        if (sScreen->eventApplied)
+        {
+            ApplyEventToDisplay(event);
+            RefreshBoard();
+        }
+        StartAnimation(event);
         return TRUE;
     }
-    if (sScreen->handPage >= side->handCount)
-        return FALSE;
-    dst = StringCopy(dst, sText_YourHand);
-    for (i = 0; i < 4 && sScreen->handPage < side->handCount; i++, sScreen->handPage++)
+    // All shown: the board catches up with the duel
+    Duel_ClearEvents(duel);
+    sScreen->nextEvent = 0;
+    sScreen->display = *duel;
+    RefreshBoard();
+    return FALSE;
+}
+
+static void FinishEvent(void)
+{
+    if (!sScreen->eventApplied)
     {
-        if (i == 2)
-        {
-            *dst++ = CHAR_NEWLINE;
-            *dst = EOS;
-        }
-        else if (i != 0)
-            dst = StringAppend(dst, sText_Comma);
-        dst = AppendCardName(dst, side->hand[sScreen->handPage]);
+        ApplyEventToDisplay(&sScreen->duel.events[sScreen->nextEvent - 1]);
+        RefreshBoard();
+        sScreen->eventApplied = TRUE;
     }
-    *dst = EOS;
-    ShowMessage(sScreen->text);
-    return TRUE;
+    gSprites[sScreen->coinSprite].invisible = TRUE;
+    gSprites[sScreen->coinSprite].y2 = 0;
+}
+
+// ---------------------------------------------------------------------------------------------
+// The card viewer
+
+static void AddView(u16 cardId, u8 side, u8 slot)
+{
+    struct CardView *view;
+
+    if (cardId == CARD_NONE || sScreen->viewCount >= VIEW_MAX)
+        return;
+    view = &sScreen->views[sScreen->viewCount++];
+    view->cardId = cardId;
+    view->side = side;
+    view->slot = slot;
+}
+
+static void OpenCardViewer(void)
+{
+    const struct CardDuel *duel = &sScreen->duel;
+    u8 i, side;
+
+    sScreen->viewCount = 0;
+    sScreen->viewIndex = 0;
+    for (i = 0; i < duel->sides[CARD_SIDE_PLAYER].handCount; i++)
+        AddView(duel->sides[CARD_SIDE_PLAYER].hand[i], CARD_SIDE_PLAYER, CARD_SLOT_NONE);
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        for (i = 0; i < CARD_SLOT_COUNT; i++)
+            AddView(duel->sides[side].slots[i].cardId, side, i);
+    }
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        for (i = 0; i < CARD_SLOT_COUNT; i++)
+        {
+            if (sScreen->iconSprites[side][i] != SPRITE_NONE)
+                gSprites[sScreen->iconSprites[side][i]].invisible = TRUE;
+        }
+    }
+    for (i = 0; i < sScreen->pipCount; i++)
+        gSprites[sScreen->pipSprites[i]].invisible = TRUE;
+    ShowViewedCard();
+}
+
+static void DestroyDetailSprite(void)
+{
+    if (sScreen->detailSprite == SPRITE_NONE)
+        return;
+    if (sScreen->detailIsItem)
+    {
+        DestroySprite(&gSprites[sScreen->detailSprite]);
+        FreeSpriteTilesByTag(TAG_DETAIL_ITEM);
+        FreeSpritePaletteByTag(TAG_DETAIL_ITEM);
+    }
+    else
+    {
+        FreeAndDestroyMonPicSprite(sScreen->detailSprite);
+    }
+    sScreen->detailSprite = SPRITE_NONE;
+}
+
+static void CloseCardViewer(void)
+{
+    u8 side, i;
+
+    DestroyDetailSprite();
+    ClearWindowTilemap(WIN_DETAIL);
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        for (i = 0; i < CARD_SLOT_COUNT; i++)
+        {
+            if (sScreen->iconSprites[side][i] != SPRITE_NONE)
+                gSprites[sScreen->iconSprites[side][i]].invisible = FALSE;
+        }
+    }
+    // The viewer used the board windows' tiles: draw them again
+    RefreshBoard();
+}
+
+// Appends "before N after" or "before STATUS after"
+static u8 *AppendEffectText(u8 *dst, const u8 *before, u16 number, const u8 *after)
+{
+    if (before != NULL)
+        dst = StringAppend(dst, before);
+    dst = AppendNumber(dst, number);
+    if (after != NULL)
+        dst = StringAppend(dst, after);
+    return dst;
+}
+
+static u8 *AppendAttackText(u8 *dst, const struct CardAttack *attack)
+{
+    const struct EffectText *effect = &sEffectTexts[attack->effect];
+
+    dst = AppendCost(dst, attack);
+    dst = StringAppend(dst, attack->name);
+    if (attack->damage != 0)
+    {
+        dst = StringAppend(dst, sText_Space);
+        dst = AppendNumber(dst, attack->damage);
+        if (attack->effect == CARD_EFFECT_FLIP_MULTI)
+            dst = StringAppend(dst, sText_Plus);
+    }
+    if (attack->effect == CARD_EFFECT_NONE)
+        return dst;
+    dst = StringAppend(dst, sText_Space);
+    if (effect->hasStatus)
+    {
+        dst = StringAppend(dst, effect->before);
+        dst = AppendStatusName(dst, attack->effectArg);
+        return StringAppend(dst, effect->after);
+    }
+    if (effect->hasNumber)
+        return AppendEffectText(dst, effect->before, attack->effectArg, effect->after);
+    return StringAppend(dst, effect->before);
+}
+
+// Prints wrapped text at (x, y) in the viewer; returns the next free line's y
+static u8 PrintDetail(u8 *text, u8 x, u8 y)
+{
+    u8 lines = 1;
+    u8 *p;
+
+    WrapText(text, FONT_SMALL, 238 - x);
+    for (p = text; *p != EOS; p++)
+    {
+        if (*p == CHAR_NEWLINE)
+            lines++;
+    }
+    AddTextPrinterParameterized(WIN_DETAIL, FONT_SMALL, text, x, y, TEXT_SKIP_DRAW, NULL);
+    return y + lines * 12;
+}
+
+static void ShowPokemonDetails(const struct CardView *view, const struct PokemonCardInfo *info)
+{
+    const struct CardInPlay *mon = view->slot != CARD_SLOT_NONE ? &sScreen->duel.sides[view->side].slots[view->slot] : NULL;
+    u8 *text = sScreen->text;
+    u8 *end;
+    u8 i, y = 18, x = 72;
+
+    // Stage, HP, type
+    end = StringCopy(text, info->stage == CARD_STAGE_BASIC ? sText_Basic : (info->stage == CARD_STAGE_1 ? sText_Stage1 : sText_Stage2));
+    if (info->evolvesFrom != CARD_NONE)
+    {
+        end = StringAppend(end, sText_From);
+        end = AppendCardName(end, info->evolvesFrom);
+        end = StringAppend(end, sText_CloseParen);
+    }
+    y = PrintDetail(text, x, y);
+    end = StringCopy(text, sTypeNames[info->type]);
+    end = StringAppend(end, sText_Space);
+    end = AppendNumber(end, mon != NULL ? GetRemainingHp(mon) : info->hp);
+    if (mon != NULL)
+    {
+        end = StringAppend(end, sText_Slash);
+        end = AppendNumber(end, Duel_GetMaxHp(mon));
+    }
+    end = StringAppend(end, sText_ViewerHp);
+    if (mon != NULL)
+        AppendStatusLetters(end, mon->status);
+    y = PrintDetail(text, x, y);
+    end = StringCopy(text, sText_Weakness);
+    end = StringAppend(end, sTypeNames[info->weakness]);
+    end = StringAppend(end, sText_Retreat);
+    AppendNumber(end, info->retreatCost);
+    y = PrintDetail(text, x, y);
+    if (mon != NULL && mon->tool != CARD_NONE)
+    {
+        end = StringCopy(text, sText_ToolAttached);
+        AppendCardName(end, mon->tool);
+        y = PrintDetail(text, x, y);
+    }
+
+    // Ability and attacks, under the picture, full width
+    x = 4;
+    y = y < 76 ? 76 : y;
+    if (info->ability != CARD_ABILITY_NONE)
+    {
+        end = StringCopy(text, sText_AbilityLabel);
+        end = StringAppend(end, sAbilityTexts[info->ability][0]);
+        end = StringAppend(end, sText_Colon);
+        if (sAbilityTexts[info->ability][2] != NULL)
+            AppendEffectText(end, sAbilityTexts[info->ability][1], info->abilityArg, sAbilityTexts[info->ability][2]);
+        else
+            StringAppend(end, sAbilityTexts[info->ability][1]);
+        y = PrintDetail(text, x, y);
+    }
+    for (i = 0; i < info->numAttacks; i++)
+    {
+        *text = EOS;
+        AppendAttackText(text, &info->attacks[i]);
+        y = PrintDetail(text, x, y);
+    }
+    if (info->isEx)
+    {
+        StringCopy(text, info->isMega ? sText_MegaExRule : sText_ExRule);
+        PrintDetail(text, x, y);
+    }
+}
+
+static void ShowTrainerDetails(const struct TrainerCardInfo *info)
+{
+    u8 *text = sScreen->text;
+    u8 *end;
+    u8 y = 18;
+
+    StringCopy(text, info->kind == CARD_KIND_SUPPORTER ? sText_Supporter : (info->kind == CARD_KIND_TOOL ? sText_Tool : sText_Item));
+    y = PrintDetail(text, 72, y);
+    end = StringCopy(text, sTrainerTexts[info->effect][0]);
+    if (sTrainerTexts[info->effect][1] != NULL)
+        end = AppendEffectText(end, NULL, info->effectArg, sTrainerTexts[info->effect][1]);
+    if (info->effectType != CARD_TYPE_NONE)
+    {
+        end = StringAppend(end, sTypeNames[info->effectType]);
+        StringAppend(end, sEffect_Dot);
+    }
+    PrintDetail(text, 72, y);
+}
+
+static void CreateDetailPicture(u16 cardId)
+{
+    const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
+    u8 i;
+
+    sScreen->detailIsItem = FALSE;
+    if (pokemon != NULL)
+    {
+        sScreen->detailSprite = CreateMonPicSprite_HandleDeoxys(pokemon->species, 0, NOT_SHINY_PERSONALITY, TRUE, 36, 44, 15, TAG_NONE);
+        if (sScreen->detailSprite >= MAX_SPRITES)
+            sScreen->detailSprite = SPRITE_NONE;
+        else
+            gSprites[sScreen->detailSprite].oam.priority = 0;
+        return;
+    }
+    for (i = 0; i < ARRAY_COUNT(sTrainerItemIcons); i++)
+    {
+        if (sTrainerItemIcons[i][0] == cardId)
+        {
+            sScreen->detailSprite = AddItemIconSprite(TAG_DETAIL_ITEM, TAG_DETAIL_ITEM, sTrainerItemIcons[i][1]);
+            if (sScreen->detailSprite == MAX_SPRITES)
+            {
+                sScreen->detailSprite = SPRITE_NONE;
+                return;
+            }
+            gSprites[sScreen->detailSprite].x = 36;
+            gSprites[sScreen->detailSprite].y = 44;
+            gSprites[sScreen->detailSprite].oam.priority = 0;
+            sScreen->detailIsItem = TRUE;
+            return;
+        }
+    }
+}
+
+static void ShowViewedCard(void)
+{
+    const struct CardView *view = &sScreen->views[sScreen->viewIndex];
+    const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(view->cardId);
+    u8 *text = sScreen->text;
+    u8 *end;
+
+    DestroyDetailSprite();
+    FillWindowPixelBuffer(WIN_DETAIL, PIXEL_FILL(1));
+    *text = EOS;
+    AppendCardName(text, view->cardId);
+    AddTextPrinterParameterized(WIN_DETAIL, FONT_NORMAL, text, 72, 2, TEXT_SKIP_DRAW, NULL);
+    if (pokemon != NULL)
+        ShowPokemonDetails(view, pokemon);
+    else
+        ShowTrainerDetails(CardGame_GetTrainerInfo(view->cardId));
+    PutWindowTilemap(WIN_DETAIL);
+    CopyWindowToVram(WIN_DETAIL, COPYWIN_FULL);
+    CreateDetailPicture(view->cardId);
+
+    // Where the card is, in the message box
+    if (view->slot == CARD_SLOT_NONE)
+    {
+        end = StringCopy(text, sText_YourHand);
+        end = AppendNumber(end, sScreen->viewIndex + 1);
+        end = StringAppend(end, sText_Slash);
+        end = AppendNumber(end, sScreen->duel.sides[CARD_SIDE_PLAYER].handCount);
+    }
+    else
+    {
+        end = StringCopy(text, view->side == CARD_SIDE_PLAYER ? sText_YourPokemon : sText_TheirPokemon);
+        if (view->slot == CARD_SLOT_ACTIVE)
+        {
+            end = StringAppend(end, sText_ActiveSpot);
+        }
+        else
+        {
+            end = StringAppend(end, sText_BenchSpot);
+            end = StringAppend(end, sSlotNames[view->slot]);
+        }
+    }
+    StringAppend(end, sText_ViewerHelp);
+    ShowMessage(text);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -821,7 +1879,7 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         break;
     case CARD_ACTION_ATTACH_ENERGY:
         dst = StringAppend(dst, sText_Attach);
-        dst = StringAppend(dst, sTypeLetters[side->zoneEnergy]);
+        dst = StringAppend(dst, sTypeNames[side->zoneEnergy]);
         dst = StringAppend(dst, sText_EnergyTo);
         AppendCardName(dst, side->slots[action->slot].cardId);
         break;
@@ -831,7 +1889,8 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         if (action->slot != CARD_SLOT_ACTIVE)
         {
             dst = StringAppend(dst, sText_At);
-            StringAppend(dst, sBenchLabels[action->slot]);
+            dst = StringAppend(dst, sText_BenchSpot);
+            StringAppend(dst, sSlotNames[action->slot]);
         }
         break;
     case CARD_ACTION_PLAY_TRAINER:
@@ -894,13 +1953,13 @@ static void OpenActionMenu(void)
     for (i = 0; i < count; i++)
     {
         FormatAction(sScreen->labels[i], &sScreen->actions[i]);
-        TruncateToWidth(sScreen->labels[i], FONT_NORMAL, 212);
+        TruncateToWidth(sScreen->labels[i], FONT_NORMAL, 210);
         sScreen->items[i].name = sScreen->labels[i];
         sScreen->items[i].id = i;
     }
-    StringCopy(sScreen->labels[count], sText_ViewHand);
+    StringCopy(sScreen->labels[count], sText_ViewCards);
     sScreen->items[count].name = sScreen->labels[count];
-    sScreen->items[count].id = MENU_VIEW_HAND;
+    sScreen->items[count].id = MENU_VIEW_CARDS;
     count++;
     if (sScreen->duel.phase != CARD_PHASE_SETUP)
     {
@@ -914,12 +1973,12 @@ static void OpenActionMenu(void)
     template.moveCursorFunc = ListMenuDefaultCursorMoveFunc;
     template.itemPrintFunc = NULL;
     template.totalItems = count;
-    template.maxShowed = 3;
-    template.windowId = WIN_MENU;
+    template.maxShowed = 2;
+    template.windowId = WIN_MESSAGE;
     template.header_X = 0;
-    template.item_X = 8;
-    template.cursor_X = 0;
-    template.upText_Y = 1;
+    template.item_X = 12;
+    template.cursor_X = 4;
+    template.upText_Y = 0;
     template.cursorPal = 2;
     template.fillValue = 1;
     template.cursorShadowPal = 3;
@@ -931,11 +1990,13 @@ static void OpenActionMenu(void)
 
     // The actions change every time, so the cursor starts at the top
     sScreen->menuScroll = sScreen->menuRow = 0;
-    ClearWindowTilemap(WIN_MESSAGE);
-    FillWindowPixelBuffer(WIN_MENU, PIXEL_FILL(1));
-    PutWindowTilemap(WIN_MENU);
-    sScreen->listTaskId = ListMenuInit(&template, sScreen->menuScroll, sScreen->menuRow);
-    CopyWindowToVram(WIN_MENU, COPYWIN_FULL);
+    FillWindowPixelBuffer(WIN_MESSAGE, PIXEL_FILL(1));
+    PutWindowTilemap(WIN_MESSAGE);
+    sScreen->listTaskId = ListMenuInit(&template, 0, 0);
+    CopyWindowToVram(WIN_MESSAGE, COPYWIN_FULL);
+    if (count > 2)
+        sScreen->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 230, ROW_MESSAGE * 8 + 4, DISPLAY_HEIGHT - 4,
+                                                                         count - 2, TAG_ARROWS, TAG_ARROWS, &sScreen->menuScroll);
     sScreen->menuShown = TRUE;
 }
 
@@ -944,11 +2005,14 @@ static void CloseActionMenu(void)
     if (!sScreen->menuShown)
         return;
     DestroyListMenuTask(sScreen->listTaskId, &sScreen->menuScroll, &sScreen->menuRow);
-    ClearWindowTilemap(WIN_MENU);
+    if (sScreen->arrowTaskId != TASK_NONE)
+    {
+        RemoveScrollIndicatorArrowPair(sScreen->arrowTaskId);
+        sScreen->arrowTaskId = TASK_NONE;
+    }
     sScreen->menuShown = FALSE;
     // An empty message box until the next message
     FillWindowPixelBuffer(WIN_MESSAGE, PIXEL_FILL(1));
-    PutWindowTilemap(WIN_MESSAGE);
     CopyWindowToVram(WIN_MESSAGE, COPYWIN_FULL);
 }
 
@@ -983,15 +2047,15 @@ static void Task_CardGame(u8 taskId)
         if (!gPaletteFade.active)
         {
             sScreen->timer = 0;
+            sScreen->eventApplied = TRUE;
             sScreen->state = STATE_MESSAGE;
         }
         break;
     case STATE_NEXT:
-        DrawBoard();
-        if (ShowNextEvent())
+        if (StartNextEvent())
         {
             sScreen->timer = 0;
-            sScreen->state = STATE_MESSAGE;
+            sScreen->state = STATE_ANIMATE;
         }
         else if (duel->phase == CARD_PHASE_OVER)
         {
@@ -1009,30 +2073,34 @@ static void Task_CardGame(u8 taskId)
             sScreen->state = STATE_AI_WAIT;
         }
         break;
+    case STATE_ANIMATE:
+        sScreen->timer++;
+        if (!RunAnimation())
+        {
+            FinishEvent();
+            sScreen->state = STATE_MESSAGE;
+        }
+        break;
     case STATE_MESSAGE:
         if (++sScreen->timer >= MESSAGE_FRAMES || PressedAorB())
         {
-            if (sScreen->handPage != 0 && ShowHandPage())
-            {
-                sScreen->timer = 0;
-                break;
-            }
-            sScreen->handPage = 0;
+            gSprites[sScreen->coinSprite].invisible = TRUE;
             sScreen->state = STATE_NEXT;
         }
         break;
     case STATE_MENU:
         input = ListMenu_ProcessInput(sScreen->listTaskId);
+        ListMenuGetScrollAndRow(sScreen->listTaskId, &sScreen->menuScroll, &sScreen->menuRow);
+        if (JOY_NEW(SELECT_BUTTON))
+            input = MENU_VIEW_CARDS;
         if (input == LIST_NOTHING_CHOSEN || input == LIST_CANCEL)
             break;
         PlaySE(SE_SELECT);
         CloseActionMenu();
-        if (input == MENU_VIEW_HAND)
+        if (input == MENU_VIEW_CARDS)
         {
-            sScreen->handPage = 0;
-            ShowHandPage();
-            sScreen->timer = 0;
-            sScreen->state = STATE_MESSAGE;
+            OpenCardViewer();
+            sScreen->state = STATE_VIEW_CARDS;
         }
         else if (input == MENU_FORFEIT)
         {
@@ -1043,6 +2111,26 @@ static void Task_CardGame(u8 taskId)
         {
             Duel_DoAction(duel, CARD_SIDE_PLAYER, &sScreen->actions[input]);
             sScreen->state = STATE_NEXT;
+        }
+        break;
+    case STATE_VIEW_CARDS:
+        if (JOY_NEW(B_BUTTON | A_BUTTON | SELECT_BUTTON))
+        {
+            PlaySE(SE_SELECT);
+            CloseCardViewer();
+            sScreen->state = STATE_NEXT;
+        }
+        else if (JOY_NEW(DPAD_RIGHT | DPAD_DOWN) && sScreen->viewCount > 1)
+        {
+            PlaySE(SE_SELECT);
+            sScreen->viewIndex = (sScreen->viewIndex + 1) % sScreen->viewCount;
+            ShowViewedCard();
+        }
+        else if (JOY_NEW(DPAD_LEFT | DPAD_UP) && sScreen->viewCount > 1)
+        {
+            PlaySE(SE_SELECT);
+            sScreen->viewIndex = (sScreen->viewIndex + sScreen->viewCount - 1) % sScreen->viewCount;
+            ShowViewedCard();
         }
         break;
     case STATE_CONFIRM_FORFEIT:
