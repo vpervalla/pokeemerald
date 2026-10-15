@@ -484,7 +484,8 @@ MegaIsland_Arena_Text_StoneToPC:
 
 @ Added: from VAR_MEGA_STORY_STATE 9 on, a new tournament is held each day (see MegaIsland_Castle_1F):
 @ three rounds against opponents drawn at random among the eight other champions, ALAIN included
-@ (RandomizeTournamentOpponents, GetTournamentOpponent). There is no MR. M. any more, nor any MEGA
+@ (RandomizeTournamentOpponents, GetTournamentOpponent), all at lv 85-90: the rival, ALDER and LEON
+@ use lv 85-90 copies of their story teams (TRAINER_TOURNAMENT_REPLAY_*). There is no MR. M. any more, nor any MEGA
 @ STONE to win (the tournament ones are given once), and a lost match just ends the day's tournament.
 MegaIsland_Arena_OnTransitionReplay:
 	goto_if_eq VAR_TOURNAMENT_ROUND, 0, MegaIsland_Arena_OnTransitionEnd
@@ -571,24 +572,7 @@ MegaIsland_Arena_EventScript_ReplayRival::
 	msgbox MegaIsland_Arena_Text_ReplayRivalIntro
 	closemessage
 	special RemoveCameraObject
-	switch VAR_STARTER_MON
-	case 0, MegaIsland_Arena_EventScript_ReplayRivalCharmander
-	case 1, MegaIsland_Arena_EventScript_ReplayRivalBulbasaur
-	case 2, MegaIsland_Arena_EventScript_ReplayRivalSquirtle
-	end
-
-MegaIsland_Arena_EventScript_ReplayRivalCharmander::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_CHARMANDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
-	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
-	end
-
-MegaIsland_Arena_EventScript_ReplayRivalBulbasaur::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_BULBASAUR, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
-	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
-	end
-
-MegaIsland_Arena_EventScript_ReplayRivalSquirtle::
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_SQUIRTLE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_RIVAL, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
@@ -628,7 +612,7 @@ MegaIsland_Arena_EventScript_ReplayAlder::
 	msgbox MegaIsland_Arena_Text_ReplayAlderIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
@@ -648,7 +632,7 @@ MegaIsland_Arena_EventScript_ReplayLeon::
 	msgbox MegaIsland_Arena_Text_ReplayLeonIntro
 	closemessage
 	special RemoveCameraObject
-	trainerbattle_earlyrival TRAINER_TOURNAMENT_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_REPLAY_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 

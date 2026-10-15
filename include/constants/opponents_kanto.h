@@ -524,7 +524,12 @@
 #define TRAINER_REMATCH_BLAINE                        1369
 #define TRAINER_REMATCH_GIOVANNI                      1370
 
-#define NUM_KANTO_TRAINERS 507
+// Added for MR. M.'s daily tournament: the story's opponents at lv 85-90, like the other champions
+#define TRAINER_TOURNAMENT_REPLAY_RIVAL               1371
+#define TRAINER_TOURNAMENT_REPLAY_ALDER               1372
+#define TRAINER_TOURNAMENT_REPLAY_LEON                1373
+
+#define NUM_KANTO_TRAINERS 510
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

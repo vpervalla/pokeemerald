@@ -452,3 +452,139 @@ static const struct TrainerMonItemCustomMoves sParty_Alain[] = {
         .moves = {MOVE_DRAGON_DANCE, MOVE_DRAGON_CLAW, MOVE_FIRE_PUNCH, MOVE_THUNDER_PUNCH},
     },
 };
+
+// MR. M.'s daily tournament: the story's opponents at lv 85-90, like the other champions
+static const struct TrainerMonItemCustomMoves sParty_TournamentReplayRival[] = {
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_PIDGEOT,
+        .heldItem = ITEM_PIDGEOTITE,
+        .moves = {MOVE_AERIAL_ACE, MOVE_HEAT_WAVE, MOVE_RETURN, MOVE_FEATHER_DANCE},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_ALAKAZAM,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_CALM_MIND, MOVE_RECOVER, MOVE_FIRE_PUNCH},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_RHYDON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE, MOVE_MEGAHORN, MOVE_SWORDS_DANCE},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_EXEGGUTOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_GIGA_DRAIN, MOVE_SLEEP_POWDER, MOVE_LEECH_SEED},
+    },
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_EXTREME_SPEED, MOVE_FLAMETHROWER, MOVE_CRUNCH, MOVE_ROAR},
+    },
+    {
+        .iv = 255,
+        .lvl = 90,
+        .species = SPECIES_BLASTOISE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_TournamentReplayAlder[] = {
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_TAUROS,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_RETURN, MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_ROCK_SLIDE},
+    },
+    {
+        .iv = 255,
+        .lvl = 85,
+        .species = SPECIES_NINJASK,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SWORDS_DANCE, MOVE_BATON_PASS, MOVE_AERIAL_ACE, MOVE_SLASH},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_PINSIR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SUBMISSION, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE},
+    },
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_SCIZOR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_METAL_CLAW, MOVE_QUICK_ATTACK, MOVE_SWORDS_DANCE, MOVE_AERIAL_ACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_ARCANINE,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_FLAMETHROWER, MOVE_EXTREME_SPEED, MOVE_CRUNCH, MOVE_ROAR},
+    },
+    {
+        .iv = 255,
+        .lvl = 90,
+        .species = SPECIES_HERACROSS,
+        .heldItem = ITEM_HERACRONITE,
+        .moves = {MOVE_MEGAHORN, MOVE_BRICK_BREAK, MOVE_ROCK_BLAST, MOVE_SWORDS_DANCE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_TournamentReplayLeon[] = {
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_MR_MIME,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_PSYCHIC, MOVE_DAZZLING_GLEAM, MOVE_REFLECT, MOVE_LIGHT_SCREEN},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_MACHAMP,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_CROSS_CHOP, MOVE_ROCK_SLIDE, MOVE_EARTHQUAKE, MOVE_BULK_UP},
+    },
+    {
+        .iv = 255,
+        .lvl = 86,
+        .species = SPECIES_GENGAR,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SHADOW_BALL, MOVE_THUNDERBOLT, MOVE_HYPNOSIS, MOVE_SLUDGE_BOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_SNORLAX,
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = {MOVE_BODY_SLAM, MOVE_EARTHQUAKE, MOVE_SHADOW_BALL, MOVE_REST},
+    },
+    {
+        .iv = 255,
+        .lvl = 87,
+        .species = SPECIES_SWAMPERT,
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_EARTHQUAKE, MOVE_SURF, MOVE_ICE_BEAM, MOVE_ROCK_SLIDE},
+    },
+    {
+        .iv = 255,
+        .lvl = 90,
+        .species = SPECIES_CHARIZARD,
+        .heldItem = ITEM_CHARIZARDITE_Y,
+        .moves = {MOVE_FIRE_BLAST, MOVE_SOLAR_BEAM, MOVE_AERIAL_ACE, MOVE_DRAGON_CLAW},
+    },
+};
