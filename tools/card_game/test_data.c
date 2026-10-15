@@ -171,7 +171,7 @@ static void PlayRandomGames(void)
                         count = Duel_GetLegalActions(&duel, side, actions);
                         CHECK(count > 0 && count < CARD_MAX_ACTIONS, "actions");
                         // The game's opponent plays both sides
-                        CardAi_ChooseAction(&duel, side, actions, &chosen);
+                        CardAi_ChooseAction(&duel, side, CARD_AI_HARD, actions, &chosen);
                         CHECK(Duel_DoAction(&duel, side, &chosen), "deck %d vs %d: the AI chose an illegal action", a, b);
                         break;
                     }
@@ -192,12 +192,183 @@ static void PlayRandomGames(void)
     }
 }
 
+// A duel in the middle of the player's turn 5, with empty boards and hands, the player's Energy
+// Zone making zoneType
+static void MakeScenario(struct CardDuel *duel, u8 zoneType)
+{
+    struct CardDuelSetup setup;
+    u8 side;
+
+    setup.deck = gCardDecks[CARD_DECK_STARTER].cards;
+    memset(setup.zoneTypes, 0, sizeof(setup.zoneTypes));
+    setup.zoneTypes[0] = CARD_TYPE_GRASS;
+    Duel_Init(duel, &setup, &setup, 1);
+    duel->phase = CARD_PHASE_MAIN;
+    duel->turn = 5;
+    duel->currentSide = CARD_SIDE_PLAYER;
+    for (side = 0; side < CARD_SIDE_COUNT; side++)
+    {
+        memset(duel->sides[side].slots, 0, sizeof(duel->sides[side].slots));
+        memset(duel->sides[side].hand, 0, sizeof(duel->sides[side].hand));
+        duel->sides[side].handCount = 0;
+        duel->sides[side].setupDone = TRUE;
+        duel->sides[side].zoneEnergy = CARD_TYPE_NONE;
+        duel->sides[side].slots[CARD_SLOT_ACTIVE].cardId = CARD_ONIX; // something to aim at
+    }
+    duel->sides[CARD_SIDE_PLAYER].zoneTypes[0] = zoneType;
+}
+
+static void Choose(struct CardDuel *duel, u8 level, struct CardAction *chosen)
+{
+    struct CardAction actions[CARD_MAX_ACTIONS];
+
+    CardAi_ChooseAction(duel, CARD_SIDE_PLAYER, level, actions, chosen);
+}
+
+static void CheckAiDecisions(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSide *me = &duel.sides[CARD_SIDE_PLAYER];
+    struct CardDuelSide *them = &duel.sides[CARD_SIDE_OPPONENT];
+    struct CardAction chosen;
+    u8 level;
+
+    for (level = CARD_AI_NORMAL; level <= CARD_AI_HARD; level++)
+    {
+        // A sure knockout: attack (Geodude's 40 + weakness against Pikachu's 30 HP left)
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_GEODUDE;
+        me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
+        them->slots[0].cardId = CARD_PIKACHU;
+        them->slots[0].damage = 30;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_ATTACK, "level %d: knockout", level);
+
+        // Evolve the Bench
+        MakeScenario(&duel, CARD_TYPE_GRASS);
+        me->slots[0].cardId = CARD_WEEDLE;
+        me->slots[1].cardId = CARD_CATERPIE;
+        me->slots[1].turnPlayed = 1;
+        me->hand[me->handCount++] = CARD_METAPOD;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_EVOLVE && chosen.slot == 1, "level %d: evolve", level);
+
+        // The Energy where it completes an attack
+        MakeScenario(&duel, CARD_TYPE_GRASS);
+        me->slots[0].cardId = CARD_BULBASAUR;
+        me->slots[0].energy[CARD_TYPE_GRASS] = 1;
+        me->slots[1].cardId = CARD_RATTATA;
+        me->zoneEnergy = CARD_TYPE_GRASS;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_ATTACH_ENERGY && chosen.slot == 0, "level %d: Energy", level);
+
+        // Giovanni for a knockout: HARD only
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_GEODUDE;
+        me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
+        them->slots[0].damage = 65; // Onix: 45 HP left, Geodude does 40
+        me->hand[me->handCount++] = CARD_GIOVANNI;
+        Choose(&duel, level, &chosen);
+        if (level == CARD_AI_HARD)
+            CHECK(chosen.type == CARD_ACTION_PLAY_TRAINER, "HARD: Giovanni");
+        else
+            CHECK(chosen.type == CARD_ACTION_ATTACK, "NORMAL: attack without Giovanni");
+
+        // A stuck Active (no Lightning Energy in a Fighting deck), a Benched one ready: HARD retreats
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_PIKACHU;
+        me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
+        me->slots[1].cardId = CARD_GEODUDE;
+        me->slots[1].energy[CARD_TYPE_FIGHTING] = 1;
+        Choose(&duel, level, &chosen);
+        if (level == CARD_AI_HARD)
+            CHECK(chosen.type == CARD_ACTION_RETREAT && chosen.slot == 1, "HARD: retreat");
+        else
+            CHECK(chosen.type == CARD_ACTION_END_TURN, "NORMAL: no retreat");
+
+        // After a knockout, send out the Pokémon that can attack
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_NONE;
+        me->slots[1].cardId = CARD_MAGIKARP;
+        me->slots[2].cardId = CARD_GEODUDE;
+        me->slots[2].energy[CARD_TYPE_FIGHTING] = 1;
+        duel.phase = CARD_PHASE_PROMOTE;
+        duel.promoteMask = 1 << CARD_SIDE_PLAYER;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_PROMOTE && chosen.slot == 2, "level %d: promotion", level);
+
+        // Setup: the Active that can attack with the deck's Energy
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_NONE;
+        me->setupDone = FALSE;
+        duel.phase = CARD_PHASE_SETUP;
+        me->hand[me->handCount++] = CARD_PIKACHU;
+        me->hand[me->handCount++] = CARD_GEODUDE;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_PLAY_BASIC && chosen.slot == CARD_SLOT_ACTIVE && me->hand[chosen.handIndex] == CARD_GEODUDE,
+              "level %d: setup", level);
+    }
+}
+
+// Plays games between two AI levels with every deck (each level on both sides); returns the
+// percentage of the games the first level won, and prints it with the draws
+static int PlayLevels(u8 levelA, u8 levelB, const char *name)
+{
+    struct CardDuel duel;
+    struct CardDuelSetup setups[CARD_DECKS_COUNT];
+    struct CardAction actions[CARD_MAX_ACTIONS], chosen;
+    int d, e, game, steps, side, winsA = 0, draws = 0, games = 0;
+    u8 levels[CARD_SIDE_COUNT];
+
+    for (d = 0; d < CARD_DECKS_COUNT; d++)
+    {
+        setups[d].deck = gCardDecks[d].cards;
+        memcpy(setups[d].zoneTypes, gCardDecks[d].zoneTypes, CARD_MAX_ZONE_TYPES);
+    }
+    for (d = 0; d < CARD_DECKS_COUNT; d++)
+    {
+        for (e = 0; e < CARD_DECKS_COUNT; e++)
+        {
+            for (game = 0; game < 100; game++, games++)
+            {
+                // levelA plays the player's side in even games
+                levels[CARD_SIDE_PLAYER] = (game & 1) ? levelB : levelA;
+                levels[CARD_SIDE_OPPONENT] = (game & 1) ? levelA : levelB;
+                Duel_Init(&duel, &setups[d], &setups[e], game * 977 + d * 13 + e);
+                for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
+                {
+                    Duel_ClearEvents(&duel);
+                    for (side = 0; side < CARD_SIDE_COUNT; side++)
+                    {
+                        if (!Duel_CanAct(&duel, side))
+                            continue;
+                        CardAi_ChooseAction(&duel, side, levels[side], actions, &chosen);
+                        CHECK(Duel_DoAction(&duel, side, &chosen), "%s: illegal action", name);
+                        break;
+                    }
+                }
+                CHECK(duel.phase == CARD_PHASE_OVER, "%s: game didn't end", name);
+                if (duel.winner == CARD_RESULT_DRAW)
+                    draws++;
+                else if (duel.winner == ((game & 1) ? CARD_SIDE_OPPONENT : CARD_SIDE_PLAYER))
+                    winsA++;
+            }
+        }
+    }
+    printf("  %s: %d%% won, %d%% draws\n", name, winsA * 100 / games, draws * 100 / games);
+    return winsA * 100 / games;
+}
+
 int main(void)
 {
     CheckPokemonCards();
     CheckTrainerCards();
     CheckDecks();
     PlayRandomGames();
+    CheckAiDecisions();
+    CHECK(PlayLevels(CARD_AI_HARD, CARD_AI_EASY, "HARD against EASY") >= 70, "HARD should beat EASY");
+    CHECK(PlayLevels(CARD_AI_NORMAL, CARD_AI_EASY, "NORMAL against EASY") >= 65, "NORMAL should beat EASY");
+    PlayLevels(CARD_AI_HARD, CARD_AI_NORMAL, "HARD against NORMAL");
     printf("%d checks, %d failures\n", sChecks, sFailures);
     return sFailures != 0;
 }

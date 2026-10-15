@@ -51,6 +51,7 @@ struct CardDeckData
     const u8 *name;                         // the NPC playing it
     const u16 *cards;                       // CARD_DECK_SIZE cards
     u8 zoneTypes[CARD_MAX_ZONE_TYPES];      // CARD_TYPE_NONE padded
+    u8 aiLevel;                             // CARD_AI_*, when the NPC plays it
 };
 
 extern const struct CardDeckData gCardDecks[CARD_DECKS_COUNT];
@@ -231,7 +232,7 @@ void CardEffects_UseAbility(struct CardDuel *duel, u8 side, u8 slot, u8 target);
 bool8 CardEffects_HasFreeRetreat(const struct CardInPlay *mon);
 
 // src/card_game_ai.c
-void CardAi_ChooseAction(struct CardDuel *duel, u8 side, struct CardAction *actions, struct CardAction *chosen);
+void CardAi_ChooseAction(struct CardDuel *duel, u8 side, u8 level, struct CardAction *actions, struct CardAction *chosen);
 
 // src/card_game.c
 void PlayCardGame(void);

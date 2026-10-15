@@ -403,7 +403,7 @@ next to the rematch battle.
 | 2 ✅ | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
 | 3 ✅ | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 ✅ | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
-| 5 | AI as in section 4 | 500 lines |
+| 5 ✅ | AI as in section 4 | 500 lines |
 | 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
 | 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
 | 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
@@ -496,6 +496,28 @@ phases:
 - Checked in mGBA: setup, many full duels, the coin flips (Misty's repeated flips too),
   knockouts and trophies, the card viewer on hand, Bench and opponent's cards, and a Mega ex
   card's picture and text.
+
+**Phase 5 status (done).**
+
+- `src/card_game_ai.c` decides one action at a time from the board alone, in a player's order:
+  draw (Prof. Oak's Research, Poké Ball), Rare Candy and evolutions (the Active only if it
+  keeps an attack as good), Basics to the Bench, free abilities (Powder Heal when there is
+  damage, Sharp Shot on a knockout), retreat, the Energy where it brings an attack closest,
+  Supporters and Items that help now (Energy Supporters, healing, Tools, Red Card), then the
+  best attack: a sure knockout first (more for ex), else damage and effects, with drawbacks
+  (self-damage, discards) counted. Coin flips count at their average or, for a "sure"
+  knockout, as tails; it never reads the duel's random numbers.
+- Levels, per deck in `CardDeckData.aiLevel` (`CARD_AI_*`): EASY plays a random action half of
+  the time; NORMAL follows the rules; HARD also retreats a stuck Active or one about to be
+  knocked out, plays Giovanni/Blaine/Sabrina when they make a knockout, prefers matchups on
+  weaknesses, and doesn't feed Energy to an Active about to be knocked out. The Bug Catcher
+  is EASY, the Hiker NORMAL, the Swimmer HARD.
+- `tools/card_game/test_data.c` checks the decisions in set-up situations (knockout, evolving,
+  Energy, Giovanni, retreat, promotion, setup) and plays the levels against each other with
+  every deck: HARD and NORMAL beat EASY about 75% of the time. HARD and NORMAL are even with
+  the current decks, which don't have the cards HARD plays better (Giovanni, Blaine, Sabrina);
+  the NPC decks of phase 7-8 should use them.
+- Duels against the AI now end in a few minutes, instead of reaching the turn limit.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

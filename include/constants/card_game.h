@@ -149,6 +149,11 @@
 #define CARD_GIOVANNI               (CARD_POKEMON_END + 15)
 #define CARD_COUNT                  (CARD_POKEMON_END + 16)
 
+// The opponent's skill (src/card_game_ai.c)
+#define CARD_AI_EASY                0
+#define CARD_AI_NORMAL              1
+#define CARD_AI_HARD                2
+
 // VAR_RESULT after `special PlayCardGame`
 #define CARD_GAME_RESULT_LOST       0
 #define CARD_GAME_RESULT_WON        1

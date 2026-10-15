@@ -2153,7 +2153,7 @@ static void Task_CardGame(u8 taskId)
         {
             struct CardAction action;
 
-            CardAi_ChooseAction(duel, CARD_SIDE_OPPONENT, sScreen->actions, &action);
+            CardAi_ChooseAction(duel, CARD_SIDE_OPPONENT, gCardDecks[sScreen->opponentDeck].aiLevel, sScreen->actions, &action);
             Duel_DoAction(duel, CARD_SIDE_OPPONENT, &action);
             sScreen->state = STATE_NEXT;
         }

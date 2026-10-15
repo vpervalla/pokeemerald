@@ -50,8 +50,8 @@ static const u8 sDeckName_Swimmer[] = _("SWIMMER");
 
 const struct CardDeckData gCardDecks[CARD_DECKS_COUNT] =
 {
-    [CARD_DECK_STARTER]     = {sDeckName_Starter,    sDeck_Starter,    {CARD_TYPE_GRASS}},
-    [CARD_DECK_BUG_CATCHER] = {sDeckName_BugCatcher, sDeck_BugCatcher, {CARD_TYPE_GRASS}},
-    [CARD_DECK_HIKER]       = {sDeckName_Hiker,      sDeck_Hiker,      {CARD_TYPE_FIGHTING}},
-    [CARD_DECK_SWIMMER]     = {sDeckName_Swimmer,    sDeck_Swimmer,    {CARD_TYPE_WATER}},
+    [CARD_DECK_STARTER]     = {sDeckName_Starter,    sDeck_Starter,    {CARD_TYPE_GRASS},    CARD_AI_NORMAL},
+    [CARD_DECK_BUG_CATCHER] = {sDeckName_BugCatcher, sDeck_BugCatcher, {CARD_TYPE_GRASS},    CARD_AI_EASY},
+    [CARD_DECK_HIKER]       = {sDeckName_Hiker,      sDeck_Hiker,      {CARD_TYPE_FIGHTING}, CARD_AI_NORMAL},
+    [CARD_DECK_SWIMMER]     = {sDeckName_Swimmer,    sDeck_Swimmer,    {CARD_TYPE_WATER},    CARD_AI_HARD},
 };
