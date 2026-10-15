@@ -139,15 +139,14 @@ static void CheckDecks(void)
     }
 }
 
-// Random legal play between every pair of decks: games end and the deck pairings get a rough
-// balance report (random play says little about strategy, but shows broken decks).
+// The game's opponent (src/card_game_ai.c) against itself with every pair of decks: it only
+// picks legal actions, games end, and the deck pairings get a rough balance report.
 static void PlayRandomGames(void)
 {
     struct CardDuel duel;
     struct CardDuelSetup setups[CARD_DECKS_COUNT];
-    struct CardAction actions[CARD_MAX_ACTIONS];
+    struct CardAction actions[CARD_MAX_ACTIONS], chosen;
     int a, b, game, steps, side, count, wins[CARD_DECKS_COUNT][CARD_DECKS_COUNT];
-    u32 rng = 7;
 
     memset(wins, 0, sizeof(wins));
     for (a = 0; a < CARD_DECKS_COUNT; a++)
@@ -171,14 +170,9 @@ static void PlayRandomGames(void)
                             continue;
                         count = Duel_GetLegalActions(&duel, side, actions);
                         CHECK(count > 0 && count < CARD_MAX_ACTIONS, "actions");
-                        rng = rng * 1664525 + 1013904223;
-                        // Prefer attacking, and end the turn rarely, so games get somewhere
-                        if (actions[0].type == CARD_ACTION_ATTACK && (rng >> 20) % 2)
-                            Duel_DoAction(&duel, side, &actions[0]);
-                        else if (count > 1 && (rng >> 12) % 8 != 0)
-                            Duel_DoAction(&duel, side, &actions[(rng >> 8) % (count - 1)]);
-                        else
-                            Duel_DoAction(&duel, side, &actions[count - 1]);
+                        // The game's opponent plays both sides
+                        CardAi_ChooseAction(&duel, side, actions, &chosen);
+                        CHECK(Duel_DoAction(&duel, side, &chosen), "deck %d vs %d: the AI chose an illegal action", a, b);
                         break;
                     }
                 }
@@ -188,7 +182,7 @@ static void PlayRandomGames(void)
             }
         }
     }
-    printf("  random play, wins of the row's deck out of 300:\n");
+    printf("  AI against AI, wins of the row's deck out of 300:\n");
     for (a = 0; a < CARD_DECKS_COUNT; a++)
     {
         printf("   ");

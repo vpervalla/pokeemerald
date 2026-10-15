@@ -174,6 +174,7 @@ void Duel_PushEvent(struct CardDuel *duel, u8 type, u8 side, u8 slot, u16 value)
     event->side = side;
     event->slot = slot;
     event->value = value;
+    event->cardId = (side < CARD_SIDE_COUNT && slot < CARD_SLOT_COUNT) ? duel->sides[side].slots[slot].cardId : CARD_NONE;
 }
 
 void Duel_ClearEvents(struct CardDuel *duel)

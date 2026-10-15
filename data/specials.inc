@@ -581,3 +581,4 @@ gSpecials::
 	def_special RemoveTournamentMegaStones
 	def_special RandomizeTournamentOpponents
 	def_special GetTournamentOpponent
+	def_special PlayCardGame, waitstate=1

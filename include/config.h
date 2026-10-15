@@ -34,6 +34,10 @@
 #define LOG_HANDLER (LOG_HANDLER_MGBA_PRINT)
 #endif
 
+// Uncomment to add CARD DUEL to the START menu: a duel of the card game (docs/card_game_plan.md)
+// against one of the NPC decks, until the card players are placed in the world.
+// #define CARD_GAME_DEBUG
+
 #define ENGLISH
 
 #ifdef ENGLISH

@@ -62,7 +62,10 @@ enum
     MENU_ACTION_PLAYER_LINK,
     MENU_ACTION_REST_FRONTIER,
     MENU_ACTION_RETIRE_FRONTIER,
-    MENU_ACTION_PYRAMID_BAG
+    MENU_ACTION_PYRAMID_BAG,
+#ifdef CARD_GAME_DEBUG
+    MENU_ACTION_CARD_DUEL,
+#endif
 };
 
 // Save status
@@ -103,6 +106,10 @@ static bool8 StartMenuSafariZoneRetireCallback(void);
 static bool8 StartMenuLinkModePlayerNameCallback(void);
 static bool8 StartMenuBattlePyramidRetireCallback(void);
 static bool8 StartMenuBattlePyramidBagCallback(void);
+#ifdef CARD_GAME_DEBUG
+static bool8 StartMenuCardDuelCallback(void);
+static const u8 sText_MenuCardDuel[] = _("CARD DUEL");
+#endif
 
 // Menu callbacks
 static bool8 SaveStartCallback(void);
@@ -193,7 +200,10 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_PLAYER_LINK]     = {gText_MenuPlayer,  {.u8_void = StartMenuLinkModePlayerNameCallback}},
     [MENU_ACTION_REST_FRONTIER]   = {gText_MenuRest,    {.u8_void = StartMenuSaveCallback}},
     [MENU_ACTION_RETIRE_FRONTIER] = {gText_MenuRetire,  {.u8_void = StartMenuBattlePyramidRetireCallback}},
-    [MENU_ACTION_PYRAMID_BAG]     = {gText_MenuBag,     {.u8_void = StartMenuBattlePyramidBagCallback}}
+    [MENU_ACTION_PYRAMID_BAG]     = {gText_MenuBag,     {.u8_void = StartMenuBattlePyramidBagCallback}},
+#ifdef CARD_GAME_DEBUG
+    [MENU_ACTION_CARD_DUEL]       = {sText_MenuCardDuel, {.u8_void = StartMenuCardDuelCallback}},
+#endif
 };
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
@@ -333,6 +343,9 @@ static void BuildNormalStartMenu(void)
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_SAVE);
     AddStartMenuAction(MENU_ACTION_OPTION);
+#ifdef CARD_GAME_DEBUG
+    AddStartMenuAction(MENU_ACTION_CARD_DUEL);
+#endif
     AddStartMenuAction(MENU_ACTION_EXIT);
 }
 
@@ -743,6 +756,16 @@ static bool8 StartMenuOptionCallback(void)
 
     return FALSE;
 }
+
+#ifdef CARD_GAME_DEBUG
+static bool8 StartMenuCardDuelCallback(void)
+{
+    RemoveExtraStartMenuWindows();
+    HideStartMenu();
+    ScriptContext_SetupScript(Debug_EventScript_CardDuel);
+    return TRUE;
+}
+#endif
 
 static bool8 StartMenuExitCallback(void)
 {

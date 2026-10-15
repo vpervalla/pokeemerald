@@ -401,7 +401,7 @@ next to the rematch battle.
 |-------|-------------|------------|
 | 1 ✅ | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
 | 2 ✅ | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
-| 3 | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
+| 3 ✅ | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 | AI as in section 4 | 500 lines |
 | 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
@@ -451,6 +451,26 @@ phases:
   and deck and plays random games between the decks. Random play only catches broken decks;
   balancing them waits for the AI (phase 5).
 - The card game now adds about 22 KB of ROM, still no static RAM.
+
+**Phase 3 status (done).**
+
+- `src/card_game.c`: the duel screen. A text board (each side's trophies, deck and hand
+  counts, Active and Bench with HP, Energy letters, Special Conditions and Tools, the Energy
+  Zone), the engine's events played back one message at a time (A or B skips), and a menu of
+  every legal action of the player, plus "Look at your hand" and "Forfeit".
+- `special PlayCardGame` (`VAR_0x8004`: the opponent's `CARD_DECK_*`) fades out of the field,
+  plays a duel with the starter deck and returns to the script with `VAR_RESULT` set to a
+  `CARD_GAME_RESULT_*`.
+- `src/card_game_ai.c`: a placeholder opponent that plays random legal actions (and its best
+  attack) until phase 5.
+- **To try it**: uncomment `#define CARD_GAME_DEBUG` in `include/config.h`. The START menu then
+  has CARD DUEL, which plays `Debug_EventScript_CardDuel` (`data/scripts/card_duel.inc`): a duel
+  against one of the three NPC decks, at random. With the define commented out the game is
+  unchanged.
+- Checked in mGBA: the START menu entry, the setup, many full duels with random menu choices,
+  the hand view, forfeiting, the result message and the return to the field.
+- Events now carry the card they were about (`CardDuelEvent.cardId`), so a message can name a
+  Pokémon that has just been knocked out.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

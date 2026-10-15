@@ -48,6 +48,7 @@ struct TrainerCardInfo
 
 struct CardDeckData
 {
+    const u8 *name;                         // the NPC playing it
     const u16 *cards;                       // CARD_DECK_SIZE cards
     u8 zoneTypes[CARD_MAX_ZONE_TYPES];      // CARD_TYPE_NONE padded
 };
@@ -108,6 +109,7 @@ struct CardDuelEvent
     u8 side;
     u8 slot;
     u16 value;
+    u16 cardId;     // the card in side's slot when it happened (CARD_NONE without a slot)
 };
 
 #define CARD_EVENT_FIRST_SIDE       0   // side goes first (after the coin flip)
@@ -227,5 +229,11 @@ void CardEffects_AfterDamagedByAttack(struct CardDuel *duel, u8 side, u8 slot);
 bool8 CardEffects_CanUseAbility(const struct CardDuel *duel, u8 side, u8 slot, u8 target);
 void CardEffects_UseAbility(struct CardDuel *duel, u8 side, u8 slot, u8 target);
 bool8 CardEffects_HasFreeRetreat(const struct CardInPlay *mon);
+
+// src/card_game_ai.c
+void CardAi_ChooseAction(struct CardDuel *duel, u8 side, struct CardAction *actions, struct CardAction *chosen);
+
+// src/card_game.c
+void PlayCardGame(void);
 
 #endif // GUARD_CARD_GAME_H

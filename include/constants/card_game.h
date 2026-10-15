@@ -149,6 +149,12 @@
 #define CARD_GIOVANNI               (CARD_POKEMON_END + 15)
 #define CARD_COUNT                  (CARD_POKEMON_END + 16)
 
+// VAR_RESULT after `special PlayCardGame`
+#define CARD_GAME_RESULT_LOST       0
+#define CARD_GAME_RESULT_WON        1
+#define CARD_GAME_RESULT_DRAW       2
+#define CARD_GAME_RESULT_FORFEITED  3
+
 // Decks (gCardDecks)
 #define CARD_DECK_STARTER           0   // the player's first deck, with the Card Case
 #define CARD_DECK_BUG_CATCHER       1
