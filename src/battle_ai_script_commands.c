@@ -133,7 +133,7 @@ static void Cmd_get_move_power_from_result(void);
 static void Cmd_get_move_effect_from_result(void);
 static void Cmd_get_protect_count(void);
 static void Cmd_if_move_flag(void);
-static void Cmd_nop_53(void);
+static void Cmd_get_move_category_from_result(void);
 static void Cmd_nop_54(void);
 static void Cmd_nop_55(void);
 static void Cmd_nop_56(void);
@@ -242,7 +242,7 @@ static const BattleAICmdFunc sBattleAICmdTable[] =
     Cmd_get_move_effect_from_result,                // 0x50
     Cmd_get_protect_count,                          // 0x51
     Cmd_if_move_flag,                               // 0x52
-    Cmd_nop_53,                                     // 0x53
+    Cmd_get_move_category_from_result,              // 0x53
     Cmd_nop_54,                                     // 0x54
     Cmd_nop_55,                                     // 0x55
     Cmd_nop_56,                                     // 0x56
@@ -2191,8 +2191,11 @@ static void Cmd_if_move_flag(void)
         gAIScriptPtr += 6;
 }
 
-static void Cmd_nop_53(void)
+static void Cmd_get_move_category_from_result(void)
 {
+    AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->funcResult].category;
+
+    gAIScriptPtr += 1;
 }
 
 static void Cmd_nop_54(void)

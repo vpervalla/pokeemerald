@@ -24,6 +24,11 @@
 #define TYPE_FAIRY            18
 #define NUMBER_OF_MON_TYPES   19
 
+// Move damage categories
+#define DAMAGE_CATEGORY_PHYSICAL 0
+#define DAMAGE_CATEGORY_SPECIAL  1
+#define DAMAGE_CATEGORY_STATUS   2
+
 // Pokémon egg groups
 #define EGG_GROUP_NONE                0
 #define EGG_GROUP_MONSTER             1

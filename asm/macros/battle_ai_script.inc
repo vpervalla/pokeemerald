@@ -474,7 +474,7 @@
 	.4byte \ptr
 	.endm
 
-	.macro nop_53
+	.macro get_move_category_from_result
 	.byte 0x53
 	.endm
 
