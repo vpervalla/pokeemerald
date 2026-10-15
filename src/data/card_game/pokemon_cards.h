@@ -1136,7 +1136,7 @@ static const struct PokemonCardInfo sPokemonCards[CARD_POKEMON_END] =
         .numAttacks = 1,
         .attacks =
         {
-            {gMoveNames[MOVE_TACKLE], {CARD_TYPE_FIGHTING}, 40, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_TACKLE], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 40, CARD_EFFECT_NONE, 0},
         },
     },
     [CARD_GRAVELER] =

@@ -33,6 +33,7 @@ VermilionCity_PokemonFanClub_EventScript_FatMan::
 	faceplayer
 	goto_if_set FLAG_TEMP_2, VermilionCity_PokemonFanClub_EventScript_FatManSpokeToWoman
 	msgbox VermilionCity_PokemonFanClub_Text_AdmirePikachusTail
+	cardduel CARD_OPPONENT_FAN_CLUB_FAT_MAN  @ added: card game, see data/scripts/card_duel.inc
 	closemessage
 	applymovement LOCALID_POKEMON_FAN_CLUB_FAT_MAN, Kanto_Common_Movement_FaceOriginalDirection
 	waitmovement 0

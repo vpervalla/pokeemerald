@@ -33,7 +33,7 @@
 
     "PARAS": {"hp": 60, "attacks": [{"name": "MOVE_SCRATCH", "cost": "G", "damage": 20}]},
     "PARASECT": {"hp": 90, "retreat": 2, "attacks": [{"name": "MOVE_SPORE", "cost": "GC", "damage": 30, "effect": "STATUS", "arg": "ASLEEP"}]},
-    "GEODUDE": {"hp": 70, "attacks": [{"name": "MOVE_TACKLE", "cost": "F", "damage": 40}]},
+    "GEODUDE": {"hp": 70, "attacks": [{"name": "MOVE_TACKLE", "cost": "FC", "damage": 40}]},
     "GRAVELER": {"hp": 90, "retreat": 2, "attacks": [{"name": "MOVE_MAGNITUDE", "cost": "FF", "damage": 60, "effect": "SELF_BENCH_DAMAGE", "arg": 10}]},
     "GOLEM": {"hp": 140, "retreat": 4, "attacks": [{"name": "MOVE_DOUBLE_EDGE", "cost": "FFCC", "damage": 150, "effect": "SELF_DAMAGE", "arg": 50}]},
     "ONIX": {"hp": 110, "retreat": 3, "attacks": [{"name": "MOVE_TACKLE", "cost": "FF", "damage": 40}]},

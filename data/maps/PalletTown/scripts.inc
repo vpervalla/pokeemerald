@@ -15,7 +15,11 @@ PalletTown_EventScript_EndOakRatingScene::
 	end
 
 PalletTown_EventScript_FatMan::
-	msgbox PalletTown_Text_CanStoreItemsAndMonsInPC, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox PalletTown_Text_CanStoreItemsAndMonsInPC
+	cardduel CARD_OPPONENT_PALLET_FAT_MAN
+	release
 	end
 
 PalletTown_EventScript_MoveSignLadyToRouteEntrance::

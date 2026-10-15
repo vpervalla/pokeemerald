@@ -139,6 +139,55 @@ static void CheckDecks(void)
     }
 }
 
+// Counts the characters of each line of a text (UTF-8 here: the host build keeps the strings as
+// they are written), and returns the longest; -1 if it has more than 2 lines, the message box's
+static int LongestLine(const char *text)
+{
+    int longest = 0, length = 0, lines = 1;
+
+    for (; *text != '\0'; text++)
+    {
+        if (*text == '\n')
+        {
+            length = 0;
+            if (++lines > 2)
+                return -1;
+            continue;
+        }
+        if ((*text & 0xC0) != 0x80)
+            length++;
+        if (length > longest)
+            longest = length;
+    }
+    return longest;
+}
+
+// The card players (src/data/card_game/opponents.h): a deck, a reward that is a card, lines that
+// fit in the message box, and a different reward for each
+static void CheckOpponents(void)
+{
+    int o, p;
+
+    for (o = 0; o < CARD_OPPONENTS_COUNT; o++)
+    {
+        const struct CardOpponent *opponent = &gCardOpponents[o];
+
+        CHECK(opponent->name != NULL && opponent->challengeText != NULL
+           && opponent->playerWonText != NULL && opponent->playerLostText != NULL, "opponent %d: a text is missing", o);
+        if (opponent->name == NULL || opponent->challengeText == NULL || opponent->playerWonText == NULL || opponent->playerLostText == NULL)
+            continue;
+        CHECK(opponent->deck != CARD_DECK_STARTER && opponent->deck < CARD_DECKS_COUNT, "opponent %d: deck", o);
+        CHECK(opponent->rewardCard == CARD_NONE || CardGame_GetCardKind(opponent->rewardCard) != CARD_KIND_NONE, "opponent %d: reward", o);
+        // No paragraphs (\p is unknown to the host's compiler): 2 lines at most
+        CHECK(LongestLine((const char *)opponent->name) >= 0 && LongestLine((const char *)opponent->name) <= 10, "opponent %d: name", o);
+        CHECK(LongestLine((const char *)opponent->challengeText) >= 0 && LongestLine((const char *)opponent->challengeText) <= 32, "opponent %d: challenge too long", o);
+        CHECK(LongestLine((const char *)opponent->playerWonText) >= 0 && LongestLine((const char *)opponent->playerWonText) <= 32, "opponent %d: won line too long", o);
+        CHECK(LongestLine((const char *)opponent->playerLostText) >= 0 && LongestLine((const char *)opponent->playerLostText) <= 32, "opponent %d: lost line too long", o);
+        for (p = 0; p < o; p++)
+            CHECK(opponent->rewardCard == CARD_NONE || opponent->rewardCard != gCardOpponents[p].rewardCard, "opponent %d: same reward as %d", o, p);
+    }
+}
+
 // The game's opponent (src/card_game_ai.c) against itself with every pair of decks: it only
 // picks legal actions, games end, and the deck pairings get a rough balance report.
 static void PlayRandomGames(void)
@@ -158,7 +207,7 @@ static void PlayRandomGames(void)
     {
         for (b = 0; b < CARD_DECKS_COUNT; b++)
         {
-            for (game = 0; game < 300; game++)
+            for (game = 0; game < 40; game++)
             {
                 CHECK(Duel_Init(&duel, &setups[a], &setups[b], game * 31 + a * 7 + b), "init");
                 for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
@@ -182,13 +231,13 @@ static void PlayRandomGames(void)
             }
         }
     }
-    printf("  AI against AI, wins of the row's deck out of 300:\n");
+    printf("  AI against AI, the games each deck won (out of 40 against each deck, on both sides):\n");
     for (a = 0; a < CARD_DECKS_COUNT; a++)
     {
-        printf("   ");
+        count = 0;
         for (b = 0; b < CARD_DECKS_COUNT; b++)
-            printf(" %4d", wins[a][b]);
-        printf("\n");
+            count += wins[a][b] + 40 - wins[b][a];
+        printf("    %-12s %3d%%\n", (const char *)gCardDecks[a].name, count * 100 / (80 * CARD_DECKS_COUNT));
     }
 }
 
@@ -238,7 +287,7 @@ static void CheckAiDecisions(void)
         // A sure knockout: attack (Geodude's 40 + weakness against Pikachu's 30 HP left)
         MakeScenario(&duel, CARD_TYPE_FIGHTING);
         me->slots[0].cardId = CARD_GEODUDE;
-        me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
+        me->slots[0].energy[CARD_TYPE_FIGHTING] = 2;
         them->slots[0].cardId = CARD_PIKACHU;
         them->slots[0].damage = 30;
         Choose(&duel, level, &chosen);
@@ -265,7 +314,7 @@ static void CheckAiDecisions(void)
         // Giovanni for a knockout: HARD only
         MakeScenario(&duel, CARD_TYPE_FIGHTING);
         me->slots[0].cardId = CARD_GEODUDE;
-        me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
+        me->slots[0].energy[CARD_TYPE_FIGHTING] = 2;
         them->slots[0].damage = 65; // Onix: 45 HP left, Geodude does 40
         me->hand[me->handCount++] = CARD_GIOVANNI;
         Choose(&duel, level, &chosen);
@@ -279,7 +328,7 @@ static void CheckAiDecisions(void)
         me->slots[0].cardId = CARD_PIKACHU;
         me->slots[0].energy[CARD_TYPE_FIGHTING] = 1;
         me->slots[1].cardId = CARD_GEODUDE;
-        me->slots[1].energy[CARD_TYPE_FIGHTING] = 1;
+        me->slots[1].energy[CARD_TYPE_FIGHTING] = 2;
         Choose(&duel, level, &chosen);
         if (level == CARD_AI_HARD)
             CHECK(chosen.type == CARD_ACTION_RETREAT && chosen.slot == 1, "HARD: retreat");
@@ -329,7 +378,7 @@ static int PlayLevels(u8 levelA, u8 levelB, const char *name)
     {
         for (e = 0; e < CARD_DECKS_COUNT; e++)
         {
-            for (game = 0; game < 100; game++, games++)
+            for (game = 0; game < 16; game++, games++)
             {
                 // levelA plays the player's side in even games
                 levels[CARD_SIDE_PLAYER] = (game & 1) ? levelB : levelA;
@@ -359,16 +408,63 @@ static int PlayLevels(u8 levelA, u8 levelB, const char *name)
     return winsA * 100 / games;
 }
 
+// The starter deck (played by NORMAL, standing in for the player) against each card player at
+// their level: the difficulty curve along the story. The EASY ones must be beatable.
+static void PlayStarterAgainstOpponents(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSetup starter, setup;
+    struct CardAction actions[CARD_MAX_ACTIONS], chosen;
+    int o, game, steps, side, wins;
+    u8 levels[CARD_SIDE_COUNT];
+
+    starter.deck = gCardDecks[CARD_DECK_STARTER].cards;
+    memcpy(starter.zoneTypes, gCardDecks[CARD_DECK_STARTER].zoneTypes, CARD_MAX_ZONE_TYPES);
+    printf("  The starter deck (NORMAL) against each card player:\n");
+    for (o = 0; o < CARD_OPPONENTS_COUNT; o++)
+    {
+        const struct CardDeckData *deck = &gCardDecks[gCardOpponents[o].deck];
+
+        setup.deck = deck->cards;
+        memcpy(setup.zoneTypes, deck->zoneTypes, CARD_MAX_ZONE_TYPES);
+        levels[CARD_SIDE_PLAYER] = CARD_AI_NORMAL;
+        levels[CARD_SIDE_OPPONENT] = deck->aiLevel;
+        for (game = 0, wins = 0; game < 100; game++)
+        {
+            Duel_Init(&duel, &starter, &setup, game * 7919 + o);
+            for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
+            {
+                Duel_ClearEvents(&duel);
+                for (side = 0; side < CARD_SIDE_COUNT; side++)
+                {
+                    if (!Duel_CanAct(&duel, side))
+                        continue;
+                    CardAi_ChooseAction(&duel, side, levels[side], actions, &chosen);
+                    CHECK(Duel_DoAction(&duel, side, &chosen), "starter against %d: illegal action", o);
+                    break;
+                }
+            }
+            if (duel.winner == CARD_SIDE_PLAYER)
+                wins++;
+        }
+        printf("    %-10s %3d%%\n", (const char *)gCardOpponents[o].name, wins);
+        if (deck->aiLevel == CARD_AI_EASY)
+            CHECK(wins >= 60, "the starter deck should beat %s (EASY)", (const char *)gCardOpponents[o].name);
+    }
+}
+
 int main(void)
 {
     CheckPokemonCards();
     CheckTrainerCards();
     CheckDecks();
+    CheckOpponents();
     PlayRandomGames();
     CheckAiDecisions();
     CHECK(PlayLevels(CARD_AI_HARD, CARD_AI_EASY, "HARD against EASY") >= 70, "HARD should beat EASY");
     CHECK(PlayLevels(CARD_AI_NORMAL, CARD_AI_EASY, "NORMAL against EASY") >= 65, "NORMAL should beat EASY");
     PlayLevels(CARD_AI_HARD, CARD_AI_NORMAL, "HARD against NORMAL");
+    PlayStarterAgainstOpponents();
     printf("%d checks, %d failures\n", sChecks, sFailures);
     return sFailures != 0;
 }

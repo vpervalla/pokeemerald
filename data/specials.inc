@@ -586,3 +586,7 @@ gSpecials::
 	def_special CardGame_CheckActiveDeck
 	def_special OpenCardPack, waitstate=1
 	def_special OpenCardDeckBuilderFromScript, waitstate=1
+	def_special CardGame_MeetOpponent
+	def_special CardGame_BufferOpponentText
+	def_special CardGame_RewardOpponentWin
+	def_special OpenCardRewardScreen, waitstate=1

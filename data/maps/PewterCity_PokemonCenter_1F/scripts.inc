@@ -40,7 +40,11 @@ PewterCity_PokemonCenter_1F_EventScript_Jigglypuff::
 	end
 
 PewterCity_PokemonCenter_1F_EventScript_Youngster::
-	msgbox PewterCity_PokemonCenter_1F_Text_WhenJiggylypuffSingsMonsGetDrowsy, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox PewterCity_PokemonCenter_1F_Text_WhenJiggylypuffSingsMonsGetDrowsy
+	cardduel CARD_OPPONENT_PEWTER_PC_YOUNGSTER
+	release
 	end
 
 PewterCity_PokemonCenter_1F_OnTransition::

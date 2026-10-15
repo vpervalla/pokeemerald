@@ -197,6 +197,7 @@ void NewGameInitData(void)
     WarpToTruck();
     SetLastHealLocationWarp(HEAL_LOCATION_PALLET_TOWN);
     RunScriptImmediately(EventScript_ResetAllMapFlags);
+    FlagSet(FLAG_SYS_B_DASH); // the RUNNING SHOES are on from the start
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
     InitLilycoveLady();

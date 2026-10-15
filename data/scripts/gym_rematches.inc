@@ -50,11 +50,13 @@ GymRematch_EventScript_BrockGiveStone::
 GymRematch_EventScript_BrockDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_BROCK, GymRematch_EventScript_BrockGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_BROCK
 	release
 	end
 
 GymRematch_EventScript_BrockDeclined::
 	msgbox GymRematch_Text_BrockDeclined
+	cardduel CARD_OPPONENT_BROCK
 	release
 	end
 
@@ -92,11 +94,13 @@ GymRematch_EventScript_MistyGiveStone::
 GymRematch_EventScript_MistyDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_MISTY, GymRematch_EventScript_MistyGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_MISTY
 	release
 	end
 
 GymRematch_EventScript_MistyDeclined::
 	msgbox GymRematch_Text_MistyDeclined
+	cardduel CARD_OPPONENT_MISTY
 	release
 	end
 
@@ -134,11 +138,13 @@ GymRematch_EventScript_LtSurgeGiveStone::
 GymRematch_EventScript_LtSurgeDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_LT_SURGE, GymRematch_EventScript_LtSurgeGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_LT_SURGE
 	release
 	end
 
 GymRematch_EventScript_LtSurgeDeclined::
 	msgbox GymRematch_Text_LtSurgeDeclined
+	cardduel CARD_OPPONENT_LT_SURGE
 	release
 	end
 
@@ -176,11 +182,13 @@ GymRematch_EventScript_ErikaGiveStone::
 GymRematch_EventScript_ErikaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_ERIKA, GymRematch_EventScript_ErikaGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_ERIKA
 	release
 	end
 
 GymRematch_EventScript_ErikaDeclined::
 	msgbox GymRematch_Text_ErikaDeclined
+	cardduel CARD_OPPONENT_ERIKA
 	release
 	end
 

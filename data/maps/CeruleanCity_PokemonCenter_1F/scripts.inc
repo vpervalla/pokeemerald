@@ -18,7 +18,11 @@ CeruleanCity_PokemonCenter_1F_EventScript_Gentleman::
 	end
 
 CeruleanCity_PokemonCenter_1F_EventScript_Lass::
-	msgbox CeruleanCity_PokemonCenter_1F_Text_TryTradingUpstairs, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox CeruleanCity_PokemonCenter_1F_Text_TryTradingUpstairs
+	cardduel CARD_OPPONENT_CERULEAN_PC_LASS
+	release
 	end
 
 CeruleanCity_PokemonCenter_1F_EventScript_PokemonJournalMisty::
@@ -29,7 +33,11 @@ CeruleanCity_PokemonCenter_1F_EventScript_PokemonJournalMisty::
 	end
 
 CeruleanCity_PokemonCenter_1F_EventScript_Rocker::
-	msgbox CeruleanCity_PokemonCenter_1F_Text_BillDoesWhateverForRareMons, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox CeruleanCity_PokemonCenter_1F_Text_BillDoesWhateverForRareMons
+	cardduel CARD_OPPONENT_CERULEAN_PC_ROCKER
+	release
 	end
 
 CeruleanCity_PokemonCenter_1F_EventScript_Youngster::

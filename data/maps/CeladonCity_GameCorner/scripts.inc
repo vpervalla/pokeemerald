@@ -13,6 +13,7 @@ CeladonCity_GameCorner_EventScript_BaldingMan::
 	lock
 	faceplayer
 	msgbox CeladonCity_GameCorner_Text_RumoredTeamRocketRunsThisPlace
+	cardduel CARD_OPPONENT_GAME_CORNER_BALDING_MAN  @ added: card game, see data/scripts/card_duel.inc
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 
@@ -200,6 +201,7 @@ CeladonCity_GameCorner_EventScript_OldMan::
 	lock
 	faceplayer
 	msgbox CeladonCity_GameCorner_Text_SoEasyToGetHooked
+	cardduel CARD_OPPONENT_GAME_CORNER_OLD_MAN  @ added: card game, see data/scripts/card_duel.inc
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 
@@ -439,6 +441,7 @@ CeladonCity_GameCorner_EventScript_Woman1::
 	lock
 	faceplayer
 	msgbox CeladonCity_GameCorner_Text_ThinkMachinesHaveDifferentOdds
+	cardduel CARD_OPPONENT_GAME_CORNER_WOMAN  @ added: card game, see data/scripts/card_duel.inc
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 

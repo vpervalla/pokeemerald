@@ -40,11 +40,13 @@ PalletTown_ProfessorOaksLab_EventScript_Aide1::
 	faceplayer
 	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
 	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 
 PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakIsGoingToHaveRadioShow
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

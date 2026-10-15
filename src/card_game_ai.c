@@ -5,7 +5,7 @@
 // time and decides from the board alone, in the order a player would:
 //   1. get cards: Prof. Oak's Research-like draws, Poké Ball;
 //   2. build the board: Basics to the Bench, Rare Candy, evolutions, abilities;
-//   3. retreat a stuck or doomed Active;
+//   3. retreat a stuck Active;
 //   4. attach the Energy where it brings an attack closest;
 //   5. Supporters and Items when they help (Energy, healing, a knockout);
 //   6. attack with the best attack, or end the turn.
@@ -14,7 +14,9 @@
 // Levels (CARD_AI_*): EASY plays a random action half of the time. NORMAL follows the rules
 // above, without retreating or the Supporters that set up a knockout (Giovanni, Blaine,
 // Sabrina). HARD does those too, plays the weaknesses, and looks at the opponent's next attack,
-// to retreat and to not feed Energy to a Pokémon about to be knocked out.
+// to not feed Energy to a Pokémon about to be knocked out unless it lets it attack first.
+// (Retreating a Pokémon about to be knocked out, or holding back all Energy from it, lost more
+// games than it saved: tools/card_game/test_data.c plays the levels against each other.)
 
 #define SCORE_NONE  (-30000)
 
@@ -441,8 +443,7 @@ static const struct CardAction *ChooseAbility(const struct AiContext *ctx)
     return best;
 }
 
-// 4. Retreat: when the Active can't attack for a while and a Benched Pokémon can now, or (HARD)
-// when it is about to be knocked out and is worth saving
+// 4. Retreat (HARD): when the Active can't attack for a while and a Benched Pokémon can now
 static const struct CardAction *ChooseRetreat(const struct AiContext *ctx)
 {
     const struct CardDuel *duel = ctx->duel;
@@ -452,7 +453,7 @@ static const struct CardAction *ChooseRetreat(const struct AiContext *ctx)
     const struct CardAction *best = NULL, *action;
     s16 value, bestValue = SCORE_NONE;
     u8 missing, i;
-    bool8 stuck, doomed;
+    bool8 stuck;
 
     if (ctx->level < CARD_AI_HARD || side->retreated)
         return NULL;
@@ -461,8 +462,7 @@ static const struct CardAction *ChooseRetreat(const struct AiContext *ctx)
         return NULL;
     missing = GetMissingForBestAttack(side, active, &attack);
     stuck = (missing >= 2 || (active->status & CARD_STATUS_CONFUSED)) && GetBestDamageNow(duel, ctx->side, active, FALSE) == 0;
-    doomed = IsDoomed(duel, ctx->side, ctx->level) && GetValue(active) >= 50;
-    if (!stuck && !doomed)
+    if (!stuck)
         return NULL;
 
     for (i = 0; i < ctx->count; i++)
@@ -474,7 +474,7 @@ static const struct CardAction *ChooseRetreat(const struct AiContext *ctx)
             continue;
         mon = &side->slots[action->slot];
         value = GetBestDamageNow(duel, ctx->side, mon, FALSE) + GetHpLeft(mon) / 4 + GetMatchup(duel, ctx->side, ctx->level, mon);
-        if (stuck && GetBestDamageNow(duel, ctx->side, mon, FALSE) == 0)
+        if (GetBestDamageNow(duel, ctx->side, mon, FALSE) == 0)
             continue;
         if (value > bestValue)
         {
@@ -489,12 +489,31 @@ static const struct CardAction *ChooseRetreat(const struct AiContext *ctx)
     return best;
 }
 
-// 5. Energy: where it brings an attack closest (HARD: not to an Active about to be knocked out)
+// Whether one more Energy lets the Active attack this turn
+static bool8 CanAttackWithOneMore(const struct AiContext *ctx)
+{
+    const struct CardDuelSide *side = &ctx->duel->sides[ctx->side];
+    const struct CardInPlay *active = &side->slots[CARD_SLOT_ACTIVE];
+    const struct PokemonCardInfo *info = GetInfo(active);
+    u8 i;
+
+    if (info == NULL)
+        return FALSE;
+    for (i = 0; i < info->numAttacks; i++)
+    {
+        if (info->attacks[i].damage != 0 && GetMissingEnergy(side, active, &info->attacks[i]) <= 1)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// 5. Energy: where it brings an attack closest (HARD: not to an Active about to be knocked out,
+// unless it can attack first)
 static const struct CardAction *ChooseEnergy(const struct AiContext *ctx)
 {
     const struct CardAction *best = NULL;
     s16 value, bestValue = SCORE_NONE;
-    bool8 doomed = IsDoomed(ctx->duel, ctx->side, ctx->level);
+    bool8 doomed = IsDoomed(ctx->duel, ctx->side, ctx->level) && !CanAttackWithOneMore(ctx);
     u8 i;
 
     for (i = 0; i < ctx->count; i++)

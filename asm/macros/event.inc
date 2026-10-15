@@ -2037,3 +2037,10 @@
 	setorcopyvar VAR_0x8002, \fanfare
 	call Kanto_EventScript_ReceivedItem
 	.endm
+
+	@ Offers a card duel with a card player (docs/card_game_plan.md, section 5): call it after the
+	@ NPC's usual line, between lock/faceplayer and release. See data/scripts/card_duel.inc.
+	.macro cardduel opponent:req
+	setvar VAR_0x8004, \opponent
+	call Common_EventScript_CardDuel
+	.endm

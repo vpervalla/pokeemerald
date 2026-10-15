@@ -38,6 +38,7 @@ CeladonCity_Gym_EventScript_Erika::
 	trainerbattle_single TRAINER_KANTO_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
 	msgbox CeladonCity_Gym_Text_ErikaPostBattle
+	cardduel CARD_OPPONENT_ERIKA  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

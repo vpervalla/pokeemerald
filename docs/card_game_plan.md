@@ -385,14 +385,15 @@ next to the rematch battle.
 
 - **Card Case** key item (`ITEM_CARD_CASE`, after the existing key items in
   `include/constants/items.h`), used from the bag to open the deck builder and the Card
-  Player list. Given in the Pewter City Pokémon Center by a card fan after the Boulder
-  Badge, with a starter deck: 2 copies each of early Kanto species the player is likely to
-  have caught (Pidgey, Rattata, Caterpie, Weedle, Spearow, Nidoran), plus Potion, Poké
-  Ball and Prof. Oak's Research ×2. Early enough that most of the world's card players
-  are met with a deck in hand.
-- **Daily pack**: the Pewter card fan gives one free pack a day (`FLAG_DAILY_CARD_PACK`):
-  5 cards, mostly Trainers, rarely an ex. A second fan in the Two Island Game Corner does
-  the same, so the pack stays reachable late in the game.
+  Player list. Given in Pewter City after the Boulder Badge by PROF. OAK's AIDE, the one who
+  brings the Running Shoes in FRLG (the Running Shoes are on from the start of the game
+  instead), with a starter deck and a first pack. The starter deck: early Kanto species the
+  player is likely to have met (Caterpie, Pidgey, Rattata, Spearow lines), plus Potion, Poké
+  Ball and Prof. Oak's Research ×2. Early enough that most of the world's card players are
+  met with a deck in hand.
+- **Daily pack**: the same AIDE, back in PROF. OAK's LAB, gives one free pack a day
+  (`FLAG_DAILY_CARD_PACK`): 5 cards, mostly Trainers, rarely an ex. A second fan in the Two
+  Island Game Corner does the same, so the pack stays reachable late in the game.
 - **Shop packs**: sold at the Celadon Department Store.
 
 ## 6. Phases
@@ -405,7 +406,7 @@ next to the rematch battle.
 | 4 ✅ | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 ✅ | AI as in section 4 | 500 lines |
 | 6 ✅ | Save struct, deck builder, Card Case item, pack opening | 800 lines |
-| 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
+| 7 ✅ | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
 | 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
 | 9 | Content: the full generated card pool, more Trainers and ex | data |
 
@@ -544,6 +545,65 @@ phases:
 - Checked in mGBA: getting the CARD CASE, a pack, the deck builder from the bag (adding,
   removing, the rules check, the deck in use, Energy types, the other decks, back to the bag),
   and a duel with the saved deck.
+
+**Phase 7 status (done).**
+
+- The Running Shoes are on from the start of a new game (`NewGameInitData`). PROF. OAK's AIDE,
+  who brought them in FRLG, now catches up with the player in Pewter City after the Boulder
+  Badge with the CARD CASE, the starter deck and a first pack
+  (`CardGame_EventScript_AideGiveCardCase`, called from the AIDE's script in
+  `data/maps/PewterCity/scripts.inc`; the letter from Mom and the shoes' texts are gone). Back in
+  PROF. OAK's LAB, the same AIDE (the scientist by the door) gives a pack a day
+  (`FLAG_DAILY_CARD_PACK`, one of the daily flags).
+- `cardduel CARD_OPPONENT_*` (`asm/macros/event.inc`) calls `Common_EventScript_CardDuel`
+  (`data/scripts/card_duel.inc`) after an NPC's usual line. Without a CARD CASE: "I play
+  cards too, come back with a deck". With one: the player's name is added to the Card Player
+  list, the NPC's challenge (yes/no), the deck check, the duel, then the NPC's line for a win or
+  a loss; the first win gives their reward card, shown on the pack screen. Draws and later wins
+  give nothing. The NPC's lines are in the table, not the map scripts.
+- `gCardOpponents` (`src/data/card_game/opponents.h`, `CARD_OPPONENT_*`): name, lines, deck,
+  reward card and place. 16 NPCs and 4 gym leaders, each with their own deck (17 new decks in
+  `decks.h`):
+
+  | Place | NPC (their script) | Deck, level | Reward |
+  |-------|--------------------|-------------|--------|
+  | Pallet Town | GUS, the fat man | Normal, EASY | X Speed |
+  | Viridian City | TOMMY, the boy | Nidoran, EASY | Nidoking |
+  | Pewter City | RICK, the Bug Catcher with the Repel | Bugs, EASY | Scyther |
+  | Pewter City Pokémon Center | DANE, the youngster | Fossils, NORMAL | Aerodactyl |
+  | Route 2 (east building) | WES, the rocker | Psychic, NORMAL | Mr. Mime |
+  | Route 4 Pokémon Center | ANSEL, the gentleman | Mt. Moon rocks, NORMAL | Giant Cape |
+  | Cerulean City Pokémon Center | CORAL, the lass; ZACK, the rocker | Water / Lightning, NORMAL | Lapras / Electabuzz |
+  | Vermilion City | DUNCAN, the sailor; MORT, the Fan Club's fat man | Sailor / Fan Club, NORMAL | Red Card / Chansey |
+  | Lavender Town | IVAN, the boy | Ghosts, NORMAL | Hand Scope |
+  | Celadon City | LOU, Poliwrath's owner; FLORA, the woman | Poliwag / Garden, NORMAL | Politoed / Rare Candy |
+  | Celadon Game Corner | BERT, the balding man; VERA, a woman; OTTO, the old man | Rocket / Tech / Fire, HARD | Giovanni / Porygon / Mega Charizard Y ex |
+  | Gyms | BROCK, MISTY, LT. SURGE, ERIKA, after their badge (and in their post-game rematch scripts, when the battle is declined or done for the day) | Their type: NORMAL, NORMAL, HARD, HARD | Their Supporter |
+
+  The map scripts are edited inside the generated Kanto sections, each line marked
+  `@ added: card game`.
+- Card Player list: LEFT from the player's cards in the CARD CASE. Each player met, WON once
+  beaten; on the right, the place, their Energy, beaten or not, and the prize card once won.
+  The save struct takes `opponentsMet` (10 bytes) from its unused space.
+- `special PlayCardGame` takes a card player (`CARD_OPPONENT_*`) instead of a deck; the duel
+  shows their name.
+- AI: HARD did worse than NORMAL with the new decks (44% against NORMAL). Two of its
+  extras cost more games than they saved: retreating a Pokémon about to be knocked out, and
+  holding back all Energy from it. HARD now retreats only a stuck Active, and gives Energy to
+  one about to be knocked out when it lets it attack first: 50-51% against NORMAL.
+- Balance: `tools/card_game/test_data.c` now plays the starter deck (NORMAL, for the player)
+  against every card player at their level. The EASY ones must lose to it (they do, 71-100%);
+  the first leaders are beatable (BROCK about 30%, MISTY 50%), the Celadon players are meant
+  for decks improved with caught Pokémon and packs. The starter deck lost its Weedle line for
+  Spearow/Fearow and a second Pidgeotto (it was the weakest deck of all); Geodude's attack
+  costs 2 Energy (it did 40 for 1, which made Brock beat the starter 85% of the time); the
+  Swimmer deck is NORMAL. Every line of the card players is checked to fit the message box.
+- Fixed: Blaine's card read "...30 more damage.FIRE." (now "...with POKéMON of this type:
+  FIRE.").
+- Checked in mGBA (with a test build): running from the start; the AIDE in Pewter (the CARD
+  CASE, the starter deck, the first pack, the AIDE leaving); a card player (usual line,
+  challenge, duel, win line, reward card and its screen; a second win without a reward); the
+  Card Player list; the daily pack and "come back tomorrow"; BROCK's card duel after the badge.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

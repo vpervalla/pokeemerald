@@ -994,11 +994,12 @@ struct CardGameSave
     u16 deckZones[3];       // the Energy Zone of each deck: 3 CARD_TYPE_*, 4 bits each
     u8 activeDeck;
     u8 flags;               // CARD_SAVE_FLAG_*
-    u8 opponentsBeaten[10];
+    u8 opponentsBeaten[10]; // a bit per CARD_OPPONENT_*
     u16 wins;
     u16 losses;
     u16 draws;
-    u8 unused[80];
+    u8 opponentsMet[10];    // a bit per CARD_OPPONENT_*, for the Card Player list
+    u8 unused[70];
 };
 
 STATIC_ASSERT(sizeof(struct CardGameSave) == 0x180, CardGameSaveSize);

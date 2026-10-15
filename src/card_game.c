@@ -31,8 +31,8 @@
 // rules engine's events played back one at a time (animated, with a message), a menu of the
 // player's legal actions, and a viewer for the cards in hand and in play.
 //
-// Started from a script with `special PlayCardGame` (VAR_0x8004: the opponent's deck,
-// CARD_DECK_*), it sets VAR_RESULT to CARD_GAME_RESULT_* and returns to the field.
+// Started from a script with `special PlayCardGame` (VAR_0x8004: the card player,
+// CARD_OPPONENT_*), it sets VAR_RESULT to CARD_GAME_RESULT_* and returns to the field.
 //
 // The board is drawn from sScreen->display, a copy of the duel that follows the events as they
 // are shown (the engine has already played the whole action), and catches up with the real
@@ -144,6 +144,7 @@ struct CardGameScreen
     struct CardDuel display;            // what the board shows, see above
     MainCallback exitCallback;
     u8 opponentDeck;
+    const u8 *opponentName;
     u8 state;
     u8 nextEvent;
     u8 listTaskId;
@@ -635,8 +636,11 @@ static s16 GetSlotY(u8 side, u8 slot)
 
 void PlayCardGame(void)
 {
+    u8 opponentId = gSpecialVar_0x8004 < CARD_OPPONENTS_COUNT ? gSpecialVar_0x8004 : 0;
+
     sScreen = AllocZeroed(sizeof(*sScreen));
-    sScreen->opponentDeck = gSpecialVar_0x8004 < CARD_DECKS_COUNT ? gSpecialVar_0x8004 : CARD_DECK_BUG_CATCHER;
+    sScreen->opponentDeck = gCardOpponents[opponentId].deck;
+    sScreen->opponentName = gCardOpponents[opponentId].name;
     sScreen->exitCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
     CreateTask(Task_FadeToCardGame, 0);
 }
@@ -786,7 +790,7 @@ static void CB2_InitCardGame(void)
         DrawTable();
         RefreshBoard();
         StringCopy(sScreen->text, sText_DuelStart);
-        StringAppend(sScreen->text, gCardDecks[sScreen->opponentDeck].name);
+        StringAppend(sScreen->text, sScreen->opponentName);
         StringAppend(sScreen->text, sText_ChooseActive);
         ShowMessage(sScreen->text);
         gMain.state++;
@@ -858,7 +862,7 @@ static u8 *AppendSideName(u8 *dst, u8 side)
 {
     if (side == CARD_SIDE_PLAYER)
         return StringCopy_PlayerName(dst, gSaveBlock2Ptr->playerName);
-    return StringAppend(dst, gCardDecks[sScreen->opponentDeck].name);
+    return StringAppend(dst, sScreen->opponentName);
 }
 
 static u8 *AppendStatusName(u8 *dst, u8 status)
@@ -1057,7 +1061,7 @@ static void DrawSideTexts(u8 sideId)
     if (sideId == CARD_SIDE_PLAYER)
         StringCopy_PlayerName(text, gSaveBlock2Ptr->playerName);
     else
-        StringCopy(text, gCardDecks[sScreen->opponentDeck].name);
+        StringCopy(text, sScreen->opponentName);
     PrintOnBoard(windowId, text, 2, 1, 92);
     end = StringCopy(text, sText_Deck);
     end = AppendNumber(end, side->deckCount);
@@ -1758,9 +1762,14 @@ u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info)
 
 u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
 {
+    const u8 *after = sTrainerTexts[info->effect][1];
+
+    // Blaine: only for the Pokémon of his type
+    if (info->effect == CARD_TRAINER_ATTACK_BONUS && info->effectType != CARD_TYPE_NONE)
+        after = sTrainer_BonusTypeAfter;
     dst = StringAppend(dst, sTrainerTexts[info->effect][0]);
-    if (sTrainerTexts[info->effect][1] != NULL)
-        dst = AppendEffectText(dst, NULL, info->effectArg, sTrainerTexts[info->effect][1]);
+    if (after != NULL)
+        dst = AppendEffectText(dst, NULL, info->effectArg, after);
     if (info->effectType != CARD_TYPE_NONE)
     {
         dst = StringAppend(dst, gCardTypeNames[info->effectType]);

@@ -172,6 +172,53 @@
 #define CARD_DECK_BUG_CATCHER       1
 #define CARD_DECK_HIKER             2
 #define CARD_DECK_SWIMMER           3
-#define CARD_DECKS_COUNT            4
+#define CARD_DECK_NEIGHBOR          4
+#define CARD_DECK_NIDO_KID          5
+#define CARD_DECK_FOSSIL_FAN        6
+#define CARD_DECK_PSYCHIC           7
+#define CARD_DECK_ELECTRIC          8
+#define CARD_DECK_SAILOR            9
+#define CARD_DECK_FAN_CLUB          10
+#define CARD_DECK_GHOST             11
+#define CARD_DECK_POLIWAG           12
+#define CARD_DECK_GARDEN            13
+#define CARD_DECK_ROCKET            14
+#define CARD_DECK_TECH              15
+#define CARD_DECK_FIRE              16
+#define CARD_DECK_BROCK             17
+#define CARD_DECK_MISTY             18
+#define CARD_DECK_LT_SURGE          19
+#define CARD_DECK_ERIKA             20
+#define CARD_DECKS_COUNT            21
+
+// Card players in the world (gCardOpponents), for `cardduel` and `special PlayCardGame`.
+// Their order is the Card Player list's; saved as bits, so never reorder them.
+#define CARD_OPPONENT_PALLET_FAT_MAN            0
+#define CARD_OPPONENT_VIRIDIAN_BOY              1
+#define CARD_OPPONENT_PEWTER_BUG_CATCHER        2
+#define CARD_OPPONENT_PEWTER_PC_YOUNGSTER       3
+#define CARD_OPPONENT_ROUTE2_ROCKER             4
+#define CARD_OPPONENT_ROUTE4_PC_GENTLEMAN       5
+#define CARD_OPPONENT_CERULEAN_PC_LASS          6
+#define CARD_OPPONENT_CERULEAN_PC_ROCKER        7
+#define CARD_OPPONENT_VERMILION_SAILOR          8
+#define CARD_OPPONENT_FAN_CLUB_FAT_MAN          9
+#define CARD_OPPONENT_LAVENDER_BOY              10
+#define CARD_OPPONENT_CELADON_FAT_MAN           11
+#define CARD_OPPONENT_CELADON_WOMAN             12
+#define CARD_OPPONENT_GAME_CORNER_BALDING_MAN   13
+#define CARD_OPPONENT_GAME_CORNER_WOMAN         14
+#define CARD_OPPONENT_GAME_CORNER_OLD_MAN       15
+#define CARD_OPPONENT_BROCK                     16
+#define CARD_OPPONENT_MISTY                     17
+#define CARD_OPPONENT_LT_SURGE                  18
+#define CARD_OPPONENT_ERIKA                     19
+#define CARD_OPPONENTS_COUNT                    20
+#define CARD_OPPONENTS_MAX                      80  // the bits of CardGameSave.opponentsBeaten
+
+// VAR_0x8005 for `special CardGame_BufferOpponentText`
+#define CARD_OPPONENT_TEXT_CHALLENGE    0   // a yes/no question
+#define CARD_OPPONENT_TEXT_PLAYER_WON   1
+#define CARD_OPPONENT_TEXT_PLAYER_LOST  2
 
 #endif // GUARD_CONSTANTS_CARD_GAME_H

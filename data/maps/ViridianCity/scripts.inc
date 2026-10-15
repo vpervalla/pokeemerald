@@ -16,7 +16,11 @@ ViridianCity_EventScript_AskIfTeachyTVHelpful::
 	end
 
 ViridianCity_EventScript_Boy::
-	msgbox ViridianCity_Text_CanCarryMonsAnywhere, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox ViridianCity_Text_CanCarryMonsAnywhere
+	cardduel CARD_OPPONENT_VIRIDIAN_BOY
+	release
 	end
 
 ViridianCity_EventScript_CitySign::

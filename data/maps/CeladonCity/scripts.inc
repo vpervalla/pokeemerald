@@ -24,6 +24,7 @@ CeladonCity_EventScript_FatMan::
 	lock
 	faceplayer
 	msgbox CeladonCity_Text_MyTrustedPalPoliwrath
+	cardduel CARD_OPPONENT_CELADON_FAT_MAN  @ added: card game, see data/scripts/card_duel.inc
 	closemessage
 	applymovement LOCALID_CELADON_FAT_MAN, Kanto_Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -100,7 +101,11 @@ CeladonCity_EventScript_TrainerTips2::
 	end
 
 CeladonCity_EventScript_Woman::
-	msgbox CeladonCity_Text_GameCornerIsBadForCitysImage, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox CeladonCity_Text_GameCornerIsBadForCitysImage
+	cardduel CARD_OPPONENT_CELADON_WOMAN
+	release
 	end
 
 CeladonCity_OnTransition::

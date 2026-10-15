@@ -11,6 +11,7 @@
 #include "palette.h"
 #include "pokemon.h"
 #include "pokemon_icon.h"
+#include "region_map.h"
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
@@ -29,6 +30,8 @@
 // Deck builder: a list of the player's cards (A adds one to the deck), or of the deck's cards
 // (A takes one out), or of the Energy types (A turns one on or off, 3 at most), with the
 // highlighted card described on the right. L/R: the saved decks; START: duel with this deck.
+// Left of the player's cards, the Card Player list: the card players met, where they are, and
+// whether they were beaten.
 //
 // Pack screen: the cards of a pack, one at a time, with their picture.
 
@@ -46,6 +49,7 @@ enum
     MODE_COLLECTION,
     MODE_DECK,
     MODE_ENERGY,
+    MODE_PLAYERS,
     MODE_PACK,
 };
 
@@ -122,10 +126,19 @@ static const u8 sText_YouHave[] = _("You have ");
 static const u8 sText_PackCard[] = _("CARD ");
 static const u8 sText_NoCards[] = _("No cards yet.");
 static const u8 sText_EmptyDeck[] = _("The deck is empty.");
+static const u8 sText_NoPlayers[] = _("No card players met.");
+static const u8 sText_CardPlayers[] = _("CARD PLAYERS  BEATEN ");
+static const u8 sText_Won[] = _("WON");
+static const u8 sText_Beaten[] = _("Beaten!");
+static const u8 sText_NotBeaten[] = _("Not beaten yet");
+static const u8 sText_PlaysEnergy[] = _("Plays ");
+static const u8 sText_Prize[] = _("Prize card:");
+static const u8 sText_PrizeUnknown[] = _("???");
 
-static const u8 sHelp_Collection[] = _("A: add to the deck  {RIGHT_ARROW}: the deck  L/R: deck 1-3\nSELECT: Energy  START: duel with this deck  B: done");
+static const u8 sHelp_Collection[] = _("A: add  {LEFT_ARROW}: players  {RIGHT_ARROW}: the deck  L/R: deck 1-3\nSELECT: Energy  START: duel with this deck  B: done");
 static const u8 sHelp_Deck[] = _("A: take out  {LEFT_ARROW}: your cards  L/R: deck 1-3\nSELECT: Energy  START: duel with this deck  B: done");
 static const u8 sHelp_Energy[] = _("A: on/off (3 at most)\nB: back");
+static const u8 sHelp_Players[] = _("{RIGHT_ARROW}: your cards\nB: done");
 static const u8 sHelp_Pack[] = _("A: next card");
 
 static const u8 sMessage_DeckFull[] = _("The deck already has 20 cards.");
@@ -476,6 +489,26 @@ static void DrawHeader(void)
     u8 *end, i;
     bool8 any = FALSE;
 
+    if (sBuilder->mode == MODE_PLAYERS)
+    {
+        u8 met = 0, beaten = 0;
+
+        for (i = 0; i < CARD_OPPONENTS_COUNT; i++)
+        {
+            met += CardGame_HasMetOpponent(i);
+            beaten += CardGame_HasBeatenOpponent(i);
+        }
+        end = StringCopy(sBuilder->text, sText_CardPlayers);
+        end = AppendNumber(end, beaten);
+        end = StringAppend(end, sText_Slash);
+        AppendNumber(end, met);
+        FillWindowPixelBuffer(WIN_HEADER, PIXEL_FILL(0));
+        AddTextPrinterParameterized3(WIN_HEADER, FONT_SMALL, 4, 0, sHeaderTextColors, TEXT_SKIP_DRAW, sBuilder->text);
+        PutWindowTilemap(WIN_HEADER);
+        CopyWindowToVram(WIN_HEADER, COPYWIN_FULL);
+        return;
+    }
+
     end = StringCopy(sBuilder->text, sText_Deck);
     end = AppendNumber(end, sBuilder->deckIndex + 1);
     if (gSaveBlock1Ptr->cardGame.activeDeck == sBuilder->deckIndex)
@@ -514,7 +547,13 @@ static void PrintHelp(const u8 *text)
 
 static void DrawHelp(void)
 {
-    static const u8 *const sHelps[] = {sHelp_Collection, sHelp_Deck, sHelp_Energy, sHelp_Pack};
+    static const u8 *const sHelps[] = {
+        [MODE_COLLECTION] = sHelp_Collection,
+        [MODE_DECK]       = sHelp_Deck,
+        [MODE_ENERGY]     = sHelp_Energy,
+        [MODE_PLAYERS]    = sHelp_Players,
+        [MODE_PACK]       = sHelp_Pack,
+    };
 
     sBuilder->showingMessage = FALSE;
     PrintHelp(sHelps[sBuilder->mode]);
@@ -621,6 +660,55 @@ static void ShowCardInfo(u16 cardId)
     CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 
+// A card player: where they are, their Energy, beaten or not, and their prize card (once won)
+static void ShowPlayerInfo(u8 opponentId)
+{
+    const struct CardOpponent *opponent = &gCardOpponents[opponentId];
+    const struct CardDeckData *deck = &gCardDecks[opponent->deck];
+    bool8 beaten = CardGame_HasBeatenOpponent(opponentId);
+    u8 *text = sBuilder->text;
+    u8 *end;
+    u8 i;
+
+    sBuilder->infoCard = CARD_COUNT;
+    DestroyInfoSprite();
+    FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(1));
+    StringCopy(text, opponent->name);
+    AddTextPrinterParameterized(WIN_INFO, FONT_NORMAL, text, 2, 2, TEXT_SKIP_DRAW, NULL);
+    GetMapName(text, opponent->mapsec, 0);
+    TruncateToWidth(text, FONT_SMALL, 84);
+    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 18, TEXT_SKIP_DRAW, NULL);
+    end = StringCopy(text, sText_PlaysEnergy);
+    for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
+    {
+        if (deck->zoneTypes[i] == CARD_TYPE_NONE)
+            continue;
+        if (i != 0)
+            end = StringAppend(end, sText_Space);
+        end = StringAppend(end, gCardTypeNames[deck->zoneTypes[i]]);
+    }
+    WrapText(text, FONT_SMALL, 84);
+    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 34, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, beaten ? sText_Beaten : sText_NotBeaten, 2, 62, TEXT_SKIP_DRAW, NULL);
+    if (opponent->rewardCard != CARD_NONE)
+    {
+        AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, sText_Prize, 2, 78, TEXT_SKIP_DRAW, NULL);
+        if (beaten)
+        {
+            *text = EOS;
+            CardGame_AppendCardName(text, opponent->rewardCard);
+        }
+        else
+        {
+            StringCopy(text, sText_PrizeUnknown);
+        }
+        WrapText(text, FONT_SMALL, 84);
+        AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 90, TEXT_SKIP_DRAW, NULL);
+    }
+    PutWindowTilemap(WIN_INFO);
+    CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
+}
+
 // The counts right of each card: in the deck/owned, or in the deck, or ON
 static void PrintListCounts(u8 windowId, u32 itemId, u8 y)
 {
@@ -648,6 +736,9 @@ static void PrintListCounts(u8 windowId, u32 itemId, u8 y)
             StringCopy(text, HasZoneType(zoneTypes, itemId) ? sText_On : sText_Space);
         }
         break;
+    case MODE_PLAYERS:
+        StringCopy(text, CardGame_HasBeatenOpponent(itemId) ? sText_Won : sText_Space);
+        break;
     }
     AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 104, y, TEXT_SKIP_DRAW, NULL);
 }
@@ -656,7 +747,9 @@ static void MoveListCursor(s32 itemId, bool8 onInit, struct ListMenu *list)
 {
     if (!onInit)
         PlaySE(SE_SELECT);
-    if (sBuilder->mode != MODE_ENERGY && itemId >= 0)
+    if (sBuilder->mode == MODE_PLAYERS && itemId >= 0)
+        ShowPlayerInfo(itemId);
+    else if (sBuilder->mode != MODE_ENERGY && itemId >= 0)
         ShowCardInfo(itemId);
 }
 
@@ -704,6 +797,13 @@ static void BuildItems(void)
         for (i = CARD_TYPE_GRASS; i < CARD_TYPE_GRASS + ZONE_TYPE_COUNT; i++)
             AddItem(i, gCardTypeNames[i]);
         break;
+    case MODE_PLAYERS:
+        for (i = 0; i < CARD_OPPONENTS_COUNT; i++)
+        {
+            if (CardGame_HasMetOpponent(i))
+                AddItem(i, gCardOpponents[i].name);
+        }
+        break;
     }
 }
 
@@ -732,7 +832,13 @@ static void ShowList(void)
     PutWindowTilemap(WIN_LIST);
     if (sBuilder->itemCount == 0)
     {
-        AddTextPrinterParameterized(WIN_LIST, FONT_NORMAL, sBuilder->mode == MODE_DECK ? sText_EmptyDeck : sText_NoCards, 8, 1, TEXT_SKIP_DRAW, NULL);
+        const u8 *empty = sText_NoCards;
+
+        if (sBuilder->mode == MODE_DECK)
+            empty = sText_EmptyDeck;
+        else if (sBuilder->mode == MODE_PLAYERS)
+            empty = sText_NoPlayers;
+        AddTextPrinterParameterized(WIN_LIST, FONT_NORMAL, empty, 8, 1, TEXT_SKIP_DRAW, NULL);
         CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
         sBuilder->infoCard = CARD_COUNT;
         ShowCardInfo(CARD_NONE);
@@ -780,6 +886,7 @@ static void SetMode(u8 mode)
     sBuilder->infoCard = CARD_COUNT;
     ShowList();
     DrawHelp();
+    DrawHeader();
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -842,6 +949,8 @@ static void HandleListChoice(s32 input)
         else
             PlaySE(SE_SELECT);
         break;
+    case MODE_PLAYERS:
+        return;
     }
     DrawHeader();
     ShowList();
@@ -879,10 +988,24 @@ static void HandleDeckInput(void)
         PlaySE(SE_SELECT);
         SetMode(MODE_DECK);
     }
+    else if (JOY_NEW(DPAD_RIGHT) && sBuilder->mode == MODE_PLAYERS)
+    {
+        PlaySE(SE_SELECT);
+        SetMode(MODE_COLLECTION);
+    }
     else if (JOY_NEW(DPAD_LEFT) && sBuilder->mode == MODE_DECK)
     {
         PlaySE(SE_SELECT);
         SetMode(MODE_COLLECTION);
+    }
+    else if (JOY_NEW(DPAD_LEFT) && sBuilder->mode == MODE_COLLECTION)
+    {
+        PlaySE(SE_SELECT);
+        SetMode(MODE_PLAYERS);
+    }
+    else if (sBuilder->mode == MODE_PLAYERS)
+    {
+        // Nothing else to do on the list
     }
     else if (JOY_NEW(SELECT_BUTTON) && sBuilder->mode != MODE_ENERGY)
     {

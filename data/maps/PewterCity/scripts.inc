@@ -67,22 +67,13 @@ PewterCity_EventScript_AideGiveRunningShoes::
 	call_if_eq VAR_TEMP_1, 2, PewterCity_EventScript_AideApproachPlayer2
 	call_if_eq VAR_TEMP_1, 3, PewterCity_EventScript_AideApproachPlayer3
 	msgbox PewterCity_Text_AskedToDeliverThis
-	playfanfare MUS_RG_OBTAIN_KEY_ITEM
-	message PewterCity_Text_ReceivedRunningShoesFromAide
-	waitmessage
-	waitfanfare
-	msgbox PewterCity_Text_SwitchedShoesWithRunningShoes
-	msgbox PewterCity_Text_ExplainRunningShoes
-	call Kanto_EventScript_RestorePrevTextColor
+	call CardGame_EventScript_AideGiveCardCase  @ added: card game instead of the RUNNING SHOES (on from the start), see data/scripts/card_duel.inc
 	msgbox PewterCity_Text_MustBeGoingBackToLab
 	closemessage
 	call_if_eq VAR_TEMP_1, 0, PewterCity_EventScript_AideExit0
 	call_if_eq VAR_TEMP_1, 1, PewterCity_EventScript_AideExit1
 	call_if_eq VAR_TEMP_1, 2, PewterCity_EventScript_AideExit2
 	call_if_eq VAR_TEMP_1, 3, PewterCity_EventScript_AideExit3
-	delay 30
-	msgbox PewterCity_Text_RunningShoesLetterFromMom
-	closemessage
 	removeobject LOCALID_PEWTER_AIDE
 	setflag FLAG_SYS_B_DASH
 	setvar VAR_MAP_SCENE_PEWTER_CITY, 2
@@ -99,6 +90,7 @@ PewterCity_EventScript_BugCatcher::
 	msgbox PewterCity_Text_DoYouKnowWhatImDoing, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, PewterCity_EventScript_KnowWhatTheyreDoing
 	msgbox PewterCity_Text_SprayingRepelToKeepWildMonsOut
+	cardduel CARD_OPPONENT_PEWTER_BUG_CATCHER  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 
@@ -1207,10 +1199,15 @@ PewterCity_OnTransition::
 	setvar VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F, 0
 	end
 
+@ added: card game, the AIDE brings the CARD CASE instead of the RUNNING SHOES
 PewterCity_Text_AskedToDeliverThis:
     .string "I'm glad I caught up to you.\n"
     .string "I'm PROF. OAK's AIDE.\p"
-    .string "I've been asked to deliver this,\n"
+    .string "The PROF. has a new passion:\n"
+    .string "POKéMON cards!\p"
+    .string "Trainers all over KANTO play\n"
+    .string "card duels now.\p"
+    .string "He asked me to deliver this,\n"
     .string "so here you go.$"
 
 PewterCity_Text_BrockOnlySeriousTrainerHere:
@@ -1252,10 +1249,6 @@ PewterCity_Text_DoYouKnowWhatImDoing:
     .string "Psssst!\n"
     .string "Do you know what I'm doing?$"
 
-PewterCity_Text_ExplainRunningShoes:
-    .string "Press the B Button to run.\n"
-    .string "But only where there's room to run!$"
-
 PewterCity_Text_GoTakeOnBrock:
     .string "If you have the right stuff,\n"
     .string "go take on BROCK!$"
@@ -1280,26 +1273,9 @@ PewterCity_Text_ReallyYouHaveToGo:
     .string "Really?\n"
     .string "You absolutely have to go!$"
 
-PewterCity_Text_ReceivedRunningShoesFromAide:
-    .string "{PLAYER} received the\n"
-    .string "RUNNING SHOES from the AIDE.$"
-
-PewterCity_Text_RunningShoesLetterFromMom:
-    .string "There's a letter attached…\p"
-    .string "Dear {PLAYER},\p"
-    .string "Here is a pair of RUNNING SHOES\n"
-    .string "for my beloved challenger.\p"
-    .string "Remember, I'll always cheer for\n"
-    .string "you! Don't ever give up!\p"
-    .string "From Mom$"
-
 PewterCity_Text_SprayingRepelToKeepWildMonsOut:
     .string "I'm spraying REPEL to keep wild\n"
     .string "POKéMON out of my garden!$"
-
-PewterCity_Text_SwitchedShoesWithRunningShoes:
-    .string "{PLAYER} switched shoes with the\n"
-    .string "RUNNING SHOES.$"
 
 PewterCity_Text_ThatsRightItsHardWork:
     .string "That's right!\n"

@@ -49,13 +49,27 @@ struct TrainerCardInfo
 
 struct CardDeckData
 {
-    const u8 *name;                         // the NPC playing it
+    const u8 *name;                         // a name for tests and the debug duel
     const u16 *cards;                       // CARD_DECK_SIZE cards
     u8 zoneTypes[CARD_MAX_ZONE_TYPES];      // CARD_TYPE_NONE padded
     u8 aiLevel;                             // CARD_AI_*, when the NPC plays it
 };
 
 extern const struct CardDeckData gCardDecks[CARD_DECKS_COUNT];
+
+// A card player in the world (docs/card_game_plan.md, section 5)
+struct CardOpponent
+{
+    const u8 *name;
+    const u8 *challengeText;    // asks for a duel (yes/no)
+    const u8 *playerWonText;
+    const u8 *playerLostText;
+    u16 rewardCard;             // given on the first win, CARD_NONE for none
+    u8 deck;                    // CARD_DECK_*
+    u8 mapsec;                  // MAPSEC_*, where they are, for the Card Player list
+};
+
+extern const struct CardOpponent gCardOpponents[CARD_OPPONENTS_COUNT];
 
 u8 CardGame_GetCardKind(u16 cardId);
 const struct PokemonCardInfo *CardGame_GetPokemonInfo(u16 cardId);  // NULL if not a Pokémon
@@ -248,6 +262,12 @@ void CardGame_RecordResult(u8 result);
 u16 CardGame_RollPackCard(void);
 void CardGame_GiveStarterDeck(void);
 void CardGame_CheckActiveDeck(void);
+bool8 CardGame_HasMetOpponent(u8 opponentId);
+bool8 CardGame_HasBeatenOpponent(u8 opponentId);
+void CardGame_MeetOpponent(void);
+void CardGame_BufferOpponentText(void);
+void CardGame_RewardOpponentWin(void);
+void OpenCardRewardScreen(void);
 void OpenCardPack(void);
 void OpenCardDeckBuilderFromScript(void);
 

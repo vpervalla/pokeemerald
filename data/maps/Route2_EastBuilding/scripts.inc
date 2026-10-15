@@ -35,7 +35,11 @@ Route2_EastBuilding_EventScript_GetAideRequestInfo::
 	return
 
 Route2_EastBuilding_EventScript_Rocker::
-	msgbox Route2_EastBuilding_Text_CanGetThroughRockTunnel, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox Route2_EastBuilding_Text_CanGetThroughRockTunnel
+	cardduel CARD_OPPONENT_ROUTE2_ROCKER
+	release
 	end
 
 Route2_EastBuilding_Text_CanGetThroughRockTunnel:

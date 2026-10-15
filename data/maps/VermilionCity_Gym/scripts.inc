@@ -10,6 +10,7 @@ VermilionCity_Gym_EventScript_LtSurge::
 	trainerbattle_single TRAINER_KANTO_LEADER_LT_SURGE, VermilionCity_Gym_Text_LtSurgeIntro, VermilionCity_Gym_Text_LtSurgeDefeat, VermilionCity_Gym_EventScript_DefeatedLtSurge, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM34_FROM_SURGE, VermilionCity_Gym_EventScript_GiveTM34
 	msgbox VermilionCity_Gym_Text_LtSurgePostBattle
+	cardduel CARD_OPPONENT_LT_SURGE  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

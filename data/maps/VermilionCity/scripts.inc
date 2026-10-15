@@ -209,7 +209,11 @@ VermilionCity_EventScript_PokemonFanClubSign::
 	end
 
 VermilionCity_EventScript_Sailor::
-	msgbox VermilionCity_Text_SSAnneVisitsOnceAYear, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox VermilionCity_Text_SSAnneVisitsOnceAYear
+	cardduel CARD_OPPONENT_VERMILION_SAILOR
+	release
 	end
 
 VermilionCity_EventScript_ShowAuroraTicket::

@@ -76,6 +76,7 @@ Route4_PokemonCenter_1F_EventScript_EndPurchaseMagikarp::
 Route4_PokemonCenter_1F_EventScript_Gentleman::
 	lock
 	msgbox Route4_PokemonCenter_1F_Text_TeamRocketAttacksCerulean
+	cardduel CARD_OPPONENT_ROUTE4_PC_GENTLEMAN  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

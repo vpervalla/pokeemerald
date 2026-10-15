@@ -18,6 +18,7 @@ CeruleanCity_Gym_EventScript_Misty::
 	trainerbattle_single TRAINER_KANTO_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
+	cardduel CARD_OPPONENT_MISTY  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

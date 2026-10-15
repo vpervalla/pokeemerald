@@ -6,7 +6,9 @@
 #include "pokedex.h"
 #include "pokemon.h"
 #include "random.h"
+#include "string_util.h"
 #include "task.h"
+#include "constants/characters.h"
 #include "constants/rgb.h"
 
 // The player's cards and decks (docs/card_game_plan.md, section 3), saved in
@@ -193,7 +195,67 @@ void CardGame_CheckActiveDeck(void)
     gSpecialVar_Result = CardGame_ValidateSavedDeck(GetSave()->activeDeck) == CARD_DECK_OK;
 }
 
+// The card players (gCardOpponents): met, beaten, and what they say
+
+bool8 CardGame_HasMetOpponent(u8 opponentId)
+{
+    return (GetSave()->opponentsMet[opponentId / 8] >> (opponentId % 8)) & 1;
+}
+
+bool8 CardGame_HasBeatenOpponent(u8 opponentId)
+{
+    return (GetSave()->opponentsBeaten[opponentId / 8] >> (opponentId % 8)) & 1;
+}
+
+static u8 GetScriptOpponent(void)
+{
+    return gSpecialVar_0x8004 < CARD_OPPONENTS_COUNT ? gSpecialVar_0x8004 : 0;
+}
+
+// VAR_0x8004: the opponent, now on the Card Player list
+void CardGame_MeetOpponent(void)
+{
+    u8 opponentId = GetScriptOpponent();
+
+    GetSave()->opponentsMet[opponentId / 8] |= 1 << (opponentId % 8);
+}
+
+// VAR_0x8004: the opponent, VAR_0x8005: CARD_OPPONENT_TEXT_*. The line goes to gStringVar4.
+void CardGame_BufferOpponentText(void)
+{
+    const struct CardOpponent *opponent = &gCardOpponents[GetScriptOpponent()];
+    const u8 *text;
+
+    if (gSpecialVar_0x8005 == CARD_OPPONENT_TEXT_PLAYER_WON)
+        text = opponent->playerWonText;
+    else if (gSpecialVar_0x8005 == CARD_OPPONENT_TEXT_PLAYER_LOST)
+        text = opponent->playerLostText;
+    else
+        text = opponent->challengeText;
+    StringExpandPlaceholders(gStringVar4, text);
+}
+
+// After the player beat VAR_0x8004. The first time: beaten, and the reward card received.
+// VAR_RESULT: TRUE if a card was received (its name in gStringVar1).
+void CardGame_RewardOpponentWin(void)
+{
+    u8 opponentId = GetScriptOpponent();
+    u16 reward = gCardOpponents[opponentId].rewardCard;
+
+    gSpecialVar_Result = FALSE;
+    if (CardGame_HasBeatenOpponent(opponentId))
+        return;
+    GetSave()->opponentsBeaten[opponentId / 8] |= 1 << (opponentId % 8);
+    if (reward == CARD_NONE)
+        return;
+    CardGame_GiveCard(reward);
+    gStringVar1[0] = EOS;
+    CardGame_AppendCardName(gStringVar1, reward);
+    gSpecialVar_Result = TRUE;
+}
+
 static EWRAM_DATA u16 sPackCards[CARD_PACK_SIZE] = {0};
+static EWRAM_DATA u8 sPackCount = 0;
 
 #define tState  data[0]
 #define tIsPack data[1]
@@ -210,7 +272,7 @@ static void Task_OpenFromField(u8 taskId)
     {
         CleanupOverworldWindowsAndTilemaps();
         if (gTasks[taskId].tIsPack)
-            OpenCardPackScreen(sPackCards, CARD_PACK_SIZE, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+            OpenCardPackScreen(sPackCards, sPackCount, CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
             OpenCardDeckBuilder(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         DestroyTask(taskId);
@@ -227,6 +289,15 @@ void OpenCardPack(void)
         sPackCards[i] = CardGame_RollPackCard();
         CardGame_GiveCard(sPackCards[i]);
     }
+    sPackCount = CARD_PACK_SIZE;
+    gTasks[CreateTask(Task_OpenFromField, 0)].tIsPack = TRUE;
+}
+
+// Shows the reward card of VAR_0x8004 (already received, with CardGame_RewardOpponentWin)
+void OpenCardRewardScreen(void)
+{
+    sPackCards[0] = gCardOpponents[GetScriptOpponent()].rewardCard;
+    sPackCount = 1;
     gTasks[CreateTask(Task_OpenFromField, 0)].tIsPack = TRUE;
 }
 

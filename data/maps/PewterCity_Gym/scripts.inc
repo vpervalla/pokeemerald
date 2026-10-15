@@ -8,6 +8,7 @@ PewterCity_Gym_EventScript_Brock::
 	trainerbattle_single TRAINER_KANTO_LEADER_BROCK, PewterCity_Gym_Text_BrockIntro, PewterCity_Gym_Text_BrockDefeat, PewterCity_Gym_EventScript_DefeatedBrock, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM39_FROM_BROCK, PewterCity_Gym_EventScript_GiveTM39
 	msgbox PewterCity_Gym_Text_BrockPostBattle
+	cardduel CARD_OPPONENT_BROCK  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 
