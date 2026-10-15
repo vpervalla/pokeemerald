@@ -117,7 +117,8 @@ enum
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn), used interchangeably, because mon types and move types aren't shown on the same screen
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + TYPE_ICON_SPRITE_COUNT, // 10 sprites that make up the selector
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
-    SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_MOVE_SELECTOR2 + MOVE_SELECTOR_SPRITES_COUNT
+    SPRITE_ARR_ID_MOVE_CATEGORY = SPRITE_ARR_ID_MOVE_SELECTOR2 + MOVE_SELECTOR_SPRITES_COUNT,
+    SPRITE_ARR_ID_COUNT
 };
 
 #define TILE_EMPTY_APPEAL_HEART  0x1039
@@ -184,6 +185,8 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 windowIds[8];
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 handleDeoxys;
+    bool8 showMoveCategoryIcon; // Set while the Power/Accuracy window is on screen
+    u8 moveCategory; // Damage category of the move whose Power/Accuracy is displayed
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or Pokémon data
     u8 unk_filler4[6];
 } *sMonSummaryScreen = NULL;
@@ -297,6 +300,10 @@ static void SetMoveTypeIcons(void);
 static void SetContestMoveTypeIcons(void);
 static void SetNewMoveTypeIcon(void);
 static void SwapMovesTypeSprites(u8, u8);
+static void CreateMoveCategoryIcon(void);
+static void SpriteCB_MoveCategoryIcon(struct Sprite *);
+static void PutPowerAccWindow(void);
+static void ClearPowerAccWindow(void);
 static u8 LoadMonGfxAndSprite(struct Pokemon *, s16 *);
 static u8 CreateMonSprite(struct Pokemon *);
 static void SpriteCB_Pokemon(struct Sprite *);
@@ -753,6 +760,7 @@ static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
 #define TAG_MON_STATUS 30001
 #define TAG_MOVE_TYPES 30002
 #define TAG_MON_MARKINGS 30003
+#define TAG_MOVE_CATEGORIES 30004
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -935,6 +943,61 @@ static const u8 sMoveTypeToOamPaletteNum[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIE
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_CUTE] = 14,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_SMART] = 15,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_TOUGH] = 13,
+};
+
+static const struct OamData sOamData_MoveCategories =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x16),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x16),
+    .tileNum = 0,
+    .priority = 1,
+    .paletteNum = 0,
+    .affineParam = 0,
+};
+static const union AnimCmd sSpriteAnim_CategoryPhysical[] = {
+    ANIMCMD_FRAME(DAMAGE_CATEGORY_PHYSICAL * 8, 0, FALSE, FALSE),
+    ANIMCMD_END
+};
+static const union AnimCmd sSpriteAnim_CategorySpecial[] = {
+    ANIMCMD_FRAME(DAMAGE_CATEGORY_SPECIAL * 8, 0, FALSE, FALSE),
+    ANIMCMD_END
+};
+static const union AnimCmd sSpriteAnim_CategoryStatus[] = {
+    ANIMCMD_FRAME(DAMAGE_CATEGORY_STATUS * 8, 0, FALSE, FALSE),
+    ANIMCMD_END
+};
+static const union AnimCmd *const sSpriteAnimTable_MoveCategories[] = {
+    [DAMAGE_CATEGORY_PHYSICAL] = sSpriteAnim_CategoryPhysical,
+    [DAMAGE_CATEGORY_SPECIAL] = sSpriteAnim_CategorySpecial,
+    [DAMAGE_CATEGORY_STATUS] = sSpriteAnim_CategoryStatus,
+};
+static const struct CompressedSpriteSheet sSpriteSheet_MoveCategories =
+{
+    .data = gMoveCategories_Gfx,
+    .size = ARRAY_COUNT(sSpriteAnimTable_MoveCategories) * 0x100,
+    .tag = TAG_MOVE_CATEGORIES
+};
+static const struct CompressedSpritePalette sSpritePal_MoveCategories =
+{
+    .data = gMoveCategories_Pal,
+    .tag = TAG_MOVE_CATEGORIES
+};
+static const struct SpriteTemplate sSpriteTemplate_MoveCategories =
+{
+    .tileTag = TAG_MOVE_CATEGORIES,
+    .paletteTag = TAG_MOVE_CATEGORIES,
+    .oam = &sOamData_MoveCategories,
+    .anims = sSpriteAnimTable_MoveCategories,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_MoveCategoryIcon
 };
 static const struct OamData sOamData_MoveSelector =
 {
@@ -1254,6 +1317,7 @@ static bool8 LoadGraphics(void)
     case 16:
         ResetSpriteIds();
         CreateMoveTypeIcons();
+        CreateMoveCategoryIcon();
         sMonSummaryScreen->switchCounter = 0;
         gMain.state++;
         break;
@@ -1363,6 +1427,7 @@ static bool8 DecompressGraphics(void)
         break;
     case 7:
         LoadCompressedSpriteSheet(&sSpriteSheet_MoveTypes);
+        LoadCompressedSpriteSheet(&sSpriteSheet_MoveCategories);
         sMonSummaryScreen->switchCounter++;
         break;
     case 8:
@@ -1379,6 +1444,7 @@ static bool8 DecompressGraphics(void)
         break;
     case 11:
         LoadCompressedSpritePalette(&sMoveSelectorSpritePal);
+        LoadCompressedSpritePalette(&sSpritePal_MoveCategories);
         sMonSummaryScreen->switchCounter++;
         break;
     case 12:
@@ -2009,7 +2075,7 @@ static void ChangeSelectedMove(s16 *taskData, s8 direction, u8 *moveIndexPtr)
         && newMoveIndex == MAX_MON_MOVES
         && sMonSummaryScreen->newMove == MOVE_NONE)
     {
-        ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+        ClearPowerAccWindow();
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
         ScheduleBgCopyTilemapToVram(0);
         PositionPowerAccSlidingWindow(0, 3);
@@ -2035,7 +2101,7 @@ static void CloseMoveSelectMode(u8 taskId)
     AddAndFillMoveNamesWindow(); // This function seems to have no effect.
     if (sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
     {
-        ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+        ClearPowerAccWindow();
         ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
         PositionPowerAccSlidingWindow(0, 3);
         PositionAppealJamSlidingWindow(0, 3, 0);
@@ -2261,7 +2327,7 @@ static bool8 CanReplaceMove(void)
 
 static void ShowCantForgetHMsWindow(u8 taskId)
 {
-    ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+    ClearPowerAccWindow();
     ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM);
     ScheduleBgCopyTilemapToVram(0);
     PositionPowerAccSlidingWindow(0, 3);
@@ -2473,7 +2539,7 @@ static void Task_SlidePowerAccWindow(u8 taskId)
         if (tScrollingSpeed < 0)
         {
             if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
-                PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+                PutPowerAccWindow();
         }
         else
         {
@@ -2919,7 +2985,7 @@ static void PutPageWindowTilemaps(u8 page)
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
-                PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+                PutPowerAccWindow();
         }
         else
         {
@@ -2967,7 +3033,7 @@ static void ClearPageWindowTilemaps(u8 page)
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
-                ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+                ClearPowerAccWindow();
         }
         else
         {
@@ -3570,6 +3636,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
     const u8 *text;
     if (moveIndex != 0)
     {
+        sMonSummaryScreen->moveCategory = gBattleMoves[moveIndex].category;
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
 
         if (gBattleMoves[moveIndex].power < 2)
@@ -3901,6 +3968,34 @@ static void SwapMovesTypeSprites(u8 moveIndex1, u8 moveIndex2)
     sprite1->animEnded = FALSE;
     sprite2->animBeginning = TRUE;
     sprite2->animEnded = FALSE;
+}
+
+static void PutPowerAccWindow(void)
+{
+    PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+    sMonSummaryScreen->showMoveCategoryIcon = TRUE;
+}
+
+static void ClearPowerAccWindow(void)
+{
+    ClearWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+    sMonSummaryScreen->showMoveCategoryIcon = FALSE;
+}
+
+// Shown at the right end of the DESCRIPTION header while a move's details are displayed
+static void CreateMoveCategoryIcon(void)
+{
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MOVE_CATEGORY] = CreateSprite(&sSpriteTemplate_MoveCategories, 184, 116, 0);
+    SpriteCB_MoveCategoryIcon(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MOVE_CATEGORY]]);
+}
+
+static void SpriteCB_MoveCategoryIcon(struct Sprite *sprite)
+{
+    u8 category = sMonSummaryScreen->moveCategory;
+
+    sprite->invisible = !sMonSummaryScreen->showMoveCategoryIcon;
+    if (sprite->animNum != category)
+        StartSpriteAnim(sprite, category);
 }
 
 static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
