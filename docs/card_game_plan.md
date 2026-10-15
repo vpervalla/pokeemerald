@@ -1,126 +1,194 @@
 # Plan: a Pokémon card game ("Poké Duel")
 
-This is a plan for adding a small, self-contained card game to the project, in the spirit of
-Gwent in The Witcher 3: a two-player, best-of-three duel that NPCs all over Hoenn and Kanto
-will play with you, with a deck you build from cards you collect while adventuring. "POKé
-DUEL" is a working name; it should live in one string so it can change in one place.
+This is a plan for adding a small card game to the project, a game inside the game (as
+Gwent is in The Witcher 3), that NPCs all over Hoenn and Kanto will play with you. The
+rules are those of **Pokémon TCG Pocket**: 20-card decks, no Energy cards (an Energy Zone
+makes one Energy a turn), up to 3 benched Pokémon, and the first player to earn
+**3 trophies** wins. "POKé DUEL" is a working name; it should live in one string so it
+can change in one place.
 
 The game runs on its own screen (like the slot machine or roulette), launched from an
 event script with a `special`, and returns to the field when it ends. It does not touch
-the battle engine.
+the battle engine, though its card data is generated from the battle data.
 
 ## 0. Decisions to make first
 
 | # | Decision | Recommendation | Why it matters |
 |---|----------|----------------|----------------|
-| D1 | Rules model | Gwent's: three rows, best of three rounds, no card draw between rounds except through card effects. Simpler than the real TCG (no energy, no HP) | It fits one screen and a short session, and the AI stays tractable |
-| D2 | Where cards come from | Each species the player has **caught** unlocks its card (read from the pokédex "owned" flags), plus ~30 special cards (items, weather, trainers) won from opponents or bought | Ties the game to "catch them all" and costs no save space for 386 cards |
-| D3 | Card stats | Generated from base stats by a host-side script into a table, then hand-tuned for the ~60 cards in the v1 set | 386 hand-written cards is weeks of balancing; a formula gets 90% of the way |
-| D4 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. Only new art: card frames, row backgrounds, row/ability icons | Icons already share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
-| D5 | Stakes | No money or coin bets in v1; win = the opponent's reward card (once) | Gwent's "win their unique card" loop is the fun part, and betting adds UI |
-| D6 | Link play | Out of scope for v1. Keep the game state in one struct with a deterministic RNG so a link mode can be added later | Link is the most expensive and least used part of every minigame here |
-| D7 | Where it unlocks | Lilycove Department Store sells a starter deck after the 4th badge; a "Card Club" in Mauville (Hoenn) and Celadon (Kanto); a card tournament once a day on Mega Island | Gives the hook a home in both regions |
+| D1 | Which Pocket rules | All the core rules in section 1. Leave out Pocket's later additions (Fossil Items, Ultra Beasts, Pokémon Tools beyond 2-3, Special Conditions beyond the 5 classic ones) | The core is complete and fits a GBA screen; the rest is content, not rules |
+| D2 | Where cards come from | Catching a species unlocks its Pokémon card. **ex** cards and Trainer cards come from daily booster packs, shop packs and opponents' rewards | Ties the game to "catch them all", and costs no save space for ~380 cards |
+| D3 | What the ex cards are | The 48 Mega forms already in the game (`src/data/pokemon/mega_evolutions.h`), as Basic or evolved "Mega ex" cards worth 2 trophies, plus a few legendaries ex | Reuses existing species, graphics and names |
+| D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | ~430 hand-designed cards is months of balancing; a generator gets most of the way |
+| D5 | Supporters | Gym leaders, Elite Four and rivals of both regions (as Pocket uses the Kanto gym leaders). Beating a leader in a duel gives their Supporter card | Natural story hook and reward |
+| D6 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
+| D7 | Link play | Out of scope for v1. Keep the state in one struct with a seeded RNG so a link mode can be added later | Link is the most expensive and least used part of every minigame here |
 
-## 1. Rules
+## 1. Rules (Pokémon TCG Pocket)
 
-### Board and flow
+### Deck and setup
 
-- Each side has three rows. Pokémon cards have a **row** decided by their best stat:
-  - **Front** row: physical attackers (Atk is the highest offensive stat).
-  - **Back** row: special attackers (SpA highest).
-  - **Support** row: walls and supporters (Def/SpD/HP dominate, or a support role).
-  - **Agile**: Flying-types with a higher Speed than both attacks may go in Front or Back.
-- Deck: 22 to 30 cards, at most 10 special (non-Pokémon) cards, one **Leader** card.
-- Start: draw 10. Before round 1 the player may redraw (mulligan) up to 2 cards.
-- Turns alternate: play one card, or **pass**. Once you pass you play nothing more this
-  round. The round ends when both have passed. Higher total power wins the round; a tie
-  costs both a life. Two lives each; lose both and you lose the match.
-- Board is cleared after each round (cards go to the discard pile, which "Revive" reads).
-- The coin flip decides who starts round 1; the round's loser starts the next one.
+- **20 cards**, at most **2 copies** of cards with the same name. At least one Basic
+  Pokémon.
+- The deck chooses **1 to 3 Energy types** for its Energy Zone (deck builder field).
+- Coin flip decides who goes first.
+- Each player draws **5 cards**, always with at least one Basic Pokémon (the deck is
+  reshuffled until the opening hand has one: no mulligans).
+- Each player puts a Basic Pokémon face down as **Active** and up to 3 as **Bench**, then
+  both are revealed.
+- Hand limit: **10 cards** (no more draws, by any effect, once at 10).
 
-### Abilities (Gwent → Pokémon)
+### A turn
 
-| Gwent | Here | Effect |
-|-------|------|--------|
-| Hero | **Legendary** | Immune to all effects (weather, boosts, Explosion, Revive) |
-| Tight Bond | **Evolution line** | Each card of the same evolution line in that row multiplies the others' power (x2 for 2, x3 for 3) |
-| Morale Boost | **Helping Hand** | +1 to every other card in its row |
-| Muster | **Swarm** | Playing it pulls every copy of the same species from the deck (Wurmple, Zubat, Magikarp…) |
-| Spy | **Ghost** (Ghost-types / Pokémon with a "trick" role) | Played on the opponent's side (adds to their score) and you draw 2 cards |
-| Medic | **Revive** | Play one Pokémon from your discard pile |
-| Scorch | **Explosion** | Destroys the strongest non-legendary card(s) on the board, both sides |
-| Commander's Horn | **Cheer** | Doubles one row (special card, or a Pokémon with the ability that only boosts its row) |
-| Decoy | **Switch** | Return a card from your board to your hand |
-| Agile | **Agile** | See above |
+1. **Draw** a card (if the deck is empty, skip; running out of cards is not a loss).
+2. The **Energy Zone** produces 1 Energy of one of the deck's types, at random; the next
+   one is shown in advance. The **first player gets no Energy on their first turn**.
+3. In any order, as many times as allowed:
+   - Attach the zone's Energy to one of your Pokémon (once a turn).
+   - Put Basic Pokémon on the Bench (max 3).
+   - Evolve a Pokémon (not on either player's first turn, and not one played or evolved
+     this turn).
+   - Play any number of **Item** cards, and **one Supporter** per turn (allowed on the
+     first turn too; only Energy and attacking are limited then).
+   - Attach a **Pokémon Tool** (one per Pokémon).
+   - **Retreat** once: discard Energy equal to the retreat cost, swap with a Bench Pokémon.
+   - Use **Abilities**.
+4. **Attack** (optional; the first player cannot attack on their first turn). The turn
+   ends after attacking.
+5. **Pokémon Checkup** (between turns): Poison (10 damage), Burn (20 damage, then flip:
+   heads cures), Sleep (flip: heads wakes), Paralysis (wears off at the end of its
+   owner's next turn).
 
-### Weather (special cards, affect both sides)
+### Damage and trophies
 
-| Card | Row hit | Exception |
-|------|---------|-----------|
-| **Hail** | Front: every card's power becomes 1 | Ice-types keep their power |
-| **Rain** | Back | Water-types |
-| **Sandstorm** | Support | Rock, Ground and Steel-types |
-| **Sunny Day** | Clears all weather (Gwent's Clear Weather) | Fire-types in the Back row get +1 while it lasts |
+- Damage = attack's damage, **+20 if the defender is weak** to the attacker's type (each
+  type has one weakness, no resistances), plus/minus effects (Giovanni +10, …).
+- A Pokémon whose damage reaches its HP is **Knocked Out**: its owner moves a Bench
+  Pokémon up. The attacker's player earns **1 trophy**, or **2 trophies for an ex**.
+- **Win**: first to **3 trophies**, or the opponent has no Pokémon in play after a
+  knockout. Both reaching 3 at once (or both losing their last Pokémon), or reaching the
+  turn limit (**30 turns**, Pocket's sudden-death rule replaced by a draw), is a draw.
 
-Weather type exceptions are the one place where Pokémon typing matters, which gives each
-type a reason to exist without a full type chart. A later phase could add a light type
-effect (e.g. +1 when a card is played opposite a row containing a type it is
-super-effective against), but it's not in v1: it makes the score hard to read.
+### Energy types
 
-### Leaders
+Pocket's 10 types, mapped from the game's 18:
 
-Each trainer's deck has a Leader with one use per match, shown on the left of the board.
-Examples: Brawly (Cheer on Front row), Winona (clear all weather), Wattson
-(draw 1 card), Juan (Rain from the deck), Steven (look at 3 of the opponent's hand cards),
-the player (choose one of 4 unlocked leaders: Birch, Mom, May/Brendan, Wally).
+| Card type | Pokémon types | Weak to |
+|-----------|---------------|---------|
+| Grass | Grass, Bug | Fire |
+| Fire | Fire | Water |
+| Water | Water, Ice | Lightning |
+| Lightning | Electric | Fighting |
+| Psychic | Psychic, Ghost, Fairy | Darkness |
+| Fighting | Fighting, Rock, Ground | Psychic or Grass (by species, as in Pocket) |
+| Darkness | Dark, Poison | Fighting |
+| Metal | Steel | Fire |
+| Dragon | Dragon (no Energy of its own: attacks cost two other types) | none |
+| Colorless | Normal, Flying | Lightning or Fighting |
+
+A dual-typed species uses its first type that isn't Normal/Flying (Gyarados → Water),
+unless the overrides say otherwise.
+
+### Special Conditions
+
+Asleep, Burned, Confused (flip when attacking: tails, the attack does nothing),
+Paralyzed, Poisoned. Retreating or
+evolving cures them all.
 
 ## 2. Card data
 
-### Constants: `include/constants/card_game.h`
+### Card ids: `include/constants/card_game.h`
+
+Cards have their own ids, because the Mega species sit after `NUM_SPECIES`
+(`include/constants/species.h:497`) and several cards can share a species.
 
 ```c
-#define CARD_ROW_FRONT    0
-#define CARD_ROW_BACK     1
-#define CARD_ROW_SUPPORT  2
-#define CARD_ROW_COUNT    3
-
-#define CARD_ABILITY_NONE         0
-#define CARD_ABILITY_LEGENDARY    1
-#define CARD_ABILITY_BOND         2
-// ... one per row in the table in section 1
-
-// Special cards, after the species range so the card id of a Pokémon IS its species id
-#define CARD_SPECIAL_START  NUM_SPECIES
-#define CARD_HAIL           (CARD_SPECIAL_START + 0)
-#define CARD_RAIN           (CARD_SPECIAL_START + 1)
+#define CARD_NONE 0
+// Pokémon cards: generated, one per species that can be caught, then the ex cards
+#define CARD_BULBASAUR      1
 // ...
-#define CARD_COUNT          (CARD_SPECIAL_START + NUM_SPECIAL_CARDS)
+#define CARD_POKEMON_END    ...
+#define CARD_VENUSAUR_MEGA_EX ...
+// ...
+// Trainer cards
+#define CARD_POTION         ...
+#define CARD_POKE_BALL      ...
+#define CARD_X_SPEED        ...
+#define CARD_PROF_RESEARCH  ...   // Supporter: draw 2
+#define CARD_ROXANNE        ...   // Supporter
+// ...
+#define CARD_COUNT          ...
+
+#define CARD_TYPE_GRASS ... CARD_TYPE_COLORLESS   // 10 types
+#define CARD_STAGE_BASIC 0
+#define CARD_STAGE_1     1
+#define CARD_STAGE_2     2
 ```
 
-Using the species id as the card id means the collection is just the pokédex plus a small
-bitfield, and the board can call `CreateMonIcon(cardId, ...)` directly.
-
-### Table: `src/data/card_game/cards.h`
+### Pokémon cards: `src/data/card_game/pokemon_cards.h`
 
 ```c
-struct CardInfo
+struct CardAttack
 {
-    u8 power;       // 0..15
-    u8 row:2;       // CARD_ROW_*, or CARD_ROW_AGILE
-    u8 ability:5;
-    u8 bondGroup;   // evolution line id for CARD_ABILITY_BOND, 0 otherwise
-    const u8 *description;
+    const u8 *name;
+    u8 cost[4];        // CARD_TYPE_* per Energy, CARD_TYPE_NONE padded; Colorless = any
+    u8 damage;         // in 10s: 6 = 60
+    u8 effect;         // CARD_EFFECT_*
+    u8 effectArg;
 };
-extern const struct CardInfo gCardInfo[CARD_COUNT];
+
+struct PokemonCard
+{
+    u16 species;            // for icons, pics, names, and the pokédex ownership check
+    u16 evolvesFrom;        // CARD_* or CARD_NONE
+    u8 hp;                  // in 10s
+    u8 type:4;
+    u8 weakness:4;
+    u8 stage:2;
+    u8 retreatCost:3;
+    u8 isEx:1;
+    u8 ability;             // CARD_ABILITY_* or NONE
+    struct CardAttack attacks[2];
+};
 ```
 
-- Generated by `tools/card_game/gen_cards.py` from `src/data/pokemon/species_info.h`
-  (base stats, types) and `src/data/pokemon/evolution.h` (bond groups), output checked in.
-  Formula proposal: `power = clamp((BST - 180) / 45, 1, 10)`, legendaries 10-15 with
-  `CARD_ABILITY_LEGENDARY`; row by the highest of Atk, SpA and (Def+SpD+HP)/3.
-- Then a hand-written override file (`cards_overrides.h`, included after) for the v1 set,
-  so rerunning the script never loses balancing work.
-- Special cards' names and descriptions in `src/data/card_game/card_text.h`.
+### Generator: `tools/card_game/gen_cards.py`
+
+Reads the game's own data and writes `pokemon_cards.h`, which is checked in:
+
+- **Stage and evolvesFrom** from `src/data/pokemon/evolution.h`. Baby Pokémon
+  (Pichu, Azurill…) become Basic cards and their evolutions stay Basic too, as in Pocket.
+- **HP**: `round10(base HP + BST / 8)`, clamped to 40-180; ex +30-50.
+- **Type, weakness** from `species_info.h` with the table in section 1.
+- **Retreat cost** from weight in `pokedex_entries.h` (0-4).
+- **Attacks** from `level_up_learnsets.h` and `src/data/battle_moves.h`: one cheap
+  attack (an early damaging move) and, for evolved or strong Pokémon, one big attack
+  (the best STAB move it learns). Damage ≈ move power × 0.6, rounded to 10; cost by
+  damage (≤30: 1 Energy, ≤60: 2, ≤100: 3, more: 4), part of it Colorless.
+- **Effects** from the move's battle effect: `EFFECT_PARALYZE_HIT` → "flip: heads,
+  Paralyzed", `EFFECT_POISON_HIT` → Poisoned, `EFFECT_BURN_HIT` → Burned,
+  `EFFECT_SLEEP` → Asleep, `EFFECT_CONFUSE_HIT` → Confused, `EFFECT_MULTI_HIT` →
+  "flip 2 coins, 30× heads", `EFFECT_ABSORB` → heal, `EFFECT_RECOIL` → self damage,
+  and so on (`include/constants/battle_move_effects.h`).
+- A hand-written **overrides** file (`pokemon_cards_overrides.h`, applied by the
+  script) for the v1 set, the ex cards and every ability, so rerunning the script never
+  loses balancing work.
+
+### Effects: `src/card_game_effects.c`
+
+One function per `CARD_EFFECT_*`, called by the rules engine. Expected v1 list (~35):
+flip for status (5), flip for extra damage, flip-until-tails, damage per Energy, damage to
+a Bench Pokémon, damage to all opponent's Bench, heal self, heal all, discard Energy from
+self, discard Energy from the defender, self damage, can't attack next turn, switch the
+defender, draw a card, search the deck for a Basic, attach extra Energy from the zone
+(Misty-style), prevent damage next turn. Abilities use the same table (~10 to start).
+
+### Trainer cards: `src/data/card_game/trainer_cards.h`
+
+| Kind | v1 cards |
+|------|----------|
+| Item | Potion (heal 20), Poké Ball (random Basic from the deck), X Speed (retreat −1), Red Card (opponent shuffles hand, draws 3), Hand Scope (see opponent's hand), Rare Candy (Basic → Stage 2) |
+| Tool | Giant Cape (+20 HP), Rocky Helmet (20 damage to the attacker) |
+| Supporter | Professor's Research → **Prof. Birch's Research** (draw 2), Giovanni-style +10 damage (**Brawly**), Misty-style Water Energy flips (**Juan**), Erika-style heal 50 to Grass (**Erika** from Kanto), Sabrina-style switch the opponent's Active (**Tate & Liza**), Koga-style return Active to hand (**Koga**), Brock-style Fighting Energy (**Roxanne**), Lt. Surge-style free retreat with Lightning (**Wattson**), Blaine-style Fire boost (**Flannery**)… one per gym leader of both regions |
 
 ### Opponents: `src/data/card_game/opponents.h`
 
@@ -129,28 +197,30 @@ struct CardOpponent
 {
     const u8 *name;
     u16 trainerPic;          // TRAINER_PIC_*, drawn with CreateTrainerPicSprite
-    u8 leader;               // LEADER_*
     u8 aiLevel;              // 0 easy .. 2 hard
+    u8 energyTypes[3];       // the deck's Energy Zone
     u16 rewardCard;          // given on the first win, CARD_NONE for none
-    const u16 *deck;         // CARD_* list, terminated by CARD_NONE
+    const u16 *deck;         // 20 CARD_* ids
 };
 ```
 
-Start with ~12: two Card Club members per region, the 8 Hoenn gym leaders as optional
-rematch-style duels (spoken to after their badge), the Mega Island card champion, and
-a secret one (Mr. M.?).
+Start with ~14: two Card Club members per region, the 8 Hoenn gym leaders (each with a
+deck of their type, giving their Supporter card), the Mega Island card champion, and a
+secret one.
 
 ## 3. Save data
 
 All in `SaveBlock1.unused_3598[0x180]` (384 free bytes, `include/global.h:1069`), turned
-into a struct so offsets stay readable:
+into a struct so the offsets stay readable:
 
 ```c
 struct CardGameSave
 {
-    u8 specialCards[NUM_SPECIAL_CARDS];   // count owned of each special card (0..3)
-    u16 deck[30];                         // CARD_* ids, CARD_NONE padded
-    u8 deckLeader;
+    u8 exCards[NUM_EX_CARDS];             // copies owned of each ex card (0..2)
+    u8 trainerCards[NUM_TRAINER_CARDS];   // copies owned of each Trainer card (0..2)
+    u16 decks[3][20];                     // 3 saved decks
+    u16 deckEnergy[3];                    // up to 3 CARD_TYPE_* per deck, 4 bits each
+    u8 activeDeck;
     u8 opponentsBeaten[4];                // bitfield over CARD_OPPONENT_* (32 max)
     u16 wins;
     u16 losses;
@@ -159,30 +229,32 @@ struct CardGameSave
 STATIC_ASSERT(sizeof(struct CardGameSave) == 0x180, CardGameSaveSize);
 ```
 
-About 32 + 60 + 1 + 4 + 4 = ~101 bytes, with room left for a v2. The Pokémon cards need no
-storage: owning a species' card =
-`GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT)`. Old saves
-read zeros there, which is "no cards, empty deck": fine, since the starter deck is given by
-script.
+Rough size: ~60 ex + ~40 trainer counts (100), 3 decks (120), energy (6), the rest (~10):
+~240 bytes, with room left for a v2. Regular Pokémon cards need no storage: owning one =
+`GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT)`, and the deck
+limit of 2 copies applies as usual. Old saves read zeros there ("no cards, no decks"):
+fine, since the starter deck is given by script.
 
-Flags/vars:
+Flags:
 - `FLAG_RECEIVED_CARD_CASE` (reuse an `FLAG_UNUSED_*` from `include/constants/flags.h`).
-- `FLAG_DAILY_CARD_TOURNAMENT` in a free slot of the daily block (next to
-  `FLAG_DAILY_APEX_TOURNAMENT`, `include/constants/flags.h:1576`).
+- Daily flags, next to `FLAG_DAILY_APEX_TOURNAMENT` (`include/constants/flags.h:1576`):
+  `FLAG_DAILY_CARD_PACK` (Pocket's free daily pack) and `FLAG_DAILY_CARD_TOURNAMENT`.
 
 ## 4. Code layout
 
-Split the pure rules from the GBA screen so the rules can be tested on the host.
+Split the rules from the GBA screen so the rules can be tested on the host.
 
 | File | Contents |
 |------|----------|
-| `include/card_game.h` | Public API: `PlayCardGame` (special), `OpenCardDeckBuilder`, `GiveCard`, `HasCard` |
-| `src/card_game_rules.c` | `struct CardDuel` (hands, decks, rows, discard, lives, weather, passed flags, leader used), `Duel_Init`, `Duel_PlayCard`, `Duel_Pass`, `Duel_RowPower`, `Duel_EndRound`. No GBA headers besides `global.h` types; takes an RNG callback |
-| `src/card_game_ai.c` | `Ai_ChooseMove(const struct CardDuel *, u8 side)` |
-| `src/card_game.c` | The screen: CB2, BG/window setup, sprites, input task, animations, and the entry/exit |
-| `src/card_game_deck.c` | The deck builder screen (collection list + deck list, `ListMenu`) |
+| `include/card_game.h` | Public API: `PlayCardGame` (special), `OpenCardDeckBuilder`, `OpenCardPack`, `GiveCard`, `HasCard` |
+| `src/card_game_rules.c` | `struct CardDuel` (decks, hands, Active/Bench slots with damage, Energy, Tool, status, turn played; discard piles; zone's current and next Energy; trophies; turn number; supporter/retreat/energy-used flags). `Duel_Init`, `Duel_StartTurn`, `Duel_GetLegalActions`, `Duel_DoAction`, `Duel_Checkup`. No GBA headers besides `global.h` types; takes an RNG callback. Every change also pushes an **event** (damage, KO, coin flip, draw…) for the screen to animate |
+| `src/card_game_effects.c` | Attack, ability and Trainer effects |
+| `src/card_game_ai.c` | `Ai_ChooseAction(const struct CardDuel *, u8 side)` |
+| `src/card_game.c` | The duel screen: CB2, BG/window setup, sprites, input, animations of the event queue, entry/exit |
+| `src/card_game_deck.c` | The deck builder (collection list + deck list on `ListMenu`, Energy types) |
+| `src/card_game_pack.c` | Opening a pack (5 cards revealed one by one) |
 | `src/data/card_game/*.h` | Tables above |
-| `graphics/card_game/` | Board tilemap, card frames, row/ability/weather icons, palettes |
+| `graphics/card_game/` | Board tilemap, card frames, Energy symbols, trophies, status icons |
 | `tools/card_game/` | `gen_cards.py`, and `test_rules.c` (host test harness, see phase 1) |
 
 `struct CardDuel` is allocated with `AllocZeroed` on entry and freed on exit (like
@@ -193,7 +265,7 @@ Split the pure rules from the GBA screen so the rules can be tested on the host.
 ```
 special PlayCardGame        @ gSpecialVar_0x8004 = CARD_OPPONENT_*
 waitstate
-@ gSpecialVar_Result = 0 lost, 1 won, 2 forfeited
+@ gSpecialVar_Result = 0 lost, 1 won, 2 draw, 3 forfeited
 ```
 
 - `data/specials.inc`: `def_special PlayCardGame, waitstate=1` (as `PlayRoulette`, line 182).
@@ -206,84 +278,95 @@ waitstate
 ### Screen layout (240x160)
 
 ```
-+----+--------------------------------------+
-| OP |  SUPPORT  [ic][ic][ic]          [ 7] |   opponent rows, 24px each
-| ♥♥ |  BACK     [ic][ic]              [12] |
-| 23 |  FRONT    [ic][ic][ic][ic]      [15] |
-+----+------------- weather ---------------+
-| ME |  FRONT    [ic][ic]              [ 9] |   player rows
-| ♥♥ |  BACK     [ic][ic][ic]          [18] |
-| 31 |  SUPPORT  [ic]                  [ 4] |
-+----+--------------------------------------+
-  hand: < [card][card][card][card][card] >  (slides up over the board on L/A)
++---------------------------------------------+
+| ★★☆ OPP    [b1 60] [b2 40] [b3 --]   deck 12 |   opponent Bench
+|               [ ACTIVE  icon ]  HP 70/120    |   opponent Active
+|               ●● ⚡ PSN                       |   Energy, status
+|---------------------------------------------|
+|               [ ACTIVE  icon ]  HP 90/90     |   player Active
+|               ●●●              zone: 🔥 next 💧|
+| ★☆☆ YOU    [b1 50] [b2 80] [b3 70]   deck 9  |   player Bench
++---------------------------------------------+
+  hand: < [card][card][card][card][card] >  (slides up over the board)
 ```
 
-- BG0: text windows (scores, card names, prompts). BG1: row tilemap, redrawn on weather.
-  BG2: hand panel / card detail panel. BG3: board background.
-- Board cards: `CreateMonIcon` sprites, max 8 per row (overflow shows "+N"), so at most
-  48 board sprites + 5 visible hand cards + cursor + leader + 2 trainer pics (64x64,
-  `CreateTrainerPicSprite`) ≈ 60 OAM, well under 128.
-- Card detail (Select, or hovering a hand card): `CreateMonPicSprite_Affine` front pic,
-  name, power, row and ability text.
-- Icon palettes: load the 3 icon palettes once (`LoadMonIconPalettes`), as the party menu
-  does.
+- BG0: text windows (HP, names, prompts). BG1: board frame. BG2: hand panel / card detail
+  panel / action menu (Attack, Retreat, Ability, End turn). BG3: background.
+- Pokémon in play: `CreateMonIcon` sprites, 8 at most. Energy pips (8x8, up to 6 per
+  Pokémon), status icons, trophies, zone Energy, cursor, 5 visible hand cards, 2 trainer
+  pics (`CreateTrainerPicSprite`, at the start and end): ≈ 90 OAM at the very worst,
+  under 128. Energy pips beyond 6 show as "×N".
+- Card detail (Select, or hovering a card): `CreateMonPicSprite_Affine` front pic, HP,
+  type, weakness, retreat, attacks with costs and effect text.
+- Icon palettes loaded once with `LoadMonIconPalettes`, as the party menu does.
+- Coin flips: a small spinning Poké Ball coin sprite.
 
 ### AI (`src/card_game_ai.c`)
 
-Gwent's AI is mostly about **when to pass**, so the AI evaluates that first:
+Rule-based, over the legal actions the rules engine lists:
 
-1. If it is ahead and the opponent has passed: pass.
-2. If it is ahead by more than the opponent's estimated best play and has fewer than or
-   equal cards: pass (save cards for the next round).
-3. If this round is hopeless (behind by more than its hand can add while keeping 2+ cards
-   for later) and it has a life to spare: pass.
-4. Otherwise score every legal play with a one-ply simulation (`Duel_PlayCard` on a copy
-   of the state): delta in score, +value for card draw (Ghost), −value for spending
-   legendaries in round 1, weather only if it hurts the opponent more. Pick the best.
+1. Play Basics to the Bench while there is room (an empty Bench loses the game on a
+   single knockout).
+2. Evolve whenever possible.
+3. Attach the Energy to the Active if it brings it to an attack's cost; otherwise to the
+   Pokémon closest to attacking (prefer evolved ones and ex).
+4. Items and Supporters by simple conditions per card (Potion if it prevents a KO,
+   Supporter "draw" when the hand is small, the +10 Supporter when it makes a KO…).
+5. Retreat if the Active will be knocked out next turn and a Bench Pokémon can attack,
+   and the cost is affordable.
+6. Attack with the attack that knocks out, else the most damage (counting weakness and
+   coin flips at their average).
 
-`aiLevel` 0 skips rules 2-3 and picks randomly among the top 3; level 2 also tracks the
-cards the player has played (Swarm and Bond sets) to predict them.
+`aiLevel` 0 plays a random legal action half the time; level 2 also simulates the
+player's best attack next turn to decide steps 3 and 5, and plays around ex (2 trophies).
 
 ## 5. Story integration
 
 - **Card Case** key item (`ITEM_CARD_CASE`, after the existing key items in
-  `include/constants/items.h`), used from the bag to open the deck builder. Given by the
-  Lilycove Department Store clerk with a 22-card starter deck (common Hoenn species the
-  player is likely to have caught, plus 2 Rain, 1 Sunny Day, 1 Revive), after badge 4.
+  `include/constants/items.h`), used from the bag to open the deck builder. Given in
+  Lilycove's Department Store after badge 4, with a starter deck: 2 copies each of common
+  early species the player is likely to have caught, plus Potion, Poké Ball and Prof.
+  Birch's Research ×2.
+- **Daily pack**: the Card Club clerk gives one free pack a day (`FLAG_DAILY_CARD_PACK`):
+  5 cards, mostly Trainers, rarely an ex.
+- **Shop packs**: sold at Lilycove and Celadon Department Stores.
 - **Mauville Card Club**: a room behind the Game Corner, 3 opponents of rising difficulty.
 - **Celadon Card Club**: in the Celadon Game Corner or the Condominiums, 3 Kanto
   opponents.
-- **Gym leaders**: after the badge, talking to a leader again offers a duel (their deck is
-  their type, leader ability themed). Beating all 8 gives a legendary special card.
-- **Mega Island**: a daily card tournament (3 duels in a row) on a table in the
-  castle's entrance hall, gated by `FLAG_DAILY_CARD_TOURNAMENT`.
-- **Shops**: "booster" special cards for sale at Lilycove (random 1 of 3 special cards per
-  purchase, through a `special` that rolls and gives it).
+- **Gym leaders**: after the badge, talking to a leader again offers a duel. Winning gives
+  their Supporter card; all 8 Hoenn leaders give an ex card.
+- **Mega Island**: a daily card tournament (3 duels in a row) in the castle's entrance
+  hall (`FLAG_DAILY_CARD_TOURNAMENT`), the main source of Mega ex cards.
 
 ## 6. Phases
 
 | Phase | Deliverable | Rough size |
 |-------|-------------|------------|
-| 1 | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): round scoring, weather, bond, swarm, ghost, revive, explosion, lives, ties | 600-800 lines |
-| 2 | Card table: generator script, overrides for the v1 set (~60 Pokémon + 12 special cards), opponent table with 3 decks | 1 script + data |
-| 3 | Minimal screen: entry/exit special, board drawn with text-only placeholders, hand cursor, play/pass, round/match end. Playable against a random AI from a debug script | 800-1000 lines |
-| 4 | Real graphics: board tilemap, card frames, icons, detail panel, weather overlays, score animations | art + 400 lines |
-| 5 | AI as in section 4 | 300 lines |
-| 6 | Save struct, deck builder screen, Card Case item | 600 lines |
-| 7 | Story: Card Clubs, gym leader duels, starter deck, rewards, Mega Island daily tournament | maps + scripts |
-| 8 (later) | Link duels over the cable club / wireless, using the deterministic state | large |
+| 1 | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
+| 2 | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 opponent decks | 1 script, 600 lines, data |
+| 3 | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
+| 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
+| 5 | AI as in section 4 | 500 lines |
+| 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
+| 7 | Story: Card Clubs, gym leader duels, starter deck, daily pack, rewards, Mega Island tournament | maps + scripts |
+| 8 | Content: the full generated card pool, more Trainers and ex | data |
+| 9 (later) | Link duels over the cable club / wireless, using the deterministic state | large |
 
-Each phase builds and is playable on its own; phases 1-3 are the core and should land
-first, behind a debug script so the main game is untouched until phase 7.
+Phases 1-3 are the core and should land first, behind a debug script so the main game is
+untouched until phase 7.
 
 ## 7. Risks and checks
 
-- **ROM space**: the game, AI and data are small (tens of KB); new graphics are the main
-  cost. Check `make` still fits the ROM after phase 4.
+- **Rules engine size**: Pocket is far richer than a Gwent-style game (attacks, effects,
+  statuses, evolution). Keeping the rules pure and host-tested is what makes it
+  manageable.
+- **ROM space**: ~430 cards × ~24 bytes ≈ 10 KB, plus attack names (shared strings with
+  `gMoveNames` where the attack is a move), code and art. Check `make` still fits the
+  ROM after phases 4 and 8.
 - **Save layout**: `STATIC_ASSERT` the struct size; never move other SaveBlock1 fields.
 - **Pokédex dependency**: a player who has caught few species has few cards. The starter
-  deck's species should be ones every route gives early, and special cards fill the gaps.
-- **Balance**: a "Show opponent's hand" debug toggle and a self-play mode (AI vs AI on the
-  host harness, 1000 games per deck) to find dominant decks before tuning by hand.
-- **Readability on a GBA screen**: row totals and lives must be readable at a glance;
-  playtest the layout on real hardware or mGBA at 1x before adding more information.
+  deck covers that, and Trainer cards come from packs, not catches.
+- **Balance**: a "show opponent's hand" debug toggle, and a self-play mode on the host
+  harness (AI vs AI, 1000 games per deck pair) to find dominant decks before tuning.
+- **Readability**: HP, Energy and trophies must be readable at a glance at 240x160;
+  playtest on mGBA at 1x before adding more information.
