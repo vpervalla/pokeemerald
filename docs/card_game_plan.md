@@ -252,7 +252,7 @@ Split the rules from the GBA screen so the rules can be tested on the host.
 | File | Contents |
 |------|----------|
 | `include/card_game.h` | Public API: `PlayCardGame` (special), `OpenCardDeckBuilder`, `OpenCardPack`, `GiveCard`, `HasCard` |
-| `src/card_game_rules.c` | `struct CardDuel` (decks, hands, Active/Bench slots with damage, Energy, Tool, status, turn played; discard piles; zone's current and next Energy; trophies; turn number; supporter/retreat/energy-used flags). `Duel_Init`, `Duel_StartTurn`, `Duel_GetLegalActions`, `Duel_DoAction`, `Duel_Checkup`. No GBA headers besides `global.h` types; takes an RNG callback. Every change also pushes an **event** (damage, KO, coin flip, draw…) for the screen to animate |
+| `src/card_game_rules.c` | `struct CardDuel` (decks, hands, Active/Bench slots with damage, Energy, Tool, status, turn played; discard piles; zone's current and next Energy; trophies; turn number; supporter/retreat/energy-used flags). `Duel_Init`, `Duel_GetLegalActions`, `Duel_IsLegalAction`, `Duel_DoAction`, `Duel_Forfeit`. No GBA headers besides `global.h` types; the duel carries its own seeded RNG (and a forced-flips hook for tests and debugging). Every change also pushes an **event** (damage, KO, coin flip, draw…) for the screen to animate |
 | `src/card_game_effects.c` | Attack, ability and Trainer effects |
 | `src/card_game_ai.c` | `Ai_ChooseAction(const struct CardDuel *, u8 side)` |
 | `src/card_game.c` | The duel screen: CB2, BG/window setup, sprites, input, animations of the event queue, entry/exit |
@@ -260,7 +260,8 @@ Split the rules from the GBA screen so the rules can be tested on the host.
 | `src/card_game_pack.c` | Opening a pack (5 cards revealed one by one) |
 | `src/data/card_game/*.h` | Tables above |
 | `graphics/card_game/` | Board tilemap, card frames, Energy symbols, trophies, status icons |
-| `tools/card_game/` | `gen_cards.py`, and `test_rules.c` (host test harness, see phase 1) |
+| `src/card_game_data.c` | The card tables and their lookups (`CardGame_GetPokemonInfo`, `CardGame_GetTrainerInfo`, `CardGame_GetCardKind`), which the engine only reaches through those functions |
+| `tools/card_game/` | `gen_cards.py`, and `test_rules.c` + `run_tests.sh` (host test harness, see phase 1) |
 
 `struct CardDuel` is allocated with `AllocZeroed` on entry and freed on exit (like
 `sRoulette`), so it costs no permanent EWRAM.
@@ -398,7 +399,7 @@ next to the rematch battle.
 
 | Phase | Deliverable | Rough size |
 |-------|-------------|------------|
-| 1 | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
+| 1 ✅ | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
 | 2 | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
 | 3 | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
@@ -407,6 +408,22 @@ next to the rematch battle.
 | 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
 | 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
 | 9 | Content: the full generated card pool, more Trainers and ex | data |
+
+**Phase 1 status (done).** `src/card_game_rules.c`, `src/card_game_effects.c`,
+`include/card_game.h`, `include/constants/card_game.h`, and the host tests
+(`tools/card_game/run_tests.sh`: scripted tests of each rule, plus 3000 random games checking
+that every game ends, no card is ever lost and every kind of event happens). Notes for the next
+phases:
+
+- The engine already has the first 8 attack effects and 5 Trainer effects; phase 2 adds the rest.
+- `src/card_game_data.c` holds 11 hand-written Pokémon (the Kanto starters' lines, Pikachu and
+  Raichu) and 5 Trainers, so the game links and the screen has cards to show. Phase 2 replaces
+  it with the generated pool.
+- Retreating pays with Energy chosen by the engine (other types first, the Pokémon's own type
+  last). The screen can let the player choose later, if needed.
+- Abilities are not in yet (phase 2, with the first cards that have one).
+- The engine adds about 8 KB of ROM and no static RAM: `struct CardDuel` is allocated for the
+  duel.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.
