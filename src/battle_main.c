@@ -5081,7 +5081,8 @@ static void HandleEndTurn_BattleWon(void)
         if (gTrainerBattleOpponent_A >= KANTO_TRAINERS_START)
         {
             // FRLG's victory music
-            if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER)
+            if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_LEADER
+             || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
                 PlayBGM(MUS_RG_VICTORY_GYM_LEADER);
             else
                 PlayBGM(MUS_RG_VICTORY_TRAINER);
