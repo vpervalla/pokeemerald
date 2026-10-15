@@ -1,7 +1,9 @@
 # Plan: a Pokémon card game ("Poké Duel")
 
 This is a plan for adding a small card game to the project, a game inside the game (as
-Gwent is in The Witcher 3), that NPCs all over Hoenn and Kanto will play with you. The
+Gwent is in The Witcher 3). It is single-player only: the player duels NPCs scattered
+across Hoenn, Kanto and the Sevii Islands, in towns, Pokémon Centers, houses, routes and
+gyms, each with their own deck and a card to win. The
 rules are those of **Pokémon TCG Pocket**: 20-card decks, no Energy cards (an Energy Zone
 makes one Energy a turn), up to 3 benched Pokémon, and the first player to earn
 **3 trophies** wins. "POKé DUEL" is a working name; it should live in one string so it
@@ -21,7 +23,9 @@ the battle engine, though its card data is generated from the battle data.
 | D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | ~430 hand-designed cards is months of balancing; a generator gets most of the way |
 | D5 | Supporters | Gym leaders, Elite Four and rivals of both regions (as Pocket uses the Kanto gym leaders). Beating a leader in a duel gives their Supporter card | Natural story hook and reward |
 | D6 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
-| D7 | Link play | Out of scope for v1. Keep the state in one struct with a seeded RNG so a link mode can be added later | Link is the most expensive and least used part of every minigame here |
+| D7 | Opponents | NPCs only, never another human player: no link or wireless mode | Removes all link code, and lets every duel be designed around a specific NPC and place |
+| D8 | How many NPCs | ~60 for the full game (~40 Hoenn, ~20 Kanto/Sevii), ~15 in the first playable version | Enough that one is never far, as Gwent players are in every inn |
+| D9 | New NPCs or existing ones | Mostly existing townsfolk who also play cards (an extra line and a choice in their script); new objects only where a town has nobody suitable | Map edits are the slowest part; reusing NPCs keeps them small |
 
 ## 1. Rules (Pokémon TCG Pocket)
 
@@ -204,9 +208,9 @@ struct CardOpponent
 };
 ```
 
-Start with ~14: two Card Club members per region, the 8 Hoenn gym leaders (each with a
-deck of their type, giving their Supporter card), the Mega Island card champion, and a
-secret one.
+`CARD_OPPONENT_*` ids are in `include/constants/card_game.h`; the table also has the
+NPC's lines (challenge, win, loss), so a map script needs no text of its own. Who they are
+and where they stand is section 5.
 
 ## 3. Save data
 
@@ -221,7 +225,7 @@ struct CardGameSave
     u16 decks[3][20];                     // 3 saved decks
     u16 deckEnergy[3];                    // up to 3 CARD_TYPE_* per deck, 4 bits each
     u8 activeDeck;
-    u8 opponentsBeaten[4];                // bitfield over CARD_OPPONENT_* (32 max)
+    u8 opponentsBeaten[10];               // bitfield over CARD_OPPONENT_* (80 max)
     u16 wins;
     u16 losses;
     u8 unused[...];                       // pad back to 0x180
@@ -269,11 +273,18 @@ waitstate
 ```
 
 - `data/specials.inc`: `def_special PlayCardGame, waitstate=1` (as `PlayRoulette`, line 182).
+- A macro in `asm/macros/event.inc`, `cardduel CARD_OPPONENT_X`, sets `VAR_0x8004` and
+  calls the shared script `Common_EventScript_CardDuel` (new file
+  `data/scripts/card_duel.inc`), which does everything around the duel: the NPC's
+  challenge line, "Play? YES/NO", the checks (has the Card Case, has a legal deck), the
+  duel, and the win/loss line and reward. Turning an NPC into a card player is then one
+  line in their script.
 - `PlayCardGame` fades out, sets `CB2_CardGame`, and on exit
   `SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic)`, the same exit the slot
   machine uses (`src/scrcmd.c:1919`).
 - The reward card and `opponentsBeaten` bit are set in C on a win, so scripts only branch
-  on the result for dialogue.
+  on the result for dialogue. With no link mode, `struct CardDuel` never has to be
+  serialized or kept in sync, and the RNG is just `Random()`.
 
 ### Screen layout (240x160)
 
@@ -320,40 +331,81 @@ Rule-based, over the legal actions the rules engine lists:
 `aiLevel` 0 plays a random legal action half the time; level 2 also simulates the
 player's best attack next turn to decide steps 3 and 5, and plays around ex (2 trophies).
 
-## 5. Story integration
+## 5. NPC opponents in the world
+
+### How a card player works
+
+- Any NPC can be a card player: their usual line, then the shared
+  `Common_EventScript_CardDuel` (section 4). Before the Card Case they just say they play
+  cards, which is the hook ("Come back when you have a deck!").
+- They can be replayed any time. The first win gives their **reward card** (often a card
+  that can't be found elsewhere, as Gwent's unique cards); later wins give nothing, or one
+  random card at most once a day for the stronger ones (a daily flag each, from the
+  daily block).
+- Deck strength and `aiLevel` follow the story: early-route NPCs play weak, single-type
+  decks of local Pokémon; late ones play ex and two-type decks.
+- A **Card Player list** in the Card Case shows every opponent met: name, place, beaten
+  or not (from `opponentsBeaten`), so the player can hunt the ones still to beat, like
+  Gwent's quest log.
+
+### Where they are (Hoenn)
+
+| Place | Opponent (example) | Deck / reward |
+|-------|--------------------|---------------|
+| Littleroot, Oldale | A Littleroot neighbor, a kid in the Oldale Pokémon Center | Starter-level decks; teach the rules |
+| Petalburg, Route 104 | A Youngster in the Pokémon Center, the flower shop girl | Normal, Grass; Potion, Erika |
+| Rustboro | Devon employee, Trainers' School student | Steel, mixed; X Speed. Card Case given here (see below) |
+| Dewford, Slateport | Surfer at the hall, Slateport market vendor | Water, Fighting; Poké Ball |
+| Mauville | Game Corner regular, Wattson's assistant | Lightning; Red Card |
+| Lavaridge, Fallarbor | Hot spring old lady, a Fallarbor contest fan | Fire, Psychic |
+| Fortree, Lilycove | Tree-house resident, Department Store regular | Flying/Colorless, Water; Hand Scope, shop packs here |
+| Mossdeep, Sootopolis | Space Center scientist, Sootopolis elder | Psychic, Water ex |
+| Pacifidlog, Ever Grande | Raft resident, Victory Road veteran | Dragon, ex decks |
+| Routes | 1-2 per long route, standing near a rest spot (Route 111 rest house, Route 119 weather institute, Route 123 Berry Master's house) | Local Pokémon |
+| Gyms | Each gym leader, after their badge | Their type; their Supporter card. All 8 → an ex card |
+
+### Where they are (Kanto and Sevii)
+
+| Place | Opponent (example) | Deck / reward |
+|-------|--------------------|---------------|
+| Pallet, Viridian, Pewter, Cerulean | Locals and Pokémon Center visitors | Kanto species, Kanto gym leaders' Supporters through the gyms |
+| Vermilion, Celadon, Saffron | Fan club, Game Corner, Fighting Dojo | Stronger decks; Celadon Department Store sells packs |
+| Fuchsia, Cinnabar | Safari Zone warden's friend, a lab scientist | Rare Candy, fossil Pokémon |
+| Sevii Islands | One per island | ex cards |
+| Mega Island | The castle's guests (the 6 guest rooms) and a daily card tournament in the entrance hall (3 duels in a row, `FLAG_DAILY_CARD_TOURNAMENT`) | Mega ex cards; the strongest opponent of the game is the tournament's champion |
+
+Gym leaders' card duels hook into the existing gym leader rematch scripts
+(`data/scripts/gym_rematches.inc`): after the battle-rematch question, a second choice
+"Or a card duel?".
+
+### Getting started
 
 - **Card Case** key item (`ITEM_CARD_CASE`, after the existing key items in
-  `include/constants/items.h`), used from the bag to open the deck builder. Given in
-  Lilycove's Department Store after badge 4, with a starter deck: 2 copies each of common
-  early species the player is likely to have caught, plus Potion, Poké Ball and Prof.
-  Birch's Research ×2.
-- **Daily pack**: the Card Club clerk gives one free pack a day (`FLAG_DAILY_CARD_PACK`):
-  5 cards, mostly Trainers, rarely an ex.
-- **Shop packs**: sold at Lilycove and Celadon Department Stores.
-- **Mauville Card Club**: a room behind the Game Corner, 3 opponents of rising difficulty.
-- **Celadon Card Club**: in the Celadon Game Corner or the Condominiums, 3 Kanto
-  opponents.
-- **Gym leaders**: after the badge, talking to a leader again offers a duel. Winning gives
-  their Supporter card; all 8 Hoenn leaders give an ex card.
-- **Mega Island**: a daily card tournament (3 duels in a row) in the castle's entrance
-  hall (`FLAG_DAILY_CARD_TOURNAMENT`), the main source of Mega ex cards.
+  `include/constants/items.h`), used from the bag to open the deck builder and the Card
+  Player list. Given in Rustboro after the first badge (a card fan in the Pokémon
+  Center), with a starter deck: 2 copies each of common early species the player is likely
+  to have caught, plus Potion, Poké Ball and Prof. Birch's Research ×2. Early enough that
+  most of the world's card players are met with a deck in hand.
+- **Daily pack**: the card fan in Rustboro (and a second one in Celadon, for Kanto) gives
+  one free pack a day (`FLAG_DAILY_CARD_PACK`): 5 cards, mostly Trainers, rarely an ex.
+- **Shop packs**: sold at the Lilycove and Celadon Department Stores.
 
 ## 6. Phases
 
 | Phase | Deliverable | Rough size |
 |-------|-------------|------------|
 | 1 | Rules engine `card_game_rules.c` + host test harness (`tools/card_game/test_rules.c`, compiled with host `cc` against stubbed `global.h` types): setup, turn flow, Energy Zone, retreat, evolution, weakness, Special Conditions, KOs, trophies, win/draw | 1000-1300 lines |
-| 2 | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 opponent decks | 1 script, 600 lines, data |
+| 2 | Effects for the v1 set, card generator + overrides, ~60 Pokémon (incl. 6 ex), ~15 Trainer cards, 3 NPC decks | 1 script, 600 lines, data |
 | 3 | Minimal screen: entry/exit special, board with text placeholders, menus for every action, event queue shown as messages. Playable against a random AI from a debug script | 1200 lines |
 | 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 | AI as in section 4 | 500 lines |
 | 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
-| 7 | Story: Card Clubs, gym leader duels, starter deck, daily pack, rewards, Mega Island tournament | maps + scripts |
-| 8 | Content: the full generated card pool, more Trainers and ex | data |
-| 9 (later) | Link duels over the cable club / wireless, using the deterministic state | large |
+| 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Rustboro, daily pack, ~15 NPC card players from Littleroot to Lilycove, Hoenn gym leaders, Card Player list | scripts, a few map objects |
+| 8 | World, second wave: the rest of Hoenn, Kanto, Sevii, the Mega Island guests and daily tournament (~45 more NPCs) | scripts, a few map objects |
+| 9 | Content: the full generated card pool, more Trainers and ex | data |
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
-untouched until phase 7.
+untouched until phase 7. There is no link phase: the game is played only against NPCs.
 
 ## 7. Risks and checks
 
@@ -362,11 +414,14 @@ untouched until phase 7.
   manageable.
 - **ROM space**: ~430 cards × ~24 bytes ≈ 10 KB, plus attack names (shared strings with
   `gMoveNames` where the attack is a move), code and art. Check `make` still fits the
-  ROM after phases 4 and 8.
+  ROM after phases 4 and 9.
 - **Save layout**: `STATIC_ASSERT` the struct size; never move other SaveBlock1 fields.
 - **Pokédex dependency**: a player who has caught few species has few cards. The starter
   deck covers that, and Trainer cards come from packs, not catches.
 - **Balance**: a "show opponent's hand" debug toggle, and a self-play mode on the host
   harness (AI vs AI, 1000 games per deck pair) to find dominant decks before tuning.
+- **NPC decks**: ~60 hand-built 20-card decks is real work. A small script can build a
+  first draft per NPC from a type, a level band and the local route's encounters
+  (`src/data/wild_encounters.json`), to be tuned by hand.
 - **Readability**: HP, Energy and trophies must be readable at a glance at 240x160;
   playtest on mGBA at 1x before adding more information.
