@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_setup.h"
 #include "berry.h"
 #include "dewford_trend.h"
 #include "event_data.h"
@@ -11,9 +12,11 @@
 #include "time_events.h"
 #include "tv.h"
 #include "wallclock.h"
+#include "constants/opponents.h"
 
 static void UpdatePerDay(struct Time *localTime);
 static void UpdatePerMinute(struct Time *localTime);
+static void ResetDailyRematches(void);
 
 static void InitTimeBasedEvents(void)
 {
@@ -25,6 +28,11 @@ static void InitTimeBasedEvents(void)
 
 void DoTimeBasedEvents(void)
 {
+    // A Kanto game never sees Littleroot's wall clock, which starts the clock: start it here,
+    // so that daily events (the GYM LEADERS' rematches, MR. M.'s tournament) reset each day.
+    if (!FlagGet(FLAG_SYS_CLOCK_SET))
+        InitTimeBasedEvents();
+
     if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
     {
         RtcCalcLocalTime();
@@ -42,6 +50,7 @@ static void UpdatePerDay(struct Time *localTime)
     {
         daysSince = localTime->days - *days;
         ClearDailyFlags();
+        ResetDailyRematches();
         UpdateDewfordTrendPerDay(daysSince);
         UpdateTVShowsPerDay(daysSince);
         UpdateWeatherPerDay(daysSince);
@@ -54,6 +63,15 @@ static void UpdatePerDay(struct Time *localTime)
         SetRandomLotteryNumber(daysSince);
         *days = localTime->days;
     }
+}
+
+// The KANTO GYM LEADERS can be battled again each day (see data/scripts/gym_rematches.inc)
+static void ResetDailyRematches(void)
+{
+    u16 trainerId;
+
+    for (trainerId = TRAINER_REMATCH_BROCK; trainerId <= TRAINER_REMATCH_GIOVANNI; trainerId++)
+        ClearTrainerFlag(trainerId);
 }
 
 static void UpdatePerMinute(struct Time *localTime)

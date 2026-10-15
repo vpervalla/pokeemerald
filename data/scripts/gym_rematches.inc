@@ -10,18 +10,29 @@ GymRematch_EventScript_BagFull::
 	release
 	end
 
+@ From the second rematch on (the stone was given), the leader just asks for another battle.
+@ The rematches can be fought once a day: ResetDailyRematches (src/clock.c) clears them.
+GymRematch_EventScript_AskAgain::
+	msgbox GymRematch_Text_AskAgain, MSGBOX_YESNO
+	return
+
 @ BROCK, PEWTER CITY GYM: AERODACTYL and the AERODACTYLITE
 GymRematch_EventScript_Brock::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_BROCK, GymRematch_EventScript_BrockDefeated
-	msgbox GymRematch_Text_BrockIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_BROCK, GymRematch_EventScript_BrockAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_BROCK, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_BrockDeclined
 	msgbox GymRematch_Text_BrockAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_BROCK, GymRematch_Text_BrockDefeat
-	goto GymRematch_EventScript_BrockGiveStone
+	goto GymRematch_EventScript_BrockDefeated
 	end
+
+GymRematch_EventScript_BrockAskFirst::
+	msgbox GymRematch_Text_BrockIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_BrockGiveStone::
@@ -38,7 +49,7 @@ GymRematch_EventScript_BrockGiveStone::
 
 GymRematch_EventScript_BrockDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_BROCK, GymRematch_EventScript_BrockGiveStone
-	msgbox GymRematch_Text_BrockAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -52,13 +63,18 @@ GymRematch_EventScript_Misty::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_MISTY, GymRematch_EventScript_MistyDefeated
-	msgbox GymRematch_Text_MistyIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_MISTY, GymRematch_EventScript_MistyAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_MISTY, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_MistyDeclined
 	msgbox GymRematch_Text_MistyAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_MISTY, GymRematch_Text_MistyDefeat
-	goto GymRematch_EventScript_MistyGiveStone
+	goto GymRematch_EventScript_MistyDefeated
 	end
+
+GymRematch_EventScript_MistyAskFirst::
+	msgbox GymRematch_Text_MistyIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_MistyGiveStone::
@@ -75,7 +91,7 @@ GymRematch_EventScript_MistyGiveStone::
 
 GymRematch_EventScript_MistyDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_MISTY, GymRematch_EventScript_MistyGiveStone
-	msgbox GymRematch_Text_MistyAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -89,13 +105,18 @@ GymRematch_EventScript_LtSurge::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_LT_SURGE, GymRematch_EventScript_LtSurgeDefeated
-	msgbox GymRematch_Text_LtSurgeIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_LT_SURGE, GymRematch_EventScript_LtSurgeAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_LT_SURGE, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_LtSurgeDeclined
 	msgbox GymRematch_Text_LtSurgeAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_LT_SURGE, GymRematch_Text_LtSurgeDefeat
-	goto GymRematch_EventScript_LtSurgeGiveStone
+	goto GymRematch_EventScript_LtSurgeDefeated
 	end
+
+GymRematch_EventScript_LtSurgeAskFirst::
+	msgbox GymRematch_Text_LtSurgeIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_LtSurgeGiveStone::
@@ -112,7 +133,7 @@ GymRematch_EventScript_LtSurgeGiveStone::
 
 GymRematch_EventScript_LtSurgeDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_LT_SURGE, GymRematch_EventScript_LtSurgeGiveStone
-	msgbox GymRematch_Text_LtSurgeAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -126,13 +147,18 @@ GymRematch_EventScript_Erika::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_ERIKA, GymRematch_EventScript_ErikaDefeated
-	msgbox GymRematch_Text_ErikaIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_ERIKA, GymRematch_EventScript_ErikaAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_ERIKA, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_ErikaDeclined
 	msgbox GymRematch_Text_ErikaAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_ERIKA, GymRematch_Text_ErikaDefeat
-	goto GymRematch_EventScript_ErikaGiveStone
+	goto GymRematch_EventScript_ErikaDefeated
 	end
+
+GymRematch_EventScript_ErikaAskFirst::
+	msgbox GymRematch_Text_ErikaIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_ErikaGiveStone::
@@ -149,7 +175,7 @@ GymRematch_EventScript_ErikaGiveStone::
 
 GymRematch_EventScript_ErikaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_ERIKA, GymRematch_EventScript_ErikaGiveStone
-	msgbox GymRematch_Text_ErikaAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -163,13 +189,18 @@ GymRematch_EventScript_Koga::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_KOGA, GymRematch_EventScript_KogaDefeated
-	msgbox GymRematch_Text_KogaIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_KOGA, GymRematch_EventScript_KogaAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_KOGA, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_KogaDeclined
 	msgbox GymRematch_Text_KogaAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_KOGA, GymRematch_Text_KogaDefeat
-	goto GymRematch_EventScript_KogaGiveStone
+	goto GymRematch_EventScript_KogaDefeated
 	end
+
+GymRematch_EventScript_KogaAskFirst::
+	msgbox GymRematch_Text_KogaIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_KogaGiveStone::
@@ -186,7 +217,7 @@ GymRematch_EventScript_KogaGiveStone::
 
 GymRematch_EventScript_KogaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_KOGA, GymRematch_EventScript_KogaGiveStone
-	msgbox GymRematch_Text_KogaAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -200,13 +231,18 @@ GymRematch_EventScript_Sabrina::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_SABRINA, GymRematch_EventScript_SabrinaDefeated
-	msgbox GymRematch_Text_SabrinaIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_SABRINA, GymRematch_EventScript_SabrinaAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_SABRINA, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_SabrinaDeclined
 	msgbox GymRematch_Text_SabrinaAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_SABRINA, GymRematch_Text_SabrinaDefeat
-	goto GymRematch_EventScript_SabrinaGiveStone
+	goto GymRematch_EventScript_SabrinaDefeated
 	end
+
+GymRematch_EventScript_SabrinaAskFirst::
+	msgbox GymRematch_Text_SabrinaIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_SabrinaGiveStone::
@@ -223,7 +259,7 @@ GymRematch_EventScript_SabrinaGiveStone::
 
 GymRematch_EventScript_SabrinaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_SABRINA, GymRematch_EventScript_SabrinaGiveStone
-	msgbox GymRematch_Text_SabrinaAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -238,13 +274,18 @@ GymRematch_EventScript_Blaine::
 	faceplayer
 	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing
 	goto_if_defeated TRAINER_REMATCH_BLAINE, GymRematch_EventScript_BlaineDefeated
-	msgbox GymRematch_Text_BlaineIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_BLAINE, GymRematch_EventScript_BlaineAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_BLAINE, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_BlaineDeclined
 	msgbox GymRematch_Text_BlaineAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_BLAINE, GymRematch_Text_BlaineDefeat
-	goto GymRematch_EventScript_BlaineGiveStone
+	goto GymRematch_EventScript_BlaineDefeated
 	end
+
+GymRematch_EventScript_BlaineAskFirst::
+	msgbox GymRematch_Text_BlaineIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_BlaineGiveStone::
@@ -261,7 +302,7 @@ GymRematch_EventScript_BlaineGiveStone::
 
 GymRematch_EventScript_BlaineDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_BLAINE, GymRematch_EventScript_BlaineGiveStone
-	msgbox GymRematch_Text_BlaineAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -275,13 +316,18 @@ GymRematch_EventScript_Giovanni::
 	lock
 	faceplayer
 	goto_if_defeated TRAINER_REMATCH_GIOVANNI, GymRematch_EventScript_GiovanniDefeated
-	msgbox GymRematch_Text_GiovanniIntro, MSGBOX_YESNO
+	call_if_unset FLAG_GOT_MEGA_STONE_FROM_GIOVANNI, GymRematch_EventScript_GiovanniAskFirst
+	call_if_set FLAG_GOT_MEGA_STONE_FROM_GIOVANNI, GymRematch_EventScript_AskAgain
 	goto_if_eq VAR_RESULT, NO, GymRematch_EventScript_GiovanniDeclined
 	msgbox GymRematch_Text_GiovanniAccept
 	closemessage
 	trainerbattle_no_intro TRAINER_REMATCH_GIOVANNI, GymRematch_Text_GiovanniDefeat
-	goto GymRematch_EventScript_GiovanniGiveStone
+	goto GymRematch_EventScript_GiovanniDefeated
 	end
+
+GymRematch_EventScript_GiovanniAskFirst::
+	msgbox GymRematch_Text_GiovanniIntro, MSGBOX_YESNO
+	return
 
 @ Also where the player comes back to if their BAG was full
 GymRematch_EventScript_GiovanniGiveStone::
@@ -298,7 +344,7 @@ GymRematch_EventScript_GiovanniGiveStone::
 
 GymRematch_EventScript_GiovanniDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_GIOVANNI, GymRematch_EventScript_GiovanniGiveStone
-	msgbox GymRematch_Text_GiovanniAfterGift
+	msgbox GymRematch_Text_ComeBackTomorrow
 	release
 	end
 
@@ -566,3 +612,12 @@ GymRematch_Text_GiovanniAfterGift:
 GymRematch_Text_GiovanniDeclined:
     .string "GIOVANNI: Hmph.\n"
     .string "I have no time for cowards.$"
+
+GymRematch_Text_AskAgain:
+    .string "Back for a rematch, CHAMPION?\n"
+    .string "My team is ready. Shall we battle?$"
+
+GymRematch_Text_ComeBackTomorrow:
+    .string "That was a great battle!\p"
+    .string "Come back tomorrow, and we'll\n"
+    .string "battle again!$"

@@ -579,3 +579,5 @@ gSpecials::
 	def_special IsPlayerLeftOfVermilionSailor
 	def_special CanPlayerMegaEvolve
 	def_special RemoveTournamentMegaStones
+	def_special RandomizeTournamentOpponents
+	def_special GetTournamentOpponent

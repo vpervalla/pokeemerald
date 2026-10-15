@@ -13,12 +13,14 @@ MegaIsland_Arena_MapScripts::
 @   semifinals:    PLAYER - RIVAL, DIANTHA - LEON
 @   final:         PLAYER - LEON
 @ Losing: the player wakes up in bed, it was a dream, and the tournament starts again.
+@ After the story, the tournament is replayed each day with random opponents (see the end of this file).
 MegaIsland_Arena_OnTransition:
 	setvar VAR_TEMP_0, 0
 	setflag FLAG_TEMP_1
 	setflag FLAG_TEMP_2
 	setflag FLAG_TEMP_3
 	call_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Arena_EventScript_ShowMrM
+	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_OnTransitionReplay
 	goto_if_lt VAR_MEGA_STORY_STATE, 4, MegaIsland_Arena_OnTransitionEnd
 	goto_if_gt VAR_MEGA_STORY_STATE, 6, MegaIsland_Arena_OnTransitionEnd
 	clearflag FLAG_TEMP_1
@@ -58,6 +60,7 @@ MegaIsland_Arena_EventScript_Match::
 	special SpawnCameraObject
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToMrM
 	waitmovement 0
+	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_EventScript_ReplayMatch
 	switch VAR_MEGA_STORY_STATE
 	case 4, MegaIsland_Arena_EventScript_Quarterfinal
 	case 5, MegaIsland_Arena_EventScript_Semifinal
@@ -478,3 +481,432 @@ MegaIsland_Arena_Text_LeonGiveStone:
 MegaIsland_Arena_Text_StoneToPC:
 	.string "Your BAG is full, so the\n"
 	.string "{STR_VAR_2} was sent to your PC.$"
+
+@ Added: from VAR_MEGA_STORY_STATE 9 on, a new tournament is held each day (see MegaIsland_Castle_1F):
+@ three rounds against opponents drawn at random among the eight other champions, ALAIN included
+@ (RandomizeTournamentOpponents, GetTournamentOpponent). There is no MR. M. any more, nor any MEGA
+@ STONE to win (the tournament ones are given once), and a lost match just ends the day's tournament.
+MegaIsland_Arena_OnTransitionReplay:
+	goto_if_eq VAR_TOURNAMENT_ROUND, 0, MegaIsland_Arena_OnTransitionEnd
+	clearflag FLAG_TEMP_1
+	setvar VAR_TEMP_0, 1
+	specialvar VAR_RESULT, GetTournamentOpponent
+	call_if_eq VAR_RESULT, 0, MegaIsland_Arena_SetReplayOpponentRival
+	call_if_eq VAR_RESULT, 1, MegaIsland_Arena_SetReplayOpponentLance
+	call_if_eq VAR_RESULT, 2, MegaIsland_Arena_SetReplayOpponentSteven
+	call_if_eq VAR_RESULT, 3, MegaIsland_Arena_SetReplayOpponentCynthia
+	call_if_eq VAR_RESULT, 4, MegaIsland_Arena_SetReplayOpponentAlder
+	call_if_eq VAR_RESULT, 5, MegaIsland_Arena_SetReplayOpponentDiantha
+	call_if_eq VAR_RESULT, 6, MegaIsland_Arena_SetReplayOpponentLeon
+	call_if_eq VAR_RESULT, 7, MegaIsland_Arena_SetReplayOpponentAlain
+	end
+
+MegaIsland_Arena_SetReplayOpponentRival:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_KANTO_BLUE
+	return
+
+MegaIsland_Arena_SetReplayOpponentLance:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_KANTO_LANCE
+	return
+
+MegaIsland_Arena_SetReplayOpponentSteven:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_STEVEN
+	return
+
+MegaIsland_Arena_SetReplayOpponentCynthia:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_CYNTHIA
+	return
+
+MegaIsland_Arena_SetReplayOpponentAlder:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_ALDER
+	return
+
+MegaIsland_Arena_SetReplayOpponentDiantha:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_DIANTHA
+	return
+
+MegaIsland_Arena_SetReplayOpponentLeon:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_CHAMPION_LEON
+	return
+
+MegaIsland_Arena_SetReplayOpponentAlain:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ALAIN
+	return
+
+MegaIsland_Arena_EventScript_ReplayMatch::
+	bufferstring STR_VAR_2, MegaIsland_Arena_Text_ReplayQuarterfinal
+	call_if_eq VAR_TOURNAMENT_ROUND, 2, MegaIsland_Arena_EventScript_BufferReplaySemifinal
+	call_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Arena_EventScript_BufferReplayFinal
+	specialvar VAR_RESULT, GetTournamentOpponent
+	switch VAR_RESULT
+	case 0, MegaIsland_Arena_EventScript_ReplayRival
+	case 1, MegaIsland_Arena_EventScript_ReplayLance
+	case 2, MegaIsland_Arena_EventScript_ReplaySteven
+	case 3, MegaIsland_Arena_EventScript_ReplayCynthia
+	case 4, MegaIsland_Arena_EventScript_ReplayAlder
+	case 5, MegaIsland_Arena_EventScript_ReplayDiantha
+	case 6, MegaIsland_Arena_EventScript_ReplayLeon
+	case 7, MegaIsland_Arena_EventScript_ReplayAlain
+	end
+
+MegaIsland_Arena_EventScript_BufferReplaySemifinal::
+	bufferstring STR_VAR_2, MegaIsland_Arena_Text_ReplaySemifinal
+	return
+
+MegaIsland_Arena_EventScript_BufferReplayFinal::
+	bufferstring STR_VAR_2, MegaIsland_Arena_Text_ReplayFinal
+	return
+
+@ The round's intro, then the camera moves down to the battlefield and the opponent speaks
+MegaIsland_Arena_EventScript_ReplayRoundIntro::
+	msgbox MegaIsland_Arena_Text_ReplayRoundIntro
+	closemessage
+	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToField
+	waitmovement 0
+	return
+
+MegaIsland_Arena_EventScript_ReplayRival::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayRivalName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayRivalIntro
+	closemessage
+	special RemoveCameraObject
+	switch VAR_STARTER_MON
+	case 0, MegaIsland_Arena_EventScript_ReplayRivalCharmander
+	case 1, MegaIsland_Arena_EventScript_ReplayRivalBulbasaur
+	case 2, MegaIsland_Arena_EventScript_ReplayRivalSquirtle
+	end
+
+MegaIsland_Arena_EventScript_ReplayRivalCharmander::
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_CHARMANDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayRivalBulbasaur::
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_BULBASAUR, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayRivalSquirtle::
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_SQUIRTLE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayLance::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayLanceName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayLanceIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_LANCE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLanceDefeat, MegaIsland_Arena_Text_ReplayLanceVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplaySteven::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayStevenName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayStevenIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_STEVEN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayStevenDefeat, MegaIsland_Arena_Text_ReplayStevenVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayCynthia::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayCynthiaName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayCynthiaIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_CYNTHIA, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayCynthiaDefeat, MegaIsland_Arena_Text_ReplayCynthiaVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayAlder::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayAlderName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayAlderIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayDiantha::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayDianthaName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayDianthaIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_DIANTHA, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayDianthaDefeat, MegaIsland_Arena_Text_ReplayDianthaVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayLeon::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayLeonName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayLeonIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayAlain::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayAlainName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayAlainIntro
+	closemessage
+	special RemoveCameraObject
+	trainerbattle_earlyrival TRAINER_ALAIN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlainDefeat, MegaIsland_Arena_Text_ReplayAlainVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
+MegaIsland_Arena_EventScript_ReplayAfterBattle::
+	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_ReplayLost
+	call MegaIsland_Arena_EventScript_CameraOnField
+	specialvar VAR_RESULT, GetTournamentOpponent
+	call_if_eq VAR_RESULT, 0, MegaIsland_Arena_EventScript_ReplayAfterRival
+	call_if_eq VAR_RESULT, 1, MegaIsland_Arena_EventScript_ReplayAfterLance
+	call_if_eq VAR_RESULT, 2, MegaIsland_Arena_EventScript_ReplayAfterSteven
+	call_if_eq VAR_RESULT, 3, MegaIsland_Arena_EventScript_ReplayAfterCynthia
+	call_if_eq VAR_RESULT, 4, MegaIsland_Arena_EventScript_ReplayAfterAlder
+	call_if_eq VAR_RESULT, 5, MegaIsland_Arena_EventScript_ReplayAfterDiantha
+	call_if_eq VAR_RESULT, 6, MegaIsland_Arena_EventScript_ReplayAfterLeon
+	call_if_eq VAR_RESULT, 7, MegaIsland_Arena_EventScript_ReplayAfterAlain
+	closemessage
+	goto_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Arena_EventScript_ReplayWon
+	addvar VAR_TOURNAMENT_ROUND, 1
+	msgbox MegaIsland_Arena_Text_ReplayAdvances
+	closemessage
+	special RemoveCameraObject
+	goto MegaIsland_Arena_EventScript_BackToHall
+	end
+
+MegaIsland_Arena_EventScript_ReplayWon::
+	setvar VAR_TOURNAMENT_ROUND, 0
+	msgbox MegaIsland_Arena_Text_ReplayWon
+	closemessage
+	special RemoveCameraObject
+	goto MegaIsland_Arena_EventScript_BackToHall
+	end
+
+MegaIsland_Arena_EventScript_ReplayLost::
+	setvar VAR_TOURNAMENT_ROUND, 0
+	special RemoveCameraObject
+	msgbox MegaIsland_Arena_Text_ReplayLost
+	closemessage
+	goto MegaIsland_Arena_EventScript_BackToHall
+	end
+
+MegaIsland_Arena_EventScript_ReplayAfterRival::
+	msgbox MegaIsland_Arena_Text_ReplayRivalAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterLance::
+	msgbox MegaIsland_Arena_Text_ReplayLanceAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterSteven::
+	msgbox MegaIsland_Arena_Text_ReplayStevenAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterCynthia::
+	msgbox MegaIsland_Arena_Text_ReplayCynthiaAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterAlder::
+	msgbox MegaIsland_Arena_Text_ReplayAlderAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterDiantha::
+	msgbox MegaIsland_Arena_Text_ReplayDianthaAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterLeon::
+	msgbox MegaIsland_Arena_Text_ReplayLeonAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterAlain::
+	msgbox MegaIsland_Arena_Text_ReplayAlainAfter
+	return
+
+MegaIsland_Arena_Text_ReplayRivalName:
+	.string "{RIVAL}$"
+
+MegaIsland_Arena_Text_ReplayRivalIntro:
+	.string "{RIVAL}: You again, {PLAYER}?\p"
+	.string "Today, the title is mine!$"
+
+MegaIsland_Arena_Text_ReplayRivalDefeat:
+	.string "What?! Not again!$"
+
+MegaIsland_Arena_Text_ReplayRivalVictory:
+	.string "Hah! Smell ya later!$"
+
+MegaIsland_Arena_Text_ReplayRivalAfter:
+	.string "{RIVAL}: Tch… Next time, {PLAYER}.\p"
+	.string "Count on it!$"
+
+MegaIsland_Arena_Text_ReplayLanceName:
+	.string "LANCE$"
+
+MegaIsland_Arena_Text_ReplayLanceIntro:
+	.string "LANCE: The lot brings us together.\p"
+	.string "My dragons are ready!$"
+
+MegaIsland_Arena_Text_ReplayLanceDefeat:
+	.string "Magnificent…\n"
+	.string "You are truly worthy.$"
+
+MegaIsland_Arena_Text_ReplayLanceVictory:
+	.string "Train harder, and face me\n"
+	.string "again.$"
+
+MegaIsland_Arena_Text_ReplayLanceAfter:
+	.string "LANCE: Your bond with your POKéMON\n"
+	.string "grows stronger every day.$"
+
+MegaIsland_Arena_Text_ReplayStevenName:
+	.string "STEVEN$"
+
+MegaIsland_Arena_Text_ReplayStevenIntro:
+	.string "STEVEN: Let's see how strong you've\n"
+	.string "become. I won't go easy!$"
+
+MegaIsland_Arena_Text_ReplayStevenDefeat:
+	.string "Your strength is the real\n"
+	.string "deal.$"
+
+MegaIsland_Arena_Text_ReplayStevenVictory:
+	.string "A good battle.\n"
+	.string "Come back stronger!$"
+
+MegaIsland_Arena_Text_ReplayStevenAfter:
+	.string "STEVEN: A battle like that is worth\n"
+	.string "more than any rare stone.$"
+
+MegaIsland_Arena_Text_ReplayCynthiaName:
+	.string "CYNTHIA$"
+
+MegaIsland_Arena_Text_ReplayCynthiaIntro:
+	.string "CYNTHIA: A battle with you,\n"
+	.string "{PLAYER}…\p"
+	.string "I've been looking forward to this.$"
+
+MegaIsland_Arena_Text_ReplayCynthiaDefeat:
+	.string "That was wonderful…$"
+
+MegaIsland_Arena_Text_ReplayCynthiaVictory:
+	.string "You'll be even stronger\n"
+	.string "next time.$"
+
+MegaIsland_Arena_Text_ReplayCynthiaAfter:
+	.string "CYNTHIA: Let's battle again\n"
+	.string "someday, {PLAYER}.$"
+
+MegaIsland_Arena_Text_ReplayAlderName:
+	.string "ALDER$"
+
+MegaIsland_Arena_Text_ReplayAlderIntro:
+	.string "ALDER: Ha ha! You again, youngster!\p"
+	.string "Let's have a battle to remember!$"
+
+MegaIsland_Arena_Text_ReplayAlderDefeat:
+	.string "Splendid! Your bond is the real\n"
+	.string "thing!$"
+
+MegaIsland_Arena_Text_ReplayAlderVictory:
+	.string "A fine battle!\n"
+	.string "Come back stronger, youngster.$"
+
+MegaIsland_Arena_Text_ReplayAlderAfter:
+	.string "ALDER: Ha ha ha! Every battle with\n"
+	.string "you makes me feel young again!$"
+
+MegaIsland_Arena_Text_ReplayDianthaName:
+	.string "DIANTHA$"
+
+MegaIsland_Arena_Text_ReplayDianthaIntro:
+	.string "DIANTHA: The stage is set!\p"
+	.string "Let's give everyone a show to\n"
+	.string "remember!$"
+
+MegaIsland_Arena_Text_ReplayDianthaDefeat:
+	.string "Bravo!\n"
+	.string "What a performance!$"
+
+MegaIsland_Arena_Text_ReplayDianthaVictory:
+	.string "What a lovely battle!\n"
+	.string "Thank you!$"
+
+MegaIsland_Arena_Text_ReplayDianthaAfter:
+	.string "DIANTHA: You shine brighter than\n"
+	.string "any star on the screen!$"
+
+MegaIsland_Arena_Text_ReplayLeonName:
+	.string "LEON$"
+
+MegaIsland_Arena_Text_ReplayLeonIntro:
+	.string "LEON: A rematch!\p"
+	.string "Let's make this a champion time!$"
+
+MegaIsland_Arena_Text_ReplayLeonDefeat:
+	.string "Brilliant!\n"
+	.string "What a battle!$"
+
+MegaIsland_Arena_Text_ReplayLeonVictory:
+	.string "What a champion time!\n"
+	.string "Come back for a rematch!$"
+
+MegaIsland_Arena_Text_ReplayLeonAfter:
+	.string "LEON: You're the real deal,\n"
+	.string "{PLAYER}!$"
+
+MegaIsland_Arena_Text_ReplayAlainName:
+	.string "ALAIN$"
+
+MegaIsland_Arena_Text_ReplayAlainIntro:
+	.string "ALAIN: So you're {PLAYER}.\p"
+	.string "My CHARIZARD and I want to test\n"
+	.string "our bond against yours!$"
+
+MegaIsland_Arena_Text_ReplayAlainDefeat:
+	.string "So this is the strength of a\n"
+	.string "true bond…$"
+
+MegaIsland_Arena_Text_ReplayAlainVictory:
+	.string "Our bond won today.\n"
+	.string "Train hard, and come back.$"
+
+MegaIsland_Arena_Text_ReplayAlainAfter:
+	.string "ALAIN: My CHARIZARD and I will keep\n"
+	.string "training until we can beat you.$"
+
+MegaIsland_Arena_Text_ReplayQuarterfinal:
+	.string "Today's quarterfinal$"
+
+MegaIsland_Arena_Text_ReplaySemifinal:
+	.string "Today's semifinal$"
+
+MegaIsland_Arena_Text_ReplayFinal:
+	.string "Today's final$"
+
+MegaIsland_Arena_Text_ReplayRoundIntro:
+	.string "{STR_VAR_2}!\n"
+	.string "{PLAYER} against {STR_VAR_1}!$"
+
+MegaIsland_Arena_Text_ReplayAdvances:
+	.string "{PLAYER} advances to the next\n"
+	.string "round!\p"
+	.string "Rest your POKéMON in the hall.$"
+
+MegaIsland_Arena_Text_ReplayWon:
+	.string "{PLAYER} won today's tournament!\p"
+	.string "The champion of champions,\n"
+	.string "once again!$"
+
+MegaIsland_Arena_Text_ReplayLost:
+	.string "{PLAYER} was eliminated…\p"
+	.string "There will be another tournament\n"
+	.string "tomorrow!$"

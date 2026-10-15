@@ -1550,6 +1550,39 @@ bool8 RemoveTournamentMegaStones(void)
     return removed;
 }
 
+// MR. M.'s tournament, replayed once a day after the first: three different opponents, one per
+// round, drawn at random among the eight other champions (TOURNAMENT_OPPONENT_* in
+// MegaIsland_Arena: 0 the rival, 1 LANCE, 2 STEVEN, 3 CYNTHIA, 4 ALDER, 5 DIANTHA, 6 LEON, 7 ALAIN).
+#define NUM_TOURNAMENT_OPPONENTS 8
+
+void RandomizeTournamentOpponents(void)
+{
+    u8 pool[NUM_TOURNAMENT_OPPONENTS];
+    u32 i, j;
+    u8 temp;
+
+    for (i = 0; i < NUM_TOURNAMENT_OPPONENTS; i++)
+        pool[i] = i;
+    for (i = 0; i < 3; i++)
+    {
+        j = i + Random() % (NUM_TOURNAMENT_OPPONENTS - i);
+        temp = pool[i];
+        pool[i] = pool[j];
+        pool[j] = temp;
+    }
+    VarSet(VAR_TOURNAMENT_OPPONENTS, pool[0] | (pool[1] << 4) | (pool[2] << 8));
+}
+
+// The opponent of the round VAR_TOURNAMENT_ROUND (1 to 3)
+u16 GetTournamentOpponent(void)
+{
+    u16 round = VarGet(VAR_TOURNAMENT_ROUND);
+
+    if (round < 1 || round > 3)
+        round = 1;
+    return (VarGet(VAR_TOURNAMENT_OPPONENTS) >> (4 * (round - 1))) & 0xF;
+}
+
 bool8 IsStarterInParty(void)
 {
     u8 i;

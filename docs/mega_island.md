@@ -103,8 +103,12 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
   of Fame (`FLAG_SYS_GAME_CLEAR`): each leader's script in the gym jumps to its rematch.
   The leader asks whether to battle, and gives the stone after winning. The rematch teams are lv
   66-70, six POKéMON each, with the ace at lv 70 (`TRAINER_REMATCH_*`,
-  `src/data/gym_leader_rematch_trainers.h` and `gym_leader_rematch_parties.h`). Each rematch
-  happens once. Afterwards the leader repeats where to find the POKéMON for their stone.
+  `src/data/gym_leader_rematch_trainers.h` and `gym_leader_rematch_parties.h`). The stone is
+  given once; the rematch can be fought again each day (`ResetDailyRematches` in `src/clock.c`
+  clears the `TRAINER_REMATCH_*` flags when the day changes), the leader just asking for another
+  battle. A Kanto game never sees Littleroot's wall clock, so `DoTimeBasedEvents` starts the clock
+  itself the first time; only the day count matters. (The ELITE FOUR's rematch can be fought as
+  often as the player likes, as in FireRed.)
   GIOVANNI, who leaves his gym after the first battle, comes back for his rematch
   (`ViridianCity_Gym_OnTransition`).
 - **Two stones are items to find**: the TYRANITARITE in a corner of SEVAULT CANYON (SEVEN ISLAND),
@@ -201,6 +205,17 @@ The bracket is fixed:
 
 After the final MR. M. tells the player to rest and come to him, and the receptionist reminds
 them that he waits in the arena.
+
+## The daily tournament
+
+Once MEWTWO has revealed itself (state 9 or more), the champions stay on the island and a new
+tournament is held each day (`FLAG_DAILY_APEX_TOURNAMENT`). The receptionist registers the player
+(no night's sleep needed) and heals them between rounds. Its three rounds are against opponents
+drawn at random among the eight other champions, ALAIN included (`RandomizeTournamentOpponents`
+and `GetTournamentOpponent` in `src/field_specials.c`; `VAR_TOURNAMENT_ROUND` and
+`VAR_TOURNAMENT_OPPONENTS`, which took two unused Hoenn vars). Each one has its own replay lines
+(the `Replay*` scripts at the end of `MegaIsland_Arena`). There is no MR. M. any more and no MEGA
+STONE to win; losing a match just ends the day's tournament.
 
 ## MEWTWO
 

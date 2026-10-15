@@ -5,11 +5,14 @@ MegaIsland_Castle_1F_MapScripts::
 @ rounds. VAR_MEGA_STORY_STATE: 2 invited, 3 registered (to sleep in guest room 1), 4 quarterfinal
 @ next, 5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match,
 @ 9 MEWTWO waiting in the island's cave, 10 MEWTWO caught. The matches are in MegaIsland_Arena.
+@ From state 9 on, a new tournament is held each day (FLAG_DAILY_APEX_TOURNAMENT), against three
+@ opponents drawn at random among the eight other champions (VAR_TOURNAMENT_ROUND and
+@ VAR_TOURNAMENT_OPPONENTS, see RandomizeTournamentOpponents).
 MegaIsland_Castle_1F_EventScript_Receptionist::
 	lock
 	faceplayer
 	goto_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Castle_1F_EventScript_ReceptionistChampion
-	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Castle_1F_EventScript_ReceptionistChampion
+	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Castle_1F_EventScript_ReceptionistReplay
 	goto_if_eq VAR_MEGA_STORY_STATE, 3, MegaIsland_Castle_1F_EventScript_ReceptionistGoToSleep
 	goto_if_ge VAR_MEGA_STORY_STATE, 4, MegaIsland_Castle_1F_EventScript_ReceptionistNextRound
 	specialvar VAR_RESULT, CanPlayerMegaEvolve
@@ -60,6 +63,37 @@ MegaIsland_Castle_1F_EventScript_ReceptionistChampion::
 	msgbox MegaIsland_Castle_1F_Text_Champion
 	call_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Castle_1F_EventScript_MrMWaits
 	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
+	release
+	end
+
+MegaIsland_Castle_1F_EventScript_ReceptionistReplay::
+	goto_if_ne VAR_TOURNAMENT_ROUND, 0, MegaIsland_Castle_1F_EventScript_ReplayNextRound
+	goto_if_set FLAG_DAILY_APEX_TOURNAMENT, MegaIsland_Castle_1F_EventScript_ReplayTomorrow
+	msgbox MegaIsland_Castle_1F_Text_ReplayRegister, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MegaIsland_Castle_1F_EventScript_ReceptionistNotYet
+	setflag FLAG_DAILY_APEX_TOURNAMENT
+	special RandomizeTournamentOpponents
+	setvar VAR_TOURNAMENT_ROUND, 1
+	msgbox MegaIsland_Castle_1F_Text_ReplayRegistered
+	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
+	msgbox MegaIsland_Castle_1F_Text_ReplayGoToTheArena
+	release
+	end
+
+MegaIsland_Castle_1F_EventScript_ReplayNextRound::
+	bufferstring STR_VAR_1, MegaIsland_Castle_1F_Text_Quarterfinal
+	call_if_eq VAR_TOURNAMENT_ROUND, 2, MegaIsland_Castle_1F_EventScript_BufferSemifinal
+	call_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Castle_1F_EventScript_BufferFinal
+	msgbox MegaIsland_Castle_1F_Text_RestoreBeforeMatch
+	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
+	msgbox MegaIsland_Castle_1F_Text_ReplayGoToTheArena
+	release
+	end
+
+MegaIsland_Castle_1F_EventScript_ReplayTomorrow::
+	msgbox MegaIsland_Castle_1F_Text_Champion
+	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
+	msgbox MegaIsland_Castle_1F_Text_ReplayTomorrow
 	release
 	end
 
@@ -121,6 +155,28 @@ MegaIsland_Castle_1F_Text_CantMegaEvolve:
 MegaIsland_Castle_1F_Text_NotYet:
 	.string "Take your time. The tournament\n"
 	.string "will not begin without you.$"
+
+MegaIsland_Castle_1F_Text_ReplayRegister:
+	.string "Welcome back, {PLAYER}!\p"
+	.string "The champions have stayed on the\n"
+	.string "island, and a new tournament is\l"
+	.string "held here every day.\p"
+	.string "Your three opponents are drawn\n"
+	.string "by lot.\p"
+	.string "Shall I register you for today's\n"
+	.string "tournament?$"
+
+MegaIsland_Castle_1F_Text_ReplayRegistered:
+	.string "You are registered, {PLAYER}!\p"
+	.string "Allow me to restore your POKéMON.$"
+
+MegaIsland_Castle_1F_Text_ReplayGoToTheArena:
+	.string "The arena is on the top floor.\n"
+	.string "Your opponent is waiting.$"
+
+MegaIsland_Castle_1F_Text_ReplayTomorrow:
+	.string "Today's tournament is over.\n"
+	.string "Come back tomorrow for the next!$"
 
 MegaIsland_Castle_1F_Text_Champion:
 	.string "Congratulations, {PLAYER}!\n"
