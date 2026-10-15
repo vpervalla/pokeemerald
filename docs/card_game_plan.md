@@ -2,9 +2,9 @@
 
 This is a plan for adding a small card game to the project, a game inside the game (as
 Gwent is in The Witcher 3). It is single-player only: the player duels NPCs scattered
-across Hoenn, Kanto and the Sevii Islands, in towns, Pokémon Centers, houses, routes and
-gyms, each with their own deck and a card to win. The
-rules are those of **Pokémon TCG Pocket**: 20-card decks, no Energy cards (an Energy Zone
+across Kanto, the Sevii Islands and Mega Island, in towns, Pokémon Centers, houses, routes
+and gyms, each with their own deck and a card to win. Hoenn is never reachable in this
+project, so nothing is placed there. The rules are those of **Pokémon TCG Pocket**: 20-card decks, no Energy cards (an Energy Zone
 makes one Energy a turn), up to 3 benched Pokémon, and the first player to earn
 **3 trophies** wins. "POKé DUEL" is a working name; it should live in one string so it
 can change in one place.
@@ -18,13 +18,14 @@ the battle engine, though its card data is generated from the battle data.
 | # | Decision | Recommendation | Why it matters |
 |---|----------|----------------|----------------|
 | D1 | Which Pocket rules | All the core rules in section 1. Leave out Pocket's later additions (Fossil Items, Ultra Beasts, Pokémon Tools beyond 2-3, Special Conditions beyond the 5 classic ones) | The core is complete and fits a GBA screen; the rest is content, not rules |
-| D2 | Where cards come from | Catching a species unlocks its Pokémon card. **ex** cards and Trainer cards come from daily booster packs, shop packs and opponents' rewards | Ties the game to "catch them all", and costs no save space for ~380 cards |
+| D2 | Where cards come from | Catching a species unlocks its Pokémon card. **ex** cards and Trainer cards come from daily booster packs, shop packs and opponents' rewards | Ties the game to "catch them all", and costs no save space for the Pokémon cards |
+| D2b | Which species get a card | Only those the player can obtain: the generator reads the Kanto, Sevii and Mega Island encounters in `src/data/wild_encounters.json`, adds their evolutions and the gift/trade/static Pokémon, and skips species only found in Hoenn | A card that can never be owned is wasted ROM and an empty slot in the collection |
 | D3 | What the ex cards are | The 48 Mega forms already in the game (`src/data/pokemon/mega_evolutions.h`), as Basic or evolved "Mega ex" cards worth 2 trophies, plus a few legendaries ex | Reuses existing species, graphics and names |
-| D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | ~430 hand-designed cards is months of balancing; a generator gets most of the way |
-| D5 | Supporters | Gym leaders, Elite Four and rivals of both regions (as Pocket uses the Kanto gym leaders). Beating a leader in a duel gives their Supporter card | Natural story hook and reward |
+| D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | Hundreds of hand-designed cards is months of balancing; a generator gets most of the way |
+| D5 | Supporters | The Kanto gym leaders (as in Pocket itself), Prof. Oak, Bill, the rival and the Elite Four. Beating a leader in a duel gives their Supporter card | Natural story hook and reward, and the cards already exist in Pocket to copy |
 | D6 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
 | D7 | Opponents | NPCs only, never another human player: no link or wireless mode | Removes all link code, and lets every duel be designed around a specific NPC and place |
-| D8 | How many NPCs | ~60 for the full game (~40 Hoenn, ~20 Kanto/Sevii), ~15 in the first playable version | Enough that one is never far, as Gwent players are in every inn |
+| D8 | How many NPCs | ~50 for the full game (Kanto ~30, Sevii ~12, Mega Island ~8), ~15 in the first playable version | Enough that one is never far, as Gwent players are in every inn |
 | D9 | New NPCs or existing ones | Mostly existing townsfolk who also play cards (an extra line and a choice in their script); new objects only where a town has nobody suitable | Map edits are the slowest part; reusing NPCs keeps them small |
 
 ## 1. Rules (Pokémon TCG Pocket)
@@ -192,7 +193,7 @@ defender, draw a card, search the deck for a Basic, attach extra Energy from the
 |------|----------|
 | Item | Potion (heal 20), Poké Ball (random Basic from the deck), X Speed (retreat −1), Red Card (opponent shuffles hand, draws 3), Hand Scope (see opponent's hand), Rare Candy (Basic → Stage 2) |
 | Tool | Giant Cape (+20 HP), Rocky Helmet (20 damage to the attacker) |
-| Supporter | Professor's Research → **Prof. Birch's Research** (draw 2), Giovanni-style +10 damage (**Brawly**), Misty-style Water Energy flips (**Juan**), Erika-style heal 50 to Grass (**Erika** from Kanto), Sabrina-style switch the opponent's Active (**Tate & Liza**), Koga-style return Active to hand (**Koga**), Brock-style Fighting Energy (**Roxanne**), Lt. Surge-style free retreat with Lightning (**Wattson**), Blaine-style Fire boost (**Flannery**)… one per gym leader of both regions |
+| Supporter | As in Pocket: **Prof. Oak's Research** (draw 2), **Brock** (Fighting Energy to Onix/Golem), **Misty** (flip for Water Energy), **Lt. Surge** (free retreat with Lightning), **Erika** (heal 50 to Grass), **Koga** (return Active to hand), **Sabrina** (switch the opponent's Active), **Blaine** (Fire boost), **Giovanni** (+10 damage). Later: **Bill** (draw), the rival, the Elite Four |
 
 ### Opponents: `src/data/card_game/opponents.h`
 
@@ -348,47 +349,50 @@ player's best attack next turn to decide steps 3 and 5, and plays around ex (2 t
   or not (from `opponentsBeaten`), so the player can hunt the ones still to beat, like
   Gwent's quest log.
 
-### Where they are (Hoenn)
+### Where they are (Kanto)
 
 | Place | Opponent (example) | Deck / reward |
 |-------|--------------------|---------------|
-| Littleroot, Oldale | A Littleroot neighbor, a kid in the Oldale Pokémon Center | Starter-level decks; teach the rules |
-| Petalburg, Route 104 | A Youngster in the Pokémon Center, the flower shop girl | Normal, Grass; Potion, Erika |
-| Rustboro | Devon employee, Trainers' School student | Steel, mixed; X Speed. Card Case given here (see below) |
-| Dewford, Slateport | Surfer at the hall, Slateport market vendor | Water, Fighting; Poké Ball |
-| Mauville | Game Corner regular, Wattson's assistant | Lightning; Red Card |
-| Lavaridge, Fallarbor | Hot spring old lady, a Fallarbor contest fan | Fire, Psychic |
-| Fortree, Lilycove | Tree-house resident, Department Store regular | Flying/Colorless, Water; Hand Scope, shop packs here |
-| Mossdeep, Sootopolis | Space Center scientist, Sootopolis elder | Psychic, Water ex |
-| Pacifidlog, Ever Grande | Raft resident, Victory Road veteran | Dragon, ex decks |
-| Routes | 1-2 per long route, standing near a rest spot (Route 111 rest house, Route 119 weather institute, Route 123 Berry Master's house) | Local Pokémon |
-| Gyms | Each gym leader, after their badge | Their type; their Supporter card. All 8 → an ex card |
+| Pallet, Viridian | A Pallet neighbor, the old man's grandson in Viridian | Starter-level decks that teach the rules |
+| Route 2, Pewter | Route 2 house resident, Museum guide, a Pokémon Center visitor | Bug, Normal; Card Case given in Pewter (see below) |
+| Mt. Moon, Cerulean, Route 25 | Hiker at the Pokémon Center by Mt. Moon, Bike Shop owner, Bill's neighbor | Fighting, Water; Poké Ball |
+| Vermilion | Pokémon Fan Club members, an S.S. Anne passenger | Colorless, Lightning; Red Card |
+| Lavender, Route 12 | Name Rater, the Fishing Guru's brother | Psychic, Water |
+| Celadon | Game Corner regulars, Department Store regular, Celadon Mansion residents | Mixed decks; packs sold at the Department Store |
+| Saffron | Fighting Dojo karate master, Copycat's house | Fighting, Psychic ex |
+| Fuchsia, Routes 12-18 | Safari Zone warden, the Fishing house, Cycling Road biker | Poison, Grass; Hand Scope |
+| Cinnabar | Lab scientist, Pokémon Mansion visitor | Fire; Rare Candy, fossil Pokémon |
+| Indigo Plateau | A veteran in the Pokémon Center | ex decks, after the Hall of Fame |
+| Gyms | Each Kanto gym leader, after their badge | Their type; their Supporter card. All 8 → an ex card |
 
-### Where they are (Kanto and Sevii)
+### Where they are (Sevii Islands and Mega Island)
 
 | Place | Opponent (example) | Deck / reward |
 |-------|--------------------|---------------|
-| Pallet, Viridian, Pewter, Cerulean | Locals and Pokémon Center visitors | Kanto species, Kanto gym leaders' Supporters through the gyms |
-| Vermilion, Celadon, Saffron | Fan club, Game Corner, Fighting Dojo | Stronger decks; Celadon Department Store sells packs |
-| Fuchsia, Cinnabar | Safari Zone warden's friend, a lab scientist | Rare Candy, fossil Pokémon |
-| Sevii Islands | One per island | ex cards |
-| Mega Island | The castle's guests (the 6 guest rooms) and a daily card tournament in the entrance hall (3 duels in a row, `FLAG_DAILY_CARD_TOURNAMENT`) | Mega ex cards; the strongest opponent of the game is the tournament's champion |
+| One Island | Pokémon Net Center staff, Kindle Road hot spring guests | Fire, Water |
+| Two Island | The Joyful Game Corner, a natural home for a card table: 2-3 players | Mixed; Bill |
+| Three, Four Island | Bond Bridge fisherman, Lorelei at her house (after the Hall of Fame) | Water/Ice ex |
+| Five, Six, Seven Island | Resort Gorgeous Selphy, Ruin Valley explorer, Trainer Tower receptionist | Strong mixed decks, ex |
+| Mega Island | The castle's guests (the 6 guest rooms), and a daily card tournament in the entrance hall (3 duels in a row, `FLAG_DAILY_CARD_TOURNAMENT`) | Mega ex cards; the tournament's champion is the strongest opponent in the game |
 
-Gym leaders' card duels hook into the existing gym leader rematch scripts
-(`data/scripts/gym_rematches.inc`): after the battle-rematch question, a second choice
-"Or a card duel?".
+Gym leader card duels are offered after the badge, during the story, from each gym's own
+post-badge script (one more choice: "How about a card duel?"). After the Hall of Fame the
+same choice is added to the leaders' rematch scripts (`data/scripts/gym_rematches.inc`),
+next to the rematch battle.
 
 ### Getting started
 
 - **Card Case** key item (`ITEM_CARD_CASE`, after the existing key items in
   `include/constants/items.h`), used from the bag to open the deck builder and the Card
-  Player list. Given in Rustboro after the first badge (a card fan in the Pokémon
-  Center), with a starter deck: 2 copies each of common early species the player is likely
-  to have caught, plus Potion, Poké Ball and Prof. Birch's Research ×2. Early enough that
-  most of the world's card players are met with a deck in hand.
-- **Daily pack**: the card fan in Rustboro (and a second one in Celadon, for Kanto) gives
-  one free pack a day (`FLAG_DAILY_CARD_PACK`): 5 cards, mostly Trainers, rarely an ex.
-- **Shop packs**: sold at the Lilycove and Celadon Department Stores.
+  Player list. Given in the Pewter City Pokémon Center by a card fan after the Boulder
+  Badge, with a starter deck: 2 copies each of early Kanto species the player is likely to
+  have caught (Pidgey, Rattata, Caterpie, Weedle, Spearow, Nidoran), plus Potion, Poké
+  Ball and Prof. Oak's Research ×2. Early enough that most of the world's card players
+  are met with a deck in hand.
+- **Daily pack**: the Pewter card fan gives one free pack a day (`FLAG_DAILY_CARD_PACK`):
+  5 cards, mostly Trainers, rarely an ex. A second fan in the Two Island Game Corner does
+  the same, so the pack stays reachable late in the game.
+- **Shop packs**: sold at the Celadon Department Store.
 
 ## 6. Phases
 
@@ -400,8 +404,8 @@ Gym leaders' card duels hook into the existing gym leader rematch scripts
 | 4 | Real graphics: board, icons, Energy pips, card detail, coin flip and damage animations | art + 500 lines |
 | 5 | AI as in section 4 | 500 lines |
 | 6 | Save struct, deck builder, Card Case item, pack opening | 800 lines |
-| 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Rustboro, daily pack, ~15 NPC card players from Littleroot to Lilycove, Hoenn gym leaders, Card Player list | scripts, a few map objects |
-| 8 | World, second wave: the rest of Hoenn, Kanto, Sevii, the Mega Island guests and daily tournament (~45 more NPCs) | scripts, a few map objects |
+| 7 | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
+| 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
 | 9 | Content: the full generated card pool, more Trainers and ex | data |
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
@@ -412,11 +416,12 @@ untouched until phase 7. There is no link phase: the game is played only against
 - **Rules engine size**: Pocket is far richer than a Gwent-style game (attacks, effects,
   statuses, evolution). Keeping the rules pure and host-tested is what makes it
   manageable.
-- **ROM space**: ~430 cards × ~24 bytes ≈ 10 KB, plus attack names (shared strings with
+- **ROM space**: ~300 cards × ~24 bytes ≈ 7 KB, plus attack names (shared strings with
   `gMoveNames` where the attack is a move), code and art. Check `make` still fits the
   ROM after phases 4 and 9.
 - **Save layout**: `STATIC_ASSERT` the struct size; never move other SaveBlock1 fields.
-- **Pokédex dependency**: a player who has caught few species has few cards. The starter
+- **Pokédex dependency**: a player who has caught few species has few cards, and Hoenn-only
+  species are left out of the pool entirely (D2b). The starter
   deck covers that, and Trainer cards come from packs, not catches.
 - **Balance**: a "show opponent's hand" debug toggle, and a self-play mode on the host
   harness (AI vs AI, 1000 games per deck pair) to find dominant decks before tuning.
