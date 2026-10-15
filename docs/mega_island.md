@@ -104,6 +104,11 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
   happens once. Afterwards the leader repeats where to find the POKéMON for their stone.
   GIOVANNI, who leaves his gym after the first battle, comes back for his rematch
   (`ViridianCity_Gym_OnTransition`).
+- **Two stones are items to find**: the TYRANITARITE in a corner of SEVAULT CANYON (SEVEN ISLAND),
+  where LARVITAR live (`FLAG_ITEM_SEVAULT_CANYON_TYRANITARITE`), and the MEWTWONITE Y in the lab on
+  POKéMON MANSION B1F, where MEWTWO was created. That one only appears after the Hall of Fame: a
+  transition script shows it once `FLAG_SYS_GAME_CLEAR` is set, until it's picked up
+  (`FLAG_HIDE_MANSION_MEWTWONITE_Y`, `FLAG_GOT_MEWTWONITE_Y`).
 - **The ELITE FOUR** keep FireRed's rematch: the LEAGUE is closed after the first Hall of Fame
   (LORELEI is away on FOUR ISLAND) and reopens with their stronger teams once the Sevii Islands'
   network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`). In that rematch, one POKéMON of each holds

@@ -246,3 +246,8 @@ SevenIsland_SevaultCanyon_Text_RouteSign:
     .string "TANOBY RUINS AHEAD$"
 
 @ END KANTO NPCS
+
+@ Added: the TYRANITARITE, in a corner of the canyon where LARVITAR live
+SevenIsland_SevaultCanyon_EventScript_ItemTyranitarite::
+	finditem ITEM_TYRANITARITE
+	end
