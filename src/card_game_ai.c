@@ -336,6 +336,18 @@ static s16 ScoreRareCandy(const struct AiContext *ctx, const struct CardAction *
     return GetValue(&ctx->duel->sides[ctx->side].slots[action->slot]);
 }
 
+static u8 CountPokemonInHand(const struct CardDuelSide *side)
+{
+    u8 i, count = 0;
+
+    for (i = 0; i < side->handCount; i++)
+    {
+        if (CardGame_GetPokemonInfo(side->hand[i]) != NULL)
+            count++;
+    }
+    return count;
+}
+
 // 1. Cards: draw while the hand is small, Poké Ball while the Bench has room
 static const struct CardAction *ChooseDraw(const struct AiContext *ctx)
 {
@@ -344,7 +356,11 @@ static const struct CardAction *ChooseDraw(const struct AiContext *ctx)
 
     if (side->handCount <= 6 && (action = FindTrainer(ctx, CARD_TRAINER_DRAW, NULL)) != NULL)
         return action;
+    if ((action = FindTrainer(ctx, CARD_TRAINER_DRAW_UNTIL, NULL)) != NULL && side->handCount <= 3)
+        return action;
     if (CountBench(side) < CARD_BENCH_MAX && (action = FindTrainer(ctx, CARD_TRAINER_POKE_BALL, NULL)) != NULL)
+        return action;
+    if (CountPokemonInHand(side) == 0 && (action = FindTrainer(ctx, CARD_TRAINER_SEARCH_POKEMON, NULL)) != NULL)
         return action;
     return NULL;
 }
@@ -542,6 +558,18 @@ static u16 GetActiveDamage(const struct AiContext *ctx, bool8 guaranteed)
     return GetBestDamageNow(ctx->duel, ctx->side, &ctx->duel->sides[ctx->side].slots[CARD_SLOT_ACTIVE], guaranteed);
 }
 
+static u8 CountDamaged(const struct CardDuelSide *side)
+{
+    u8 slot, count = 0;
+
+    for (slot = 0; slot < CARD_SLOT_COUNT; slot++)
+    {
+        if (side->slots[slot].cardId != CARD_NONE && side->slots[slot].damage != 0)
+            count++;
+    }
+    return count;
+}
+
 // 6. Supporters and Items that help now
 static const struct CardAction *ChooseTrainer(const struct AiContext *ctx)
 {
@@ -589,13 +617,24 @@ static const struct CardAction *ChooseTrainer(const struct AiContext *ctx)
         return action;
     if ((action = FindTrainer(ctx, CARD_TRAINER_HEAL, ScoreHealTarget)) != NULL && ScoreHealTarget(ctx, action) != SCORE_NONE)
         return action;
+    if ((action = FindTrainer(ctx, CARD_TRAINER_HEAL_ALL, NULL)) != NULL && CountDamaged(side) >= 2)
+        return action;
+    if ((action = FindTrainer(ctx, CARD_TRAINER_CURE, NULL)) != NULL)
+        return action;
     // Tools on the best Pokémon
     if ((action = FindTrainer(ctx, CARD_TRAINER_TOOL_HP, ScoreToolTarget)) != NULL)
         return action;
     if ((action = FindTrainer(ctx, CARD_TRAINER_TOOL_COUNTER, ScoreToolTarget)) != NULL)
         return action;
-    // Poison an Active that will stay a while (not about to be knocked out)
-    if ((action = FindTrainer(ctx, CARD_TRAINER_POISON_OPPONENT, NULL)) != NULL && GetActiveDamage(ctx, TRUE) < hpLeft)
+    if ((action = FindTrainer(ctx, CARD_TRAINER_TOOL_DAMAGE, ScoreToolTarget)) != NULL)
+        return action;
+    if ((action = FindTrainer(ctx, CARD_TRAINER_TOOL_HEAL, ScoreToolTarget)) != NULL)
+        return action;
+    // A Special Condition on an Active that will stay a while (not about to be knocked out)
+    if ((action = FindTrainer(ctx, CARD_TRAINER_STATUS_OPPONENT, NULL)) != NULL && GetActiveDamage(ctx, TRUE) < hpLeft)
+        return action;
+    // Less damage next turn, when the opponent's Active can attack
+    if ((action = FindTrainer(ctx, CARD_TRAINER_SHIELD, NULL)) != NULL && GetThreat(duel, ctx->side) != 0)
         return action;
     // Red Card against a big hand
     if (opponent->handCount >= 5 && (action = FindTrainer(ctx, CARD_TRAINER_RED_CARD, NULL)) != NULL)

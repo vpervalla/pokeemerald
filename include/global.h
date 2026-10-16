@@ -989,7 +989,7 @@ struct CardGameSave
 {
     u8 pokemonCopies[64];   // 2 bits per Pokémon card below CARD_FIRST_EX: copies received
     u8 exCopies[48];        // per ex card, from CARD_FIRST_EX
-    u8 trainerCopies[48];   // per Trainer card, from CARD_POKEMON_END
+    u8 trainerCopies[48];   // per Trainer card, from CARD_TRAINER_START
     u16 decks[3][20];       // CARD_DECK_SIZE cards each, CARD_NONE padded
     u16 deckZones[3];       // the Energy Zone of each deck: 3 CARD_TYPE_*, 4 bits each
     u8 activeDeck;
@@ -999,7 +999,8 @@ struct CardGameSave
     u16 losses;
     u16 draws;
     u8 opponentsMet[10];    // a bit per CARD_OPPONENT_*, for the Card Player list
-    u8 unused[70];
+    u8 version;             // CARD_SAVE_VERSION
+    u8 unused[69];
 };
 
 STATIC_ASSERT(sizeof(struct CardGameSave) == 0x180, CardGameSaveSize);

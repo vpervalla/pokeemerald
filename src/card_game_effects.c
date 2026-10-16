@@ -13,15 +13,20 @@ static bool8 IsOfType(const struct CardDuelSide *side, u8 slot, u8 type)
     return IsFilled(side, slot) && (type == CARD_TYPE_NONE || Duel_GetCardType(side->slots[slot].cardId) == type);
 }
 
-static bool8 DeckHasBasic(const struct CardDuelSide *side)
+static bool8 IsPokemonToTake(u16 cardId, bool8 basicOnly)
+{
+    const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(cardId);
+
+    return info != NULL && (!basicOnly || info->stage == CARD_STAGE_BASIC);
+}
+
+static bool8 DeckHasPokemon(const struct CardDuelSide *side, bool8 basicOnly)
 {
     u8 i;
-    const struct PokemonCardInfo *info;
 
     for (i = 0; i < side->deckCount; i++)
     {
-        info = CardGame_GetPokemonInfo(side->deck[i]);
-        if (info != NULL && info->stage == CARD_STAGE_BASIC)
+        if (IsPokemonToTake(side->deck[i], basicOnly))
             return TRUE;
     }
     return FALSE;
@@ -112,11 +117,13 @@ bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 sideId, const s
     case CARD_TRAINER_HEAL:
         return IsFilled(side, slot) && side->slots[slot].damage != 0;
     case CARD_TRAINER_POKE_BALL:
-        return slot == CARD_SLOT_NONE && DeckHasBasic(side);
+        return slot == CARD_SLOT_NONE && DeckHasPokemon(side, TRUE);
     case CARD_TRAINER_RETREAT_DISCOUNT:
         return slot == CARD_SLOT_NONE && IsFilled(side, CARD_SLOT_ACTIVE);
     case CARD_TRAINER_TOOL_HP:
     case CARD_TRAINER_TOOL_COUNTER:
+    case CARD_TRAINER_TOOL_HEAL:
+    case CARD_TRAINER_TOOL_DAMAGE:
         return slot < CARD_SLOT_COUNT;
     case CARD_TRAINER_HAND_SCOPE:
         return slot == CARD_SLOT_NONE && opponent->handCount != 0;
@@ -133,24 +140,34 @@ bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 sideId, const s
         return slot == CARD_SLOT_NONE && Duel_HasBenchPokemon(opponent);
     case CARD_TRAINER_ATTACK_BONUS:
         return slot == CARD_SLOT_NONE;
-    case CARD_TRAINER_POISON_OPPONENT:
+    case CARD_TRAINER_STATUS_OPPONENT:
         return slot == CARD_SLOT_NONE && IsFilled(opponent, CARD_SLOT_ACTIVE)
-            && !(opponent->slots[CARD_SLOT_ACTIVE].status & CARD_STATUS_POISONED);
+            && !(opponent->slots[CARD_SLOT_ACTIVE].status & info->effectArg);
+    case CARD_TRAINER_SEARCH_POKEMON:
+        return slot == CARD_SLOT_NONE && DeckHasPokemon(side, FALSE);
+    case CARD_TRAINER_SHIELD:
+        return slot == CARD_SLOT_NONE;
+    case CARD_TRAINER_HEAL_ALL:
+        return slot == CARD_SLOT_NONE && HasDamagedPokemon(side);
+    case CARD_TRAINER_DRAW_UNTIL:
+        // The card itself leaves the hand first
+        return slot == CARD_SLOT_NONE && side->deckCount != 0 && side->handCount - 1 < info->effectArg;
+    case CARD_TRAINER_CURE:
+        return slot == CARD_SLOT_NONE && IsFilled(side, CARD_SLOT_ACTIVE) && side->slots[CARD_SLOT_ACTIVE].status != 0;
     }
     return FALSE;
 }
 
-static void TakeRandomBasicFromDeck(struct CardDuel *duel, u8 sideId)
+// Poké Ball (a Basic) and Bill (any Pokémon)
+static void TakeRandomPokemonFromDeck(struct CardDuel *duel, u8 sideId, bool8 basicOnly)
 {
     struct CardDuelSide *side = &duel->sides[sideId];
-    const struct PokemonCardInfo *info;
     u8 i, count = 0, pick;
     u16 cardId;
 
     for (i = 0; i < side->deckCount; i++)
     {
-        info = CardGame_GetPokemonInfo(side->deck[i]);
-        if (info != NULL && info->stage == CARD_STAGE_BASIC)
+        if (IsPokemonToTake(side->deck[i], basicOnly))
             count++;
     }
     if (count == 0 || side->handCount >= CARD_HAND_MAX)
@@ -158,8 +175,7 @@ static void TakeRandomBasicFromDeck(struct CardDuel *duel, u8 sideId)
     pick = Duel_Random(duel) % count;
     for (i = 0; i < side->deckCount; i++)
     {
-        info = CardGame_GetPokemonInfo(side->deck[i]);
-        if (info == NULL || info->stage != CARD_STAGE_BASIC)
+        if (!IsPokemonToTake(side->deck[i], basicOnly))
             continue;
         if (pick-- != 0)
             continue;
@@ -223,7 +239,7 @@ void CardEffects_PlayTrainer(struct CardDuel *duel, u8 sideId, const struct Trai
         Duel_HealSlot(duel, sideId, slot, info->effectArg);
         break;
     case CARD_TRAINER_POKE_BALL:
-        TakeRandomBasicFromDeck(duel, sideId);
+        TakeRandomPokemonFromDeck(duel, sideId, TRUE);
         break;
     case CARD_TRAINER_RETREAT_DISCOUNT:
         side->retreatDiscount += info->effectArg;
@@ -254,8 +270,29 @@ void CardEffects_PlayTrainer(struct CardDuel *duel, u8 sideId, const struct Trai
         side->attackBonus += info->effectArg;
         side->attackBonusType = info->effectType;
         break;
-    case CARD_TRAINER_POISON_OPPONENT:
-        Duel_GiveStatus(duel, sideId ^ 1, CARD_SLOT_ACTIVE, CARD_STATUS_POISONED);
+    case CARD_TRAINER_STATUS_OPPONENT:
+        Duel_GiveStatus(duel, sideId ^ 1, CARD_SLOT_ACTIVE, info->effectArg);
+        break;
+    case CARD_TRAINER_SEARCH_POKEMON:
+        TakeRandomPokemonFromDeck(duel, sideId, FALSE);
+        break;
+    case CARD_TRAINER_SHIELD:
+        side->shield = info->effectArg;
+        side->shieldTurn = duel->turn + 1;
+        break;
+    case CARD_TRAINER_HEAL_ALL:
+        for (i = 0; i < CARD_SLOT_COUNT; i++)
+        {
+            if (IsFilled(side, i) && side->slots[i].damage != 0)
+                Duel_HealSlot(duel, sideId, i, info->effectArg);
+        }
+        break;
+    case CARD_TRAINER_DRAW_UNTIL:
+        while (side->handCount < info->effectArg && Duel_DrawCard(duel, sideId))
+            ;
+        break;
+    case CARD_TRAINER_CURE:
+        Duel_CureStatus(duel, sideId, CARD_SLOT_ACTIVE, side->slots[CARD_SLOT_ACTIVE].status);
         break;
     }
 }
@@ -267,6 +304,26 @@ u16 CardEffects_GetToolHpBonus(u16 tool)
     if (info != NULL && info->effect == CARD_TRAINER_TOOL_HP)
         return info->effectArg;
     return 0;
+}
+
+// Choice Band: more damage to the opponent's Active
+u16 CardEffects_GetToolDamageBonus(u16 tool)
+{
+    const struct TrainerCardInfo *info = CardGame_GetTrainerInfo(tool);
+
+    if (info != NULL && info->effect == CARD_TRAINER_TOOL_DAMAGE)
+        return info->effectArg;
+    return 0;
+}
+
+// Leftovers: the end of sideId's turn, on its Active
+void CardEffects_EndOfTurnTool(struct CardDuel *duel, u8 sideId)
+{
+    const struct CardInPlay *mon = &duel->sides[sideId].slots[CARD_SLOT_ACTIVE];
+    const struct TrainerCardInfo *info = CardGame_GetTrainerInfo(mon->tool);
+
+    if (info != NULL && info->effect == CARD_TRAINER_TOOL_HEAL && mon->damage != 0)
+        Duel_HealSlot(duel, sideId, CARD_SLOT_ACTIVE, info->effectArg);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -343,9 +400,13 @@ void CardEffects_UseAbility(struct CardDuel *duel, u8 sideId, u8 slot, u8 target
 u16 CardEffects_ModifyDamageTaken(const struct CardDuel *duel, u8 sideId, u8 slot, u16 damage)
 {
     const struct PokemonCardInfo *info = GetInfo(duel, sideId, slot);
+    const struct CardDuelSide *side = &duel->sides[sideId];
 
     if (info != NULL && info->ability == CARD_ABILITY_REDUCE_DAMAGE)
         damage = damage > info->abilityArg ? damage - info->abilityArg : 0;
+    // Blue, played during sideId's last turn
+    if (side->shieldTurn == duel->turn && side->shield != 0)
+        damage = damage > side->shield ? damage - side->shield : 0;
     return damage;
 }
 

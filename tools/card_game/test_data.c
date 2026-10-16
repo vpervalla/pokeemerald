@@ -76,15 +76,19 @@ static void CheckTrainerCards(void)
 {
     u16 id;
 
-    for (id = CARD_POKEMON_END; id < CARD_COUNT; id++)
+    for (id = CARD_TRAINER_START; id < CARD_COUNT; id++)
     {
         const struct TrainerCardInfo *info = CardGame_GetTrainerInfo(id);
 
         CHECK(info != NULL && info->name != NULL, "trainer %d", id);
         CHECK(info->kind >= CARD_KIND_ITEM && info->kind <= CARD_KIND_TOOL, "trainer %d", id);
         CHECK(info->effect != 0, "trainer %d", id);
-        CHECK((info->kind == CARD_KIND_TOOL) == (info->effect == CARD_TRAINER_TOOL_HP || info->effect == CARD_TRAINER_TOOL_COUNTER), "trainer %d", id);
+        CHECK((info->kind == CARD_KIND_TOOL) == (info->effect == CARD_TRAINER_TOOL_HP || info->effect == CARD_TRAINER_TOOL_COUNTER
+                                              || info->effect == CARD_TRAINER_TOOL_HEAL || info->effect == CARD_TRAINER_TOOL_DAMAGE), "trainer %d", id);
     }
+    // Between the Pokémon and the Trainers, no card
+    for (id = CARD_POKEMON_END; id < CARD_TRAINER_START; id++)
+        CHECK(CardGame_GetCardKind(id) == CARD_KIND_NONE, "card %d in the gap", id);
     CHECK(CardGame_GetCardKind(CARD_COUNT) == CARD_KIND_NONE, "past the end");
     CHECK(CardGame_GetCardKind(CARD_NONE) == CARD_KIND_NONE, "none");
 }
@@ -335,6 +339,21 @@ static void CheckAiDecisions(void)
             CHECK(chosen.type == CARD_ACTION_RETREAT && chosen.slot == 1, "HARD: retreat");
         else
             CHECK(chosen.type == CARD_ACTION_END_TURN, "NORMAL: no retreat");
+
+        // Full Heal on a Poisoned Active
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_GEODUDE;
+        me->slots[0].status = CARD_STATUS_POISONED;
+        me->hand[me->handCount++] = CARD_FULL_HEAL;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_PLAY_TRAINER && me->hand[chosen.handIndex] == CARD_FULL_HEAL, "level %d: Full Heal", level);
+
+        // Celio with a small hand
+        MakeScenario(&duel, CARD_TYPE_FIGHTING);
+        me->slots[0].cardId = CARD_GEODUDE;
+        me->hand[me->handCount++] = CARD_CELIO;
+        Choose(&duel, level, &chosen);
+        CHECK(chosen.type == CARD_ACTION_PLAY_TRAINER && me->hand[chosen.handIndex] == CARD_CELIO, "level %d: Celio", level);
 
         // After a knockout, send out the Pokémon that can attack
         MakeScenario(&duel, CARD_TYPE_FIGHTING);

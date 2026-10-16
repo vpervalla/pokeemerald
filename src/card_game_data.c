@@ -20,8 +20,8 @@ u8 CardGame_GetCardKind(u16 cardId)
 {
     if (cardId > CARD_NONE && cardId < CARD_POKEMON_END)
         return CARD_KIND_POKEMON;
-    if (cardId >= CARD_POKEMON_END && cardId < CARD_COUNT)
-        return sTrainerCards[cardId - CARD_POKEMON_END].kind;
+    if (cardId >= CARD_TRAINER_START && cardId < CARD_COUNT)
+        return sTrainerCards[cardId - CARD_TRAINER_START].kind;
     return CARD_KIND_NONE;
 }
 
@@ -34,7 +34,7 @@ const struct PokemonCardInfo *CardGame_GetPokemonInfo(u16 cardId)
 
 const struct TrainerCardInfo *CardGame_GetTrainerInfo(u16 cardId)
 {
-    if (cardId >= CARD_POKEMON_END && cardId < CARD_COUNT)
-        return &sTrainerCards[cardId - CARD_POKEMON_END];
+    if (cardId >= CARD_TRAINER_START && cardId < CARD_COUNT)
+        return &sTrainerCards[cardId - CARD_TRAINER_START];
     return NULL;
 }

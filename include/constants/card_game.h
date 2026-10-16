@@ -119,7 +119,14 @@
 #define CARD_TRAINER_HEAL_TYPE          13  // heal effectArg from one of your effectType Pokémon
 #define CARD_TRAINER_SWITCH_OPPONENT    14  // a random opponent's Benched Pokémon switches in
 #define CARD_TRAINER_ATTACK_BONUS       15  // this turn, attacks of effectType (NONE: all) do effectArg more damage
-#define CARD_TRAINER_POISON_OPPONENT    16  // the opponent's Active is now Poisoned
+#define CARD_TRAINER_STATUS_OPPONENT    16  // the opponent's Active gets status effectArg (CARD_STATUS_*)
+#define CARD_TRAINER_SEARCH_POKEMON     17  // put a random Pokémon (any stage) from your deck into your hand
+#define CARD_TRAINER_SHIELD             18  // during the opponent's next turn, your Pokémon take effectArg less damage from attacks
+#define CARD_TRAINER_HEAL_ALL           19  // heal effectArg from each of your Pokémon
+#define CARD_TRAINER_DRAW_UNTIL         20  // draw until you have effectArg cards in your hand
+#define CARD_TRAINER_CURE               21  // your Active recovers from all Special Conditions
+#define CARD_TRAINER_TOOL_HEAL          22  // Tool: at the end of your turn, as your Active, heal effectArg
+#define CARD_TRAINER_TOOL_DAMAGE        23  // Tool: its attacks do effectArg more damage to the opponent's Active
 
 // Deck validation (Duel_ValidateDeck)
 #define CARD_DECK_OK                0
@@ -134,31 +141,49 @@
 #define CARD_SAVE_FLAG_STARTER      (1 << 0)    // got the starter deck
 #define CARD_SAVE_FLAG_ALL_LEADERS  (1 << 1)    // got CARD_LEADERS_BONUS
 
+// CardGameSave.version: 1 when the Trainer cards moved to CARD_TRAINER_START (they followed the
+// Pokémon cards, from 256)
+#define CARD_SAVE_VERSION           1
+#define CARD_OLD_TRAINER_START      256
+
 #define CARD_SAVED_DECKS            3
 #define CARD_PACK_PRICE             500 // at the Celadon Dept. Store
 #define CARD_PACK_SIZE              5
 
-// Card ids: the Pokémon cards are generated (tools/card_game/gen_cards.py), the Trainers follow
+// Card ids: the Pokémon cards are generated (tools/card_game/gen_cards.py), the Trainers start
+// at CARD_TRAINER_START, so new Pokémon cards don't move them (the saved decks hold card ids)
 #define CARD_NONE                   0
 #include "constants/card_game_cards.h"
-#define CARD_POTION                 (CARD_POKEMON_END + 0)
-#define CARD_POKE_BALL              (CARD_POKEMON_END + 1)
-#define CARD_X_SPEED                (CARD_POKEMON_END + 2)
-#define CARD_HAND_SCOPE             (CARD_POKEMON_END + 3)
-#define CARD_RED_CARD               (CARD_POKEMON_END + 4)
-#define CARD_RARE_CANDY             (CARD_POKEMON_END + 5)
-#define CARD_GIANT_CAPE             (CARD_POKEMON_END + 6)
-#define CARD_ROCKY_HELMET           (CARD_POKEMON_END + 7)
-#define CARD_PROF_OAKS_RESEARCH     (CARD_POKEMON_END + 8)
-#define CARD_BROCK                  (CARD_POKEMON_END + 9)
-#define CARD_MISTY                  (CARD_POKEMON_END + 10)
-#define CARD_LT_SURGE               (CARD_POKEMON_END + 11)
-#define CARD_ERIKA                  (CARD_POKEMON_END + 12)
-#define CARD_SABRINA                (CARD_POKEMON_END + 13)
-#define CARD_BLAINE                 (CARD_POKEMON_END + 14)
-#define CARD_GIOVANNI               (CARD_POKEMON_END + 15)
-#define CARD_KOGA                   (CARD_POKEMON_END + 16)
-#define CARD_COUNT                  (CARD_POKEMON_END + 17)
+#define CARD_TRAINER_START          300
+#define CARD_POTION                 (CARD_TRAINER_START + 0)
+#define CARD_POKE_BALL              (CARD_TRAINER_START + 1)
+#define CARD_X_SPEED                (CARD_TRAINER_START + 2)
+#define CARD_HAND_SCOPE             (CARD_TRAINER_START + 3)
+#define CARD_RED_CARD               (CARD_TRAINER_START + 4)
+#define CARD_RARE_CANDY             (CARD_TRAINER_START + 5)
+#define CARD_GIANT_CAPE             (CARD_TRAINER_START + 6)
+#define CARD_ROCKY_HELMET           (CARD_TRAINER_START + 7)
+#define CARD_PROF_OAKS_RESEARCH     (CARD_TRAINER_START + 8)
+#define CARD_BROCK                  (CARD_TRAINER_START + 9)
+#define CARD_MISTY                  (CARD_TRAINER_START + 10)
+#define CARD_LT_SURGE               (CARD_TRAINER_START + 11)
+#define CARD_ERIKA                  (CARD_TRAINER_START + 12)
+#define CARD_SABRINA                (CARD_TRAINER_START + 13)
+#define CARD_BLAINE                 (CARD_TRAINER_START + 14)
+#define CARD_GIOVANNI               (CARD_TRAINER_START + 15)
+#define CARD_KOGA                   (CARD_TRAINER_START + 16)
+#define CARD_BILL                   (CARD_TRAINER_START + 17)
+#define CARD_BLUE                   (CARD_TRAINER_START + 18)
+#define CARD_LORELEI                (CARD_TRAINER_START + 19)
+#define CARD_BRUNO                  (CARD_TRAINER_START + 20)
+#define CARD_AGATHA                 (CARD_TRAINER_START + 21)
+#define CARD_LANCE                  (CARD_TRAINER_START + 22)
+#define CARD_DAISY                  (CARD_TRAINER_START + 23)
+#define CARD_CELIO                  (CARD_TRAINER_START + 24)
+#define CARD_FULL_HEAL              (CARD_TRAINER_START + 25)
+#define CARD_LEFTOVERS              (CARD_TRAINER_START + 26)
+#define CARD_CHOICE_BAND            (CARD_TRAINER_START + 27)
+#define CARD_COUNT                  (CARD_TRAINER_START + 28)
 
 // The opponent's skill (src/card_game_ai.c)
 #define CARD_AI_EASY                0

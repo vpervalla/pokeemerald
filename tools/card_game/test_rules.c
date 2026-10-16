@@ -59,6 +59,14 @@ enum
     T_BLAINE,
     T_GIOVANNI,
     T_KOGA,
+    T_BILL,
+    T_BLUE,
+    T_AGATHA,
+    T_DAISY,
+    T_CELIO,
+    T_FULL_HEAL,
+    T_LEFTOVERS,
+    T_CHOICE_BAND,
     T_CARD_END,
 };
 
@@ -137,7 +145,15 @@ static const struct TrainerCardInfo sTrainers[T_CARD_END - T_POTION] =
     [T_SABRINA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_SWITCH_OPPONENT, 0},
     [T_BLAINE - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 30, R},
     [T_GIOVANNI - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 10, CARD_TYPE_NONE},
-    [T_KOGA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_POISON_OPPONENT, 0},
+    [T_KOGA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_STATUS_OPPONENT, CARD_STATUS_POISONED},
+    [T_BILL - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_SEARCH_POKEMON, 0},
+    [T_BLUE - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_SHIELD, 10},
+    [T_AGATHA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_STATUS_OPPONENT, CARD_STATUS_CONFUSED},
+    [T_DAISY - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_HEAL_ALL, 20},
+    [T_CELIO - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_DRAW_UNTIL, 5},
+    [T_FULL_HEAL - T_POTION] = {NULL, CARD_KIND_ITEM, CARD_TRAINER_CURE, 0},
+    [T_LEFTOVERS - T_POTION] = {NULL, CARD_KIND_TOOL, CARD_TRAINER_TOOL_HEAL, 10},
+    [T_CHOICE_BAND - T_POTION] = {NULL, CARD_KIND_TOOL, CARD_TRAINER_TOOL_DAMAGE, 10},
 };
 
 u8 CardGame_GetCardKind(u16 cardId)
@@ -290,6 +306,15 @@ static void EndTurn(struct CardDuel *duel)
 
 // ---------------------------------------------------------------------------------------------
 // Tests
+
+static int CountPokemonInHand(const struct CardDuel *duel, u8 side)
+{
+    int i, count = 0;
+
+    for (i = 0; i < duel->sides[side].handCount; i++)
+        count += CardGame_GetPokemonInfo(duel->sides[side].hand[i]) != NULL;
+    return count;
+}
 
 static void Test_ValidateDeck(void)
 {
@@ -1291,6 +1316,93 @@ static void Test_RandomPlay(void)
     CHECK(memcmp(&duel, &replay, sizeof(duel)) == 0);
 }
 
+// Bill, Blue, Agatha, Daisy, Celio, Full Heal, Leftovers, Choice Band
+static void Test_LateTrainers(void)
+{
+    struct CardDuel duel;
+    struct CardDuelSide *me, *them;
+    int pokemon;
+
+    // Bill: a Pokémon from the deck
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    pokemon = CountPokemonInHand(&duel, CARD_SIDE_PLAYER);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_BILL);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_BILL), CARD_SLOT_NONE, 0));
+    CHECK(CountPokemonInHand(&duel, CARD_SIDE_PLAYER) == pokemon + 1);
+
+    // Blue: 10 less damage during the opponent's next turn only
+    StartDuel(&duel, T_WALL, T_FIRE, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_BLUE);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_BLUE), CARD_SLOT_NONE, 0));
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_OPPONENT, 0, R, 1);
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(me->slots[0].damage == 20);
+    EndTurn(&duel); // the attack ended the opponent's turn
+    CHECK(Act(&duel, CARD_SIDE_OPPONENT, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(me->slots[0].damage == 50);
+
+    // Agatha: the opponent's Active is Confused
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_AGATHA);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_AGATHA), CARD_SLOT_NONE, 0));
+    CHECK(them->slots[0].status == CARD_STATUS_CONFUSED);
+
+    // Daisy: 20 from each damaged Pokémon
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[0].damage = 60;
+    me->slots[1].cardId = T_BASIC;
+    me->slots[1].damage = 10;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_DAISY);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_DAISY), CARD_SLOT_NONE, 0));
+    CHECK(me->slots[0].damage == 40 && me->slots[1].damage == 0);
+
+    // Celio: draw until 5 cards; not with 5 or more besides itself
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->handCount = 0;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_CELIO);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
+    CHECK(me->handCount == 5);
+    duel.sides[0].supporterPlayed = FALSE;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_CELIO);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_CELIO), CARD_SLOT_NONE, 0));
+
+    // Full Heal: every Special Condition of the Active, only when it has one
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_FULL_HEAL);
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_FULL_HEAL), CARD_SLOT_NONE, 0));
+    me->slots[0].status = CARD_STATUS_POISONED | CARD_STATUS_CONFUSED;
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_FULL_HEAL), CARD_SLOT_NONE, 0));
+    CHECK(me->slots[0].status == 0);
+
+    // Leftovers: 10 at the end of its owner's turn, as the Active
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    me = &duel.sides[0];
+    me->slots[0].damage = 30;
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_LEFTOVERS);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_LEFTOVERS), 0, 0));
+    CHECK(me->slots[0].damage == 30);
+    EndTurn(&duel);
+    CHECK(me->slots[0].damage == 20);
+    EndTurn(&duel);
+    CHECK(me->slots[0].damage == 20);
+
+    // Choice Band: 10 more damage to the opponent's Active
+    StartDuel(&duel, T_WALL, T_FIRE, CARD_SIDE_OPPONENT);
+    me = &duel.sides[0];
+    EndTurn(&duel);
+    Energize(&duel, CARD_SIDE_PLAYER, 0, G, 1);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_CHOICE_BAND);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_CHOICE_BAND), 0, 0));
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_ATTACK, 0, 0, 0));
+    CHECK(duel.sides[1].slots[0].damage == 20);
+}
+
 int main(void)
 {
     Test_ValidateDeck();
@@ -1319,6 +1431,7 @@ int main(void)
     Test_Abilities();
     Test_MoreTrainers();
     Test_MegaEx();
+    Test_LateTrainers();
     Test_RandomPlay();
     printf("%d checks, %d failures\n", sChecks, sFailures);
     return sFailures != 0;

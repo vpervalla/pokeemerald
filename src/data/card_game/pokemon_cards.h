@@ -4007,4 +4007,255 @@ static const struct PokemonCardInfo sPokemonCards[CARD_POKEMON_END] =
             {gMoveNames[MOVE_OUTRAGE], {CARD_TYPE_WATER, CARD_TYPE_LIGHTNING, CARD_TYPE_COLORLESS}, 150, CARD_EFFECT_CANT_ATTACK_NEXT, 0},
         },
     },
+    [CARD_PIKACHU_EX] =
+    {
+        .species = SPECIES_PIKACHU,
+        .evolvesFrom = CARD_NONE,
+        .hp = 120,
+        .type = CARD_TYPE_LIGHTNING,
+        .weakness = CARD_TYPE_FIGHTING,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 1,
+        .isEx = TRUE,
+        .numAttacks = 1,
+        .attacks =
+        {
+            {gMoveNames[MOVE_THUNDERBOLT], {CARD_TYPE_LIGHTNING, CARD_TYPE_LIGHTNING}, 80, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_MEWTWO_EX] =
+    {
+        .species = SPECIES_MEWTWO,
+        .evolvesFrom = CARD_NONE,
+        .hp = 160,
+        .type = CARD_TYPE_PSYCHIC,
+        .weakness = CARD_TYPE_DARKNESS,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 3,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_CONFUSION], {CARD_TYPE_PSYCHIC, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_CONFUSED},
+            {gMoveNames[MOVE_PSYCHIC], {CARD_TYPE_PSYCHIC, CARD_TYPE_PSYCHIC, CARD_TYPE_COLORLESS}, 120, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_ARTICUNO_EX] =
+    {
+        .species = SPECIES_ARTICUNO,
+        .evolvesFrom = CARD_NONE,
+        .hp = 150,
+        .type = CARD_TYPE_WATER,
+        .weakness = CARD_TYPE_LIGHTNING,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 2,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_POWDER_SNOW], {CARD_TYPE_WATER, CARD_TYPE_COLORLESS}, 70, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_PARALYZED},
+            {gMoveNames[MOVE_BLIZZARD], {CARD_TYPE_WATER, CARD_TYPE_WATER, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 140, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_PARALYZED},
+        },
+    },
+    [CARD_ZAPDOS_EX] =
+    {
+        .species = SPECIES_ZAPDOS,
+        .evolvesFrom = CARD_NONE,
+        .hp = 150,
+        .type = CARD_TYPE_LIGHTNING,
+        .weakness = CARD_TYPE_FIGHTING,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 2,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_THUNDER_SHOCK], {CARD_TYPE_LIGHTNING, CARD_TYPE_COLORLESS}, 70, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_PARALYZED},
+            {gMoveNames[MOVE_THUNDER], {CARD_TYPE_LIGHTNING, CARD_TYPE_LIGHTNING, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 140, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_PARALYZED},
+        },
+    },
+    [CARD_MOLTRES_EX] =
+    {
+        .species = SPECIES_MOLTRES,
+        .evolvesFrom = CARD_NONE,
+        .hp = 150,
+        .type = CARD_TYPE_FIRE,
+        .weakness = CARD_TYPE_WATER,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 2,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_EMBER], {CARD_TYPE_FIRE, CARD_TYPE_COLORLESS}, 70, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_BURNED},
+            {gMoveNames[MOVE_HEAT_WAVE], {CARD_TYPE_FIRE, CARD_TYPE_FIRE, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 150, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_BURNED},
+        },
+    },
+    [CARD_LAPRAS_EX] =
+    {
+        .species = SPECIES_LAPRAS,
+        .evolvesFrom = CARD_NONE,
+        .hp = 160,
+        .type = CARD_TYPE_WATER,
+        .weakness = CARD_TYPE_LIGHTNING,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 4,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_WATER_GUN], {CARD_TYPE_WATER, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_HYDRO_PUMP], {CARD_TYPE_WATER, CARD_TYPE_WATER, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 150, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_STARMIE_EX] =
+    {
+        .species = SPECIES_STARMIE,
+        .evolvesFrom = CARD_STARYU,
+        .hp = 140,
+        .type = CARD_TYPE_WATER,
+        .weakness = CARD_TYPE_LIGHTNING,
+        .stage = CARD_STAGE_1,
+        .retreatCost = 0,
+        .isEx = TRUE,
+        .numAttacks = 1,
+        .attacks =
+        {
+            {gMoveNames[MOVE_HYDRO_PUMP], {CARD_TYPE_WATER, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_FLIP_BONUS, 30},
+        },
+    },
+    [CARD_ARCANINE_EX] =
+    {
+        .species = SPECIES_ARCANINE,
+        .evolvesFrom = CARD_GROWLITHE,
+        .hp = 150,
+        .type = CARD_TYPE_FIRE,
+        .weakness = CARD_TYPE_WATER,
+        .stage = CARD_STAGE_1,
+        .retreatCost = 3,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_BITE], {CARD_TYPE_FIRE, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_EMBER], {CARD_TYPE_FIRE, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_BURNED},
+        },
+    },
+    [CARD_MAROWAK_EX] =
+    {
+        .species = SPECIES_MAROWAK,
+        .evolvesFrom = CARD_CUBONE,
+        .hp = 130,
+        .type = CARD_TYPE_FIGHTING,
+        .weakness = CARD_TYPE_GRASS,
+        .stage = CARD_STAGE_1,
+        .retreatCost = 1,
+        .isEx = TRUE,
+        .numAttacks = 1,
+        .attacks =
+        {
+            {gMoveNames[MOVE_BONE_CLUB], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 110, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_WIGGLYTUFF_EX] =
+    {
+        .species = SPECIES_WIGGLYTUFF,
+        .evolvesFrom = CARD_JIGGLYPUFF,
+        .hp = 160,
+        .type = CARD_TYPE_PSYCHIC,
+        .weakness = CARD_TYPE_DARKNESS,
+        .stage = CARD_STAGE_1,
+        .retreatCost = 1,
+        .isEx = TRUE,
+        .numAttacks = 1,
+        .attacks =
+        {
+            {gMoveNames[MOVE_PLAY_ROUGH], {CARD_TYPE_PSYCHIC, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 110, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_EXEGGUTOR_EX] =
+    {
+        .species = SPECIES_EXEGGUTOR,
+        .evolvesFrom = CARD_EXEGGCUTE,
+        .hp = 150,
+        .type = CARD_TYPE_GRASS,
+        .weakness = CARD_TYPE_FIRE,
+        .stage = CARD_STAGE_1,
+        .retreatCost = 3,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_CONFUSION], {CARD_TYPE_GRASS, CARD_TYPE_COLORLESS}, 70, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_CONFUSED},
+            {gMoveNames[MOVE_EGG_BOMB], {CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 160, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_MACHAMP_EX] =
+    {
+        .species = SPECIES_MACHAMP,
+        .evolvesFrom = CARD_MACHOKE,
+        .hp = 180,
+        .type = CARD_TYPE_FIGHTING,
+        .weakness = CARD_TYPE_PSYCHIC,
+        .stage = CARD_STAGE_2,
+        .retreatCost = 3,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_REVENGE], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 60, CARD_EFFECT_BONUS_IF_DAMAGED, 20},
+            {gMoveNames[MOVE_CROSS_CHOP], {CARD_TYPE_FIGHTING, CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 160, CARD_EFFECT_FLIP_BONUS, 20},
+        },
+    },
+    [CARD_DRAGONITE_EX] =
+    {
+        .species = SPECIES_DRAGONITE,
+        .evolvesFrom = CARD_DRAGONAIR,
+        .hp = 190,
+        .type = CARD_TYPE_DRAGON,
+        .weakness = CARD_TYPE_NONE,
+        .stage = CARD_STAGE_2,
+        .retreatCost = 4,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_TWISTER], {CARD_TYPE_WATER, CARD_TYPE_LIGHTNING}, 80, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_OUTRAGE], {CARD_TYPE_WATER, CARD_TYPE_LIGHTNING, CARD_TYPE_COLORLESS}, 150, CARD_EFFECT_CANT_ATTACK_NEXT, 0},
+        },
+    },
+    [CARD_LUGIA_EX] =
+    {
+        .species = SPECIES_LUGIA,
+        .evolvesFrom = CARD_NONE,
+        .hp = 160,
+        .type = CARD_TYPE_PSYCHIC,
+        .weakness = CARD_TYPE_DARKNESS,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 4,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_SWIFT], {CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 90, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_HYDRO_PUMP], {CARD_TYPE_PSYCHIC, CARD_TYPE_PSYCHIC, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 180, CARD_EFFECT_NONE, 0},
+        },
+    },
+    [CARD_HO_OH_EX] =
+    {
+        .species = SPECIES_HO_OH,
+        .evolvesFrom = CARD_NONE,
+        .hp = 160,
+        .type = CARD_TYPE_FIRE,
+        .weakness = CARD_TYPE_WATER,
+        .stage = CARD_STAGE_BASIC,
+        .retreatCost = 3,
+        .isEx = TRUE,
+        .numAttacks = 2,
+        .attacks =
+        {
+            {gMoveNames[MOVE_SWIFT], {CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 90, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_FIRE_BLAST], {CARD_TYPE_FIRE, CARD_TYPE_FIRE, CARD_TYPE_COLORLESS, CARD_TYPE_COLORLESS}, 160, CARD_EFFECT_FLIP_STATUS, CARD_STATUS_BURNED},
+        },
+    },
 };

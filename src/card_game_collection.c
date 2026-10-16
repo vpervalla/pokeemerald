@@ -20,12 +20,36 @@
 
 STATIC_ASSERT(CARD_FIRST_EX - 1 <= sizeof(((struct CardGameSave *)0)->pokemonCopies) * 4, CardGameSavePokemon);
 STATIC_ASSERT(CARD_POKEMON_END - CARD_FIRST_EX <= sizeof(((struct CardGameSave *)0)->exCopies), CardGameSaveEx);
-STATIC_ASSERT(CARD_COUNT - CARD_POKEMON_END <= sizeof(((struct CardGameSave *)0)->trainerCopies), CardGameSaveTrainers);
+STATIC_ASSERT(CARD_COUNT - CARD_TRAINER_START <= sizeof(((struct CardGameSave *)0)->trainerCopies), CardGameSaveTrainers);
+STATIC_ASSERT(CARD_POKEMON_END <= CARD_TRAINER_START, CardGameTrainerIds);
 STATIC_ASSERT(CARD_SAVED_DECKS == ARRAY_COUNT(((struct CardGameSave *)0)->decks), CardGameSaveDecks);
+
+// Saves from before CARD_SAVE_VERSION 1 have their decks' Trainer cards at the old ids
+static void UpdateSave(struct CardGameSave *save)
+{
+    u8 deck, i;
+
+    if (save->flags & CARD_SAVE_FLAG_STARTER)
+    {
+        for (deck = 0; deck < CARD_SAVED_DECKS; deck++)
+        {
+            for (i = 0; i < CARD_DECK_SIZE; i++)
+            {
+                if (save->decks[deck][i] >= CARD_OLD_TRAINER_START && save->decks[deck][i] < CARD_TRAINER_START)
+                    save->decks[deck][i] += CARD_TRAINER_START - CARD_OLD_TRAINER_START;
+            }
+        }
+    }
+    save->version = CARD_SAVE_VERSION;
+}
 
 static struct CardGameSave *GetSave(void)
 {
-    return &gSaveBlock1Ptr->cardGame;
+    struct CardGameSave *save = &gSaveBlock1Ptr->cardGame;
+
+    if (save->version != CARD_SAVE_VERSION)
+        UpdateSave(save);
+    return save;
 }
 
 static u8 GetPokemonCopiesReceived(u16 cardId)
@@ -50,10 +74,10 @@ static bool8 IsCaught(u16 cardId)
 
 u8 CardGame_GetOwnedCopies(u16 cardId)
 {
-    if (cardId == CARD_NONE || cardId >= CARD_COUNT)
+    if (CardGame_GetCardKind(cardId) == CARD_KIND_NONE)
         return 0;
-    if (cardId >= CARD_POKEMON_END)
-        return GetSave()->trainerCopies[cardId - CARD_POKEMON_END];
+    if (cardId >= CARD_TRAINER_START)
+        return GetSave()->trainerCopies[cardId - CARD_TRAINER_START];
     if (cardId >= CARD_FIRST_EX)
         return GetSave()->exCopies[cardId - CARD_FIRST_EX];
     if (IsCaught(cardId))
@@ -66,10 +90,10 @@ bool8 CardGame_GiveCard(u16 cardId)
 {
     u8 copies = CardGame_GetOwnedCopies(cardId);
 
-    if (cardId == CARD_NONE || cardId >= CARD_COUNT || copies >= CARD_MAX_COPIES)
+    if (CardGame_GetCardKind(cardId) == CARD_KIND_NONE || copies >= CARD_MAX_COPIES)
         return FALSE;
-    if (cardId >= CARD_POKEMON_END)
-        GetSave()->trainerCopies[cardId - CARD_POKEMON_END] = copies + 1;
+    if (cardId >= CARD_TRAINER_START)
+        GetSave()->trainerCopies[cardId - CARD_TRAINER_START] = copies + 1;
     else if (cardId >= CARD_FIRST_EX)
         GetSave()->exCopies[cardId - CARD_FIRST_EX] = copies + 1;
     else
@@ -165,7 +189,7 @@ u16 CardGame_RollPackCard(void)
         return CARD_FIRST_EX + Random() % (CARD_POKEMON_END - CARD_FIRST_EX);
     if (roll < 45)
         return 1 + Random() % (CARD_FIRST_EX - 1);
-    return CARD_POKEMON_END + Random() % (CARD_COUNT - CARD_POKEMON_END);
+    return CARD_TRAINER_START + Random() % (CARD_COUNT - CARD_TRAINER_START);
 }
 
 // ---------------------------------------------------------------------------------------------

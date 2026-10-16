@@ -259,7 +259,22 @@
 #define CARD_SABLEYE_MEGA_EX                 253
 #define CARD_ABSOL_MEGA_EX                   254
 #define CARD_DRAGONITE_MEGA_EX               255
+#define CARD_PIKACHU_EX                      256
+#define CARD_MEWTWO_EX                       257
+#define CARD_ARTICUNO_EX                     258
+#define CARD_ZAPDOS_EX                       259
+#define CARD_MOLTRES_EX                      260
+#define CARD_LAPRAS_EX                       261
+#define CARD_STARMIE_EX                      262
+#define CARD_ARCANINE_EX                     263
+#define CARD_MAROWAK_EX                      264
+#define CARD_WIGGLYTUFF_EX                   265
+#define CARD_EXEGGUTOR_EX                    266
+#define CARD_MACHAMP_EX                      267
+#define CARD_DRAGONITE_EX                    268
+#define CARD_LUGIA_EX                        269
+#define CARD_HO_OH_EX                        270
 #define CARD_FIRST_EX                        228  // the ex cards come last
-#define CARD_POKEMON_END                     256
+#define CARD_POKEMON_END                     271
 
 #endif // GUARD_CONSTANTS_CARD_GAME_CARDS_H

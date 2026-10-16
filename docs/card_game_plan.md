@@ -193,7 +193,7 @@ defender, draw a card, search the deck for a Basic, attach extra Energy from the
 |------|----------|
 | Item | Potion (heal 20), Poké Ball (random Basic from the deck), X Speed (retreat −1), Red Card (opponent shuffles hand, draws 3), Hand Scope (see opponent's hand), Rare Candy (Basic → Stage 2) |
 | Tool | Giant Cape (+20 HP), Rocky Helmet (20 damage to the attacker) |
-| Supporter | As in Pocket: **Prof. Oak's Research** (draw 2), **Brock** (Fighting Energy to Onix/Golem), **Misty** (flip for Water Energy), **Lt. Surge** (free retreat with Lightning), **Erika** (heal 50 to Grass), **Koga** (return Active to hand), **Sabrina** (switch the opponent's Active), **Blaine** (Fire boost), **Giovanni** (+10 damage). Later: **Bill** (draw), the rival, the Elite Four |
+| Supporter | As in Pocket: **Prof. Oak's Research** (draw 2), **Brock** (Fighting Energy to Onix/Golem), **Misty** (flip for Water Energy), **Lt. Surge** (free retreat with Lightning), **Erika** (heal 50 to Grass), **Koga** (Poisons the opponent's Active, see phase 8), **Sabrina** (switch the opponent's Active), **Blaine** (Fire boost), **Giovanni** (+10 damage). Later: **Bill** (draw), the rival, the Elite Four (all added in phase 9) |
 
 ### Opponents: `src/data/card_game/opponents.h`
 
@@ -408,7 +408,7 @@ next to the rematch battle.
 | 6 ✅ | Save struct, deck builder, Card Case item, pack opening | 800 lines |
 | 7 ✅ | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
 | 8 ✅ | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
-| 9 | Content: the full generated card pool, more Trainers and ex | data |
+| 9 ✅ | Content: the full generated card pool, more Trainers and ex | data |
 
 **Phase 1 status (done).** `src/card_game_rules.c`, `src/card_game_effects.c`,
 `include/card_game.h`, `include/constants/card_game.h`, and the host tests
@@ -648,6 +648,53 @@ phases:
   pack (with LEON's and ALDER's rewards and MR. M.'s Mega Mewtwo), the 8-leaders bonus (7
   leaders set as beaten, then BROCK: both cards and their screen), the Celadon shop (two packs
   bought), and the COPYCAT playing the starter deck back.
+
+**Phase 9 status (done).**
+
+- The generated pool was already complete in phase 2: every species met in Kanto, the Sevii
+  Islands and Mega Island, with their families (227 cards). Phase 9 adds the rest of the plan's
+  content: **15 ex cards of Pokémon without a Mega** (as in Pocket: Pikachu, Mewtwo, Articuno,
+  Zapdos, Moltres, Lapras, Starmie, Arcanine, Marowak, Wigglytuff, Exeggutor, Machamp, Dragonite,
+  Lugia, Ho-Oh) and **11 Trainer cards**. 270 Pokémon cards (43 ex) and 28 Trainers in all.
+- The ex cards (`EXTRA_EX` in `gen_cards.py`) are the Pokémon's card with 30 more HP and 20
+  more damage per attack; Pikachu ex and Starmie ex are hand-tuned in the overrides (their plain
+  cards are hand-tuned weaker ones). They come after the Megas, so no saved card moves. A first
+  try at Pocket-like ex designs came out weaker than the generated legendaries' plain cards and
+  cost the decks that used them (Moltres ex: 39% against 45% for the plain card), so the ex keep
+  the plain card's attacks, stronger.
+- New Trainers, with 7 new effects (`CARD_TRAINER_*` 16-23; Koga's became the general
+  `STATUS_OPPONENT`):
+
+  | Card | Kind | Effect |
+  |------|------|--------|
+  | BILL | Supporter | A random Pokémon (any stage) from your deck into your hand |
+  | BLUE | Supporter | During your opponent's next turn, your Pokémon take 10 less damage from attacks |
+  | LORELEI | Supporter | The opponent's Active is Asleep |
+  | BRUNO | Supporter | This turn, Fighting attacks do 20 more damage |
+  | AGATHA | Supporter | The opponent's Active is Confused |
+  | LANCE | Supporter | This turn, Dragon attacks do 30 more damage |
+  | DAISY | Supporter | Heal 20 from each of your Pokémon |
+  | CELIO | Supporter | Draw until you have 5 cards in your hand |
+  | FULL HEAL | Item | Your Active recovers from all Special Conditions |
+  | LEFTOVERS | Tool | At the end of your turn, as your Active, heal 10 |
+  | CHOICE BAND | Tool | Its attacks do 10 more damage to the opponent's Active |
+
+  Each is tested in `test_rules`; the AI plays them (Celio with a small hand, Bill with no
+  Pokémon in hand, Blue when the opponent's Active can attack, Daisy with 2 damaged Pokémon, Full
+  Heal on any Special Condition, the Tools on the best Pokémon, the conditions on an Active it
+  can't knock out), with decision scenarios in `test_data`. They come from packs, and the late
+  card players use them (BRUNO at the Dojo, AGATHA with the Indigo veteran and MR. M., LORELEI and
+  Lapras ex at her house, LANCE with LANCE and RODETTE, BLUE with the rival, BILL with Bill's
+  grandfather, DAISY at the Ember Spa, CELIO on Five Island, the Tools and the bird ex on the
+  Sevii Islands, Mewtwo ex with MR. M.).
+- **Trainer ids**: the Trainers now start at a fixed `CARD_TRAINER_START` (300) instead of right
+  after the Pokémon cards, so more Pokémon cards will never move them again. Saved decks hold card
+  ids: `CardGameSave.version` (from the unused bytes) updates older saves once, moving their
+  decks' Trainers from the old ids (checked in mGBA: an old Potion stays a Potion).
+- Card texts: Supporters read "SUPPORTER (1 a turn)" on two lines, which no longer runs into the
+  card's name in the Card Case.
+- Balance: the late decks that took the new cards stay within a few points of before, apart from
+  the Game Corner's Zapdos ex deck (53% to 63%).
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

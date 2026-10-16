@@ -245,7 +245,7 @@ void Duel_GiveStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status)
     Duel_PushEvent(duel, CARD_EVENT_STATUS, side, slot, status);
 }
 
-static void CureStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status)
+void Duel_CureStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status)
 {
     struct CardInPlay *mon = &duel->sides[side].slots[slot];
 
@@ -672,7 +672,7 @@ void Duel_EvolveSlot(struct CardDuel *duel, u8 sideId, u8 slot, u16 cardId)
     mon->cantAttackTurn = 0;
     Duel_PushEvent(duel, CARD_EVENT_EVOLVE, sideId, slot, cardId);
     // Evolving cures every Special Condition
-    CureStatus(duel, sideId, slot, mon->status);
+    Duel_CureStatus(duel, sideId, slot, mon->status);
 }
 
 static void SwapWithActive(struct CardDuelSide *side, u8 slot)
@@ -688,7 +688,7 @@ static void MoveActiveToBench(struct CardDuel *duel, u8 sideId, u8 slot)
 {
     struct CardDuelSide *side = &duel->sides[sideId];
 
-    CureStatus(duel, sideId, CARD_SLOT_ACTIVE, side->slots[CARD_SLOT_ACTIVE].status);
+    Duel_CureStatus(duel, sideId, CARD_SLOT_ACTIVE, side->slots[CARD_SLOT_ACTIVE].status);
     side->slots[CARD_SLOT_ACTIVE].cantAttackTurn = 0;
     SwapWithActive(side, slot);
 }
@@ -913,6 +913,8 @@ static void DoAttack(struct CardDuel *duel, u8 attackId, u8 target)
     {
         if (side->attackBonus != 0 && (side->attackBonusType == CARD_TYPE_NONE || side->attackBonusType == info->type))
             damage += side->attackBonus;
+        if (targetSlot == CARD_SLOT_ACTIVE)
+            damage += CardEffects_GetToolDamageBonus(attacker->tool);
         // Weakness only counts against the Active Pokémon
         if (targetSlot == CARD_SLOT_ACTIVE && defenderInfo->weakness != CARD_TYPE_NONE && defenderInfo->weakness == info->type)
             damage += CARD_WEAKNESS_BONUS;
@@ -1010,19 +1012,21 @@ static void Checkup(struct CardDuel *duel)
         mon = &duel->sides[sideId].slots[CARD_SLOT_ACTIVE];
         if (mon->cardId == CARD_NONE)
             continue;
+        if (sideId == duel->currentSide)
+            CardEffects_EndOfTurnTool(duel, sideId);
         if (mon->status & CARD_STATUS_POISONED)
             Duel_DamageSlot(duel, sideId, CARD_SLOT_ACTIVE, CARD_POISON_DAMAGE);
         if (mon->status & CARD_STATUS_BURNED)
         {
             Duel_DamageSlot(duel, sideId, CARD_SLOT_ACTIVE, CARD_BURN_DAMAGE);
             if (Duel_FlipCoin(duel, sideId))
-                CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_BURNED);
+                Duel_CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_BURNED);
         }
         if ((mon->status & CARD_STATUS_ASLEEP) && Duel_FlipCoin(duel, sideId))
-            CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_ASLEEP);
+            Duel_CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_ASLEEP);
         // Paralysis wears off at the end of its owner's next turn
         if ((mon->status & CARD_STATUS_PARALYZED) && sideId == duel->currentSide && mon->statusTurn != duel->turn)
-            CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_PARALYZED);
+            Duel_CureStatus(duel, sideId, CARD_SLOT_ACTIVE, CARD_STATUS_PARALYZED);
     }
 }
 

@@ -108,6 +108,8 @@ struct CardDuelSide
     u8 retreatDiscount;         // this turn
     u8 attackBonus;             // this turn, for attacks of attackBonusType (CARD_TYPE_NONE: all)
     u8 attackBonusType;
+    u8 shield;                  // Blue: less damage from attacks during shieldTurn
+    u8 shieldTurn;
     bool8 setupDone;
     bool8 energyAttached;       // this turn
     bool8 supporterPlayed;      // this turn
@@ -227,6 +229,7 @@ bool8 Duel_DrawCard(struct CardDuel *duel, u8 side);
 void Duel_DamageSlot(struct CardDuel *duel, u8 side, u8 slot, u16 damage);
 void Duel_HealSlot(struct CardDuel *duel, u8 side, u8 slot, u16 amount);
 void Duel_GiveStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status);
+void Duel_CureStatus(struct CardDuel *duel, u8 side, u8 slot, u8 status);
 void Duel_DiscardEnergy(struct CardDuel *duel, u8 side, u8 slot, u8 count, u8 preferredType);
 void Duel_EvolveSlot(struct CardDuel *duel, u8 side, u8 slot, u16 cardId);
 void Duel_SwitchActive(struct CardDuel *duel, u8 side, u8 slot);
@@ -238,6 +241,8 @@ u8 Duel_GetCardType(u16 cardId);
 bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot, u8 arg);
 void CardEffects_PlayTrainer(struct CardDuel *duel, u8 side, const struct TrainerCardInfo *info, u8 slot, u16 extraCard);
 u16 CardEffects_GetToolHpBonus(u16 tool);
+u16 CardEffects_GetToolDamageBonus(u16 tool);
+void CardEffects_EndOfTurnTool(struct CardDuel *duel, u8 sideId);
 bool8 CardEffects_BeforeAttack(struct CardDuel *duel, u8 side, const struct CardAttack *attack, u16 *damage);
 void CardEffects_AfterAttack(struct CardDuel *duel, u8 side, const struct CardAttack *attack, u8 target);
 u16 CardEffects_ModifyDamageTaken(const struct CardDuel *duel, u8 side, u8 slot, u16 damage);

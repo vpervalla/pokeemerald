@@ -55,5 +55,7 @@
     "BLASTOISE_MEGA_EX": {"hp": 220, "retreat": 3, "attacks": [{"name": "MOVE_SURF", "cost": "WC", "damage": 40}, {"name": "Hydro Bazooka", "cost": "WWC", "damage": 100, "effect": "BONUS_EXTRA_ENERGY", "arg": 60}]},
     "GENGAR_MEGA_EX": {"hp": 200, "retreat": 2, "attacks": [{"name": "MOVE_SHADOW_BALL", "cost": "PPC", "damage": 120, "effect": "FLIP_STATUS", "arg": "CONFUSED"}]},
     "ALAKAZAM_MEGA_EX": {"hp": 190, "retreat": 1, "attacks": [{"name": "MOVE_PSYCHIC", "cost": "PPC", "damage": 110, "effect": "BONUS_IF_DAMAGED", "arg": 30}]},
-    "PIDGEOT_MEGA_EX": {"hp": 200, "retreat": 0, "attacks": [{"name": "Scattering Cyclone", "cost": "CCC", "damage": 100, "effect": "SWITCH_DEFENDER"}]}
+    "PIDGEOT_MEGA_EX": {"hp": 200, "retreat": 0, "attacks": [{"name": "Scattering Cyclone", "cost": "CCC", "damage": 100, "effect": "SWITCH_DEFENDER"}]},
+    "PIKACHU_EX": {"hp": 120, "retreat": 1, "attacks": [{"name": "MOVE_THUNDERBOLT", "cost": "LL", "damage": 80}]},
+    "STARMIE_EX": {"hp": 140, "retreat": 0, "attacks": [{"name": "MOVE_HYDRO_PUMP", "cost": "WC", "damage": 80, "effect": "FLIP_BONUS", "arg": 30}]}
 }

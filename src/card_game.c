@@ -354,7 +354,7 @@ static const u8 sText_Weakness[] = _("WEAKNESS ");
 static const u8 sText_Retreat[] = _("  RETREAT ");
 static const u8 sText_AbilityLabel[] = _("ABILITY ");
 static const u8 sText_Item[] = _("ITEM");
-static const u8 sText_Supporter[] = _("SUPPORTER (one a turn)");
+static const u8 sText_Supporter[] = _("SUPPORTER\n(1 a turn)");
 static const u8 sText_Tool[] = _("POKéMON TOOL");
 static const u8 sText_ToolAttached[] = _("TOOL: ");
 static const u8 sText_ViewerHp[] = _(" HP");
@@ -479,7 +479,18 @@ static const u8 sTrainer_Switch[] = _("Your opponent's Active is switched with a
 static const u8 sTrainer_Bonus[] = _("This turn, your attacks do ");
 static const u8 sTrainer_BonusTypeAfter[] = _(" more damage, with POKéMON of this type: ");
 static const u8 sTrainer_BonusAfter[] = _(" more damage.");
-static const u8 sTrainer_Poison[] = _("Your opponent's Active POKéMON is now Poisoned.");
+static const u8 sTrainer_Status[] = _("Your opponent's Active POKéMON is now ");
+static const u8 sTrainer_Search[] = _("Put a random POKéMON from your deck into your hand.");
+static const u8 sTrainer_Shield[] = _("During your opponent's next turn, your POKéMON take ");
+static const u8 sTrainer_ShieldAfter[] = _(" less damage from attacks.");
+static const u8 sTrainer_HealAllAfter[] = _(" from each of your POKéMON.");
+static const u8 sTrainer_DrawUntil[] = _("Draw cards until you have ");
+static const u8 sTrainer_DrawUntilAfter[] = _(" cards in your hand.");
+static const u8 sTrainer_Cure[] = _("Your Active POKéMON recovers from all Special Conditions.");
+static const u8 sTrainer_ToolHeal[] = _("At the end of your turn, if it is your Active POKéMON, heal ");
+static const u8 sTrainer_ToolHealAfter[] = _(" from it.");
+static const u8 sTrainer_ToolDamage[] = _("Its attacks do ");
+static const u8 sTrainer_ToolDamageAfter[] = _(" more damage to your opponent's Active POKéMON.");
 
 static const u8 *const sTrainerTexts[][2] =
 {
@@ -498,7 +509,14 @@ static const u8 *const sTrainerTexts[][2] =
     [CARD_TRAINER_HEAL_TYPE]          = {sTrainer_Heal, sTrainer_HealTypeAfter},
     [CARD_TRAINER_SWITCH_OPPONENT]    = {sTrainer_Switch, NULL},
     [CARD_TRAINER_ATTACK_BONUS]       = {sTrainer_Bonus, sTrainer_BonusAfter},
-    [CARD_TRAINER_POISON_OPPONENT]    = {sTrainer_Poison, NULL},
+    [CARD_TRAINER_STATUS_OPPONENT]    = {sTrainer_Status, NULL},
+    [CARD_TRAINER_SEARCH_POKEMON]     = {sTrainer_Search, NULL},
+    [CARD_TRAINER_SHIELD]             = {sTrainer_Shield, sTrainer_ShieldAfter},
+    [CARD_TRAINER_HEAL_ALL]           = {sTrainer_Heal, sTrainer_HealAllAfter},
+    [CARD_TRAINER_DRAW_UNTIL]         = {sTrainer_DrawUntil, sTrainer_DrawUntilAfter},
+    [CARD_TRAINER_CURE]               = {sTrainer_Cure, NULL},
+    [CARD_TRAINER_TOOL_HEAL]          = {sTrainer_ToolHeal, sTrainer_ToolHealAfter},
+    [CARD_TRAINER_TOOL_DAMAGE]        = {sTrainer_ToolDamage, sTrainer_ToolDamageAfter},
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -1780,6 +1798,9 @@ u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
     if (info->effect == CARD_TRAINER_ATTACK_BONUS && info->effectType != CARD_TYPE_NONE)
         after = sTrainer_BonusTypeAfter;
     dst = StringAppend(dst, sTrainerTexts[info->effect][0]);
+    // Koga, Lorelei, Agatha: the Special Condition's name
+    if (info->effect == CARD_TRAINER_STATUS_OPPONENT)
+        return StringAppend(AppendStatusName(dst, info->effectArg), sEffect_Dot);
     if (after != NULL)
         dst = AppendEffectText(dst, NULL, info->effectArg, after);
     if (info->effectType != CARD_TYPE_NONE)

@@ -363,6 +363,11 @@ def hp_for(stats, bst, stage, is_ex):
     return min(250, max(30, round10(hp)))
 
 
+# The ex cards of Pokémon without a Mega Evolution; each is hand-tuned in the overrides
+EXTRA_EX = ['PIKACHU', 'MEWTWO', 'ARTICUNO', 'ZAPDOS', 'MOLTRES', 'LAPRAS', 'STARMIE', 'ARCANINE',
+            'MAROWAK', 'WIGGLYTUFF', 'EXEGGUTOR', 'MACHAMP', 'DRAGONITE', 'LUGIA', 'HO_OH']
+
+
 def build_cards():
     species = load_species()
     pre = load_evolutions()
@@ -439,6 +444,18 @@ def build_cards():
         card.strength = min(1.4, max(0.0, (card.bst - 300) / 300))
         card.learnset = learnsets.get(base, [])
         card.weight = weights.get(base, 300)
+        cards.append(card)
+
+    # ex cards of Pokémon without a Mega (as in Pokémon TCG Pocket): the same Pokémon, stronger,
+    # worth 2 trophies. After the Megas, so the ids already in saves don't move.
+    for name in EXTRA_EX:
+        base = by_species['SPECIES_' + name]
+        card = Card()
+        card.__dict__.update(base.__dict__)
+        card.id = base.id + '_EX'
+        card.role = 'big'
+        card.is_ex = True
+        card.strength = min(1.4, max(0.0, (card.bst - 300) / 300))
         cards.append(card)
 
     for card in cards:
