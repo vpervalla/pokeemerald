@@ -193,7 +193,11 @@ MegaIsland_Castle_1F_Text_Final:
 	.string "FINAL$"
 
 MegaIsland_Castle_1F_EventScript_Blue::
-	msgbox MegaIsland_Castle_1F_Text_Blue, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_1F_Text_Blue
+	cardduel CARD_OPPONENT_BLUE
+	release
 	end
 
 MegaIsland_Castle_1F_Text_Blue:

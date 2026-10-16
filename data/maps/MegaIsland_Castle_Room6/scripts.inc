@@ -2,7 +2,11 @@ MegaIsland_Castle_Room6_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_Room6_EventScript_Diantha::
-	msgbox MegaIsland_Castle_Room6_Text_Diantha, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_Room6_Text_Diantha
+	cardduel CARD_OPPONENT_DIANTHA
+	release
 	end
 
 MegaIsland_Castle_Room6_Text_Diantha:

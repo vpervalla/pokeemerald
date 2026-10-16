@@ -18,7 +18,11 @@ FiveIsland_PokemonCenter_1F_EventScript_Chef::
 	end
 
 FiveIsland_PokemonCenter_1F_EventScript_CooltrainerF::
-	msgbox FiveIsland_PokemonCenter_1F_Text_YoureOnQuestToCatchEveryMon, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox FiveIsland_PokemonCenter_1F_Text_YoureOnQuestToCatchEveryMon
+	cardduel CARD_OPPONENT_FIVE_ISLAND_COOLTRAINER
+	release
 	end
 
 FiveIsland_PokemonCenter_1F_EventScript_PokemonJournal::

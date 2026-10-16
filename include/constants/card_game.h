@@ -3,7 +3,7 @@
 
 // The card game (see docs/card_game_plan.md), with the rules of Pokémon TCG Pocket.
 
-#define CARD_DECK_SIZE          20
+#define CARD_DECK_SIZE              20
 #define CARD_MAX_COPIES         2   // of the same card in a deck
 #define CARD_OPENING_HAND       5
 #define CARD_HAND_MAX           10
@@ -119,6 +119,7 @@
 #define CARD_TRAINER_HEAL_TYPE          13  // heal effectArg from one of your effectType Pokémon
 #define CARD_TRAINER_SWITCH_OPPONENT    14  // a random opponent's Benched Pokémon switches in
 #define CARD_TRAINER_ATTACK_BONUS       15  // this turn, attacks of effectType (NONE: all) do effectArg more damage
+#define CARD_TRAINER_POISON_OPPONENT    16  // the opponent's Active is now Poisoned
 
 // Deck validation (Duel_ValidateDeck)
 #define CARD_DECK_OK                0
@@ -131,8 +132,10 @@
 
 // CardGameSave.flags
 #define CARD_SAVE_FLAG_STARTER      (1 << 0)    // got the starter deck
+#define CARD_SAVE_FLAG_ALL_LEADERS  (1 << 1)    // got CARD_LEADERS_BONUS
 
 #define CARD_SAVED_DECKS            3
+#define CARD_PACK_PRICE             500 // at the Celadon Dept. Store
 #define CARD_PACK_SIZE              5
 
 // Card ids: the Pokémon cards are generated (tools/card_game/gen_cards.py), the Trainers follow
@@ -154,7 +157,8 @@
 #define CARD_SABRINA                (CARD_POKEMON_END + 13)
 #define CARD_BLAINE                 (CARD_POKEMON_END + 14)
 #define CARD_GIOVANNI               (CARD_POKEMON_END + 15)
-#define CARD_COUNT                  (CARD_POKEMON_END + 16)
+#define CARD_KOGA                   (CARD_POKEMON_END + 16)
+#define CARD_COUNT                  (CARD_POKEMON_END + 17)
 
 // The opponent's skill (src/card_game_ai.c)
 #define CARD_AI_EASY                0
@@ -189,7 +193,38 @@
 #define CARD_DECK_MISTY             18
 #define CARD_DECK_LT_SURGE          19
 #define CARD_DECK_ERIKA             20
-#define CARD_DECKS_COUNT            21
+#define CARD_DECK_PSYCHIC_EX        21
+#define CARD_DECK_DOJO              22
+#define CARD_DECK_COPYCAT           23
+#define CARD_DECK_EEVEE             24
+#define CARD_DECK_SAFARI            25
+#define CARD_DECK_BIKER             26
+#define CARD_DECK_FOSSIL_EX         27
+#define CARD_DECK_SEAFOAM           28
+#define CARD_DECK_VETERAN           29
+#define CARD_DECK_KOGA              30
+#define CARD_DECK_SABRINA           31
+#define CARD_DECK_BLAINE            32
+#define CARD_DECK_GIOVANNI          33
+#define CARD_DECK_EMBER             34
+#define CARD_DECK_SPA               35
+#define CARD_DECK_JOYFUL            36
+#define CARD_DECK_CUTE              37
+#define CARD_DECK_DEEP_SEA          38
+#define CARD_DECK_LORELEI           39
+#define CARD_DECK_BABIES            40
+#define CARD_DECK_BLOOM             41
+#define CARD_DECK_RUINS             42
+#define CARD_DECK_SKY               43
+#define CARD_DECK_BLUE              44
+#define CARD_DECK_LEON              45
+#define CARD_DECK_LANCE             46
+#define CARD_DECK_STEVEN            47
+#define CARD_DECK_CYNTHIA           48
+#define CARD_DECK_ALDER             49
+#define CARD_DECK_DIANTHA           50
+#define CARD_DECK_MR_M              51
+#define CARD_DECKS_COUNT            52
 
 // Card players in the world (gCardOpponents), for `cardduel` and `special PlayCardGame`.
 // Their order is the Card Player list's; saved as bits, so never reorder them.
@@ -213,8 +248,42 @@
 #define CARD_OPPONENT_MISTY                     17
 #define CARD_OPPONENT_LT_SURGE                  18
 #define CARD_OPPONENT_ERIKA                     19
-#define CARD_OPPONENTS_COUNT                    20
+#define CARD_OPPONENT_SAFFRON_PC_GENTLEMAN      20
+#define CARD_OPPONENT_DOJO_MASTER               21
+#define CARD_OPPONENT_COPYCAT                   22
+#define CARD_OPPONENT_FUCHSIA_OLD_MAN           23
+#define CARD_OPPONENT_FUCHSIA_PC_COOLTRAINER    24
+#define CARD_OPPONENT_ROUTE17_BIKER             25
+#define CARD_OPPONENT_CINNABAR_LAB_SCIENTIST    26
+#define CARD_OPPONENT_CINNABAR_PC_YOUNGSTER     27
+#define CARD_OPPONENT_INDIGO_VETERAN            28
+#define CARD_OPPONENT_KOGA                      29
+#define CARD_OPPONENT_SABRINA                   30
+#define CARD_OPPONENT_BLAINE                    31
+#define CARD_OPPONENT_GIOVANNI                  32
+#define CARD_OPPONENT_ONE_ISLAND_HIKER          33
+#define CARD_OPPONENT_EMBER_SPA_OLD_WOMAN       34
+#define CARD_OPPONENT_GAME_CORNER_DADDY         35
+#define CARD_OPPONENT_LOSTELLE                  36
+#define CARD_OPPONENT_THREE_ISLAND_SAILOR       37
+#define CARD_OPPONENT_LORELEI                   38
+#define CARD_OPPONENT_FOUR_ISLAND_GENTLEMAN     39
+#define CARD_OPPONENT_FIVE_ISLAND_COOLTRAINER   40
+#define CARD_OPPONENT_SIX_ISLAND_OLD_MAN        41
+#define CARD_OPPONENT_TRAINER_TOWER_RODETTE     42
+#define CARD_OPPONENT_BLUE                      43
+#define CARD_OPPONENT_LEON                      44
+#define CARD_OPPONENT_LANCE                     45
+#define CARD_OPPONENT_STEVEN                    46
+#define CARD_OPPONENT_CYNTHIA                   47
+#define CARD_OPPONENT_ALDER                     48
+#define CARD_OPPONENT_DIANTHA                   49
+#define CARD_OPPONENT_MR_M                      50
+#define CARD_OPPONENTS_COUNT                    51
 #define CARD_OPPONENTS_MAX                      80  // the bits of CardGameSave.opponentsBeaten
+
+// Given with the reward of the last of the 8 gym leaders beaten at cards
+#define CARD_LEADERS_BONUS                      CARD_GYARADOS_MEGA_EX
 
 // VAR_0x8005 for `special CardGame_BufferOpponentText`
 #define CARD_OPPONENT_TEXT_CHALLENGE    0   // a yes/no question

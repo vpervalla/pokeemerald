@@ -17,6 +17,7 @@ static const u8 sCardText_Erika[] = _("ERIKA");
 static const u8 sCardText_Sabrina[] = _("SABRINA");
 static const u8 sCardText_Blaine[] = _("BLAINE");
 static const u8 sCardText_Giovanni[] = _("GIOVANNI");
+static const u8 sCardText_Koga[] = _("KOGA");
 
 #define TRAINER(id) [id - CARD_POKEMON_END]
 
@@ -38,6 +39,7 @@ static const struct TrainerCardInfo sTrainerCards[CARD_COUNT - CARD_POKEMON_END]
     TRAINER(CARD_SABRINA)            = {sCardText_Sabrina,          CARD_KIND_SUPPORTER, CARD_TRAINER_SWITCH_OPPONENT,    0, CARD_TYPE_NONE, ITEM_NONE},
     TRAINER(CARD_BLAINE)             = {sCardText_Blaine,           CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS,      30, CARD_TYPE_FIRE, ITEM_NONE},
     TRAINER(CARD_GIOVANNI)           = {sCardText_Giovanni,         CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS,      10, CARD_TYPE_NONE, ITEM_NONE},
+    TRAINER(CARD_KOGA)               = {sCardText_Koga,             CARD_KIND_SUPPORTER, CARD_TRAINER_POISON_OPPONENT,    0, CARD_TYPE_NONE, ITEM_NONE},
 };
 
 #undef TRAINER

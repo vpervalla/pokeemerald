@@ -91,6 +91,7 @@ SaffronCity_Dojo_EventScript_LeftScroll::
 
 SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon::
 	msgbox SaffronCity_Dojo_Text_StayAndTrainWithUs
+	cardduel CARD_OPPONENT_DOJO_MASTER  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

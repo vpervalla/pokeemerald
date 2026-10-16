@@ -2,7 +2,11 @@ MegaIsland_Castle_Room5_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_Room5_EventScript_Alder::
-	msgbox MegaIsland_Castle_Room5_Text_Alder, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_Room5_Text_Alder
+	cardduel CARD_OPPONENT_ALDER
+	release
 	end
 
 MegaIsland_Castle_Room5_Text_Alder:

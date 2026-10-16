@@ -82,7 +82,11 @@ CinnabarIsland_PokemonLab_Lounge_EventScript_NormaNotRequestedMon::
 	end
 
 CinnabarIsland_PokemonLab_Lounge_EventScript_Scientist::
-	msgbox CinnabarIsland_PokemonLab_Lounge_Text_FoundFossilInMtMoon, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox CinnabarIsland_PokemonLab_Lounge_Text_FoundFossilInMtMoon
+	cardduel CARD_OPPONENT_CINNABAR_LAB_SCIENTIST
+	release
 	end
 
 CinnabarIsland_PokemonLab_Lounge_Text_FoundFossilInMtMoon:

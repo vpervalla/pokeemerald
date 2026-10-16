@@ -22,7 +22,11 @@ ThreeIsland_PokemonCenter_1F_EventScript_Rocker::
 	end
 
 ThreeIsland_PokemonCenter_1F_EventScript_Sailor::
-	msgbox ThreeIsland_PokemonCenter_1F_Text_ImpossibleToSurfBetweenIslands, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox ThreeIsland_PokemonCenter_1F_Text_ImpossibleToSurfBetweenIslands
+	cardduel CARD_OPPONENT_THREE_ISLAND_SAILOR
+	release
 	end
 
 ThreeIsland_PokemonCenter_1F_OnTransition::

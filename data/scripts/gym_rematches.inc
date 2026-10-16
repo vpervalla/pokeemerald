@@ -226,11 +226,13 @@ GymRematch_EventScript_KogaGiveStone::
 GymRematch_EventScript_KogaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_KOGA, GymRematch_EventScript_KogaGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_KOGA
 	release
 	end
 
 GymRematch_EventScript_KogaDeclined::
 	msgbox GymRematch_Text_KogaDeclined
+	cardduel CARD_OPPONENT_KOGA
 	release
 	end
 
@@ -268,11 +270,13 @@ GymRematch_EventScript_SabrinaGiveStone::
 GymRematch_EventScript_SabrinaDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_SABRINA, GymRematch_EventScript_SabrinaGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_SABRINA
 	release
 	end
 
 GymRematch_EventScript_SabrinaDeclined::
 	msgbox GymRematch_Text_SabrinaDeclined
+	cardduel CARD_OPPONENT_SABRINA
 	release
 	end
 
@@ -311,11 +315,13 @@ GymRematch_EventScript_BlaineGiveStone::
 GymRematch_EventScript_BlaineDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_BLAINE, GymRematch_EventScript_BlaineGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_BLAINE
 	release
 	end
 
 GymRematch_EventScript_BlaineDeclined::
 	msgbox GymRematch_Text_BlaineDeclined
+	cardduel CARD_OPPONENT_BLAINE
 	release
 	end
 
@@ -353,11 +359,13 @@ GymRematch_EventScript_GiovanniGiveStone::
 GymRematch_EventScript_GiovanniDefeated::
 	goto_if_unset FLAG_GOT_MEGA_STONE_FROM_GIOVANNI, GymRematch_EventScript_GiovanniGiveStone
 	msgbox GymRematch_Text_ComeBackTomorrow
+	cardduel CARD_OPPONENT_GIOVANNI
 	release
 	end
 
 GymRematch_EventScript_GiovanniDeclined::
 	msgbox GymRematch_Text_GiovanniDeclined
+	cardduel CARD_OPPONENT_GIOVANNI
 	release
 	end
 

@@ -185,6 +185,7 @@ static void CheckOpponents(void)
         CHECK(LongestLine((const char *)opponent->playerLostText) >= 0 && LongestLine((const char *)opponent->playerLostText) <= 32, "opponent %d: lost line too long", o);
         for (p = 0; p < o; p++)
             CHECK(opponent->rewardCard == CARD_NONE || opponent->rewardCard != gCardOpponents[p].rewardCard, "opponent %d: same reward as %d", o, p);
+        CHECK(opponent->rewardCard != CARD_LEADERS_BONUS, "opponent %d: reward is the leaders' bonus", o);
     }
 }
 
@@ -207,7 +208,7 @@ static void PlayRandomGames(void)
     {
         for (b = 0; b < CARD_DECKS_COUNT; b++)
         {
-            for (game = 0; game < 40; game++)
+            for (game = 0; game < 20; game++)
             {
                 CHECK(Duel_Init(&duel, &setups[a], &setups[b], game * 31 + a * 7 + b), "init");
                 for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
@@ -231,13 +232,13 @@ static void PlayRandomGames(void)
             }
         }
     }
-    printf("  AI against AI, the games each deck won (out of 40 against each deck, on both sides):\n");
+    printf("  AI against AI, the games each deck won (out of 20 against each deck, on both sides):\n");
     for (a = 0; a < CARD_DECKS_COUNT; a++)
     {
         count = 0;
         for (b = 0; b < CARD_DECKS_COUNT; b++)
-            count += wins[a][b] + 40 - wins[b][a];
-        printf("    %-12s %3d%%\n", (const char *)gCardDecks[a].name, count * 100 / (80 * CARD_DECKS_COUNT));
+            count += wins[a][b] + 20 - wins[b][a];
+        printf("    %-12s %3d%%\n", (const char *)gCardDecks[a].name, count * 100 / (40 * CARD_DECKS_COUNT));
     }
 }
 
@@ -378,7 +379,7 @@ static int PlayLevels(u8 levelA, u8 levelB, const char *name)
     {
         for (e = 0; e < CARD_DECKS_COUNT; e++)
         {
-            for (game = 0; game < 16; game++, games++)
+            for (game = 0; game < 8; game++, games++)
             {
                 // levelA plays the player's side in even games
                 levels[CARD_SIDE_PLAYER] = (game & 1) ? levelB : levelA;

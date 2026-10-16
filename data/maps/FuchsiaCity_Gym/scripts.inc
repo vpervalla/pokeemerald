@@ -38,6 +38,7 @@ FuchsiaCity_Gym_EventScript_Koga::
 	trainerbattle_single TRAINER_KANTO_LEADER_KOGA, FuchsiaCity_Gym_Text_KogaIntro, FuchsiaCity_Gym_Text_KogaDefeat, FuchsiaCity_Gym_EventScript_DefeatedKoga, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM06_FROM_KOGA, FuchsiaCity_Gym_EventScript_GiveTM06
 	msgbox FuchsiaCity_Gym_Text_KogaPostBattle
+	cardduel CARD_OPPONENT_KOGA  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

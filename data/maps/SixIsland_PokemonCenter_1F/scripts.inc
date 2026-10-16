@@ -19,7 +19,11 @@ SixIsland_PokemonCenter_1F_EventScript_Hiker::
 	end
 
 SixIsland_PokemonCenter_1F_EventScript_OldMan::
-	msgbox SixIsland_PokemonCenter_1F_Text_SomeMonsEvolveByTradingWithHeldItem, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox SixIsland_PokemonCenter_1F_Text_SomeMonsEvolveByTradingWithHeldItem
+	cardduel CARD_OPPONENT_SIX_ISLAND_OLD_MAN
+	release
 	end
 
 SixIsland_PokemonCenter_1F_EventScript_RivalScene::

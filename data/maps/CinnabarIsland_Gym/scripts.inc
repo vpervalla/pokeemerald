@@ -45,6 +45,7 @@ CinnabarIsland_Gym_EventScript_Blaine::
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
 	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle
+	cardduel CARD_OPPONENT_BLAINE  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

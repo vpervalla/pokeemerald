@@ -407,7 +407,7 @@ next to the rematch battle.
 | 5 ✅ | AI as in section 4 | 500 lines |
 | 6 ✅ | Save struct, deck builder, Card Case item, pack opening | 800 lines |
 | 7 ✅ | World, first wave: `cardduel` macro and shared script, Card Case and starter deck in Pewter, daily pack, ~15 NPC card players from Pallet to Celadon, the first 4 gym leaders, Card Player list | scripts, a few map objects |
-| 8 | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
+| 8 ✅ | World, second wave: the rest of Kanto and its gym leaders, the Sevii Islands, the Mega Island guests and daily tournament (~35 more NPCs) | scripts, a few map objects |
 | 9 | Content: the full generated card pool, more Trainers and ex | data |
 
 **Phase 1 status (done).** `src/card_game_rules.c`, `src/card_game_effects.c`,
@@ -604,6 +604,50 @@ phases:
   CASE, the starter deck, the first pack, the AIDE leaving); a card player (usual line,
   challenge, duel, win line, reward card and its screen; a second win without a reward); the
   Card Player list; the daily pack and "come back tomorrow"; BROCK's card duel after the badge.
+
+**Phase 8 status (done).**
+
+- 31 more card players, all through `cardduel` (51 in all; `opponentsBeaten` has room for 80),
+  each with their own deck (31 new decks) and a reward found nowhere else but packs:
+
+  | Place | Card player (NPC) | Deck, level | Reward |
+  |-------|-------------------|-------------|--------|
+  | Saffron City | NIGEL (Pokémon Center gentleman); KOICHI (the Dojo's master, after his battle); the COPYCAT | Psychic ex, HARD; Fighting, HARD; **a copy of the player's own deck**, NORMAL | Mega Alakazam ex; Hitmontop; Ditto |
+  | Fuchsia City | GRAMPS (Bill's grandfather); PAIGE (Pokémon Center) | Eeveelutions, NORMAL; Safari Zone, HARD | Umbreon; Mega Kangaskhan ex |
+  | Route 17 | BILLY, a biker (after his battle) | Poison, NORMAL | Rocky Helmet |
+  | Cinnabar Island | GIDEON (Lab lounge); NED (Pokémon Center) | Fossil ex, HARD; Seafoam ice, HARD | Mega Aerodactyl ex; Articuno |
+  | Indigo Plateau | TAKEO, the black belt AGATHA beat (after the Hall of Fame) | Ghosts, HARD | Mega Gengar ex |
+  | Gyms | KOGA, SABRINA, BLAINE after their badge; GIOVANNI in the talk where he leaves his gym; all four in their post-game rematch scripts too | Their type, HARD | Their Supporter (KOGA is a new card) |
+  | One Island, Kindle Road | ROCKO (Pokémon Center hiker); HANAKO (Ember Spa) | Mt. Ember, HARD; Spa, NORMAL | Moltres; Blissey |
+  | Two Island Game Corner | GORDON, Lostelle's father (once she's home); LOSTELLE | Lightning, HARD; Cute, NORMAL | Zapdos; Togetic |
+  | Three to Six Island | MARLON (Three Island Pokémon Center); LORELEI at her house; WALDO (Four Island Pokémon Center); DAHLIA (Five Island Pokémon Center); ELDON (Six Island Pokémon Center) | Deep sea, HARD; Ice, HARD; Babies, NORMAL; Bloom, HARD; Ruins, HARD | Mega Blastoise ex; Mega Slowbro ex; Togepi; Mega Venusaur ex; Mega Tyranitar ex |
+  | Seven Island | RODETTE, by the Trainer Tower (after her battle) | Dragons, HARD | Mega Rayquaza ex |
+  | Mega Island castle | {RIVAL}, LEON, LANCE, STEVEN, CYNTHIA, ALDER, DIANTHA (the guests); MR. M. (the tournament's final only) | Their teams, as far as the card pool goes, HARD | Their Mega ex (Pidgeot, Charizard X, Dragonite, Steelix, Latias, Heracross, Latios); Mega Mewtwo X ex |
+
+  The Game Corner rocket (BERT) now gives Houndour: the Giovanni card is Giovanni's.
+- **KOGA**: a new Supporter (`CARD_TRAINER_POISON_OPPONENT`): the opponent's Active is
+  Poisoned. The AI plays it on an Active it can't knock out this turn. Tested in `test_rules`.
+- **All 8 leaders**: the last leader beaten at cards also gives `CARD_LEADERS_BONUS` (Mega
+  Gyarados ex), shown with their own card (`CARD_SAVE_FLAG_ALL_LEADERS`).
+- **Mega Island's card tournament**: a card dealer at the table of the castle's entrance hall
+  (a new object in `MegaIsland_Castle_1F/map.json`), once a day (`FLAG_DAILY_CARD_TOURNAMENT`):
+  2 guests at random, then MR. M., in a row. Each duel counts as one with that player (met,
+  beaten, reward); the champion gets a pack.
+- **More packs**: the Two Island Game Corner's info man is a card fan with a pack a day
+  (`FLAG_DAILY_CARD_PACK_2`), and the Celadon Dept. Store's 4F clerk sells packs, ¥500
+  (`CARD_PACK_PRICE`), before the usual shop.
+- Opponents' names can have placeholders (`{RIVAL}`): the duel and the Card Player list fill
+  them in (`CardGame_GetOpponentName`).
+- Mega Charizard and Mega Mewtwo cards are named with their X or Y.
+- Balance (`tools/card_game/test_data.c` and a deck-against-all-decks rating): the late decks
+  rate 50-80% against every deck with the AI on both sides. Giovanni, {RIVAL}, Cynthia and Lance
+  were first among the weakest (32-41%), with 3 Energy types or slow lines; they were reworked to
+  50-58%. MR. M. is the strongest deck (79%). The AI-against-AI games were halved to keep the
+  tests near 2 minutes with 52 decks.
+- Checked in mGBA (with a test build): the card tournament from the dealer to the champion's
+  pack (with LEON's and ALDER's rewards and MR. M.'s Mega Mewtwo), the 8-leaders bonus (7
+  leaders set as beaten, then BROCK: both cards and their screen), the Celadon shop (two packs
+  bought), and the COPYCAT playing the starter deck back.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

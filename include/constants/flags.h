@@ -1575,8 +1575,8 @@
 #define FLAG_DAILY_SECRET_BASE                      (DAILY_FLAGS_START + 0x2)
 #define FLAG_DAILY_APEX_TOURNAMENT                  (DAILY_FLAGS_START + 0x3)  // MR. M.'s tournament, replayed once a day
 #define FLAG_DAILY_CARD_PACK                        (DAILY_FLAGS_START + 0x4)  // the card pack from PROF. OAK's AIDE, once a day
-#define FLAG_UNUSED_0x925                           (DAILY_FLAGS_START + 0x5)  // Unused Flag
-#define FLAG_UNUSED_0x926                           (DAILY_FLAGS_START + 0x6)  // Unused Flag
+#define FLAG_DAILY_CARD_PACK_2                      (DAILY_FLAGS_START + 0x5)  // the card pack from the Two Island Game Corner's card fan, once a day
+#define FLAG_DAILY_CARD_TOURNAMENT                  (DAILY_FLAGS_START + 0x6)  // the card tournament of Mega Island's castle, once a day
 #define FLAG_UNUSED_0x927                           (DAILY_FLAGS_START + 0x7)  // Unused Flag
 #define FLAG_UNUSED_0x928                           (DAILY_FLAGS_START + 0x8)  // Unused Flag
 #define FLAG_UNUSED_0x929                           (DAILY_FLAGS_START + 0x9)  // Unused Flag

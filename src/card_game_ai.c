@@ -594,6 +594,9 @@ static const struct CardAction *ChooseTrainer(const struct AiContext *ctx)
         return action;
     if ((action = FindTrainer(ctx, CARD_TRAINER_TOOL_COUNTER, ScoreToolTarget)) != NULL)
         return action;
+    // Poison an Active that will stay a while (not about to be knocked out)
+    if ((action = FindTrainer(ctx, CARD_TRAINER_POISON_OPPONENT, NULL)) != NULL && GetActiveDamage(ctx, TRUE) < hpLeft)
+        return action;
     // Red Card against a big hand
     if (opponent->handCount >= 5 && (action = FindTrainer(ctx, CARD_TRAINER_RED_CARD, NULL)) != NULL)
         return action;

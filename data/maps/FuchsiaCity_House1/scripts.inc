@@ -11,6 +11,7 @@ FuchsiaCity_House1_EventScript_OldMan::
 	lock
 	faceplayer
 	msgbox FuchsiaCity_House1_Text_BillIsMyGrandson
+	cardduel CARD_OPPONENT_FUCHSIA_OLD_MAN  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

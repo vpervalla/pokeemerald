@@ -2,7 +2,11 @@ MegaIsland_Castle_Room4_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_Room4_EventScript_Cynthia::
-	msgbox MegaIsland_Castle_Room4_Text_Cynthia, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_Room4_Text_Cynthia
+	cardduel CARD_OPPONENT_CYNTHIA
+	release
 	end
 
 MegaIsland_Castle_Room4_Text_Cynthia:

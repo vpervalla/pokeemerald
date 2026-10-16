@@ -22,11 +22,13 @@ FourIsland_LoreleisHouse_EventScript_Lorelei::
 FourIsland_LoreleisHouse_EventScript_Lorelei2::
 	setflag FLAG_TALKED_TO_LORELEI_AFTER_WAREHOUSE
 	msgbox FourIsland_LoreleisHouse_Text_IllReturnToLeagueInShortWhile
+	cardduel CARD_OPPONENT_LORELEI  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 
 FourIsland_LoreleisHouse_EventScript_Lorelei3::
 	msgbox FourIsland_LoreleisHouse_Text_WillDoWhatICanHereAndNow
+	cardduel CARD_OPPONENT_LORELEI  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

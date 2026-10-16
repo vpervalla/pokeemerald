@@ -38,6 +38,7 @@ SaffronCity_Gym_EventScript_Sabrina::
 	trainerbattle_single TRAINER_KANTO_LEADER_SABRINA, SaffronCity_Gym_Text_SabrinaIntro, SaffronCity_Gym_Text_SabrinaDefeat, SaffronCity_Gym_EventScript_DefeatedSabrina, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM04_FROM_SABRINA, SaffronCity_Gym_EventScript_GiveTM04
 	msgbox SaffronCity_Gym_Text_ExplainTM04
+	cardduel CARD_OPPONENT_SABRINA  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

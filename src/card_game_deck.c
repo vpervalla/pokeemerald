@@ -132,6 +132,7 @@ static const u8 sText_Won[] = _("WON");
 static const u8 sText_Beaten[] = _("Beaten!");
 static const u8 sText_NotBeaten[] = _("Not beaten yet");
 static const u8 sText_PlaysEnergy[] = _("Plays ");
+static const u8 sText_PlaysYourDeck[] = _("Plays a copy of your deck");
 static const u8 sText_Prize[] = _("Prize card:");
 static const u8 sText_PrizeUnknown[] = _("???");
 
@@ -673,7 +674,7 @@ static void ShowPlayerInfo(u8 opponentId)
     sBuilder->infoCard = CARD_COUNT;
     DestroyInfoSprite();
     FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(1));
-    StringCopy(text, opponent->name);
+    CardGame_GetOpponentName(text, opponentId);
     AddTextPrinterParameterized(WIN_INFO, FONT_NORMAL, text, 2, 2, TEXT_SKIP_DRAW, NULL);
     GetMapName(text, opponent->mapsec, 0);
     TruncateToWidth(text, FONT_SMALL, 84);
@@ -687,6 +688,8 @@ static void ShowPlayerInfo(u8 opponentId)
             end = StringAppend(end, sText_Space);
         end = StringAppend(end, gCardTypeNames[deck->zoneTypes[i]]);
     }
+    if (opponent->deck == CARD_DECK_COPYCAT)
+        StringCopy(text, sText_PlaysYourDeck);
     WrapText(text, FONT_SMALL, 84);
     AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 34, TEXT_SKIP_DRAW, NULL);
     AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, beaten ? sText_Beaten : sText_NotBeaten, 2, 62, TEXT_SKIP_DRAW, NULL);
@@ -801,7 +804,10 @@ static void BuildItems(void)
         for (i = 0; i < CARD_OPPONENTS_COUNT; i++)
         {
             if (CardGame_HasMetOpponent(i))
-                AddItem(i, gCardOpponents[i].name);
+            {
+                CardGame_GetOpponentName(name, i);
+                AddItem(i, name);
+            }
         }
         break;
     }

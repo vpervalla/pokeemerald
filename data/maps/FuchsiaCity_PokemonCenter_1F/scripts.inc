@@ -14,7 +14,11 @@ FuchsiaCity_PokemonCenter_1F_EventScript_Nurse::
 	end
 
 FuchsiaCity_PokemonCenter_1F_EventScript_CooltrainerF::
-	msgbox FuchsiaCity_PokemonCenter_1F_Text_PokemonLeagueWestOfViridian, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox FuchsiaCity_PokemonCenter_1F_Text_PokemonLeagueWestOfViridian
+	cardduel CARD_OPPONENT_FUCHSIA_PC_COOLTRAINER
+	release
 	end
 
 FuchsiaCity_PokemonCenter_1F_EventScript_Man::

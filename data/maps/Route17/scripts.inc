@@ -35,7 +35,9 @@ Route17_EventScript_Billy::
 	trainerbattle_single TRAINER_KANTO_BIKER_BILLY, Route17_Text_BillyIntro, Route17_Text_BillyDefeat
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, Route17_EventScript_BillyRematch
-	msgbox Route17_Text_BillyPostBattle, MSGBOX_AUTOCLOSE
+	msgbox Route17_Text_BillyPostBattle  @ added: card game, see data/scripts/card_duel.inc
+	cardduel CARD_OPPONENT_ROUTE17_BIKER
+	release
 	end
 
 Route17_EventScript_Jamal::

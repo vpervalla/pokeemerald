@@ -75,7 +75,11 @@ CinnabarIsland_PokemonCenter_1F_EventScript_PokemonJournalMrFuji::
 	end
 
 CinnabarIsland_PokemonCenter_1F_EventScript_Youngster::
-	msgbox CinnabarIsland_PokemonCenter_1F_Text_EvolutionCanWaitForNewMoves, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox CinnabarIsland_PokemonCenter_1F_Text_EvolutionCanWaitForNewMoves
+	cardduel CARD_OPPONENT_CINNABAR_PC_YOUNGSTER
+	release
 	end
 
 CinnabarIsland_PokemonCenter_1F_Movement_BillExit:

@@ -144,7 +144,7 @@ struct CardGameScreen
     struct CardDuel display;            // what the board shows, see above
     MainCallback exitCallback;
     u8 opponentDeck;
-    const u8 *opponentName;
+    u8 opponentName[24];
     u8 state;
     u8 nextEvent;
     u8 listTaskId;
@@ -221,6 +221,8 @@ static const u8 sText_Slash[] = _("/");
 static const u8 sText_Space[] = _(" ");
 static const u8 sText_Mega[] = _("MEGA ");
 static const u8 sText_Ex[] = _(" ex");
+static const u8 sText_MegaX[] = _(" X");
+static const u8 sText_MegaY[] = _(" Y");
 static const u8 sText_Bench1[] = _("1");
 static const u8 sText_Bench2[] = _("2");
 static const u8 sText_Bench3[] = _("3");
@@ -477,6 +479,7 @@ static const u8 sTrainer_Switch[] = _("Your opponent's Active is switched with a
 static const u8 sTrainer_Bonus[] = _("This turn, your attacks do ");
 static const u8 sTrainer_BonusTypeAfter[] = _(" more damage, with POKéMON of this type: ");
 static const u8 sTrainer_BonusAfter[] = _(" more damage.");
+static const u8 sTrainer_Poison[] = _("Your opponent's Active POKéMON is now Poisoned.");
 
 static const u8 *const sTrainerTexts[][2] =
 {
@@ -495,6 +498,7 @@ static const u8 *const sTrainerTexts[][2] =
     [CARD_TRAINER_HEAL_TYPE]          = {sTrainer_Heal, sTrainer_HealTypeAfter},
     [CARD_TRAINER_SWITCH_OPPONENT]    = {sTrainer_Switch, NULL},
     [CARD_TRAINER_ATTACK_BONUS]       = {sTrainer_Bonus, sTrainer_BonusAfter},
+    [CARD_TRAINER_POISON_OPPONENT]    = {sTrainer_Poison, NULL},
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -640,7 +644,7 @@ void PlayCardGame(void)
 
     sScreen = AllocZeroed(sizeof(*sScreen));
     sScreen->opponentDeck = gCardOpponents[opponentId].deck;
-    sScreen->opponentName = gCardOpponents[opponentId].name;
+    CardGame_GetOpponentName(sScreen->opponentName, opponentId);
     sScreen->exitCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
     CreateTask(Task_FadeToCardGame, 0);
 }
@@ -693,6 +697,9 @@ static void StartDuel(void)
     opponent.deck = gCardDecks[sScreen->opponentDeck].cards;
     for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
         opponent.zoneTypes[i] = gCardDecks[sScreen->opponentDeck].zoneTypes[i];
+    // The Copycat plays a copy of the player's deck
+    if (sScreen->opponentDeck == CARD_DECK_COPYCAT)
+        opponent = player;
     Duel_Init(&sScreen->duel, &player, &opponent, Random32());
     Duel_ClearEvents(&sScreen->duel); // the opening draws and coin flip show on the board
     sScreen->display = sScreen->duel;
@@ -848,6 +855,11 @@ u8 *CardGame_AppendCardName(u8 *dst, u16 cardId)
         if (pokemon->isMega)
             dst = StringAppend(dst, sText_Mega);
         dst = StringAppend(dst, gSpeciesNames[pokemon->species]);
+        // Two Megas of the same species
+        if (cardId == CARD_CHARIZARD_MEGA_X_EX || cardId == CARD_MEWTWO_MEGA_X_EX)
+            dst = StringAppend(dst, sText_MegaX);
+        else if (cardId == CARD_CHARIZARD_MEGA_Y_EX || cardId == CARD_MEWTWO_MEGA_Y_EX)
+            dst = StringAppend(dst, sText_MegaY);
         if (pokemon->isEx)
             dst = StringAppend(dst, sText_Ex);
     }

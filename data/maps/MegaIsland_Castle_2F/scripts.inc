@@ -2,7 +2,11 @@ MegaIsland_Castle_2F_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_2F_EventScript_Leon::
-	msgbox MegaIsland_Castle_2F_Text_Leon, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_2F_Text_Leon
+	cardduel CARD_OPPONENT_LEON
+	release
 	end
 
 MegaIsland_Castle_2F_Text_Leon:

@@ -40,6 +40,7 @@ IndigoPlateau_PokemonCenter_1F_EventScript_BlackBelt::
 	lock
 	faceplayer
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_AgathaWhuppedUs
+	call_if_set FLAG_SYS_GAME_CLEAR, CardGame_EventScript_IndigoVeteran  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

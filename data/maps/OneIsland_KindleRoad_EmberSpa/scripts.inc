@@ -28,7 +28,11 @@ OneIsland_KindleRoad_EmberSpa_EventScript_OldMan::
 	end
 
 OneIsland_KindleRoad_EmberSpa_EventScript_OldWoman::
-	msgbox OneIsland_KindleRoad_EmberSpa_Text_SeeHowSmoothMySkinIs, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox OneIsland_KindleRoad_EmberSpa_Text_SeeHowSmoothMySkinIs
+	cardduel CARD_OPPONENT_EMBER_SPA_OLD_WOMAN
+	release
 	end
 
 OneIsland_KindleRoad_EmberSpa_EventScript_RockSmashMan::

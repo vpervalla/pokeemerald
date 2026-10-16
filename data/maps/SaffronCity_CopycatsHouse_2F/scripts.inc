@@ -15,6 +15,7 @@ SaffronCity_CopycatsHouse_2F_EventScript_Copycat::
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, SaffronCity_CopycatsHouse_2F_EventScript_MimicPlayerMale
 	call_if_eq VAR_RESULT, FEMALE, SaffronCity_CopycatsHouse_2F_EventScript_MimicPlayerFemale
+	cardduel CARD_OPPONENT_COPYCAT  @ added: card game, see data/scripts/card_duel.inc
 	release
 	end
 

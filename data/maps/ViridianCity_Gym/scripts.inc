@@ -44,6 +44,7 @@ ViridianCity_Gym_EventScript_Giovanni::
 	trainerbattle_single TRAINER_KANTO_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
 	msgbox ViridianCity_Gym_Text_GiovanniPostBattle
+	cardduel CARD_OPPONENT_GIOVANNI  @ added: card game, see data/scripts/card_duel.inc
 	closemessage
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_VIRIDIAN_GIOVANNI

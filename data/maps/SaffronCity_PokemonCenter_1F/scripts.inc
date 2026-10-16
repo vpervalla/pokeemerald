@@ -14,7 +14,11 @@ SaffronCity_PokemonCenter_1F_EventScript_Nurse::
 	end
 
 SaffronCity_PokemonCenter_1F_EventScript_Gentleman::
-	msgbox SaffronCity_PokemonCenter_1F_Text_SilphCoVictimOfFame, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox SaffronCity_PokemonCenter_1F_Text_SilphCoVictimOfFame
+	cardduel CARD_OPPONENT_SAFFRON_PC_GENTLEMAN
+	release
 	end
 
 SaffronCity_PokemonCenter_1F_EventScript_PokemonJournalSabrina::

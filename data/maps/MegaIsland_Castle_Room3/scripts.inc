@@ -2,7 +2,11 @@ MegaIsland_Castle_Room3_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_Room3_EventScript_Steven::
-	msgbox MegaIsland_Castle_Room3_Text_Steven, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_Room3_Text_Steven
+	cardduel CARD_OPPONENT_STEVEN
+	release
 	end
 
 MegaIsland_Castle_Room3_Text_Steven:

@@ -133,6 +133,9 @@ bool8 CardEffects_CanPlayTrainer(const struct CardDuel *duel, u8 sideId, const s
         return slot == CARD_SLOT_NONE && Duel_HasBenchPokemon(opponent);
     case CARD_TRAINER_ATTACK_BONUS:
         return slot == CARD_SLOT_NONE;
+    case CARD_TRAINER_POISON_OPPONENT:
+        return slot == CARD_SLOT_NONE && IsFilled(opponent, CARD_SLOT_ACTIVE)
+            && !(opponent->slots[CARD_SLOT_ACTIVE].status & CARD_STATUS_POISONED);
     }
     return FALSE;
 }
@@ -250,6 +253,9 @@ void CardEffects_PlayTrainer(struct CardDuel *duel, u8 sideId, const struct Trai
     case CARD_TRAINER_ATTACK_BONUS:
         side->attackBonus += info->effectArg;
         side->attackBonusType = info->effectType;
+        break;
+    case CARD_TRAINER_POISON_OPPONENT:
+        Duel_GiveStatus(duel, sideId ^ 1, CARD_SLOT_ACTIVE, CARD_STATUS_POISONED);
         break;
     }
 }

@@ -2,7 +2,11 @@ MegaIsland_Castle_Room2_MapScripts::
 	.byte 0
 
 MegaIsland_Castle_Room2_EventScript_Lance::
-	msgbox MegaIsland_Castle_Room2_Text_Lance, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox MegaIsland_Castle_Room2_Text_Lance
+	cardduel CARD_OPPONENT_LANCE
+	release
 	end
 
 MegaIsland_Castle_Room2_Text_Lance:

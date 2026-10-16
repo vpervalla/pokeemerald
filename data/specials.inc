@@ -590,3 +590,5 @@ gSpecials::
 	def_special CardGame_BufferOpponentText
 	def_special CardGame_RewardOpponentWin
 	def_special OpenCardRewardScreen, waitstate=1
+	def_special CardGame_BufferOpponentName
+	def_special CardGame_StartCardTournament

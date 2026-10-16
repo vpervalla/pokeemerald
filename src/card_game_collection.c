@@ -235,27 +235,83 @@ void CardGame_BufferOpponentText(void)
     StringExpandPlaceholders(gStringVar4, text);
 }
 
-// After the player beat VAR_0x8004. The first time: beaten, and the reward card received.
-// VAR_RESULT: TRUE if a card was received (its name in gStringVar1).
+// The name, with its placeholders ({RIVAL}) filled in
+u8 *CardGame_GetOpponentName(u8 *dst, u8 opponentId)
+{
+    return StringExpandPlaceholders(dst, gCardOpponents[opponentId].name);
+}
+
+// VAR_0x8004: the opponent, whose name goes to gStringVar1
+void CardGame_BufferOpponentName(void)
+{
+    CardGame_GetOpponentName(gStringVar1, GetScriptOpponent());
+}
+
+static EWRAM_DATA u16 sPackCards[CARD_PACK_SIZE] = {0};
+static EWRAM_DATA u8 sPackCount = 0;
+
+static const u8 sLeaders[] =
+{
+    CARD_OPPONENT_BROCK, CARD_OPPONENT_MISTY, CARD_OPPONENT_LT_SURGE, CARD_OPPONENT_ERIKA,
+    CARD_OPPONENT_KOGA, CARD_OPPONENT_SABRINA, CARD_OPPONENT_BLAINE, CARD_OPPONENT_GIOVANNI,
+};
+
+static bool8 HasBeatenAllLeaders(void)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_COUNT(sLeaders); i++)
+    {
+        if (!CardGame_HasBeatenOpponent(sLeaders[i]))
+            return FALSE;
+    }
+    return TRUE;
+}
+
+static void AddReward(u16 cardId, u8 *nameBuffer)
+{
+    CardGame_GiveCard(cardId);
+    sPackCards[sPackCount++] = cardId;
+    nameBuffer[0] = EOS;
+    CardGame_AppendCardName(nameBuffer, cardId);
+}
+
+// After the player beat VAR_0x8004. The first time: beaten, and the reward card received; with
+// the last of the 8 gym leaders, CARD_LEADERS_BONUS too. VAR_RESULT: the number of cards received
+// (their names in gStringVar1 and gStringVar2), for OpenCardRewardScreen.
 void CardGame_RewardOpponentWin(void)
 {
     u8 opponentId = GetScriptOpponent();
     u16 reward = gCardOpponents[opponentId].rewardCard;
 
-    gSpecialVar_Result = FALSE;
-    if (CardGame_HasBeatenOpponent(opponentId))
-        return;
-    GetSave()->opponentsBeaten[opponentId / 8] |= 1 << (opponentId % 8);
-    if (reward == CARD_NONE)
-        return;
-    CardGame_GiveCard(reward);
-    gStringVar1[0] = EOS;
-    CardGame_AppendCardName(gStringVar1, reward);
-    gSpecialVar_Result = TRUE;
+    sPackCount = 0;
+    if (!CardGame_HasBeatenOpponent(opponentId))
+    {
+        GetSave()->opponentsBeaten[opponentId / 8] |= 1 << (opponentId % 8);
+        if (reward != CARD_NONE)
+            AddReward(reward, gStringVar1);
+        if (!(GetSave()->flags & CARD_SAVE_FLAG_ALL_LEADERS) && HasBeatenAllLeaders())
+        {
+            GetSave()->flags |= CARD_SAVE_FLAG_ALL_LEADERS;
+            AddReward(CARD_LEADERS_BONUS, sPackCount == 0 ? gStringVar1 : gStringVar2);
+        }
+    }
+    gSpecialVar_Result = sPackCount;
 }
 
-static EWRAM_DATA u16 sPackCards[CARD_PACK_SIZE] = {0};
-static EWRAM_DATA u8 sPackCount = 0;
+// The card tournament of Mega Island's castle: 2 of the castle's guests at random (VAR_0x8008 and
+// VAR_0x8009), then MR. M.
+void CardGame_StartCardTournament(void)
+{
+    u8 count = CARD_OPPONENT_DIANTHA - CARD_OPPONENT_BLUE + 1;
+    u8 first = Random() % count;
+    u8 second = Random() % (count - 1);
+
+    if (second >= first)
+        second++;
+    gSpecialVar_0x8008 = CARD_OPPONENT_BLUE + first;
+    gSpecialVar_0x8009 = CARD_OPPONENT_BLUE + second;
+}
 
 #define tState  data[0]
 #define tIsPack data[1]
@@ -293,11 +349,9 @@ void OpenCardPack(void)
     gTasks[CreateTask(Task_OpenFromField, 0)].tIsPack = TRUE;
 }
 
-// Shows the reward card of VAR_0x8004 (already received, with CardGame_RewardOpponentWin)
+// Shows the cards just received with CardGame_RewardOpponentWin
 void OpenCardRewardScreen(void)
 {
-    sPackCards[0] = gCardOpponents[GetScriptOpponent()].rewardCard;
-    sPackCount = 1;
     gTasks[CreateTask(Task_OpenFromField, 0)].tIsPack = TRUE;
 }
 

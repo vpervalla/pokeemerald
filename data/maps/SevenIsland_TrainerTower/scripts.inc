@@ -15,7 +15,9 @@ SevenIsland_TrainerTower_EventScript_Rodette::
 	trainerbattle_single TRAINER_KANTO_PSYCHIC_RODETTE, SevenIsland_TrainerTower_Text_RodetteIntro, SevenIsland_TrainerTower_Text_RodetteDefeat
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, SevenIsland_TrainerTower_EventScript_RodetteRematch
-	msgbox SevenIsland_TrainerTower_Text_RodettePostBattle, MSGBOX_AUTOCLOSE
+	msgbox SevenIsland_TrainerTower_Text_RodettePostBattle  @ added: card game, see data/scripts/card_duel.inc
+	cardduel CARD_OPPONENT_TRAINER_TOWER_RODETTE
+	release
 	end
 
 SevenIsland_TrainerTower_EventScript_DarioRematch::

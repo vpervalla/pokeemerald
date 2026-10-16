@@ -14,7 +14,11 @@ FourIsland_PokemonCenter_1F_EventScript_Nurse::
 	end
 
 FourIsland_PokemonCenter_1F_EventScript_Gentleman::
-	msgbox FourIsland_PokemonCenter_1F_Text_NewPokemonJournalHasntArrived, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox FourIsland_PokemonCenter_1F_Text_NewPokemonJournalHasntArrived
+	cardduel CARD_OPPONENT_FOUR_ISLAND_GENTLEMAN
+	release
 	end
 
 FourIsland_PokemonCenter_1F_EventScript_Man::

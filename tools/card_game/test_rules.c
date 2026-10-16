@@ -58,6 +58,7 @@ enum
     T_SABRINA,
     T_BLAINE,
     T_GIOVANNI,
+    T_KOGA,
     T_CARD_END,
 };
 
@@ -136,6 +137,7 @@ static const struct TrainerCardInfo sTrainers[T_CARD_END - T_POTION] =
     [T_SABRINA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_SWITCH_OPPONENT, 0},
     [T_BLAINE - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 30, R},
     [T_GIOVANNI - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_ATTACK_BONUS, 10, CARD_TYPE_NONE},
+    [T_KOGA - T_POTION] = {NULL, CARD_KIND_SUPPORTER, CARD_TRAINER_POISON_OPPONENT, 0},
 };
 
 u8 CardGame_GetCardKind(u16 cardId)
@@ -1119,6 +1121,16 @@ static void Test_MoreTrainers(void)
     them->slots[0].status = CARD_STATUS_POISONED;
     CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, 0, CARD_SLOT_NONE, 0));
     CHECK(them->slots[0].cardId == T_FIRE && them->slots[2].status == 0);
+
+    // Koga: the opponent's Active is Poisoned, once
+    StartDuel(&duel, T_BASIC, T_WALL, CARD_SIDE_PLAYER);
+    them = &duel.sides[1];
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_KOGA);
+    AddToHand(&duel, CARD_SIDE_PLAYER, T_KOGA);
+    CHECK(Act(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_KOGA), CARD_SLOT_NONE, 0));
+    CHECK(them->slots[0].status & CARD_STATUS_POISONED);
+    duel.sides[0].supporterPlayed = FALSE;
+    CHECK(!Legal(&duel, CARD_SIDE_PLAYER, CARD_ACTION_PLAY_TRAINER, FindInHand(&duel, CARD_SIDE_PLAYER, T_KOGA), CARD_SLOT_NONE, 0));
 
     // Blaine: Fire attacks +30 this turn; Giovanni: all attacks +10
     StartDuel(&duel, T_FIRE, T_WALL, CARD_SIDE_OPPONENT);

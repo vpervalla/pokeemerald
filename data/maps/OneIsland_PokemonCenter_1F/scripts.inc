@@ -224,7 +224,11 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass::
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_Hiker::
-	msgbox OneIsland_PokemonCenter_1F_Text_EnormousVolcanoOnIsland, MSGBOX_NPC
+	lock  @ added: card game, see data/scripts/card_duel.inc
+	faceplayer
+	msgbox OneIsland_PokemonCenter_1F_Text_EnormousVolcanoOnIsland
+	cardduel CARD_OPPONENT_ONE_ISLAND_HIKER
+	release
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_IntroducePlayerChamp::
