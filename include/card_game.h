@@ -287,6 +287,8 @@ void OpenCardPackScreen(const u16 *cards, u8 count, void (*exitCallback)(void));
 void PlayCardGame(void);
 u8 *CardGame_AppendCardName(u8 *dst, u16 cardId);
 u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack);
+u8 *CardGame_AppendAbilityText(u8 *dst, const struct PokemonCardInfo *info);
+u8 *CardGame_AppendExRule(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);
 u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info);
 extern const u8 *const gCardTypeNames[CARD_TYPE_COUNT];

@@ -1763,13 +1763,8 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
     y = y < 76 ? 76 : y;
     if (info->ability != CARD_ABILITY_NONE)
     {
-        end = StringCopy(text, sText_AbilityLabel);
-        end = StringAppend(end, sAbilityTexts[info->ability][0]);
-        end = StringAppend(end, sText_Colon);
-        if (sAbilityTexts[info->ability][2] != NULL)
-            AppendEffectText(end, sAbilityTexts[info->ability][1], info->abilityArg, sAbilityTexts[info->ability][2]);
-        else
-            StringAppend(end, sAbilityTexts[info->ability][1]);
+        *text = EOS;
+        CardGame_AppendAbilityText(text, info);
         y = PrintDetail(text, x, y);
     }
     for (i = 0; i < info->numAttacks; i++)
@@ -1783,6 +1778,23 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
         StringCopy(text, info->isMega ? sText_MegaExRule : sText_ExRule);
         PrintDetail(text, x, y);
     }
+}
+
+// What knocking it out is worth, for the ex cards
+u8 *CardGame_AppendExRule(u8 *dst, const struct PokemonCardInfo *info)
+{
+    return StringAppend(dst, info->isMega ? sText_MegaExRule : sText_ExRule);
+}
+
+// "ABILITY Name: what it does"
+u8 *CardGame_AppendAbilityText(u8 *dst, const struct PokemonCardInfo *info)
+{
+    dst = StringAppend(dst, sText_AbilityLabel);
+    dst = StringAppend(dst, sAbilityTexts[info->ability][0]);
+    dst = StringAppend(dst, sText_Colon);
+    if (sAbilityTexts[info->ability][2] != NULL)
+        return AppendEffectText(dst, sAbilityTexts[info->ability][1], info->abilityArg, sAbilityTexts[info->ability][2]);
+    return StringAppend(dst, sAbilityTexts[info->ability][1]);
 }
 
 u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info)
