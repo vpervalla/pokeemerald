@@ -1,7 +1,7 @@
 // The new game scene with Prof. Oak, ported from FireRed/LeafGreen (pokefirered's oak_speech.c).
 // It replaces Prof. Birch's speech. FRLG's controls guide and Pikachu intro pages that come
 // before Oak are not included, since they describe FRLG's help system.
-// The player can be Brendan, May, Red, Leaf, Ethan or Kris. Oak's grandson, their rival, is always GARY.
+// The player can be Brendan, May, Red, Leaf, Ethan or Kris. Oak's grandson, their rival, is always BLUE.
 #include "global.h"
 #include "bg.h"
 #include "data.h"
@@ -182,7 +182,7 @@ static const u8 sNameChoice_Sai[] = _("SAI");
 static const u8 sNameChoice_Momo[] = _("MOMO");
 static const u8 sNameChoice_Suzi[] = _("SUZI");
 static const u8 sNameChoice_Green[] = _("GREEN");
-static const u8 sNameChoice_Gary[] = _("GARY");
+static const u8 sNameChoice_Blue[] = _("BLUE");
 static const u8 sNameChoice_Kaz[] = _("KAZ");
 static const u8 sNameChoice_Toru[] = _("TORU");
 
@@ -432,7 +432,7 @@ static const u8 *const sFemaleNameChoices[] =
 static const u8 *const sRivalNameChoices[NUM_NAME_CHOICES] =
 {
     sNameChoice_Green,
-    sNameChoice_Gary,
+    sNameChoice_Blue,
     sNameChoice_Kaz,
     sNameChoice_Toru
 };
@@ -1021,10 +1021,10 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    // The rival is always GARY: Oak introduces him without asking for a name
+    // The rival is always BLUE: Oak introduces him without asking for a name
     if (tTrainerPicFadeState != 0)
     {
-        StringCopy(gSaveBlock2Ptr->rivalName, sNameChoice_Gary);
+        StringCopy(gSaveBlock2Ptr->rivalName, sNameChoice_Blue);
         StringCopy(gStringVar1, gSaveBlock2Ptr->rivalName);
         OakSpeechPrintMessage(sText_ThisIsMyGrandson);
         tTimer = 40;
