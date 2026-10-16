@@ -428,48 +428,207 @@ static int PlayLevels(u8 levelA, u8 levelB, const char *name)
     return winsA * 100 / games;
 }
 
-// The starter deck (played by NORMAL, standing in for the player) against each card player at
-// their level: the difficulty curve along the story. The EASY ones must be beatable.
-static void PlayStarterAgainstOpponents(void)
+// The player's likely decks at each stage of the game (playing NORMAL): the caught species and
+// the rewards of the card players met before, for a Grass, a Fire and a Water starter.
+struct ProxyDeck
+{
+    const char *name;
+    u8 stage;
+    u8 zoneTypes[CARD_MAX_ZONE_TYPES];
+    u16 cards[CARD_DECK_SIZE];
+};
+
+static const struct ProxyDeck sProxyDecks[] =
+{
+    {"GRASS 1", 1, {CARD_TYPE_GRASS}, {
+        CARD_BULBASAUR, CARD_BULBASAUR, CARD_CATERPIE, CARD_CATERPIE, CARD_METAPOD,
+        CARD_BUTTERFREE, CARD_PIDGEY, CARD_PIDGEY, CARD_PIDGEOTTO, CARD_WEEDLE,
+        CARD_WEEDLE, CARD_KAKUNA, CARD_RATTATA, CARD_RATTATA, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"FIRE 1", 1, {CARD_TYPE_FIRE}, {
+        CARD_CHARMANDER, CARD_CHARMANDER, CARD_CHARMELEON, CARD_PIDGEY, CARD_PIDGEY,
+        CARD_PIDGEOTTO, CARD_PIDGEOTTO, CARD_SPEAROW, CARD_SPEAROW, CARD_FEAROW,
+        CARD_RATTATA, CARD_RATTATA, CARD_RATICATE, CARD_X_SPEED, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"WATER 1", 1, {CARD_TYPE_WATER}, {
+        CARD_SQUIRTLE, CARD_SQUIRTLE, CARD_WARTORTLE, CARD_PIDGEY, CARD_PIDGEY,
+        CARD_PIDGEOTTO, CARD_PIDGEOTTO, CARD_SPEAROW, CARD_SPEAROW, CARD_FEAROW,
+        CARD_RATTATA, CARD_RATTATA, CARD_RATICATE, CARD_X_SPEED, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"GRASS 2", 2, {CARD_TYPE_GRASS}, {
+        CARD_BULBASAUR, CARD_BULBASAUR, CARD_IVYSAUR, CARD_IVYSAUR, CARD_ODDISH,
+        CARD_ODDISH, CARD_GLOOM, CARD_GLOOM, CARD_BELLSPROUT, CARD_BELLSPROUT,
+        CARD_WEEPINBELL, CARD_WEEPINBELL, CARD_SCYTHER, CARD_PARAS, CARD_GIANT_CAPE,
+        CARD_POTION, CARD_POTION, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"FIRE 2", 2, {CARD_TYPE_FIRE}, {
+        CARD_CHARMANDER, CARD_CHARMANDER, CARD_CHARMELEON, CARD_CHARMELEON, CARD_GROWLITHE,
+        CARD_GROWLITHE, CARD_VULPIX, CARD_VULPIX, CARD_PIDGEY, CARD_PIDGEY,
+        CARD_PIDGEOTTO, CARD_SPEAROW, CARD_SPEAROW, CARD_FEAROW, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"WATER 2", 2, {CARD_TYPE_WATER}, {
+        CARD_SQUIRTLE, CARD_SQUIRTLE, CARD_WARTORTLE, CARD_WARTORTLE, CARD_PSYDUCK,
+        CARD_PSYDUCK, CARD_GOLDUCK, CARD_POLIWAG, CARD_POLIWAG, CARD_POLIWHIRL,
+        CARD_KRABBY, CARD_KRABBY, CARD_KINGLER, CARD_GIANT_CAPE, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"GRASS 3", 3, {CARD_TYPE_GRASS}, {
+        CARD_BULBASAUR, CARD_BULBASAUR, CARD_IVYSAUR, CARD_IVYSAUR, CARD_VENUSAUR,
+        CARD_VENUSAUR, CARD_ODDISH, CARD_ODDISH, CARD_GLOOM, CARD_VILEPLUME,
+        CARD_BELLSPROUT, CARD_BELLSPROUT, CARD_WEEPINBELL, CARD_VICTREEBEL, CARD_SCYTHER,
+        CARD_POTION, CARD_POTION, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"FIRE 3", 3, {CARD_TYPE_FIRE}, {
+        CARD_CHARMANDER, CARD_CHARMANDER, CARD_CHARMELEON, CARD_CHARMELEON, CARD_CHARIZARD,
+        CARD_GROWLITHE, CARD_GROWLITHE, CARD_ARCANINE, CARD_ARCANINE, CARD_VULPIX,
+        CARD_VULPIX, CARD_NINETALES, CARD_EEVEE, CARD_FLAREON, CARD_POTION,
+        CARD_POTION, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"WATER 3", 3, {CARD_TYPE_WATER}, {
+        CARD_SQUIRTLE, CARD_SQUIRTLE, CARD_WARTORTLE, CARD_WARTORTLE, CARD_BLASTOISE,
+        CARD_POLIWAG, CARD_POLIWAG, CARD_POLIWHIRL, CARD_POLIWRATH, CARD_LAPRAS,
+        CARD_PSYDUCK, CARD_GOLDUCK, CARD_MISTY, CARD_MISTY, CARD_POKE_BALL,
+        CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH, CARD_POTION, CARD_GIANT_CAPE,
+    }},
+    {"GRASS 4", 4, {CARD_TYPE_GRASS}, {
+        CARD_BULBASAUR, CARD_BULBASAUR, CARD_IVYSAUR, CARD_VENUSAUR, CARD_VENUSAUR,
+        CARD_ODDISH, CARD_ODDISH, CARD_GLOOM, CARD_VILEPLUME, CARD_EXEGGCUTE,
+        CARD_EXEGGCUTE, CARD_EXEGGUTOR, CARD_EXEGGUTOR, CARD_ERIKA, CARD_ERIKA,
+        CARD_RARE_CANDY, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"FIRE 4", 4, {CARD_TYPE_FIRE}, {
+        CARD_CHARMANDER, CARD_CHARMANDER, CARD_CHARMELEON, CARD_CHARIZARD, CARD_CHARIZARD_MEGA_Y_EX,
+        CARD_GROWLITHE, CARD_GROWLITHE, CARD_ARCANINE, CARD_ARCANINE, CARD_PONYTA,
+        CARD_PONYTA, CARD_RAPIDASH, CARD_MAGMAR, CARD_RARE_CANDY, CARD_POTION,
+        CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH, CARD_GIANT_CAPE,
+    }},
+    {"WATER 4", 4, {CARD_TYPE_WATER}, {
+        CARD_SQUIRTLE, CARD_SQUIRTLE, CARD_WARTORTLE, CARD_BLASTOISE, CARD_BLASTOISE,
+        CARD_LAPRAS, CARD_STARYU, CARD_STARYU, CARD_STARMIE, CARD_STARMIE,
+        CARD_SHELLDER, CARD_SHELLDER, CARD_CLOYSTER, CARD_MISTY, CARD_MISTY,
+        CARD_RARE_CANDY, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"GRASS 6", 6, {CARD_TYPE_GRASS}, {
+        CARD_BULBASAUR, CARD_BULBASAUR, CARD_IVYSAUR, CARD_IVYSAUR, CARD_VENUSAUR,
+        CARD_VENUSAUR_MEGA_EX, CARD_EXEGGCUTE, CARD_EXEGGCUTE, CARD_EXEGGUTOR, CARD_KANGASKHAN_MEGA_EX,
+        CARD_SCYTHER, CARD_SCYTHER, CARD_ERIKA, CARD_ERIKA, CARD_RARE_CANDY,
+        CARD_RARE_CANDY, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"FIRE 6", 6, {CARD_TYPE_FIRE}, {
+        CARD_CHARMANDER, CARD_CHARMANDER, CARD_CHARMELEON, CARD_CHARMELEON, CARD_CHARIZARD,
+        CARD_CHARIZARD_MEGA_Y_EX, CARD_GROWLITHE, CARD_GROWLITHE, CARD_ARCANINE, CARD_ARCANINE,
+        CARD_MOLTRES, CARD_MAGMAR, CARD_BLAINE, CARD_BLAINE, CARD_RARE_CANDY,
+        CARD_GIOVANNI, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+    {"WATER 6", 6, {CARD_TYPE_WATER}, {
+        CARD_SQUIRTLE, CARD_SQUIRTLE, CARD_WARTORTLE, CARD_WARTORTLE, CARD_BLASTOISE,
+        CARD_MAGIKARP, CARD_MAGIKARP, CARD_GYARADOS, CARD_GYARADOS_MEGA_EX, CARD_LAPRAS,
+        CARD_ARTICUNO, CARD_STARYU, CARD_STARMIE, CARD_MISTY, CARD_MISTY,
+        CARD_RARE_CANDY, CARD_POKE_BALL, CARD_POKE_BALL, CARD_PROF_OAKS_RESEARCH, CARD_PROF_OAKS_RESEARCH,
+    }},
+};
+
+// Where each card player is met, as the stage of sProxyDecks (5, the Sevii Islands before the
+// Hall of Fame: stage 4's decks)
+static const u8 sOpponentStages[CARD_OPPONENTS_COUNT] =
+{
+    1, 1, 1, 1, 2, 1, 2, 2, 2, 2,
+    3, 3, 3, 3, 3, 3, 1, 2, 2, 3,
+    4, 4, 4, 4, 4, 4, 4, 4, 6, 4,
+    4, 4, 4, 5, 5, 5, 5, 5, 6, 6,
+    6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+    6,
+};
+
+static const char *const sLevelNames[] = {"EASY", "CASUAL", "NORMAL", "HARD"};
+
+// One player deck against a card player at their level, games times; the player's wins
+static int PlayPlayerDeck(const u16 *cards, const u8 *zoneTypes, u8 opponentId, int games)
 {
     struct CardDuel duel;
-    struct CardDuelSetup starter, setup;
+    struct CardDuelSetup player, setup;
     struct CardAction actions[CARD_MAX_ACTIONS], chosen;
-    int o, game, steps, side, wins;
+    const struct CardDeckData *deck = &gCardDecks[gCardOpponents[opponentId].deck];
+    int game, steps, side, wins = 0;
     u8 levels[CARD_SIDE_COUNT];
 
-    starter.deck = gCardDecks[CARD_DECK_STARTER].cards;
-    memcpy(starter.zoneTypes, gCardDecks[CARD_DECK_STARTER].zoneTypes, CARD_MAX_ZONE_TYPES);
-    printf("  The starter deck (NORMAL) against each card player:\n");
-    for (o = 0; o < CARD_OPPONENTS_COUNT; o++)
+    player.deck = cards;
+    memcpy(player.zoneTypes, zoneTypes, CARD_MAX_ZONE_TYPES);
+    // The Copycat plays the player's deck
+    setup = player;
+    if (deck != &gCardDecks[CARD_DECK_COPYCAT])
     {
-        const struct CardDeckData *deck = &gCardDecks[gCardOpponents[o].deck];
-
         setup.deck = deck->cards;
         memcpy(setup.zoneTypes, deck->zoneTypes, CARD_MAX_ZONE_TYPES);
-        levels[CARD_SIDE_PLAYER] = CARD_AI_NORMAL;
-        levels[CARD_SIDE_OPPONENT] = deck->aiLevel;
-        for (game = 0, wins = 0; game < 100; game++)
+    }
+    levels[CARD_SIDE_PLAYER] = CARD_AI_NORMAL;
+    levels[CARD_SIDE_OPPONENT] = deck->aiLevel;
+    for (game = 0; game < games; game++)
+    {
+        Duel_Init(&duel, &player, &setup, game * 7919 + opponentId);
+        for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
         {
-            Duel_Init(&duel, &starter, &setup, game * 7919 + o);
-            for (steps = 0; steps < 3000 && duel.phase != CARD_PHASE_OVER; steps++)
+            Duel_ClearEvents(&duel);
+            for (side = 0; side < CARD_SIDE_COUNT; side++)
             {
-                Duel_ClearEvents(&duel);
-                for (side = 0; side < CARD_SIDE_COUNT; side++)
-                {
-                    if (!Duel_CanAct(&duel, side))
-                        continue;
-                    CardAi_ChooseAction(&duel, side, levels[side], actions, &chosen);
-                    CHECK(Duel_DoAction(&duel, side, &chosen), "starter against %d: illegal action", o);
-                    break;
-                }
+                if (!Duel_CanAct(&duel, side))
+                    continue;
+                CardAi_ChooseAction(&duel, side, levels[side], actions, &chosen);
+                CHECK(Duel_DoAction(&duel, side, &chosen), "player deck against %d: illegal action", opponentId);
+                break;
             }
-            if (duel.winner == CARD_SIDE_PLAYER)
-                wins++;
         }
-        printf("    %-10s %3d%%\n", (const char *)gCardOpponents[o].name, wins);
-        if (deck->aiLevel == CARD_AI_EASY)
-            CHECK(wins >= 60, "the starter deck should beat %s (EASY)", (const char *)gCardOpponents[o].name);
+        if (duel.winner == CARD_SIDE_PLAYER)
+            wins++;
+    }
+    return wins;
+}
+
+// The difficulty along the story: each card player against the player's likely decks where they
+// are met (sProxyDecks), played by NORMAL. The EASY players must lose to the starter deck itself.
+static void PlayTheStory(void)
+{
+    int o, d, wins, games, i, j;
+    u8 stage;
+
+    for (d = 0; d < (int)ARRAY_COUNT(sProxyDecks); d++)
+    {
+        const struct ProxyDeck *proxy = &sProxyDecks[d];
+
+        CHECK(Duel_ValidateDeck(proxy->cards, proxy->zoneTypes) == CARD_DECK_OK, "player deck %s", proxy->name);
+        for (i = 0; i < CARD_DECK_SIZE; i++)
+        {
+            const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(proxy->cards[i]);
+            bool8 usable = FALSE;
+
+            for (j = 0; info != NULL && j < info->numAttacks; j++)
+                usable |= CanPayWithZone(&info->attacks[j], proxy->zoneTypes);
+            CHECK(info == NULL || usable, "player deck %s: card %d can't attack", proxy->name, proxy->cards[i]);
+        }
+    }
+    printf("  The player (NORMAL) against each card player, with the decks of where they are met:\n");
+    for (o = 0; o < CARD_OPPONENTS_COUNT; o++)
+    {
+        stage = sOpponentStages[o] == 5 ? 4 : sOpponentStages[o];
+        for (d = 0, wins = 0, games = 0; d < (int)ARRAY_COUNT(sProxyDecks); d++)
+        {
+            if (sProxyDecks[d].stage != stage)
+                continue;
+            wins += PlayPlayerDeck(sProxyDecks[d].cards, sProxyDecks[d].zoneTypes, o, 40);
+            games += 40;
+        }
+        printf("    %d %-10s %-6s %3d%%\n", sOpponentStages[o], (const char *)gCardOpponents[o].name,
+               sLevelNames[gCardDecks[gCardOpponents[o].deck].aiLevel],
+               wins * 100 / games);
+        if (gCardDecks[gCardOpponents[o].deck].aiLevel == CARD_AI_EASY)
+        {
+            wins = PlayPlayerDeck(gCardDecks[CARD_DECK_STARTER].cards, gCardDecks[CARD_DECK_STARTER].zoneTypes, o, 100);
+            CHECK(wins >= 60, "the starter deck should beat %s (EASY): %d%%", (const char *)gCardOpponents[o].name, wins);
+        }
     }
 }
 
@@ -484,7 +643,7 @@ int main(void)
     CHECK(PlayLevels(CARD_AI_HARD, CARD_AI_EASY, "HARD against EASY") >= 70, "HARD should beat EASY");
     CHECK(PlayLevels(CARD_AI_NORMAL, CARD_AI_EASY, "NORMAL against EASY") >= 65, "NORMAL should beat EASY");
     PlayLevels(CARD_AI_HARD, CARD_AI_NORMAL, "HARD against NORMAL");
-    PlayStarterAgainstOpponents();
+    PlayTheStory();
     printf("%d checks, %d failures\n", sChecks, sFailures);
     return sFailures != 0;
 }

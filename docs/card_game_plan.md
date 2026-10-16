@@ -696,6 +696,38 @@ phases:
 - Balance: the late decks that took the new cards stay within a few points of before, apart from
   the Game Corner's Zapdos ex deck (53% to 63%).
 
+**After phase 9: the pack screen and the difficulty curve.**
+
+- Pack screen: the card's text no longer runs past the bottom of its window (Mega Charizard X
+  ex). The window goes down to the bottom of the screen with the help in the header, the stage,
+  type and HP share a line, and the lines move closer together only for a card with too many. It
+  now shows the ability's text (it only said ABILITY) and the ex rule.
+- Difficulty along the story, from the player's side (`PlayTheStory` in
+  `tools/card_game/test_data.c`): every card player against the decks a player is likely to have
+  where they are met (`sProxyDecks`: for each stage, a Grass, a Fire and a Water starter's deck
+  with the species caught by then and the rewards of the card players before; `sOpponentStages`),
+  the player's deck played by NORMAL. It replaces the starter-deck-only report, which made the
+  later players look impossible.
+- What it showed and what changed:
+  - The Fighting players around Pewter (DANE, ANSEL, BROCK) beat an early deck 70-85% of the
+    time: early decks are mostly Normal Pokémon, weak to Fighting. Between EASY (a random action
+    half of the time) and NORMAL there was nothing, a 60-point gap, so there is a new level,
+    **CASUAL** (a random action an eighth of the time). BROCK, ANSEL and DANE play CASUAL: 44%,
+    42%, 65% for the player.
+  - Too strong for where they stand: ZACK and MORT (20%), LOU (27%), OTTO (13%), NED (14%, the
+    Articuno ex of phase 9), GORDON and MARLON (21-23%), WES (36%), DUNCAN (37%). Lighter decks
+    (fewer evolved Pokémon, no Rare Candy or Mega there), plain Articuno and Zapdos instead of the
+    ex, NORMAL instead of HARD for OTTO, NED, MARLON and LT. SURGE.
+  - Leaders: BROCK 44%, MISTY 38%, LT. SURGE 40%, ERIKA 52%, KOGA 51%, SABRINA 43%, BLAINE 37%
+    (a lighter deck), GIOVANNI 56% (with 2 Mega Tyranitar, 2 Mega Aerodactyl and Marowak ex he is
+    still the 8th leader of a Grass player's weakness; the differences under ~10 points are noise
+    at these game counts).
+  - Now: EASY players 71-94% for the player, the others mostly 40-65%, OTTO (who gives a Mega)
+    29%, the champions 52-65%, LORELEI 31%, MR. M. 25%.
+- A first Fire player's deck made Fire and Lightning Energy and lost to almost everyone, even
+  Grass decks: the Fire decks of the report make Fire only. Proxy decks are rough, so the report
+  is a guide, not a rule; the checks only keep the EASY players beatable by the starter deck.
+
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.
 

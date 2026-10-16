@@ -11,9 +11,9 @@
 //   6. attack with the best attack, or end the turn.
 // Coin flips count at their average: it never looks at the duel's random numbers.
 //
-// Levels (CARD_AI_*): EASY plays a random action half of the time. NORMAL follows the rules
-// above, without retreating or the Supporters that set up a knockout (Giovanni, Blaine,
-// Sabrina). HARD does those too, plays the weaknesses, and looks at the opponent's next attack,
+// Levels (CARD_AI_*): EASY plays a random action half of the time, CASUAL an eighth of the
+// time. NORMAL follows the rules above, without retreating or the Supporters that set up a
+// knockout (Giovanni, Blaine, Sabrina). HARD does those too, plays the weaknesses, and looks at the opponent's next attack,
 // to not feed Energy to a Pokémon about to be knocked out unless it lets it attack first.
 // (Retreating a Pokémon about to be knocked out, or holding back all Energy from it, lost more
 // games than it saved: tools/card_game/test_data.c plays the levels against each other.)
@@ -811,7 +811,7 @@ void CardAi_ChooseAction(struct CardDuel *duel, u8 side, u8 level, struct CardAc
         action = ChooseSetup(&ctx);
     else if (duel->phase == CARD_PHASE_PROMOTE)
         action = ChoosePromotion(&ctx);
-    else if (level == CARD_AI_EASY && (Duel_Random(duel) & 1))
+    else if ((level == CARD_AI_EASY && (Duel_Random(duel) & 1)) || (level == CARD_AI_CASUAL && (Duel_Random(duel) & 7) == 0))
         action = ChooseRandom(duel, actions, ctx.count);
     else if ((action = ChooseDraw(&ctx)) == NULL
           && (action = ChooseBoard(&ctx)) == NULL

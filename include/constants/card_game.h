@@ -186,9 +186,10 @@
 #define CARD_COUNT                  (CARD_TRAINER_START + 28)
 
 // The opponent's skill (src/card_game_ai.c)
-#define CARD_AI_EASY                0
-#define CARD_AI_NORMAL              1
-#define CARD_AI_HARD                2
+#define CARD_AI_EASY                0   // a random action half of the time
+#define CARD_AI_CASUAL              1   // a random action an eighth of the time
+#define CARD_AI_NORMAL              2
+#define CARD_AI_HARD                3
 
 // VAR_RESULT after `special PlayCardGame`
 #define CARD_GAME_RESULT_LOST       0
