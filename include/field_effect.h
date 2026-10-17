@@ -6,6 +6,7 @@ extern const struct SpriteTemplate gNewGameBirchObjectTemplate;
 extern const struct OamData gNewGameBirchOamAttributes;
 
 extern s32 gFieldEffectArguments[8];
+extern const struct SpritePalette gSpritePalette_PlayerFieldEffects;
 extern void (*gPostMenuFieldCallback)(void);
 extern bool8 (*gFieldCallback2)(void);
 
@@ -26,6 +27,8 @@ void FieldEffectScript_LoadPalette(u8 **script);
 void FieldEffectScript_CallNative(u8 **script, u32 *val);
 void FieldEffectFreeTilesIfUnused(u16 tileStart);
 void FieldEffectFreePaletteIfUnused(u8 paletteNum);
+u8 LoadPlayerFieldEffectsPalette(void);
+void DestroySpriteAndFreePalette(struct Sprite *sprite);
 bool8 FieldEffectCmd_loadtiles(u8 **script, u32 *val);
 bool8 FieldEffectCmd_loadfadedpal(u8 **script, u32 *val);
 bool8 FieldEffectCmd_loadpal(u8 **script, u32 *val);

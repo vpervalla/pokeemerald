@@ -2,6 +2,7 @@
 #include "card_game.h"
 #include "bg.h"
 #include "data.h"
+#include "decompress.h"
 #include "event_data.h"
 #include "gpu_regs.h"
 #include "item_icon.h"
@@ -87,6 +88,7 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define TAG_COIN            0x4C01
 #define TAG_ARROWS          0x4C02
 #define TAG_DETAIL_ITEM     0x4C04
+#define TAG_CARD_PIC        0x4C05  // a Gold picture, here or in the deck builder (never both)
 
 #define PIP_TROPHY          11  // pips.png: then the card types, a trophy won and one to win
 #define PIP_TROPHY_EMPTY    12
@@ -200,6 +202,32 @@ static const u32 sPipTiles[] = INCGFX_U32("graphics/card_game/pips.png", ".4bpp"
 static const u16 sPipPalette[] = INCGFX_U16("graphics/card_game/pips.png", ".gbapal");
 static const u32 sCoinTiles[] = INCGFX_U32("graphics/card_game/coin.png", ".4bpp");
 static const u16 sCoinPalette[] = INCGFX_U16("graphics/card_game/coin.png", ".gbapal");
+
+// The cards' pictures: the Pokémon Gold front sprites (made by tools/card_game/gen_retro_pics.py)
+struct RetroPic
+{
+    const u32 *gfx;
+    const u16 *palette;
+};
+
+#include "data/card_game/retro_pics.h"
+
+static const struct OamData sOamData_CardPic =
+{
+    .shape = SPRITE_SHAPE(64x64),
+    .size = SPRITE_SIZE(64x64),
+};
+
+static const struct SpriteTemplate sSpriteTemplate_CardPic =
+{
+    .tileTag = TAG_CARD_PIC,
+    .paletteTag = TAG_CARD_PIC,
+    .oam = &sOamData_CardPic,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
 
 static const u16 sBackdropColor = RGB(4, 10, 6);
 
@@ -1648,7 +1676,7 @@ static void DestroyDetailSprite(void)
     }
     else
     {
-        FreeAndDestroyMonPicSprite(sScreen->detailSprite);
+        CardGame_DestroyPokemonPic(sScreen->detailSprite);
     }
     sScreen->detailSprite = SPRITE_NONE;
 }
@@ -1843,6 +1871,50 @@ static void ShowTrainerDetails(const struct TrainerCardInfo *info)
     PrintDetail(text, 72, y);
 }
 
+// A Pokémon card's picture: its Gold sprite, or its front pic for the species Gold doesn't have
+// (Megas, Hoenn). One at a time. Returns MAX_SPRITES if it can't be made.
+u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y)
+{
+    u16 spriteId;
+
+    if (species < ARRAY_COUNT(sRetroPics) && sRetroPics[species].gfx != NULL)
+    {
+        struct CompressedSpriteSheet sheet;
+        struct SpritePalette palette;
+
+        sheet.data = sRetroPics[species].gfx;
+        sheet.size = MON_PIC_SIZE;
+        sheet.tag = TAG_CARD_PIC;
+        palette.data = sRetroPics[species].palette;
+        palette.tag = TAG_CARD_PIC;
+        LoadCompressedSpriteSheet(&sheet);
+        LoadSpritePalette(&palette);
+        spriteId = CreateSprite(&sSpriteTemplate_CardPic, x, y, 0);
+        if (spriteId == MAX_SPRITES)
+        {
+            FreeSpriteTilesByTag(TAG_CARD_PIC);
+            FreeSpritePaletteByTag(TAG_CARD_PIC);
+        }
+        return spriteId;
+    }
+    spriteId = CreateMonPicSprite_HandleDeoxys(species, 0, NOT_SHINY_PERSONALITY, TRUE, x, y, 15, TAG_NONE);
+    return spriteId < MAX_SPRITES ? spriteId : MAX_SPRITES;
+}
+
+void CardGame_DestroyPokemonPic(u16 spriteId)
+{
+    if (gSprites[spriteId].template == &sSpriteTemplate_CardPic)
+    {
+        DestroySprite(&gSprites[spriteId]);
+        FreeSpriteTilesByTag(TAG_CARD_PIC);
+        FreeSpritePaletteByTag(TAG_CARD_PIC);
+    }
+    else
+    {
+        FreeAndDestroyMonPicSprite(spriteId);
+    }
+}
+
 static void CreateDetailPicture(u16 cardId)
 {
     const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
@@ -1851,8 +1923,8 @@ static void CreateDetailPicture(u16 cardId)
     sScreen->detailIsItem = FALSE;
     if (pokemon != NULL)
     {
-        sScreen->detailSprite = CreateMonPicSprite_HandleDeoxys(pokemon->species, 0, NOT_SHINY_PERSONALITY, TRUE, 36, 44, 15, TAG_NONE);
-        if (sScreen->detailSprite >= MAX_SPRITES)
+        sScreen->detailSprite = CardGame_CreatePokemonPic(pokemon->species, 36, 44);
+        if (sScreen->detailSprite == MAX_SPRITES)
             sScreen->detailSprite = SPRITE_NONE;
         else
             gSprites[sScreen->detailSprite].oam.priority = 0;

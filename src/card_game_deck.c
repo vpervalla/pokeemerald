@@ -304,7 +304,7 @@ static void DestroyInfoSprite(void)
         FreeSpritePaletteByTag(TAG_INFO_ITEM);
         break;
     case 3:
-        FreeAndDestroyMonPicSprite(sBuilder->infoSprite);
+        CardGame_DestroyPokemonPic(sBuilder->infoSprite);
         break;
     }
     sBuilder->infoSpriteKind = 0;
@@ -1008,7 +1008,7 @@ static void ShowPackCard(void)
     // Left of the text: the Pokémon's picture, or the Trainer's item
     if (pokemon != NULL)
     {
-        sBuilder->infoSprite = CreateMonPicSprite_HandleDeoxys(pokemon->species, 0, NOT_SHINY_PERSONALITY, TRUE, 52, 72, 15, TAG_NONE);
+        sBuilder->infoSprite = CardGame_CreatePokemonPic(pokemon->species, 52, 72);
         if (sBuilder->infoSprite < MAX_SPRITES)
             sBuilder->infoSpriteKind = 3;
     }

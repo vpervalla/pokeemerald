@@ -541,7 +541,7 @@ static const u8 sOpponentStages[CARD_OPPONENTS_COUNT] =
     4, 4, 4, 4, 4, 4, 4, 4, 6, 4,
     4, 4, 4, 5, 5, 5, 5, 5, 6, 6,
     6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-    6,
+    6, 1,
 };
 
 static const char *const sLevelNames[] = {"EASY", "CASUAL", "NORMAL", "HARD"};

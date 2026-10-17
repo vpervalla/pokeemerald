@@ -10,7 +10,8 @@ TestArea_Text_HouseSign:
 
 @ Lets the player switch the map's weather on the spot. Menu item i is weather i
 @ (WEATHER_NONE to WEATHER_UNDERWATER_BUBBLES), followed by EXIT. The weather lasts
-@ until the player leaves the map, which reloads the map's own weather.
+@ until the player leaves the map, which reloads the map's own weather: the dynamic
+@ weather leaves a weather set by a script alone.
 TestArea_EventScript_WeatherChanger::
 	lock
 	faceplayer
@@ -31,7 +32,9 @@ TestArea_Text_PickWeather:
 
 @ Pins the day/night phase (or hands it back to the real clock) so each phase's tint and the
 @ lit windows can be checked without waiting. Menu item i is DAY_NIGHT_OVERRIDE_* value i,
-@ followed by EXIT. The choice is saved, and applies to every outdoor map.
+@ followed by EXIT. The choice is saved, and applies to every outdoor map. It also moves the
+@ dynamic weather to that phase: the Test Area is in the VIRIDIAN zone, so its weather fades
+@ to the new phase's within a second (unless the weather changer set it).
 TestArea_EventScript_TimeChanger::
 	lock
 	faceplayer
@@ -49,6 +52,48 @@ TestArea_EventScript_TimeChangerDone::
 TestArea_Text_PickTime:
 	.string "What time of day should it be?$"
 
+@ Reports a zone's dynamic weather today (src/dynamic_weather.c) and shows that zone's weather
+@ here. Menu item i is zone i (DYN_ZONE_*), followed by EXIT. The Test Area is in the VIRIDIAN
+@ zone, so picking VIRIDIAN gives it back its own, live weather, undoing the weather changer;
+@ another zone's weather is shown as it is now and stays until the player leaves. It can step
+@ to the next day; that offset applies to every zone until the game is reset. Pick the phase
+@ with the time changer.
+TestArea_EventScript_DynamicWeather::
+	lock
+	faceplayer
+	message TestArea_Text_PickZone
+	waitmessage
+	setvar VAR_0x8004, SCROLL_MULTI_TEST_AREA_ZONE
+	special ShowScrollableMultichoice
+	closemessage
+	goto_if_ge VAR_RESULT, DYN_ZONE_COUNT, TestArea_EventScript_DynamicWeatherDone
+	copyvar VAR_0x8005, VAR_RESULT
+	copyvar VAR_0x8006, VAR_RESULT
+	addvar VAR_0x8006, WEATHER_DYNAMIC_START
+TestArea_EventScript_DynamicWeatherReport::
+	special DynamicWeather_DebugReport
+	msgbox TestArea_Text_DynamicWeatherReport, MSGBOX_DEFAULT
+	setweather VAR_0x8006
+	doweather
+	msgbox TestArea_Text_DynamicWeatherNextDay, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_DynamicWeatherDone
+	special DynamicWeather_DebugNextDay
+	goto TestArea_EventScript_DynamicWeatherReport
+TestArea_EventScript_DynamicWeatherDone::
+	release
+	end
+
+TestArea_Text_PickZone:
+	.string "Which zone's weather should I check?$"
+
+TestArea_Text_DynamicWeatherReport:
+	.string "{STR_VAR_1} zone, day {STR_VAR_2}.\n{STR_VAR_3}$"
+
+TestArea_Text_DynamicWeatherNextDay:
+	.string "Here's how it looks now.\p"
+	.string "Look at the next day? It changes\n"
+	.string "every zone, until a reset.$"
+
 @ Debug shortcut to the tournament island until the story gives the player a way there.
 TestArea_EventScript_IslandSailor::
 	lock
@@ -64,3 +109,31 @@ TestArea_EventScript_IslandSailorDone::
 
 TestArea_Text_SailToIsland:
 	.string "Want a ride to the castle island?$"
+
+@ Debug card player: the CARD CASE and the starter deck if the player has none, a card pack on
+@ every talk, then a duel against CARD_OPPONENT_TEST_AREA_TESTER.
+TestArea_EventScript_CardTester::
+	lock
+	faceplayer
+	checkitem ITEM_CARD_CASE
+	call_if_eq VAR_RESULT, FALSE, TestArea_EventScript_CardTesterGiveCase
+	msgbox TestArea_Text_CardTesterHereIsAPack
+	closemessage
+	special OpenCardPack
+	cardduel CARD_OPPONENT_TEST_AREA_TESTER
+	release
+	end
+
+TestArea_EventScript_CardTesterGiveCase::
+	msgbox TestArea_Text_CardTesterNoCardCase
+	giveitem ITEM_CARD_CASE
+	special CardGame_GiveStarterDeck
+	msgbox Debug_Text_CardGotStarter
+	return
+
+TestArea_Text_CardTesterNoCardCase:
+	.string "No CARD CASE? Take this one,\n"
+	.string "then we can test the card game!$"
+
+TestArea_Text_CardTesterHereIsAPack:
+	.string "Here's a card pack to test!$"

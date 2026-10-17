@@ -843,6 +843,24 @@ void FieldEffectFreePaletteIfUnused(u8 paletteNum)
     }
 }
 
+// For the sprites Emerald drew in the player's palette (slot 0). Falls back
+// to that slot if no palette slot is free.
+u8 LoadPlayerFieldEffectsPalette(void)
+{
+    u8 paletteNum = LoadSpritePalette(&gSpritePalette_PlayerFieldEffects);
+    if (paletteNum == 0xFF)
+        return 0;
+    UpdateSpritePaletteWithWeather(paletteNum);
+    return paletteNum;
+}
+
+void DestroySpriteAndFreePalette(struct Sprite *sprite)
+{
+    u8 paletteNum = sprite->oam.paletteNum;
+    DestroySprite(sprite);
+    FieldEffectFreePaletteIfUnused(paletteNum);
+}
+
 void FieldEffectActiveListClear(void)
 {
     u8 i;
@@ -3120,7 +3138,7 @@ u8 FldEff_NPCFlyOut(void)
     u8 spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
     struct Sprite *sprite = &gSprites[spriteId];
 
-    sprite->oam.paletteNum = 0;
+    sprite->oam.paletteNum = LoadPlayerFieldEffectsPalette();
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_NPCFlyOut;
     sprite->data[1] = gFieldEffectArguments[0];
@@ -3257,7 +3275,7 @@ static void FlyOutFieldEffect_JumpOnBird(struct Task *task)
         ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_JUMP_IN_PLACE_LEFT);
         if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
         {
-            DestroySprite(&gSprites[objectEvent->fieldEffectSpriteId]);
+            DestroySpriteAndFreePalette(&gSprites[objectEvent->fieldEffectSpriteId]);
         }
         task->tState++;
         task->tTimer = 0;
@@ -3302,7 +3320,7 @@ static u8 CreateFlyBirdSprite(void)
     struct Sprite *sprite;
     spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
     sprite = &gSprites[spriteId];
-    sprite->oam.paletteNum = 0;
+    sprite->oam.paletteNum = LoadPlayerFieldEffectsPalette();
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_FlyBirdLeaveBall;
     return spriteId;
@@ -3577,7 +3595,7 @@ static void FlyInFieldEffect_WaitBirdReturn(struct Task *task)
 {
     if (GetFlyBirdAnimCompleted(task->tBirdSpriteId))
     {
-        DestroySprite(&gSprites[task->tBirdSpriteId]);
+        DestroySpriteAndFreePalette(&gSprites[task->tBirdSpriteId]);
         task->tState++;
         task->data[1] = 16;
     }

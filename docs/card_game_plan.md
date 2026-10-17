@@ -23,7 +23,7 @@ the battle engine, though its card data is generated from the battle data.
 | D3 | What the ex cards are | The Mega forms already in the game (`src/data/pokemon/mega_evolutions.h`), as Basic or evolved "Mega ex" cards worth **3 trophies** (as in Pocket's Mega Rising set), plus maybe a few legendaries ex worth 2 later | Reuses existing species, graphics and names |
 | D4 | Card stats | Generated from base stats, types, evolutions and level-up moves by a host-side script, then hand-tuned for the cards in the v1 set | Hundreds of hand-designed cards is months of balancing; a generator gets most of the way |
 | D5 | Supporters | The Kanto gym leaders (as in Pocket itself), Prof. Oak, Bill, the rival and the Elite Four. Beating a leader in a duel gives their Supporter card | Natural story hook and reward, and the cards already exist in Pocket to copy |
-| D6 | Art | Reuse the 32x32 party icons on the board and the 64x64 front pic in the card detail view. New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
+| D6 | Art | Reuse the 32x32 party icons on the board; the cards' 64x64 pictures are the Pokémon Gold front sprites, and Gold-style sprites for the Megas (the game's front pic for Hoenn species and Mega Dragonite). New art: board, card frames, Energy symbols, trophies, status icons | Icons share 3 palettes (`gMonIconPaletteIndices`), which keeps VRAM simple |
 | D7 | Opponents | NPCs only, never another human player: no link or wireless mode | Removes all link code, and lets every duel be designed around a specific NPC and place |
 | D8 | How many NPCs | ~50 for the full game (Kanto ~30, Sevii ~12, Mega Island ~8), ~15 in the first playable version | Enough that one is never far, as Gwent players are in every inn |
 | D9 | New NPCs or existing ones | Mostly existing townsfolk who also play cards (an extra line and a choice in their script); new objects only where a town has nobody suitable | Map edits are the slowest part; reusing NPCs keeps them small |
@@ -494,6 +494,13 @@ phases:
   effect spelled out. LEFT/RIGHT to browse, B to go back.
 - `tools/card_game/gen_graphics.py` draws the board tiles, the pips (an Energy of each type,
   trophies) and the coin; rerun it to change them.
+- The card pictures (card viewer and pack screen) are the Pokémon Gold front sprites, Bulbasaur
+  to Celebi, at their size in Gold (40 to 56 pixels, on the bottom of a 56x56 box), in
+  `graphics/card_game/retro/`. `tools/card_game/gen_retro_pics.py` makes them from a checkout
+  of pret/pokegold (the white around the Pokémon becomes transparent, the white inside stays).
+  The Megas' pictures come from `tools/card_game/mega_sprites.png`, Megas drawn in the Gold style
+  (the script names its cells in `MEGA_SHEET`). Hoenn species and Mega Dragonite, which have
+  no such sprite, keep the game's front pic (`CardGame_CreatePokemonPic`). About 240 KB of ROM.
 - Checked in mGBA: setup, many full duels, the coin flips (Misty's repeated flips too),
   knockouts and trophies, the card viewer on hand, Bench and opponent's cards, and a Mega ex
   card's picture and text.

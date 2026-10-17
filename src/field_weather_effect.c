@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_anim.h"
+#include "dynamic_weather.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
 #include "field_weather.h"
@@ -2512,6 +2513,9 @@ void SetSavedWeather(u32 weather)
     u8 oldWeather = gSaveBlock1Ptr->weather;
     gSaveBlock1Ptr->weather = TranslateWeatherNum(weather);
     UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
+    // A weather picked by a script or a coord event (even another zone's dynamic weather)
+    // stays until the map's own weather is back
+    DynamicWeather_SetOverridden(weather != gMapHeader.weather);
 }
 
 u8 GetSavedWeather(void)
@@ -2524,6 +2528,7 @@ void SetSavedWeatherFromCurrMapHeader(void)
     u8 oldWeather = gSaveBlock1Ptr->weather;
     gSaveBlock1Ptr->weather = TranslateWeatherNum(gMapHeader.weather);
     UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
+    DynamicWeather_SetOverridden(FALSE);
 }
 
 void SetWeather(u32 weather)
@@ -2615,7 +2620,10 @@ static u8 TranslateWeatherNum(u8 weather)
     case WEATHER_ABNORMAL:           return WEATHER_ABNORMAL;
     case WEATHER_ROUTE119_CYCLE:     return sWeatherCycleRoute119[gSaveBlock1Ptr->weatherCycleStage];
     case WEATHER_ROUTE123_CYCLE:     return sWeatherCycleRoute123[gSaveBlock1Ptr->weatherCycleStage];
-    default:                         return WEATHER_NONE;
+    default:
+        if (IsDynamicWeather(weather))
+            return GetDynamicWeather(weather - WEATHER_DYNAMIC_START);
+        return WEATHER_NONE;
     }
 }
 
