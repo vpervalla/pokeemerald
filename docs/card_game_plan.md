@@ -494,8 +494,8 @@ phases:
   effect spelled out. LEFT/RIGHT to browse, B to go back.
 - `tools/card_game/gen_graphics.py` draws the board tiles, the pips (an Energy of each type,
   trophies), the coin and the Energy icons; rerun it to change them.
-- Attack costs, the Pokémon's type, its weakness and a Trainer's type are shown as 9x9 Energy
-  icons instead of letters and names, in the card viewer, the pack screen and the CARD CASE: a
+- Attack costs, the Pokémon's type, its weakness, its retreat cost (Colorless icons, 0 when
+  free) and a Trainer's type are shown as 9x9 Energy icons instead of letters and names, in the card viewer, the pack screen and the CARD CASE: a
   colored circle with its symbol, after the Energy cards of the Game Boy TCG (Darkness and
   Metal drawn to match; Dragon, which has no Energy, stays a word). `CardGame_AppendTypeIcon`
   leaves a blank for the icon, after a `{PALETTE type}` code that prints nothing, and

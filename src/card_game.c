@@ -1824,7 +1824,11 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
     end = StringCopy(text, sText_Weakness);
     end = CardGame_AppendTypeIcon(end, info->weakness);
     end = StringAppend(end, sText_Retreat);
-    AppendNumber(end, info->retreatCost);
+    // A Colorless icon per Energy to discard; free: 0
+    if (info->retreatCost == 0)
+        AppendNumber(end, 0);
+    for (i = 0; i < info->retreatCost; i++)
+        end = CardGame_AppendTypeIcon(end, CARD_TYPE_COLORLESS);
     y = PrintDetail(text, x, y);
     if (mon != NULL && mon->tool != CARD_NONE)
     {
