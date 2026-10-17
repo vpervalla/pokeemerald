@@ -1,7 +1,7 @@
 const struct SpritePalette gSpritePalette_GeneralFieldEffect0 = {gFieldEffectObjectPalette0, FLDEFF_PAL_TAG_GENERAL_0};
 const struct SpritePalette gSpritePalette_GeneralFieldEffect1 = {gFieldEffectObjectPalette1, FLDEFF_PAL_TAG_GENERAL_1};
-// Brendan's colours, for the effects drawn in the player's palette in Emerald (the ! and ? icons and the
-// warp arrow). The Kanto/Johto player palettes don't have the white those effects need.
+// Brendan's colours, for the effects drawn in the player's palette in Emerald (the ! and ? icons, the
+// warp arrow, the surf blob and the Fly bird). The Kanto/Johto player palettes don't have those colours.
 const struct SpritePalette gSpritePalette_PlayerFieldEffects = {gFieldEffectObjectPalette_PlayerEffects, FLDEFF_PAL_TAG_PLAYER_EFFECTS};
 
 static const union AnimCmd sAnim_Shadow[] =

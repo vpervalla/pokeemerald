@@ -27,6 +27,8 @@ void FieldEffectScript_LoadPalette(u8 **script);
 void FieldEffectScript_CallNative(u8 **script, u32 *val);
 void FieldEffectFreeTilesIfUnused(u16 tileStart);
 void FieldEffectFreePaletteIfUnused(u8 paletteNum);
+u8 LoadPlayerFieldEffectsPalette(void);
+void DestroySpriteAndFreePalette(struct Sprite *sprite);
 bool8 FieldEffectCmd_loadtiles(u8 **script, u32 *val);
 bool8 FieldEffectCmd_loadfadedpal(u8 **script, u32 *val);
 bool8 FieldEffectCmd_loadpal(u8 **script, u32 *val);

@@ -206,14 +206,7 @@ void ShowWarpArrowSprite(u8 spriteId, u8 direction, s16 x, s16 y)
     {
         s16 x2, y2;
         if (sprite->invisible)
-        {
-            u8 paletteNum = LoadSpritePalette(&gSpritePalette_PlayerFieldEffects);
-            if (paletteNum != 0xFF)
-            {
-                UpdateSpritePaletteWithWeather(paletteNum);
-                sprite->oam.paletteNum = paletteNum;
-            }
-        }
+            sprite->oam.paletteNum = LoadPlayerFieldEffectsPalette();
         SetSpritePosToMapCoords(x, y, &x2, &y2);
         sprite = &gSprites[spriteId];
         sprite->x = x2 + 8;
@@ -1024,7 +1017,7 @@ u32 FldEff_SurfBlob(void)
     {
         struct Sprite *sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled = TRUE;
-        sprite->oam.paletteNum = 0;
+        sprite->oam.paletteNum = LoadPlayerFieldEffectsPalette();
         sprite->sPlayerObjId = gFieldEffectArguments[2];
         sprite->sVelocity = -1;
         sprite->sPrevX = -1;
