@@ -70,6 +70,7 @@
 #include "constants/day_night.h"
 #include "constants/metatile_labels.h"
 #include "palette.h"
+#include "dynamic_weather.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -2590,6 +2591,16 @@ void ShowScrollableMultichoice(void)
         task->tScrollOffset = sKantoElevatorScrollOffset;
         task->tSelectedRow = sKantoElevatorSelectedRow;
         break;
+    case SCROLL_MULTI_TEST_AREA_ZONE:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = DYN_ZONE_COUNT + 1;
+        task->tLeft = 17;
+        task->tTop = 1;
+        task->tWidth = 12;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     case SCROLL_MULTI_TEST_AREA_TIME:
         task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
         task->tNumItems = 6;
@@ -2816,6 +2827,25 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
         [DAY_NIGHT_OVERRIDE_DAY] = sText_TimeDay,
         [DAY_NIGHT_OVERRIDE_EVENING] = sText_TimeEvening,
         [DAY_NIGHT_OVERRIDE_NIGHT] = sText_TimeNight,
+        gText_Exit
+    },
+    // TestArea's dynamic weather menu. Item i is zone i (DYN_ZONE_*), then EXIT.
+    [SCROLL_MULTI_TEST_AREA_ZONE] =
+    {
+        [DYN_ZONE_VIRIDIAN] = gText_DynamicWeatherZone_Viridian,
+        [DYN_ZONE_PEWTER] = gText_DynamicWeatherZone_Pewter,
+        [DYN_ZONE_CERULEAN] = gText_DynamicWeatherZone_Cerulean,
+        [DYN_ZONE_VERMILION] = gText_DynamicWeatherZone_Vermilion,
+        [DYN_ZONE_LAVENDER] = gText_DynamicWeatherZone_Lavender,
+        [DYN_ZONE_CELADON] = gText_DynamicWeatherZone_Celadon,
+        [DYN_ZONE_FUCHSIA] = gText_DynamicWeatherZone_Fuchsia,
+        [DYN_ZONE_SEA] = gText_DynamicWeatherZone_Sea,
+        [DYN_ZONE_INDIGO] = gText_DynamicWeatherZone_Indigo,
+        [DYN_ZONE_SEVII_NORTH] = gText_DynamicWeatherZone_SeviiNorth,
+        [DYN_ZONE_FOUR_ISLAND] = gText_DynamicWeatherZone_FourIsland,
+        [DYN_ZONE_SEVII_FOUR_FIVE] = gText_DynamicWeatherZone_SeviiFourFive,
+        [DYN_ZONE_SEVII_SOUTH] = gText_DynamicWeatherZone_SeviiSouth,
+        [DYN_ZONE_MEGA_ISLAND] = gText_DynamicWeatherZone_MegaIsland,
         gText_Exit
     }
 };

@@ -2513,8 +2513,9 @@ void SetSavedWeather(u32 weather)
     u8 oldWeather = gSaveBlock1Ptr->weather;
     gSaveBlock1Ptr->weather = TranslateWeatherNum(weather);
     UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
-    // A weather picked by a script or a coord event stays until the map's own weather is back
-    DynamicWeather_SetOverridden(!IsDynamicWeather(weather));
+    // A weather picked by a script or a coord event (even another zone's dynamic weather)
+    // stays until the map's own weather is back
+    DynamicWeather_SetOverridden(weather != gMapHeader.weather);
 }
 
 u8 GetSavedWeather(void)

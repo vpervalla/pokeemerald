@@ -163,11 +163,11 @@ static const u8 sText_Period[]      = _(".");
 static const u8 sText_Gated[]       = _("\pIt's off until the player has the\nPOKéDEX: the maps stay CLEAR.");
 static const u8 sText_NoClock[]     = _("\pThe clock can't be read, so the\nmaps stay CLEAR.");
 
-// Shows the VIRIDIAN zone's weather today, ignoring the story gate so it can be checked from
-// a new game. gStringVar1: zone, gStringVar2: day, gStringVar3: the pattern and its weathers.
+// Shows the weather today of zone VAR_0x8005, ignoring the story gate so it can be checked
+// from a new game. gStringVar1: zone, gStringVar2: day, gStringVar3: the pattern and its weathers.
 void DynamicWeather_DebugReport(void)
 {
-    u8 zone = DYN_ZONE_VIRIDIAN;
+    u8 zone = gSpecialVar_0x8005 < DYN_ZONE_COUNT ? gSpecialVar_0x8005 : DYN_ZONE_VIRIDIAN;
     u8 pattern = GetTodaysPattern(zone);
     u8 now = DayNight_GetPhaseNow();
     u8 phase;

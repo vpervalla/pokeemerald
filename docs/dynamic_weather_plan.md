@@ -13,7 +13,11 @@ tests (`tools/dynamic_weather/run_tests.sh`).
 
 Phase 2 is implemented: the weather fades to the next phase's while the player stays on a
 dynamic map, a weather set by a script or a coord event stays, and the change waits while a
-script, a menu or a fade has the screen. Nothing has been tested in-game yet.
+script, a menu or a fade has the screen.
+
+Phase 3 is implemented: all 14 zones of section 2 with the weights of section 3, on 65
+maps. The host tests cover every zone. Nothing has been tested in-game yet, and snow has
+not been looked at on Four Island (section 5).
 
 Differences from the plan below:
 
@@ -34,8 +38,17 @@ Differences from the plan below:
   shows the current weather on the Test Area. It can step to the next day; that offset
   (EWRAM, not saved) also applies to the zone's maps until a reset. Pallet Town is just
   east of the Test Area.
-- Route 2 borders Pewter City, which is still `WEATHER_SUNNY` until phase 3, so the
-  weather can change at that border for now.
+- **Mega Island castle**: in the `MEGA_ISLAND` zone too. Its map has no scripts, so there
+  is no scene that needs a fixed sky, and keeping it fixed would have stopped the rain at its
+  gate (it is connected to `MegaIsland`).
+- **Override rule**: setting the map's own `WEATHER_DYNAMIC_*` in a script is not an
+  override; any other weather is, including another zone's dynamic weather.
+- **Test Area debug entry**: a menu of every zone. It reports the chosen zone and shows that
+  zone's weather on the Test Area (live for `VIRIDIAN`, the Test Area's own zone).
+- **Zone borders**: weather can change where two zones meet, as planned: Route 2 / Pewter,
+  Route 3 / Route 4, Route 9 / Route 10, Route 5 / Saffron, Route 6 / Saffron, Route 11 /
+  Route 12, Route 8 / Saffron, Route 12 / Route 13, Route 18 / Fuchsia, Fuchsia / Route 19,
+  Route 21 / Pallet Town and Route 22 / Route 23.
 
 ## Where things are now
 
@@ -125,7 +138,7 @@ with weights (section 3). The maps listed get `"weather": "WEATHER_DYNAMIC_<ZONE
 | `FOUR_ISLAND` | Four Island | Cold: snow and flurries |
 | `SEVII_FOUR_FIVE` | Five Island; Five Isle Meadow, Memorial Pillar, Resort Gorgeous, Water Labyrinth | Cool: fog, cloud |
 | `SEVII_SOUTH` | Six and Seven Island; Green Path, Outcast Island, Ruin Valley, Water Path, Sevault Canyon (+ entrance), Tanoby Ruins, Trainer Tower | Wild: storms, canyon dust |
-| `MEGA_ISLAND` | `MegaIsland`, `MegaIsland_Port` | Mostly clear; `MegaIsland_Castle` keeps `WEATHER_SUNNY` (its scenes) |
+| `MEGA_ISLAND` | `MegaIsland`, `MegaIsland_Port`, `MegaIsland_Castle` | Mostly clear |
 
 Kept fixed: Viridian Forest, Berry Forest and Pattern Bush (shade or none), Mt. Ember
 exterior, Navel Rock, Birth Island and `Prototype_SeviiIsle_6`-`9`.
@@ -233,14 +246,16 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 
 ## 5. Maps
 
-- Change `"weather"` in the `map.json` of every map in section 2, one commit per
+- ✅ Change `"weather"` in the `map.json` of every map in section 2, one commit per
   region (Kanto, Sevii, Mega Island) so they can be reviewed.
-- Search the Kanto scripts for `setweather`, `resetweather`, `doweather` and weather
-  coord events, and make sure a scripted scene that needs a sky (Lavender's tower, the
-  Mega Island castle, the S.S. Anne departure) either keeps a fixed weather or sets it
-  in its script.
-- Snow is unused in vanilla Emerald. Before using it on Four Island, check it in the
-  Test Area: snowflake sprites with the FRLG object palettes, walking, Surf and
+- ✅ Search the Kanto scripts for `setweather`, `resetweather`, `doweather` and weather
+  coord events. None of the zone maps has a weather coord event or a weather command. The
+  only Kanto one is `Kanto_EventScript_TryDarkenRuins` (`setweather WEATHER_SHADE`), used
+  by the Tanoby chambers, which are indoor and keep their own weather.
+- Snow is unused in vanilla Emerald. It uses the same weather sprite palette slot
+  (`PALTAG_WEATHER`) as rain, so there is no new palette conflict, but it still needs a
+  look in the game: pick FOUR ISLAND in the Test Area's dynamic weather menu (or SNOW in
+  the weather changer) and check the snowflakes over the FRLG tiles, walking, Surf and
   the reflections on Four Island's water.
 
 ## 6. Forecast (optional, D8)
@@ -251,7 +266,7 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
   Tomorrow: clear."
 - Text per pattern, not per phase, to keep the strings short: `SHOWERS` → "afternoon
   showers", `STORM` → "storms later", `MORNING_FOG` → "fog in the morning".
-- The Test Area debug entry (done in phase 1) can list every zone once there are more.
+- The Test Area debug entry already has a menu of every zone (phase 3).
 
 ## 7. Phases
 
@@ -262,8 +277,8 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
    controls retry. The Test Area is now in the `VIRIDIAN` zone, so the time changer
    there shows the change live, and the dynamic weather NPC gives it back its zone weather
    with `resetweather`.
-3. **All zones**: the remaining zones and patterns, the map changes of section 5,
-   the snow check.
+3. ✅ **All zones**: the remaining zones and patterns, the map changes of section 5.
+   The in-game snow check is still to do.
 4. **Battles**: permanent hail from snow, the start message, the end-turn change.
 5. **Forecast** (optional).
 6. **Tuning**: play the story with the clock at different hours; check that rain

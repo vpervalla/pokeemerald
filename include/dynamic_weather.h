@@ -22,6 +22,22 @@ enum
     DYN_PATTERN_COUNT
 };
 
+// Zone names, for the Test Area's zone menu (SCROLL_MULTI_TEST_AREA_ZONE)
+extern const u8 gText_DynamicWeatherZone_Viridian[];
+extern const u8 gText_DynamicWeatherZone_Pewter[];
+extern const u8 gText_DynamicWeatherZone_Cerulean[];
+extern const u8 gText_DynamicWeatherZone_Vermilion[];
+extern const u8 gText_DynamicWeatherZone_Lavender[];
+extern const u8 gText_DynamicWeatherZone_Celadon[];
+extern const u8 gText_DynamicWeatherZone_Fuchsia[];
+extern const u8 gText_DynamicWeatherZone_Sea[];
+extern const u8 gText_DynamicWeatherZone_Indigo[];
+extern const u8 gText_DynamicWeatherZone_SeviiNorth[];
+extern const u8 gText_DynamicWeatherZone_FourIsland[];
+extern const u8 gText_DynamicWeatherZone_SeviiFourFive[];
+extern const u8 gText_DynamicWeatherZone_SeviiSouth[];
+extern const u8 gText_DynamicWeatherZone_MegaIsland[];
+
 // src/dynamic_weather_rules.c: the tables and the draw, with no game state (host-tested by
 // tools/dynamic_weather/run_tests.sh)
 u8 DynamicWeather_PickPattern(u8 zone, u32 seed, u16 day);

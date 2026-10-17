@@ -52,17 +52,28 @@ TestArea_EventScript_TimeChangerDone::
 TestArea_Text_PickTime:
 	.string "What time of day should it be?$"
 
-@ Reports the VIRIDIAN zone's dynamic weather today (src/dynamic_weather.c) and gives the Test
-@ Area (which is in that zone) back its zone weather, undoing the weather changer. It can step
-@ to the next day; that offset also applies to the zone's other maps until the game is reset.
-@ Pick the phase with the time changer.
+@ Reports a zone's dynamic weather today (src/dynamic_weather.c) and shows that zone's weather
+@ here. Menu item i is zone i (DYN_ZONE_*), followed by EXIT. The Test Area is in the VIRIDIAN
+@ zone, so picking VIRIDIAN gives it back its own, live weather, undoing the weather changer;
+@ another zone's weather is shown as it is now and stays until the player leaves. It can step
+@ to the next day; that offset applies to every zone until the game is reset. Pick the phase
+@ with the time changer.
 TestArea_EventScript_DynamicWeather::
 	lock
 	faceplayer
+	message TestArea_Text_PickZone
+	waitmessage
+	setvar VAR_0x8004, SCROLL_MULTI_TEST_AREA_ZONE
+	special ShowScrollableMultichoice
+	closemessage
+	goto_if_ge VAR_RESULT, DYN_ZONE_COUNT, TestArea_EventScript_DynamicWeatherDone
+	copyvar VAR_0x8005, VAR_RESULT
+	copyvar VAR_0x8006, VAR_RESULT
+	addvar VAR_0x8006, WEATHER_DYNAMIC_START
 TestArea_EventScript_DynamicWeatherReport::
 	special DynamicWeather_DebugReport
 	msgbox TestArea_Text_DynamicWeatherReport, MSGBOX_DEFAULT
-	resetweather
+	setweather VAR_0x8006
 	doweather
 	msgbox TestArea_Text_DynamicWeatherNextDay, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_DynamicWeatherDone
@@ -72,13 +83,16 @@ TestArea_EventScript_DynamicWeatherDone::
 	release
 	end
 
+TestArea_Text_PickZone:
+	.string "Which zone's weather should I check?$"
+
 TestArea_Text_DynamicWeatherReport:
 	.string "{STR_VAR_1} zone, day {STR_VAR_2}.\n{STR_VAR_3}$"
 
 TestArea_Text_DynamicWeatherNextDay:
 	.string "Here's how it looks now.\p"
-	.string "Look at the next day? It changes the\n"
-	.string "zone's maps too, until a reset.$"
+	.string "Look at the next day? It changes\n"
+	.string "every zone, until a reset.$"
 
 @ Debug shortcut to the tournament island until the story gives the player a way there.
 TestArea_EventScript_IslandSailor::

@@ -69,13 +69,26 @@ static const u8 *const sPatternNames[DYN_PATTERN_COUNT] =
     [DYN_PATTERN_FLURRIES]    = sPatternName_Flurries,
 };
 
-static const u8 sZoneName_Viridian[] = _("VIRIDIAN");
+const u8 gText_DynamicWeatherZone_Viridian[] = _("VIRIDIAN");
+const u8 gText_DynamicWeatherZone_Pewter[] = _("PEWTER");
+const u8 gText_DynamicWeatherZone_Cerulean[] = _("CERULEAN");
+const u8 gText_DynamicWeatherZone_Vermilion[] = _("VERMILION");
+const u8 gText_DynamicWeatherZone_Lavender[] = _("LAVENDER");
+const u8 gText_DynamicWeatherZone_Celadon[] = _("CELADON");
+const u8 gText_DynamicWeatherZone_Fuchsia[] = _("FUCHSIA");
+const u8 gText_DynamicWeatherZone_Sea[] = _("SEA");
+const u8 gText_DynamicWeatherZone_Indigo[] = _("INDIGO");
+const u8 gText_DynamicWeatherZone_SeviiNorth[] = _("SEVII NORTH");
+const u8 gText_DynamicWeatherZone_FourIsland[] = _("FOUR ISLAND");
+const u8 gText_DynamicWeatherZone_SeviiFourFive[] = _("FIVE ISLAND");
+const u8 gText_DynamicWeatherZone_SeviiSouth[] = _("SEVII SOUTH");
+const u8 gText_DynamicWeatherZone_MegaIsland[] = _("MEGA ISLAND");
 
 static const struct DynamicWeatherZone sZones[DYN_ZONE_COUNT] =
 {
     [DYN_ZONE_VIRIDIAN] =
     {
-        .name = sZoneName_Viridian,
+        .name = gText_DynamicWeatherZone_Viridian,
         .fallback = WEATHER_SUNNY,
         .weights =
         {
@@ -84,6 +97,205 @@ static const struct DynamicWeatherZone sZones[DYN_ZONE_COUNT] =
             [DYN_PATTERN_MORNING_FOG] = 5,
             [DYN_PATTERN_SHOWERS]     = 15,
             [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 5,
+        },
+    },
+    [DYN_ZONE_PEWTER] =
+    {
+        .name = gText_DynamicWeatherZone_Pewter,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]     = 45,
+            [DYN_PATTERN_CLOUDY]    = 15,
+            [DYN_PATTERN_OVERCAST]  = 5,
+            [DYN_PATTERN_SHOWERS]   = 10,
+            [DYN_PATTERN_STORM]     = 5,
+            [DYN_PATTERN_HEAT_WAVE] = 5,
+            [DYN_PATTERN_DUST]      = 15,
+        },
+    },
+    [DYN_ZONE_CERULEAN] =
+    {
+        .name = gText_DynamicWeatherZone_Cerulean,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 25,
+            [DYN_PATTERN_CLOUDY]      = 15,
+            [DYN_PATTERN_OVERCAST]    = 5,
+            [DYN_PATTERN_MORNING_FOG] = 5,
+            [DYN_PATTERN_SHOWERS]     = 20,
+            [DYN_PATTERN_RAINY_DAY]   = 15,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 10,
+        },
+    },
+    [DYN_ZONE_VERMILION] =
+    {
+        .name = gText_DynamicWeatherZone_Vermilion,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 35,
+            [DYN_PATTERN_CLOUDY]      = 15,
+            [DYN_PATTERN_MORNING_FOG] = 20,
+            [DYN_PATTERN_SHOWERS]     = 15,
+            [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 5,
+        },
+    },
+    [DYN_ZONE_LAVENDER] =
+    {
+        .name = gText_DynamicWeatherZone_Lavender,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 20,
+            [DYN_PATTERN_CLOUDY]      = 10,
+            [DYN_PATTERN_OVERCAST]    = 25,
+            [DYN_PATTERN_MORNING_FOG] = 15,
+            [DYN_PATTERN_SHOWERS]     = 5,
+            [DYN_PATTERN_RAINY_DAY]   = 10,
+            [DYN_PATTERN_NIGHT_RAIN]  = 10,
+            [DYN_PATTERN_STORM]       = 5,
+        },
+    },
+    [DYN_ZONE_CELADON] =
+    {
+        .name = gText_DynamicWeatherZone_Celadon,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]      = 40,
+            [DYN_PATTERN_CLOUDY]     = 25,
+            [DYN_PATTERN_OVERCAST]   = 5,
+            [DYN_PATTERN_SHOWERS]    = 15,
+            [DYN_PATTERN_RAINY_DAY]  = 5,
+            [DYN_PATTERN_NIGHT_RAIN] = 5,
+            [DYN_PATTERN_STORM]      = 5,
+        },
+    },
+    [DYN_ZONE_FUCHSIA] =
+    {
+        .name = gText_DynamicWeatherZone_Fuchsia,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 35,
+            [DYN_PATTERN_CLOUDY]      = 10,
+            [DYN_PATTERN_MORNING_FOG] = 20,
+            [DYN_PATTERN_SHOWERS]     = 15,
+            [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 5,
+            [DYN_PATTERN_HEAT_WAVE]   = 5,
+        },
+    },
+    [DYN_ZONE_SEA] =
+    {
+        .name = gText_DynamicWeatherZone_Sea,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 30,
+            [DYN_PATTERN_CLOUDY]      = 10,
+            [DYN_PATTERN_MORNING_FOG] = 15,
+            [DYN_PATTERN_SHOWERS]     = 10,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 10,
+            [DYN_PATTERN_DOWNPOUR]    = 10,
+            [DYN_PATTERN_HEAT_WAVE]   = 10,
+        },
+    },
+    [DYN_ZONE_INDIGO] =
+    {
+        .name = gText_DynamicWeatherZone_Indigo,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 25,
+            [DYN_PATTERN_CLOUDY]      = 20,
+            [DYN_PATTERN_OVERCAST]    = 15,
+            [DYN_PATTERN_MORNING_FOG] = 15,
+            [DYN_PATTERN_SHOWERS]     = 5,
+            [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_STORM]       = 15,
+        },
+    },
+    [DYN_ZONE_SEVII_NORTH] =
+    {
+        .name = gText_DynamicWeatherZone_SeviiNorth,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 40,
+            [DYN_PATTERN_CLOUDY]      = 15,
+            [DYN_PATTERN_MORNING_FOG] = 5,
+            [DYN_PATTERN_SHOWERS]     = 10,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 5,
+            [DYN_PATTERN_HEAT_WAVE]   = 20,
+        },
+    },
+    [DYN_ZONE_FOUR_ISLAND] =
+    {
+        .name = gText_DynamicWeatherZone_FourIsland,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 20,
+            [DYN_PATTERN_CLOUDY]      = 10,
+            [DYN_PATTERN_OVERCAST]    = 15,
+            [DYN_PATTERN_MORNING_FOG] = 5,
+            [DYN_PATTERN_SNOWFALL]    = 30,
+            [DYN_PATTERN_FLURRIES]    = 20,
+        },
+    },
+    [DYN_ZONE_SEVII_FOUR_FIVE] =
+    {
+        .name = gText_DynamicWeatherZone_SeviiFourFive,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 30,
+            [DYN_PATTERN_CLOUDY]      = 20,
+            [DYN_PATTERN_OVERCAST]    = 10,
+            [DYN_PATTERN_MORNING_FOG] = 20,
+            [DYN_PATTERN_SHOWERS]     = 10,
+            [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+        },
+    },
+    [DYN_ZONE_SEVII_SOUTH] =
+    {
+        .name = gText_DynamicWeatherZone_SeviiSouth,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 30,
+            [DYN_PATTERN_CLOUDY]      = 15,
+            [DYN_PATTERN_OVERCAST]    = 5,
+            [DYN_PATTERN_MORNING_FOG] = 5,
+            [DYN_PATTERN_SHOWERS]     = 10,
+            [DYN_PATTERN_RAINY_DAY]   = 5,
+            [DYN_PATTERN_NIGHT_RAIN]  = 5,
+            [DYN_PATTERN_STORM]       = 15,
+            [DYN_PATTERN_DUST]        = 10,
+        },
+    },
+    [DYN_ZONE_MEGA_ISLAND] =
+    {
+        .name = gText_DynamicWeatherZone_MegaIsland,
+        .fallback = WEATHER_SUNNY,
+        .weights =
+        {
+            [DYN_PATTERN_CLEAR]       = 55,
+            [DYN_PATTERN_CLOUDY]      = 20,
+            [DYN_PATTERN_MORNING_FOG] = 5,
+            [DYN_PATTERN_SHOWERS]     = 10,
             [DYN_PATTERN_NIGHT_RAIN]  = 5,
             [DYN_PATTERN_STORM]       = 5,
         },
