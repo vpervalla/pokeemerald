@@ -185,9 +185,18 @@ u8 CreateWarpArrowSprite(void)
     return spriteId;
 }
 
-void SetSpriteInvisible(u8 spriteId)
+// The arrow lives as long as the player's object, so its palette is only
+// loaded while it's shown, to keep the few field effect palette slots free.
+void HideWarpArrowSprite(u8 spriteId)
 {
-    gSprites[spriteId].invisible = TRUE;
+    struct Sprite *sprite = &gSprites[spriteId];
+    if (!sprite->invisible)
+    {
+        u8 paletteNum = sprite->oam.paletteNum;
+        sprite->invisible = TRUE;
+        sprite->oam.paletteNum = 0;
+        FieldEffectFreePaletteIfUnused(paletteNum);
+    }
 }
 
 void ShowWarpArrowSprite(u8 spriteId, u8 direction, s16 x, s16 y)
@@ -196,6 +205,15 @@ void ShowWarpArrowSprite(u8 spriteId, u8 direction, s16 x, s16 y)
     if (sprite->invisible || sprite->sPrevX != x || sprite->sPrevY != y)
     {
         s16 x2, y2;
+        if (sprite->invisible)
+        {
+            u8 paletteNum = LoadSpritePalette(&gSpritePalette_PlayerFieldEffects);
+            if (paletteNum != 0xFF)
+            {
+                UpdateSpritePaletteWithWeather(paletteNum);
+                sprite->oam.paletteNum = paletteNum;
+            }
+        }
         SetSpritePosToMapCoords(x, y, &x2, &y2);
         sprite = &gSprites[spriteId];
         sprite->x = x2 + 8;

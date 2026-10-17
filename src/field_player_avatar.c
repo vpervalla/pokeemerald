@@ -1468,7 +1468,7 @@ static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
             return;
         }
     }
-    SetSpriteInvisible(objectEvent->warpArrowSpriteId);
+    HideWarpArrowSprite(objectEvent->warpArrowSpriteId);
 }
 
 /* Strength */

@@ -62,11 +62,6 @@ EWRAM_DATA u8 gApproachingTrainerId = 0;
 static const u8 sEmotion_ExclamationMarkGfx[] = INCGFX_U8("graphics/field_effects/pics/emotion_exclamation.png", ".4bpp");
 static const u8 sEmotion_QuestionMarkGfx[] = INCGFX_U8("graphics/field_effects/pics/emotion_question.png", ".4bpp");
 static const u8 sEmotion_HeartGfx[] = INCGFX_U8("graphics/field_effects/pics/emotion_heart.png", ".4bpp");
-static const u16 sEmotion_Pal[] = INCGFX_U16("graphics/field_effects/palettes/emotion.pal", ".gbapal");
-
-// The ! and ? icons used to borrow the player's palette (slot 0), which only
-// has the white they need for Brendan/May; give them their own instead.
-const struct SpritePalette gSpritePalette_Emotion = {sEmotion_Pal, FLDEFF_PAL_TAG_EMOTION};
 
 static u8 (*const sDirectionalApproachDistanceFuncs[])(struct ObjectEvent *trainerObj, s16 range, s16 x, s16 y) =
 {
@@ -173,7 +168,7 @@ static const union AnimCmd *const sSpriteAnimTable_Icons[] =
 static const struct SpriteTemplate sSpriteTemplate_ExclamationQuestionMark =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_EMOTION,
+    .paletteTag = FLDEFF_PAL_TAG_PLAYER_EFFECTS,
     .oam = &sOamData_Icons,
     .anims = sSpriteAnimTable_Icons,
     .images = sSpriteImageTable_ExclamationQuestionMark,
