@@ -57,3 +57,7 @@ CeladonCity_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
 	setflag FLAG_DID_DOUBLE_EXCHANGE_CELADON_CITY
 	release
 	end
+
+CeladonCity_PokemonCenter_1F_EventScript_WeatherForecaster::
+	setvar VAR_0x8004, FORECAST_CELADON
+	goto EventScript_WeatherForecaster

@@ -19,8 +19,12 @@ Phase 3 is implemented: all 14 zones of section 2 with the weights of section 3,
 maps. The host tests cover every zone.
 
 Phase 4 is implemented: a battle that starts in the overworld's snow has hail for the whole
-battle, opening with "It is hailing." Nothing has been tested in-game yet, and snow has not
-been looked at on Four Island (section 5).
+battle, opening with "It is hailing."
+
+Phase 5 is implemented: a weather forecaster (a scientist) in the Pokémon Centers of
+Viridian, Cerulean, Celadon and One Island gives today's and tomorrow's weather for the
+zones around it. Nothing has been tested in-game yet, and snow has not been looked at on
+Four Island (section 5).
 
 Differences from the plan below:
 
@@ -271,12 +275,44 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 
 ## 6. Forecast (optional, D8)
 
-- A FORECASTER NPC in the Viridian, Cerulean and Celadon Pokémon Centers and on
-  One Island, with a script special `GetWeatherForecast` that fills
-  `gStringVar1`-`3` for three nearby zones: "Today on ROUTE 24: rain this afternoon.
-  Tomorrow: clear."
-- Text per pattern, not per phase, to keep the strings short: `SHOWERS` → "afternoon
-  showers", `STORM` → "storms later", `MORNING_FOG` → "fog in the morning".
+Done. As built:
+
+- **Who and where**: a scientist (`OBJ_EVENT_GFX_KANTO_SCIENTIST`) in the bottom-left corner
+  (1,8) of the Viridian, Cerulean and Celadon Pokémon Centers, clear of the stairs warp at
+  (1,6) and the door, and at (18,8) in One Island's, clear of Bill's coord events.
+- **Which zones**: each forecaster covers the zones around it, and together they cover
+  every zone once (`sForecastZones` in `src/dynamic_weather_rules.c`, `FORECAST_*` in
+  `include/constants/weather.h`):
+
+  | Forecaster | Zones |
+  |------------|-------|
+  | Viridian | Viridian, Pewter, Indigo |
+  | Cerulean | Cerulean, Vermilion, Lavender, Mega Island (by boat from Vermilion) |
+  | Celadon | Celadon, Fuchsia, the sea |
+  | One Island | Sevii north, Four Island, Five Island, Sevii south |
+
+- **Script**: one shared script, `data/scripts/weather_forecaster.inc`. Each map's script
+  sets `VAR_0x8004` to its `FORECAST_*` and goes there. The special
+  `DynamicWeather_BufferForecast` fills `gStringVar1`-`3` for zone `VAR_0x8005` of the list
+  (area, today, tomorrow) and returns `FALSE` past its end, so the script loops over the
+  list, one message per zone:
+
+  > CERULEAN CITY:
+  > Today, a midday shower.
+  > Tomorrow, clear skies.
+
+- **Text per pattern** (not per phase), in `sForecastPhrases`: clear skies, cloudy then
+  clear, overcast all day, early and late fog, a midday shower, rain until evening, rain
+  tonight, storms by day, heavy rain all day, harsh sun at midday, sandstorms by day, snow
+  on and off, snow tonight. Each zone has an area name for the forecast ("CELADON and
+  SAFFRON", "CINNABAR and the sea").
+- **Always right**: it uses the same draw as the maps, so the forecast never misses.
+  "Today" is the weather day, which starts at 06:00. Before the POKéDEX (and with no
+  clock) the maps stay clear, and so does the forecast. The Test Area's "next day" offset
+  moves the forecast too.
+- **Host tests**: every pattern has a phrase of at most 20 characters and every zone an
+  area name of at most 26, so each line fits in the message box; every zone is in
+  exactly one forecaster's list.
 - The Test Area debug entry already has a menu of every zone (phase 3).
 
 ## 7. Phases
@@ -293,7 +329,7 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 4. ✅ **Battles**: permanent hail from snow, the start message, the end-turn change.
    Test it in the Test Area: SNOW in the weather changer (or FOUR ISLAND in the dynamic
    weather menu on a snowy phase), then a wild battle in its grass.
-5. **Forecast** (optional).
+5. ✅ **Forecast** (optional).
 6. **Tuning**: play the story with the clock at different hours; check that rain
    doesn't make an early fight (Brock, Misty's route trainers) much harder or easier,
    and that the weights in section 3 feel right.

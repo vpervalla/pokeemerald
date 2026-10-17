@@ -48,3 +48,7 @@ ViridianCity_PokemonCenter_1F_Text_PokeCentersHealMons:
     .string "healthy.$"
 
 @ END KANTO NPCS
+
+ViridianCity_PokemonCenter_1F_EventScript_WeatherForecaster::
+	setvar VAR_0x8004, FORECAST_VIRIDIAN
+	goto EventScript_WeatherForecaster

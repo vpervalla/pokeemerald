@@ -91,3 +91,7 @@ CeruleanCity_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
 	setflag FLAG_DID_DOUBLE_EXCHANGE_CERULEAN_CITY
 	release
 	end
+
+CeruleanCity_PokemonCenter_1F_EventScript_WeatherForecaster::
+	setvar VAR_0x8004, FORECAST_CERULEAN
+	goto EventScript_WeatherForecaster

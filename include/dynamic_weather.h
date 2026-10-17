@@ -46,12 +46,16 @@ u8 DynamicWeather_GetFallback(u8 zone);
 u8 DynamicWeather_GetPatternWeight(u8 zone, u8 pattern);
 const u8 *DynamicWeather_GetZoneName(u8 zone);
 const u8 *DynamicWeather_GetPatternName(u8 pattern);
+const u8 *DynamicWeather_GetAreaName(u8 zone);
+const u8 *DynamicWeather_GetForecastPhrase(u8 pattern);
+u8 DynamicWeather_GetForecastZone(u8 forecaster, u8 i);
 
 // src/dynamic_weather.c
 bool8 IsDynamicWeather(u32 weather);
 u8 GetDynamicWeather(u8 zone);
 void DynamicWeather_SetOverridden(bool8 overridden);
 void DynamicWeather_UpdateField(void);
+void DynamicWeather_BufferForecast(void);
 void DynamicWeather_DebugReport(void);
 void DynamicWeather_DebugNextDay(void);
 

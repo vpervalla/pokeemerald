@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "global.h"
 #include "dynamic_weather.h"
 #include "constants/day_night.h"
@@ -120,6 +121,46 @@ static void TestSeedsDiffer(void)
     }
 }
 
+// The forecaster's text is "{area}:" then "Today, {phrase}." and "Tomorrow, {phrase}.", one
+// per line of the message box: keep them short enough to fit.
+#define MAX_AREA_NAME_LENGTH 26
+#define MAX_PHRASE_LENGTH    20
+
+static void TestForecastTexts(void)
+{
+    for (u8 pattern = 0; pattern < DYN_PATTERN_COUNT; pattern++)
+    {
+        const u8 *phrase = DynamicWeather_GetForecastPhrase(pattern);
+        CHECK(phrase != NULL, "pattern %d has no forecast phrase", pattern);
+        if (phrase != NULL)
+            CHECK(strlen((const char *)phrase) <= MAX_PHRASE_LENGTH, "pattern %d: phrase \"%s\" is too long", pattern, phrase);
+    }
+    for (u8 zone = 0; zone < DYN_ZONE_COUNT; zone++)
+    {
+        const u8 *area = DynamicWeather_GetAreaName(zone);
+        CHECK(area != NULL, "zone %d has no area name", zone);
+        if (area != NULL)
+            CHECK(strlen((const char *)area) <= MAX_AREA_NAME_LENGTH, "zone %d: area \"%s\" is too long", zone, area);
+    }
+}
+
+// Every zone is in exactly one forecaster's list, and every list ends.
+static void TestForecastersCoverEveryZone(void)
+{
+    int seen[DYN_ZONE_COUNT] = {0};
+
+    for (u8 forecaster = 0; forecaster < FORECAST_COUNT; forecaster++)
+    {
+        u8 i, zone;
+        for (i = 0; (zone = DynamicWeather_GetForecastZone(forecaster, i)) < DYN_ZONE_COUNT; i++)
+            seen[zone]++;
+        CHECK(i > 0, "forecaster %d covers no zone", forecaster);
+    }
+    for (u8 zone = 0; zone < DYN_ZONE_COUNT; zone++)
+        CHECK(seen[zone] == 1, "zone %d is in %d forecasters' lists", zone, seen[zone]);
+    CHECK(DynamicWeather_GetForecastZone(FORECAST_COUNT, 0) == DYN_ZONE_COUNT, "bad forecaster");
+}
+
 static void TestOutOfRange(void)
 {
     CHECK(DynamicWeather_PickPattern(DYN_ZONE_COUNT, 1, 1) == DYN_PATTERN_CLEAR, "bad zone");
@@ -135,6 +176,8 @@ int main(void)
     TestSameInputsSamePattern();
     TestFrequenciesMatchWeights();
     TestSeedsDiffer();
+    TestForecastTexts();
+    TestForecastersCoverEveryZone();
     TestOutOfRange();
     if (sFailures)
     {

@@ -902,3 +902,7 @@ OneIsland_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
 	setflag FLAG_DID_DOUBLE_EXCHANGE_ONE_ISLAND
 	release
 	end
+
+OneIsland_PokemonCenter_1F_EventScript_WeatherForecaster::
+	setvar VAR_0x8004, FORECAST_ONE_ISLAND
+	goto EventScript_WeatherForecaster

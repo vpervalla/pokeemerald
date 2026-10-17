@@ -107,6 +107,37 @@ void DynamicWeather_UpdateField(void)
 }
 
 // ---------------------------------------------------------------------------------------------
+// Weather forecasters (data/scripts/weather_forecaster.inc)
+
+// Buffers the forecast for zone VAR_0x8005 of forecaster VAR_0x8004's list (FORECAST_*):
+// gStringVar1: the area, gStringVar2: today, gStringVar3: tomorrow. VAR_RESULT is FALSE past
+// the end of the list. While the dynamic weather is off the maps stay clear, and so does the
+// forecast. The draw is the one the maps use, so the forecast is always right.
+void DynamicWeather_BufferForecast(void)
+{
+    u8 zone = DynamicWeather_GetForecastZone(gSpecialVar_0x8004, gSpecialVar_0x8005);
+    u8 today = DYN_PATTERN_CLEAR;
+    u8 tomorrow = DYN_PATTERN_CLEAR;
+
+    if (zone >= DYN_ZONE_COUNT)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+    if (IsDynamicWeatherOn())
+    {
+        u16 day = GetWeatherDay();
+
+        today = DynamicWeather_PickPattern(zone, GetSeed(), day);
+        tomorrow = DynamicWeather_PickPattern(zone, GetSeed(), day + 1);
+    }
+    StringCopy(gStringVar1, DynamicWeather_GetAreaName(zone));
+    StringCopy(gStringVar2, DynamicWeather_GetForecastPhrase(today));
+    StringCopy(gStringVar3, DynamicWeather_GetForecastPhrase(tomorrow));
+    gSpecialVar_Result = TRUE;
+}
+
+// ---------------------------------------------------------------------------------------------
 // Test Area debug entry (TestArea_EventScript_DynamicWeather)
 
 static const u8 sText_Morning[] = _("MORNING");

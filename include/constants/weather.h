@@ -56,6 +56,13 @@
 #define WEATHER_DYNAMIC_MEGA_ISLAND     (WEATHER_DYNAMIC_START + DYN_ZONE_MEGA_ISLAND)
 #define WEATHER_DYNAMIC_END             (WEATHER_DYNAMIC_START + DYN_ZONE_COUNT)
 
+// The weather forecasters (data/scripts/weather_forecaster.inc), by the zones they cover
+#define FORECAST_VIRIDIAN               0   // Viridian, Pewter, Indigo
+#define FORECAST_CERULEAN               1   // Cerulean, Vermilion, Lavender, Mega Island
+#define FORECAST_CELADON                2   // Celadon, Fuchsia, the sea
+#define FORECAST_ONE_ISLAND             3   // The Sevii Islands
+#define FORECAST_COUNT                  4
+
 // These are used in maps' coord_weather_event entries.
 // They are not a one-to-one mapping with the engine's
 // internal weather constants above.
