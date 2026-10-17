@@ -1018,7 +1018,7 @@ static void TruncateToWidth(u8 *text, u8 fontId, u16 width)
 }
 
 // Breaks the text into lines at spaces, so each fits in width pixels
-static void WrapText(u8 *text, u8 fontId, u16 width)
+void CardGame_WrapText(u8 *text, u8 fontId, u16 width)
 {
     u8 *lineStart = text, *lastSpace = NULL, *p;
     u8 saved;
@@ -1234,7 +1234,7 @@ static void ShowMessage(const u8 *text)
 {
     if (text != sScreen->text)
         StringCopy(sScreen->text, text);
-    WrapText(sScreen->text, FONT_NORMAL, 228);
+    CardGame_WrapText(sScreen->text, FONT_NORMAL, 228);
     FillWindowPixelBuffer(WIN_MESSAGE, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_MESSAGE, FONT_NORMAL, sScreen->text, 4, 0, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemap(WIN_MESSAGE);
@@ -1750,8 +1750,6 @@ static u8 *AppendEffectText(u8 *dst, const u8 *before, u16 number, const u8 *aft
 
 u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack)
 {
-    const struct EffectText *effect = &sEffectTexts[attack->effect];
-
     dst = AppendCost(dst, attack);
     dst = StringAppend(dst, attack->name);
     if (attack->damage != 0)
@@ -1764,6 +1762,16 @@ u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack)
     if (attack->effect == CARD_EFFECT_NONE)
         return dst;
     dst = StringAppend(dst, sText_Space);
+    return CardGame_AppendAttackEffect(dst, attack);
+}
+
+// What the attack does besides its damage (nothing for CARD_EFFECT_NONE)
+u8 *CardGame_AppendAttackEffect(u8 *dst, const struct CardAttack *attack)
+{
+    const struct EffectText *effect = &sEffectTexts[attack->effect];
+
+    if (attack->effect == CARD_EFFECT_NONE)
+        return dst;
     if (effect->hasStatus)
     {
         dst = StringAppend(dst, effect->before);
@@ -1781,7 +1789,7 @@ static u8 PrintDetail(u8 *text, u8 x, u8 y)
     u8 lines = 1;
     u8 *p;
 
-    WrapText(text, FONT_SMALL, 238 - x);
+    CardGame_WrapText(text, FONT_SMALL, 238 - x);
     for (p = text; *p != EOS; p++)
     {
         if (*p == CHAR_NEWLINE)

@@ -595,3 +595,4 @@ gSpecials::
 	def_special DynamicWeather_BufferForecast
 	def_special DynamicWeather_DebugReport
 	def_special DynamicWeather_DebugNextDay
+	def_special OpenVintageCardTest, waitstate=1

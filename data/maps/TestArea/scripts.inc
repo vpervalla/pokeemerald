@@ -110,17 +110,26 @@ TestArea_EventScript_IslandSailorDone::
 TestArea_Text_SailToIsland:
 	.string "Want a ride to the castle island?$"
 
-@ Debug card player: the CARD CASE and the starter deck if the player has none, a card pack on
-@ every talk, then a duel against CARD_OPPONENT_TEST_AREA_TESTER.
+@ Debug card player: first the vintage card test if wanted; otherwise the CARD CASE and the
+@ starter deck if the player has none, a card pack on every talk, then a duel against
+@ CARD_OPPONENT_TEST_AREA_TESTER.
 TestArea_EventScript_CardTester::
 	lock
 	faceplayer
+	msgbox TestArea_Text_CardTesterVintage, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, TestArea_EventScript_CardTesterVintage
 	checkitem ITEM_CARD_CASE
 	call_if_eq VAR_RESULT, FALSE, TestArea_EventScript_CardTesterGiveCase
 	msgbox TestArea_Text_CardTesterHereIsAPack
 	closemessage
 	special OpenCardPack
 	cardduel CARD_OPPONENT_TEST_AREA_TESTER
+	release
+	end
+
+TestArea_EventScript_CardTesterVintage::
+	closemessage
+	special OpenVintageCardTest
 	release
 	end
 
@@ -134,6 +143,10 @@ TestArea_EventScript_CardTesterGiveCase::
 TestArea_Text_CardTesterNoCardCase:
 	.string "No CARD CASE? Take this one,\n"
 	.string "then we can test the card game!$"
+
+TestArea_Text_CardTesterVintage:
+	.string "Want to see a card drawn like\n"
+	.string "the old TCG cards?$"
 
 TestArea_Text_CardTesterHereIsAPack:
 	.string "Here's a card pack to test!$"

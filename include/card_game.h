@@ -283,10 +283,16 @@ void OpenCardDeckBuilderFromScript(void);
 void OpenCardDeckBuilder(void (*exitCallback)(void));
 void OpenCardPackScreen(const u16 *cards, u8 count, void (*exitCallback)(void));
 
+// src/card_game_vintage.c: a test of a card drawn like the Base Set's
+void OpenVintageCardTest(void);
+void OpenVintageCardScreen(u16 cardId, void (*exitCallback)(void));
+
 // src/card_game.c
 void PlayCardGame(void);
 u8 *CardGame_AppendCardName(u8 *dst, u16 cardId);
 u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack);
+u8 *CardGame_AppendAttackEffect(u8 *dst, const struct CardAttack *attack);
+void CardGame_WrapText(u8 *text, u8 fontId, u16 width);
 u8 *CardGame_AppendAbilityText(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendExRule(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);

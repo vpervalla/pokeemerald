@@ -501,6 +501,16 @@ phases:
   leaves a blank for the icon, after a `{PALETTE type}` code that prints nothing, and
   `CardGame_DrawEnergyIcons` draws the icons there once the text is printed. Their colors are
   4-15 of the text palette.
+- **Vintage card test** (`src/card_game_vintage.c`): a card drawn like the Base Set's (1999), as
+  a test of that look. The Test Area's card tester offers it first (special
+  `OpenVintageCardTest`): it opens on Pidgeotto, LEFT/RIGHT go through the other Pokémon cards.
+  A 14x20-tile portrait card: yellow border, a panel in the type's color, stage and "Evolves
+  from", name, HP and type, the picture in a frame (the previous stage's icon in its corner)
+  over a sky and ground, the Pokédex strip (category, feet and pounds when they fit), the
+  attacks with their damage on the right and their effects (left out when they don't all
+  fit), then weakness and retreat cost. No resistance: this game has none. The frame is drawn
+  with rectangles on BG1, the text and icons on BG0, the picture between them, clipped by the
+  hardware window 0.
 - The card pictures (card viewer and pack screen) are the Pokémon Gold front sprites, Bulbasaur
   to Celebi, at their size in Gold (40 to 56 pixels, on the bottom of a 56x56 box), in
   `graphics/card_game/retro/`. `tools/card_game/gen_retro_pics.py` makes them from a checkout
