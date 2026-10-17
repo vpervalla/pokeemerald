@@ -175,7 +175,7 @@ def coin():
 
 # ---------------------------------------------------------------------------------------------
 # Energy icons: drawn in the text windows, in place of the cost letters. One per CARD_TYPE_*,
-# each in a 16x16 cell (CARD_TYPE_NONE and DRAGON empty), from the Energy cards of the Game Boy
+# each in a 16x16 cell (CARD_TYPE_NONE empty), from the Energy cards of the Game Boy
 # TCG: a colored circle with a dark symbol, outlined in black. Colors 0-3 are the text
 # palette's (graphics/interface/std_menu.pal), only 4-15 are loaded over it.
 
@@ -186,7 +186,7 @@ ICON_PALETTE = [
     c(213, 213, 205),   # 3 light gray (text shadow)
     c(32, 24, 16),      # 4 outline, dark symbols
     c(48, 192, 48),     # 5 Grass
-    c(0, 80, 0),        # 6 leaf
+    c(184, 152, 48),    # 6 Dragon
     c(248, 80, 120),    # 7 Fire
     c(184, 0, 0),       # 8 flame
     c(32, 168, 248),    # 9 Water
@@ -200,7 +200,7 @@ ICON_PALETTE = [
 
 # o outline, h highlight, b body, s symbol; by CARD_TYPE_*: (body, symbol, rows)
 ICONS = {
-    1: (5, 6, [         # Grass: a leaf
+    1: (5, 4, [         # Grass: a leaf
         "  ooooo  ",
         " obbbbso ",
         "obbbsssso",
@@ -279,6 +279,16 @@ ICONS = {
         "obsssssbo",
         "obbbbbbbo",
         " obbbbbo ",
+        "  ooooo  "]),
+    9: (6, 4, [         # Dragon: a claw sweeping around (the TCG's Dragon symbol)
+        "  ooooo  ",
+        " obsssbo ",
+        "obssbbsbo",
+        "ossbbbbbo",
+        "ossbsbbbo",
+        "ossbssbbo",
+        "obsssssbo",
+        " obbssso ",
         "  ooooo  "]),
     10: (1, 4, [        # Colorless: a star
         "  ooooo  ",

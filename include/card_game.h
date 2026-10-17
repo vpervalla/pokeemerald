@@ -299,6 +299,7 @@ u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);
 u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info);
 u8 *CardGame_AppendTypeIcon(u8 *dst, u8 type);
 void CardGame_LoadEnergyIconPalette(u8 paletteNum);
+void CardGame_DrawEnergyIcon(u8 windowId, u8 type, u16 x, u16 y);
 void CardGame_DrawEnergyIcons(u8 windowId, const u8 *text, u8 x, u8 y, u8 lineHeight);
 u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y);
 void CardGame_DestroyPokemonPic(u16 spriteId);

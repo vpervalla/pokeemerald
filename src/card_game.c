@@ -954,10 +954,10 @@ static u8 *AppendCost(u8 *dst, const struct CardAttack *attack)
     return dst;
 }
 
-// A type as its Energy icon (see AppendCost), or its name if it has none (NONE, DRAGON)
+// A type as its Energy icon (see AppendCost), or its name if it has none (NONE)
 u8 *CardGame_AppendTypeIcon(u8 *dst, u8 type)
 {
-    if (type == CARD_TYPE_NONE || type == CARD_TYPE_DRAGON || type >= CARD_TYPE_COUNT)
+    if (type == CARD_TYPE_NONE || type >= CARD_TYPE_COUNT)
         return StringAppend(dst, gCardTypeNames[type < CARD_TYPE_COUNT ? type : CARD_TYPE_NONE]);
     *dst++ = EXT_CTRL_CODE_BEGIN;
     *dst++ = EXT_CTRL_CODE_PALETTE;
@@ -973,6 +973,12 @@ u8 *CardGame_AppendTypeIcon(u8 *dst, u8 type)
 void CardGame_LoadEnergyIconPalette(u8 paletteNum)
 {
     LoadPalette(&sEnergyIconPalette[4], BG_PLTT_ID(paletteNum) + 4, PLTT_SIZEOF(12));
+}
+
+// One Energy icon (ENERGY_ICON_SIZE pixels), its top left at x, y
+void CardGame_DrawEnergyIcon(u8 windowId, u8 type, u16 x, u16 y)
+{
+    BlitBitmapRectToWindow(windowId, sEnergyIconGfx, type * 16, 0, CARD_TYPE_COUNT * 16, 16, x, y, ENERGY_ICON_SIZE, ENERGY_ICON_SIZE);
 }
 
 // Draws the icons of the costs in a text already printed at x, y (FONT_SMALL, lineHeight pixels
@@ -993,8 +999,7 @@ void CardGame_DrawEnergyIcons(u8 windowId, const u8 *text, u8 x, u8 y, u8 lineHe
         if (text[0] == EXT_CTRL_CODE_BEGIN && text[1] == EXT_CTRL_CODE_PALETTE && text[2] < CARD_TYPE_COUNT)
         {
             line[i] = EOS;
-            BlitBitmapRectToWindow(windowId, sEnergyIconGfx, text[2] * 16, 0, CARD_TYPE_COUNT * 16, 16,
-                                   x + GetStringWidth(FONT_SMALL, line, 0), y + ENERGY_ICON_Y, ENERGY_ICON_SIZE, ENERGY_ICON_SIZE);
+            CardGame_DrawEnergyIcon(windowId, text[2], x + GetStringWidth(FONT_SMALL, line, 0), y + ENERGY_ICON_Y);
         }
         if (i < sizeof(line) - 1)
             line[i++] = *text;
