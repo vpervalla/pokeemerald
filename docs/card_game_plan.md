@@ -497,7 +497,7 @@ phases:
 - Attack costs, the Pokémon's type, its weakness, its retreat cost (Colorless icons, 0 when
   free) and a Trainer's type are shown as 9x9 Energy icons instead of letters and names, in the card viewer, the pack screen and the CARD CASE: a
   colored circle with its symbol, after the Energy cards of the Game Boy TCG (Darkness and
-  Metal drawn to match; Dragon, which has no Energy, stays a word). `CardGame_AppendTypeIcon`
+  Metal drawn to match; Dragon after the TCG's Dragon symbol, a black claw on gold). `CardGame_AppendTypeIcon`
   leaves a blank for the icon, after a `{PALETTE type}` code that prints nothing, and
   `CardGame_DrawEnergyIcons` draws the icons there once the text is printed. Their colors are
   4-15 of the text palette.
@@ -505,12 +505,14 @@ phases:
   a test of that look. The Test Area's card tester offers it first (special
   `OpenVintageCardTest`): it opens on Pidgeotto, LEFT/RIGHT go through the other Pokémon cards.
   A 14x20-tile portrait card: yellow border, a panel in the type's color, stage and "Evolves
-  from", name, HP and type, the picture in a frame (the previous stage's icon in its corner)
-  over a sky and ground, the Pokédex strip (category, feet and pounds when they fit), the
-  attacks with their damage on the right and their effects (left out when they don't all
-  fit), then weakness and retreat cost. No resistance: this game has none. The frame is drawn
-  with rectangles on BG1, the text and icons on BG0, the picture between them, clipped by the
-  hardware window 0.
+  from" (when it fits), name, HP and type, the picture in a frame over a sky and ground (tall
+  enough for the biggest sprites), the attacks with their damage on the right and their
+  effects (left out when they don't all fit), then weakness and retreat cost. No resistance:
+  this game has none. The small print is a tiny font of its own (capitals 6 pixels tall, a
+  pixel less than FONT_SMALL), drawn straight into the window's pixels; its glyphs are in
+  `tools/card_game/gen_vintage_font.py`, which writes `src/data/card_game/vintage_font.h`. The
+  name and damage are in FONT_SMALL. The frame is drawn with rectangles on BG1, the text and
+  icons on BG0, the picture between them, clipped by the hardware window 0.
 - The card pictures (card viewer and pack screen) are the Pokémon Gold front sprites, Bulbasaur
   to Celebi, at their size in Gold (40 to 56 pixels, on the bottom of a 56x56 box), in
   `graphics/card_game/retro/`. `tools/card_game/gen_retro_pics.py` makes them from a checkout
