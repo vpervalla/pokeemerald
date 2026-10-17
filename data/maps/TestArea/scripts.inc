@@ -10,7 +10,8 @@ TestArea_Text_HouseSign:
 
 @ Lets the player switch the map's weather on the spot. Menu item i is weather i
 @ (WEATHER_NONE to WEATHER_UNDERWATER_BUBBLES), followed by EXIT. The weather lasts
-@ until the player leaves the map, which reloads the map's own weather.
+@ until the player leaves the map, which reloads the map's own weather: the dynamic
+@ weather leaves a weather set by a script alone.
 TestArea_EventScript_WeatherChanger::
 	lock
 	faceplayer
@@ -31,7 +32,9 @@ TestArea_Text_PickWeather:
 
 @ Pins the day/night phase (or hands it back to the real clock) so each phase's tint and the
 @ lit windows can be checked without waiting. Menu item i is DAY_NIGHT_OVERRIDE_* value i,
-@ followed by EXIT. The choice is saved, and applies to every outdoor map.
+@ followed by EXIT. The choice is saved, and applies to every outdoor map. It also moves the
+@ dynamic weather to that phase: the Test Area is in the VIRIDIAN zone, so its weather fades
+@ to the new phase's within a second (unless the weather changer set it).
 TestArea_EventScript_TimeChanger::
 	lock
 	faceplayer
@@ -49,18 +52,17 @@ TestArea_EventScript_TimeChangerDone::
 TestArea_Text_PickTime:
 	.string "What time of day should it be?$"
 
-@ Reports the VIRIDIAN zone's dynamic weather today (src/dynamic_weather.c) and shows its weather
-@ for the current phase here. It can step to the next day; that offset also applies to the zone's
-@ maps (Pallet Town is just east of here) until the game is reset. Pick the phase with the
-@ time changer.
+@ Reports the VIRIDIAN zone's dynamic weather today (src/dynamic_weather.c) and gives the Test
+@ Area (which is in that zone) back its zone weather, undoing the weather changer. It can step
+@ to the next day; that offset also applies to the zone's other maps until the game is reset.
+@ Pick the phase with the time changer.
 TestArea_EventScript_DynamicWeather::
 	lock
 	faceplayer
 TestArea_EventScript_DynamicWeatherReport::
 	special DynamicWeather_DebugReport
-	copyvar VAR_0x8004, VAR_RESULT
 	msgbox TestArea_Text_DynamicWeatherReport, MSGBOX_DEFAULT
-	setweather VAR_0x8004
+	resetweather
 	doweather
 	msgbox TestArea_Text_DynamicWeatherNextDay, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_DynamicWeatherDone

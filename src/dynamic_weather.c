@@ -2,7 +2,10 @@
 #include "day_night.h"
 #include "dynamic_weather.h"
 #include "event_data.h"
+#include "field_weather.h"
+#include "palette.h"
 #include "rtc.h"
+#include "script.h"
 #include "string_util.h"
 #include "constants/day_night.h"
 #include "constants/weather.h"
@@ -12,15 +15,24 @@
 // TranslateWeatherNum() asks for it whenever such a map's weather is set, which is on map
 // load and on resetweather.
 //
+// While the player stays on such a map, DynamicWeather_UpdateField() fades to the next weather
+// when the phase changes (or the day, or the story gate), unless a script or a coord event
+// picked the map's weather. It waits while a script, a menu or a fade has the screen.
+//
 // The weather day starts with the morning at 06:00, so a night that runs past midnight keeps
 // one weather. The dynamic weather stays off (each zone's fallback, clear) until the player
 // has the POKéDEX, and also when the clock can't be read.
 
 #define WEATHER_DAY_START_HOUR 6
+#define UPDATE_FRAMES          60   // How often the field checks whether the weather is due to change
 
 // Days added by the Test Area's debug entry, to look at other days without changing the clock.
 // Not saved.
 static EWRAM_DATA u16 sDebugDayOffset = 0;
+
+// The current map's weather was set by a script or a coord event, not by its zone.
+static EWRAM_DATA bool8 sOverridden = FALSE;
+static EWRAM_DATA u8 sUpdateTimer = 0;
 
 bool8 IsDynamicWeather(u32 weather)
 {
@@ -68,6 +80,30 @@ u8 GetDynamicWeather(u8 zone)
     if (!IsDynamicWeatherOn())
         return DynamicWeather_GetFallback(zone);
     return DynamicWeather_GetPatternWeather(GetTodaysPattern(zone), DayNight_GetPhaseNow());
+}
+
+void DynamicWeather_SetOverridden(bool8 overridden)
+{
+    sOverridden = overridden;
+}
+
+// Called each overworld frame.
+void DynamicWeather_UpdateField(void)
+{
+    if (++sUpdateTimer < UPDATE_FRAMES)
+        return;
+    sUpdateTimer = 0;
+
+    if (!IsDynamicWeather(gMapHeader.weather) || sOverridden)
+        return;
+    // Try again next time rather than change the weather under a script, a menu or a fade
+    if (ArePlayerFieldControlsLocked() || gPaletteFade.active)
+        return;
+    if (GetDynamicWeather(gMapHeader.weather - WEATHER_DYNAMIC_START) == GetSavedWeather())
+        return;
+
+    SetSavedWeatherFromCurrMapHeader();
+    DoCurrentWeather();
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -129,7 +165,6 @@ static const u8 sText_NoClock[]     = _("\pThe clock can't be read, so the\nmaps
 
 // Shows the VIRIDIAN zone's weather today, ignoring the story gate so it can be checked from
 // a new game. gStringVar1: zone, gStringVar2: day, gStringVar3: the pattern and its weathers.
-// VAR_RESULT: the weather it has now, for the script to show on the Test Area.
 void DynamicWeather_DebugReport(void)
 {
     u8 zone = DYN_ZONE_VIRIDIAN;
@@ -159,8 +194,6 @@ void DynamicWeather_DebugReport(void)
         StringAppend(str, sText_NoClock);
     else if (!FlagGet(FLAG_SYS_POKEDEX_GET))
         StringAppend(str, sText_Gated);
-
-    gSpecialVar_Result = DynamicWeather_GetPatternWeather(pattern, now);
 }
 
 void DynamicWeather_DebugNextDay(void)

@@ -9,7 +9,11 @@ game; no new weather effects are drawn.
 
 Phase 1 is implemented: the engine, the story gate, the `VIRIDIAN` zone (Pallet Town,
 Route 1, Viridian City, Route 2, Route 22) and a Test Area debug entry. The draw has host
-tests (`tools/dynamic_weather/run_tests.sh`). Nothing has been tested in-game yet.
+tests (`tools/dynamic_weather/run_tests.sh`).
+
+Phase 2 is implemented: the weather fades to the next phase's while the player stays on a
+dynamic map, a weather set by a script or a coord event stays, and the change waits while a
+script, a menu or a fade has the screen. Nothing has been tested in-game yet.
 
 Differences from the plan below:
 
@@ -108,7 +112,7 @@ with weights (section 3). The maps listed get `"weather": "WEATHER_DYNAMIC_<ZONE
 
 | Zone | Maps | Character |
 |------|------|-----------|
-| `VIRIDIAN` | Pallet Town, Route 1, Viridian City, Route 2, Route 22 | Mild: mostly clear, some showers |
+| `VIRIDIAN` | Pallet Town, Route 1, Viridian City, Route 2, Route 22 (and the Test Area, for testing) | Mild: mostly clear, some showers |
 | `PEWTER` | Pewter City, Route 3 | Dry and rocky: clear, dust in the afternoon (sandstorm) |
 | `CERULEAN` | Route 4, Cerulean City, Routes 24, 25, 5, 9 | Wet: showers and storms |
 | `VERMILION` | Vermilion City, Routes 6, 11 | Harbour: morning fog, showers |
@@ -124,7 +128,7 @@ with weights (section 3). The maps listed get `"weather": "WEATHER_DYNAMIC_<ZONE
 | `MEGA_ISLAND` | `MegaIsland`, `MegaIsland_Port` | Mostly clear; `MegaIsland_Castle` keeps `WEATHER_SUNNY` (its scenes) |
 
 Kept fixed: Viridian Forest, Berry Forest and Pattern Bush (shade or none), Mt. Ember
-exterior, Navel Rock, Birth Island, the Test Area and `Prototype_SeviiIsle_6`-`9`.
+exterior, Navel Rock, Birth Island and `Prototype_SeviiIsle_6`-`9`.
 
 Four Island is its own zone so that only it gets snow. That works because it has no
 map connection to Five Island (you arrive by boat), so there is no border where snow
@@ -199,15 +203,19 @@ Hook into the existing code:
 1. `TranslateWeatherNum()` (`src/field_weather_effect.c:2595`): before `default`,
    `if (IsDynamicWeather(weather)) return GetDynamicWeather(weather - WEATHER_DYNAMIC_START);`.
    This covers map loads, `resetweather` and `setweather WEATHER_DYNAMIC_*`.
-2. **Change while on a map** (D7): `DynamicWeather_OnTimeUpdate()` is called at the end of
-   `DoTimeBasedEvents()`. It keeps the last applied `(day, phase)` in EWRAM. When it
-   changes, and `IsDynamicWeather(gMapHeader.weather)`, and the weather wasn't set by a
-   script on this map, and `!ArePlayerFieldControlsLocked()`, it calls
-   `SetSavedWeatherFromCurrMapHeader()` then `DoCurrentWeather()` (which fades). If the
-   controls are locked it tries again on the next update (about 2 minutes).
-3. **Script override**: an EWRAM `sWeatherSetByScript`, set in `ScrCmd_setweather`
-   (`src/scrcmd.c:706`) and by `DoCoordEventWeather()` (`src/coord_event_weather.c:108`),
-   cleared on map load. While it's set, step 2 leaves the weather alone.
+2. **Change while on a map** (D7, done): `DynamicWeather_UpdateField()` runs each overworld
+   frame from `OverworldBasic()`, next to the day/night tint, and checks once a second (not
+   from `DoTimeBasedEvents()`, which also runs during map loads and only every ~2 minutes in
+   the field). On a dynamic map whose weather wasn't overridden, if the zone's weather now
+   differs from `GetSavedWeather()`, it calls `SetSavedWeatherFromCurrMapHeader()` then
+   `DoCurrentWeather()`, which fades. Comparing the weather itself, not a `(day, phase)`
+   key, means a new phase with the same weather, or a continued save, changes nothing.
+   While `ArePlayerFieldControlsLocked()` or a palette fade is active it tries again a
+   second later.
+3. **Script override** (done): an EWRAM flag, set by `SetSavedWeather()` when the weather
+   isn't a dynamic one (so `setweather`, `SetWeather()` and the coord events) and cleared by
+   `SetSavedWeatherFromCurrMapHeader()` (map load, `resetweather`). Map scripts that
+   `setweather` on transition run after the map load, so they keep their weather.
 4. **Battles**: in `ABILITYEFFECT_SWITCH_IN_WEATHER` add
    `case WEATHER_SNOW: gBattleWeather = B_WEATHER_HAIL; animArg1 = B_ANIM_HAIL_CONTINUES;`,
    and `[WEATHER_SNOW] = STRINGID_HAILCONTINUES` (or a new "It's hailing!" string) in
@@ -250,8 +258,10 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 1. ✅ **Engine**: constants, `src/dynamic_weather.c`, the `TranslateWeatherNum` hook, the
    story gate, and one zone (`VIRIDIAN`) on its maps. Debug entry in the Test Area.
    `make` and `make modern` build.
-2. **Live changes**: the phase update while on a map, the script override, locked-
-   controls retry.
+2. ✅ **Live changes**: the phase update while on a map, the script override, locked-
+   controls retry. The Test Area is now in the `VIRIDIAN` zone, so the time changer
+   there shows the change live, and the dynamic weather NPC gives it back its zone weather
+   with `resetweather`.
 3. **All zones**: the remaining zones and patterns, the map changes of section 5,
    the snow check.
 4. **Battles**: permanent hail from snow, the start message, the end-turn change.

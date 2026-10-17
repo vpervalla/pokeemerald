@@ -57,6 +57,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
 #include "day_night.h"
+#include "dynamic_weather.h"
 #include "scanline_effect.h"
 #include "wild_encounter.h"
 #include "frontier_util.h"
@@ -1473,6 +1474,7 @@ static void OverworldBasic(void)
     BuildOamBuffer();
     UpdatePaletteFade();
     DayNight_UpdateField();
+    DynamicWeather_UpdateField();
     UpdateTilesetAnimations();
     DoScheduledBgTilemapCopiesToVram();
 }

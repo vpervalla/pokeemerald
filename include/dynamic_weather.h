@@ -34,6 +34,8 @@ const u8 *DynamicWeather_GetPatternName(u8 pattern);
 // src/dynamic_weather.c
 bool8 IsDynamicWeather(u32 weather);
 u8 GetDynamicWeather(u8 zone);
+void DynamicWeather_SetOverridden(bool8 overridden);
+void DynamicWeather_UpdateField(void);
 void DynamicWeather_DebugReport(void);
 void DynamicWeather_DebugNextDay(void);
 
