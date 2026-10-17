@@ -942,20 +942,29 @@ static u8 *AppendStatusLetters(u8 *dst, u8 status)
 
 // The cost, as Energy icons: for each Energy, a blank of ENERGY_ICON_SPACE pixels that
 // CardGame_DrawEnergyIcons fills, after a code that says its type and prints nothing
+// (CardGame_AppendTypeIcon)
 static u8 *AppendCost(u8 *dst, const struct CardAttack *attack)
 {
     u8 i;
 
     for (i = 0; i < CARD_ATTACK_MAX_COST && attack->cost[i] != CARD_TYPE_NONE; i++)
-    {
-        *dst++ = EXT_CTRL_CODE_BEGIN;
-        *dst++ = EXT_CTRL_CODE_PALETTE;
-        *dst++ = attack->cost[i];
-        *dst++ = EXT_CTRL_CODE_BEGIN;
-        *dst++ = EXT_CTRL_CODE_CLEAR;
-        *dst++ = ENERGY_ICON_SPACE;
-    }
+        dst = CardGame_AppendTypeIcon(dst, attack->cost[i]);
     *dst++ = CHAR_SPACE;
+    *dst = EOS;
+    return dst;
+}
+
+// A type as its Energy icon (see AppendCost), or its name if it has none (NONE, DRAGON)
+u8 *CardGame_AppendTypeIcon(u8 *dst, u8 type)
+{
+    if (type == CARD_TYPE_NONE || type == CARD_TYPE_DRAGON || type >= CARD_TYPE_COUNT)
+        return StringAppend(dst, gCardTypeNames[type < CARD_TYPE_COUNT ? type : CARD_TYPE_NONE]);
+    *dst++ = EXT_CTRL_CODE_BEGIN;
+    *dst++ = EXT_CTRL_CODE_PALETTE;
+    *dst++ = type;
+    *dst++ = EXT_CTRL_CODE_BEGIN;
+    *dst++ = EXT_CTRL_CODE_CLEAR;
+    *dst++ = ENERGY_ICON_SPACE;
     *dst = EOS;
     return dst;
 }
@@ -1799,7 +1808,8 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
         end = StringAppend(end, sText_CloseParen);
     }
     y = PrintDetail(text, x, y);
-    end = StringCopy(text, gCardTypeNames[info->type]);
+    *text = EOS;
+    end = CardGame_AppendTypeIcon(text, info->type);
     end = StringAppend(end, sText_Space);
     end = AppendNumber(end, mon != NULL ? GetRemainingHp(mon) : info->hp);
     if (mon != NULL)
@@ -1812,7 +1822,7 @@ static void ShowPokemonDetails(const struct CardView *view, const struct Pokemon
         AppendStatusLetters(end, mon->status);
     y = PrintDetail(text, x, y);
     end = StringCopy(text, sText_Weakness);
-    end = StringAppend(end, gCardTypeNames[info->weakness]);
+    end = CardGame_AppendTypeIcon(end, info->weakness);
     end = StringAppend(end, sText_Retreat);
     AppendNumber(end, info->retreatCost);
     y = PrintDetail(text, x, y);
@@ -1882,7 +1892,7 @@ u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
         dst = AppendEffectText(dst, NULL, info->effectArg, after);
     if (info->effectType != CARD_TYPE_NONE)
     {
-        dst = StringAppend(dst, gCardTypeNames[info->effectType]);
+        dst = CardGame_AppendTypeIcon(dst, info->effectType);
         dst = StringAppend(dst, sEffect_Dot);
     }
     return dst;

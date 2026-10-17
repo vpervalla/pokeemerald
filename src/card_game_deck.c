@@ -630,7 +630,7 @@ static void ShowPackCardText(u16 cardId)
     {
         end = StringAppend(end, pokemon->stage == CARD_STAGE_BASIC ? sText_Basic : (pokemon->stage == CARD_STAGE_1 ? sText_Stage1 : sText_Stage2));
         end = StringAppend(end, sText_PackStats);
-        end = StringAppend(end, gCardTypeNames[pokemon->type]);
+        end = CardGame_AppendTypeIcon(end, pokemon->type);
         end = StringAppend(end, sText_Hp);
         end = AppendNumber(end, pokemon->hp);
         if (pokemon->ability != CARD_ABILITY_NONE)
@@ -707,10 +707,12 @@ static void ShowCardInfo(u16 cardId)
             AddTextPrinterParameterized(windowId, FONT_SMALL, text, 38, 4, TEXT_SKIP_DRAW, NULL);
             if (pokemon->ability != CARD_ABILITY_NONE)
                 AddTextPrinterParameterized(windowId, FONT_SMALL, sText_AbilityLabel, 38, 16, TEXT_SKIP_DRAW, NULL);
-            end = StringCopy(text, gCardTypeNames[pokemon->type]);
+            *text = EOS;
+            end = CardGame_AppendTypeIcon(text, pokemon->type);
             end = StringAppend(end, sText_Hp);
             AppendNumber(end, pokemon->hp);
             AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
+            CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
             y += 12;
             for (i = 0; i < pokemon->numAttacks; i++)
             {
@@ -744,6 +746,7 @@ static void ShowCardInfo(u16 cardId)
             CardGame_AppendTrainerText(text, trainer);
             WrapText(text, FONT_SMALL, width);
             AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
+            CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
             if (trainer->iconItem != ITEM_NONE)
             {
                 sBuilder->infoSprite = AddItemIconSprite(TAG_INFO_ITEM, TAG_INFO_ITEM, trainer->iconItem);
