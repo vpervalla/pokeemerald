@@ -120,6 +120,17 @@ u8 DayNight_GetPhase(void)
     return sClockPhase;
 }
 
+// Like DayNight_GetPhase, but reads the clock now rather than using the phase last read in
+// the field, which can be stale during a map load (e.g. just after loading a save).
+u8 DayNight_GetPhaseNow(void)
+{
+    u16 override = VarGet(VAR_DAY_NIGHT_OVERRIDE);
+
+    if (override != DAY_NIGHT_OVERRIDE_NONE && override <= DAY_NIGHT_OVERRIDE_NIGHT)
+        return override - 1;
+    return ReadClockPhase();
+}
+
 static bool8 IsMapTinted(void)
 {
     return IsMapTypeOutdoors(gMapHeader.mapType);

@@ -20,6 +20,16 @@
 #define WEATHER_ROUTE119_CYCLE          20
 #define WEATHER_ROUTE123_CYCLE          21
 
+// Dynamic weather (src/dynamic_weather.c): a map in a zone gets the weather the zone has
+// today in the current day/night phase. A zone is a group of neighbouring maps that always
+// share the weather, so it doesn't change at every map border.
+#define DYN_ZONE_VIRIDIAN               0   // Pallet Town, Route 1, Viridian City, Route 2, Route 22
+#define DYN_ZONE_COUNT                  1
+
+#define WEATHER_DYNAMIC_START           32
+#define WEATHER_DYNAMIC_VIRIDIAN        (WEATHER_DYNAMIC_START + DYN_ZONE_VIRIDIAN)
+#define WEATHER_DYNAMIC_END             (WEATHER_DYNAMIC_START + DYN_ZONE_COUNT)
+
 // These are used in maps' coord_weather_event entries.
 // They are not a one-to-one mapping with the engine's
 // internal weather constants above.

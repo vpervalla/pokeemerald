@@ -592,3 +592,5 @@ gSpecials::
 	def_special OpenCardRewardScreen, waitstate=1
 	def_special CardGame_BufferOpponentName
 	def_special CardGame_StartCardTournament
+	def_special DynamicWeather_DebugReport
+	def_special DynamicWeather_DebugNextDay

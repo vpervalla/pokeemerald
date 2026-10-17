@@ -49,6 +49,35 @@ TestArea_EventScript_TimeChangerDone::
 TestArea_Text_PickTime:
 	.string "What time of day should it be?$"
 
+@ Reports the VIRIDIAN zone's dynamic weather today (src/dynamic_weather.c) and shows its weather
+@ for the current phase here. It can step to the next day; that offset also applies to the zone's
+@ maps (Pallet Town is just east of here) until the game is reset. Pick the phase with the
+@ time changer.
+TestArea_EventScript_DynamicWeather::
+	lock
+	faceplayer
+TestArea_EventScript_DynamicWeatherReport::
+	special DynamicWeather_DebugReport
+	copyvar VAR_0x8004, VAR_RESULT
+	msgbox TestArea_Text_DynamicWeatherReport, MSGBOX_DEFAULT
+	setweather VAR_0x8004
+	doweather
+	msgbox TestArea_Text_DynamicWeatherNextDay, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_DynamicWeatherDone
+	special DynamicWeather_DebugNextDay
+	goto TestArea_EventScript_DynamicWeatherReport
+TestArea_EventScript_DynamicWeatherDone::
+	release
+	end
+
+TestArea_Text_DynamicWeatherReport:
+	.string "{STR_VAR_1} zone, day {STR_VAR_2}.\n{STR_VAR_3}$"
+
+TestArea_Text_DynamicWeatherNextDay:
+	.string "Here's how it looks now.\p"
+	.string "Look at the next day? It changes the\n"
+	.string "zone's maps too, until a reset.$"
+
 @ Debug shortcut to the tournament island until the story gives the player a way there.
 TestArea_EventScript_IslandSailor::
 	lock

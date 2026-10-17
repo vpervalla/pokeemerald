@@ -7,8 +7,31 @@ game; no new weather effects are drawn.
 
 ## Status
 
-Nothing is implemented yet. The decisions in section 0 are proposals; change them
-before phase 1 starts.
+Phase 1 is implemented: the engine, the story gate, the `VIRIDIAN` zone (Pallet Town,
+Route 1, Viridian City, Route 2, Route 22) and a Test Area debug entry. The draw has host
+tests (`tools/dynamic_weather/run_tests.sh`). Nothing has been tested in-game yet.
+
+Differences from the plan below:
+
+- **Phases, not 6-hour periods** (D3): the game already has a day/night tint
+  (`src/day_night.c`) with four phases: morning 6-10, day 10-17, evening 17-20, night
+  20-6. The weather uses the same phases, so the weather and the tint change together, and
+  the Test Area's time changer (`VAR_DAY_NIGHT_OVERRIDE`) also steps the weather. A pattern
+  is in the order morning, day, evening, night, and the weather day starts at 06:00, so a
+  night that runs past midnight keeps one weather. `DayNight_GetPhaseNow()` reads the
+  clock at the moment, because the tint's own phase can be stale during a map load.
+- **Files**: the tables and the draw are in `src/dynamic_weather_rules.c` (no game state,
+  so the host tests can build it), the game side in `src/dynamic_weather.c`.
+- **Hash**: MurmurHash3's 32-bit finalizer, twice, over `(trainer ID ^ day) + zone`.
+- **No clock** (`FLAG_SYS_CLOCK_SET` clear, or an RTC error): the maps use their zone's
+  fallback (clear), not a stuck pattern.
+- **Test Area**: a new NPC (east of the card tester) reports the `VIRIDIAN` zone's day,
+  pattern, the weather of each phase and the current phase, ignoring the story gate, then
+  shows the current weather on the Test Area. It can step to the next day; that offset
+  (EWRAM, not saved) also applies to the zone's maps until a reset. Pallet Town is just
+  east of the Test Area.
+- Route 2 borders Pewter City, which is still `WEATHER_SUNNY` until phase 3, so the
+  weather can change at that border for now.
 
 ## Where things are now
 
@@ -49,11 +72,11 @@ before phase 1 starts.
 |---|----------|----------|
 | D1 | Where | Outdoor maps in Kanto, the Sevii Islands and Mega Island. Hoenn, caves, interiors, forests, the Test Area and the prototype Sevii maps keep their fixed weather |
 | D2 | Unit of weather | A **zone**: a group of neighbouring maps that always share the weather, so it doesn't change at every map border (section 2) |
-| D3 | How often it changes | Four periods a day from the RTC: night 0-6, morning 6-12, afternoon 12-18, evening 18-24 |
-| D4 | How it's chosen | Each day, each zone draws one **day pattern** (four weathers, one per period) from its weighted list. The draw is a hash of the save's trainer ID, the day and the zone, so it is the same every time it's computed and needs no save space, and two saves get different weather |
+| D3 | How often it changes | Four times a day, with the day/night phases: morning 6-10, day 10-17, evening 17-20, night 20-6 |
+| D4 | How it's chosen | Each day, each zone draws one **day pattern** (four weathers, one per phase) from its weighted list. The draw is a hash of the save's trainer ID, the day and the zone, so it is the same every time it's computed and needs no save space, and two saves get different weather |
 | D5 | Story gate | Off until `FLAG_SYS_POKEDEX_GET` (Oak's lab). Before that every dynamic map uses its zone's fallback (clear), so the opening stays as it is |
 | D6 | Battles | Keep the existing links (rain, sandstorm, drought). Add **snow → permanent hail**. Fog, shade and clouds stay visual only. `WEATHER_SUNNY` stays without a battle effect; harsh sun only comes from `WEATHER_DROUGHT`, which is rare |
-| D7 | Change while on a map | Yes, with the normal weather fade, when the period changes and the player has control. Not during scripts, battles or menus |
+| D7 | Change while on a map | Yes, with the normal weather fade, when the phase changes and the player has control. Not during scripts, battles or menus |
 | D8 | Forecast | A forecaster in each Pokémon Center 1F of Kanto (Viridian, Cerulean, Celadon) and One Island tells today's and tomorrow's weather for a few zones. Phase 4, optional |
 | D9 | Wild Pokémon | Not changed in this plan. Weather-only encounters can come later (section 8) |
 | D10 | Seasons | None. The RTC counts days, not calendar months |
@@ -109,24 +132,24 @@ would fade in and out. (`FourIsland/map.json` has no connections.)
 
 ## 3. Day patterns
 
-A pattern is four weathers (night, morning, afternoon, evening), like the existing
-Route 119/123 tables. A shared list in `src/data/dynamic_weather.h`:
+A pattern is four weathers (morning, day, evening, night), like the existing
+Route 119/123 tables. A shared list in `src/dynamic_weather_rules.c`:
 
-| Pattern | Night | Morning | Afternoon | Evening |
-|---------|-------|---------|-----------|---------|
+| Pattern | Morning | Day | Evening | Night |
+|---------|---------|-----|---------|-------|
 | `CLEAR` | SUNNY | SUNNY | SUNNY | SUNNY |
-| `CLOUDY` | SUNNY | SUNNY_CLOUDS | SUNNY_CLOUDS | SUNNY |
+| `CLOUDY` | SUNNY_CLOUDS | SUNNY_CLOUDS | SUNNY | SUNNY |
 | `OVERCAST` | SHADE | SHADE | SHADE | SHADE |
-| `MORNING_FOG` | FOG | FOG | SUNNY | SUNNY |
-| `SHOWERS` | SUNNY | SUNNY | RAIN | SUNNY_CLOUDS |
-| `RAINY_DAY` | SHADE | RAIN | RAIN | SHADE |
-| `NIGHT_RAIN` | RAIN | SHADE | SUNNY | SHADE |
-| `STORM` | SHADE | RAIN | THUNDERSTORM | RAIN |
-| `DOWNPOUR` | RAIN | THUNDERSTORM | DOWNPOUR | RAIN |
-| `HEAT_WAVE` | SUNNY | SUNNY | DROUGHT | SUNNY |
-| `DUST` | SUNNY | SANDSTORM | SANDSTORM | SUNNY |
-| `SNOWFALL` | SNOW | SNOW | SHADE | SNOW |
-| `FLURRIES` | SNOW | SUNNY | SUNNY | SHADE |
+| `MORNING_FOG` | FOG | SUNNY | SUNNY | FOG |
+| `SHOWERS` | SUNNY | RAIN | SUNNY_CLOUDS | SUNNY |
+| `RAINY_DAY` | RAIN | RAIN | SHADE | SHADE |
+| `NIGHT_RAIN` | SUNNY | SUNNY | SHADE | RAIN |
+| `STORM` | RAIN | THUNDERSTORM | RAIN | SHADE |
+| `DOWNPOUR` | THUNDERSTORM | DOWNPOUR | RAIN | RAIN |
+| `HEAT_WAVE` | SUNNY | DROUGHT | SUNNY | SUNNY |
+| `DUST` | SANDSTORM | SANDSTORM | SUNNY | SUNNY |
+| `SNOWFALL` | SNOW | SHADE | SNOW | SNOW |
+| `FLURRIES` | SUNNY | SUNNY | SHADE | SNOW |
 
 (`FOG` is `WEATHER_FOG_HORIZONTAL`. `WEATHER_FOG_DIAGONAL` is unused in vanilla; check it
 in the Test Area before using it.)
@@ -157,21 +180,19 @@ Each row sums to 100. These are a first guess; tune after play-testing.
 New `src/dynamic_weather.c` and `include/dynamic_weather.h`:
 
 ```c
-bool8 IsDynamicWeather(u8 weather);           // WEATHER_DYNAMIC_START <= w < WEATHER_DYNAMIC_END
-u8 GetDynamicWeather(u8 zone);                // now
-u8 GetDynamicWeatherAt(u8 zone, u16 day, u8 period); // for the forecast
-void DynamicWeather_OnTimeUpdate(void);       // from DoTimeBasedEvents()
+bool8 IsDynamicWeather(u32 weather);          // WEATHER_DYNAMIC_START <= w < WEATHER_DYNAMIC_END
+u8 GetDynamicWeather(u8 zone);                // now (phase 1)
+u8 GetDynamicWeatherAt(u8 zone, u16 day, u8 phase); // for the forecast (phase 5)
+void DynamicWeather_OnTimeUpdate(void);       // from DoTimeBasedEvents() (phase 2)
 ```
 
-- **Period**: `gLocalTime.hours / 6`.
-- **Pattern draw**: hash `(trainer ID, day, zone)` with a small local mixer (for
-  example two rounds of `ISO_RANDOMIZE2` over the combined value). It must **not** use
+- **Phase**: `DayNight_GetPhaseNow()` (`src/day_night.c`).
+- **Pattern draw**: hash `(trainer ID, day, zone)` with a small local mixer. It must **not** use
   `Random()`, which would shift the battle and encounter RNG. Take the result mod 100
   and walk the zone's weights.
 - **Gate**: if `!FlagGet(FLAG_SYS_POKEDEX_GET)` or the clock isn't set, return the
   zone's fallback.
-- **No RTC** (an emulator without one, or a dead battery): `gLocalTime` stops, so the
-  weather stays on one pattern and period. That's acceptable; mention it in the README.
+- **No RTC** (an emulator without one, or a dead battery): the zone's fallback.
 
 Hook into the existing code:
 
@@ -179,7 +200,7 @@ Hook into the existing code:
    `if (IsDynamicWeather(weather)) return GetDynamicWeather(weather - WEATHER_DYNAMIC_START);`.
    This covers map loads, `resetweather` and `setweather WEATHER_DYNAMIC_*`.
 2. **Change while on a map** (D7): `DynamicWeather_OnTimeUpdate()` is called at the end of
-   `DoTimeBasedEvents()`. It keeps the last applied `(day, period)` in EWRAM. When it
+   `DoTimeBasedEvents()`. It keeps the last applied `(day, phase)` in EWRAM. When it
    changes, and `IsDynamicWeather(gMapHeader.weather)`, and the weather wasn't set by a
    script on this map, and `!ArePlayerFieldControlsLocked()`, it calls
    `SetSavedWeatherFromCurrMapHeader()` then `DoCurrentWeather()` (which fades). If the
@@ -220,17 +241,16 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
   One Island, with a script special `GetWeatherForecast` that fills
   `gStringVar1`-`3` for three nearby zones: "Today on ROUTE 24: rain this afternoon.
   Tomorrow: clear."
-- Text per pattern, not per period, to keep the strings short: `SHOWERS` → "afternoon
+- Text per pattern, not per phase, to keep the strings short: `SHOWERS` → "afternoon
   showers", `STORM` → "storms later", `MORNING_FOG` → "fog in the morning".
-- The Test Area gets a "Dynamic weather" entry: show the zone, day, period and pattern,
-  and step the period forward (a debug offset in EWRAM, not the RTC).
+- The Test Area debug entry (done in phase 1) can list every zone once there are more.
 
 ## 7. Phases
 
-1. **Engine**: constants, `src/dynamic_weather.c`, the `TranslateWeatherNum` hook, the
+1. ✅ **Engine**: constants, `src/dynamic_weather.c`, the `TranslateWeatherNum` hook, the
    story gate, and one zone (`VIRIDIAN`) on its maps. Debug entry in the Test Area.
    `make` and `make modern` build.
-2. **Live changes**: the period update while on a map, the script override, locked-
+2. **Live changes**: the phase update while on a map, the script override, locked-
    controls retry.
 3. **All zones**: the remaining zones and patterns, the map changes of section 5,
    the snow check.
@@ -245,7 +265,6 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 - Weather-only wild encounters (for example more Water types in rain, Ice types in
   Four Island snow). The encounter tables are per map; the cheapest form is a second
   table per zone that swaps one or two slots when the weather matches.
-- Day and night tinting of the palettes, which would use the same four periods.
 - Weather that follows the story (a storm over Saffron while Team Rocket holds Silph).
 
 ## 9. Tests
@@ -253,8 +272,8 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
 - Host test for the pattern draw, like the card game's host tests: for each zone,
   10,000 days give pattern frequencies within 1% of the weights, and the same
   `(trainer ID, day, zone)` always gives the same pattern.
-- In game, with the Test Area debug entry: each period of each zone; crossing every
+- In game, with the Test Area debug entry: each phase of each zone; crossing every
   zone border (the fade should look like the existing map-to-map weather change);
   entering and leaving buildings; a battle in rain, sandstorm, drought and snow;
-  saving and loading in each weather; a scripted `setweather` scene surviving a period
+  saving and loading in each weather; a scripted `setweather` scene surviving a phase
   change.

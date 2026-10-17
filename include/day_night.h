@@ -4,6 +4,7 @@
 #include "constants/day_night.h"
 
 u8 DayNight_GetPhase(void);
+u8 DayNight_GetPhaseNow(void);
 void DayNight_OnTilesetPalettesLoaded(void);
 void DayNight_UpdateField(void);
 const u16 *DayNight_GetPlttBufferToShow(void);

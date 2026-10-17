@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_anim.h"
+#include "dynamic_weather.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
 #include "field_weather.h"
@@ -2615,7 +2616,10 @@ static u8 TranslateWeatherNum(u8 weather)
     case WEATHER_ABNORMAL:           return WEATHER_ABNORMAL;
     case WEATHER_ROUTE119_CYCLE:     return sWeatherCycleRoute119[gSaveBlock1Ptr->weatherCycleStage];
     case WEATHER_ROUTE123_CYCLE:     return sWeatherCycleRoute123[gSaveBlock1Ptr->weatherCycleStage];
-    default:                         return WEATHER_NONE;
+    default:
+        if (IsDynamicWeather(weather))
+            return GetDynamicWeather(weather - WEATHER_DYNAMIC_START);
+        return WEATHER_NONE;
     }
 }
 
