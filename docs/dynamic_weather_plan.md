@@ -16,8 +16,11 @@ dynamic map, a weather set by a script or a coord event stays, and the change wa
 script, a menu or a fade has the screen.
 
 Phase 3 is implemented: all 14 zones of section 2 with the weights of section 3, on 65
-maps. The host tests cover every zone. Nothing has been tested in-game yet, and snow has
-not been looked at on Four Island (section 5).
+maps. The host tests cover every zone.
+
+Phase 4 is implemented: a battle that starts in the overworld's snow has hail for the whole
+battle, opening with "It is hailing." Nothing has been tested in-game yet, and snow has not
+been looked at on Four Island (section 5).
 
 Differences from the plan below:
 
@@ -229,14 +232,22 @@ Hook into the existing code:
    isn't a dynamic one (so `setweather`, `SetWeather()` and the coord events) and cleared by
    `SetSavedWeatherFromCurrMapHeader()` (map load, `resetweather`). Map scripts that
    `setweather` on transition run after the map load, so they keep their weather.
-4. **Battles**: in `ABILITYEFFECT_SWITCH_IN_WEATHER` add
-   `case WEATHER_SNOW: gBattleWeather = B_WEATHER_HAIL; animArg1 = B_ANIM_HAIL_CONTINUES;`,
-   and `[WEATHER_SNOW] = STRINGID_HAILCONTINUES` (or a new "It's hailing!" string) in
-   `gWeatherStartsStringIds`. In `ENDTURN_HAIL` (`src/battle_util.c:1420`) skip the
-   countdown when `B_WEATHER_HAIL_PERMANENT` is set, as `ENDTURN_SUN` does. Check every
-   `gBattleWeather = B_WEATHER_HAIL_TEMPORARY` and `&= ~B_WEATHER_HAIL_TEMPORARY`
-   (`src/battle_script_commands.c:9245`, Air Lock / Cloud Nine, the Mega and primal
-   weather code) clears both bits where it should.
+4. **Battles** (done): `ABILITYEFFECT_SWITCH_IN_WEATHER` turns `WEATHER_SNOW` into
+   `B_WEATHER_HAIL` (both bits) with `B_ANIM_HAIL_CONTINUES`, like sandstorm and drought.
+   A new `STRINGID_ITISHAILING` ("It is hailing.", next to "It is raining.") is
+   `gWeatherStartsStringIds[WEATHER_SNOW]`. `ENDTURN_HAIL` skips the countdown when
+   `B_WEATHER_HAIL_PERMANENT` is set, as `ENDTURN_SUN` does, so hail hurts every turn and
+   says "Hail continues to fall." Checked:
+   - every `gBattleWeather & B_WEATHER_HAIL` test (damage, Weather Ball, Solar Beam, the
+     AI, Battle TV, the move animations) now sees either bit;
+   - weather moves (Rain Dance, Sandstorm, Sunny Day, Hail) and the weather abilities
+     (Drizzle, Sand Stream, Drought, Delta Stream) assign the whole `gBattleWeather`, so
+     they replace permanent hail just as they replace permanent rain. Hail fails while
+     any hail is up, as in vanilla;
+   - Air Lock and Cloud Nine only hide the weather (`WEATHER_HAS_EFFECT`), they clear no
+     bits;
+   - the weather goes to the battle controllers as 16 bits, so bit 9 isn't lost.
+   The Mega and primal code adds no hail. Castform has no hail form in Gen 3.
 5. **Battle background**: `BattleSetup_GetEnvironmentId()` already uses sand in a
    sandstorm, so `DUST` days on Route 3 give a sand background. Keep it.
 
@@ -279,7 +290,9 @@ trainer ID. `gSaveBlock1Ptr->weather` still holds the translated weather as now.
    with `resetweather`.
 3. ✅ **All zones**: the remaining zones and patterns, the map changes of section 5.
    The in-game snow check is still to do.
-4. **Battles**: permanent hail from snow, the start message, the end-turn change.
+4. ✅ **Battles**: permanent hail from snow, the start message, the end-turn change.
+   Test it in the Test Area: SNOW in the weather changer (or FOUR ISLAND in the dynamic
+   weather menu on a snowy phase), then a wild battle in its grass.
 5. **Forecast** (optional).
 6. **Tuning**: play the story with the clock at different hours; check that rain
    doesn't make an early fight (Brock, Misty's route trainers) much harder or easier,
