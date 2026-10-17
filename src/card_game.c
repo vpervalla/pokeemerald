@@ -93,7 +93,7 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define MAX_PIPS            40
 #define MAX_ACTIVE_PIPS     10
 
-#define LABEL_LENGTH        40
+#define LABEL_LENGTH        64  // before truncating to the menu's width
 #define MENU_VIEW_CARDS     (CARD_MAX_ACTIONS + 0)
 #define MENU_FORFEIT        (CARD_MAX_ACTIONS + 1)
 #define MENU_ITEMS_MAX      (CARD_MAX_ACTIONS + 2)
@@ -281,7 +281,9 @@ static const u8 sText_ToBench[] = _("Bench: ");
 static const u8 sText_StartDuel[] = _("Done, start the duel");
 static const u8 sText_Attach[] = _("Attach ");
 static const u8 sText_EnergyTo[] = _(" Energy to ");
-static const u8 sText_Evolve[] = _("Evolve into ");
+static const u8 sText_Evolve[] = _("Evolve ");
+static const u8 sText_Into[] = _(" into ");
+static const u8 sText_RareCandyOn[] = _(" on ");
 static const u8 sText_On[] = _(" on ");
 static const u8 sText_Play[] = _("Play ");
 static const u8 sText_RetreatTo[] = _("Retreat to ");
@@ -1334,6 +1336,11 @@ static bool8 FormatEvent(u8 *dst, const struct CardDuelEvent *event)
         dst = StringAppend(dst, sText_Attached);
         dst = StringAppend(dst, gCardTypeNames[event->value]);
         dst = StringAppend(dst, sText_EnergyTo);
+        if (event->slot == CARD_SLOT_ACTIVE)
+        {
+            dst = StringAppend(dst, sText_ActiveSpot);
+            dst = StringAppend(dst, sText_Space);
+        }
         dst = CardGame_AppendCardName(dst, event->cardId);
         StringAppend(dst, sText_Dot);
         return TRUE;
@@ -1914,6 +1921,26 @@ static void ShowViewedCard(void)
 // ---------------------------------------------------------------------------------------------
 // Action menu
 
+// A Pokémon in play by name, "ACTIVE " before the Active one's: two of the same Pokémon can be
+// in play, and the Active one is what most cards are about
+static u8 *AppendPokemonInPlay(u8 *dst, const struct CardDuelSide *side, u8 slot)
+{
+    if (slot == CARD_SLOT_ACTIVE)
+    {
+        dst = StringAppend(dst, sText_ActiveSpot);
+        dst = StringAppend(dst, sText_Space);
+    }
+    return CardGame_AppendCardName(dst, side->slots[slot].cardId);
+}
+
+// A spot: "ACTIVE" or "BENCH 1"
+static u8 *AppendSpot(u8 *dst, u8 slot)
+{
+    if (slot != CARD_SLOT_ACTIVE)
+        dst = StringAppend(dst, sText_BenchSpot);
+    return StringAppend(dst, sSlotNames[slot]);
+}
+
 static void FormatAction(u8 *dst, const struct CardAction *action)
 {
     const struct CardDuel *duel = &sScreen->duel;
@@ -1936,30 +1963,32 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         dst = StringAppend(dst, sText_Attach);
         dst = StringAppend(dst, gCardTypeNames[side->zoneEnergy]);
         dst = StringAppend(dst, sText_EnergyTo);
-        CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
+        AppendPokemonInPlay(dst, side, action->slot);
         break;
     case CARD_ACTION_EVOLVE:
+        // "Evolve ACTIVE into IVYSAUR", "Evolve BENCH 1 into IVYSAUR"
         dst = StringAppend(dst, sText_Evolve);
-        dst = CardGame_AppendCardName(dst, handCard);
-        if (action->slot != CARD_SLOT_ACTIVE)
-        {
-            dst = StringAppend(dst, sText_At);
-            dst = StringAppend(dst, sText_BenchSpot);
-            StringAppend(dst, sSlotNames[action->slot]);
-        }
+        dst = AppendSpot(dst, action->slot);
+        dst = StringAppend(dst, sText_Into);
+        CardGame_AppendCardName(dst, handCard);
         break;
     case CARD_ACTION_PLAY_TRAINER:
+        if (CardGame_GetTrainerInfo(handCard)->effect == CARD_TRAINER_RARE_CANDY)
+        {
+            // "RARE CANDY: VENUSAUR on ACTIVE": the Stage 2 tells which Basic it is for
+            dst = CardGame_AppendCardName(dst, handCard);
+            dst = StringAppend(dst, sText_Colon);
+            dst = CardGame_AppendCardName(dst, side->hand[action->arg]);
+            dst = StringAppend(dst, sText_RareCandyOn);
+            AppendSpot(dst, action->slot);
+            break;
+        }
         dst = StringAppend(dst, sText_Play);
         dst = CardGame_AppendCardName(dst, handCard);
         if (action->slot < CARD_SLOT_COUNT)
         {
             dst = StringAppend(dst, sText_On);
-            if (CardGame_GetTrainerInfo(handCard)->effect == CARD_TRAINER_RARE_CANDY)
-            {
-                dst = CardGame_AppendCardName(dst, side->hand[action->arg]);
-                dst = StringAppend(dst, sText_Space);
-            }
-            CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
+            AppendPokemonInPlay(dst, side, action->slot);
         }
         break;
     case CARD_ACTION_RETREAT:
@@ -1975,17 +2004,17 @@ static void FormatAction(u8 *dst, const struct CardAction *action)
         if (info->attacks[action->arg].effect == CARD_EFFECT_SNIPE)
         {
             dst = StringAppend(dst, sText_At);
-            CardGame_AppendCardName(dst, opponent->slots[action->slot].cardId);
+            AppendPokemonInPlay(dst, opponent, action->slot);
         }
         break;
     case CARD_ACTION_USE_ABILITY:
         dst = StringAppend(dst, sText_Ability);
-        dst = CardGame_AppendCardName(dst, side->slots[action->slot].cardId);
+        dst = AppendPokemonInPlay(dst, side, action->slot);
         info = CardGame_GetPokemonInfo(side->slots[action->slot].cardId);
         if (info->ability == CARD_ABILITY_SNIPE)
         {
             dst = StringAppend(dst, sText_At);
-            CardGame_AppendCardName(dst, opponent->slots[action->arg].cardId);
+            AppendPokemonInPlay(dst, opponent, action->arg);
         }
         break;
     case CARD_ACTION_END_TURN:
