@@ -305,7 +305,8 @@
 #define CARD_OPPONENT_ALDER                     48
 #define CARD_OPPONENT_DIANTHA                   49
 #define CARD_OPPONENT_MR_M                      50
-#define CARD_OPPONENTS_COUNT                    51
+#define CARD_OPPONENT_TEST_AREA_TESTER          51  // the Test Area's debug card player
+#define CARD_OPPONENTS_COUNT                    52
 #define CARD_OPPONENTS_MAX                      80  // the bits of CardGameSave.opponentsBeaten
 
 // Given with the reward of the last of the 8 gym leaders beaten at cards

@@ -475,6 +475,16 @@ static const u8 sWon_MrM[] = _(
 static const u8 sLost_MrM[] = _(
     "…As expected. You are not ready.");
 
+static const u8 sName_Tester[] = _("TESTER");
+static const u8 sChallenge_Tester[] = _(
+    "Now, how about a test duel?\n"
+    "I'll play my WATER deck.");
+static const u8 sWon_Tester[] = _(
+    "You won! The test passed.");
+static const u8 sLost_Tester[] = _(
+    "I won! Talk to me again for\n"
+    "another pack and a rematch.");
+
 #define OPPONENT(id, n, deckId, reward, where) [CARD_OPPONENT_##id] = \
     {sName_##n, sChallenge_##n, sWon_##n, sLost_##n, reward, CARD_DECK_##deckId, MAPSEC_##where}
 
@@ -531,6 +541,7 @@ const struct CardOpponent gCardOpponents[CARD_OPPONENTS_COUNT] =
     OPPONENT(ALDER,                   Alder,    ALDER,       CARD_HERACROSS_MEGA_EX,   MEGA_ISLAND),
     OPPONENT(DIANTHA,                 Diantha,  DIANTHA,     CARD_LATIOS_MEGA_EX,      MEGA_ISLAND),
     OPPONENT(MR_M,                    MrM,      MR_M,        CARD_MEWTWO_MEGA_X_EX,    MEGA_ISLAND),
+    OPPONENT(TEST_AREA_TESTER,        Tester,   SWIMMER,     CARD_NONE,                TEST_AREA),
 };
 
 #undef OPPONENT
