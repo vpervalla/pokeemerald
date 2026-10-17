@@ -291,6 +291,8 @@ u8 *CardGame_AppendAbilityText(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendExRule(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);
 u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info);
+void CardGame_LoadEnergyIconPalette(u8 paletteNum);
+void CardGame_DrawEnergyIcons(u8 windowId, const u8 *text, u8 x, u8 y, u8 lineHeight);
 u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y);
 void CardGame_DestroyPokemonPic(u16 spriteId);
 extern const u8 *const gCardTypeNames[CARD_TYPE_COUNT];

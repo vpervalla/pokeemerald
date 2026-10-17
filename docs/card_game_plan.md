@@ -493,7 +493,12 @@ phases:
   type, weakness, retreat cost, the Tool, the ability and the attacks with their cost and
   effect spelled out. LEFT/RIGHT to browse, B to go back.
 - `tools/card_game/gen_graphics.py` draws the board tiles, the pips (an Energy of each type,
-  trophies) and the coin; rerun it to change them.
+  trophies), the coin and the Energy icons; rerun it to change them.
+- Attack costs are shown as 9x9 Energy icons (a colored circle with its symbol, after the
+  Energy cards of the Game Boy TCG; Darkness and Metal drawn to match) instead of letters,
+  in the card viewer, the pack screen and the CARD CASE. `AppendCost` leaves a blank for each
+  icon, after a `{PALETTE type}` code that prints nothing, and `CardGame_DrawEnergyIcons`
+  draws the icons there once the text is printed. Their colors are 4-15 of the text palette.
 - The card pictures (card viewer and pack screen) are the Pokémon Gold front sprites, Bulbasaur
   to Celebi, at their size in Gold (40 to 56 pixels, on the bottom of a 56x56 box), in
   `graphics/card_game/retro/`. `tools/card_game/gen_retro_pics.py` makes them from a checkout

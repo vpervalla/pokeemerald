@@ -88,6 +88,9 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define TAG_COIN            0x4C01
 #define TAG_ARROWS          0x4C02
 #define TAG_DETAIL_ITEM     0x4C04
+#define ENERGY_ICON_SIZE    9
+#define ENERGY_ICON_SPACE   (ENERGY_ICON_SIZE + 1)
+#define ENERGY_ICON_Y       2   // below the top of the line
 #define TAG_CARD_PIC        0x4C05  // a Gold picture, here or in the deck builder (never both)
 
 #define PIP_TROPHY          11  // pips.png: then the card types, a trophy won and one to win
@@ -202,6 +205,8 @@ static const u32 sPipTiles[] = INCGFX_U32("graphics/card_game/pips.png", ".4bpp"
 static const u16 sPipPalette[] = INCGFX_U16("graphics/card_game/pips.png", ".gbapal");
 static const u32 sCoinTiles[] = INCGFX_U32("graphics/card_game/coin.png", ".4bpp");
 static const u16 sCoinPalette[] = INCGFX_U16("graphics/card_game/coin.png", ".gbapal");
+static const u8 sEnergyIconGfx[] = INCGFX_U8("graphics/card_game/energy_icons.png", ".4bpp");
+static const u16 sEnergyIconPalette[] = INCGFX_U16("graphics/card_game/energy_icons.png", ".gbapal");
 
 // The cards' pictures: the Pokémon Gold front sprites (made by tools/card_game/gen_retro_pics.py)
 struct RetroPic
@@ -256,23 +261,6 @@ static const u8 sText_Bench2[] = _("2");
 static const u8 sText_Bench3[] = _("3");
 static const u8 sText_ActiveSpot[] = _("ACTIVE");
 static const u8 *const sSlotNames[] = {sText_ActiveSpot, sText_Bench1, sText_Bench2, sText_Bench3};
-
-static const u8 sText_TypeNone[] = _("");
-static const u8 sText_TypeG[] = _("G");
-static const u8 sText_TypeR[] = _("R");
-static const u8 sText_TypeW[] = _("W");
-static const u8 sText_TypeL[] = _("L");
-static const u8 sText_TypeP[] = _("P");
-static const u8 sText_TypeF[] = _("F");
-static const u8 sText_TypeD[] = _("D");
-static const u8 sText_TypeM[] = _("M");
-static const u8 sText_TypeN[] = _("N");
-static const u8 sText_TypeC[] = _("C");
-static const u8 *const sTypeLetters[CARD_TYPE_COUNT] =
-{
-    sText_TypeNone, sText_TypeG, sText_TypeR, sText_TypeW, sText_TypeL, sText_TypeP,
-    sText_TypeF, sText_TypeD, sText_TypeM, sText_TypeN, sText_TypeC,
-};
 
 static const u8 sText_TypeNameNone[] = _("NONE");
 static const u8 sText_TypeNameG[] = _("GRASS");
@@ -388,8 +376,6 @@ static const u8 sText_Supporter[] = _("SUPPORTER\n(1 a turn)");
 static const u8 sText_Tool[] = _("POKéMON TOOL");
 static const u8 sText_ToolAttached[] = _("TOOL: ");
 static const u8 sText_ViewerHp[] = _(" HP");
-static const u8 sText_LeftBracket[] = _("(");
-static const u8 sText_RightBracket[] = _(") ");
 
 // Attack effects: text before and after the effect's number (or status)
 struct EffectText
@@ -836,6 +822,7 @@ static void CB2_InitCardGame(void)
         LoadPalette(&sBackdropColor, BG_PLTT_ID(0), PLTT_SIZEOF(1));
         LoadPalette(sBoardPalette, BG_PLTT_ID(BOARD_PALETTE), PLTT_SIZE_4BPP);
         LoadPalette(gStandardMenuPalette, BG_PLTT_ID(TEXT_PALETTE), PLTT_SIZE_4BPP);
+        CardGame_LoadEnergyIconPalette(TEXT_PALETTE);
         LoadBgTiles(1, sBoardTiles, sizeof(sBoardTiles), 0);
         InitSprites();
         gMain.state++;
@@ -953,14 +940,56 @@ static u8 *AppendStatusLetters(u8 *dst, u8 status)
     return dst;
 }
 
+// The cost, as Energy icons: for each Energy, a blank of ENERGY_ICON_SPACE pixels that
+// CardGame_DrawEnergyIcons fills, after a code that says its type and prints nothing
 static u8 *AppendCost(u8 *dst, const struct CardAttack *attack)
 {
     u8 i;
 
-    dst = StringAppend(dst, sText_LeftBracket);
     for (i = 0; i < CARD_ATTACK_MAX_COST && attack->cost[i] != CARD_TYPE_NONE; i++)
-        dst = StringAppend(dst, sTypeLetters[attack->cost[i]]);
-    return StringAppend(dst, sText_RightBracket);
+    {
+        *dst++ = EXT_CTRL_CODE_BEGIN;
+        *dst++ = EXT_CTRL_CODE_PALETTE;
+        *dst++ = attack->cost[i];
+        *dst++ = EXT_CTRL_CODE_BEGIN;
+        *dst++ = EXT_CTRL_CODE_CLEAR;
+        *dst++ = ENERGY_ICON_SPACE;
+    }
+    *dst++ = CHAR_SPACE;
+    *dst = EOS;
+    return dst;
+}
+
+// Colors 4-15 of a text palette, for the Energy icons (0-3 stay the text's)
+void CardGame_LoadEnergyIconPalette(u8 paletteNum)
+{
+    LoadPalette(&sEnergyIconPalette[4], BG_PLTT_ID(paletteNum) + 4, PLTT_SIZEOF(12));
+}
+
+// Draws the icons of the costs in a text already printed at x, y (FONT_SMALL, lineHeight pixels
+// a line)
+void CardGame_DrawEnergyIcons(u8 windowId, const u8 *text, u8 x, u8 y, u8 lineHeight)
+{
+    u8 line[64];
+    u8 i = 0;
+
+    for (; *text != EOS; text++)
+    {
+        if (*text == CHAR_NEWLINE)
+        {
+            i = 0;
+            y += lineHeight;
+            continue;
+        }
+        if (text[0] == EXT_CTRL_CODE_BEGIN && text[1] == EXT_CTRL_CODE_PALETTE && text[2] < CARD_TYPE_COUNT)
+        {
+            line[i] = EOS;
+            BlitBitmapRectToWindow(windowId, sEnergyIconGfx, text[2] * 16, 0, CARD_TYPE_COUNT * 16, 16,
+                                   x + GetStringWidth(FONT_SMALL, line, 0), y + ENERGY_ICON_Y, ENERGY_ICON_SIZE, ENERGY_ICON_SIZE);
+        }
+        if (i < sizeof(line) - 1)
+            line[i++] = *text;
+    }
 }
 
 static u16 GetRemainingHp(const struct CardInPlay *mon)
@@ -1750,6 +1779,7 @@ static u8 PrintDetail(u8 *text, u8 x, u8 y)
             lines++;
     }
     AddTextPrinterParameterized(WIN_DETAIL, FONT_SMALL, text, x, y, TEXT_SKIP_DRAW, NULL);
+    CardGame_DrawEnergyIcons(WIN_DETAIL, text, x, y, 12);
     return y + lines * 12;
 }
 

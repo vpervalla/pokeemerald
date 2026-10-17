@@ -263,6 +263,7 @@ static void CB2_InitDeckBuilder(void)
     case 1:
         LoadPalette(&sBackdropColor, BG_PLTT_ID(0), PLTT_SIZEOF(1));
         LoadPalette(gStandardMenuPalette, BG_PLTT_ID(TEXT_PALETTE), PLTT_SIZE_4BPP);
+        CardGame_LoadEnergyIconPalette(TEXT_PALETTE);
         LoadMonIconPalettes();
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 32, 32);
         gMain.state++;
@@ -669,6 +670,7 @@ static void ShowPackCardText(u16 cardId)
     if (top + lines * lineHeight > bottom)
         lineHeight = max((bottom - top) / lines, PACK_MIN_LINE_HEIGHT);
     y = PrintPackLines(text, top, lineHeight);
+    CardGame_DrawEnergyIcons(WIN_PACK, text, 2, top, lineHeight);
     PutWindowTilemap(WIN_PACK);
     CopyWindowToVram(WIN_PACK, COPYWIN_FULL);
 }
@@ -720,6 +722,7 @@ static void ShowCardInfo(u16 cardId)
                 CardGame_AppendAttackText(text, &attack);
                 WrapText(text, FONT_SMALL, width);
                 AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
+                CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
                 for (end = text, y += 12; *end != EOS; end++)
                 {
                     if (*end == CHAR_NEWLINE)
