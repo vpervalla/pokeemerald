@@ -332,8 +332,10 @@
 // Hoenn's own progress (see docs/hoenn_plan.md): the Hoenn maps read it instead of VAR_STARTER_MON,
 // which is the Kanto starter. Clear of the vars the Kanto port allocates.
 #define VAR_HOENN_STARTER                           (KANTO_VARS_START + 0x70) // BIRCH's POKéMON: 0 TREECKO, 1 TORCHIC, 2 MUDKIP
-// The way to Hoenn (docs/hoenn_plan.md, Act 0): 0 before the first Hall of Fame, 1 MOM has BLAINE's message,
-// 2 Aqua and Magma are in the POKéMON MANSION, 3 they fled to Hoenn with the PRIMAL NOTES (the ship sails)
+// The way to Hoenn (docs/hoenn_plan.md, Acts 0 and 1): 0 before the first Hall of Fame, 1 MOM has BLAINE's
+// message, 2 Aqua and Magma are in the POKéMON MANSION, 3 they fled to Hoenn with the PRIMAL NOTES (the ship
+// sails), 4 BIRCH met the player at SLATEPORT and took them to his lab, 5 BIRCH gave a Hoenn starter (from
+// here on, Emerald's own story vars lead)
 #define VAR_HOENN_STORY_STATE                       (KANTO_VARS_START + 0x71)
 
 #define SPECIAL_VARS_START            0x8000

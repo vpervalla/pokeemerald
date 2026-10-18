@@ -1,5 +1,6 @@
 SlateportCity_Harbor_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, SlateportCity_Harbor_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, SlateportCity_Harbor_OnFrame
 	.byte 0
 
 SlateportCity_Harbor_OnTransition:
@@ -7,6 +8,7 @@ SlateportCity_Harbor_OnTransition:
 	setvar VAR_TEMP_1, 0
 	call_if_eq VAR_SLATEPORT_HARBOR_STATE, 1, SlateportCity_Harbor_EventScript_ReadyAquaEscapeScene
 	call_if_set FLAG_HOENN_GAME_CLEAR, SlateportCity_Harbor_EventScript_ShowSSTidal
+	setflag FLAG_HIDE_SLATEPORT_HARBOR_BIRCH  @ added: shown only for BIRCH's welcome
 	end
 
 SlateportCity_Harbor_EventScript_ShowSSTidal::
@@ -526,3 +528,46 @@ SlateportCity_Harbor_Text_HandedScannerToStern:
 SlateportCity_Harbor_Text_ThisWillHelpResearch:
 	.string "CAPT. STERN: Thanks, {PLAYER}{KUN}!\n"
 	.string "This will help our research a lot!$"
+
+@ The Hoenn chapter (see data/scripts/hoenn_story.inc): on the first arrival from VERMILION, BIRCH,
+@ warned by BLAINE and OAK, welcomes the player and takes them to his lab.
+SlateportCity_Harbor_OnFrame:
+	map_script_2 VAR_HOENN_STORY_STATE, 3, SlateportCity_Harbor_EventScript_BirchWelcome
+	.2byte 0
+
+SlateportCity_Harbor_EventScript_BirchWelcome::
+	lockall
+	clearflag FLAG_HIDE_SLATEPORT_HARBOR_BIRCH
+	addobject LOCALID_SLATEPORT_HARBOR_BIRCH
+	applymovement LOCALID_SLATEPORT_HARBOR_BIRCH, SlateportCity_Harbor_Movement_BirchApproach
+	waitmovement 0
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	msgbox SlateportCity_Harbor_Text_BirchWelcome
+	closemessage
+	call HoennStory_EventScript_ReadyHoennOpening
+	warp MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB, 6, 5
+	waitstate
+	releaseall
+	end
+
+SlateportCity_Harbor_Movement_BirchApproach:
+	walk_up
+	face_right
+	step_end
+
+SlateportCity_Harbor_Text_BirchWelcome:
+	.string "Oh! You must be {PLAYER}{KUN}!\n"
+	.string "Welcome to HOENN!\p"
+	.string "I'm BIRCH, the POKéMON PROFESSOR\n"
+	.string "here. OAK and BLAINE called me.\p"
+	.string "TEAM AQUA and TEAM MAGMA…\n"
+	.string "We know them well in HOENN.\l"
+	.string "They're always up to something.\p"
+	.string "If they're after KYOGRE and\n"
+	.string "GROUDON's PRIMAL power, it's\l"
+	.string "worse than I feared.\p"
+	.string "But you can't take them on without\n"
+	.string "knowing HOENN.\p"
+	.string "Come with me to my lab, in\n"
+	.string "LITTLEROOT TOWN. Let's go!$"

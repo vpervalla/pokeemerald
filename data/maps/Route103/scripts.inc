@@ -281,13 +281,14 @@ Route103_Text_MayRoute103Pokemon:
 	.string "on ROUTE 103 include…$"
 
 Route103_Text_MayLetsBattle:
-	.string "Oh, hi, {PLAYER}{KUN}!\p"
-	.string "…Oh, I see, my dad gave you\n"
-	.string "a POKéMON as a gift.\p"
+	.string "Oh! You're {PLAYER}{KUN}, the KANTO\n"
+	.string "CHAMPION my dad told me about!\p"
+	.string "And he gave you a POKéMON from\n"
+	.string "HOENN, I see.\p"
 	.string "Since we're here, let's have a quick\n"
 	.string "battle!\p"
-	.string "I'll give you a taste of what being\n"
-	.string "a TRAINER is like.$"
+	.string "I'll show you how we battle in\n"
+	.string "HOENN!$"
 
 Route103_Text_MayDefeated:
 	.string "Wow! That's great!\n"
@@ -308,12 +309,13 @@ Route103_Text_BrendanRoute103Pokemon:
 	.string "that one that live on ROUTE 103…$"
 
 Route103_Text_BrendanLetsBattle:
-	.string "Hey, it's {PLAYER}!\p"
+	.string "Hey, you're {PLAYER}!\n"
+	.string "The KANTO CHAMPION, right?\p"
 	.string "…Oh, yeah, Dad gave you a POKéMON.\p"
 	.string "Since we're here, how about a little\n"
 	.string "battle?\p"
-	.string "I'll teach you what being a TRAINER's\n"
-	.string "about!$"
+	.string "Let's see if a CHAMPION can handle\n"
+	.string "HOENN!$"
 
 Route103_Text_BrendanDefeated:
 	.string "Huh, {PLAYER}, you're not too shabby.$"

@@ -979,6 +979,21 @@ void ChooseStarter(void)
     gMain.savedCallback = CB2_GiveStarter;
 }
 
+// The Hoenn chapter (docs/hoenn_plan.md): BIRCH's bag in his lab, without Route 101's battle. Only the
+// choice is made here, in VAR_HOENN_STARTER; the script gives the POKéMON, so it can go to the PC.
+static void CB2_ReturnFromChooseHoennStarter(void)
+{
+    *GetVarPointer(VAR_HOENN_STARTER) = gSpecialVar_Result;
+    ResetTasks();
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
+void ChooseHoennStarter(void)
+{
+    SetMainCallback2(CB2_ChooseStarter);
+    gMain.savedCallback = CB2_ReturnFromChooseHoennStarter;
+}
+
 static void CB2_GiveStarter(void)
 {
     u16 starterMon;

@@ -117,6 +117,7 @@ TestArea_EventScript_HoennSailor::
 	faceplayer
 	msgbox TestArea_Text_SailToSlateport, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_HoennSailorRaid
+	call_if_lt VAR_HOENN_STORY_STATE, 3, TestArea_EventScript_SkipToHoennShip  @ BIRCH's welcome at SLATEPORT
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	setvar VAR_0x8006, SEAGALLOP_SLATEPORT
 	goto Kanto_EventScript_SetSail
@@ -128,6 +129,11 @@ TestArea_EventScript_HoennSailorRaid::
 TestArea_EventScript_HoennSailorDone::
 	release
 	end
+
+TestArea_EventScript_SkipToHoennShip::
+	setvar VAR_HOENN_STORY_STATE, 3
+	setflag FLAG_HOENN_OPEN
+	return
 
 TestArea_Text_SailToSlateport:
 	.string "Want a ride to SLATEPORT, HOENN?$"

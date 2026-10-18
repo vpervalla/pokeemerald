@@ -72,6 +72,39 @@ Emerald game left it. Nothing has been tested in-game.
   Pyramid and Pike, link rooms, the tides of Shoal Cave), unused, the truck of Emerald's intro,
   and Hoenn's Navel Rock and Birth Island.
 
+Phase 3 is implemented: BIRCH's welcome and Hoenn's opening. Checked in an emulator (a test build
+that starts a new game in SLATEPORT's harbor, `VAR_HOENN_STORY_STATE` 3): the welcome, the warp, the
+starter bag and the nickname run. **Hoenn's maps don't draw right** (see "Hoenn's tilesets" below),
+which comes from the port, not from this phase.
+
+- **Welcome** (`SlateportCity_Harbor`): on the first arrival (`VAR_HOENN_STORY_STATE` 3), BIRCH
+  (`FLAG_HIDE_SLATEPORT_HARBOR_BIRCH`, shown only for the scene) walks up, says OAK and BLAINE called
+  him, and takes the player to his lab: state 4, `FLAG_ARRIVED_IN_HOENN`.
+- **Emerald's opening skipped** (`HoennStory_EventScript_ReadyHoennOpening`): the truck, the
+  clock, the rival's bedroom and the Route 101 rescue are marked done; the player's-gender house in
+  LITTLEROOT has no MOM (both MOMs, the one outside and the movers are hidden), and the player
+  respawns in its bedroom.
+- **Starter** (`LittlerootTown_ProfessorBirchsLab`): BIRCH's bag (`ChooseHoennStarter`, which
+  only stores the choice in `VAR_HOENN_STARTER`, without Route 101's battle), then the script gives
+  it at level 5, to the PC if the party is full, with a nickname; then BIRCH sends the player to
+  ROUTE 103: `VAR_BIRCH_LAB_STATE` 3, state 5. From here Emerald's own vars lead.
+- **Pokédex**: after the rival, BIRCH gives no POKéDEX (the player has OAK's) and the lab sets
+  `VAR_LITTLEROOT_TOWN_STATE` to 4, past MOM's RUNNING SHOES. The rivals' Route 103 greeting
+  knows the player is the KANTO CHAMPION.
+- **Test Area**: the ride to SLATEPORT first sets state 3, so BIRCH's welcome plays.
+- Not done: a bed that heals in the guest room (D6); NORMAN is still the player's father in
+  Emerald's text.
+
+## Hoenn's tilesets
+
+The port set the map engine to FRLG's tileset layout (`include/fieldmap.h`: 640 tiles and metatiles
+in the primary tileset, 7 palettes), and Hoenn's tilesets use Emerald's (512, 512, 6). So on every
+Hoenn map the secondary tileset's tiles, metatiles and first palette are read from the wrong place.
+Converting the data isn't possible: 32 of the 70 secondary tilesets Hoenn uses need more than the
+384 tiles FRLG's layout leaves them, 15 more than 384 metatiles. The fix is in the engine: the
+layout follows the map's primary tileset (Emerald's `gTileset_General`, `gTileset_Building` and
+`gTileset_SecretBase` are Hoenn's).
+
 ## Where things are now
 
 The game is a Kanto game (FRLG's maps and scripts ported onto Emerald). A new game starts in

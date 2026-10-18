@@ -30,3 +30,38 @@ HoennStory_Text_SailBackToKanto:
 	.string "Ahoy! This SEAGALLOP sails back\n"
 	.string "to VERMILION, in KANTO.\p"
 	.string "Where do you want to sail?$"
+
+@ Before BIRCH's lab (Act 1): the state that Emerald's truck, house, clock and Route 101 scenes would
+@ have left, so its story goes on from the rival on Route 103. The player isn't from LITTLEROOT: the
+@ house of their gender is a guest room BIRCH lends them, with no MOM, and they wake up there after
+@ a whiteout.
+HoennStory_EventScript_ReadyHoennOpening::
+	setvar VAR_HOENN_STORY_STATE, 4
+	setflag FLAG_ARRIVED_IN_HOENN
+	setflag FLAG_HIDE_SLATEPORT_HARBOR_BIRCH
+	setvar VAR_LITTLEROOT_INTRO_STATE, 7
+	setvar VAR_LITTLEROOT_RIVAL_STATE, 3
+	setvar VAR_LITTLEROOT_TOWN_STATE, 2
+	setflag FLAG_RESCUED_BIRCH
+	setvar VAR_ROUTE101_STATE, 3
+	setflag FLAG_HIDE_ROUTE_101_BIRCH_ZIGZAGOON_BATTLE
+	setflag FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG
+	clearflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_BIRCH
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_BEDROOM_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2
+	checkplayergender
+	goto_if_eq VAR_RESULT, FEMALE, HoennStory_EventScript_ReadyHoennOpeningFemale
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 2
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F
+	return
+
+HoennStory_EventScript_ReadyHoennOpeningFemale::
+	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 2
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_BEDROOM
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F
+	return

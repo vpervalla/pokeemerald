@@ -96,6 +96,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_SetObjectPosForJohtoStarters::
 	end
 
 LittlerootTown_ProfessorBirchsLab_OnFrame:
+	map_script_2 VAR_HOENN_STORY_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_GiveHoennStarter
 	map_script_2 VAR_BIRCH_LAB_STATE, 2, LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent
 	map_script_2 VAR_BIRCH_LAB_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedexEvent
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex
@@ -498,8 +499,9 @@ EventScript_RegisterProfBirch::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex, MSGBOX_DEFAULT
-	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
+	special SetUnlockedPokedexFlags  @ changed: the player already has OAK's POKéDEX (docs/hoenn_plan.md)
+	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
+	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 1
 	closemessage
 	applywaitmovement LOCALID_BIRCHS_LAB_RIVAL, LittlerootTown_ProfessorBirchsLab_Movement_RivalApproachPlayer
 	applywaitmovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
@@ -510,7 +512,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	setflag FLAG_ADVENTURE_STARTED
 	setvar VAR_OLDALE_TOWN_STATE, 1
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 4
-	setvar VAR_LITTLEROOT_TOWN_STATE, 3
+	setvar VAR_LITTLEROOT_TOWN_STATE, 4  @ changed: no MOM in LITTLEROOT to give the RUNNING SHOES
 	releaseall
 	end
 
@@ -720,15 +722,15 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchRivalGoneHome:
 
 LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex:
 	.string "PROF. BIRCH: Oh, hi, {PLAYER}{KUN}!\p"
-	.string "I heard you beat {RIVAL} on\n"
-	.string "your first try. That's excellent!\p"
+	.string "I heard you beat {RIVAL}.\n"
+	.string "Of course, a KANTO CHAMPION!\p"
 	.string "{RIVAL}'s been helping with my research\n"
-	.string "for a long time.\p"
-	.string "{RIVAL} has an extensive history as\n"
-	.string "a TRAINER already.\p"
-	.string "Here, {PLAYER}{KUN}, I ordered this for my\n"
-	.string "research, but I think you should have\l"
-	.string "this POKéDEX.$"
+	.string "for a long time, and knows HOENN\l"
+	.string "inside out.\p"
+	.string "I'd give you a POKéDEX, but you\n"
+	.string "already carry OAK's. It records\l"
+	.string "HOENN's POKéMON just as well.\p"
+	.string "Fill it with all you see here!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_ReceivedPokedex:
 	.string "{PLAYER} received the POKéDEX!$"
@@ -983,3 +985,83 @@ LittlerootTown_ProfessorBirchsLab_Text_ScottAboardSSTidalCall:
 	.string "we meet. I'll be waiting!\p"
 	.string "… … … … … …\n"
 	.string "… … … … … Click!$"
+
+@ The Hoenn chapter (see data/scripts/hoenn_story.inc): BIRCH, who brought the player from SLATEPORT,
+@ gives a Hoenn starter from his bag, then sends them to meet his kid on Route 103.
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveHoennStarter::
+	lockall
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ChooseHoennStarter
+	closemessage
+	fadescreen FADE_TO_BLACK
+	special ChooseHoennStarter
+	waitstate
+	switch VAR_HOENN_STARTER
+	case 1, LittlerootTown_ProfessorBirchsLab_EventScript_GiveTorchic
+	case 2, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMudkip
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TREECKO
+	givemon SPECIES_TREECKO, 5
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveTorchic::
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TORCHIC
+	givemon SPECIES_TORCHIC, 5
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMudkip::
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_MUDKIP
+	givemon SPECIES_MUDKIP, 5
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter::
+	copyvar VAR_0x8008, VAR_RESULT
+	bufferspeciesname STR_VAR_1, VAR_TEMP_TRANSFERRED_SPECIES
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_ProfessorBirchsLab_Text_ReceivedHoennStarter
+	waitmessage
+	waitfanfare
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterNamed
+	goto_if_eq VAR_0x8008, MON_GIVEN_TO_PC, LittlerootTown_ProfessorBirchsLab_EventScript_NameHoennStarterInPC
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterNamed
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_NameHoennStarterInPC::
+	call Common_EventScript_NameReceivedBoxMon
+LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterNamed::
+	call_if_eq VAR_0x8008, MON_GIVEN_TO_PC, Common_EventScript_TransferredToPC
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_GoMeetRivalOnRoute103
+	closemessage
+	clearflag FLAG_HIDE_ROUTE_101_BOY
+	setvar VAR_BIRCH_LAB_STATE, 3
+	setvar VAR_HOENN_STORY_STATE, 5
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ChooseHoennStarter:
+	.string "PROF. BIRCH: So, this is my lab.\p"
+	.string "Your team is strong, {PLAYER}{KUN},\n"
+	.string "but it's a long way from home.\p"
+	.string "A partner born in HOENN will help\n"
+	.string "you understand this land.\p"
+	.string "There are three POKéMON in my bag.\n"
+	.string "Choose the one you like!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ReceivedHoennStarter:
+	.string "{PLAYER} received the {STR_VAR_1}!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_GoMeetRivalOnRoute103:
+	.string "PROF. BIRCH: My kid, {RIVAL}, is out\n"
+	.string "on ROUTE 103, north of OLDALE TOWN,\l"
+	.string "studying POKéMON.\p"
+	.string "{RIVAL} knows HOENN better than\n"
+	.string "anyone your age. Go and meet!\p"
+	.string "And you can rest at your house\n"
+	.string "next door, the one I keep for\l"
+	.string "guests. It's all yours.$"
