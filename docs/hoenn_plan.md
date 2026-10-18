@@ -2,8 +2,8 @@
 
 This is a plan for making the Hoenn maps, which are still in the ROM, reachable during the
 story: a ship from Vermilion to Slateport, Hoenn's own story played from Professor Birch's
-lab to its Hall of Fame, with Team Rocket behind it (Operation Primal), and Hoenn's
-legendaries and post-game. Nothing here is implemented yet.
+lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
+Reversion, and Hoenn's legendaries and post-game. Nothing here is implemented yet.
 
 ## Where things are now
 
@@ -57,90 +57,93 @@ The other docs assume Hoenn stays closed: `docs/card_game_plan.md` (D2b: no card
 Hoenn-only species, "Hoenn is never reachable in this project") and
 `docs/dynamic_weather_plan.md` (D1: Hoenn keeps its fixed weather).
 
-## The story: Operation Primal
+## The story: the Primal notes
 
-Why go to Hoenn: **GIOVANNI**. In Kanto he leaves his gym after his first battle, and nothing
-says where he went. He went to Hoenn. The Hoenn chapter is Emerald's story as it is (Team
-Aqua, Team Magma, Kyogre, Groudon, Rayquaza), with Team Rocket behind it: a few new scenes at
-the beats Emerald already has, and one new climax.
+Team Aqua and Team Magma are the villains, as in Emerald, and they are the reason to go: they
+come to Kanto first. The Hoenn chapter is Emerald's story, with the teams after something more
+than awakening Kyogre and Groudon: their **Primal Reversion**. This is also how the game
+introduces the Primal forms and MEGA RAYQUAZA.
 
-**The plan.** Team Rocket funded the lab at the POKéMON MANSION where MEWTWO was made, and kept
-copies of the notes that burned. They say Mega Evolution is a small echo of an older power:
-**Primal Reversion**, the form Kyogre and Groudon take with the BLUE and RED ORBS. MEWTWO got
-away from GIOVANNI; two Primal legendaries would not. Under a front company, GIOVANNI
-secretly supplies both Aqua and Magma with SILPH CO.'s stolen technology, so that they find and
-wake Kyogre and Groudon for him. Once the two have worn each other out, he means to take them
-with SILPH's prototype MASTER BALLS and force their Primal Reversion with the ORBS, and to hold
-both regions hostage with endless rain and drought.
+**What they want.** The lab at the POKéMON MANSION studied Mega Evolution while it studied
+MEWTWO. BLAINE says the notes burned (`docs/mega_island.md`); not all of them did. A fireproof
+safe on B1F kept one file: the lab's research on where Mega Evolution comes from. It is the
+power that a legend of Hoenn calls **Primal Reversion**: Kyogre and Groudon, touched by the
+BLUE and RED ORBS, return to the form they had when they shaped the land and the sea. Mega
+Evolution is its echo. Archie wants Kyogre's Primal form to flood the land; Maxie wants
+Groudon's to dry the seas. Each team learns of the file and races the other for it.
 
-**ALAIN** (already built, see `docs/mega_island.md`, not placed yet) is the face of the front
-company: a young Mega Evolution researcher who believes he is studying Primal energy for a
-foundation. He is the chapter's second rival (Hoenn's own rival is Brendan or May), with his
-Charizard and its CHARIZARDITE X.
+### Act 0: the raid, in Kanto (after the first Hall of Fame)
 
-### Act 0: the hook, in Kanto (after the first Hall of Fame)
-
-- The Viridian Gym is empty (as now).
-- OAK has a letter from BIRCH: strange men in black with an R on their shirts are buying up
-  DEVON parts in Slateport. OAK asks the player to go and see.
-- Vermilion's pier: two ROCKET grunts board the cargo ship ("The BOSS wants the SILPH crates in
-  Slateport before the new moon"). Then the sailor to Slateport appears (`FLAG_HOENN_OPEN`).
-- Optional clue for players who did the Sevii quest first: in the ROCKET WAREHOUSE on Five
-  Island, a dropped order: "SILPH prototypes → SLATEPORT. Operation PRIMAL. — G."
+- Gate: the first Hall of Fame and the MEGA RING from BLAINE (`FLAG_RECEIVED_MEGA_RING`). A
+  player who skipped it gets it by talking to him again, as now.
+- BLAINE (in his gym on Cinnabar, or by a call from OAK) has news: people in red and in blue
+  uniforms were seen at the POKéMON MANSION.
+- POKéMON MANSION: Aqua and Magma grunts searching the building, fighting each other as much as
+  the player. On B1F, the open safe: an Aqua admin (SHELLY) and a Magma admin (TABITHA) have
+  split the file and each run with half. Battles with grunts and with the two admins, at the
+  start of the post-game levels (section 4).
+- Vermilion's pier: the two teams' boats leave for Hoenn as the player arrives. A sailor
+  offers the ship to Slateport (`FLAG_HOENN_OPEN`). BLAINE asks the player to get the file
+  back: "If those fools force that power out of Kyogre and Groudon, nothing will stop it."
 
 ### Act 1: the arrival
 
-- Slateport Harbor: ROCKET grunts carry crates marked SILPH CO. off the ship and are gone. BIRCH
-  meets the player, then takes them to his lab, and Hoenn's story starts there (section 3).
+- Slateport Harbor: BIRCH, warned by BLAINE and OAK, meets the player and takes them to his lab.
+  Hoenn's story starts there (section 3). BIRCH has heard of the ORBS, kept at MT. PYRE.
 
-### Act 2: the shadow, at Emerald's own beats
+### Act 2: the race, at Emerald's own beats
 
-One short scene each; Emerald's scripts stay as they are around them.
+Emerald's scenes stay as they are; a few lines and one item are added where the teams talk
+about their plans.
 
-| Where (Emerald's beat) | New scene |
-|------------------------|-----------|
-| Rustboro, Devon Corporation (the stolen DEVON GOODS) | MR. STONE: the thief's team got its tools from someone else; the parts came from Kanto |
-| Slateport, the Oceanic Museum (Aqua's raid) | A ROCKET grunt among the Aqua grunts: a battle; he lets slip "the ORBS are for the BOSS" |
-| Mt. Chimney (Magma and the METEORITE) | ALAIN's first battle. He measures the volcano's energy for "the foundation" |
-| Weather Institute (Aqua's raid) | ALAIN's second battle; a man in a black suit is seen leaving by helicopter |
-| Mt. Pyre summit (both ORBS stolen) | ROCKET grunts watching from the mist, gone after the scene |
+| Where (Emerald's beat) | Added |
+|------------------------|-------|
+| Rustboro, Devon Corporation (the stolen DEVON GOODS) | MR. STONE: the thief spoke of "the Kanto file" |
+| Mt. Chimney (Maxie and the METEORITE) | Maxie: the file says the METEORITE's energy is what Mega Stones are made of; it will wake Groudon, and the RED ORB will make it Primal |
+| Weather Institute (Shelly's raid) | Shelly: Aqua's half of the file says the BLUE ORB awakens Kyogre's "true form" |
+| Mt. Pyre summit (both ORBS stolen) | Archie and Maxie name Primal Reversion. The old lady: the ORBS were never meant to make them stronger, only to calm them |
+| Team Aqua Hideout or Magma Hideout | The player finds a half of the file (a key item, PRIMAL NOTES), and its last page: "When the two were in their primal fury, a third came from the sky… and changed, as our Mega Evolutions change, at the call of a person's wish" |
 
-### Act 3: the climax, after Rayquaza
+### Act 3: the climax
 
-Emerald's crisis plays as it is: Kyogre in the Seafloor Cavern, Groudon from the Magma
-Hideout, the storm and the drought over Sootopolis, the climb up Sky Pillar, RAYQUAZA calming
-them. Then the new part:
-
-- **Cave of Origin**: GIOVANNI is there with ALAIN, the two ORBS taken from Archie and Maxie,
-  and a MASTER BALL for each legendary. ALAIN sees what the research was for and refuses.
-- **Battle with GIOVANNI** (about level 78, between the Kanto champion's rematch and MR. M.'s
-  tournament; his MEGA KANGASKHAN is the ace). Beaten, he leaves Hoenn: "Defeated twice by the
-  same child… I shall return to VIRIDIAN." His Viridian Gym rematch, which today is open right
-  after the first Hall of Fame, moves to after this battle (`FLAG_DEFEATED_GIOVANNI_HOENN`).
-- **ALAIN** gives the player the BLUE ORB and the RED ORB: only someone the legendaries trust
-  should keep them. Optionally, he enters MR. M.'s tournament later.
-- Hoenn's story then goes on to the eighth gym, Victory Road and the Hoenn League, as in Emerald.
+- **Seafloor Cavern and Sootopolis**: as in Emerald, Kyogre and Groudon awaken, but in their
+  Primal forms: the ORBS glow, and PRIMAL KYOGRE and PRIMAL GROUDON clash over Sootopolis
+  (Emerald's overworld objects with Primal palettes). The storm and the drought are worse;
+  Archie and Maxie see they can't control them.
+- **Sky Pillar**: RAYQUAZA wakes, as in Emerald. At the top, the player's MEGA RING glows:
+  RAYQUAZA answers the wish, as in the last page of the notes.
+- **Sootopolis**: RAYQUAZA comes down and **Mega Evolves**, and the two Primals revert and
+  leave (Emerald's scene, with Mega Rayquaza's object and a flash for the change). This is the
+  first time the player sees MEGA RAYQUAZA.
+- **After**: Archie and Maxie give the ORBS back at MT. PYRE, as in Emerald. The player hands
+  the PRIMAL NOTES to BIRCH, who sends them to BLAINE. Hoenn's story goes on to the eighth gym,
+  Victory Road and the Hoenn League.
 
 ### Act 4: the legendaries
 
 | Legendary | Where | When | Reward |
 |-----------|-------|------|--------|
-| RAYQUAZA | Sky Pillar (Emerald's) | After Sootopolis | MEGA RAYQUAZA with DRAGON ASCENT (already in the game) |
-| KYOGRE | Marine Cave (Emerald's roaming cave, found from the Weather Institute's reports) | After Hoenn's Hall of Fame | Holding the BLUE ORB: **PRIMAL KYOGRE** (new: phase 6 of `docs/mega_evolution_plan.md`) |
-| GROUDON | Terra Cave (same) | After Hoenn's Hall of Fame | Holding the RED ORB: **PRIMAL GROUDON** (new, same phase) |
-| LATIAS and LATIOS | Southern Island, today reachable only with the EON TICKET event. A sailor in Lilycove takes the player there | After Hoenn's Hall of Fame | GIOVANNI's last grunts are trying to take LATIAS: a battle, then both can be caught. LATIASITE and LATIOSITE on the island |
+| RAYQUAZA | Sky Pillar (Emerald's) | After Sootopolis | MEGA RAYQUAZA, with DRAGON ASCENT and the player's MEGA RING (already in the game) |
+| KYOGRE | Marine Cave (Emerald's roaming cave, found from the Weather Institute's reports) | After Hoenn's Hall of Fame | The old lady of MT. PYRE gives the BLUE ORB: held, **PRIMAL KYOGRE** in battle (new: phase 6 of `docs/mega_evolution_plan.md`) |
+| GROUDON | Terra Cave (same) | After Hoenn's Hall of Fame | The RED ORB, from the same old lady: **PRIMAL GROUDON** (new, same phase) |
+| LATIAS and LATIOS | Southern Island, today reachable only with the EON TICKET event. A sailor in Lilycove takes the player there | After Hoenn's Hall of Fame | Both can be caught; LATIASITE and LATIOSITE on the island |
 | REGIROCK, REGICE, REGISTEEL | Emerald's Braille puzzles | Any time after Dive | As in Emerald |
 | JIRACHI (optional) | New scene: the Millennium Comet, seen from the Mossdeep Space Center | After all of the above | A gift from the Space Center's director |
 
-DEOXYS stays on Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay
-closed (D7). MEW (Faraway Island, today event-only) is left for MEWTWO's story, not this one.
+The old lady gives the ORBS once she has seen the player catch RAYQUAZA (or after Hoenn's Hall
+of Fame, if they did it before): "The one RAYQUAZA trusts may keep them." DEOXYS stays on
+Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay closed (D7). MEW
+(Faraway Island, today event-only) is left for MEWTWO's story.
 
 ### Act 5: back in Kanto
 
-- GIOVANNI is back in the Viridian Gym for his rematch (and the KANGASKHANITE).
-- In MR. M.'s tournament, STEVEN remembers the player from Hoenn.
+- BLAINE, with the notes back: the last missing piece of the MANSION's research.
 - BIRCH gives the Mega Stone of the player's Hoenn starter (SCEPTILITE, BLAZIKENITE or
   SWAMPERTITE) after Hoenn's Hall of Fame.
+- In MR. M.'s tournament, STEVEN remembers the player from Hoenn.
+
+GIOVANNI and ALAIN have no part in this chapter: GIOVANNI's rematch stays as it is, and ALAIN
+is still free for another story.
 
 ## 0. Decisions
 
@@ -148,7 +151,7 @@ These need an answer before phase 1. The recommendation is in the second column.
 
 | # | Question | Recommendation | Why |
 |---|----------|----------------|-----|
-| D1 | When Hoenn opens | After the first Kanto Hall of Fame (`FLAG_SYS_GAME_CLEAR`), with BIRCH's letter and the ROCKETS boarding at Vermilion (Act 0). It runs alongside the Sevii Islands quest | The player can Surf and Fly, so Hoenn must be gated by its own badges anyway (D4); opening it after the League gives a second region as the post-game, as in HGSS |
+| D1 | When Hoenn opens | After the first Kanto Hall of Fame (`FLAG_SYS_GAME_CLEAR`), with the MEGA RING, when Aqua and Magma raid the POKéMON MANSION (Act 0). It runs alongside the Sevii Islands quest | The player can Surf and Fly, so Hoenn must be gated by its own badges anyway (D4); opening it after the League gives a second region as the post-game, as in HGSS |
 | D2 | How the player gets there | A new Seagallop destination, `SEAGALLOP_SLATEPORT`, from a sailor on Vermilion's pier, to `MAP_SLATEPORT_CITY_HARBOR`, and back from a sailor there and in Lilycove Harbor | `src/seagallop.c` already does the ride, the docking and the arrival; Slateport is Hoenn's port |
 | D3 | Where Hoenn's story starts | At Birch's lab: BIRCH meets the player at Slateport Harbor and takes them to Littleroot (fade and warp). The truck, the bedroom, the clock and the Route 101 rescue are skipped; BIRCH gives a Hoenn starter, and the story goes on from the rival on Route 103 | Hoenn's scripts are a chain of state vars; starting from its first link keeps every later script valid. Starting in Slateport would skip the Devon Goods, Mr. Briney and Petalburg links |
 | D4 | Badges in Hoenn | Eight new flags for the Hoenn badges. On a Hoenn map, field moves need the Hoenn badge (Cut with the Stone Badge, as in Emerald); on a Kanto map, the Kanto badge | Without it the player Surfs to Lilycove on arrival and skips the region. FRLG and Emerald already disagree on which badge unlocks which HM, so a per-region table is needed anyway |
@@ -259,34 +262,39 @@ A host script, `tools/hoenn/rescale_levels.py`, run once and committed with its 
 
 ## 7. The story's content
 
-What Operation Primal needs, on top of sections 1 to 5:
+What the story needs, on top of sections 1 to 5:
 
-- **Trainers**: `TRAINER_GIOVANNI_HOENN` (a new party, about level 78, Mega Kangaskhan);
-  ALAIN's two battles (Mt. Chimney, Weather Institute) at the rescaled levels, his full team
-  in the second; ROCKET grunts in Hoenn reuse the Kanto grunts' class, pics
-  (`TRAINER_PIC_KANTO_ROCKET_GRUNT_M`/`_F`) and objects (`OBJ_EVENT_GFX_KANTO_ROCKET_M`/`_F`);
-  GIOVANNI's object is `OBJ_EVENT_GFX_KANTO_GIOVANNI`. ALAIN's are ready.
-- **Scenes**: Act 0 in Pallet Town (OAK) and Vermilion City; the optional order in the Rocket
-  Warehouse; Act 1 in Slateport Harbor; the five scenes of Act 2; the Cave of Origin; Southern
-  Island's grunts; Act 5's lines. New flags: one per scene, in the block of section 1.
-- **Viridian Gym**: `ViridianCity_Gym_OnTransition` shows GIOVANNI after
-  `FLAG_DEFEATED_GIOVANNI_HOENN` instead of after `FLAG_SYS_GAME_CLEAR`.
+- **Act 0 in Kanto**: Aqua and Magma grunts and the two admins in the POKéMON MANSION
+  (Emerald's trainer classes, pics and objects: `OBJ_EVENT_GFX_AQUA_MEMBER_M`/`_F`,
+  `OBJ_EVENT_GFX_MAGMA_MEMBER_M`/`_F`); new trainers `TRAINER_SHELLY_MANSION` and
+  `TRAINER_TABITHA_MANSION` and their grunts, at the post-game levels; the open safe on B1F;
+  BLAINE's lines; the boats leaving Vermilion.
+- **Lines** in Devon Corporation, Mt. Chimney, the Weather Institute and Mt. Pyre, and the
+  PRIMAL NOTES (a key item, in a free item slot) in a hideout.
+- **The Primal scene in Sootopolis**: Primal palettes for `OBJ_EVENT_GFX_KYOGRE_*` and
+  `OBJ_EVENT_GFX_GROUDON_*`, used from the ORBS' glow on.
+- **The Mega Rayquaza scene**: Mega Rayquaza's overworld object (a new sprite, or
+  `OBJ_EVENT_GFX_RAYQUAZA` with a Mega palette), the MEGA RING's glow at Sky Pillar's top,
+  and the change in Sootopolis.
 - **Primal Reversion**: phase 6 of `docs/mega_evolution_plan.md`: `SPECIES_KYOGRE_PRIMAL` and
   `SPECIES_GROUDON_PRIMAL`, Primordial Sea and Desolate Land, the switch-in trigger with the
   ORBS (`ITEM_BLUE_ORB` and `ITEM_RED_ORB` already exist, as key items: they become hold items).
+- **The ORBS**: the old lady of MT. PYRE gives them (Act 4).
 - **Southern Island**: a sailor in Lilycove Harbor, shown after `FLAG_HOENN_GAME_CLEAR`,
   instead of the EON TICKET; the LATIASITE and LATIOSITE as items on the island.
 - **Jirachi** (optional): the Space Center scene and a gift.
+- New flags: one per scene, in the block of section 1.
 
 ## 8. Phases
 
 1. Phase 1 (shared state). Nothing is reachable yet, so it can't break a playthrough.
-2. Phase 2 (the ship and Act 0) with the Test Area sailor, then phase 3 (the arrival and
-   Act 1), together: Hoenn becomes reachable here.
+2. Phase 2 (the ship and Act 0, the Mansion raid) with the Test Area sailor, then phase 3
+   (the arrival and Act 1), together: Hoenn becomes reachable here.
 3. Phase 4 (levels).
 4. Phase 5 (ending and post-game).
-5. Phase 6: Acts 2 and 3 (ALAIN, the ROCKET scenes, GIOVANNI's battle, the Viridian Gym).
-6. Phase 7: Act 4 (Primal Reversion, Southern Island, then Jirachi) and Act 5.
+5. Phase 6: Primal Reversion in battle (the Mega plan's phase 6), then Acts 2 and 3 (the
+   lines, the PRIMAL NOTES, the Primal and Mega Rayquaza scenes).
+6. Phase 7: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5.
 7. The other features (section 6), each on its own.
 
 ## 9. Tests
