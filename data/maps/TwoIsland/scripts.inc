@@ -22,6 +22,7 @@ TwoIsland_EventScript_Boy::
 TwoIsland_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 4, TwoIsland_EventScript_ClerkShopExpanded3
 	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 3, TwoIsland_EventScript_ClerkShopExpanded2
 	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 2, TwoIsland_EventScript_ClerkShopExpanded1

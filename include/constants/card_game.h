@@ -142,13 +142,16 @@
 #define CARD_SAVE_FLAG_ALL_LEADERS  (1 << 1)    // got CARD_LEADERS_BONUS
 
 // CardGameSave.version: 1 when the Trainer cards moved to CARD_TRAINER_START (they followed the
-// Pokémon cards, from 256)
-#define CARD_SAVE_VERSION           1
+// Pokémon cards, from 256); 2 when a caught species became 1 copy of its card instead of 2
+#define CARD_SAVE_VERSION           2
 #define CARD_OLD_TRAINER_START      256
 
 #define CARD_SAVED_DECKS            3
 #define CARD_PACK_PRICE             500 // at the Celadon Dept. Store
 #define CARD_PACK_SIZE              5
+#define CARD_PACK_EX_CHANCE         5   // % of a pack's cards: ex
+#define CARD_PACK_POKEMON_CHANCE    60  // % of a pack's cards: Pokémon; the rest are Trainers
+#define CARD_PACK_SECOND_COPY_CHANCE 50 // % of those Pokémon that are the second copy of a caught species
 
 // Card ids: the Pokémon cards are generated (tools/card_game/gen_cards.py), the Trainers start
 // at CARD_TRAINER_START, so new Pokémon cards don't move them (the saved decks hold card ids)

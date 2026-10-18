@@ -6,6 +6,7 @@ FuchsiaCity_Mart_MapScripts::
 FuchsiaCity_Mart_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart FuchsiaCity_Mart_Items

@@ -1574,7 +1574,7 @@
 #define FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY     (DAILY_FLAGS_START + 0x1)
 #define FLAG_DAILY_SECRET_BASE                      (DAILY_FLAGS_START + 0x2)
 #define FLAG_DAILY_APEX_TOURNAMENT                  (DAILY_FLAGS_START + 0x3)  // MR. M.'s tournament, replayed once a day
-#define FLAG_DAILY_CARD_PACK                        (DAILY_FLAGS_START + 0x4)  // the card pack from PROF. OAK's AIDE, once a day
+#define FLAG_DAILY_CARD_PACK                        (DAILY_FLAGS_START + 0x4)  // the card pack from the first POKé MART clerk of the day
 #define FLAG_DAILY_CARD_PACK_2                      (DAILY_FLAGS_START + 0x5)  // the card pack from the Two Island Game Corner's card fan, once a day
 #define FLAG_DAILY_CARD_TOURNAMENT                  (DAILY_FLAGS_START + 0x6)  // the card tournament of Mega Island's castle, once a day
 #define FLAG_UNUSED_0x927                           (DAILY_FLAGS_START + 0x7)  // Unused Flag

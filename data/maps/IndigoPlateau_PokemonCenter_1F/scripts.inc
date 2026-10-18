@@ -8,6 +8,7 @@ IndigoPlateau_PokemonCenter_1F_MapScripts::
 IndigoPlateau_PokemonCenter_1F_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart IndigoPlateau_PokemonCenter_1F_Items

@@ -14,9 +14,9 @@
 // The player's cards and decks (docs/card_game_plan.md, section 3), saved in
 // gSaveBlock1Ptr->cardGame.
 //
-// A Pokémon card counts as owned twice (the most a deck can hold) when its species has been
-// caught; otherwise the player owns the copies received from packs, gifts and opponents.
-// ex and Trainer cards are only received.
+// A Pokémon card counts as one copy owned when its species has been caught, plus the copies
+// received from packs, the starter deck and opponents (CARD_MAX_COPIES at most). ex and Trainer
+// cards are only received.
 
 STATIC_ASSERT(CARD_FIRST_EX - 1 <= sizeof(((struct CardGameSave *)0)->pokemonCopies) * 4, CardGameSavePokemon);
 STATIC_ASSERT(CARD_POKEMON_END - CARD_FIRST_EX <= sizeof(((struct CardGameSave *)0)->exCopies), CardGameSaveEx);
@@ -24,10 +24,17 @@ STATIC_ASSERT(CARD_COUNT - CARD_TRAINER_START <= sizeof(((struct CardGameSave *)
 STATIC_ASSERT(CARD_POKEMON_END <= CARD_TRAINER_START, CardGameTrainerIds);
 STATIC_ASSERT(CARD_SAVED_DECKS == ARRAY_COUNT(((struct CardGameSave *)0)->decks), CardGameSaveDecks);
 
-// Saves from before CARD_SAVE_VERSION 1 have their decks' Trainer cards at the old ids
+static bool8 IsCaught(u16 cardId);
+static u8 CountReceivedCopies(const struct CardGameSave *save, u16 cardId);
+static void SetReceivedCopies(struct CardGameSave *save, u16 cardId, u8 copies);
+
+// Saves from before CARD_SAVE_VERSION 1 have their decks' Trainer cards at the old ids. Saves
+// from before version 2 counted a caught species as 2 copies: each Pokémon card a saved deck
+// holds more copies of than the player now owns is received until it fits, so no deck breaks.
 static void UpdateSave(struct CardGameSave *save)
 {
-    u8 deck, i;
+    u8 deck, i, j, copies, owned;
+    u16 cardId;
 
     if (save->flags & CARD_SAVE_FLAG_STARTER)
     {
@@ -35,8 +42,28 @@ static void UpdateSave(struct CardGameSave *save)
         {
             for (i = 0; i < CARD_DECK_SIZE; i++)
             {
-                if (save->decks[deck][i] >= CARD_OLD_TRAINER_START && save->decks[deck][i] < CARD_TRAINER_START)
-                    save->decks[deck][i] += CARD_TRAINER_START - CARD_OLD_TRAINER_START;
+                cardId = save->decks[deck][i];
+                if (save->version < 1 && cardId >= CARD_OLD_TRAINER_START && cardId < CARD_TRAINER_START)
+                    save->decks[deck][i] = cardId + CARD_TRAINER_START - CARD_OLD_TRAINER_START;
+            }
+        }
+        for (deck = 0; deck < CARD_SAVED_DECKS && save->version < 2; deck++)
+        {
+            for (i = 0; i < CARD_DECK_SIZE; i++)
+            {
+                cardId = save->decks[deck][i];
+                if (cardId == CARD_NONE || cardId >= CARD_FIRST_EX)
+                    continue;
+                for (j = 0, copies = 0; j < CARD_DECK_SIZE; j++)
+                {
+                    if (save->decks[deck][j] == cardId)
+                        copies++;
+                }
+                if (copies > CARD_MAX_COPIES)
+                    copies = CARD_MAX_COPIES;
+                owned = IsCaught(cardId) + CountReceivedCopies(save, cardId);
+                if (owned < copies)
+                    SetReceivedCopies(save, cardId, CountReceivedCopies(save, cardId) + copies - owned);
             }
         }
     }
@@ -52,37 +79,48 @@ static struct CardGameSave *GetSave(void)
     return save;
 }
 
+static u8 CountReceivedCopies(const struct CardGameSave *save, u16 cardId)
+{
+    return (save->pokemonCopies[(cardId - 1) / 4] >> (((cardId - 1) % 4) * 2)) & 3;
+}
+
+static void SetReceivedCopies(struct CardGameSave *save, u16 cardId, u8 copies)
+{
+    u8 *byte = &save->pokemonCopies[(cardId - 1) / 4];
+    u8 shift = ((cardId - 1) % 4) * 2;
+
+    *byte = (*byte & ~(3 << shift)) | (copies << shift);
+}
+
 static u8 GetPokemonCopiesReceived(u16 cardId)
 {
-    return (GetSave()->pokemonCopies[(cardId - 1) / 4] >> (((cardId - 1) % 4) * 2)) & 3;
+    return CountReceivedCopies(GetSave(), cardId);
 }
 
 static void SetPokemonCopiesReceived(u16 cardId, u8 copies)
 {
-    u8 *byte = &GetSave()->pokemonCopies[(cardId - 1) / 4];
-    u8 shift = ((cardId - 1) % 4) * 2;
-
-    *byte = (*byte & ~(3 << shift)) | (copies << shift);
+    SetReceivedCopies(GetSave(), cardId, copies);
 }
 
 static bool8 IsCaught(u16 cardId)
 {
     const struct PokemonCardInfo *info = CardGame_GetPokemonInfo(cardId);
 
-    return GetSetPokedexFlag(SpeciesToNationalPokedexNum(info->species), FLAG_GET_CAUGHT);
+    return GetSetPokedexFlag(SpeciesToNationalPokedexNum(info->species), FLAG_GET_CAUGHT) != 0;
 }
 
 u8 CardGame_GetOwnedCopies(u16 cardId)
 {
+    u8 copies;
+
     if (CardGame_GetCardKind(cardId) == CARD_KIND_NONE)
         return 0;
     if (cardId >= CARD_TRAINER_START)
         return GetSave()->trainerCopies[cardId - CARD_TRAINER_START];
     if (cardId >= CARD_FIRST_EX)
         return GetSave()->exCopies[cardId - CARD_FIRST_EX];
-    if (IsCaught(cardId))
-        return CARD_MAX_COPIES;
-    return GetPokemonCopiesReceived(cardId);
+    copies = IsCaught(cardId) + GetPokemonCopiesReceived(cardId);
+    return copies < CARD_MAX_COPIES ? copies : CARD_MAX_COPIES;
 }
 
 // One more copy, up to CARD_MAX_COPIES; FALSE if the player already has them all
@@ -97,7 +135,7 @@ bool8 CardGame_GiveCard(u16 cardId)
     else if (cardId >= CARD_FIRST_EX)
         GetSave()->exCopies[cardId - CARD_FIRST_EX] = copies + 1;
     else
-        SetPokemonCopiesReceived(cardId, copies + 1);
+        SetPokemonCopiesReceived(cardId, GetPokemonCopiesReceived(cardId) + 1);
     return TRUE;
 }
 
@@ -180,15 +218,42 @@ void CardGame_RecordResult(u8 result)
         (*count)++;
 }
 
-// A card of a pack: mostly Trainers, often a Pokémon, rarely an ex
+// A caught species' card the player has only one copy of, at random; CARD_NONE if there is none
+static u16 RollSecondCopy(void)
+{
+    u16 cardId, count = 0;
+
+    for (cardId = 1; cardId < CARD_FIRST_EX; cardId++)
+    {
+        if (IsCaught(cardId) && CardGame_GetOwnedCopies(cardId) < CARD_MAX_COPIES)
+            count++;
+    }
+    if (count == 0)
+        return CARD_NONE;
+    count = Random() % count;
+    for (cardId = 1; cardId < CARD_FIRST_EX; cardId++)
+    {
+        if (IsCaught(cardId) && CardGame_GetOwnedCopies(cardId) < CARD_MAX_COPIES && count-- == 0)
+            return cardId;
+    }
+    return CARD_NONE;
+}
+
+// A card of a pack: mostly Pokémon, often a Trainer, rarely an ex. Half of the Pokémon are the
+// second copy of a caught species, while the player is missing some.
 u16 CardGame_RollPackCard(void)
 {
     u16 roll = Random() % 100;
+    u16 cardId;
 
-    if (roll < 5)
+    if (roll < CARD_PACK_EX_CHANCE)
         return CARD_FIRST_EX + Random() % (CARD_POKEMON_END - CARD_FIRST_EX);
-    if (roll < 45)
+    if (roll < CARD_PACK_EX_CHANCE + CARD_PACK_POKEMON_CHANCE)
+    {
+        if (Random() % 100 < CARD_PACK_SECOND_COPY_CHANCE && (cardId = RollSecondCopy()) != CARD_NONE)
+            return cardId;
         return 1 + Random() % (CARD_FIRST_EX - 1);
+    }
     return CARD_TRAINER_START + Random() % (CARD_COUNT - CARD_TRAINER_START);
 }
 

@@ -6,6 +6,7 @@ SevenIsland_Mart_MapScripts::
 SevenIsland_Mart_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart SevenIsland_Mart_Items

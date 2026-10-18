@@ -6,6 +6,7 @@ ThreeIsland_Mart_MapScripts::
 ThreeIsland_Mart_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart ThreeIsland_Mart_Items

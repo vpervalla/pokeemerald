@@ -19,6 +19,7 @@ TrainerTower_Lobby_EventScript_Nurse::
 TrainerTower_Lobby_EventScript_MartClerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart TrainerTower_Lobby_Mart_Items

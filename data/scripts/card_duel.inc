@@ -1,5 +1,5 @@
 @ The card game (docs/card_game_plan.md): the card players' shared script, PROF. OAK's AIDE who
-@ brings the CARD CASE and the daily pack, the other ways to get packs, Mega Island's card
+@ brings the CARD CASE, the POKé MART clerks' daily pack, the other ways to get packs, Mega Island's card
 @ tournament, and a debug script.
 
 @ `cardduel CARD_OPPONENT_*` (asm/macros/event.inc), after the NPC's usual line. The NPC's lines
@@ -92,19 +92,16 @@ CardGame_EventScript_AideGiveCardCase::
 	msgbox CardGame_Text_AideExplainPlayers
 	return
 
-@ The AIDE again, in PROF. OAK's LAB: a pack a day
+@ Any POKé MART clerk, before the usual shop: a pack a day, from the first clerk talked to that
+@ day. Nothing is said once today's pack is taken, so the shop stays as it was.
 CardGame_EventScript_DailyPack::
 	checkitem ITEM_CARD_CASE
 	goto_if_eq VAR_RESULT, FALSE, CardGame_EventScript_Return
-	goto_if_set FLAG_DAILY_CARD_PACK, CardGame_EventScript_DailyPackTomorrow
-	msgbox CardGame_Text_AideHereIsTodaysPack
+	goto_if_set FLAG_DAILY_CARD_PACK, CardGame_EventScript_Return
+	msgbox CardGame_Text_ClerkHereIsTodaysPack
 	closemessage
 	setflag FLAG_DAILY_CARD_PACK
 	special OpenCardPack
-	return
-
-CardGame_EventScript_DailyPackTomorrow::
-	msgbox CardGame_Text_AideComeBackTomorrow
 	return
 
 @ The card fan of the Two Island Game Corner: another pack a day, late in the game
@@ -309,7 +306,9 @@ CardGame_Text_AideExplainCardCase:
 	.string "There's a deck of 20 cards inside,\n"
 	.string "ready to play.\p"
 	.string "Every POKéMON you catch also gives\n"
-	.string "you its card, two copies of it!\p"
+	.string "you a copy of its card!\p"
+	.string "Packs can have a second copy of\n"
+	.string "the POKéMON you've caught.\p"
 	.string "And here's your first card pack!$"
 
 CardGame_Text_AideExplainPlayers:
@@ -317,16 +316,12 @@ CardGame_Text_AideExplainPlayers:
 	.string "build your decks.\p"
 	.string "Talk to people in every town.\n"
 	.string "Many of them play cards!\p"
-	.string "Come see me at the LAB, too.\n"
-	.string "I'll have a new pack every day.$"
+	.string "And every day, the first POKé MART\n"
+	.string "clerk you visit has a free pack!$"
 
-CardGame_Text_AideHereIsTodaysPack:
-	.string "Oh, {PLAYER}!\n"
-	.string "Here's today's card pack!$"
-
-CardGame_Text_AideComeBackTomorrow:
-	.string "I'll have a new card pack for you\n"
-	.string "tomorrow!$"
+CardGame_Text_ClerkHereIsTodaysPack:
+	.string "Oh, a CARD CASE! Here's today's\n"
+	.string "free POKéMON card pack!$"
 
 @ The debug START menu entry, when CARD_GAME_DEBUG is defined in include/config.h: the first time,
 @ the CARD CASE and the starter deck; then a duel against one of the card players (at random), a

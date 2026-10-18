@@ -6,6 +6,7 @@ CeladonCity_DepartmentStore_2F_MapScripts::
 CeladonCity_DepartmentStore_2F_EventScript_ClerkItems::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart CeladonCity_DepartmentStore_2F_Items
@@ -16,6 +17,7 @@ CeladonCity_DepartmentStore_2F_EventScript_ClerkItems::
 CeladonCity_DepartmentStore_2F_EventScript_ClerkTMs::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart CeladonCity_DepartmentStore_2F_TMs

@@ -391,8 +391,8 @@ next to the rematch battle.
   player is likely to have met (Caterpie, Pidgey, Rattata, Spearow lines), plus Potion, Poké
   Ball and Prof. Oak's Research ×2. Early enough that most of the world's card players are
   met with a deck in hand.
-- **Daily pack**: the same AIDE, back in PROF. OAK's LAB, gives one free pack a day
-  (`FLAG_DAILY_CARD_PACK`): 5 cards, mostly Trainers, rarely an ex. A second fan in the Two
+- **Daily pack**: the first POKé MART clerk the player talks to each day gives one free pack
+  (`FLAG_DAILY_CARD_PACK`): 5 cards, mostly Pokémon, rarely an ex. A second fan in the Two
   Island Game Corner does the same, so the pack stays reachable late in the game.
 - **Shop packs**: sold at the Celadon Department Store.
 
@@ -753,6 +753,23 @@ phases:
 - A first Fire player's deck made Fire and Lightning Energy and lost to almost everyone, even
   Grass decks: the Fire decks of the report make Fire only. Proxy decks are rough, so the report
   is a guide, not a rule; the checks only keep the EASY players beatable by the starter deck.
+
+**After phase 9: one copy per catch, and the daily pack at the POKé MARTs.**
+
+- A caught species is **one** copy of its card (it was two, the most a deck can hold); the
+  second comes from packs, the starter deck or an opponent's reward. `CardGame_GiveCard` counts
+  the copies received apart from the catch, so a Pokémon reward is no longer lost on a caught
+  species.
+- Saves: `CARD_SAVE_VERSION` 2. Each Pokémon card a saved deck holds more copies of than the
+  player now owns is received until it fits, so no deck stops being playable. The version 1
+  Trainer id move now only runs on version 0 saves.
+- Packs: 60% Pokémon, 35% Trainers, 5% ex (40/55/5 before; `CARD_PACK_*_CHANCE`). Half of the
+  Pokémon are the second copy of a caught species the player has one copy of, while there is one
+  (`CARD_PACK_SECOND_COPY_CHANCE`); the others are any Pokémon card, as before.
+- The daily pack moved from PROF. OAK's AIDE in the LAB to the POKé MART clerks of Kanto and
+  the Sevii Islands (the town marts, the Celadon Dept. Store's clerks, the Indigo Plateau, Two
+  Island's shop and the Trainer Tower): the first clerk talked to that day gives it, before the
+  shop. Once it's taken, the clerks say nothing about it. The AIDE's lines in Pewter say so.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

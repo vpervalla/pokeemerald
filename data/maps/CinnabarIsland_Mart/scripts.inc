@@ -6,6 +6,7 @@ CinnabarIsland_Mart_MapScripts::
 CinnabarIsland_Mart_EventScript_Clerk::
 	lock
 	faceplayer
+	call CardGame_EventScript_DailyPack  @ added: card game, see data/scripts/card_duel.inc
 	message gText_HowMayIServeYou
 	waitmessage
 	pokemart CinnabarIsland_Mart_Items
