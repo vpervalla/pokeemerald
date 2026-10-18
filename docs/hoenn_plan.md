@@ -95,6 +95,25 @@ right since the fix below.
 - Not done: a bed that heals in the guest room (D6); NORMAN is still the player's father in
   Emerald's text.
 
+Phase 4 is implemented: Hoenn's levels, by `tools/hoenn/rescale_levels.py`, run once (it marks
+`src/data/trainer_parties.h` and refuses to run again). Every level L becomes round(53 + 0.47 L):
+
+- **Trainers** (`src/data/trainer_parties.h`, all of Emerald's but the four link placeholders):
+  1821 POKéMON, now 54-80 in the story (WALLACE 79-80) and up to 90 in the rematches. 980 of them
+  evolved to the stage their level allows: level evolutions at their level, friendship at 30,
+  beauty at 35, stones at 40, trades at 45, a branching line by its first branch (SHEDINJA never).
+  Custom movesets keep up to two moves the POKéMON doesn't learn by level (ROXANNE's ROCK TOMB, the
+  TMs), and the rest are its latest level-up moves. The Mansion's raiders are in their own file and
+  keep their levels.
+- **Wild POKéMON** (`src/data/wild_encounters.json`, the 124 tables of Hoenn's maps): the same curve
+  (ROUTE 101 at 54, VICTORY ROAD at 72). The species stay, so every POKéMON can still be caught in
+  its first stage. The Battle Pyramid's and Pike's tables are their facilities'.
+- **Static encounters** (`setwildbattle` in Hoenn's maps): KYOGRE, GROUDON and RAYQUAZA at 86, the
+  REGIS at 72, KECLEON, the ELECTRODE, the VOLTORB and SUDOWOODO. Gifts (`givemon`: the Hoenn
+  starter, CASTFORM, BELDUM, the fossils, the egg) keep their levels, to be raised.
+- Not done: the roamer. `src/roamer.c` now makes the Kanto beasts roam at 50 (the Kanto port), so
+  Emerald's roaming LATIAS or LATIOS after Hoenn's Hall of Fame needs phase 5 or 7.
+
 ## Hoenn's tilesets
 
 The port set the map engine to FRLG's tileset layout (`include/fieldmap.h`: 640 tiles and metatiles
