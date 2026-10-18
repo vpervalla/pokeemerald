@@ -205,32 +205,39 @@ ViridianForest_EventScript_BeedrillAmbush::
 	waitmoncry
 	goto_if_set FLAG_DEFEATED_VIRIDIAN_BEEDRILL_1, ViridianForest_EventScript_OneBeedrillLeft
 	msgbox ViridianForest_Text_BulbasaurCornered
+	special HasEnoughMonsForDoubleBattle
+	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, ViridianForest_EventScript_NeedTwoMons
 	applymovement LOCALID_VIRIDIAN_FOREST_BEEDRILL_1, ViridianForest_Movement_BeedrillNoticePlayer
+	applymovement LOCALID_VIRIDIAN_FOREST_BEEDRILL_2, ViridianForest_Movement_BeedrillNoticePlayer
 	waitmovement 0
-	msgbox ViridianForest_Text_BeedrillAttacks
+	msgbox ViridianForest_Text_BothBeedrillAttack
 	closemessage
-	setwildbattle SPECIES_BEEDRILL, 20
-	dowildbattle
+	setwilddoublebattle SPECIES_BEEDRILL, 20, SPECIES_BEEDRILL, 20
+	dowilddoublebattle
 	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, ViridianForest_EventScript_DefeatedFirstBeedrill
-	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, ViridianForest_EventScript_DefeatedFirstBeedrill
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, ViridianForest_EventScript_DefeatedBothBeedrill
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, ViridianForest_EventScript_DefeatedBothBeedrill
 	goto ViridianForest_EventScript_BeedrillStillThere
 	end
 
-ViridianForest_EventScript_DefeatedFirstBeedrill::
+@ Two BEEDRILL means a double battle: the player steps back out of the clearing's mouth
+ViridianForest_EventScript_NeedTwoMons::
+	msgbox ViridianForest_Text_NeedTwoMons
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, ViridianForest_Movement_PlayerStepBack
+	waitmovement 0
+	releaseall
+	end
+
+ViridianForest_EventScript_DefeatedBothBeedrill::
 	setflag FLAG_DEFEATED_VIRIDIAN_BEEDRILL_1
 	removeobject LOCALID_VIRIDIAN_FOREST_BEEDRILL_1
-	msgbox ViridianForest_Text_OtherBeedrillIsFurious
-	goto ViridianForest_EventScript_SecondBeedrill
+	goto ViridianForest_EventScript_DefeatedSecondBeedrill
 	end
 
-@ Back after running from (or losing to) the second BEEDRILL
+@ Only in saves from before the double battle, where the first BEEDRILL was already beaten on its own
 ViridianForest_EventScript_OneBeedrillLeft::
 	msgbox ViridianForest_Text_OneBeedrillLeft
-	goto ViridianForest_EventScript_SecondBeedrill
-	end
-
-ViridianForest_EventScript_SecondBeedrill::
 	applymovement LOCALID_VIRIDIAN_FOREST_BEEDRILL_2, ViridianForest_Movement_BeedrillNoticePlayer
 	waitmovement 0
 	msgbox ViridianForest_Text_BeedrillAttacks
@@ -248,7 +255,8 @@ ViridianForest_EventScript_BeedrillStillThere::
 	releaseall
 	end
 
-@ The player stands at the clearing's mouth, (60,5) or (60,6). BULBASAUR comes over, then runs home along the other row.
+@ The player stands at the clearing's mouth, (60,5), (60,6) or (60,7). BULBASAUR comes over, then runs home along
+@ the row beside the player's (row 6 when the player is on row 5, row 5 or 6 otherwise).
 ViridianForest_EventScript_DefeatedSecondBeedrill::
 	setflag FLAG_DEFEATED_VIRIDIAN_BEEDRILL_2
 	removeobject LOCALID_VIRIDIAN_FOREST_BEEDRILL_2
@@ -259,7 +267,8 @@ ViridianForest_EventScript_DefeatedSecondBeedrill::
 	waitmoncry
 	getplayerxy VAR_0x8004, VAR_0x8005
 	call_if_eq VAR_0x8005, 5, ViridianForest_EventScript_BulbasaurApproachTop
-	call_if_ne VAR_0x8005, 5, ViridianForest_EventScript_BulbasaurApproachBottom
+	call_if_eq VAR_0x8005, 6, ViridianForest_EventScript_BulbasaurApproachBottom
+	call_if_eq VAR_0x8005, 7, ViridianForest_EventScript_BulbasaurApproachLowest
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_FaceRight
 	waitmovement 0
 	msgbox ViridianForest_Text_BulbasaurIsGrateful
@@ -284,6 +293,11 @@ ViridianForest_EventScript_BulbasaurApproachTop::
 
 ViridianForest_EventScript_BulbasaurApproachBottom::
 	applymovement LOCALID_VIRIDIAN_FOREST_BULBASAUR, ViridianForest_Movement_BulbasaurApproachBottom
+	waitmovement 0
+	return
+
+ViridianForest_EventScript_BulbasaurApproachLowest::
+	applymovement LOCALID_VIRIDIAN_FOREST_BULBASAUR, ViridianForest_Movement_BulbasaurApproachLowest
 	waitmovement 0
 	return
 
@@ -336,6 +350,18 @@ ViridianForest_Movement_BulbasaurApproachBottom:
 	walk_left
 	walk_up
 	face_left
+	step_end
+
+@ To (61,7), beside the player on the path's bottom row
+ViridianForest_Movement_BulbasaurApproachLowest:
+	walk_left
+	face_left
+	step_end
+
+ViridianForest_Movement_PlayerStepBack:
+	lock_facing_direction
+	walk_left
+	unlock_facing_direction
 	step_end
 
 @ Out of the clearing along the row the player isn't on, and away down the path
@@ -395,8 +421,13 @@ ViridianForest_Text_BeedrillAttacks:
     .string "BZZZZ!\n"
     .string "The BEEDRILL turned on {PLAYER}!$"
 
-ViridianForest_Text_OtherBeedrillIsFurious:
-    .string "The other BEEDRILL is furious!$"
+ViridianForest_Text_BothBeedrillAttack:
+    .string "BZZZZ!\n"
+    .string "Both BEEDRILL turned on {PLAYER}!$"
+
+ViridianForest_Text_NeedTwoMons:
+    .string "The two BEEDRILL are too fierce to\n"
+    .string "take on with just one POKéMON…$"
 
 ViridianForest_Text_BeedrillStillThere:
     .string "The BEEDRILL won't leave the\n"

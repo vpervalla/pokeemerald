@@ -394,7 +394,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
         gSprites[ballSpriteId].callback = SpriteCB_OpponentMonSendOut;
         break;
     default:
-        gBattlerTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+        gBattlerTarget = gBattleAnimTarget; // the wild Pokemon the ball was thrown at
         notSendOut = TRUE;
         break;
     }

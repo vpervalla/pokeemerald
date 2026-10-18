@@ -1884,6 +1884,24 @@ bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
     return TRUE;
 }
 
+bool8 ScrCmd_setwilddoublebattle(struct ScriptContext *ctx)
+{
+    u16 species1 = ScriptReadHalfword(ctx);
+    u8 level1 = ScriptReadByte(ctx);
+    u16 species2 = ScriptReadHalfword(ctx);
+    u8 level2 = ScriptReadByte(ctx);
+
+    CreateScriptedDoubleWildMons(species1, level1, species2, level2);
+    return FALSE;
+}
+
+bool8 ScrCmd_dowilddoublebattle(struct ScriptContext *ctx)
+{
+    BattleSetup_StartScriptedWildDoubleBattle();
+    ScriptContext_Stop();
+    return TRUE;
+}
+
 bool8 ScrCmd_pokemart(struct ScriptContext *ctx)
 {
     const void *ptr = (void *)ScriptReadWord(ctx);

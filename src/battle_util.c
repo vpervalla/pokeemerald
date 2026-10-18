@@ -452,18 +452,23 @@ bool8 TryRunFromBattle(u8 battler)
     }
     else
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
+        // Wild double battles are run from like single ones, against a wild Pokemon still standing
+        u8 opponent = BATTLE_OPPOSITE(battler);
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && (gAbsentBattlerFlags & gBitTable[opponent]))
+            opponent = BATTLE_PARTNER(opponent);
+
+        if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE) || !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
         {
             if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
             {
                 pyramidMultiplier = GetPyramidRunMultiplier();
-                speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
+                speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
                 if (speedVar > (Random() & 0xFF))
                     effect++;
             }
-            else if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)
+            else if (gBattleMons[battler].speed < gBattleMons[opponent].speed)
             {
-                speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
+                speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[opponent].speed) + (gBattleStruct->runTries * 30);
                 if (speedVar > (Random() & 0xFF))
                     effect++;
             }

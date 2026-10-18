@@ -26,6 +26,7 @@ void StartOldManTutorialBattle(void);
 bool32 IsOldManTutorialBattle(void);
 u8 GetWallyTutorialBackPicId(void);
 void BattleSetup_StartScriptedWildBattle(void);
+void BattleSetup_StartScriptedWildDoubleBattle(void);
 void BattleSetup_StartLatiBattle(void);
 void BattleSetup_StartLegendaryBattle(void);
 void StartGroudonKyogreBattle(void);

@@ -148,6 +148,13 @@ void CreateScriptedWildMon(u16 species, u8 level, u16 item)
     }
 }
 
+void CreateScriptedDoubleWildMons(u16 species1, u8 level1, u16 species2, u8 level2)
+{
+    ZeroEnemyPartyMons();
+    CreateMon(&gEnemyParty[0], species1, level1, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[1], species2, level2, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
+}
+
 void ScriptSetMonMoveSlot(u8 monIndex, u16 move, u8 slot)
 {
 // Allows monIndex to go out of bounds of gPlayerParty. Doesn't occur in vanilla

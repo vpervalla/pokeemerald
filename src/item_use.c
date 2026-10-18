@@ -1,6 +1,7 @@
 #include "global.h"
 #include "item_use.h"
 #include "battle.h"
+#include "battle_anim.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
 #include "berry.h"
@@ -37,6 +38,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
+#include "util.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
@@ -967,9 +969,31 @@ void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+// In a wild double battle a ball can only be thrown once a single wild Pokemon is left
+static bool8 AreTwoWildMonsStanding(void)
+{
+    u8 i, standing = 0;
+
+    if ((gBattleTypeFlags & (BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TRAINER)) != BATTLE_TYPE_DOUBLE)
+        return FALSE;
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        if (GetBattlerSide(i) == B_SIDE_OPPONENT && !(gAbsentBattlerFlags & gBitTable[i]) && gBattleMons[i].hp != 0)
+            standing++;
+    }
+    return standing > 1;
+}
+
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
-    if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
+    if (AreTwoWildMonsStanding())
+    {
+        if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantAimAtTwoWildMons, CloseItemMessage);
+        else
+            DisplayItemMessageInBattlePyramid(taskId, gText_CantAimAtTwoWildMons, Task_CloseBattlePyramidBagMessage);
+    }
+    else if (IsPlayerPartyAndPokemonStorageFull() == FALSE) // have room for mon?
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
