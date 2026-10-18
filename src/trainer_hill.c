@@ -676,7 +676,7 @@ static u16 GetMapDataForFloor(u8 floorId, u32 x, u32 y, u32 floorWidth) // floor
     u16 elevation;
 
     impassable = (sHillData->floors[floorId].map.collisionData[y] >> (15 - x) & 1);
-    metatileId = sHillData->floors[floorId].map.metatileData[floorWidth * y + x] + NUM_METATILES_IN_PRIMARY;
+    metatileId = sHillData->floors[floorId].map.metatileData[floorWidth * y + x] + HOENN_NUM_METATILES_IN_PRIMARY;
     elevation = PACK_ELEVATION(ELEVATION_DEFAULT);
 
     return PACK_COLLISION(impassable) | elevation | PACK_METATILE(metatileId);

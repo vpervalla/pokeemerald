@@ -1,12 +1,19 @@
 #ifndef GUARD_FIELDMAP_H
 #define GUARD_FIELDMAP_H
 
-// Kanto port: FRLG tileset layout (was 512 / 512 / 6). Hoenn tilesets do not fit this layout.
-#define NUM_TILES_IN_PRIMARY 640
+// Kanto port: two tileset layouts. Kanto's maps use FRLG's (640 tiles and 640 metatiles in the
+// primary tileset, 7 palettes); Hoenn's maps keep Emerald's (512, 512, 6), which their tilesets need.
+// A map's layout follows its primary tileset (Tileset.isHoennLayout): use the functions below, or
+// the HOENN_ ones for code that only runs on Hoenn maps (secret bases, Trainer Hill, Hoenn's tileset
+// animations).
+#define KANTO_NUM_TILES_IN_PRIMARY 640
+#define KANTO_NUM_METATILES_IN_PRIMARY 640
+#define KANTO_NUM_PALS_IN_PRIMARY 7
+#define HOENN_NUM_TILES_IN_PRIMARY 512
+#define HOENN_NUM_METATILES_IN_PRIMARY 512
+#define HOENN_NUM_PALS_IN_PRIMARY 6
 #define NUM_TILES_TOTAL 1024
-#define NUM_METATILES_IN_PRIMARY 640
 #define NUM_METATILES_TOTAL 1024
-#define NUM_PALS_IN_PRIMARY 7
 #define NUM_PALS_TOTAL 13
 #define MAX_MAP_DATA_SIZE 10240
 
@@ -55,5 +62,9 @@ void MapGridSetMetatileImpassabilityAt(s32 x, s32 y, bool32 impassable);
 
 // field_region_map.c
 void FieldInitRegionMap(MainCallback callback);
+
+u32 GetNumTilesInPrimary(const struct MapLayout *mapLayout);
+u32 GetNumMetatilesInPrimary(const struct MapLayout *mapLayout);
+u32 GetNumPalsInPrimary(const struct MapLayout *mapLayout);
 
 #endif //GUARD_FIELDMAP_H

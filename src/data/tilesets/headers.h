@@ -2,6 +2,7 @@ const struct Tileset gTileset_General =
 {
     .isCompressed = TRUE,
     .isSecondary = FALSE,
+    .isHoennLayout = TRUE,
     .tiles = gTilesetTiles_General,
     .palettes = gTilesetPalettes_General,
     .metatiles = gMetatiles_General,
@@ -178,6 +179,7 @@ const struct Tileset gTileset_Building =
 {
     .isCompressed = TRUE,
     .isSecondary = FALSE,
+    .isHoennLayout = TRUE,
     .tiles = gTilesetTiles_InsideBuilding,
     .palettes = gTilesetPalettes_InsideBuilding,
     .metatiles = gMetatiles_InsideBuilding,
@@ -629,6 +631,7 @@ const struct Tileset gTileset_SecretBase =
 {
     .isCompressed = FALSE,
     .isSecondary = FALSE,
+    .isHoennLayout = TRUE,
     .tiles = gTilesetTiles_SecretBase,
     .palettes = gTilesetPalettes_SecretBase,
     .metatiles = gMetatiles_SecretBasePrimary,

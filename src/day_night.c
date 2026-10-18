@@ -156,7 +156,7 @@ static u16 LitGlassColor(u16 glass)
 
 static const struct Tileset *GetPaletteOwner(const struct MapLayout *layout, u8 paletteNum)
 {
-    return paletteNum < NUM_PALS_IN_PRIMARY ? layout->primaryTileset : layout->secondaryTileset;
+    return paletteNum < GetNumPalsInPrimary(layout) ? layout->primaryTileset : layout->secondaryTileset;
 }
 
 static bool8 LitPaletteApplies(const struct MapLayout *layout, const struct LitPalette *lp)

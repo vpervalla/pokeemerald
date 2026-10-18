@@ -17,7 +17,7 @@ struct TrainerHillTrainer
 
 struct TrainerHillFloorMap
 {
-    u8 metatileData[HILL_FLOOR_WIDTH * HILL_FLOOR_HEIGHT_MAIN]; // Add NUM_METATILES_IN_PRIMARY to the values in this array to get metatile ids.
+    u8 metatileData[HILL_FLOOR_WIDTH * HILL_FLOOR_HEIGHT_MAIN]; // Add HOENN_NUM_METATILES_IN_PRIMARY to the values in this array to get metatile ids.
     u16 collisionData[HILL_FLOOR_WIDTH]; // One bit for each tile in column-major order, so every array entry is one row. 1 = impassable, 0 = passable
     u8 trainerCoords[HILL_TRAINERS_PER_FLOOR]; // Starting at (0,6). Format is 0bYYYYXXXX.
     u8 trainerDirections; // DIR_* - 1, 4 bits per trainer

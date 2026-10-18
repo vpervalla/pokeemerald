@@ -74,8 +74,8 @@ Emerald game left it. Nothing has been tested in-game.
 
 Phase 3 is implemented: BIRCH's welcome and Hoenn's opening. Checked in an emulator (a test build
 that starts a new game in SLATEPORT's harbor, `VAR_HOENN_STORY_STATE` 3): the welcome, the warp, the
-starter bag and the nickname run. **Hoenn's maps don't draw right** (see "Hoenn's tilesets" below),
-which comes from the port, not from this phase.
+starter bag, the nickname, BIRCH's last lines, and walking out into LITTLEROOT. Hoenn's maps draw
+right since the fix below.
 
 - **Welcome** (`SlateportCity_Harbor`): on the first arrival (`VAR_HOENN_STORY_STATE` 3), BIRCH
   (`FLAG_HIDE_SLATEPORT_HARBOR_BIRCH`, shown only for the scene) walks up, says OAK and BLAINE called
@@ -101,9 +101,16 @@ The port set the map engine to FRLG's tileset layout (`include/fieldmap.h`: 640 
 in the primary tileset, 7 palettes), and Hoenn's tilesets use Emerald's (512, 512, 6). So on every
 Hoenn map the secondary tileset's tiles, metatiles and first palette are read from the wrong place.
 Converting the data isn't possible: 32 of the 70 secondary tilesets Hoenn uses need more than the
-384 tiles FRLG's layout leaves them, 15 more than 384 metatiles. The fix is in the engine: the
-layout follows the map's primary tileset (Emerald's `gTileset_General`, `gTileset_Building` and
-`gTileset_SecretBase` are Hoenn's).
+384 tiles FRLG's layout leaves them, 15 more than 384 metatiles.
+
+Fixed in the engine: the layout follows the map's primary tileset. `Tileset.isHoennLayout` is set on
+Emerald's primaries (`gTileset_General`, `gTileset_Building`, `gTileset_SecretBase`), and
+`GetNumTilesInPrimary`, `GetNumMetatilesInPrimary` and `GetNumPalsInPrimary` (`src/fieldmap.c`)
+replace the old constants where the map matters: loading tiles and palettes, metatile attributes,
+drawing (`field_camera.c`), the day/night tint, the shop's map background, the connection reload.
+Code that only runs on Hoenn maps uses `HOENN_NUM_*`: Hoenn's tileset animations, decorations,
+Trainer Hill. Checked in the emulator: SLATEPORT's harbor, BIRCH's lab and LITTLEROOT draw right, and
+so does the player's room in PALLET TOWN.
 
 ## Where things are now
 

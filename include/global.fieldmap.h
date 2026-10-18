@@ -65,6 +65,7 @@ struct Tileset
 {
     /*0x00*/ bool8 isCompressed;
     /*0x01*/ bool8 isSecondary;
+    /*0x02*/ bool8 isHoennLayout; // Kanto port: a primary tileset of Emerald's, so the map uses Emerald's tileset layout (see fieldmap.h)
     /*0x04*/ const u32 *tiles;
     /*0x08*/ const u16 (*palettes)[16];
     /*0x0C*/ const u16 *metatiles;

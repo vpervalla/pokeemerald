@@ -226,18 +226,19 @@ void DrawDoorMetatileAt(int x, int y, u16 *tiles)
 static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x, int y)
 {
     u16 metatileId = MapGridGetMetatileIdAt(x, y);
+    u32 numPrimary = GetNumMetatilesInPrimary(mapLayout);
     const u16 *metatiles;
 
     if (metatileId > NUM_METATILES_TOTAL)
         metatileId = 0;
-    if (metatileId < NUM_METATILES_IN_PRIMARY)
+    if (metatileId < numPrimary)
     {
         metatiles = mapLayout->primaryTileset->metatiles;
     }
     else
     {
         metatiles = mapLayout->secondaryTileset->metatiles;
-        metatileId -= NUM_METATILES_IN_PRIMARY;
+        metatileId -= numPrimary;
     }
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * NUM_TILES_PER_METATILE, offset);
 }
