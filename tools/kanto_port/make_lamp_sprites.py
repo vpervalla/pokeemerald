@@ -16,7 +16,7 @@ NIGHT = DAY[:6] + [(248, 208, 120), (255, 240, 176)] + DAY[8:]
 DAY += [(0, 0, 0)] * (16 - len(DAY))
 NIGHT += [(0, 0, 0)] * (16 - len(NIGHT))
 
-# Taken from a reference map's street lamp, without the shadow it casts on the cobbles.
+# Taken from a reference map's street lamp, with the shadow it casts at its foot (in the iron's grey).
 KEY = {'.': 0, 'o': 1, 'd': 2, 'm': 3, 's': 4, 'w': 5, 'G': 6, 'W': 7}
 LAMP = [
     "........o.......",
@@ -39,11 +39,11 @@ LAMP = [
     "......dsssd.....",
     "......ddsdo.....",
     "......ddddo.....",
-    "......ddddo.....",
-    "......ddddo.....",
-    ".......ddd......",
-    "................",
-    "................",
+    "......ddddos....",
+    "......ddddoss...",
+    ".......dddssss..",
+    ".........sssss..",
+    "..........sss...",
 ]
 assert len(LAMP) == 32 and all(len(r) == 16 for r in LAMP)
 
