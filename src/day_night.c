@@ -527,6 +527,7 @@ static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
 static EWRAM_DATA u8 sNumSignSprites = 0;
 static EWRAM_DATA bool8 sSignsShown = FALSE;
 static EWRAM_DATA bool8 sSignsDirty = FALSE;
+static EWRAM_DATA bool8 sLampsNight = FALSE; // The lamps have their night shadow
 
 // Hides the sprite while it's off screen, so its coordinates can't wrap around into view,
 // and shows a door's glass for the frame the door is drawn with.
@@ -650,10 +651,10 @@ static void CreateSignSprites(void)
 
 // Street lamps (tools/kanto_port/make_lamp_sprites.py): a lantern on an iron post, standing on a tile its
 // map gives collision, with its head on the tile above. It's a sprite sorted like an object standing on
-// that tile. In the evening and at night its glass is lit, it loses its shadow, and it casts a pool of
-// light: a sprite blended additively onto the ground (and only the ground, as sprites don't blend with
-// sprites). Weathers that use the blend registers themselves (clouds, fog, ash, sandstorm, bubbles) go
-// without the pools.
+// that tile. In the evening and at night its glass is lit, and it casts a pool of light: a sprite blended
+// additively onto the ground (and only the ground, as sprites don't blend with sprites). Weathers that
+// use the blend registers themselves (clouds, fog, ash, sandstorm, bubbles) go without the pools. At
+// night its long shadow gives way to a small round one at its foot.
 #define TAG_LAMP             0x2E10
 #define TAG_LAMP_POOL        0x2E11
 #define TAG_LAMP_PAL         0x2E12
@@ -672,7 +673,7 @@ struct Lamp
 #include "data/day_night_lamps.h"
 
 static const u32 sLamp_Gfx[] = INCGFX_U32("graphics/day_night/lamp.png", ".4bpp");
-static const u32 sLampLit_Gfx[] = INCGFX_U32("graphics/day_night/lamp_lit.png", ".4bpp"); // No shadow
+static const u32 sLampNight_Gfx[] = INCGFX_U32("graphics/day_night/lamp_round_shadow.png", ".4bpp");
 static const u16 sLampDay_Pal[] = INCGFX_U16("graphics/day_night/lamp.png", ".gbapal");
 static const u16 sLampNight_Pal[] = INCGFX_U16("graphics/day_night/lamp_night.pal", ".gbapal");
 static const u32 sLampPool_Gfx[] = INCGFX_U32("graphics/day_night/lamp_pool.png", ".4bpp");
@@ -769,10 +770,10 @@ static void CreateLampSprite(const struct SpriteTemplate *template, const struct
     sLampSpriteIds[sNumLampSprites++] = spriteId;
 }
 
-static void CreateLampSprites(bool8 lit)
+static void CreateLampSprites(bool8 lit, bool8 night)
 {
     static const struct SpriteSheet lampSheet = {sLamp_Gfx, 16 * 32 / 2, TAG_LAMP};
-    static const struct SpriteSheet litLampSheet = {sLampLit_Gfx, 16 * 32 / 2, TAG_LAMP};
+    static const struct SpriteSheet nightLampSheet = {sLampNight_Gfx, 16 * 32 / 2, TAG_LAMP};
     static const struct SpriteSheet poolSheet = {sLampPool_Gfx, 64 * 32 / 2, TAG_LAMP_POOL};
     struct SpritePalette palette = {lit ? sLampNight_Pal : sLampDay_Pal, TAG_LAMP_PAL};
     bool8 loaded = FALSE;
@@ -789,7 +790,7 @@ static void CreateLampSprites(bool8 lit)
             if (paletteNum == 0xFF)
                 return;
             UpdateSpritePaletteWithWeather(paletteNum);
-            LoadSpriteSheet(lit ? &litLampSheet : &lampSheet);
+            LoadSpriteSheet(night ? &nightLampSheet : &lampSheet);
             if (lit)
                 LoadSpriteSheet(&poolSheet);
             loaded = TRUE;
@@ -835,14 +836,17 @@ static void UpdateLampPools(bool8 lit)
 
 static void UpdateSigns(bool8 lit)
 {
-    if (sSignsDirty || lit != sSignsShown)
+    bool8 night = lit && DayNight_GetPhase() == DAY_NIGHT_PHASE_NIGHT;
+
+    if (sSignsDirty || lit != sSignsShown || night != sLampsNight)
     {
         DestroySignSprites();
         DestroyLampSprites();
-        CreateLampSprites(lit);
+        CreateLampSprites(lit, night);
         if (lit)
             CreateSignSprites();
         sSignsShown = lit;
+        sLampsNight = night;
         sSignsDirty = FALSE;
         // This frame's OAM was built before the sprites were made again, maybe with other palette slots.
         BuildOamBuffer();
