@@ -3,6 +3,7 @@
 Run from the pokeemerald root.
 
 graphics/day_night/lamp.png       16x32 lantern on an iron post, with its daytime palette (pale blue glass)
+graphics/day_night/lamp_lit.png   the same without its shadow, for the evening and night
 graphics/day_night/lamp_night.pal the palette in the evening and at night: lit glass
 graphics/day_night/lamp_pool.png  64x32 ellipse of warm light, blended additively onto the ground
 
@@ -45,6 +46,7 @@ LAMP = [
     ".........sssss..",
     "..........sss...",
 ]
+SHADOW_TOP = 27  # The first row of the foot
 assert len(LAMP) == 32 and all(len(r) == 16 for r in LAMP)
 
 lamp = Image.new("P", (16, 32), 0)
@@ -53,6 +55,15 @@ for y, row in enumerate(LAMP):
         lamp.putpixel((x, y), KEY[c])
 lamp.putpalette([v for c in DAY for v in c])
 lamp.save("graphics/day_night/lamp.png")
+
+# Once lit, the lamp casts no shadow: the shadow's pixels are the 's' ones right of the outline at the foot.
+for y in range(SHADOW_TOP, 32):
+    row = LAMP[y]
+    for x in range(row.rfind('o') + 1 if 'o' in row else 0, 16):
+        if row[x] == 's':
+            lamp.putpixel((x, y), 0)
+lamp.putpalette([v for c in NIGHT for v in c])
+lamp.save("graphics/day_night/lamp_lit.png")
 
 # The pool: four bands from the rim (8) to the middle (11), dithered where they meet.
 pool = Image.new("P", (64, 32), 0)
@@ -72,4 +83,4 @@ pool.save("graphics/day_night/lamp_pool.png")
 
 with open("graphics/day_night/lamp_night.pal", "w", newline="\r\n") as f:
     f.write("JASC-PAL\n0100\n16\n" + "".join(f"{r} {g} {b}\n" for r, g, b in NIGHT))
-print("wrote lamp.png, lamp_night.pal, lamp_pool.png")
+print("wrote lamp.png, lamp_lit.png, lamp_night.pal, lamp_pool.png")

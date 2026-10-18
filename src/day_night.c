@@ -650,9 +650,10 @@ static void CreateSignSprites(void)
 
 // Street lamps (tools/kanto_port/make_lamp_sprites.py): a lantern on an iron post, standing on a tile its
 // map gives collision, with its head on the tile above. It's a sprite sorted like an object standing on
-// that tile. In the evening and at night its glass is lit, and it casts a pool of light: a sprite blended
-// additively onto the ground (and only the ground, as sprites don't blend with sprites). Weathers that
-// use the blend registers themselves (clouds, fog, ash, sandstorm, bubbles) go without the pools.
+// that tile. In the evening and at night its glass is lit, it loses its shadow, and it casts a pool of
+// light: a sprite blended additively onto the ground (and only the ground, as sprites don't blend with
+// sprites). Weathers that use the blend registers themselves (clouds, fog, ash, sandstorm, bubbles) go
+// without the pools.
 #define TAG_LAMP             0x2E10
 #define TAG_LAMP_POOL        0x2E11
 #define TAG_LAMP_PAL         0x2E12
@@ -671,6 +672,7 @@ struct Lamp
 #include "data/day_night_lamps.h"
 
 static const u32 sLamp_Gfx[] = INCGFX_U32("graphics/day_night/lamp.png", ".4bpp");
+static const u32 sLampLit_Gfx[] = INCGFX_U32("graphics/day_night/lamp_lit.png", ".4bpp"); // No shadow
 static const u16 sLampDay_Pal[] = INCGFX_U16("graphics/day_night/lamp.png", ".gbapal");
 static const u16 sLampNight_Pal[] = INCGFX_U16("graphics/day_night/lamp_night.pal", ".gbapal");
 static const u32 sLampPool_Gfx[] = INCGFX_U32("graphics/day_night/lamp_pool.png", ".4bpp");
@@ -770,6 +772,7 @@ static void CreateLampSprite(const struct SpriteTemplate *template, const struct
 static void CreateLampSprites(bool8 lit)
 {
     static const struct SpriteSheet lampSheet = {sLamp_Gfx, 16 * 32 / 2, TAG_LAMP};
+    static const struct SpriteSheet litLampSheet = {sLampLit_Gfx, 16 * 32 / 2, TAG_LAMP};
     static const struct SpriteSheet poolSheet = {sLampPool_Gfx, 64 * 32 / 2, TAG_LAMP_POOL};
     struct SpritePalette palette = {lit ? sLampNight_Pal : sLampDay_Pal, TAG_LAMP_PAL};
     bool8 loaded = FALSE;
@@ -786,7 +789,7 @@ static void CreateLampSprites(bool8 lit)
             if (paletteNum == 0xFF)
                 return;
             UpdateSpritePaletteWithWeather(paletteNum);
-            LoadSpriteSheet(&lampSheet);
+            LoadSpriteSheet(lit ? &litLampSheet : &lampSheet);
             if (lit)
                 LoadSpriteSheet(&poolSheet);
             loaded = TRUE;
