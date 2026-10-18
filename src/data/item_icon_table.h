@@ -446,6 +446,6 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     [ITEM_DRAGONINITE] = {gItemIcon_Dragoninite, gItemIconPalette_Dragoninite},
     // </mega-evolutions>
     // Return to field arrow
-    [ITEM_CARD_CASE] = {gItemIcon_TMCase, gItemIconPalette_TMCase},
+    [ITEM_CARD_CASE] = {gItemIcon_CardCase, gItemIconPalette_CardCase},
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };
