@@ -656,7 +656,7 @@ static void CreateSignSprites(void)
 #define TAG_LAMP             0x2E10
 #define TAG_LAMP_POOL        0x2E11
 #define TAG_LAMP_PAL         0x2E12
-#define LAMP_IRON_COLORS     COLORS(1, 4) // Tinted; the glass and the pools' colours aren't, once lit
+#define LAMP_IRON_COLORS     COLORS(1, 5) // Tinted; the glass and the pools' colours aren't, once lit
 #define LAMP_POOL_ALPHA      8            // The pools add 8/16 of their colour to the ground
 #define LAMP_ELEVATION       3            // The ground's
 #define MAX_LAMPS            12 // On a map

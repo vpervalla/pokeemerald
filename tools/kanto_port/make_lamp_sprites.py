@@ -2,40 +2,46 @@
 """Draw the street lamp that src/day_night.c places in towns, and the pool of light it casts at night.
 Run from the pokeemerald root.
 
-graphics/day_night/lamp.png       16x32 lantern on an iron post, with its daytime palette (grey glass)
+graphics/day_night/lamp.png       16x32 lantern on an iron post, with its daytime palette (pale blue glass)
 graphics/day_night/lamp_night.pal the palette in the evening and at night: lit glass
 graphics/day_night/lamp_pool.png  64x32 ellipse of warm light, blended additively onto the ground
 
-Palette: 1-4 iron (tinted like the map), 5-7 glass, 8-11 the pool's bands, dim to bright (untinted)."""
+Palette: 1-5 iron (tinted like the map), 6-7 glass, 8-11 the pool's bands, dim to bright (untinted)."""
 from PIL import Image
 
-DAY = [(255, 0, 255), (40, 40, 56), (64, 72, 96), (104, 112, 136), (160, 168, 192),
-       (208, 224, 240), (168, 192, 216), (128, 152, 184),
+DAY = [(255, 0, 255), (40, 48, 88), (64, 72, 104), (96, 96, 120), (128, 128, 136), (216, 224, 232),
+       (152, 176, 216), (216, 224, 232),
        (64, 36, 0), (128, 76, 8), (192, 120, 16), (248, 168, 32)]
-NIGHT = DAY[:5] + [(255, 240, 176), (248, 208, 120), (232, 168, 80)] + DAY[8:]
+NIGHT = DAY[:6] + [(248, 208, 120), (255, 240, 176)] + DAY[8:]
 DAY += [(0, 0, 0)] * (16 - len(DAY))
 NIGHT += [(0, 0, 0)] * (16 - len(NIGHT))
 
-KEY = {'.': 0, 'o': 1, 'd': 2, 'm': 3, 'l': 4, 'G': 5, 'g': 6, 'h': 7}
+# Taken from a reference map's street lamp, without the shadow it casts on the cobbles.
+KEY = {'.': 0, 'o': 1, 'd': 2, 'm': 3, 's': 4, 'w': 5, 'G': 6, 'W': 7}
 LAMP = [
-    "................",
-    ".......oo.......",
-    "......odlo......",
-    ".....odmmlo.....",
-    "....oddmmllo....",
-    "...oooooooooo...",
-    "....omGGGGmo....",
-    "....oGGGGGgo....",
-    "....oGGGGggo....",
-    "....ogGGgggo....",
-    "....ohgghhho....",
-    "...oooooooooo...",
-    ".....oddmlo.....",
-    "......odmo......",
-] + ["......odmo......"] * 13 + [
-    ".....oddmlo.....",
-    "....oddmmllo....",
-    "....oooooooo....",
+    "........o.......",
+    "......dowoo.....",
+    ".....dsosomo....",
+    "....dsommdodo...",
+    "...dsssooodddo..",
+    "...dssssmddddo..",
+    "....ddssmmdoo...",
+    "....oGmddddGo...",
+    ".....mWWWGGd....",
+    ".....oWWGGGo....",
+    "......oWGGo.....",
+    ".......ooo......",
+    "......domoo.....",
+    ".....dwoooso....",
+    "......oosoo.....",
+    ".......doo......",
+] + [".......dso......"] * 8 + [
+    "......dsssd.....",
+    "......ddsdo.....",
+    "......ddddo.....",
+    "......ddddo.....",
+    "......ddddo.....",
+    ".......ddd......",
     "................",
     "................",
 ]
