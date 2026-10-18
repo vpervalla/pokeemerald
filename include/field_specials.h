@@ -35,4 +35,6 @@ void SetPCBoxToSendMon(u8 boxId);
 void RunMassageCooldownStepCounter(void);
 void IncrementResortGorgeousStepCounter(void);
 
+u16 GetStarterSpecies(void);
+
 #endif // GUARD_FIELD_SPECIALS_H

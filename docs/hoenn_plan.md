@@ -34,9 +34,7 @@ Phase 1 is implemented: Kanto and Hoenn keep their progress apart.
 
 Left as they are, as Kanto's or both regions': the badges' stat boosts and obedience, the
 badge counts on the Continue and save screens, TV shows, contests, link and the Hall of Fame
-PC. Two things for phase 5: the credits pick their starter with `GetStarterPokemon(VAR_STARTER_MON)`,
-a Hoenn starter for the Kanto index; and Hoenn's Hall of Fame clears the defeated flags of LUGIA,
-HO-OH and DEOXYS, which Kanto's copies share.
+PC. The credits' starter and the Hall of Fame's flags are handled in phase 5.
 
 Phase 2 is implemented: the MANSION raid and the ship. Hoenn is now reachable, but phase 3 (BIRCH's
 welcome and Hoenn's opening) isn't done, so a player who sails to SLATEPORT finds Hoenn as a new
@@ -113,6 +111,27 @@ Phase 4 is implemented: Hoenn's levels, by `tools/hoenn/rescale_levels.py`, run 
   starter, CASTFORM, BELDUM, the fossils, the egg) keep their levels, to be raised.
 - Not done: the roamer. `src/roamer.c` now makes the Kanto beasts roam at 50 (the Kanto port), so
   Emerald's roaming LATIAS or LATIOS after Hoenn's Hall of Fame needs phase 5 or 7.
+
+Phase 5 is implemented: Hoenn's ending. Checked in an emulator with a test build that starts a new
+game in EVER GRANDE's Hall of Fame (Kanto cleared, a TORCHIC in the party): the record, the save,
+the credits, Continue, and the guest room's two floors.
+
+- **Hall of Fame**: Emerald's, plus `FLAG_HOENN_GAME_CLEAR` (phase 1). `GameClear` already leaves
+  Kanto alone: `FLAG_SYS_GAME_CLEAR` is set by then, and Continue puts the player in the
+  LITTLEROOT guest room (only Kanto's Hall of Fame sends them to PALLET TOWN). Hoenn's post-game
+  (the S.S. TIDAL, the Battle Frontier, Steven, Meteor Falls, Trainer Hill) opens through
+  `FLAG_HOENN_GAME_CLEAR`.
+- **No S.S. TICKET scene**: Emerald's DAD bringing the ticket and MOM's LATIAS/LATIOS report need
+  the MOM the guest room doesn't have; `FLAG_RECEIVED_SS_TICKET` is set instead. The S.S. TIDAL only
+  checks Hoenn's Hall of Fame. Without the report, no LATIAS or LATIOS roams: Southern Island
+  (phase 7) has both.
+- **Credits**: they show the starter of the region whose Hall of Fame it is (`DeterminePokemonToShow`
+  in `src/credits.c`); after Kanto's they showed a Hoenn starter.
+- **Guest room**: the arrival now also hides what Emerald's truck and the rival's bedroom would have
+  (both trucks, the rival's family and POKé BALL in the player's house, the rival at home) and shows
+  LITTLEROOT's fat man.
+- The defeated flags Hoenn's Hall of Fame clears (LUGIA, HO-OH, DEOXYS, MEW, the LATI) are only
+  read by Hoenn's own copies of those maps, so Kanto's legendaries aren't affected.
 
 ## Hoenn's tilesets
 

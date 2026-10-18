@@ -21,6 +21,8 @@
 #include "graphics.h"
 #include "pokedex.h"
 #include "event_data.h"
+#include "field_specials.h"
+#include "region_map.h"
 #include "random.h"
 
 #define COLOR_DARK_GREEN RGB(7, 11, 6)
@@ -1573,7 +1575,12 @@ static void SpriteCB_CreditsMonBg(struct Sprite *sprite)
 
 static void DeterminePokemonToShow(void)
 {
-    u16 starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_STARTER_MON)));
+    u16 starter;
+    // Kanto port: the starter of the region whose Hall of Fame this is (the credits run on its map)
+    if (GetPlayerRegion() == REGION_HOENN)
+        starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_HOENN_STARTER)));
+    else
+        starter = SpeciesToNationalPokedexNum(GetStarterSpecies());
     u16 page;
     u16 dexNum;
     u16 j;
