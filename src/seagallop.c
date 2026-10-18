@@ -82,7 +82,8 @@ static const u8 sSeag[][4] = {
     [SEAGALLOP_CINNABAR_ISLAND] = {MAP(MAP_CINNABAR_ISLAND),     0x15, 0x07},
     [SEAGALLOP_NAVEL_ROCK]      = {MAP(MAP_KANTO_NAVEL_ROCK_HARBOR),   0x08, 0x05},
     [SEAGALLOP_BIRTH_ISLAND]    = {MAP(MAP_KANTO_BIRTH_ISLAND_HARBOR), 0x08, 0x05},
-    [SEAGALLOP_MEGA_ISLAND]     = {MAP(MAP_MEGA_ISLAND_HARBOR),        0x08, 0x05}
+    [SEAGALLOP_MEGA_ISLAND]     = {MAP(MAP_MEGA_ISLAND_HARBOR),        0x08, 0x05},
+    [SEAGALLOP_SLATEPORT]       = {MAP(MAP_SLATEPORT_CITY_HARBOR),     0x08, 0x0B} // where the S.S. TIDAL docks
 };
 
 // Bitpacked array.  In the commented section, right-most bit is the
@@ -107,7 +108,8 @@ static const u16 sTravelDirectionMatrix[] = {
     [SEAGALLOP_CINNABAR_ISLAND] = 0x7ff, // 11111111111
     [SEAGALLOP_NAVEL_ROCK]      = 0x6e0, // 11011100000
     [SEAGALLOP_BIRTH_ISLAND]    = 0x000, // 00000000000
-    [SEAGALLOP_MEGA_ISLAND]     = 0x000  // 000000000000
+    [SEAGALLOP_MEGA_ISLAND]     = 0x000, // 000000000000
+    [SEAGALLOP_SLATEPORT]       = 0x001  // 0000000000001: Hoenn lies south-west, so the way back is east
 };
 
 static const union AnimCmd sSpriteAnims_Ferry_WB[] = {
@@ -473,6 +475,9 @@ u8 GetSeagallopNumber(void)
 
     if (originId == SEAGALLOP_MEGA_ISLAND || destId == SEAGALLOP_MEGA_ISLAND)
         return 11;
+
+    if (originId == SEAGALLOP_SLATEPORT || destId == SEAGALLOP_SLATEPORT)
+        return 13;
 
     if (originId == SEAGALLOP_VERMILION_CITY || destId == SEAGALLOP_VERMILION_CITY)
         return 7;

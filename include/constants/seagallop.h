@@ -13,6 +13,7 @@
 #define SEAGALLOP_NAVEL_ROCK       9
 #define SEAGALLOP_BIRTH_ISLAND    10
 #define SEAGALLOP_MEGA_ISLAND     11
+#define SEAGALLOP_SLATEPORT       12 // Hoenn (docs/hoenn_plan.md)
 
 #define SEAGALLOP_MORE           254
 

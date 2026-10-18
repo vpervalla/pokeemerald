@@ -1,4 +1,5 @@
 PalletTown_PlayersHouse_1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, PalletTown_PlayersHouse_1F_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, PalletTown_PlayersHouse_1F_OnFrame
 	.byte 0
 
@@ -102,6 +103,7 @@ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest:
 @ MEGA STONES come from strong trainers.
 
 PalletTown_PlayersHouse_1F_OnFrame:
+	map_script_2 VAR_HOENN_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomBlaineCalled
 	map_script_2 VAR_MEGA_STORY_STATE, 1, PalletTown_PlayersHouse_1F_EventScript_MomHasLetter
 	.2byte 0
 
@@ -199,3 +201,39 @@ PalletTown_PlayersHouse_1F_Text_MomDoYourBest:
     .string "I'll pack you a lunch for the boat.\p"
     .string "Go on, {PLAYER}.\n"
     .string "Show them what you can do!$"
+
+@ The way to Hoenn (see data/scripts/hoenn_story.inc): after the first Hall of Fame, MOM has a message
+@ from BLAINE. Set here rather than at the Hall of Fame, so saves from after it get it too.
+PalletTown_PlayersHouse_1F_OnTransition:
+	call_if_set FLAG_SYS_GAME_CLEAR, PalletTown_PlayersHouse_1F_EventScript_ReadyBlaineCall
+	end
+
+PalletTown_PlayersHouse_1F_EventScript_ReadyBlaineCall::
+	goto_if_ne VAR_HOENN_STORY_STATE, 0, Common_EventScript_NopReturn
+	setvar VAR_HOENN_STORY_STATE, 1
+	return
+
+@ No walking: an older save can get it when coming in from outside.
+PalletTown_PlayersHouse_1F_EventScript_MomBlaineCalled::
+	lockall
+	playse SE_PIN
+	applymovement LOCALID_MOM, Common_Movement_ExclamationMark
+	waitmovement 0
+	msgbox PalletTown_PlayersHouse_1F_Text_MomBlaineCalled
+	closemessage
+	setvar VAR_HOENN_STORY_STATE, 2
+	releaseall
+	end
+
+PalletTown_PlayersHouse_1F_Text_MomBlaineCalled:
+	.string "MOM: {PLAYER}! You're up!\n"
+	.string "Good morning, CHAMPION!\p"
+	.string "The phone rang while you were\n"
+	.string "asleep. It was BLAINE, the GYM\l"
+	.string "LEADER on CINNABAR ISLAND.\p"
+	.string "He sounded worried. Strangers in\n"
+	.string "red and blue uniforms broke into\l"
+	.string "the old POKéMON MANSION.\p"
+	.string "He asked if you could come to his\n"
+	.string "GYM right away.\p"
+	.string "Be careful, dear!$"

@@ -257,6 +257,7 @@ VermilionCity_OnFrame:
 
 VermilionCity_OnTransition::
 	setflag FLAG_VISITED_VERMILION_CITY
+	call VermilionCity_EventScript_UpdateHoennSailor  @ added: the way to Hoenn, see data/scripts/hoenn_story.inc
 	call_if_set FLAG_TALKED_TO_OAKS_AIDE_IN_VERMILION, VermilionCity_EventScript_HideOaksAide
 	end
 
@@ -436,3 +437,53 @@ VermilionCity_Text_ApexSailorAllAboard:
 VermilionCity_Text_ApexSailorNotYet:
     .string "Take your time. The island isn't\n"
     .string "going anywhere.$"
+
+@ The way to Hoenn (see data/scripts/hoenn_story.inc): once Aqua and Magma have fled the POKéMON
+@ MANSION, BLAINE's sailor friend sails to SLATEPORT. Shown by FLAG_HOENN_OPEN on each transition.
+VermilionCity_EventScript_UpdateHoennSailor::
+	setflag FLAG_HIDE_VERMILION_HOENN_SAILOR
+	goto_if_unset FLAG_HOENN_OPEN, Common_EventScript_NopReturn
+	clearflag FLAG_HIDE_VERMILION_HOENN_SAILOR
+	return
+
+VermilionCity_EventScript_HoennSailor::
+	lock
+	faceplayer
+	goto_if_set FLAG_ARRIVED_IN_HOENN, VermilionCity_EventScript_HoennSailorAgain
+	msgbox VermilionCity_Text_HoennSailor, MSGBOX_YESNO
+	goto VermilionCity_EventScript_HoennSailorAnswer
+	end
+
+VermilionCity_EventScript_HoennSailorAgain::
+	msgbox VermilionCity_Text_HoennSailorAgain, MSGBOX_YESNO
+VermilionCity_EventScript_HoennSailorAnswer::
+	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_HoennSailorNotYet
+	msgbox VermilionCity_Text_ApexSailorAllAboard
+	closemessage
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
+	setvar VAR_0x8006, SEAGALLOP_SLATEPORT
+	goto Kanto_EventScript_SetSail
+	end
+
+VermilionCity_EventScript_HoennSailorNotYet::
+	msgbox VermilionCity_Text_HoennSailorNotYet
+	release
+	end
+
+VermilionCity_Text_HoennSailor:
+	.string "Ahoy! You must be {PLAYER}.\n"
+	.string "BLAINE called about you.\p"
+	.string "Two boats tore out of here this\n"
+	.string "morning, one red and one blue.\l"
+	.string "Both heading south-west, to HOENN.\p"
+	.string "My SEAGALLOP can take you to\n"
+	.string "SLATEPORT CITY, HOENN's port.\p"
+	.string "Shall we follow them?$"
+
+VermilionCity_Text_HoennSailorAgain:
+	.string "Ahoy, {PLAYER}!\n"
+	.string "Back to SLATEPORT?$"
+
+VermilionCity_Text_HoennSailorNotYet:
+	.string "Get ready, then. HOENN is a long\n"
+	.string "way off.$"

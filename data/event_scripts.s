@@ -1500,6 +1500,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/scripts/starter_quests.inc"
 	.include "data/scripts/lab_trainers.inc"
 	.include "data/scripts/gym_rematches.inc"
+	.include "data/scripts/hoenn_story.inc"
 	.include "data/scripts/elite_four_mega_stones.inc"
 	.include "data/scripts/double_exchange.inc"
 	.include "data/scripts/kanto_received_item.inc"

@@ -1337,7 +1337,7 @@
 #define FLAG_HIDE_SSANNE_KITCHEN_GREAT_BALL                         0x4FF // Kanto (FRLG)
 
 // Trainer Flags
-// Trainer flags occupy 0x500 - 0x85F, the last 9 of which are unused
+// Trainer flags occupy 0x500 - 0x85F, the last 3 of which are unused
 // See constants/opponents.h. The values there + FLAG_TRAINER_FLAG_START are the flag IDs
 
 #define TRAINER_FLAGS_START                                         0x500
@@ -2101,6 +2101,10 @@
 #define FLAG_HOENN_OPEN                             (KANTO_EXTRA_FLAGS_START + 0x189) // The ship to Slateport sails
 #define FLAG_ARRIVED_IN_HOENN                       (KANTO_EXTRA_FLAGS_START + 0x18A) // BIRCH's welcome at Slateport Harbor, once
 #define FLAG_HIDDEN_ITEM_HOENN_VICTORY_ROAD_1F_ULTRA_BALL (KANTO_EXTRA_FLAGS_START + 0x18B) // Kanto's VICTORY ROAD 1F has the old one
+// Kept by the maps' transition scripts from VAR_HOENN_STORY_STATE and FLAG_HOENN_OPEN, so saves from before them work
+#define FLAG_HIDE_MANSION_RAIDERS                   (KANTO_EXTRA_FLAGS_START + 0x18C) // Aqua and Magma in the POKéMON MANSION
+#define FLAG_HIDE_MANSION_BLAINE                    (KANTO_EXTRA_FLAGS_START + 0x18D) // BLAINE on B1F, after they flee
+#define FLAG_HIDE_VERMILION_HOENN_SAILOR            (KANTO_EXTRA_FLAGS_START + 0x18E) // The SEAGALLOP to SLATEPORT
 
 #define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
 

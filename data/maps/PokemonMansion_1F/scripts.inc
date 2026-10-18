@@ -42,6 +42,7 @@ PokemonMansion_1F_OnLoad::
 	end
 
 PokemonMansion_1F_OnTransition::
+	call HoennStory_EventScript_UpdateMansion  @ added: Aqua and Magma in the MANSION, see data/scripts/hoenn_story.inc
 	end
 
 PokemonMansion_1F_Text_JohnsonDefeat:
@@ -69,3 +70,42 @@ PokemonMansion_1F_Text_TedPostBattle:
     .string "talking about.$"
 
 @ END KANTO NPCS
+
+@ Team Aqua and Team Magma, after the first Hall of Fame (see data/scripts/hoenn_story.inc)
+PokemonMansion_1F_EventScript_MagmaGrunt::
+	trainerbattle_single TRAINER_MANSION_MAGMA_GRUNT_M, PokemonMansion_1F_Text_MagmaGruntIntro, PokemonMansion_1F_Text_MagmaGruntDefeat
+	msgbox PokemonMansion_1F_Text_MagmaGruntPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+PokemonMansion_1F_EventScript_AquaGrunt::
+	trainerbattle_single TRAINER_MANSION_AQUA_GRUNT_M, PokemonMansion_1F_Text_AquaGruntIntro, PokemonMansion_1F_Text_AquaGruntDefeat
+	msgbox PokemonMansion_1F_Text_AquaGruntPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+PokemonMansion_1F_Text_MagmaGruntIntro:
+	.string "Hey! This place is TEAM MAGMA's\n"
+	.string "now!\p"
+	.string "We didn't sail all the way from\n"
+	.string "HOENN to babysit kids!$"
+
+PokemonMansion_1F_Text_MagmaGruntDefeat:
+	.string "Ugh! KANTO trainers are tough…$"
+
+PokemonMansion_1F_Text_MagmaGruntPostBattle:
+	.string "Those TEAM AQUA fools came too.\n"
+	.string "They want the file for themselves!\p"
+	.string "Whatever. TABITHA will get to it\n"
+	.string "first!$"
+
+PokemonMansion_1F_Text_AquaGruntIntro:
+	.string "Out of the way!\n"
+	.string "TEAM AQUA is busy here!$"
+
+PokemonMansion_1F_Text_AquaGruntDefeat:
+	.string "Washed out…$"
+
+PokemonMansion_1F_Text_AquaGruntPostBattle:
+	.string "The lab's last file is somewhere\n"
+	.string "in the basement.\p"
+	.string "SHELLY will find it before those\n"
+	.string "MAGMA dimwits do!$"

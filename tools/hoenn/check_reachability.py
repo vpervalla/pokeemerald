@@ -2,7 +2,7 @@
 """Which maps the player can reach (see docs/hoenn_plan.md).
 
 Walks every map's warps and connections, and the warps in its scripts.inc, from the
-player's room, the Kanto heal locations and the Seagallop's harbors. Prints how many of
+player's room, the Kanto heal locations and the Seagallop's harbors (src/seagallop.c). Prints how many of
 the non-Kanto maps (Emerald's map groups) are reached, and how.
 
     python3 tools/hoenn/check_reachability.py [-v]
@@ -17,13 +17,8 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 MAPS = os.path.join(ROOT, 'data', 'maps')
 
 START = 'MAP_PALLET_TOWN_PLAYERS_HOUSE_2F'
-# The harbors of src/seagallop.c's destinations, which the ride warps to from C
-SEAGALLOP_HARBORS = [
-    'MAP_ONE_ISLAND_HARBOR', 'MAP_TWO_ISLAND_HARBOR', 'MAP_THREE_ISLAND_HARBOR',
-    'MAP_FOUR_ISLAND_HARBOR', 'MAP_FIVE_ISLAND_HARBOR', 'MAP_SIX_ISLAND_HARBOR',
-    'MAP_SEVEN_ISLAND_HARBOR', 'MAP_KANTO_NAVEL_ROCK_HARBOR', 'MAP_KANTO_BIRTH_ISLAND_HARBOR',
-    'MAP_MEGA_ISLAND_HARBOR',
-]
+# The harbors of src/seagallop.c's destinations (sSeag), which the ride warps to from C
+SEAGALLOP_HARBOR = re.compile(r'\[SEAGALLOP_\w+\]\s*=\s*\{MAP\((MAP_\w+)\)')
 SCRIPT_WARP = re.compile(r'^\s*(warp\w*|setwarp|setdynamicwarp|setescapewarp|setdivewarp|setholewarp)\b')
 MAP_ID = re.compile(r'\b(MAP_[A-Z0-9_]+)\b')
 
@@ -57,7 +52,8 @@ def main():
     verbose = '-v' in sys.argv
     group_of, edges = load_maps()
     heal = json.load(open(os.path.join(ROOT, 'src', 'data', 'heal_locations.json')))['heal_locations']
-    roots = [START] + [h['map'] for h in heal if is_kanto_group(group_of.get(h['map'], ''))] + SEAGALLOP_HARBORS
+    harbors = SEAGALLOP_HARBOR.findall(open(os.path.join(ROOT, 'src', 'seagallop.c')).read())
+    roots = [START] + [h['map'] for h in heal if is_kanto_group(group_of.get(h['map'], ''))] + harbors
 
     came_from = {root: None for root in roots}
     queue = collections.deque(roots)

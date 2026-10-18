@@ -856,12 +856,20 @@
 #define TRAINER_LEAF                        852
 #define TRAINER_BRENDAN_PLACEHOLDER         853
 #define TRAINER_MAY_PLACEHOLDER             854
+// Added: Team Aqua and Team Magma in the POKéMON MANSION (docs/hoenn_plan.md, Act 0), in Emerald's
+// spare ids because the Kanto trainers' flags are full
+#define TRAINER_MANSION_AQUA_GRUNT_M        855
+#define TRAINER_MANSION_AQUA_GRUNT_F        856
+#define TRAINER_MANSION_MAGMA_GRUNT_M       857
+#define TRAINER_MANSION_MAGMA_GRUNT_F       858
+#define TRAINER_SHELLY_MANSION              859
+#define TRAINER_TABITHA_MANSION             860
 
-// NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 9 additional trainers before trainer flag space overflows
+// NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 3 more trainers before trainer flag space overflows
 //       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
 //       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT                      855
+#define TRAINERS_COUNT                      861
 #define MAX_TRAINERS_COUNT                  864
 
 #include "constants/opponents_kanto.h"

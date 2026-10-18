@@ -110,6 +110,35 @@ TestArea_EventScript_IslandSailorDone::
 TestArea_Text_SailToIsland:
 	.string "Want a ride to the castle island?$"
 
+@ Debug shortcuts for the way to Hoenn (see data/scripts/hoenn_story.inc): a ride to SLATEPORT, or the
+@ MANSION raid without a Hall of Fame.
+TestArea_EventScript_HoennSailor::
+	lock
+	faceplayer
+	msgbox TestArea_Text_SailToSlateport, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_HoennSailorRaid
+	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
+	setvar VAR_0x8006, SEAGALLOP_SLATEPORT
+	goto Kanto_EventScript_SetSail
+TestArea_EventScript_HoennSailorRaid::
+	msgbox TestArea_Text_StartMansionRaid, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_HoennSailorDone
+	setvar VAR_HOENN_STORY_STATE, 2
+	msgbox TestArea_Text_MansionRaidStarted
+TestArea_EventScript_HoennSailorDone::
+	release
+	end
+
+TestArea_Text_SailToSlateport:
+	.string "Want a ride to SLATEPORT, HOENN?$"
+
+TestArea_Text_StartMansionRaid:
+	.string "Put TEAM AQUA and TEAM MAGMA in\n"
+	.string "the POKéMON MANSION?$"
+
+TestArea_Text_MansionRaidStarted:
+	.string "They're on CINNABAR ISLAND now.$"
+
 @ Debug card player: first the vintage card test if wanted; otherwise the CARD CASE and the
 @ starter deck if the player has none, a card pack on every talk, then a duel against
 @ CARD_OPPONENT_TEST_AREA_TESTER.

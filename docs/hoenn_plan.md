@@ -7,8 +7,7 @@ Reversion, and Hoenn's legendaries and post-game. Nothing here is implemented ye
 
 ## Status
 
-Phase 1 is implemented: Kanto and Hoenn keep their progress apart. Hoenn is still not
-reachable, so nothing changes in a playthrough except the trainer card (below).
+Phase 1 is implemented: Kanto and Hoenn keep their progress apart.
 `tools/hoenn/check_shared_state.py` checks the maps. Nothing has been tested in-game.
 
 - **New state** (`include/constants/flags.h`, `vars.h`): `FLAG_HOENN_BADGE01_GET`-`08`,
@@ -38,6 +37,40 @@ badge counts on the Continue and save screens, TV shows, contests, link and the 
 PC. Two things for phase 5: the credits pick their starter with `GetStarterPokemon(VAR_STARTER_MON)`,
 a Hoenn starter for the Kanto index; and Hoenn's Hall of Fame clears the defeated flags of LUGIA,
 HO-OH and DEOXYS, which Kanto's copies share.
+
+Phase 2 is implemented: the MANSION raid and the ship. Hoenn is now reachable, but phase 3 (BIRCH's
+welcome and Hoenn's opening) isn't done, so a player who sails to SLATEPORT finds Hoenn as a new
+Emerald game left it. Nothing has been tested in-game.
+
+- **The hook** (`data/scripts/hoenn_story.inc`, `VAR_HOENN_STORY_STATE`): after the first Hall of
+  Fame, MOM passes on a call from BLAINE (`PalletTown_PlayersHouse_1F`; state 1 is set on the
+  map's transition, so saves from after the Hall of Fame get it too, and the scene doesn't walk
+  the player, who may come in from outside). Without the MEGA RING the story goes on all the
+  same; BLAINE's gym still gives it.
+- **BLAINE** (`CinnabarIsland_Gym`): while the raid is on (state 2) he asks the player to stop
+  it, instead of his rematch.
+- **The raid** (`PokemonMansion_1F`, `PokemonMansion_B1F`): two grunts on 1F and two on B1F,
+  SHELLY and TABITHA at the lab's safe in B1F's north-east room. They're shown only in state 2
+  (`FLAG_HIDE_MANSION_RAIDERS`, kept by the floors' transition scripts). Once both admins are
+  beaten they flee with half of the PRIMAL NOTES each, BLAINE comes down, explains Primal
+  Reversion and sends the player to VERMILION: state 3 and `FLAG_HOENN_OPEN`.
+- **Trainers**: `TRAINER_MANSION_*`, `TRAINER_SHELLY_MANSION` and `TRAINER_TABITHA_MANSION`
+  (`src/data/mansion_raid_trainers.h`, parties in `mansion_raid_trainer_parties.h`): grunts at
+  55-57, the admins at 59-62. They take Emerald's spare ids 855-860, whose flags are free; the
+  Kanto trainers' flag block has only 2 left. Emerald's spare ids are now 861-863.
+- **The ship**: `SEAGALLOP_SLATEPORT` (`src/seagallop.c`, SEAGALLOP HI-SPEED 13, westbound from
+  VERMILION), docking where the S.S. TIDAL does in `SLATEPORT_CITY_HARBOR` (8, 11). BLAINE's
+  sailor friend stands on VERMILION's east pier, by the APEX ISLAND sailor, shown by
+  `FLAG_HOENN_OPEN` on each transition (`FLAG_HIDE_VERMILION_HOENN_SAILOR`). A sailor in
+  SLATEPORT's and in LILYCOVE's harbor sails back (`HoennStory_EventScript_SeagallopSailor`).
+- **D7**: LILYCOVE's S.S. TIDAL no longer offers Hoenn's Navel Rock and Birth Island
+  (`CreateLilycoveSSTidalMultichoice`, and the harbor's ticket scripts lose those branches).
+- **Test Area**: a sailor east of the others sails to SLATEPORT, or, declined, puts the raid in
+  the MANSION (state 2) without a Hall of Fame.
+- **Checks**: `check_reachability.py` reads the Seagallop's harbors from `src/seagallop.c`. It
+  finds 429 of the 518 non-Kanto maps: the rest are reached from C (secret bases, the Battle
+  Pyramid and Pike, link rooms, the tides of Shoal Cave), unused, the truck of Emerald's intro,
+  and Hoenn's Navel Rock and Birth Island.
 
 ## Where things are now
 

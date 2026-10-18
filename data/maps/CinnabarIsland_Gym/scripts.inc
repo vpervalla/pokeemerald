@@ -40,6 +40,7 @@ CinnabarIsland_Gym_EventScript_Zac::
 	end
 
 CinnabarIsland_Gym_EventScript_Blaine::
+	goto_if_eq VAR_HOENN_STORY_STATE, 2, CinnabarIsland_Gym_EventScript_BlaineMansionRaid  @ added: the way to Hoenn, see data/scripts/hoenn_story.inc
 	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Blaine  @ added: post-game rematch, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
@@ -961,3 +962,25 @@ CinnabarIsland_Gym_Text_BlaineHowToMegaEvolve:
     .string "Hah! But who knows?\n"
     .string "Maybe they're still out there,\l"
     .string "waiting for a trainer like you!$"
+
+@ The way to Hoenn (see data/scripts/hoenn_story.inc): while Aqua and Magma are in the MANSION,
+@ BLAINE asks the player to stop them.
+CinnabarIsland_Gym_EventScript_BlaineMansionRaid::
+	lock
+	faceplayer
+	msgbox CinnabarIsland_Gym_Text_BlaineMansionRaid
+	release
+	end
+
+CinnabarIsland_Gym_Text_BlaineMansionRaid:
+	.string "BLAINE: Hah! {PLAYER}!\n"
+	.string "You came! Good!\p"
+	.string "Last night, two gangs broke into\n"
+	.string "the POKéMON MANSION. One in red,\l"
+	.string "one in blue, fighting each other.\p"
+	.string "They're from HOENN, by their\n"
+	.string "boats. TEAM MAGMA and TEAM AQUA.\p"
+	.string "They're after something in the old\n"
+	.string "lab, on the lowest floor.\p"
+	.string "I'm too old to take them all on.\n"
+	.string "Will you stop them? Hurry!$"
