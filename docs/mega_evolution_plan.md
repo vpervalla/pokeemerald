@@ -546,6 +546,38 @@ DRAGONINITE), for LANCE. Dragon/Flying, 91/124/115/100/145/125, with **Multiscal
 `TypeCalc`, after Filter. Mold Breaker ignores it. A custom Mega Machamp (MACHAMPITE) was
 added and later removed; DRAGONINITE took its item id.
 
+### Phase 6 status: Primal Reversion done
+
+For the Hoenn chapter (`docs/hoenn_plan.md`). Mega Rayquaza and Delta Stream were already in
+phase 3 and 4.
+
+- **Species**: `SPECIES_KYOGRE_PRIMAL` and `SPECIES_GROUDON_PRIMAL`, at the end of the Mega
+  range (`FORMS_MEGA_START` + 42 and 43), so once in battle they're handled as Megas: the form
+  lasts until the battle ends or the POKéMON faints, and the party keeps the base species.
+  Stats, types and sprites from pokeemerald-expansion, through
+  `tools/mega_evolutions/import_megas.py` (its `PRIMALS` rows; they're kept out of the Mega
+  table).
+- **Trigger**: `sPrimalReversions` in `src/pokemon.c` (KYOGRE with the BLUE ORB, GROUDON with the
+  RED ORB) and `GetPrimalReversionSpecies`. At the start of `ABILITYEFFECT_ON_SWITCHIN`,
+  `TryPrimalReversion` runs `BattleScript_PrimalReversion` (the Mega animation, "X's Primal
+  Reversion!", then the new ability's switch-in effect). It needs no MEGA RING and doesn't use the
+  trainer's one Mega Evolution. Wild POKéMON revert too.
+- **The ORBS** are held items now (`POCKET_ITEMS`, `HOLD_EFFECT_MEGA_STONE`, so they can't be
+  knocked off or traded away by Trick). Scripted wild battles keep the item `setwildbattle` gives
+  (`SetWildMonHeldItem` used to replace it).
+- **Primordial Sea** (99) and **Desolate Land** (100): heavy rain and extremely harsh sunlight,
+  `B_WEATHER_RAIN`/`SUN` plus `B_WEATHER_RAIN_PRIMAL`/`SUN_PRIMAL`. Damaging FIRE moves fizzle in
+  the rain and WATER moves evaporate in the sun (`Cmd_attackcanceler`, after the move's PP is
+  used). `B_WEATHER_STRONG` (these two and Delta Stream's winds) stops other weather abilities and
+  moves; the three replace each other. At the end of the turn the weather lifts if no POKéMON
+  with its ability is left.
+
+Tested in mGBA (a test build with a wild battle at Slateport Harbor): the player's KYOGRE with
+the BLUE ORB against a wild GROUDON with the RED ORB. Both revert (sprites, messages), the heavy
+rain replaces the sunlight, GROUDON's FIRE BLAST fizzles and KYOGRE's HYDRO PUMP hits. Then a
+GROUDON with the ORB against a KYOGRE without one: Drizzle's rain gives way to the harsh
+sunlight and FIRE BLAST hits.
+
 ## 9. Testing
 
 - `make` and `make modern` must both build. Watch the ROM size, because each Mega adds

@@ -72,6 +72,8 @@ static const u8 sPkblToEscapeFactor[][3] = {
         [B_MSG_MON_IGNORED]    = 0
     }
 };
+static bool8 TryPrimalReversion(u8 battler);
+
 static const u8 sGoNearCounterToCatchFactor[] = {4, 3, 2, 1};
 static const u8 sGoNearCounterToEscapeFactor[] = {4, 4, 4, 4};
 
@@ -1344,6 +1346,14 @@ u8 DoFieldEndTurnEffects(void)
             }
             break;
         case ENDTURN_RAIN:
+            // The heavy rain stops once no Pokémon with Primordial Sea is left in battle
+            if ((gBattleWeather & B_WEATHER_RAIN_PRIMAL) && !IsAbilityOnFieldAlive(ABILITY_PRIMORDIAL_SEA))
+            {
+                gBattleWeather &= ~(B_WEATHER_RAIN | B_WEATHER_RAIN_PRIMAL);
+                BattleScriptExecute(BattleScript_HeavyRainEnd);
+                effect++;
+                break;
+            }
             // The strong winds stop once no Pokémon with Delta Stream is left in battle
             if ((gBattleWeather & B_WEATHER_STRONG_WINDS) && !IsAbilityOnFieldAlive(ABILITY_DELTA_STREAM))
             {
@@ -1406,6 +1416,15 @@ u8 DoFieldEndTurnEffects(void)
             gBattleStruct->turnCountersTracker++;
             break;
         case ENDTURN_SUN:
+            // The extremely harsh sunlight fades once no Pokémon with Desolate Land is left in battle
+            if ((gBattleWeather & B_WEATHER_SUN_PRIMAL) && !IsAbilityOnFieldAlive(ABILITY_DESOLATE_LAND))
+            {
+                gBattleWeather &= ~(B_WEATHER_SUN | B_WEATHER_SUN_PRIMAL);
+                BattleScriptExecute(BattleScript_HarshSunEnd);
+                effect++;
+                gBattleStruct->turnCountersTracker++;
+                break;
+            }
             if (gBattleWeather & B_WEATHER_SUN)
             {
                 if (!(gBattleWeather & B_WEATHER_SUN_PERMANENT) && --gWishFutureKnock.weatherDuration == 0)
@@ -2499,6 +2518,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
         switch (caseID)
         {
         case ABILITYEFFECT_ON_SWITCHIN: // 0
+            // Primal Reversion comes first; its script then runs the new ability's switch-in effect.
+            // (special is set when this runs for the overworld weather, not for a battler.)
+            if (special == 0 && TryPrimalReversion(battler))
+            {
+                effect++;
+                break;
+            }
             if (gBattlerAttacker >= gBattlersCount)
                 gBattlerAttacker = battler;
             switch (gLastUsedAbility)
@@ -2555,7 +2581,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_DRIZZLE:
-                if (!(gBattleWeather & (B_WEATHER_RAIN_PERMANENT | B_WEATHER_STRONG_WINDS)))
+                if (!(gBattleWeather & (B_WEATHER_RAIN_PERMANENT | B_WEATHER_STRONG)))
                 {
                     gBattleWeather = (B_WEATHER_RAIN_PERMANENT | B_WEATHER_RAIN_TEMPORARY);
                     BattleScriptPushCursorAndCallback(BattleScript_DrizzleActivates);
@@ -2564,7 +2590,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_SAND_STREAM:
-                if (!(gBattleWeather & (B_WEATHER_SANDSTORM_PERMANENT | B_WEATHER_STRONG_WINDS)))
+                if (!(gBattleWeather & (B_WEATHER_SANDSTORM_PERMANENT | B_WEATHER_STRONG)))
                 {
                     gBattleWeather = B_WEATHER_SANDSTORM;
                     BattleScriptPushCursorAndCallback(BattleScript_SandstreamActivates);
@@ -2573,7 +2599,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_DROUGHT:
-                if (!(gBattleWeather & (B_WEATHER_SUN_PERMANENT | B_WEATHER_STRONG_WINDS)))
+                if (!(gBattleWeather & (B_WEATHER_SUN_PERMANENT | B_WEATHER_STRONG)))
                 {
                     gBattleWeather = B_WEATHER_SUN;
                     BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
@@ -2602,6 +2628,24 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 {
                     gBattleWeather = B_WEATHER_STRONG_WINDS;
                     BattleScriptPushCursorAndCallback(BattleScript_DeltaStreamActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
+                break;
+            case ABILITY_PRIMORDIAL_SEA:
+                if (!(gBattleWeather & B_WEATHER_RAIN_PRIMAL))
+                {
+                    gBattleWeather = B_WEATHER_RAIN | B_WEATHER_RAIN_PRIMAL;
+                    BattleScriptPushCursorAndCallback(BattleScript_PrimordialSeaActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
+                break;
+            case ABILITY_DESOLATE_LAND:
+                if (!(gBattleWeather & B_WEATHER_SUN_PRIMAL))
+                {
+                    gBattleWeather = B_WEATHER_SUN | B_WEATHER_SUN_PRIMAL;
+                    BattleScriptPushCursorAndCallback(BattleScript_DesolateLandActivates);
                     gBattleScripting.battler = battler;
                     effect++;
                 }
@@ -4185,6 +4229,29 @@ void MegaEvolve(u8 battler)
     gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]] = megaSpecies;
 }
 
+// Primal Reversion: KYOGRE and GROUDON holding their ORB take their primal form as they come into battle,
+// without the MEGA RING and on top of the trainer's one Mega Evolution. Like a Mega, the form lasts until
+// the end of the battle or until it faints (megaEvolvedSpecies).
+static bool8 TryPrimalReversion(u8 battler)
+{
+    u16 primalSpecies = GetPrimalReversionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
+
+    if (primalSpecies == SPECIES_NONE || gBattleMons[battler].hp == 0)
+        return FALSE;
+    gBattleScripting.battler = battler;
+    BattleScriptPushCursorAndCallback(BattleScript_PrimalReversion);
+    return TRUE;
+}
+
+void PrimalRevert(u8 battler)
+{
+    u16 primalSpecies = GetPrimalReversionSpecies(gBattleMons[battler].species, gBattleMons[battler].item);
+
+    SetBattleMonToMegaSpecies(battler, primalSpecies);
+    RecordAbilityBattle(battler, gBattleMons[battler].ability);
+    gBattleStruct->megaEvolvedSpecies[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]] = primalSpecies;
+}
+
 // Wild Pokémon never Mega Evolve. Trainers' Pokémon and partners always do when they can,
 // since Mega Evolving is never worse.
 bool8 ShouldAIMegaEvolve(u8 battler)
@@ -4245,7 +4312,8 @@ bool8 IsMegaStoneUsableBy(u8 battler, u16 item)
 {
     if (GetItemHoldEffect(item) != HOLD_EFFECT_MEGA_STONE)
         return FALSE;
-    return GetMegaEvolutionSpecies(GetMegaBaseSpecies(gBattleMons[battler].species), item) != SPECIES_NONE;
+    return GetMegaEvolutionSpecies(GetMegaBaseSpecies(gBattleMons[battler].species), item) != SPECIES_NONE
+        || GetPrimalReversionSpecies(GetMegaBaseSpecies(gBattleMons[battler].species), item) != SPECIES_NONE;
 }
 
 // Abilities that a Mold Breaker Pokémon's moves ignore: the ones that would stop

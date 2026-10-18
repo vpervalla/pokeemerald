@@ -531,6 +531,13 @@ static const u8 sText_PkmnBreaksTheMold[];
 static const u8 sText_MegaEvoWish[];
 static const u8 sText_StrongWindsBegin[];
 static const u8 sText_StrongWindsEnd[];
+static const u8 sText_PrimalReversion[];
+static const u8 sText_HeavyRainBegin[];
+static const u8 sText_HeavyRainEnd[];
+static const u8 sText_HarshSunBegin[];
+static const u8 sText_HarshSunEnd[];
+static const u8 sText_FireMoveFizzled[];
+static const u8 sText_WaterMoveEvaporated[];
 static const u8 sText_PkmnBouncedMoveBack[];
 static const u8 sText_PkmnHurtBySolarPower[];
 
@@ -914,6 +921,13 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_ST
     [STRINGID_PKMNBOUNCEDMOVEBACK - BATTLESTRINGS_TABLE_START] = sText_PkmnBouncedMoveBack,
     [STRINGID_PKMNHURTBYSOLARPOWER - BATTLESTRINGS_TABLE_START] = sText_PkmnHurtBySolarPower,
     [STRINGID_ITISHAILING - BATTLESTRINGS_TABLE_START] = sText_ItIsHailing,
+    [STRINGID_PRIMALREVERSION - BATTLESTRINGS_TABLE_START] = sText_PrimalReversion,
+    [STRINGID_HEAVYRAINBEGIN - BATTLESTRINGS_TABLE_START] = sText_HeavyRainBegin,
+    [STRINGID_HEAVYRAINEND - BATTLESTRINGS_TABLE_START] = sText_HeavyRainEnd,
+    [STRINGID_HARSHSUNBEGIN - BATTLESTRINGS_TABLE_START] = sText_HarshSunBegin,
+    [STRINGID_HARSHSUNEND - BATTLESTRINGS_TABLE_START] = sText_HarshSunEnd,
+    [STRINGID_FIREMOVEFIZZLED - BATTLESTRINGS_TABLE_START] = sText_FireMoveFizzled,
+    [STRINGID_WATERMOVEEVAPORATED - BATTLESTRINGS_TABLE_START] = sText_WaterMoveEvaporated,
 };
 
 const u16 gMissStringIds[] =
@@ -1460,6 +1474,13 @@ static const u8 sText_PkmnBreaksTheMold[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} b
 static const u8 sText_MegaEvoWish[] = _("A fervent wish has reached\n{B_ATK_NAME_WITH_PREFIX}!");
 static const u8 sText_StrongWindsBegin[] = _("Mysterious strong winds are\nprotecting FLYING-type POKéMON!");
 static const u8 sText_StrongWindsEnd[] = _("The mysterious strong winds\nhave dissipated!");
+static const u8 sText_PrimalReversion[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX}'s Primal Reversion!\nIt reverted to its primal form!");
+static const u8 sText_HeavyRainBegin[] = _("A heavy rain began to fall!");
+static const u8 sText_HeavyRainEnd[] = _("The heavy rain has lifted!");
+static const u8 sText_HarshSunBegin[] = _("The sunlight turned\nextremely harsh!");
+static const u8 sText_HarshSunEnd[] = _("The extremely harsh sunlight\nfaded!");
+static const u8 sText_FireMoveFizzled[] = _("The FIRE-type attack fizzled out\nin the heavy rain!");
+static const u8 sText_WaterMoveEvaporated[] = _("The WATER-type attack evaporated\nin the harsh sunlight!");
 static const u8 sText_PkmnBouncedMoveBack[] = _("{B_DEF_NAME_WITH_PREFIX} bounced the\n{B_CURRENT_MOVE} back!");
 static const u8 sText_PkmnHurtBySolarPower[] = _("{B_ATK_NAME_WITH_PREFIX} is hurt by\nits SOLAR POWER!");
 static const u8 sText_Trainer1Fled[] = _( "{PLAY_SE SE_FLEE}{B_TRAINER1_CLASS} {B_TRAINER1_NAME} fled!");

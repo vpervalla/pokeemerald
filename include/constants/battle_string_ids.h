@@ -387,8 +387,15 @@
 #define STRINGID_PKMNBOUNCEDMOVEBACK        387
 #define STRINGID_PKMNHURTBYSOLARPOWER       388
 #define STRINGID_ITISHAILING                389
+#define STRINGID_PRIMALREVERSION            390
+#define STRINGID_HEAVYRAINBEGIN             391
+#define STRINGID_HEAVYRAINEND               392
+#define STRINGID_HARSHSUNBEGIN              393
+#define STRINGID_HARSHSUNEND                394
+#define STRINGID_FIREMOVEFIZZLED            395
+#define STRINGID_WATERMOVEEVAPORATED        396
 
-#define BATTLESTRINGS_COUNT                 390
+#define BATTLESTRINGS_COUNT                 397
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,

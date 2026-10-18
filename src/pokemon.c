@@ -6741,6 +6741,9 @@ static s32 GetWildMonTableIdInAlteringCave(u16 species)
 
 void SetWildMonHeldItem(void)
 {
+    // Kanto port: keep the item a script gave it (setwildbattle's item, e.g. a GROUDON with its RED ORB)
+    if (GetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, 0) != ITEM_NONE)
+        return;
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
     {
         u16 rnd = Random() % 100;
@@ -7314,7 +7317,28 @@ u16 GetMoveMegaEvolutionSpecies(u16 baseSpecies, const u16 *moves)
     return SPECIES_NONE;
 }
 
-// Returns the species a Mega Evolution came from, or species itself if it isn't a Mega.
+// Primal Reversion (docs/hoenn_plan.md, Act 4): KYOGRE with the BLUE ORB, GROUDON with the RED ORB.
+// The primal forms are in the Mega forms' range, so they're handled as Megas once in battle.
+static const struct MegaEvolution sPrimalReversions[] =
+{
+    {SPECIES_KYOGRE, ITEM_BLUE_ORB, SPECIES_KYOGRE_PRIMAL, MOVE_NONE},
+    {SPECIES_GROUDON, ITEM_RED_ORB, SPECIES_GROUDON_PRIMAL, MOVE_NONE},
+};
+
+// The primal form baseSpecies takes while holding heldItem, or SPECIES_NONE
+u16 GetPrimalReversionSpecies(u16 baseSpecies, u16 heldItem)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sPrimalReversions); i++)
+    {
+        if (sPrimalReversions[i].baseSpecies == baseSpecies && sPrimalReversions[i].megaStone == heldItem)
+            return sPrimalReversions[i].megaSpecies;
+    }
+    return SPECIES_NONE;
+}
+
+// Returns the species a Mega Evolution (or a primal form) came from, or species itself if it isn't one.
 u16 GetMegaBaseSpecies(u16 species)
 {
     u32 i;
@@ -7326,6 +7350,11 @@ u16 GetMegaBaseSpecies(u16 species)
     {
         if (sMegaEvolutions[i].megaSpecies == species)
             return sMegaEvolutions[i].baseSpecies;
+    }
+    for (i = 0; i < ARRAY_COUNT(sPrimalReversions); i++)
+    {
+        if (sPrimalReversions[i].megaSpecies == species)
+            return sPrimalReversions[i].baseSpecies;
     }
     return species;
 }

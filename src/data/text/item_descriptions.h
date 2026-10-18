@@ -1058,14 +1058,14 @@ static const u8 sEonTicketDesc[] = _(
     "southern island.");
 
 static const u8 sRedOrbDesc[] = _(
-    "A red, glowing orb\n"
-    "said to contain an\n"
-    "ancient power.");
+    "A red, glowing orb.\n"
+    "GROUDON holding it\n"
+    "turns primal.");
 
 static const u8 sBlueOrbDesc[] = _(
-    "A blue, glowing orb\n"
-    "said to contain an\n"
-    "ancient power.");
+    "A blue, glowing orb.\n"
+    "KYOGRE holding it\n"
+    "turns primal.");
 
 static const u8 sScannerDesc[] = _(
     "A device found\n"

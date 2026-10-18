@@ -454,5 +454,7 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     [SPECIES_GARDEVOIR_MEGA] = _("GARDEVOIR"),
     [SPECIES_ALTARIA_MEGA] = _("ALTARIA"),
     [SPECIES_DRAGONITE_MEGA] = _("DRAGONITE"),
+    [SPECIES_KYOGRE_PRIMAL] = _("KYOGRE"),
+    [SPECIES_GROUDON_PRIMAL] = _("GROUDON"),
     // </mega-evolutions>
 };

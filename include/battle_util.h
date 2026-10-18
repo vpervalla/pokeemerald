@@ -93,6 +93,7 @@ bool8 HasNoMonsToSwitch(u8 battler, u8 partyIdBattlerOn1, u8 partyIdBattlerOn2);
 u8 CastformDataTypeChange(u8 battler);
 bool8 CanMegaEvolve(u8 battler);
 void MegaEvolve(u8 battler);
+void PrimalRevert(u8 battler);
 u16 GetBattlerMegaEvolutionSpecies(u8 battler);
 bool8 IsMegaEvolvingByStone(u8 battler);
 void TryRestoreMegaEvolution(u8 battler);

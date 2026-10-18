@@ -2992,4 +2992,12 @@ const u32 gMonStillFrontPic_DragoniteMega[] = INCGFX_U32("graphics/pokemon/drago
 const u32 gMonBackPic_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/back.png", ".4bpp.lz");
 const u32 gMonPalette_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/normal.pal", ".gbapal.lz");
 const u32 gMonShinyPalette_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_KyogrePrimal[] = INCGFX_U32("graphics/pokemon/kyogre/primal/front.png", ".4bpp.lz");
+const u32 gMonBackPic_KyogrePrimal[] = INCGFX_U32("graphics/pokemon/kyogre/primal/back.png", ".4bpp.lz");
+const u32 gMonPalette_KyogrePrimal[] = INCGFX_U32("graphics/pokemon/kyogre/primal/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_KyogrePrimal[] = INCGFX_U32("graphics/pokemon/kyogre/primal/shiny.pal", ".gbapal.lz");
+const u32 gMonStillFrontPic_GroudonPrimal[] = INCGFX_U32("graphics/pokemon/groudon/primal/front.png", ".4bpp.lz");
+const u32 gMonBackPic_GroudonPrimal[] = INCGFX_U32("graphics/pokemon/groudon/primal/back.png", ".4bpp.lz");
+const u32 gMonPalette_GroudonPrimal[] = INCGFX_U32("graphics/pokemon/groudon/primal/normal.pal", ".gbapal.lz");
+const u32 gMonShinyPalette_GroudonPrimal[] = INCGFX_U32("graphics/pokemon/groudon/primal/shiny.pal", ".gbapal.lz");
 // </mega-evolutions>

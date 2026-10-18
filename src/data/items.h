@@ -3361,9 +3361,9 @@ const struct Item gItems[] =
         .name = _("RED ORB"),
         .itemId = ITEM_RED_ORB,
         .price = 0,
+        .holdEffect = HOLD_EFFECT_MEGA_STONE,  // Kanto port: held, it brings out GROUDON's primal form
         .description = sRedOrbDesc,
-        .importance = 2,
-        .pocket = POCKET_KEY_ITEMS,
+        .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
@@ -3373,9 +3373,9 @@ const struct Item gItems[] =
         .name = _("BLUE ORB"),
         .itemId = ITEM_BLUE_ORB,
         .price = 0,
+        .holdEffect = HOLD_EFFECT_MEGA_STONE,  // Kanto port: held, it brings out KYOGRE's primal form
         .description = sBlueOrbDesc,
-        .importance = 2,
-        .pocket = POCKET_KEY_ITEMS,
+        .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
@@ -4539,6 +4539,20 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
+
+    [ITEM_CARD_CASE] =
+    {
+        .name = _("CARD CASE"),
+        .itemId = ITEM_CARD_CASE,
+        .price = 0,
+        .description = sCardCaseDesc,
+        .importance = 1,
+        .registrability = TRUE,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CardCase,
+    },
+
     // <mega-evolutions>
     [ITEM_MEGA_RING] =
     {
@@ -5044,17 +5058,4 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
     // </mega-evolutions>
-
-    [ITEM_CARD_CASE] =
-    {
-        .name = _("CARD CASE"),
-        .itemId = ITEM_CARD_CASE,
-        .price = 0,
-        .description = sCardCaseDesc,
-        .importance = 1,
-        .registrability = TRUE,
-        .pocket = POCKET_KEY_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CardCase,
-    },
 };

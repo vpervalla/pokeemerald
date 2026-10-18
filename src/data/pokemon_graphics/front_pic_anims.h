@@ -5737,6 +5737,8 @@ const union AnimCmd *const *const gMonFrontAnimsPtrTable[] =
     [SPECIES_GARDEVOIR_MEGA] = sAnims_Gardevoir,
     [SPECIES_ALTARIA_MEGA] = sAnims_Altaria,
     [SPECIES_DRAGONITE_MEGA] = sAnims_Dragonite,
+    [SPECIES_KYOGRE_PRIMAL] = sAnims_Kyogre,
+    [SPECIES_GROUDON_PRIMAL] = sAnims_Groudon,
     // </mega-evolutions>
 
 };

@@ -487,6 +487,7 @@ u16 SpeciesToCryId(u16 species);
 u16 GetMegaEvolutionSpecies(u16 baseSpecies, u16 heldItem);
 u16 GetMoveMegaEvolutionSpecies(u16 baseSpecies, const u16 *moves);
 u16 GetMegaBaseSpecies(u16 species);
+u16 GetPrimalReversionSpecies(u16 baseSpecies, u16 heldItem);
 void CalculateMonStatsForSpecies(struct Pokemon *mon, u16 species, u16 *stats);
 void DrawSpindaSpots(u16 species, u32 personality, u8 *dest, bool8 isFrontPic);
 void EvolutionRenameMon(struct Pokemon *mon, u16 oldSpecies, u16 newSpecies);

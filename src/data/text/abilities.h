@@ -97,6 +97,8 @@ static const u8 sStrongJawDescription[] = _("Powers up biting moves.");
 static const u8 sMagicBounceDescription[] = _("Reflects status moves.");
 static const u8 sPixilateDescription[] = _("NORMAL moves become FAIRY.");
 static const u8 sMultiscaleDescription[] = _("Halves damage at full HP.");
+static const u8 sPrimordialSeaDescription[] = _("Summons heavy rain.");
+static const u8 sDesolateLandDescription[] = _("Summons harsh sunlight.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -199,6 +201,8 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_MAGIC_BOUNCE] = _("MAGIC BOUNCE"),
     [ABILITY_PIXILATE] = _("PIXILATE"),
     [ABILITY_MULTISCALE] = _("MULTISCALE"),
+    [ABILITY_PRIMORDIAL_SEA] = _("PRIMORD. SEA"),
+    [ABILITY_DESOLATE_LAND] = _("DESOLATELAND"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -302,4 +306,6 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_MAGIC_BOUNCE] = sMagicBounceDescription,
     [ABILITY_PIXILATE] = sPixilateDescription,
     [ABILITY_MULTISCALE] = sMultiscaleDescription,
+    [ABILITY_PRIMORDIAL_SEA] = sPrimordialSeaDescription,
+    [ABILITY_DESOLATE_LAND] = sDesolateLandDescription,
 };

@@ -971,6 +971,26 @@ static void Cmd_attackcanceler(void)
 
     gHitMarker |= HITMARKER_OBEYS;
 
+    // Primordial Sea's heavy rain stops damaging FIRE moves, Desolate Land's sunlight WATER moves
+    if (gBattleMoves[gCurrentMove].power != 0 && (gBattleWeather & (B_WEATHER_RAIN_PRIMAL | B_WEATHER_SUN_PRIMAL)) && WEATHER_HAS_EFFECT)
+    {
+        u8 moveType = (gBattleStruct->dynamicMoveType & F_DYNAMIC_TYPE_SET)
+                    ? (gBattleStruct->dynamicMoveType & DYNAMIC_TYPE_MASK) : gBattleMoves[gCurrentMove].type;
+
+        if ((gBattleWeather & B_WEATHER_RAIN_PRIMAL) && moveType == TYPE_FIRE)
+        {
+            gMoveResultFlags |= MOVE_RESULT_FAILED;
+            gBattlescriptCurrInstr = BattleScript_FireMoveFizzled;
+            return;
+        }
+        if ((gBattleWeather & B_WEATHER_SUN_PRIMAL) && moveType == TYPE_WATER)
+        {
+            gMoveResultFlags |= MOVE_RESULT_FAILED;
+            gBattlescriptCurrInstr = BattleScript_WaterMoveEvaporated;
+            return;
+        }
+    }
+
     if (gProtectStructs[gBattlerTarget].bounceMove && gBattleMoves[gCurrentMove].flags & FLAG_MAGIC_COAT_AFFECTED)
     {
         PressurePPLose(gBattlerAttacker, gBattlerTarget, MOVE_MAGIC_COAT);
@@ -6849,7 +6869,7 @@ static void Cmd_trymirrormove(void)
 
 static void Cmd_setrain(void)
 {
-    if (gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_STRONG_WINDS))
+    if (gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_STRONG))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -7765,7 +7785,7 @@ static void Cmd_damagetohalftargethp(void)
 
 static void Cmd_setsandstorm(void)
 {
-    if (gBattleWeather & (B_WEATHER_SANDSTORM | B_WEATHER_STRONG_WINDS))
+    if (gBattleWeather & (B_WEATHER_SANDSTORM | B_WEATHER_STRONG))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -8947,7 +8967,7 @@ static void Cmd_jumpifnopursuitswitchdmg(void)
 
 static void Cmd_setsunny(void)
 {
-    if (gBattleWeather & (B_WEATHER_SUN | B_WEATHER_STRONG_WINDS))
+    if (gBattleWeather & (B_WEATHER_SUN | B_WEATHER_STRONG))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -9235,7 +9255,7 @@ static void Cmd_setminimize(void)
 
 static void Cmd_sethail(void)
 {
-    if (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_STRONG_WINDS))
+    if (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_STRONG))
     {
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEATHER_FAILED;
@@ -10530,6 +10550,10 @@ static void Cmd_handlemegaevolution(void)
     case MEGA_EVO_UPDATE_DATA:
         MegaEvolve(gActiveBattler);
         PREPARE_SPECIES_BUFFER(gBattleTextBuff1, gBattleMons[gActiveBattler].species);
+        gBattlescriptCurrInstr += 3;
+        break;
+    case MEGA_EVO_PRIMAL_UPDATE_DATA:
+        PrimalRevert(gActiveBattler);
         gBattlescriptCurrInstr += 3;
         break;
     case MEGA_EVO_ANIMATION:

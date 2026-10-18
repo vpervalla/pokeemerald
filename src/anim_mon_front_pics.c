@@ -466,4 +466,6 @@ const u32 gMonFrontPic_AbsolMega[] = INCGFX_U32("graphics/pokemon/absol/mega/ani
 const u32 gMonFrontPic_GardevoirMega[] = INCGFX_U32("graphics/pokemon/gardevoir/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_AltariaMega[] = INCGFX_U32("graphics/pokemon/altaria/mega/anim_front.png", ".4bpp.lz");
 const u32 gMonFrontPic_DragoniteMega[] = INCGFX_U32("graphics/pokemon/dragonite/mega/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_KyogrePrimal[] = INCGFX_U32("graphics/pokemon/kyogre/primal/anim_front.png", ".4bpp.lz");
+const u32 gMonFrontPic_GroudonPrimal[] = INCGFX_U32("graphics/pokemon/groudon/primal/anim_front.png", ".4bpp.lz");
 // </mega-evolutions>

@@ -11,7 +11,7 @@ running it again regenerates it instead of adding to it.
 To add a Mega, add a row to MEGAS and run this from the pokeemerald root:
 
     git clone --depth 1 --filter=blob:none --sparse https://github.com/rh-hideout/pokeemerald-expansion.git exp
-    git -C exp sparse-checkout set --no-cone '/graphics/pokemon/*/mega*/' '/graphics/items/icons/' \
+    git -C exp sparse-checkout set --no-cone '/graphics/pokemon/*/mega*/' '/graphics/pokemon/*/primal/' '/graphics/items/icons/' \
         '/graphics/items/icon_palettes/' '/src/data/pokemon/species_info/'
     python3 tools/mega_evolutions/import_megas.py exp
 
@@ -70,7 +70,14 @@ MEGAS = [
  ('ALTARIA_MEGA', 'ALTARIA', 'altaria/mega', 'AltariaMega', 'ALTARIANITE', 'ALTARIANITE', 'altarianite', (75,110,110,80,110,105), ('DRAGON','FAIRY'), 'PIXILATE'),
  # From Pokémon Legends: Z-A: LANCE's in MR. M.'s tournament and the ELITE FOUR rematch
  ('DRAGONITE_MEGA', 'DRAGONITE', 'dragonite/mega', 'DragoniteMega', 'DRAGONINITE', 'DRAGONINITE', 'dragoninite', (91,124,115,100,145,125), ('DRAGON','FLYING'), 'MULTISCALE'),
+ # Primal Reversion (docs/hoenn_plan.md): in the Mega range, but triggered by the BLUE and RED ORBS
+ # when they come into battle (sPrimalReversions in src/pokemon.c), not by the Mega table
+ ('KYOGRE_PRIMAL', 'KYOGRE', 'kyogre/primal', 'KyogrePrimal', None, None, None, (100,150,90,90,180,160), ('WATER','WATER'), 'PRIMORDIAL_SEA'),
+ ('GROUDON_PRIMAL', 'GROUDON', 'groudon/primal', 'GroudonPrimal', None, None, None, (100,180,160,90,150,90), ('GROUND','FIRE'), 'DESOLATE_LAND'),
 ]
+
+# Primal forms: no row in sMegaEvolutions
+PRIMALS = {'KYOGRE_PRIMAL', 'GROUDON_PRIMAL'}
 
 # Megas that need a move instead of a Mega Stone
 MOVE_MEGAS = {'RAYQUAZA_MEGA': 'DRAGON_ASCENT'}
@@ -149,8 +156,9 @@ s = re.sub(r'#define FORMS_MEGA_START \(SPECIES_UNOWN_QMARK \+ 1\)\n.*?#define F
 wr('include/constants/species.h', s)
 
 s = rd('include/constants/items.h')
-s = re.sub(r'    // Mega Evolution\n.*?\n\n    ITEMS_COUNT', '    // Mega Evolution\n    ITEM_MEGA_RING,\n' +
-           ''.join('    ITEM_%s,\n' % m[4] for m in STONE_MEGAS) + '\n    ITEMS_COUNT', s, flags=re.S)
+# The Mega items run to the first blank line (later items, like the CARD CASE, follow them)
+s = re.sub(r'    // Mega Evolution\n.*?\n\n', '    // Mega Evolution\n    ITEM_MEGA_RING,\n' +
+           ''.join('    ITEM_%s,\n' % m[4] for m in STONE_MEGAS) + '\n', s, count=1, flags=re.S)
 s = re.sub(r'#define LAST_MEGA_STONE  ITEM_[A-Z_]+', '#define LAST_MEGA_STONE  ITEM_%s' % STONE_MEGAS[-1][4], s)
 wr('include/constants/items.h', s)
 
@@ -318,6 +326,6 @@ wr('src/data/items.h', s)
 # ---------- mega table ----------
 s = rd('src/data/pokemon/mega_evolutions.h')
 s = re.sub(r'static const struct MegaEvolution sMegaEvolutions\[\] =\n\{\n.*?\n\};', 'static const struct MegaEvolution sMegaEvolutions[] =\n{\n' +
-           ''.join('    {SPECIES_%s, ITEM_%s, SPECIES_%s, MOVE_%s},\n' % (m[1], m[4] or 'NONE', m[0], MOVE_MEGAS.get(m[0], 'NONE')) for m in MEGAS).rstrip('\n') + '\n};', s, flags=re.S)
+           ''.join('    {SPECIES_%s, ITEM_%s, SPECIES_%s, MOVE_%s},\n' % (m[1], m[4] or 'NONE', m[0], MOVE_MEGAS.get(m[0], 'NONE')) for m in MEGAS if m[0] not in PRIMALS).rstrip('\n') + '\n};', s, flags=re.S)
 wr('src/data/pokemon/mega_evolutions.h', s)
 print('ok', len(MEGAS))

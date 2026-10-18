@@ -246,6 +246,12 @@ enum BattlerId
 // Delta Stream's strong winds: Flying types lose their weaknesses, and other weather can't start.
 // Not part of B_WEATHER_ANY, so effects of the other weathers don't apply.
 #define B_WEATHER_STRONG_WINDS        (1 << 8)
+// Primordial Sea's heavy rain and Desolate Land's extremely harsh sunlight: rain and sun (with their
+// permanent bits) that also stop FIRE and WATER moves. Like the winds, they end once no Pokémon with
+// the ability is left, other weather can't start, and they replace each other.
+#define B_WEATHER_RAIN_PRIMAL         (1 << 10)
+#define B_WEATHER_SUN_PRIMAL          (1 << 11)
+#define B_WEATHER_STRONG              (B_WEATHER_STRONG_WINDS | B_WEATHER_RAIN_PRIMAL | B_WEATHER_SUN_PRIMAL)
 
 // Move Effects
 #define MOVE_EFFECT_SLEEP               1
@@ -349,6 +355,7 @@ enum BattlerId
 #define MEGA_EVO_UPDATE_DATA     0
 #define MEGA_EVO_ANIMATION       1
 #define MEGA_EVO_SWITCH_IN_EFFECTS 2
+#define MEGA_EVO_PRIMAL_UPDATE_DATA 3
 
 #define B_WIN_TYPE_NORMAL 0
 #define B_WIN_TYPE_ARENA  1

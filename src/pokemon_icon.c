@@ -506,6 +506,8 @@ const u8 *const gMonIconTable[] =
     [SPECIES_GARDEVOIR_MEGA] = gMonIcon_Gardevoir,
     [SPECIES_ALTARIA_MEGA] = gMonIcon_Altaria,
     [SPECIES_DRAGONITE_MEGA] = gMonIcon_Dragonite,
+    [SPECIES_KYOGRE_PRIMAL] = gMonIcon_Kyogre,
+    [SPECIES_GROUDON_PRIMAL] = gMonIcon_Groudon,
     // </mega-evolutions>
 };
 
@@ -994,6 +996,8 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_GARDEVOIR_MEGA] = 1,
     [SPECIES_ALTARIA_MEGA] = 0,
     [SPECIES_DRAGONITE_MEGA] = 2,
+    [SPECIES_KYOGRE_PRIMAL] = 2,
+    [SPECIES_GROUDON_PRIMAL] = 0,
     // </mega-evolutions>
 };
 

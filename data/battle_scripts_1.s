@@ -3746,6 +3746,17 @@ BattleScript_MegaEvolutionByWish::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MegaEvolutionContinue
 
+@ Kyogre and Groudon holding their ORB, as they come into battle (TryPrimalReversion, which pushes it
+@ like a switch-in ability: it ends with end3)
+BattleScript_PrimalReversion::
+	handlemegaevolution BS_SCRIPTING, MEGA_EVO_PRIMAL_UPDATE_DATA
+	handlemegaevolution BS_SCRIPTING, MEGA_EVO_ANIMATION
+	waitstate
+	printstring STRINGID_PRIMALREVERSION
+	waitmessage B_WAIT_TIME_LONG
+	handlemegaevolution BS_SCRIPTING, MEGA_EVO_SWITCH_IN_EFFECTS
+	end3
+
 BattleScript_MegaEvolution::
 	printstring STRINGID_MEGAEVOREACTING
 	waitmessage B_WAIT_TIME_LONG
@@ -4146,6 +4157,49 @@ BattleScript_StrongWindsEnd::
 	printstring STRINGID_STRONGWINDSEND
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_PrimordialSeaActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_HEAVYRAINBEGIN
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
+	call BattleScript_WeatherFormChanges
+	end3
+
+BattleScript_DesolateLandActivates::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_HARSHSUNBEGIN
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_SUN_CONTINUES
+	call BattleScript_WeatherFormChanges
+	end3
+
+BattleScript_HeavyRainEnd::
+	printstring STRINGID_HEAVYRAINEND
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_HarshSunEnd::
+	printstring STRINGID_HARSHSUNEND
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+@ A FIRE move in Primordial Sea's heavy rain, or a WATER move in Desolate Land's sunlight
+BattleScript_FireMoveFizzled::
+	attackstring
+	ppreduce
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_FIREMOVEFIZZLED
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
+
+BattleScript_WaterMoveEvaporated::
+	attackstring
+	ppreduce
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_WATERMOVEEVAPORATED
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
 
 BattleScript_MoldBreakerActivates::
 	pause B_WAIT_TIME_SHORT
