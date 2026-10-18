@@ -355,10 +355,11 @@ const struct RematchTrainer gRematchTable[REMATCH_TABLE_ENTRIES] =
     [REMATCH_WALLACE] = REMATCH(TRAINER_WALLACE, TRAINER_WALLACE, TRAINER_WALLACE, TRAINER_WALLACE, TRAINER_WALLACE, MAP_EVER_GRANDE_CITY),
 };
 
-static const u16 sBadgeFlags[NUM_BADGES] =
+// Hoenn's trainers: their rematches follow the Hoenn badges, not Kanto's
+static const u16 sBadgeFlags[NUM_HOENN_BADGES] =
 {
-    FLAG_BADGE01_GET, FLAG_BADGE02_GET, FLAG_BADGE03_GET, FLAG_BADGE04_GET,
-    FLAG_BADGE05_GET, FLAG_BADGE06_GET, FLAG_BADGE07_GET, FLAG_BADGE08_GET,
+    FLAG_HOENN_BADGE01_GET, FLAG_HOENN_BADGE02_GET, FLAG_HOENN_BADGE03_GET, FLAG_HOENN_BADGE04_GET,
+    FLAG_HOENN_BADGE05_GET, FLAG_HOENN_BADGE06_GET, FLAG_HOENN_BADGE07_GET, FLAG_HOENN_BADGE08_GET,
 };
 
 #define tState data[0]
@@ -982,7 +983,7 @@ static void CB2_GiveStarter(void)
 {
     u16 starterMon;
 
-    *GetVarPointer(VAR_STARTER_MON) = gSpecialVar_Result;
+    *GetVarPointer(VAR_HOENN_STARTER) = gSpecialVar_Result;
     starterMon = GetStarterPokemon(gSpecialVar_Result);
     ScriptGiveMon(starterMon, 5, ITEM_NONE, 0, 0, 0);
     ResetTasks();

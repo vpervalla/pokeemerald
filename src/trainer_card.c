@@ -13,6 +13,7 @@
 #include "menu.h"
 #include "text.h"
 #include "event_data.h"
+#include "region_map.h"
 #include "easy_chat.h"
 #include "money.h"
 #include "strings.h"
@@ -76,6 +77,7 @@ struct TrainerCardData
     bool8 timeColonNeedDraw;
     u8 cardType;
     bool8 isHoenn;
+    bool8 kantoBadges; // The player's own card outside Hoenn: Kanto's badges, flags and pictures
     u16 blendColor;
     MainCallback callback2;
     struct TrainerCard trainerCard;
@@ -562,7 +564,7 @@ static bool8 LoadCardGfx(void)
         }
         break;
     case 3:
-        if (sData->cardType != CARD_TYPE_FRLG)
+        if (sData->cardType != CARD_TYPE_FRLG && !sData->kantoBadges)
             LZ77UnCompWram(sHoennTrainerCardBadges_Gfx, sData->badgeTiles);
         else
             LZ77UnCompWram(sKantoTrainerCardBadges_Gfx, sData->badgeTiles);
@@ -814,7 +816,7 @@ void CopyTrainerCardData(struct TrainerCard *dst, struct TrainerCard *src, u8 ga
 static void SetDataFromTrainerCard(void)
 {
     u8 i;
-    u32 badgeFlag;
+    u32 badgeFlag, firstBadgeFlag;
 
     sData->hasPokedex = FALSE;
     sData->hasHofResult = FALSE;
@@ -839,7 +841,9 @@ static void SetDataFromTrainerCard(void)
     if (sData->trainerCard.battleTowerWins || sData->trainerCard.battleTowerStraightWins)
         sData->hasBattleTowerWins++;
 
-    for (i = 0, badgeFlag = FLAG_BADGE01_GET; badgeFlag < FLAG_BADGE01_GET + NUM_BADGES; badgeFlag++, i++)
+    // FLAG_BADGE01_GET-FLAG_BADGE08_GET are Kanto's badges; Hoenn's have their own flags
+    firstBadgeFlag = sData->kantoBadges ? FLAG_BADGE01_GET : FLAG_HOENN_BADGE01_GET;
+    for (i = 0, badgeFlag = firstBadgeFlag; badgeFlag < firstBadgeFlag + NUM_BADGES; badgeFlag++, i++)
     {
         if (FlagGet(badgeFlag))
             sData->badgeCount[i]++;
@@ -1432,7 +1436,7 @@ static u8 SetCardBgsAndPals(void)
         if (sData->cardType != CARD_TYPE_FRLG)
         {
             LoadPalette(sHoennTrainerCardPals[sData->trainerCard.stars], BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
-            LoadPalette(sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
+            LoadPalette(sData->kantoBadges ? sKantoTrainerCardBadges_Pal : sHoennTrainerCardBadges_Pal, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
             if (sData->trainerCard.gender != MALE)
                 LoadPalette(sHoennTrainerCardFemaleBg_Pal, BG_PLTT_ID(1), PLTT_SIZE_4BPP);
         }
@@ -1810,6 +1814,7 @@ void ShowPlayerTrainerCard(void (*callback)(void))
         sData->isLink = FALSE;
 
     sData->language = GAME_LANGUAGE;
+    sData->kantoBadges = !sData->isLink && GetPlayerRegion() != REGION_HOENN;
     TrainerCard_GenerateCardForPlayer(&sData->trainerCard);
     SetMainCallback2(CB2_InitTrainerCard);
 }

@@ -114,26 +114,6 @@ enum {
     ACTIONS_TAKEITEM_TOSS,
 };
 
-// In CursorCb_FieldMove, field moves <= FIELD_MOVE_WATERFALL are HMs and need the badge in sFieldMoveBadgeFlags.
-// The badges are Kanto's, so they unlock the HMs as in FRLG; DIVE, which has no Kanto badge, takes the last one.
-enum {
-    FIELD_MOVE_CUT,         // FLAG_BADGE02_GET
-    FIELD_MOVE_FLASH,       // FLAG_BADGE01_GET
-    FIELD_MOVE_ROCK_SMASH,  // FLAG_BADGE06_GET
-    FIELD_MOVE_STRENGTH,    // FLAG_BADGE04_GET
-    FIELD_MOVE_SURF,        // FLAG_BADGE05_GET
-    FIELD_MOVE_FLY,         // FLAG_BADGE03_GET
-    FIELD_MOVE_DIVE,        // FLAG_BADGE08_GET
-    FIELD_MOVE_WATERFALL,   // FLAG_BADGE07_GET
-    FIELD_MOVE_TELEPORT,
-    FIELD_MOVE_DIG,
-    FIELD_MOVE_SECRET_POWER,
-    FIELD_MOVE_MILK_DRINK,
-    FIELD_MOVE_SOFT_BOILED,
-    FIELD_MOVE_SWEET_SCENT,
-    FIELD_MOVES_COUNT
-};
-
 enum {
     PARTY_BOX_LEFT_COLUMN,
     PARTY_BOX_RIGHT_COLUMN,
@@ -3699,6 +3679,23 @@ static void Task_HandleSpinTradeYesNoInput(u8 taskId)
     }
 }
 
+// Whether the player has the badge an HM needs where they are: Hoenn's badges on Hoenn maps, Kanto's elsewhere.
+// The other field moves need none.
+bool32 HasBadgeForFieldMove(u32 fieldMove)
+{
+    if (fieldMove > FIELD_MOVE_WATERFALL)
+        return TRUE;
+    if (GetPlayerRegion() == REGION_HOENN)
+        return FlagGet(sFieldMoveBadgeFlags_Hoenn[fieldMove]);
+    return FlagGet(sFieldMoveBadgeFlags[fieldMove]);
+}
+
+// Special: HasBadgeForFieldMove for the field move in VAR_0x8004
+bool8 CheckBadgeForFieldMove(void)
+{
+    return HasBadgeForFieldMove(gSpecialVar_0x8004);
+}
+
 static void CursorCb_FieldMove(u8 taskId)
 {
     u8 fieldMove = sPartyMenuInternal->actions[Menu_GetCursorPos()] - MENU_FIELD_MOVES;
@@ -3722,7 +3719,7 @@ static void CursorCb_FieldMove(u8 taskId)
     else
     {
         // All field moves before WATERFALL are HMs.
-        if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(sFieldMoveBadgeFlags[fieldMove]) != TRUE)
+        if (!HasBadgeForFieldMove(fieldMove))
         {
             DisplayPartyMenuMessage(gText_CantUseUntilNewBadge, TRUE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;

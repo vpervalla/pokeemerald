@@ -329,6 +329,10 @@
 #define VAR_HERACROSS_SIZE_RECORD                   (KANTO_VARS_START + 0x2C)
 // END KANTO VARS
 
+// Hoenn's own progress (see docs/hoenn_plan.md): the Hoenn maps read it instead of VAR_STARTER_MON,
+// which is the Kanto starter. Clear of the vars the Kanto port allocates.
+#define VAR_HOENN_STARTER                           (KANTO_VARS_START + 0x70) // BIRCH's POKéMON: 0 TREECKO, 1 TORCHIC, 2 MUDKIP
+
 #define SPECIAL_VARS_START            0x8000
 // special vars
 // They are commonly used as parameters to commands, or return values from commands.

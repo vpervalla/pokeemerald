@@ -2086,6 +2086,24 @@
 #define FLAG_HIDE_RED_CERULEAN_CAVE                      (KANTO_EXTRA_FLAGS_START + 0x1FD)
 #define FLAG_DEFEATED_RED_POSTGAME                  (KANTO_EXTRA_FLAGS_START + 0x1FE)
 
+// Hoenn's own progress, apart from Kanto's (see docs/hoenn_plan.md, section 1). The Hoenn maps
+// read these instead of FLAG_BADGE01_GET-FLAG_BADGE08_GET and FLAG_SYS_GAME_CLEAR, which are
+// Kanto's.
+#define FLAG_HOENN_BADGE01_GET                      (KANTO_EXTRA_FLAGS_START + 0x180) // STONE BADGE, ROXANNE
+#define FLAG_HOENN_BADGE02_GET                      (KANTO_EXTRA_FLAGS_START + 0x181) // KNUCKLE BADGE, BRAWLY
+#define FLAG_HOENN_BADGE03_GET                      (KANTO_EXTRA_FLAGS_START + 0x182) // DYNAMO BADGE, WATTSON
+#define FLAG_HOENN_BADGE04_GET                      (KANTO_EXTRA_FLAGS_START + 0x183) // HEAT BADGE, FLANNERY
+#define FLAG_HOENN_BADGE05_GET                      (KANTO_EXTRA_FLAGS_START + 0x184) // BALANCE BADGE, NORMAN
+#define FLAG_HOENN_BADGE06_GET                      (KANTO_EXTRA_FLAGS_START + 0x185) // FEATHER BADGE, WINONA
+#define FLAG_HOENN_BADGE07_GET                      (KANTO_EXTRA_FLAGS_START + 0x186) // MIND BADGE, TATE AND LIZA
+#define FLAG_HOENN_BADGE08_GET                      (KANTO_EXTRA_FLAGS_START + 0x187) // RAIN BADGE, JUAN
+#define FLAG_HOENN_GAME_CLEAR                       (KANTO_EXTRA_FLAGS_START + 0x188) // Hoenn's Hall of Fame
+#define FLAG_HOENN_OPEN                             (KANTO_EXTRA_FLAGS_START + 0x189) // The ship to Slateport sails
+#define FLAG_ARRIVED_IN_HOENN                       (KANTO_EXTRA_FLAGS_START + 0x18A) // BIRCH's welcome at Slateport Harbor, once
+#define FLAG_HIDDEN_ITEM_HOENN_VICTORY_ROAD_1F_ULTRA_BALL (KANTO_EXTRA_FLAGS_START + 0x18B) // Kanto's VICTORY ROAD 1F has the old one
+
+#define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
+
 #define SPECIAL_FLAGS_START                     0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)
 #define FLAG_DONT_TRANSITION_MUSIC              (SPECIAL_FLAGS_START + 0x1)

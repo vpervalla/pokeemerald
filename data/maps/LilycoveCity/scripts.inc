@@ -57,7 +57,7 @@ LilycoveCity_EventScript_Man3::
 LilycoveCity_EventScript_Girl::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE07_GET, LilycoveCity_EventScript_GirlAquaGone
+	goto_if_set FLAG_HOENN_BADGE07_GET, LilycoveCity_EventScript_GirlAquaGone
 	msgbox LilycoveCity_Text_StrangeCaveInCove, MSGBOX_DEFAULT
 	release
 	end
@@ -112,7 +112,7 @@ LilycoveCity_EventScript_ExpertF::
 LilycoveCity_EventScript_ExpertM2::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE07_GET, LilycoveCity_EventScript_ExpertM2AquaGone
+	goto_if_set FLAG_HOENN_BADGE07_GET, LilycoveCity_EventScript_ExpertM2AquaGone
 	msgbox LilycoveCity_Text_TeamAquaRenovatedCavern, MSGBOX_DEFAULT
 	release
 	end
@@ -170,7 +170,7 @@ LilycoveCity_EventScript_MuseumSignNoPaintings::
 
 LilycoveCity_EventScript_HarborSign::
 	lockall
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_HarborSignFerryReady
+	goto_if_set FLAG_HOENN_GAME_CLEAR, LilycoveCity_EventScript_HarborSignFerryReady
 	msgbox LilycoveCity_Text_HarborSignUnderConstruction, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -238,7 +238,7 @@ LilycoveCity_EventScript_May::
 	call_if_unset FLAG_DECLINED_RIVAL_BATTLE_LILYCOVE, LilycoveCity_EventScript_MayAskToBattle
 	goto_if_eq VAR_RESULT, NO, LilycoveCity_EventScript_DeclineMayBattle
 	msgbox LilycoveCity_Text_MayWontBeBeaten, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, LilycoveCity_EventScript_BattleMayTreecko
 	case 1, LilycoveCity_EventScript_BattleMayTorchic
 	case 2, LilycoveCity_EventScript_BattleMayMudkip
@@ -266,7 +266,7 @@ LilycoveCity_EventScript_Brendan::
 	call_if_unset FLAG_DECLINED_RIVAL_BATTLE_LILYCOVE, LilycoveCity_EventScript_BrendanAskToBattle
 	goto_if_eq VAR_RESULT, NO, LilycoveCity_EventScript_DeclineBrendanBattle
 	msgbox LilycoveCity_Text_BrendanWontBeBeaten, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, LilycoveCity_EventScript_BattleBrendanTreecko
 	case 1, LilycoveCity_EventScript_BattleBrendanTorchic
 	case 2, LilycoveCity_EventScript_BattleBrendanMudkip
@@ -321,7 +321,7 @@ LilycoveCity_EventScript_BattleBrendanMudkip::
 LilycoveCity_EventScript_DefeatedMay::
 	msgbox LilycoveCity_Text_MayGoingBackToLittleroot, MSGBOX_DEFAULT
 	setvar VAR_RESULT, FALSE
-	call_if_set FLAG_BADGE06_GET, LilycoveCity_EventScript_CheckFinalBadge
+	call_if_set FLAG_HOENN_BADGE06_GET, LilycoveCity_EventScript_CheckFinalBadge
 	call_if_eq VAR_RESULT, FALSE, LilycoveCity_EventScript_MayCollectBadges
 	call_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_MayPokemonLeague
 	clearflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM
@@ -330,7 +330,7 @@ LilycoveCity_EventScript_DefeatedMay::
 	end
 
 LilycoveCity_EventScript_CheckFinalBadge::
-	goto_if_set FLAG_BADGE08_GET, LilycoveCity_EventScript_HasFinalBadge
+	goto_if_set FLAG_HOENN_BADGE08_GET, LilycoveCity_EventScript_HasFinalBadge
 	return
 
 LilycoveCity_EventScript_HasFinalBadge::
@@ -342,7 +342,7 @@ LilycoveCity_EventScript_MayCollectBadges::
 	return
 
 LilycoveCity_EventScript_MayPokemonLeague::
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_MayBattleFrontier
+	goto_if_set FLAG_HOENN_GAME_CLEAR, LilycoveCity_EventScript_MayBattleFrontier
 	msgbox LilycoveCity_Text_MayYouGoingToPokemonLeague, MSGBOX_DEFAULT
 	return
 
@@ -353,7 +353,7 @@ LilycoveCity_EventScript_MayBattleFrontier::
 LilycoveCity_EventScript_DefeatedBrendan::
 	msgbox LilycoveCity_Text_BrendanGoingBackToLittleroot, MSGBOX_DEFAULT
 	setvar VAR_RESULT, FALSE
-	call_if_set FLAG_BADGE06_GET, LilycoveCity_EventScript_CheckFinalBadge
+	call_if_set FLAG_HOENN_BADGE06_GET, LilycoveCity_EventScript_CheckFinalBadge
 	call_if_eq VAR_RESULT, FALSE, LilycoveCity_EventScript_BrendanCollectBadges
 	call_if_eq VAR_RESULT, TRUE, LilycoveCity_EventScript_BrendanPokemonLeague
 	clearflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_BEDROOM
@@ -366,7 +366,7 @@ LilycoveCity_EventScript_BrendanCollectBadges::
 	return
 
 LilycoveCity_EventScript_BrendanPokemonLeague::
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_BrendanBattleFrontier
+	goto_if_set FLAG_HOENN_GAME_CLEAR, LilycoveCity_EventScript_BrendanBattleFrontier
 	msgbox LilycoveCity_Text_BrendanYouGoingToPokemonLeague, MSGBOX_DEFAULT
 	return
 

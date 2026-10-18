@@ -131,4 +131,23 @@
 #define SELECTWINDOW_MAIL     2
 #define SELECTWINDOW_MOVES    3
 
+// The field moves of the party menu. Those <= FIELD_MOVE_WATERFALL are HMs, which need a badge
+// (HasBadgeForFieldMove): Kanto's on Kanto maps, as in FRLG, and Hoenn's on Hoenn maps, as in Emerald.
+// Defines rather than an enum, so the event scripts can use them too.
+#define FIELD_MOVE_CUT           0
+#define FIELD_MOVE_FLASH         1
+#define FIELD_MOVE_ROCK_SMASH    2
+#define FIELD_MOVE_STRENGTH      3
+#define FIELD_MOVE_SURF          4
+#define FIELD_MOVE_FLY           5
+#define FIELD_MOVE_DIVE          6
+#define FIELD_MOVE_WATERFALL     7
+#define FIELD_MOVE_TELEPORT      8
+#define FIELD_MOVE_DIG           9
+#define FIELD_MOVE_SECRET_POWER  10
+#define FIELD_MOVE_MILK_DRINK    11
+#define FIELD_MOVE_SOFT_BOILED   12
+#define FIELD_MOVE_SWEET_SCENT   13
+#define FIELD_MOVES_COUNT        14
+
 #endif // GUARD_CONSTANTS_PARTY_MENU_H

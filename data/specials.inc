@@ -319,6 +319,7 @@ gSpecials::
 	def_special DoContestHallWarp, waitstate=1
 	def_special LoadWallyZigzagoon
 	def_special IsStarterInParty
+	def_special CheckBadgeForFieldMove
 	def_special GetPlayerCostume
 	def_special CopyCurSecretBaseOwnerName_StrVar1
 	def_special ScriptCheckFreePokemonStorageSpace

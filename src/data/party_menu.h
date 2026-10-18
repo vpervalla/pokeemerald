@@ -742,6 +742,7 @@ static const u8 sPartyMenuActionCounts[] =
     [ACTIONS_TAKEITEM_TOSS] = ARRAY_COUNT(sPartyMenuAction_TakeItemTossCancel)
 };
 
+// The badge each HM needs on a Kanto map, as in FRLG. DIVE, which has no Kanto badge, takes the last one.
 static const u16 sFieldMoveBadgeFlags[FIELD_MOVE_WATERFALL + 1] =
 {
     [FIELD_MOVE_CUT]        = FLAG_BADGE02_GET, // CASCADEBADGE
@@ -752,6 +753,19 @@ static const u16 sFieldMoveBadgeFlags[FIELD_MOVE_WATERFALL + 1] =
     [FIELD_MOVE_FLY]        = FLAG_BADGE03_GET, // THUNDERBADGE
     [FIELD_MOVE_DIVE]       = FLAG_BADGE08_GET, // EARTHBADGE
     [FIELD_MOVE_WATERFALL]  = FLAG_BADGE07_GET, // VOLCANOBADGE
+};
+
+// The badge each HM needs on a Hoenn map, as in Emerald
+static const u16 sFieldMoveBadgeFlags_Hoenn[FIELD_MOVE_WATERFALL + 1] =
+{
+    [FIELD_MOVE_CUT]        = FLAG_HOENN_BADGE01_GET, // STONE BADGE
+    [FIELD_MOVE_FLASH]      = FLAG_HOENN_BADGE02_GET, // KNUCKLE BADGE
+    [FIELD_MOVE_ROCK_SMASH] = FLAG_HOENN_BADGE03_GET, // DYNAMO BADGE
+    [FIELD_MOVE_STRENGTH]   = FLAG_HOENN_BADGE04_GET, // HEAT BADGE
+    [FIELD_MOVE_SURF]       = FLAG_HOENN_BADGE05_GET, // BALANCE BADGE
+    [FIELD_MOVE_FLY]        = FLAG_HOENN_BADGE06_GET, // FEATHER BADGE
+    [FIELD_MOVE_DIVE]       = FLAG_HOENN_BADGE07_GET, // MIND BADGE
+    [FIELD_MOVE_WATERFALL]  = FLAG_HOENN_BADGE08_GET, // RAIN BADGE
 };
 
 static const u16 sFieldMoves[FIELD_MOVES_COUNT + 1] =

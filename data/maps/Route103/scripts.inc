@@ -9,7 +9,7 @@ Route103_OnTransition:
 	end
 
 Route103_OnLoad:
-	call_if_set FLAG_SYS_GAME_CLEAR, Route103_EventScript_OpenAlteringCave
+	call_if_set FLAG_HOENN_GAME_CLEAR, Route103_EventScript_OpenAlteringCave
 	end
 
 Route103_EventScript_OpenAlteringCave::
@@ -32,7 +32,7 @@ Route103_EventScript_RivalMay::
 	applywaitmovement LOCALID_ROUTE103_RIVAL, Common_Movement_ExclamationMark
 	applywaitmovement LOCALID_ROUTE103_RIVAL, Common_Movement_Delay48
 	msgbox Route103_Text_MayLetsBattle, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, Route103_EventScript_StartMayBattleTreecko
 	case 1, Route103_EventScript_StartMayBattleTorchic
 	case 2, Route103_EventScript_StartMayBattleMudkip
@@ -46,7 +46,7 @@ Route103_EventScript_RivalBrendan::
 	applywaitmovement LOCALID_ROUTE103_RIVAL, Common_Movement_ExclamationMark
 	applywaitmovement LOCALID_ROUTE103_RIVAL, Common_Movement_Delay48
 	msgbox Route103_Text_BrendanLetsBattle, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, Route103_EventScript_StartBrendanBattleTreecko
 	case 1, Route103_EventScript_StartBrendanBattleTorchic
 	case 2, Route103_EventScript_StartBrendanBattleMudkip

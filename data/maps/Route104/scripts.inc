@@ -20,7 +20,7 @@ Route104_OnTransition:
 
 Route104_EventScript_ShowOrHideWhiteHerbFlorist::
 	goto_if_unset FLAG_MET_PRETTY_PETAL_SHOP_OWNER, Route104_EventScript_HideWhiteHerbFlorist
-	goto_if_unset FLAG_BADGE03_GET, Route104_EventScript_HideWhiteHerbFlorist
+	goto_if_unset FLAG_HOENN_BADGE03_GET, Route104_EventScript_HideWhiteHerbFlorist
 	clearflag FLAG_HIDE_ROUTE_104_WHITE_HERB_FLORIST
 	return
 
@@ -134,7 +134,7 @@ Route104_EventScript_MayAskToBattle::
 
 Route104_EventScript_BattleMay::
 	msgbox Route104_Text_MayIntro, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, Route104_EventScript_BattleMayTreecko
 	case 1, Route104_EventScript_BattleMayTorchic
 	case 2, Route104_EventScript_BattleMayMudkip
@@ -205,7 +205,7 @@ Route104_EventScript_BrendanAskToBattle::
 
 Route104_EventScript_BattleBrendan::
 	msgbox Route104_Text_BrendanIntro, MSGBOX_DEFAULT
-	switch VAR_STARTER_MON
+	switch VAR_HOENN_STARTER
 	case 0, Route104_EventScript_BattleBrendanTreecko
 	case 1, Route104_EventScript_BattleBrendanTorchic
 	case 2, Route104_EventScript_BattleBrendanMudkip

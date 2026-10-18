@@ -33,6 +33,7 @@ extern const u16 gTutorMoves[];
 
 void AnimatePartySlot(u8 slot, u8 animNum);
 bool8 IsMultiBattle(void);
+bool32 HasBadgeForFieldMove(u32 fieldMove);
 u8 GetCursorSelectionMonId(void);
 u8 GetPartyMenuType(void);
 void Task_HandleChooseMonInput(u8 taskId);

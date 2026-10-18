@@ -5,6 +5,40 @@ story: a ship from Vermilion to Slateport, Hoenn's own story played from Profess
 lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
 Reversion, and Hoenn's legendaries and post-game. Nothing here is implemented yet.
 
+## Status
+
+Phase 1 is implemented: Kanto and Hoenn keep their progress apart. Hoenn is still not
+reachable, so nothing changes in a playthrough except the trainer card (below).
+`tools/hoenn/check_shared_state.py` checks the maps. Nothing has been tested in-game.
+
+- **New state** (`include/constants/flags.h`, `vars.h`): `FLAG_HOENN_BADGE01_GET`-`08`,
+  `FLAG_HOENN_GAME_CLEAR`, `FLAG_HOENN_OPEN`, `FLAG_ARRIVED_IN_HOENN` and
+  `FLAG_HIDDEN_ITEM_HOENN_VICTORY_ROAD_1F_ULTRA_BALL` at `KANTO_EXTRA_FLAGS_START + 0x180`-`0x18B`
+  (a block clear of the Kanto port's), and `VAR_HOENN_STARTER` at `KANTO_VARS_START + 0x70`.
+- **Hoenn maps**: 38 files of Emerald's map groups read the new flags and var instead of
+  `FLAG_BADGE0n_GET`, `FLAG_SYS_GAME_CLEAR`, `VAR_STARTER_MON` and the Victory Road item flag,
+  and so do the scripts only Hoenn calls (`players_house.inc`, `prof_birch.inc`,
+  `secret_base.inc`). Hoenn's Hall of Fame sets `FLAG_HOENN_GAME_CLEAR`
+  (`hall_of_fame.inc`); it still calls `GameClear`, which phase 5 changes.
+- **C, Hoenn's systems**: BIRCH's starter (`CB2_GiveStarter`) and `IsStarterInParty` use
+  `VAR_HOENN_STARTER`; the Hoenn trainers' rematches (`battle_setup.c`), the gym leaders'
+  rematches, Match Call and the PokéNav's lists, and Trainer Hill read the Hoenn badges and game
+  clear.
+- **HMs**: `HasBadgeForFieldMove` (`src/party_menu.c`) picks the badge from the map's region
+  (`GetPlayerRegion`): FRLG's table on Kanto maps, Emerald's on Hoenn maps. The party menu,
+  Surf, Waterfall and Dive (`field_control_avatar.c`), and Cut, Rock Smash and Strength
+  (`field_move_scripts.inc`, through the special `CheckBadgeForFieldMove`) use it. The field
+  move list moved to `include/constants/party_menu.h` so the scripts can name the moves.
+- **Trainer card**: the player's own card shows Kanto's badges, with Kanto's pictures, outside
+  Hoenn, and Hoenn's in Hoenn. Until now it showed the Kanto badge flags with Hoenn's pictures
+  (BROCK's badge drawn as the STONE BADGE).
+
+Left as they are, as Kanto's or both regions': the badges' stat boosts and obedience, the
+badge counts on the Continue and save screens, TV shows, contests, link and the Hall of Fame
+PC. Two things for phase 5: the credits pick their starter with `GetStarterPokemon(VAR_STARTER_MON)`,
+a Hoenn starter for the Kanto index; and Hoenn's Hall of Fame clears the defeated flags of LUGIA,
+HO-OH and DEOXYS, which Kanto's copies share.
+
 ## Where things are now
 
 The game is a Kanto game (FRLG's maps and scripts ported onto Emerald). A new game starts in

@@ -1,4 +1,5 @@
 EverGrandeCity_HallOfFame_EventScript_SetGameClearFlags::
+	setflag FLAG_HOENN_GAME_CLEAR  @ added: Hoenn's own game clear, apart from Kanto's FLAG_SYS_GAME_CLEAR
 	special SetChampionSaveWarp
 	setflag FLAG_IS_CHAMPION
 	call EverGrandeCity_HallOfFame_EventScript_ResetDefeatedEventLegendaries

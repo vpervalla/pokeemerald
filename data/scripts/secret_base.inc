@@ -298,7 +298,7 @@ SecretBase_EventScript_RecordMixTrainer::
 SecretBase_EventScript_Trainer0::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer0PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer0PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer0PostBattle
 	msgbox SecretBase_Text_Trainer0Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer0DeclineBattle
@@ -332,7 +332,7 @@ SecretBase_EventScript_Trainer0PostBattle::
 SecretBase_EventScript_Trainer1::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer1PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer1PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer1PostBattle
 	msgbox SecretBase_Text_Trainer1Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer1DeclineBattle
@@ -366,7 +366,7 @@ SecretBase_EventScript_Trainer1PostBattle::
 SecretBase_EventScript_Trainer2::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer2PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer2PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer2PostBattle
 	msgbox SecretBase_Text_Trainer2Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer2DeclineBattle
@@ -400,7 +400,7 @@ SecretBase_EventScript_Trainer2PostBattle::
 SecretBase_EventScript_Trainer3::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer3PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer3PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer3PostBattle
 	msgbox SecretBase_Text_Trainer3Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer3DeclineBattle
@@ -434,7 +434,7 @@ SecretBase_EventScript_Trainer3PostBattle::
 SecretBase_EventScript_Trainer4::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer4PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer4PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer4PostBattle
 	msgbox SecretBase_Text_Trainer4Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer4DeclineBattle
@@ -468,7 +468,7 @@ SecretBase_EventScript_Trainer4PostBattle::
 SecretBase_EventScript_Trainer5::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer5PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer5PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer5PostBattle
 	msgbox SecretBase_Text_Trainer5Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer5DeclineBattle
@@ -502,7 +502,7 @@ SecretBase_EventScript_Trainer5PostBattle::
 SecretBase_EventScript_Trainer6::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer6PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer6PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer6PostBattle
 	msgbox SecretBase_Text_Trainer6Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer6DeclineBattle
@@ -536,7 +536,7 @@ SecretBase_EventScript_Trainer6PostBattle::
 SecretBase_EventScript_Trainer7::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer7PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer7PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer7PostBattle
 	msgbox SecretBase_Text_Trainer7Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer7DeclineBattle
@@ -570,7 +570,7 @@ SecretBase_EventScript_Trainer7PostBattle::
 SecretBase_EventScript_Trainer8::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer8PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer8PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer8PostBattle
 	msgbox SecretBase_Text_Trainer8Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer8DeclineBattle
@@ -604,7 +604,7 @@ SecretBase_EventScript_Trainer8PostBattle::
 SecretBase_EventScript_Trainer9::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SecretBase_EventScript_Trainer9PreChampion
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SecretBase_EventScript_Trainer9PreChampion
 	goto_if_eq VAR_RESULT, 1, SecretBase_EventScript_Trainer9PostBattle
 	msgbox SecretBase_Text_Trainer9Intro, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_Trainer9DeclineBattle
