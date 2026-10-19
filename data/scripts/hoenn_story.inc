@@ -197,6 +197,13 @@ HoennStory_EventScript_ArchieMaxieLittleroot::
 	waitmessage
 	waitfanfare
 	msgbox HoennStory_Text_CableMended
+	msgbox HoennStory_Text_BlaineMessage
+	call_if_unset FLAG_SYS_CAN_LINK_WITH_RS, HoennStory_EventScript_BlaineMessageSevii
+	msgbox HoennStory_Text_BlaineMessageEnd
+	msgbox HoennStory_Text_SeeBirch
+	call_if_lt VAR_MT_PYRE_STATE, 3, HoennStory_EventScript_MeetAtMtPyre
+	call_if_ge VAR_MT_PYRE_STATE, 3, HoennStory_EventScript_OldLadyAskedForPlayer
+	msgbox HoennStory_Text_ArchieMaxieFarewell
 	closemessage
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_LITTLEROOT_ARCHIE
@@ -227,6 +234,57 @@ HoennStory_Text_CableMended:
 	.string "boxes again.\p"
 	.string "ARCHIE: The SEAGALLOP can sail home\n"
 	.string "whenever you like.\p"
+	.string "MAXIE: The first message through the\n"
+	.string "cable was for you, from BLAINE.$"
+
+@ What waits in KANTO now (the rematches open with FLAG_HOENN_KANTO_LINK, see docs/mega_island.md)
+HoennStory_Text_BlaineMessage:
+	.string "“{PLAYER}, while you were away,\n"
+	.string "KANTO's GYM LEADERS and the ELITE\l"
+	.string "FOUR trained new teams.\p"
+	.string "“A stranger in a long coat left each\n"
+	.string "of them a MEGA STONE, for the one\l"
+	.string "who beats them.\p"
+	.string "“The SAFFRON DOJO's master has one\n"
+	.string "too, and two old friends of yours\l"
+	.string "wait by CERULEAN CAVE.$"
+
+@ The LEAGUE also needs the Sevii Islands' network (FireRed's FLAG_SYS_CAN_LINK_WITH_RS)
+HoennStory_EventScript_BlaineMessageSevii::
+	msgbox HoennStory_Text_BlaineMessageSevii
+	return
+
+HoennStory_Text_BlaineMessageSevii:
+	.string "“The LEAGUE stays closed until\n"
+	.string "LORELEI comes back. BILL says she's\l"
+	.string "on the SEVII ISLANDS.$"
+
+HoennStory_Text_BlaineMessageEnd:
+	.string "“Come home soon, CHAMPION!”$"
+
+@ Hoenn's post-game: BIRCH's MEGA STONE, and the ORBS at MT. PYRE (HoennStory_EventScript_TryGivePrimalOrbs)
+HoennStory_EventScript_MeetAtMtPyre::
+	msgbox HoennStory_Text_MeetAtMtPyre
+	return
+
+HoennStory_EventScript_OldLadyAskedForPlayer::
+	msgbox HoennStory_Text_OldLadyAskedForPlayer
+	return
+
+HoennStory_Text_SeeBirch:
+	.string "ARCHIE: Before you go, see PROF.\n"
+	.string "BIRCH. He has something for you.$"
+
+HoennStory_Text_MeetAtMtPyre:
+	.string "MAXIE: And meet us at the summit of\n"
+	.string "MT. PYRE. We owe its old lady the\l"
+	.string "ORBS, and you should be there.$"
+
+HoennStory_Text_OldLadyAskedForPlayer:
+	.string "MAXIE: And the old lady of MT. PYRE\n"
+	.string "asked for you. Go and see her.$"
+
+HoennStory_Text_ArchieMaxieFarewell:
 	.string "MAXIE: You beat HOENN's LEAGUE with\n"
 	.string "POKéMON you met here…\p"
 	.string "Perhaps that's what we should have\n"
@@ -385,7 +443,10 @@ HoennStory_Text_BirchStarterStone:
 HoennStory_Text_BirchStarterStoneAfter:
 	.string "PROF. BIRCH: With your MEGA RING,\n"
 	.string "your partner can Mega Evolve now.\l"
-	.string "Show me what it can do!$"
+	.string "Show me what it can do!\p"
+	.string "Oh, and the SEAGALLOP sailor in\n"
+	.string "LILYCOVE says two rare POKéMON were\l"
+	.string "seen on SOUTHERN ISLAND.$"
 
 @ Act 5: BLAINE, the first time the player is back in his gym with the link mended
 HoennStory_EventScript_BlaineHoennNews::

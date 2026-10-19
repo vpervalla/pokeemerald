@@ -47,6 +47,7 @@ AquaHideout_B2F_EventScript_SubmarineEscape::
 	msgbox AquaHideout_B2F_Text_PapersLeftOnDock, MSGBOX_DEFAULT
 	giveitem ITEM_PRIMAL_NOTES
 	msgbox AquaHideout_B2F_Text_PrimalNotesLastPage, MSGBOX_DEFAULT
+	msgbox AquaHideout_B2F_Text_ShowNotesToBirch, MSGBOX_DEFAULT
 	release
 	end
 
@@ -99,6 +100,10 @@ AquaHideout_B2F_Text_PrimalNotesLastPage:
 	.string "“…and changed, as our MEGA\n"
 	.string "EVOLUTIONS change, at the call of\l"
 	.string "a person's wish.”$"
+
+AquaHideout_B2F_Text_ShowNotesToBirch:
+	.string "PROF. BIRCH should see this. He can\n"
+	.string "send it to BLAINE in KANTO.$"
 
 AquaHideout_B2F_Text_MattIntro:
 	.string "Hehehe…\p"

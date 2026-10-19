@@ -83,9 +83,8 @@ IndigoPlateau_PokemonCenter_1F_EventScript_ClosedUntilHoenn::
 IndigoPlateau_PokemonCenter_1F_Text_ClosedUntilHoenn:
     .string "LORELEI is back, but now the\n"
     .string "ELITE FOUR train new teams.\p"
-    .string "They won't battle again until\n"
-    .string "a challenger proves worthy\l"
-    .string "far beyond KANTO.\p"
+    .string "They'll battle again once you're\n"
+    .string "back from HOENN, CHAMPION.\p"
     .string "The POKéMON LEAGUE is closed for\n"
     .string "the time being.$"
 

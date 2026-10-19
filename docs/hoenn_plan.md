@@ -411,6 +411,12 @@ Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay clo
 - The Kanto GYM LEADERS' rematches, the ELITE FOUR's rematch, the post-game LEAF and RED and the DOJO's
   rematch (and so the MEGA STONES they give and MR. M.'s invitation) open only now, with the link mended (`FLAG_HOENN_KANTO_LINK`): Hoenn comes
   before Kanto's rematches (`docs/mega_island.md`).
+- **Hints**: in LITTLEROOT, after the cable is mended, MAXIE passes on BLAINE's first message: the GYM
+  LEADERS, the ELITE FOUR, the DOJO's master, LEAF and RED wait in KANTO with MEGA STONES (and, before the
+  Sevii Islands quest, LORELEI is away). ARCHIE sends the player to BIRCH, and MAXIE to MT. PYRE's summit
+  (or its old lady, if the ORBS are back already). BIRCH, after the starter's stone, mentions SOUTHERN
+  ISLAND. The PRIMAL NOTES say to show them to BIRCH. The INDIGO PLATEAU's door guard, with the Sevii
+  quest done, says the ELITE FOUR wait for the player to be back from HOENN.
 
 GIOVANNI and ALAIN have no part in this chapter: GIOVANNI's rematch stays as it is, and ALAIN
 is still free for another story.
