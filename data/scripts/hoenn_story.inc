@@ -16,6 +16,7 @@ HoennStory_EventScript_UpdateMansion::
 HoennStory_EventScript_SeagallopSailor::
 	lock
 	faceplayer
+HoennStory_EventScript_SeagallopSailorSkipLock::
 	goto_if_set FLAG_HOENN_TEAM_STOLEN, HoennStory_EventScript_SeagallopCantSail
 	message HoennStory_Text_SailBackToKanto
 	waitmessage
@@ -230,3 +231,211 @@ HoennStory_Text_CableMended:
 	.string "POKéMON you met here…\p"
 	.string "Perhaps that's what we should have\n"
 	.string "learned, too. Farewell, {PLAYER}.$"
+
+@ Act 4 (docs/hoenn_plan.md): once the ORBS are back at MT. PYRE and the player is HOENN's CHAMPION, the old lady
+@ trusts them with both. Held, they bring out PRIMAL KYOGRE and PRIMAL GROUDON in battle.
+HoennStory_EventScript_TryGivePrimalOrbs::
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, Common_EventScript_NopReturn
+	goto_if_set FLAG_RECEIVED_PRIMAL_ORBS, Common_EventScript_NopReturn
+	goto_if_lt VAR_MT_PYRE_STATE, 3, Common_EventScript_NopReturn
+	msgbox HoennStory_Text_OldLadyTrustsPlayer
+	giveitem ITEM_BLUE_ORB
+	goto_if_eq VAR_RESULT, FALSE, HoennStory_EventScript_OrbsNoRoom
+	giveitem ITEM_RED_ORB
+	setflag FLAG_RECEIVED_PRIMAL_ORBS
+	setflag FLAG_RETURNED_RED_OR_BLUE_ORB
+	msgbox HoennStory_Text_OldLadyOrbsExplained
+	release
+	end
+
+HoennStory_EventScript_OrbsNoRoom::
+	msgbox gText_TooBadBagIsFull
+	release
+	end
+
+HoennStory_Text_OldLadyTrustsPlayer:
+	.string "Ah, the CHAMPION of HOENN…\p"
+	.string "RAYQUAZA came down from the sky when\n"
+	.string "your RING called it. It trusts you.\p"
+	.string "The one RAYQUAZA trusts may keep\n"
+	.string "the ORBS. Please, take them both.$"
+
+HoennStory_Text_OldLadyOrbsExplained:
+	.string "KYOGRE and GROUDON still sleep in\n"
+	.string "the depths, it is said…\p"
+	.string "Should you meet them, the ORBS will\n"
+	.string "show you their PRIMAL forms.\p"
+	.string "Only let them hold the ORBS for\n"
+	.string "the one who calms them, child.$"
+
+@ Act 4: after Hoenn's Hall of Fame, LILYCOVE's SEAGALLOP sailor also sails to SOUTHERN ISLAND, instead of
+@ Emerald's EON TICKET. LATIAS waits there, then LATIOS, and their MEGA STONES (SouthernIsland_Interior).
+HoennStory_EventScript_LilycoveSailor::
+	lock
+	faceplayer
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, HoennStory_EventScript_SeagallopSailorSkipLock
+	msgbox HoennStory_Text_SailToSouthernIsland, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, HoennStory_EventScript_SeagallopSailorSkipLock
+	msgbox HoennStory_Text_SouthernIslandAllAboard
+	closemessage
+	warp MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
+	waitstate
+	release
+	end
+
+HoennStory_Text_SailToSouthernIsland:
+	.string "Ahoy, CHAMPION! Folks say two rare\n"
+	.string "POKéMON were seen on SOUTHERN\l"
+	.string "ISLAND, a speck of land to the south.\p"
+	.string "Shall I sail you there?$"
+
+HoennStory_Text_SouthernIslandAllAboard:
+	.string "Hold on tight, then!$"
+
+@ Act 4, optional: once the player holds the ORBS and has caught both LATI, the Space Center's director has seen
+@ the MILLENNIUM COMET, and what fell with it
+HoennStory_EventScript_TryGiveJirachi::
+	goto_if_set FLAG_RECEIVED_JIRACHI, Common_EventScript_NopReturn
+	goto_if_unset FLAG_RECEIVED_PRIMAL_ORBS, Common_EventScript_NopReturn
+	goto_if_unset FLAG_CAUGHT_SOUTHERN_ISLAND_LATIOS, Common_EventScript_NopReturn
+	lock
+	faceplayer
+	msgbox HoennStory_Text_MillenniumComet
+	givemon SPECIES_JIRACHI, 5
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, HoennStory_EventScript_JirachiNoRoom
+	playfanfare MUS_OBTAIN_ITEM
+	message HoennStory_Text_ReceivedJirachi
+	waitmessage
+	waitfanfare
+	setflag FLAG_RECEIVED_JIRACHI
+	msgbox HoennStory_Text_JirachiWish
+	release
+	end
+
+HoennStory_EventScript_JirachiNoRoom::
+	msgbox HoennStory_Text_JirachiNoRoom
+	release
+	end
+
+HoennStory_Text_MillenniumComet:
+	.string "DIRECTOR: Ah, the CHAMPION who\n"
+	.string "met KYOGRE, GROUDON and RAYQUAZA!\p"
+	.string "Last night, the MILLENNIUM COMET\n"
+	.string "passed over MOSSDEEP. It comes once\l"
+	.string "in a thousand years.\p"
+	.string "And this little one was asleep on\n"
+	.string "our launch pad this morning.\p"
+	.string "It wakes for seven days every\n"
+	.string "thousand years, they say…\p"
+	.string "I think it came looking for you.\n"
+	.string "Will you look after it?$"
+
+HoennStory_Text_ReceivedJirachi:
+	.string "{PLAYER} received JIRACHI!$"
+
+HoennStory_Text_JirachiWish:
+	.string "DIRECTOR: Legend says JIRACHI grants\n"
+	.string "wishes. What would you wish for?$"
+
+HoennStory_Text_JirachiNoRoom:
+	.string "DIRECTOR: Oh, your party and your\n"
+	.string "BOXES are full. Make some room!$"
+
+@ Act 5: BIRCH, after Hoenn's Hall of Fame, gives the MEGA STONE of the starter he gave (VAR_HOENN_STARTER)
+HoennStory_EventScript_TryGiveStarterMegaStone::
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, Common_EventScript_NopReturn
+	goto_if_set FLAG_RECEIVED_HOENN_STARTER_MEGA_STONE, Common_EventScript_NopReturn
+	msgbox HoennStory_Text_BirchStarterStone
+	switch VAR_HOENN_STARTER
+	case 0, HoennStory_EventScript_GiveSceptilite
+	case 1, HoennStory_EventScript_GiveBlazikenite
+	goto HoennStory_EventScript_GiveSwampertite
+
+HoennStory_EventScript_GiveSceptilite::
+	giveitem ITEM_SCEPTILITE
+	goto HoennStory_EventScript_GaveStarterMegaStone
+
+HoennStory_EventScript_GiveBlazikenite::
+	giveitem ITEM_BLAZIKENITE
+	goto HoennStory_EventScript_GaveStarterMegaStone
+
+HoennStory_EventScript_GiveSwampertite::
+	giveitem ITEM_SWAMPERTITE
+HoennStory_EventScript_GaveStarterMegaStone::
+	goto_if_eq VAR_RESULT, FALSE, HoennStory_EventScript_StoneNoRoom
+	setflag FLAG_RECEIVED_HOENN_STARTER_MEGA_STONE
+	msgbox HoennStory_Text_BirchStarterStoneAfter
+	release
+	end
+
+HoennStory_EventScript_StoneNoRoom::
+	msgbox gText_TooBadBagIsFull
+	release
+	end
+
+HoennStory_Text_BirchStarterStone:
+	.string "PROF. BIRCH: {PLAYER}{KUN}! The new\n"
+	.string "CHAMPION of HOENN!\p"
+	.string "BLAINE sent this from KANTO, with\n"
+	.string "his thanks. He made it from what the\l"
+	.string "MANSION's file taught him.\p"
+	.string "It's for the POKéMON I gave you, the\n"
+	.string "first partner of your HOENN journey.$"
+
+HoennStory_Text_BirchStarterStoneAfter:
+	.string "PROF. BIRCH: With your MEGA RING,\n"
+	.string "your partner can Mega Evolve now.\l"
+	.string "Show me what it can do!$"
+
+@ Act 5: BLAINE, the first time the player is back in his gym with the link mended
+HoennStory_EventScript_BlaineHoennNews::
+	goto_if_unset FLAG_HOENN_KANTO_LINK, Common_EventScript_NopReturn
+	goto_if_set FLAG_BLAINE_HEARD_ABOUT_HOENN, Common_EventScript_NopReturn
+	setflag FLAG_BLAINE_HEARD_ABOUT_HOENN
+	goto_if_set FLAG_GAVE_PRIMAL_NOTES_TO_BIRCH, HoennStory_EventScript_BlaineGotNotes
+	msgbox HoennStory_Text_BlaineHoennNews
+	return
+
+HoennStory_EventScript_BlaineGotNotes::
+	msgbox HoennStory_Text_BlaineGotNotes
+	return
+
+HoennStory_Text_BlaineGotNotes:
+	.string "BLAINE: Hah! The CHAMPION of two\n"
+	.string "regions! BIRCH sent me the file.\p"
+	.string "PRIMAL REVERSION, and that last page\n"
+	.string "about RAYQUAZA… The missing piece of\l"
+	.string "my lab's research, back at last.\p"
+	.string "You've done KANTO proud. Now, how\n"
+	.string "about a hot battle?$"
+
+HoennStory_Text_BlaineHoennNews:
+	.string "BLAINE: Hah! The CHAMPION of two\n"
+	.string "regions! BIRCH told me everything.\p"
+	.string "The file's half may be lost, but\n"
+	.string "KYOGRE and GROUDON sleep again.\l"
+	.string "That's what mattered.\p"
+	.string "Now, how about a hot battle?$"
+
+@ Act 5: STEVEN in MR. M's tournament remembers the player from HOENN
+HoennStory_EventScript_StevenTournamentIntro::
+	goto_if_set FLAG_HOENN_GAME_CLEAR, HoennStory_EventScript_StevenRemembers
+	msgbox MegaIsland_Arena_Text_StevenIntro
+	return
+
+HoennStory_EventScript_StevenReplayIntro::
+	goto_if_set FLAG_HOENN_GAME_CLEAR, HoennStory_EventScript_StevenRemembers
+	msgbox MegaIsland_Arena_Text_ReplayStevenIntro
+	return
+
+HoennStory_EventScript_StevenRemembers::
+	msgbox HoennStory_Text_StevenRemembers
+	return
+
+HoennStory_Text_StevenRemembers:
+	.string "STEVEN: {PLAYER}! We meet again, far\n"
+	.string "from SOOTOPOLIS.\p"
+	.string "The trainer who calmed HOENN's storm\n"
+	.string "and won its LEAGUE…\p"
+	.string "METAGROSS and I won't hold back.\n"
+	.string "Show us that power again!$"

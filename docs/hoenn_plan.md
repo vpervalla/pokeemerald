@@ -3,7 +3,7 @@
 This is a plan for making the Hoenn maps, which are still in the ROM, reachable during the
 story: a ship from Vermilion to Slateport, Hoenn's own story played from Professor Birch's
 lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
-Reversion, and Hoenn's legendaries and post-game. Phases 1 to 7 are implemented (see Status).
+Reversion, and Hoenn's legendaries and post-game. Phases 1 to 8 are implemented (see Status).
 
 **Changed after phase 6** (D5, D9-D11, section 3b, phase 7): on the first arrival, Team Aqua and Team
 Magma steal the player's POKéMON and BAG and cut the link with Kanto (the ship home and Kanto's PC
@@ -210,6 +210,31 @@ from memory after each:
   storage message. The POKéNAV's condition and ribbon lists still list the Kanto boxes' POKéMON (they
   only show them).
 
+Phase 8 is implemented: Act 4's legendaries and Act 5. Checked in an emulator with test builds (after
+Hoenn's Hall of Fame, the link mended, a TORCHIC starter): BIRCH's stone, the ORBS, LATIAS on Southern
+Island and JIRACHI.
+
+- **The ORBS** (`MtPyre_Summit`, `HoennStory_EventScript_TryGivePrimalOrbs`): after Hoenn's Hall of Fame,
+  once ARCHIE and MAXIE have brought the ORBS back (`VAR_MT_PYRE_STATE` 3), the old lady gives the BLUE
+  and the RED ORB: "The one RAYQUAZA trusts may keep them". KYOGRE and GROUDON are where Emerald puts
+  them after its Hall of Fame: Marine Cave and Terra Cave, found from the Weather Institute's reports
+  (already on Hoenn's flags since phase 1).
+- **Southern Island**: LILYCOVE's SEAGALLOP sailor offers it after Hoenn's Hall of Fame, before the
+  ride to Kanto (`HoennStory_EventScript_LilycoveSailor`); Emerald's EON TICKET isn't needed. LATIAS is
+  there first, then LATIOS once she's caught (`FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS`/`_LATIOS`), at
+  level 50 with the SOUL DEW, as in Emerald. A defeated LATI flies away and is back on the next visit.
+  The LATIASITE and LATIOSITE are item balls on either side of the pond.
+- **JIRACHI** (`MossdeepCity_SpaceCenter_1F`, the scientist on the left as the director): with the ORBS
+  and both LATI, the MILLENNIUM COMET has left a JIRACHI at level 5.
+- **BIRCH** (Act 5): after Hoenn's Hall of Fame, the MEGA STONE of the starter he gave
+  (`VAR_HOENN_STARTER`: SCEPTILITE, BLAZIKENITE or SWAMPERTITE), "sent by BLAINE".
+- **BLAINE** (Act 5, his gym's rematch): once the link is mended, he thanks the player, for the file
+  if BIRCH sent it.
+- **STEVEN** (Act 5, MR. M's tournament, story and replays): after Hoenn's Hall of Fame he remembers
+  the player from SOOTOPOLIS.
+- New flags `KANTO_EXTRA_FLAGS_START + 0x195`-`0x19C`.
+- Not played in-game: LATIOS (the same script), the Mega Stone item balls, BLAINE's and STEVEN's lines.
+
 ## Hoenn's tilesets
 
 The port set the map engine to FRLG's tileset layout (`include/fieldmap.h`: 640 tiles and metatiles
@@ -372,8 +397,8 @@ about their plans.
 | REGIROCK, REGICE, REGISTEEL | Emerald's Braille puzzles | Any time after Dive | As in Emerald |
 | JIRACHI (optional) | New scene: the Millennium Comet, seen from the Mossdeep Space Center | After all of the above | A gift from the Space Center's director |
 
-The old lady gives the ORBS once she has seen the player catch RAYQUAZA (or after Hoenn's Hall
-of Fame, if they did it before): "The one RAYQUAZA trusts may keep them." DEOXYS stays on
+The old lady gives the ORBS after Hoenn's Hall of Fame (phase 8; RAYQUAZA came at the MEGA RING's
+call in Sootopolis, so she trusts the player): "The one RAYQUAZA trusts may keep them." DEOXYS stays on
 Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay closed (D7). MEW
 (Faraway Island, today event-only) is left for MEWTWO's story.
 
@@ -615,7 +640,7 @@ What the story needs, on top of sections 1 to 5:
    and Emerald's levels back (D5, undoing phase 4), with the 7 and 7 box split. Then the returns: the
    MEGA RING in the Magma Hideout,
    MATT's and ARCHIE and MAXIE's lines, and the team and the link in LITTLEROOT after the Hall of Fame.
-7. Phase 8: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5.
+7. Phase 8: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5. Done.
 8. The other features (section 6), each on its own.
 
 ## 9. Tests

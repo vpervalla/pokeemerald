@@ -83,7 +83,7 @@ MegaIsland_Arena_EventScript_Quarterfinal::
 	closemessage
 	applymovement LOCALID_CAMERA, MegaIsland_Arena_Movement_CameraToField
 	waitmovement 0
-	msgbox MegaIsland_Arena_Text_StevenIntro
+	call HoennStory_EventScript_StevenTournamentIntro
 	closemessage
 	special RemoveCameraObject
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_STORY_STEVEN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_StevenDefeat, MegaIsland_Arena_Text_StevenVictory
@@ -570,7 +570,7 @@ MegaIsland_Arena_EventScript_ReplayLance::
 MegaIsland_Arena_EventScript_ReplaySteven::
 	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayStevenName
 	call MegaIsland_Arena_EventScript_ReplayRoundIntro
-	msgbox MegaIsland_Arena_Text_ReplayStevenIntro
+	call HoennStory_EventScript_StevenReplayIntro
 	closemessage
 	special RemoveCameraObject
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_STEVEN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayStevenDefeat, MegaIsland_Arena_Text_ReplayStevenVictory

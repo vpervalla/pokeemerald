@@ -14,8 +14,9 @@ SouthernIsland_Interior_EventScript_TryRemoveLati::
 	return
 
 SouthernIsland_Interior_OnTransition:
-	call_if_eq VAR_ROAMER_POKEMON, 0, SouthernIsland_Interior_EventScript_SetUpLatios
-	call_if_ne VAR_ROAMER_POKEMON, 0, SouthernIsland_Interior_EventScript_SetUpLatias
+	@ Kanto port (docs/hoenn_plan.md, Act 4): no LATI roams, so both are here, LATIAS first
+	call_if_set FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS, SouthernIsland_Interior_EventScript_SetUpLatios
+	call_if_unset FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS, SouthernIsland_Interior_EventScript_SetUpLatias
 	call SouthernIsland_Interior_EventScript_SetUpPlayerGfx
 	end
 
@@ -51,9 +52,8 @@ SouthernIsland_Interior_EventScript_TryLatiEncounter::
 
 SouthernIsland_Interior_EventScript_Lati::
 	goto_if_set FLAG_TEMP_2, SouthernIsland_Interior_EventScript_Sign
-	goto_if_set FLAG_DEFEATED_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
-	goto_if_set FLAG_CAUGHT_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
-	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, SouthernIsland_Interior_EventScript_Sign
+	goto_if_set FLAG_CAUGHT_SOUTHERN_ISLAND_LATIOS, SouthernIsland_Interior_EventScript_Sign
+	goto_if_unset FLAG_HOENN_GAME_CLEAR, SouthernIsland_Interior_EventScript_Sign
 	setflag FLAG_ENCOUNTERED_LATIAS_OR_LATIOS
 	setflag FLAG_TEMP_2
 	special SpawnCameraObject
@@ -71,8 +71,8 @@ SouthernIsland_Interior_EventScript_Lati::
 	delay 50
 	special RemoveCameraObject
 	setvar VAR_LAST_TALKED, LOCALID_SOUTHERN_ISLAND_LATI
-	call_if_eq VAR_ROAMER_POKEMON, 0, SouthernIsland_Interior_EventScript_SetLatiosBattleVars
-	call_if_ne VAR_ROAMER_POKEMON, 0, SouthernIsland_Interior_EventScript_SetLatiasBattleVars
+	call_if_set FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS, SouthernIsland_Interior_EventScript_SetLatiosBattleVars
+	call_if_unset FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS, SouthernIsland_Interior_EventScript_SetLatiasBattleVars
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLatiBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
@@ -81,11 +81,18 @@ SouthernIsland_Interior_EventScript_Lati::
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, SouthernIsland_Interior_EventScript_RanFromLati
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, SouthernIsland_Interior_EventScript_RanFromLati
 	setflag FLAG_CAUGHT_LATIAS_OR_LATIOS
+	goto_if_eq VAR_TEMP_4, SPECIES_LATIOS, SouthernIsland_Interior_EventScript_CaughtLatios
+	setflag FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS
 	releaseall
 	end
 
+SouthernIsland_Interior_EventScript_CaughtLatios::
+	setflag FLAG_CAUGHT_SOUTHERN_ISLAND_LATIOS
+	releaseall
+	end
+
+@ Kanto port: a defeated LATI flies away, and is back on the next visit
 SouthernIsland_Interior_EventScript_LatiDefeated::
-	setflag FLAG_DEFEATED_LATIAS_OR_LATIOS
 	copyvar VAR_0x8004, VAR_TEMP_4
 	goto Common_EventScript_LegendaryFlewAway
 	end
@@ -141,3 +148,11 @@ SouthernIsland_Interior_Movement_LatiApproach:
 	walk_down
 	walk_down
 	step_end
+
+SouthernIsland_Interior_EventScript_Latiasite::
+	finditem ITEM_LATIASITE
+	end
+
+SouthernIsland_Interior_EventScript_Latiosite::
+	finditem ITEM_LATIOSITE
+	end

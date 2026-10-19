@@ -85,6 +85,7 @@ MossdeepCity_SpaceCenter_1F_EventScript_ShowLaunchNumberMagma::
 	return
 
 MossdeepCity_SpaceCenter_1F_EventScript_Scientist::
+	call HoennStory_EventScript_TryGiveJirachi  @ added: the Hoenn chapter's Act 4
 	lock
 	faceplayer
 	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_ScientistMagma

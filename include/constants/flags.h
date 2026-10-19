@@ -2111,6 +2111,15 @@
 #define FLAG_HOENN_MEGA_RING_RETURNED               (KANTO_EXTRA_FLAGS_START + 0x192) // Found in the Magma Hideout
 #define FLAG_HOENN_KANTO_LINK                       (KANTO_EXTRA_FLAGS_START + 0x193) // Restored after Hoenn's Hall of Fame
 #define FLAG_HIDE_LITTLEROOT_ARCHIE_MAXIE           (KANTO_EXTRA_FLAGS_START + 0x194) // Kept by LittlerootTown's transition from VAR_HOENN_STORY_STATE
+// Act 4 and 5 (docs/hoenn_plan.md, phase 8)
+#define FLAG_RECEIVED_PRIMAL_ORBS                   (KANTO_EXTRA_FLAGS_START + 0x195) // The old lady of MT. PYRE, after Hoenn's Hall of Fame
+#define FLAG_RECEIVED_HOENN_STARTER_MEGA_STONE      (KANTO_EXTRA_FLAGS_START + 0x196) // BIRCH, after Hoenn's Hall of Fame
+#define FLAG_RECEIVED_JIRACHI                       (KANTO_EXTRA_FLAGS_START + 0x197) // The Space Center's director
+#define FLAG_ITEM_SOUTHERN_ISLAND_LATIASITE         (KANTO_EXTRA_FLAGS_START + 0x198)
+#define FLAG_ITEM_SOUTHERN_ISLAND_LATIOSITE         (KANTO_EXTRA_FLAGS_START + 0x199)
+#define FLAG_CAUGHT_SOUTHERN_ISLAND_LATIAS          (KANTO_EXTRA_FLAGS_START + 0x19A) // LATIAS first, then LATIOS
+#define FLAG_CAUGHT_SOUTHERN_ISLAND_LATIOS          (KANTO_EXTRA_FLAGS_START + 0x19B)
+#define FLAG_BLAINE_HEARD_ABOUT_HOENN               (KANTO_EXTRA_FLAGS_START + 0x19C) // Act 5, once the link is mended
 
 #define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
 

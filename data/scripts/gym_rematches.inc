@@ -284,6 +284,7 @@ GymRematch_EventScript_SabrinaDeclined::
 GymRematch_EventScript_Blaine::
 	lock
 	faceplayer
+	call HoennStory_EventScript_BlaineHoennNews  @ added: the Hoenn chapter's Act 5
 	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing
 	goto_if_defeated TRAINER_REMATCH_BLAINE, GymRematch_EventScript_BlaineDefeated
 	call_if_unset FLAG_GOT_MEGA_STONE_FROM_BLAINE, GymRematch_EventScript_BlaineAskFirst
