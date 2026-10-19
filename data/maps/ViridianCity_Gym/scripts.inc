@@ -40,7 +40,7 @@ ViridianCity_Gym_EventScript_Samuel::
 	end
 
 ViridianCity_Gym_EventScript_Giovanni::
-	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Giovanni  @ added: post-game rematch, see data/scripts/gym_rematches.inc
+	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Giovanni  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
 	msgbox ViridianCity_Gym_Text_GiovanniPostBattle
@@ -278,9 +278,9 @@ ViridianCity_Gym_Text_YujiPostBattle:
 
 @ END KANTO NPCS
 
-@ Added: GIOVANNI leaves after his first battle, and comes back for his rematch after the Hall of Fame
+@ Added: GIOVANNI leaves after his first battle, and comes back for his rematch once the player is back from Hoenn
 ViridianCity_Gym_OnTransition:
-	call_if_set FLAG_SYS_GAME_CLEAR, ViridianCity_Gym_EventScript_ShowGiovanni
+	call_if_set FLAG_HOENN_KANTO_LINK, ViridianCity_Gym_EventScript_ShowGiovanni
 	end
 
 ViridianCity_Gym_EventScript_ShowGiovanni:

@@ -68,9 +68,26 @@ IndigoPlateau_PokemonCenter_1F_EventScript_CheckSeviiIslandComplete::
 	end
 
 IndigoPlateau_PokemonCenter_1F_EventScript_SeviiIslandComplete::
+	goto_if_unset FLAG_HOENN_KANTO_LINK, IndigoPlateau_PokemonCenter_1F_EventScript_ClosedUntilHoenn  @ added: the rematch waits for Hoenn
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
 	release
 	end
+
+@ Added: the ELITE FOUR's rematch opens only once the player is back from Hoenn (FLAG_HOENN_KANTO_LINK,
+@ after Hoenn's Hall of Fame), like the GYM LEADERS' (data/scripts/gym_rematches.inc)
+IndigoPlateau_PokemonCenter_1F_EventScript_ClosedUntilHoenn::
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_ClosedUntilHoenn
+	release
+	end
+
+IndigoPlateau_PokemonCenter_1F_Text_ClosedUntilHoenn:
+    .string "LORELEI is back, but now the\n"
+    .string "ELITE FOUR train new teams.\p"
+    .string "They won't battle again until\n"
+    .string "a challenger proves worthy\l"
+    .string "far beyond KANTO.\p"
+    .string "The POKéMON LEAGUE is closed for\n"
+    .string "the time being.$"
 
 IndigoPlateau_PokemonCenter_1F_Text_LoreleiIsAbsentClosedForTimeBeing:
     .string "I am so sorry, but you've wasted\n"
@@ -98,7 +115,9 @@ IndigoPlateau_PokemonCenter_1F_OnTransition::
 	end
 
 IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor::
-	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, Kanto_EventScript_Return
+	goto_if_unset FLAG_SYS_CAN_LINK_WITH_RS, IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor
+	goto_if_set FLAG_HOENN_KANTO_LINK, Kanto_EventScript_Return  @ added: the rematch waits for Hoenn
+IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor:
 	setobjectxyperm LOCALID_LEAGUE_DOOR_GUARD, 4, 2
 	return
 

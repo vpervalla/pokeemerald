@@ -54,9 +54,12 @@ STONE, and the player has none. The tournament comes after the League's rematch.
    (hold the stone, press START when choosing a move, once per battle). A player who beat him
    without getting it gets it by talking to him again, before or after the Hall of Fame.
 2. **The first Hall of Fame** (`FLAG_SYS_GAME_CLEAR`). The Kanto trainers who hold MEGA STONES
-   can now be battled for them (below): LEAF, RED, the GYM LEADERS' rematches and the DOJO. The
-   LEAGUE closes, as in FireRed, until the Sevii Islands quest is done.
-3. **The second Hall of Fame**, after the LEAGUE's rematch (`FLAG_SYS_CAN_LINK_WITH_RS`), where the
+   can now be battled for them (below): LEAF, RED and the DOJO. The LEAGUE closes, as in FireRed,
+   until the Sevii Islands quest is done, and now also until the player is back from Hoenn
+   (`FLAG_HOENN_KANTO_LINK`, set when ARCHIE and MAXIE mend the link after Hoenn's Hall of Fame,
+   `docs/hoenn_plan.md`). The GYM LEADERS' rematches wait for Hoenn too.
+3. **The second Hall of Fame**, after the LEAGUE's rematch (`FLAG_SYS_CAN_LINK_WITH_RS` and
+   `FLAG_HOENN_KANTO_LINK`), where the
    ELITE FOUR and the champion also give MEGA STONES. `PokemonLeague_HallOfFame_EventScript_GameClear`
    sets `VAR_MEGA_STORY_STATE` to 1 and calls `GameClear` (the Hall of Fame record, the save and
    the credits). After the credits, Continue puts the player in their room in Pallet Town.
@@ -99,8 +102,9 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
 
 - **LEAF and RED** give their stone right after the battle (`data/scripts/lab_trainers.inc`), then
   leave. They now stay on the map until they've given it, not just until they're beaten.
-- **The GYM LEADERS' rematches** (`data/scripts/gym_rematches.inc`) start after the first Hall
-  of Fame (`FLAG_SYS_GAME_CLEAR`): each leader's script in the gym jumps to its rematch.
+- **The GYM LEADERS' rematches** (`data/scripts/gym_rematches.inc`) start once the player is back
+  from Hoenn (`FLAG_HOENN_KANTO_LINK`): each leader's script in the gym jumps to its rematch.
+  Before that, after the first Hall of Fame, the leaders only say their FireRed post-battle lines.
   The leader asks whether to battle, and gives the stone after winning. The rematch teams are lv
   66-70, six POKéMON each, with the ace at lv 70 (`TRAINER_REMATCH_*`,
   `src/data/gym_leader_rematch_trainers.h` and `gym_leader_rematch_parties.h`). The stone is
@@ -109,15 +113,17 @@ MASTER KOICHI's HERACRONITE, from the SAFFRON CITY DOJO rematch, counts too.
   battle. A Kanto game never sees Littleroot's wall clock, so `DoTimeBasedEvents` starts the clock
   itself the first time; only the day count matters. (The ELITE FOUR's rematch can be fought as
   often as the player likes, as in FireRed.)
-  GIOVANNI, who leaves his gym after the first battle, comes back for his rematch
-  (`ViridianCity_Gym_OnTransition`).
+  GIOVANNI, who leaves his gym after the first battle, comes back for his rematch, also once the
+  player is back from Hoenn (`ViridianCity_Gym_OnTransition`).
 - **Two stones are items to find**: the TYRANITARITE in a corner of SEVAULT CANYON (SEVEN ISLAND),
   where LARVITAR live (`FLAG_ITEM_SEVAULT_CANYON_TYRANITARITE`), and the MEWTWONITE Y in the lab on
   POKéMON MANSION B1F, where MEWTWO was created, there from the first visit
   (`FLAG_ITEM_MANSION_MEWTWONITE_Y`).
 - **The ELITE FOUR** keep FireRed's rematch: the LEAGUE is closed after the first Hall of Fame
   (LORELEI is away on FOUR ISLAND) and reopens with their stronger teams once the Sevii Islands'
-  network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`). In that rematch, one POKéMON of each holds
+  network is linked (`FLAG_SYS_CAN_LINK_WITH_RS`) and the player is back from Hoenn
+  (`FLAG_HOENN_KANTO_LINK`; until then the door guard in the INDIGO PLATEAU's POKéMON CENTER says the
+  ELITE FOUR are training new teams). In that rematch, one POKéMON of each holds
   a MEGA STONE (`*_2` parties in `src/data/kanto_trainer_parties.h`; LORELEI has a sixth
   POKéMON, a SLOWBRO). Their levels climb from 70 (LORELEI) to 75 (LANCE's DRAGONITE). After the battle, and whenever the player talks to them again, they give
   it (`data/scripts/elite_four_mega_stones.inc`, called from each room). The champion, the

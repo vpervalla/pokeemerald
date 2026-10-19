@@ -1,4 +1,5 @@
-@ The KANTO GYM LEADERS' rematches, after the Hall of Fame (FLAG_SYS_GAME_CLEAR).
+@ The KANTO GYM LEADERS' rematches, once the player is back from Hoenn (FLAG_HOENN_KANTO_LINK, set
+@ when ARCHIE and MAXIE mend the link after Hoenn's Hall of Fame; see docs/hoenn_plan.md).
 @ MR. M. (MEWTWO, seen as a tall man in a long coat) gave each leader one of the MEGA STONES taken
 @ from the POKéMON MANSION, to pass on to the trainer who beats them. Their ace holds it in the
 @ rematch (TRAINER_REMATCH_*, see src/data/gym_leader_rematch_trainers.h). The player needs a

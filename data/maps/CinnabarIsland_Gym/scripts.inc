@@ -41,7 +41,7 @@ CinnabarIsland_Gym_EventScript_Zac::
 
 CinnabarIsland_Gym_EventScript_Blaine::
 	goto_if_eq VAR_HOENN_STORY_STATE, 2, CinnabarIsland_Gym_EventScript_BlaineMansionRaid  @ added: the way to Hoenn, see data/scripts/hoenn_story.inc
-	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Blaine  @ added: post-game rematch, see data/scripts/gym_rematches.inc
+	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Blaine  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
 	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story

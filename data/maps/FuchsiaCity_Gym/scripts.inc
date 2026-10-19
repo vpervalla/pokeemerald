@@ -34,7 +34,7 @@ FuchsiaCity_Gym_EventScript_Nate::
 	end
 
 FuchsiaCity_Gym_EventScript_Koga::
-	goto_if_set FLAG_SYS_GAME_CLEAR, GymRematch_EventScript_Koga  @ added: post-game rematch, see data/scripts/gym_rematches.inc
+	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Koga  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
 	trainerbattle_single TRAINER_KANTO_LEADER_KOGA, FuchsiaCity_Gym_Text_KogaIntro, FuchsiaCity_Gym_Text_KogaDefeat, FuchsiaCity_Gym_EventScript_DefeatedKoga, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM06_FROM_KOGA, FuchsiaCity_Gym_EventScript_GiveTM06
 	msgbox FuchsiaCity_Gym_Text_KogaPostBattle
