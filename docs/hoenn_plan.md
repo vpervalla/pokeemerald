@@ -8,8 +8,8 @@ Reversion, and Hoenn's legendaries and post-game. Phases 1 to 6 are implemented 
 **Changed after phase 6** (D5, D9-D11, section 3b, phase 7): on the first arrival, Team Aqua and Team
 Magma steal the player's POKéMON and BAG and cut the link with Kanto (the ship home and Kanto's PC
 boxes). The player starts Hoenn with BIRCH's starter, at Emerald's own levels: phase 4's rescale is
-undone. The bag comes back from the Magma Hideout, the team from the Aqua Hideout, and the link once
-ARCHIE and MAXIE give up in Sootopolis.
+undone. The bag comes back from the Magma Hideout; the team and the link only after Hoenn's Elite Four,
+so the Kanto team can't play Hoenn's League (ARCHIE and MAXIE bring them to Littleroot).
 
 ## Status
 
@@ -284,8 +284,8 @@ Groudon's to dry the seas. Each team learns of the file and races the other for 
   no radio, no PC link"). BIRCH, warned by OAK before the line went dead, meets the player, hears what
   happened, and takes them to his lab. Hoenn's story starts there (section 3), with BIRCH's starter
   and ¥3000 he lends. BIRCH has heard of the ORBS, kept at MT. PYRE.
-- From here, until Sootopolis: the SEAGALLOP doesn't sail to Kanto, the PC shows only the two HOENN
-  boxes, and the player's item storage is closed (section 3b).
+- From here until after Hoenn's Hall of Fame: the SEAGALLOP doesn't sail to Kanto, the PC shows only
+  the two HOENN boxes, and the player's item storage is closed (section 3b).
 
 ### Act 2: the race, at Emerald's own beats
 
@@ -299,7 +299,7 @@ about their plans.
 | Weather Institute (Shelly's raid) | Shelly: Aqua's half of the file says the BLUE ORB awakens Kyogre's "true form" |
 | Mt. Pyre summit (both ORBS stolen) | Archie and Maxie name Primal Reversion. The old lady: the ORBS were never meant to make them stronger, only to calm them |
 | Magma Hideout (MAXIE awakens GROUDON) | **New:** after MAXIE's battle, a grunt's storeroom on 4F holds the stolen BAG: the player gets it back, with the money and the MEGA RING (section 3b) |
-| Aqua Hideout (MATT, the submarine) | **New:** after MATT's battle, the POKé BALLS stolen on the SEAGALLOP are in the submarine bay: the Kanto team is sent to the HOENN boxes |
+| Aqua Hideout (MATT, the submarine) | **New:** MATT taunts the player: the POKé BALLS stolen on the SEAGALLOP left with ARCHIE in the submarine. The team isn't here |
 | Team Aqua Hideout or Magma Hideout | The player finds a half of the file (a key item, PRIMAL NOTES), and its last page: "When the two were in their primal fury, a third came from the sky… and changed, as our Mega Evolutions change, at the call of a person's wish" |
 
 ### Act 3: the climax
@@ -313,12 +313,18 @@ about their plans.
 - **Sootopolis**: RAYQUAZA comes down and **Mega Evolves**, and the two Primals revert and
   leave (Emerald's scene, with Mega Rayquaza's object and a flash for the change). This is the
   first time the player sees MEGA RAYQUAZA.
-- **The link**: when ARCHIE and MAXIE leave the player in Sootopolis (Emerald's scene before
-  WALLACE's gym opens), they say their grunts will mend the cable to Kanto. From then on the PC shows
-  every box and the item storage again, and the SEAGALLOP sails home (`FLAG_HOENN_KANTO_LINK`).
+- **A promise**: when ARCHIE and MAXIE leave the player in Sootopolis (Emerald's scene before
+  WALLACE's gym opens), they admit the storm scattered their grunts, and the POKé BALLS with them.
+  They'll gather them and have the cable to Kanto mended, but it will take time. Nothing comes back
+  here: the player faces WALLACE and the League with the Hoenn team.
 - **After**: Archie and Maxie give the ORBS back at MT. PYRE, as in Emerald. The player hands
-  the PRIMAL NOTES to BIRCH, who sends them to BLAINE. Hoenn's story goes on to the eighth gym,
+  the PRIMAL NOTES to BIRCH, who sends them to BLAINE (the mail still goes by sea; only the cable is
+  cut). Hoenn's story goes on to the eighth gym,
   Victory Road and the Hoenn League.
+- **After the Hall of Fame**: on the first morning after Hoenn's Elite Four, ARCHIE and MAXIE wait in
+  LITTLEROOT, outside the guest room. They give back the POKé BALLS their grunts took, and the cable
+  is mended: the Kanto team goes to the PC (the party is the new Champion's), every box and the item
+  storage are back, and the SEAGALLOP sails home (`FLAG_HOENN_KANTO_LINK`).
 
 ### Act 4: the legendaries
 
@@ -362,7 +368,7 @@ These need an answer before phase 1. The recommendation is in the second column.
 | D8 | Hoenn's Hall of Fame | Records the team and sets `FLAG_HOENN_GAME_CLEAR`, with Hoenn's credits but no `GameClear` reset of the Kanto story; Continue puts the player in the Littleroot guest room | `FLAG_SYS_GAME_CLEAR` and `FLAG_SYS_CAN_LINK_WITH_RS` already mean Kanto's progress |
 | D9 | The Kanto team in Hoenn | **New:** on the first arrival, Team Aqua and Team Magma steal the player's party and BAG (money included) and cut the link with Kanto. BIRCH gives the starter and lends ¥3000 | Hoenn's story is played again from the start, at its own pace and levels; the teams have a reason to fear the player (BLAINE sent them) |
 | D10 | The PC while the link is cut | **New:** Kanto's PC is out of reach: the PC shows only two boxes, HOENN 1 and HOENN 2 (boxes 13 and 14, emptied into boxes 1-12 on arrival), and the item storage is closed. Catches and gifts go to those two boxes | The player can't fetch the Kanto team from a box; 60 places are enough until the link comes back. The storage's 14 boxes can't grow (save space), so two of them are lent |
-| D11 | When things come back | **New:** the BAG (and the money) after beating MAXIE in the Magma Hideout; the stolen POKéMON after beating MATT in the Aqua Hideout, sent to the HOENN boxes; the link (all boxes, the item storage, the ship home) when ARCHIE and MAXIE give up in Sootopolis | Each team gives back what it took when the player beats it, as asked; the MEGA RING comes back with the BAG, before Sky Pillar needs it. The stolen POKéMON go to the PC, not the party, so whether the Kanto team plays the last gym and the League is the player's choice |
+| D11 | When things come back | **Changed:** the BAG (and the money) after beating MAXIE in the Magma Hideout; the stolen POKéMON and the link (all boxes, the item storage, the ship home) only after Hoenn's Hall of Fame, from ARCHIE and MAXIE in LITTLEROOT. (It was: the team after MATT, the link in Sootopolis) | The team that beat Kanto's Elite Four would make Hoenn's easy, so it comes back as late as the story allows: the teams promise it in Sootopolis and deliver after the League. The MEGA RING comes back with the BAG, before Sky Pillar needs it. The team goes to the PC, since the party is the one that just won |
 
 ## 1. Separate Hoenn's state from Kanto's
 
@@ -473,17 +479,20 @@ badges, Kanto progress), the PC's boxes 1-12 and the item storage, out of reach.
 - `ReturnStolenBag` (Magma Hideout 4F, after MAXIE): each stolen item is added to the current BAG
   (Hoenn's items stay); what doesn't fit its pocket waits in the stash and comes back with the link.
   The money is added to the player's. The MEGA RING is in the KEY ITEMS, back before Sky Pillar.
-- `ReturnStolenParty` (Aqua Hideout B2F, after MATT): the stolen POKéMON go to boxes 13-14, in their
-  order, with "sent to HOENN 1" lines. If those boxes are full, the rest stay in the stash and come
-  back with the link.
-- `RestoreKantoLink` (Sootopolis, ARCHIE and MAXIE's goodbye): sets `FLAG_HOENN_KANTO_LINK` and
-  returns anything left in the stash (to the boxes and the item storage), then clears
-  `FLAG_HOENN_TEAM_STOLEN`. Boxes 13 and 14 keep their names; the player can rename them.
-- A player who skips none of the three never meets a gap: the Magma Hideout, the Aqua Hideout and
-  Sootopolis come in that order in Emerald's story, and each is needed to go on.
+- `RestoreKantoLink` (LITTLEROOT, ARCHIE and MAXIE, after Hoenn's Hall of Fame): sets
+  `FLAG_HOENN_KANTO_LINK`, so every box is back; then the stolen POKéMON go to the first free places,
+  in their order ("sent to BOX n" lines), and anything left of the BAG to the item storage (what
+  doesn't fit there stays in the stash, and the player's PC hands it over as room is made). Then it
+  clears `FLAG_HOENN_TEAM_STOLEN`. Boxes 13 and 14 keep their names; the player can rename them.
+- The scene: a frame script in `LittlerootTown` when `FLAG_HOENN_GAME_CLEAR` is set and
+  `FLAG_HOENN_KANTO_LINK` clear. Hoenn's Hall of Fame sends the player to the guest room (phase 5),
+  so the next step outside meets them. ARCHIE and MAXIE are new objects there, hidden otherwise.
+- No gaps: the Magma Hideout comes before Sky Pillar in Emerald's story, and the Hall of Fame can't be
+  skipped. A player with all 60 HOENN places full before the League catches nothing more until
+  then, as with a full PC.
 
 **Text.** BIRCH's welcome and lab (Act 1), the Slateport and Lilycove sailors, the PC's messages, the
-two returns and ARCHIE and MAXIE's goodbye. The Route 103 rival greeting (phase 3) says the player is
+BAG's return, MATT's taunt, ARCHIE and MAXIE's promise in Sootopolis and their visit to LITTLEROOT. The Route 103 rival greeting (phase 3) says the player is
 the KANTO CHAMPION; it can stay, with "...even without your team".
 
 ## 4. Levels
@@ -559,8 +568,8 @@ What the story needs, on top of sections 1 to 5:
 5. Phase 6: Primal Reversion in battle (the Mega plan's phase 6), then Acts 2 and 3 (the
    lines, the PRIMAL NOTES, the Primal and Mega Rayquaza scenes).
 6. Phase 7 (new, after phase 6): the theft and the cut link (Act 1's crossing, section 3b, D9-D11)
-   and Emerald's levels back (D5, undoing phase 4). Then the recovery beats of Acts 2 and 3: the BAG
-   in the Magma Hideout, the team in the Aqua Hideout, the link in Sootopolis.
+   and Emerald's levels back (D5, undoing phase 4). Then the returns: the BAG in the Magma Hideout,
+   MATT's and ARCHIE and MAXIE's lines, and the team and the link in LITTLEROOT after the Hall of Fame.
 7. Phase 8: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5.
 8. The other features (section 6), each on its own.
 
@@ -577,8 +586,9 @@ What the story needs, on top of sections 1 to 5:
 - The theft and the returns (phase 7), with test builds: a party of six with held items and a full
   BAG, a Kanto PC with POKéMON in boxes 13 and 14; after the crossing, an empty party and BAG, ¥3000,
   boxes 1-12 out of reach and their POKéMON still there; a catch with a full party going to HOENN 1;
-  the BAG back after MAXIE (Hoenn's items kept, the MEGA RING there), the team in the boxes after
-  MATT, everything after Sootopolis, and nothing lost or doubled (count the POKéMON and items before
+  the BAG back after MAXIE (Hoenn's items kept, the MEGA RING there), still only the HOENN boxes after
+  Sootopolis, the team and every box back in LITTLEROOT after the Hall of Fame, and nothing lost or
+  doubled (count the POKéMON and items before
   and after). A save and reload at each step.
 - In-game: a save after the first Kanto Hall of Fame; the ship both ways; Birch's lab to the
   first gym; that Surf does nothing in Hoenn before Norman and works in Kanto; Fly between the
