@@ -242,8 +242,10 @@ Route119_WeatherInstitute_2F_Text_Grunt5PostBattle:
 
 Route119_WeatherInstitute_2F_Text_ShellyIntro:
 	.string "Ahahahaha!\p"
+	.string "The kid from the MANSION in KANTO!\n"
+	.string "You followed us all the way here?\p"
 	.string "You're going to meddle in TEAM AQUA's\n"
-	.string "affairs?\p"
+	.string "affairs again?\p"
 	.string "You're either absolutely fearless,\n"
 	.string "simply ignorant, or both!\p"
 	.string "You're so cute, you're disgusting!\n"
@@ -257,7 +259,12 @@ Route119_WeatherInstitute_2F_Text_ShellyPostBattle:
 	.string "It's bad enough to have TEAM MAGMA\n"
 	.string "blunder about, but now there's you!\p"
 	.string "What makes you want to sniff around\n"
-	.string "in our business, anyway?$"
+	.string "in our business, anyway?\p"
+	.string "You won't get our half of that file\n"
+	.string "back, kiddy. It's all we needed.\p"
+	.string "The BLUE ORB awakens KYOGRE's\n"
+	.string "“true form,” the form that filled\l"
+	.string "the seas long ago. Ahahaha!$"
 
 Route119_WeatherInstitute_2F_Text_TeamMagmaJustPassedBy:
 	.string "We have a situation here!\p"

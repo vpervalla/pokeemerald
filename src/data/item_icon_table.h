@@ -447,5 +447,6 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     // </mega-evolutions>
     // Return to field arrow
     [ITEM_CARD_CASE] = {gItemIcon_CardCase, gItemIconPalette_CardCase},
+    [ITEM_PRIMAL_NOTES] = {gItemIcon_Letter, gItemIconPalette_LavaCookieAndLetter},
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

@@ -457,12 +457,47 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedJohtoStarter::
 LittlerootTown_ProfessorBirchsLab_EventScript_Birch::
 	lock
 	faceplayer
+	checkitem ITEM_PRIMAL_NOTES
+	goto_if_eq VAR_RESULT, TRUE, LittlerootTown_ProfessorBirchsLab_EventScript_GivePrimalNotes
 	goto_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 5, LittlerootTown_ProfessorBirchsLab_EventScript_CanHaveAnyOneOfRarePokemon
 	goto_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 2, LittlerootTown_ProfessorBirchsLab_EventScript_GrassyPatchWaiting
 	goto_if_unset FLAG_HAS_MATCH_CALL, LittlerootTown_ProfessorBirchsLab_EventScript_TryRatePokedexOrRegister
 	goto_if_unset FLAG_ENABLE_PROF_BIRCH_MATCH_CALL, EventScript_RegisterProfBirch
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_TryRatePokedexOrRegister
 	end
+
+@ Kanto port (docs/hoenn_plan.md, Act 3): the player brings back the half of the MANSION's file they found in
+@ TEAM AQUA's hideout. BIRCH sends it to BLAINE.
+LittlerootTown_ProfessorBirchsLab_EventScript_GivePrimalNotes::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ArePrimalNotes, MSGBOX_DEFAULT
+	removeitem ITEM_PRIMAL_NOTES
+	playse SE_EXP_MAX
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_HandedOverPrimalNotes, MSGBOX_DEFAULT
+	waitse
+	setflag FLAG_GAVE_PRIMAL_NOTES_TO_BIRCH
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_SendNotesToBlaine, MSGBOX_DEFAULT
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ArePrimalNotes:
+	.string "PROF. BIRCH: {PLAYER}{KUN}, are those…\n"
+	.string "the papers from the MANSION in KANTO?\p"
+	.string "TEAM AQUA's half! May I?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_HandedOverPrimalNotes:
+	.string "{PLAYER} handed the PRIMAL NOTES\n"
+	.string "to PROF. BIRCH.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_SendNotesToBlaine:
+	.string "PROF. BIRCH: Hmm… PRIMAL REVERSION…\n"
+	.string "And this last page, about a third one\l"
+	.string "that came from the sky…\p"
+	.string "So that's what the two teams were\n"
+	.string "after. Neither of them read it to\l"
+	.string "the end, it seems!\p"
+	.string "I'll send these to BLAINE on CINNABAR\n"
+	.string "ISLAND. They're his lab's, after all.\p"
+	.string "Thank you, {PLAYER}{KUN}!$"
 
 LittlerootTown_ProfessorBirchsLab_EventScript_CanHaveAnyOneOfRarePokemon::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_CanHaveAnyOneOfRarePokemon, MSGBOX_DEFAULT

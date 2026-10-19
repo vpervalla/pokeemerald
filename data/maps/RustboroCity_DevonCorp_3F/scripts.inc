@@ -227,6 +227,10 @@ RustboroCity_DevonCorp_3F_Text_MrStoneExplainPokenavRestUp:
 	.string "By the way, I've heard that sinister\n"
 	.string "criminals--MAGMA and AQUA, I believe--\l"
 	.string "have been making trouble far and wide.\p"
+	.string "The thief who took our GOODS spoke\n"
+	.string "of “the KANTO file,” my staff says.\p"
+	.string "Papers stolen from a lab in KANTO,\n"
+	.string "I gather. I don't like the sound of it.\p"
 	.string "I think it would be best if you rested\n"
 	.string "up before you go on your way.$"
 

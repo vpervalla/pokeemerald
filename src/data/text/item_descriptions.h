@@ -1555,6 +1555,11 @@ static const u8 sOldSeaMapDesc[] = _(
     "that shows the way\n"
     "to a certain island.");
 
+static const u8 sPrimalNotesDesc[] = _(
+    "TEAM AQUA's half of\n"
+    "the MANSION's file\n"
+    "on PRIMAL REVERSION.");
+
 static const u8 sCardCaseDesc[] = _(
     "A case for game\n"
     "cards. Build your\n"

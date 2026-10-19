@@ -4553,6 +4553,18 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CardCase,
     },
 
+    [ITEM_PRIMAL_NOTES] =
+    {
+        .name = _("PRIMAL NOTES"),
+        .itemId = ITEM_PRIMAL_NOTES,
+        .price = 0,
+        .description = sPrimalNotesDesc,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
     // <mega-evolutions>
     [ITEM_MEGA_RING] =
     {

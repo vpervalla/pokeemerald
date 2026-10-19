@@ -491,6 +491,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/story_mon_object_events.h"
 #include "data/object_events/starter_object_events.h"
 #include "data/object_events/lab_trainer_object_events.h"
+#include "data/object_events/hoenn_legend_object_events.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
@@ -538,6 +539,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
     STORY_MON_OBJECT_EVENT_SPRITE_PALETTES
     STARTER_OBJECT_EVENT_SPRITE_PALETTES
+    HOENN_LEGEND_OBJECT_EVENT_SPRITE_PALETTES
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
@@ -1478,6 +1480,11 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, paletteSlot);
     }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_REFLECTION)
+    {
+        // Kanto port: a second special NPC, for objects with no reflection (hoenn_legend_object_events.h)
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+    }
     else if (paletteSlot >= 16)
     {
         paletteSlot -= 16;
@@ -1666,6 +1673,8 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
         sprite->sVirtualObjElev = elevation;
         if (graphicsInfo->paletteSlot == PALSLOT_NPC_SPECIAL)
             LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        else if (graphicsInfo->paletteSlot == PALSLOT_NPC_SPECIAL_REFLECTION)
+            PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
         else if (graphicsInfo->paletteSlot >= 16)
             _PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot | 0xf0);
 
@@ -1798,6 +1807,10 @@ static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
     }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_REFLECTION)
+    {
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+    }
     else if (paletteSlot >= 16)
     {
         paletteSlot -= 16;
@@ -1872,6 +1885,10 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
     else if (paletteSlot == PALSLOT_NPC_SPECIAL)
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+    }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_REFLECTION)
+    {
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
     }
     else if (paletteSlot >= 16)
     {
@@ -2019,6 +2036,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sStarterObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_STARTER_START];
     if (graphicsId >= OBJ_EVENT_GFX_LAB_TRAINER_START && graphicsId < OBJ_EVENT_GFX_LAB_TRAINER_START + NUM_LAB_TRAINER_OBJ_EVENT_GFX)
         return GetLabTrainerGraphicsInfo(graphicsId);
+    if (graphicsId >= OBJ_EVENT_GFX_HOENN_LEGEND_START && graphicsId < OBJ_EVENT_GFX_HOENN_LEGEND_START + NUM_HOENN_LEGEND_OBJ_EVENT_GFX)
+        return sHoennLegendObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_HOENN_LEGEND_START];
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;

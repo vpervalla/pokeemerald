@@ -3,7 +3,7 @@
 This is a plan for making the Hoenn maps, which are still in the ROM, reachable during the
 story: a ship from Vermilion to Slateport, Hoenn's own story played from Professor Birch's
 lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
-Reversion, and Hoenn's legendaries and post-game. Nothing here is implemented yet.
+Reversion, and Hoenn's legendaries and post-game. Phases 1 to 6 are implemented (see Status).
 
 ## Status
 
@@ -132,6 +132,41 @@ the credits, Continue, and the guest room's two floors.
   LITTLEROOT's fat man.
 - The defeated flags Hoenn's Hall of Fame clears (LUGIA, HO-OH, DEOXYS, MEW, the LATI) are only
   read by Hoenn's own copies of those maps, so Kanto's legendaries aren't affected.
+
+Phase 6 is implemented: Primal Reversion in battle, and Acts 2 and 3.
+
+- **Primal Reversion**: see "Phase 6 status" in `docs/mega_evolution_plan.md`. PRIMAL KYOGRE and
+  PRIMAL GROUDON, Primordial Sea and Desolate Land, the ORBS as held items. Checked in an emulator in
+  wild battles on both sides.
+- **Act 2's lines**: MR. STONE (DEVON's 3F, giving the POKéNAV) heard the thief speak of "the KANTO
+  file"; MAXIE (Mt. Chimney, after his battle) explains the METEORITE, MEGA STONES and the RED ORB;
+  SHELLY (Weather Institute) recognizes the player from the MANSION and names KYOGRE's "true form";
+  ARCHIE (Mt. Pyre summit) names PRIMAL REVERSION and means to control KYOGRE with the RED ORB, and the
+  old lady says the ORBS were made to calm the two. In Seafloor Cavern, ARCHIE sees the file never
+  said its primal form could be controlled. Emerald's MAXIE and ARCHIE already argue there, so the
+  scene stays as it is.
+- **PRIMAL NOTES** (`ITEM_PRIMAL_NOTES`, a key item after the CARD CASE, with the LETTER's icon): in
+  the AQUA HIDEOUT, where MATT's submarine leaves, the player finds TEAM AQUA's half of the file and
+  reads its last page (the third POKéMON from the sky, changing "as our MEGA EVOLUTIONS change").
+  BIRCH takes it whenever the player talks to him with it, and sends it to BLAINE
+  (`FLAG_GAVE_PRIMAL_NOTES_TO_BIRCH`, `KANTO_EXTRA_FLAGS_START + 0x190`, for Act 5).
+- **Sky Pillar**: when RAYQUAZA wakes, the player's MEGA RING glows and RAYQUAZA stares at it.
+- **Sootopolis**: the KYOGRE, GROUDON and RAYQUAZA objects are new graphics ids
+  (`OBJ_EVENT_GFX_KYOGRE_PRIMAL`, `_GROUDON_PRIMAL`, `_RAYQUAZA_MEGA`,
+  `src/data/object_events/hoenn_legend_object_events.h`): Emerald's pics with Primal and Mega palettes,
+  in the special NPC's two palette slots (the slots they shared before, NPC_3 and NPC_4, are also
+  STEVEN's, WALLACE's and the residents'). Emerald's cutscene (`src/rayquaza_scene.c`, played only
+  here) shows KYOGRE and GROUDON with their Primal palettes. RAYQUAZA takes flight from Sky Pillar
+  green, and comes down to chase them away black and gold. Then a line says it Mega Evolved and the two
+  lost their primal forms. `tools/hoenn/legend_palettes.py` makes the palettes.
+- Not done: the cutscene's close-ups of RAYQUAZA coming down (scenes 3 and 4) share their palettes with
+  the background, so RAYQUAZA is still green there, and it isn't MEGA RAYQUAZA's shape anywhere. The
+  ORBS don't glow with the Primal colors in Seafloor Cavern (Emerald's `DoOrbEffect`).
+
+Checked in an emulator with test builds: the Sootopolis clash (cutscene and overworld) and RAYQUAZA's
+arrival, from the POKéMON CENTER, and BIRCH taking the PRIMAL NOTES. The new lines were measured
+against the text box (205 pixels at most, Emerald's go to 212). Not played in-game: the AQUA HIDEOUT and
+Sky Pillar scenes.
 
 ## Hoenn's tilesets
 

@@ -109,6 +109,7 @@ SkyPillar_Top_EventScript_AwakenRayquaza::
 	special ShakeCamera
 	waitstate
 	waitmoncry
+	call_if_set FLAG_RECEIVED_MEGA_RING, SkyPillar_Top_EventScript_MegaRingGlows
 	applywaitmovement LOCALID_RAYQUAZA_SLEEPING, SkyPillar_Top_Movement_RayquazaFlyOff
 	removeobject LOCALID_RAYQUAZA_SLEEPING
 	msgbox SkyPillar_Top_Text_RayquazaFlewOff, MSGBOX_DEFAULT
@@ -171,6 +172,19 @@ SkyPillar_Top_Movement_CameraPanDown:
 	walk_slow_down
 	walk_slow_down
 	step_end
+
+@ Act 3 (docs/hoenn_plan.md): RAYQUAZA answers the wish of the MEGA RING, as the last page of the
+@ PRIMAL NOTES says, and comes down to SOOTOPOLIS Mega Evolved
+SkyPillar_Top_EventScript_MegaRingGlows::
+	playse SE_SHINY
+	msgbox SkyPillar_Top_Text_MegaRingGlows, MSGBOX_DEFAULT
+	closemessage
+	waitse
+	return
+
+SkyPillar_Top_Text_MegaRingGlows:
+	.string "{PLAYER}'s MEGA RING began to glow!\p"
+	.string "RAYQUAZA stared at the light…$"
 
 SkyPillar_Top_Text_RayquazaFlewOff:
 	.string "The awakened RAYQUAZA flew off…$"

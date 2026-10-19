@@ -456,6 +456,9 @@ enum {
     // Card game
     ITEM_CARD_CASE,
 
+    // Hoenn chapter
+    ITEM_PRIMAL_NOTES,
+
     ITEMS_COUNT
 };
 

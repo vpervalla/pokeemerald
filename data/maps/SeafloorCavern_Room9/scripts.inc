@@ -270,7 +270,10 @@ SeafloorCavern_Room9_Text_ArchieWhyDidKyogreDisappear:
 	.string "and control KYOGRE…\p"
 	.string "But… Why?\n"
 	.string "Why did KYOGRE disappear?\p"
-	.string "Why?!$"
+	.string "The KANTO file said the ORB would\n"
+	.string "bring back its primal form…\p"
+	.string "It never said anyone could control\n"
+	.string "that form… Why?!$"
 
 SeafloorCavern_Room9_Text_MaxieWhatHaveYouWrought:
 	.string "MAXIE: What have you wrought?\p"

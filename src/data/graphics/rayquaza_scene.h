@@ -1,12 +1,14 @@
 // Scene 1 (RAY_ANIM_DUO_FIGHT / RAY_ANIM_DUO_FIGHT_PRE)
+// Kanto port: only Sootopolis plays the scene, in the Hoenn chapter's Primal clash, so KYOGRE and GROUDON have
+// their Primal colors and RAYQUAZA comes down Mega Evolved (tools/hoenn/legend_palettes.py).
 const u32 gRaySceneDuoFight_Groudon_Gfx[]           = INCGFX_U32("graphics/rayquaza_scene/scene_1/groudon.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_GroudonShoulder_Gfx[]   = INCGFX_U32("graphics/rayquaza_scene/scene_1/groudon_shoulder.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_GroudonClaw_Gfx[]       = INCGFX_U32("graphics/rayquaza_scene/scene_1/groudon_claw.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_Kyogre_Gfx[]            = INCGFX_U32("graphics/rayquaza_scene/scene_1/kyogre.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_KyogrePectoralFin_Gfx[] = INCGFX_U32("graphics/rayquaza_scene/scene_1/kyogre_pectoral_fin.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_KyogreDorsalFin_Gfx[]   = INCGFX_U32("graphics/rayquaza_scene/scene_1/kyogre_dorsal_fin.png", ".4bpp.lz");
-const u32 gRaySceneDuoFight_Groudon_Pal[]           = INCGFX_U32("graphics/rayquaza_scene/scene_1/groudon.png", ".gbapal.lz");
-const u32 gRaySceneDuoFight_Kyogre_Pal[]            = INCGFX_U32("graphics/rayquaza_scene/scene_1/kyogre.png", ".gbapal.lz");
+const u32 gRaySceneDuoFight_Groudon_Pal[]           = INCGFX_U32("graphics/rayquaza_scene/scene_1/groudon_primal.pal", ".gbapal.lz");
+const u32 gRaySceneDuoFight_Kyogre_Pal[]            = INCGFX_U32("graphics/rayquaza_scene/scene_1/kyogre_primal.pal", ".gbapal.lz");
 const u32 gRaySceneDuoFight_Clouds_Gfx[]            = INCGFX_U32("graphics/rayquaza_scene/scene_1/clouds.png", ".4bpp.lz");
 const u32 gRaySceneDuoFight_Clouds_Pal[]            = INCGFX_U32("graphics/rayquaza_scene/scene_1/clouds.png", ".gbapal.lz"); // pal 1 clouds, pal 2 rain
 const u32 gRaySceneDuoFight_Clouds1_Tilemap[]       = INCGFX_U32("graphics/rayquaza_scene/scene_1/clouds1.bin", ".lz");
@@ -50,9 +52,9 @@ const u32 gRaySceneChasesAway_Kyogre_Gfx[]       = INCGFX_U32("graphics/rayquaza
 const u32 gRaySceneChasesAway_Rayquaza_Gfx[]     = INCGFX_U32("graphics/rayquaza_scene/scene_5/rayquaza.png", ".4bpp.lz");
 const u32 gRaySceneChasesAway_RayquazaTail_Gfx[] = INCGFX_U32("graphics/rayquaza_scene/scene_5/rayquaza_tail.png", ".4bpp.lz");
 const u32 gRaySceneChasesAway_KyogreSplash_Gfx[] = INCGFX_U32("graphics/rayquaza_scene/scene_5/kyogre_splash.png", ".4bpp.lz");
-const u32 gRaySceneChasesAway_Groudon_Pal[]      = INCGFX_U32("graphics/rayquaza_scene/scene_5/groudon.png", ".gbapal.lz");
-const u32 gRaySceneChasesAway_Kyogre_Pal[]       = INCGFX_U32("graphics/rayquaza_scene/scene_5/kyogre.png", ".gbapal.lz");
-const u32 gRaySceneChasesAway_Rayquaza_Pal[]     = INCGFX_U32("graphics/rayquaza_scene/scene_5/rayquaza.png", ".gbapal.lz");
+const u32 gRaySceneChasesAway_Groudon_Pal[]      = INCGFX_U32("graphics/rayquaza_scene/scene_5/groudon_primal.pal", ".gbapal.lz");
+const u32 gRaySceneChasesAway_Kyogre_Pal[]       = INCGFX_U32("graphics/rayquaza_scene/scene_5/kyogre_primal.pal", ".gbapal.lz");
+const u32 gRaySceneChasesAway_Rayquaza_Pal[]     = INCGFX_U32("graphics/rayquaza_scene/scene_5/rayquaza_mega.pal", ".gbapal.lz");
 const u32 gRaySceneChasesAway_KyogreSplash_Pal[] = INCGFX_U32("graphics/rayquaza_scene/scene_5/kyogre_splash.png", ".gbapal.lz");
 const u32 gRaySceneChasesAway_Light_Gfx[]        = INCGFX_U32("graphics/rayquaza_scene/scene_5/light.png", ".4bpp.lz");
 const u32 gRaySceneChasesAway_Ring_Gfx[]         = INCGFX_U32("graphics/rayquaza_scene/scene_5/ring.png", ".8bpp.lz");

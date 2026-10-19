@@ -43,6 +43,10 @@ AquaHideout_B2F_EventScript_SubmarineEscape::
 	msgbox AquaHideout_B2F_Text_MattPostBattle, MSGBOX_DEFAULT
 	setflag FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE
 	setflag FLAG_HIDE_LILYCOVE_CITY_AQUA_GRUNTS
+	@ Kanto port (docs/hoenn_plan.md, Act 2): the half of the MANSION's file they took from KANTO
+	msgbox AquaHideout_B2F_Text_PapersLeftOnDock, MSGBOX_DEFAULT
+	giveitem ITEM_PRIMAL_NOTES
+	msgbox AquaHideout_B2F_Text_PrimalNotesLastPage, MSGBOX_DEFAULT
 	release
 	end
 
@@ -80,6 +84,21 @@ AquaHideout_B2F_EventScript_Grunt8::
 	trainerbattle_single TRAINER_GRUNT_AQUA_HIDEOUT_8, AquaHideout_B2F_Text_Grunt8Intro, AquaHideout_B2F_Text_Grunt8Defeat
 	msgbox AquaHideout_B2F_Text_Grunt8PostBattle, MSGBOX_AUTOCLOSE
 	end
+
+AquaHideout_B2F_Text_PapersLeftOnDock:
+	.string "Papers are scattered where the\n"
+	.string "submarine was moored…\p"
+	.string "It's TEAM AQUA's half of the file\n"
+	.string "from the POKéMON MANSION!$"
+
+AquaHideout_B2F_Text_PrimalNotesLastPage:
+	.string "Its last page is a copy of an old\n"
+	.string "legend of HOENN…\p"
+	.string "“When the two were in their primal\n"
+	.string "fury, a third came from the sky…\p"
+	.string "“…and changed, as our MEGA\n"
+	.string "EVOLUTIONS change, at the call of\l"
+	.string "a person's wish.”$"
 
 AquaHideout_B2F_Text_MattIntro:
 	.string "Hehehe…\p"

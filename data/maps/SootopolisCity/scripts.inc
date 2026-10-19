@@ -494,6 +494,8 @@ SootopolisCity_EventScript_RayquazaSceneFromPokeCenter::
 	special ShakeCamera
 	waitstate
 	waitmoncry
+	msgbox SootopolisCity_Text_RayquazaMegaEvolved, MSGBOX_DEFAULT
+	closemessage
 	setweather WEATHER_NONE
 	doweather
 	applywaitmovement LOCALID_SOOTOPOLIS_RAYQUAZA, SootopolisCity_Movement_RayquazaFlyOff
@@ -543,6 +545,8 @@ SootopolisCity_EventScript_RayquazaSceneFromDive::
 	special ShakeCamera
 	waitstate
 	waitmoncry
+	msgbox SootopolisCity_Text_RayquazaMegaEvolved, MSGBOX_DEFAULT
+	closemessage
 	setweather WEATHER_NONE
 	doweather
 	applywaitmovement LOCALID_SOOTOPOLIS_RAYQUAZA, SootopolisCity_Movement_RayquazaFlyOff
@@ -584,6 +588,12 @@ SootopolisCity_EventScript_SetRoughWater::
 	setmetatile 34, 45, METATILE_Sootopolis_RoughWater, FALSE
 	setmetatile 35, 45, METATILE_Sootopolis_RoughWater, FALSE
 	return
+
+@ Kanto port (docs/hoenn_plan.md, Act 3): RAYQUAZA came down Mega Evolved, answering the MEGA RING
+SootopolisCity_Text_RayquazaMegaEvolved:
+	.string "RAYQUAZA had Mega Evolved!\p"
+	.string "At its roar, KYOGRE and GROUDON lost\n"
+	.string "their primal forms and fled…$"
 
 SootopolisCity_Movement_RayquazaFlyOff:
 	walk_fast_up
