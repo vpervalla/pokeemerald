@@ -1,4 +1,5 @@
 #include "global.h"
+#include "hoenn_story.h"
 #include "constants/songs.h"
 #include "bg.h"
 #include "decoration.h"
@@ -448,8 +449,17 @@ void ReshowPlayerPC(u8 var)
     DisplayItemMessageOnField(var, gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
+static const u8 sText_ItemStorageInKanto[] = _("The ITEM STORAGE is kept in KANTO.\nThe link with KANTO is down…");
+
 static void PlayerPC_ItemStorage(u8 taskId)
 {
+    // Kanto port: the Hoenn chapter's cut link (hoenn_story.c), and the items that didn't fit when it came back
+    if (IsKantoLinkCut())
+    {
+        DisplayItemMessageOnField(taskId, sText_ItemStorageInKanto, ReshowPlayerPC);
+        return;
+    }
+    TryReturnStolenLeftovers();
     InitItemStorageMenu(taskId, MENU_WITHDRAW);
     gTasks[taskId].func = ItemStorageMenuProcessInput;
 }

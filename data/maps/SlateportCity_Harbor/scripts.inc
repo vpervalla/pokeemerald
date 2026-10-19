@@ -537,6 +537,14 @@ SlateportCity_Harbor_OnFrame:
 
 SlateportCity_Harbor_EventScript_BirchWelcome::
 	lockall
+	@ The crossing (docs/hoenn_plan.md, Act 1): Aqua and Magma take the team and the BAG, and cut the link
+	fadescreen FADE_TO_BLACK
+	special StealPlayerTeamAndBag
+	msgbox HoennStory_Text_NightCrossing
+	closemessage
+	fadescreen FADE_FROM_BLACK
+	msgbox HoennStory_Text_SailorAfterTheft
+	closemessage
 	clearflag FLAG_HIDE_SLATEPORT_HARBOR_BIRCH
 	addobject LOCALID_SLATEPORT_HARBOR_BIRCH
 	applymovement LOCALID_SLATEPORT_HARBOR_BIRCH, SlateportCity_Harbor_Movement_BirchApproach
@@ -544,6 +552,10 @@ SlateportCity_Harbor_EventScript_BirchWelcome::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	msgbox SlateportCity_Harbor_Text_BirchWelcome
+	playse SE_SHOP
+	msgbox SlateportCity_Harbor_Text_BirchLendsMoney
+	waitse
+	msgbox SlateportCity_Harbor_Text_BirchComeToLab
 	closemessage
 	call HoennStory_EventScript_ReadyHoennOpening
 	warp MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB, 6, 5
@@ -560,14 +572,23 @@ SlateportCity_Harbor_Text_BirchWelcome:
 	.string "Oh! You must be {PLAYER}{KUN}!\n"
 	.string "Welcome to HOENN!\p"
 	.string "I'm BIRCH, the POKéMON PROFESSOR\n"
-	.string "here. OAK and BLAINE called me.\p"
-	.string "TEAM AQUA and TEAM MAGMA…\n"
-	.string "We know them well in HOENN.\l"
-	.string "They're always up to something.\p"
+	.string "here. OAK called me, before the line\l"
+	.string "to KANTO went dead…\p"
+	.string "What?! TEAM AQUA and TEAM MAGMA\n"
+	.string "took your POKéMON and your BAG?\p"
+	.string "They must have known BLAINE sent the\n"
+	.string "KANTO CHAMPION after them.\p"
 	.string "If they're after KYOGRE and\n"
 	.string "GROUDON's PRIMAL power, it's\l"
 	.string "worse than I feared.\p"
-	.string "But you can't take them on without\n"
-	.string "knowing HOENN.\p"
-	.string "Come with me to my lab, in\n"
+	.string "Well, you can't stay empty-handed.\n"
+	.string "Here, take this for now.$"
+
+SlateportCity_Harbor_Text_BirchLendsMoney:
+	.string "{PLAYER} got ¥3000 from\n"
+	.string "PROF. BIRCH.$"
+
+SlateportCity_Harbor_Text_BirchComeToLab:
+	.string "PROF. BIRCH: And you'll need a partner.\n"
+	.string "Come with me to my lab, in\l"
 	.string "LITTLEROOT TOWN. Let's go!$"

@@ -1,6 +1,7 @@
 Route117_EventScript_DaycareMan::
 	lock
 	faceplayer
+	goto_if_set FLAG_HOENN_TEAM_STOLEN, HoennStory_EventScript_DaycareClosed
 	special GetDaycareMonNicknames
 	specialvar VAR_RESULT, GetDaycareState
 	goto_if_eq VAR_RESULT, DAYCARE_EGG_WAITING, Route117_EventScript_DaycareEggWaiting
@@ -73,6 +74,7 @@ Route117_EventScript_CheckOnTwoMons::
 Route117_PokemonDayCare_EventScript_DaycareWoman::
 	lock
 	faceplayer
+	goto_if_set FLAG_HOENN_TEAM_STOLEN, HoennStory_EventScript_DaycareClosed
 	specialvar VAR_RESULT, GetDaycareState
 	goto_if_eq VAR_RESULT, DAYCARE_EGG_WAITING, Route117_PokemonDayCare_EventScript_EggWaiting
 	goto_if_eq VAR_RESULT, DAYCARE_ONE_MON, Route117_PokemonDayCare_EventScript_OneMonInDaycare

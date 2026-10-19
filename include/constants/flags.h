@@ -2107,6 +2107,10 @@
 #define FLAG_HIDE_VERMILION_HOENN_SAILOR            (KANTO_EXTRA_FLAGS_START + 0x18E) // The SEAGALLOP to SLATEPORT
 #define FLAG_HIDE_SLATEPORT_HARBOR_BIRCH            (KANTO_EXTRA_FLAGS_START + 0x18F) // BIRCH's welcome, on the first arrival
 #define FLAG_GAVE_PRIMAL_NOTES_TO_BIRCH             (KANTO_EXTRA_FLAGS_START + 0x190) // Act 3's end; BLAINE has them in Act 5
+#define FLAG_HOENN_TEAM_STOLEN                      (KANTO_EXTRA_FLAGS_START + 0x191) // From the crossing to ARCHIE and MAXIE's visit: the link with Kanto is cut
+#define FLAG_HOENN_MEGA_RING_RETURNED               (KANTO_EXTRA_FLAGS_START + 0x192) // Found in the Magma Hideout
+#define FLAG_HOENN_KANTO_LINK                       (KANTO_EXTRA_FLAGS_START + 0x193) // Restored after Hoenn's Hall of Fame
+#define FLAG_HIDE_LITTLEROOT_ARCHIE_MAXIE           (KANTO_EXTRA_FLAGS_START + 0x194) // Kept by LittlerootTown's transition from VAR_HOENN_STORY_STATE
 
 #define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
 

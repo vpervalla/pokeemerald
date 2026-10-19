@@ -126,6 +126,10 @@ AquaHideout_B2F_Text_MattPostBattle:
 	.string "If you're going to give chase, you'd\n"
 	.string "better search the big, wide sea beyond\l"
 	.string "LILYCOVE.\p"
+	.string "And the POKé BALLS we took off that\n"
+	.string "SEAGALLOP? The BOSS has them too.\p"
+	.string "Your KANTO team is long gone,\n"
+	.string "CHAMPION!\p"
 	.string "But will you find it then?\n"
 	.string "Hehehe!$"
 

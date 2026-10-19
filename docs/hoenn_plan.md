@@ -3,7 +3,7 @@
 This is a plan for making the Hoenn maps, which are still in the ROM, reachable during the
 story: a ship from Vermilion to Slateport, Hoenn's own story played from Professor Birch's
 lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
-Reversion, and Hoenn's legendaries and post-game. Phases 1 to 6 are implemented (see Status).
+Reversion, and Hoenn's legendaries and post-game. Phases 1 to 7 are implemented (see Status).
 
 **Changed after phase 6** (D5, D9-D11, section 3b, phase 7): on the first arrival, Team Aqua and Team
 Magma steal the player's POKéMON and BAG and cut the link with Kanto (the ship home and Kanto's PC
@@ -101,8 +101,8 @@ right since the fix below.
 - Not done: a bed that heals in the guest room (D6); NORMAN is still the player's father in
   Emerald's text.
 
-Phase 4 was implemented, and is **to be undone** in phase 7 (D5 changed: Hoenn keeps Emerald's levels,
-since the player plays it with a new team). What it did: Hoenn's levels, by
+Phase 4 was implemented, and **undone** in phase 7 (D5 changed: Hoenn keeps Emerald's levels, since the
+player plays it with a new team). What it did: Hoenn's levels, by
 `tools/hoenn/rescale_levels.py`, run once (it marks `src/data/trainer_parties.h` and refuses to run
 again). Every level L becomes round(53 + 0.47 L):
 
@@ -177,6 +177,38 @@ Checked in an emulator with test builds: the Sootopolis clash (cutscene and over
 arrival, from the POKéMON CENTER, and BIRCH taking the PRIMAL NOTES. The new lines were measured
 against the text box (205 pixels at most, Emerald's go to 212). Not played in-game: the AQUA HIDEOUT and
 Sky Pillar scenes.
+
+Phase 7 is implemented: the theft, the split PC and the returns (section 3b, D9-D11), and Emerald's
+levels back. Checked in an emulator with three test builds (a party of two with a held MEGA STONE, a
+MEGA RING, RARE CANDIES, POTIONS, ¥50000, and Kanto POKéMON in boxes 1, 9 and 14), reading the save data
+from memory after each:
+
+- **The crossing** (`SlateportCity_Harbor`, state 3): the night narration on a black screen, the
+  SAILOR, then BIRCH, who lends ¥3000 and takes the player to the lab for the starter. After it: an
+  empty party and BAG, ¥3000, the Kanto POKéMON of boxes 9 and 14 moved after the one in box 1, boxes
+  8-14 named HOENN 1 to HOENN 7, and everything in the stash. Then the lab gives the starter.
+- **The PC**: it opens on HOENN 1, and the box arrows go round HOENN 1 to HOENN 7 only.
+- **The return** (`LittlerootTown`, state 6): ARCHIE and MAXIE outside the guest room give everything
+  back. The two POKéMON went to box 1, the BAG merged with Hoenn's (3 + 2 POTIONS, a single MEGA RING),
+  the money added (¥53000), boxes 8-14 renamed as before, the stash empty.
+- **Code**: `src/hoenn_story.c` (the specials `CheckKantoBoxesFit`, `StealPlayerTeamAndBag`,
+  `TakeStolenMegaRing`, `RestoreKantoLink`, `ScriptIsKantoLinkCut`), the stash
+  `struct HoennStolenTeam` at the end of `struct PokemonStorage` (a `STATIC_ASSERT` checks it fits),
+  `GetFirstUsableBox`/`ClampToUsableBox` in the PC's box menu, arrows and current box, in
+  `CopyMonToPC` (catches and gifts), `IsPokemonStorageFull`, `CheckFreePokemonStorageSpace` and
+  `IsDestinationBoxFull`. The player's PC closes its item storage while the link is cut, and hands
+  over the stash's leftovers after.
+- **Scripts**: the Vermilion sailor's check (210 boxed POKéMON at most), the Slateport and Lilycove
+  sailors ("the line to Kanto is cut"), the Route 117 DAY CARE closed (it shares Four Island's
+  POKéMON), the MEGA RING in the Magma Hideout, MATT's taunt, ARCHIE and MAXIE's promise in
+  Sootopolis, the Hall of Fame setting state 6, and the scene in LITTLEROOT (state 7 after it).
+  `FLAG_HOENN_TEAM_STOLEN`, `FLAG_HOENN_MEGA_RING_RETURNED`, `FLAG_HOENN_KANTO_LINK` and
+  `FLAG_HIDE_LITTLEROOT_ARCHIE_MAXIE` are `KANTO_EXTRA_FLAGS_START + 0x191`-`0x194`.
+- **Levels**: commit `6b0697cd` reverted, keeping the later Sky Pillar scene: Emerald's trainers, wild
+  POKéMON and static encounters (KYOGRE, GROUDON and RAYQUAZA at 70).
+- Not played in-game: the Magma Hideout and Sootopolis lines, a catch going to HOENN 1, the item
+  storage message. The POKéNAV's condition and ribbon lists still list the Kanto boxes' POKéMON (they
+  only show them).
 
 ## Hoenn's tilesets
 
@@ -456,17 +488,17 @@ SaveBlock1 has only 24 left):
 | `stolenParty[PARTY_SIZE]` (`struct Pokemon`) and `stolenPartyCount` | 601 |
 | `stolenBag`: the five pockets' `struct ItemSlot`s (30 + 30 + 16 + 64 + 46), quantities decrypted | 744 |
 | `stolenMoney` (decrypted) | 4 |
-| The old names and wallpapers of boxes 8-14 | 70 |
+| The old names of boxes 8-14 | 63 |
 
-About 1420 bytes, so about 230 are left.
+About 1410 bytes, so about 240 are left.
 
 A `STATIC_ASSERT` checks that the storage still fits its sectors.
 
 **The theft** (a special, `StealPlayerTeamAndBag`, run by the SEAGALLOP's arrival when
 `VAR_HOENN_STORY_STATE` is 3): copies the party, the pockets and the money to the stash; empties the
 party and the pockets; sets the money to 3000; moves the POKéMON in boxes 8-14 to free places in
-boxes 1-7, keeping their order; names boxes 8-14 HOENN 1 to HOENN 7 (their old names and wallpapers
-are kept in the stash, and come back when the halves merge). What stays: the flags (POKéDEX, RUNNING SHOES,
+boxes 1-7, keeping their order; names boxes 8-14 HOENN 1 to HOENN 7 (their old names are kept in the
+stash, and come back when the halves merge; the wallpapers stay). What stays: the flags (POKéDEX, RUNNING SHOES,
 badges, Kanto progress), the PC's boxes 1-7 and the item storage, out of reach.
 
 **Before sailing**: the Vermilion sailor checks that the PC's POKéMON fit in 7 boxes (at most 210). If
@@ -475,10 +507,9 @@ SEAGALLOP doesn't sail until then. Only a player with more than 210 boxed POKéM
 
 **While the link is cut** (`FLAG_HOENN_TEAM_STOLEN` set, `FLAG_HOENN_KANTO_LINK` clear):
 
-- `src/pokemon_storage_system.c`: a first and last box (`GetFirstUsableBox`/`GetLastUsableBox`: 7 and
-  13, counting from 0, while the link is cut; 0 and 13 otherwise) bound the box list, the arrows,
-  the jump menu and the box-to-box moves; withdrawing, depositing and moving open on HOENN 1. Box
-  names show as numbered from 1 within the half (the wallpapers and names are the boxes' own).
+- `src/pokemon_storage_system.c`: the first usable box (`GetFirstUsableBox`: 7, counting from 0,
+  while the link is cut, 0 otherwise) bounds the box list, the arrows and the jump menu, and the PC
+  opens on HOENN 1.
 - Catches and gifts (`SendMonToPC`, `IsPlayerPartyAndPokemonStorageFull` in `src/pokemon.c`): only
   the HOENN boxes count; with all 7 full, the player can't throw balls, as with a full PC in Emerald.
 - The player's PC: the item storage says the link with Kanto is down. The Mailbox and Decoration stay.
@@ -491,8 +522,8 @@ SEAGALLOP doesn't sail until then. Only a player with more than 210 boxed POKéM
 - The MEGA RING (Magma Hideout 4F, after MAXIE): taken out of the stash's KEY ITEMS
   (`TakeStolenItem`) and given with `giveitem`; `FLAG_HOENN_MEGA_RING_RETURNED`. Nothing else.
 - `RestoreKantoLink` (LITTLEROOT, ARCHIE and MAXIE, after Hoenn's Hall of Fame): sets
-  `FLAG_HOENN_KANTO_LINK`, so all 14 boxes show again, Kanto's 1-7 then Hoenn's 8-14 (boxes 8-14 get back their old names and wallpapers; the
-  HOENN POKéMON stay in them). The stolen POKéMON go to the first free places, in
+  `FLAG_HOENN_KANTO_LINK`, so all 14 boxes show again, Kanto's 1-7 then Hoenn's 8-14 (boxes 8-14 get back their old names; the HOENN POKéMON stay in
+  them). The stolen POKéMON go to the first free places, in
   their order ("sent to BOX n" lines). Each stolen item is added to the BAG (Hoenn's items stay);
   what doesn't fit its pocket goes to the item storage, and what doesn't fit there stays in the
   stash, handed over by the player's PC as room is made. The money is added to the player's. Then it

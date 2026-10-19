@@ -7,6 +7,22 @@
 #define IN_BOX_COUNT            (IN_BOX_ROWS * IN_BOX_COLUMNS)
 #define BOX_NAME_LENGTH         8
 
+// Kanto port, the Hoenn chapter (docs/hoenn_plan.md, section 3b): while the link with Kanto is cut, the
+// PC shows only the last 7 boxes, Hoenn's
+#define HOENN_FIRST_BOX         7
+#define NUM_HOENN_BOXES         (TOTAL_BOXES_COUNT - HOENN_FIRST_BOX)
+#define NUM_STOLEN_BAG_SLOTS    (BAG_ITEMS_COUNT + BAG_KEYITEMS_COUNT + BAG_POKEBALLS_COUNT + BAG_TMHM_COUNT + BAG_BERRIES_COUNT)
+
+// What Team Aqua and Team Magma took on the crossing to Hoenn, until they give it back
+struct HoennStolenTeam
+{
+    struct Pokemon party[PARTY_SIZE];
+    u8 partyCount;
+    u8 boxNames[NUM_HOENN_BOXES][BOX_NAME_LENGTH + 1]; // the Hoenn boxes' names before the crossing
+    u32 money;
+    struct ItemSlot bag[NUM_STOLEN_BAG_SLOTS];          // the pockets one after the other, quantities decrypted
+};
+
 /*
             COLUMNS
 ROWS        0   1   2   3   4   5
@@ -25,6 +41,7 @@ struct PokemonStorage
     // Kanto port (FRLG) data that doesn't fit in SaveBlock1, kept in this block's free space
     /*0x83D0*/ u16 kantoVars[KANTO_VARS_COUNT];               // VarGet(KANTO_VARS_START + n)
     /*0x84D0*/ u8 kantoExtraFlags[KANTO_EXTRA_FLAGS_COUNT / 8]; // FlagGet(KANTO_EXTRA_FLAGS_START + n)
+    /*0x8510*/ struct HoennStolenTeam hoennStolenTeam;
 };
 
 extern struct PokemonStorage *gPokemonStoragePtr;
@@ -57,6 +74,8 @@ struct BoxPokemon *GetBoxedMonPtr(u8 boxId, u8 boxPosition);
 u8 *GetBoxNamePtr(u8 boxId);
 s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 mode);
 bool8 CheckFreePokemonStorageSpace(void);
+u8 GetFirstUsableBox(void);
+u8 ClampToUsableBox(u8 boxId);
 bool32 CheckBoxMonSanityAt(u32 boxId, u32 boxPosition);
 u32 CountStorageNonEggMons(void);
 u32 CountAllStorageMons(void);

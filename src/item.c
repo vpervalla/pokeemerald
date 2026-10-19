@@ -33,6 +33,12 @@ static void SetBagItemQuantity(u16 *quantity, u16 newValue)
     *quantity =  newValue ^ gSaveBlock2Ptr->encryptionKey;
 }
 
+// The quantity in a bag slot, which is encrypted
+u16 GetBagItemSlotQuantity(struct ItemSlot *slot)
+{
+    return GetBagItemQuantity(&slot->quantity);
+}
+
 static u16 GetPCItemQuantity(u16 *quantity)
 {
     return *quantity;

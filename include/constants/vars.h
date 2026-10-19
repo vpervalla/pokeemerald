@@ -335,7 +335,8 @@
 // The way to Hoenn (docs/hoenn_plan.md, Acts 0 and 1): 0 before the first Hall of Fame, 1 MOM has BLAINE's
 // message, 2 Aqua and Magma are in the POKéMON MANSION, 3 they fled to Hoenn with the PRIMAL NOTES (the ship
 // sails), 4 BIRCH met the player at SLATEPORT and took them to his lab, 5 BIRCH gave a Hoenn starter (from
-// here on, Emerald's own story vars lead)
+// here on, Emerald's own story vars lead), 6 Hoenn's Hall of Fame: ARCHIE and MAXIE wait in LITTLEROOT with
+// the stolen team, 7 they gave it back and the link with Kanto is mended
 #define VAR_HOENN_STORY_STATE                       (KANTO_VARS_START + 0x71)
 
 #define SPECIAL_VARS_START            0x8000

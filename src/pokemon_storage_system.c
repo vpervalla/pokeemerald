@@ -1,4 +1,5 @@
 #include "global.h"
+#include "hoenn_story.h"
 #include "malloc.h"
 #include "bg.h"
 #include "data.h"
@@ -1650,6 +1651,7 @@ static void Task_PCMainMenu(u8 taskId)
 void ShowPokemonStorageSystemPC(void)
 {
     u8 taskId = CreateTask(Task_PCMainMenu, 80);
+    gPokemonStoragePtr->currentBox = ClampToUsableBox(gPokemonStoragePtr->currentBox);
     gTasks[taskId].tState = 0;
     gTasks[taskId].tSelectedOption = 0;
     LockPlayerFieldControls();
@@ -1750,6 +1752,7 @@ void ResetPokemonStorageSystem(void)
     // A new game starts with the Kanto port's vars and extra flags cleared
     CpuFill16(0, gPokemonStoragePtr->kantoVars, sizeof(gPokemonStoragePtr->kantoVars));
     memset(gPokemonStoragePtr->kantoExtraFlags, 0, sizeof(gPokemonStoragePtr->kantoExtraFlags));
+    memset(&gPokemonStoragePtr->hoennStolenTeam, 0, sizeof(gPokemonStoragePtr->hoennStolenTeam));
 }
 
 
@@ -1912,13 +1915,13 @@ static void ChooseBoxMenu_DestroySprites(void)
 static void ChooseBoxMenu_MoveRight(void)
 {
     if (++sChooseBoxMenu->curBox >= TOTAL_BOXES_COUNT)
-        sChooseBoxMenu->curBox = 0;
+        sChooseBoxMenu->curBox = GetFirstUsableBox();
     ChooseBoxMenu_PrintInfo();
 }
 
 static void ChooseBoxMenu_MoveLeft(void)
 {
-    sChooseBoxMenu->curBox = (sChooseBoxMenu->curBox == 0 ? TOTAL_BOXES_COUNT - 1 : sChooseBoxMenu->curBox - 1);
+    sChooseBoxMenu->curBox = (sChooseBoxMenu->curBox <= GetFirstUsableBox() ? TOTAL_BOXES_COUNT - 1 : sChooseBoxMenu->curBox - 1);
     ChooseBoxMenu_PrintInfo();
 }
 
@@ -2324,7 +2327,7 @@ static void Task_PokeStorageMain(u8 taskId)
             PlaySE(SE_SELECT);
             sStorage->newCurrBoxId = StorageGetCurrentBox() + 1;
             if (sStorage->newCurrBoxId >= TOTAL_BOXES_COUNT)
-                sStorage->newCurrBoxId = 0;
+                sStorage->newCurrBoxId = GetFirstUsableBox();
             if (sStorage->boxOption != OPTION_MOVE_ITEMS)
             {
                 SetUpScrollToBox(sStorage->newCurrBoxId);
@@ -2339,7 +2342,7 @@ static void Task_PokeStorageMain(u8 taskId)
         case INPUT_SCROLL_LEFT:
             PlaySE(SE_SELECT);
             sStorage->newCurrBoxId = StorageGetCurrentBox() - 1;
-            if (sStorage->newCurrBoxId < 0)
+            if (sStorage->newCurrBoxId < GetFirstUsableBox())
                 sStorage->newCurrBoxId = TOTAL_BOXES_COUNT - 1;
             if (sStorage->boxOption != OPTION_MOVE_ITEMS)
             {
@@ -5304,10 +5307,10 @@ static s8 DetermineBoxScrollDirection(u8 boxId)
     {
         currentBox++;
         if (currentBox >= TOTAL_BOXES_COUNT)
-            currentBox = 0;
+            currentBox = GetFirstUsableBox();
     }
 
-    return (i < TOTAL_BOXES_COUNT / 2) ? 1 : -1;
+    return (i < (TOTAL_BOXES_COUNT - GetFirstUsableBox()) / 2) ? 1 : -1;
 }
 
 
@@ -9410,6 +9413,19 @@ u8 StorageGetCurrentBox(void)
     return gPokemonStoragePtr->currentBox;
 }
 
+// Kanto port: while the link with Kanto is cut, only Hoenn's boxes (the last 7) can be used
+u8 GetFirstUsableBox(void)
+{
+    return IsKantoLinkCut() ? HOENN_FIRST_BOX : 0;
+}
+
+u8 ClampToUsableBox(u8 boxId)
+{
+    if (boxId < GetFirstUsableBox() || boxId >= TOTAL_BOXES_COUNT)
+        return GetFirstUsableBox();
+    return boxId;
+}
+
 static void SetCurrentBox(u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT)
@@ -9577,7 +9593,7 @@ bool8 CheckFreePokemonStorageSpace(void)
 {
     s32 i, j;
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
+    for (i = GetFirstUsableBox(); i < TOTAL_BOXES_COUNT; i++)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {

@@ -598,3 +598,10 @@ gSpecials::
 	def_special DynamicWeather_DebugReport
 	def_special DynamicWeather_DebugNextDay
 	def_special OpenVintageCardTest, waitstate=1
+
+	@ The Hoenn chapter's theft (docs/hoenn_plan.md, section 3b; src/hoenn_story.c)
+	def_special CheckKantoBoxesFit
+	def_special StealPlayerTeamAndBag
+	def_special TakeStolenMegaRing
+	def_special RestoreKantoLink
+	def_special ScriptIsKantoLinkCut

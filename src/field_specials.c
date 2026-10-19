@@ -3727,6 +3727,7 @@ bool8 IsDestinationBoxFull(void)
     int box;
     int i;
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
+    gPokemonStoragePtr->currentBox = ClampToUsableBox(StorageGetCurrentBox()); // Kanto port, see SendMonToPC
     box = StorageGetCurrentBox();
     do
     {
@@ -3742,7 +3743,7 @@ bool8 IsDestinationBoxFull(void)
         }
 
         if (++box == TOTAL_BOXES_COUNT)
-            box = 0;
+            box = GetFirstUsableBox();
     } while (box != StorageGetCurrentBox());
     return FALSE;
 }

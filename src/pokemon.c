@@ -4497,6 +4497,8 @@ static u8 CopyMonToPC(struct Pokemon *mon)
 
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
 
+    // Kanto port: only Hoenn's boxes while the link with Kanto is cut
+    gPokemonStoragePtr->currentBox = ClampToUsableBox(StorageGetCurrentBox());
     boxNo = StorageGetCurrentBox();
 
     do
@@ -4519,10 +4521,16 @@ static u8 CopyMonToPC(struct Pokemon *mon)
 
         boxNo++;
         if (boxNo == TOTAL_BOXES_COUNT)
-            boxNo = 0;
+            boxNo = GetFirstUsableBox();
     } while (boxNo != StorageGetCurrentBox());
 
     return MON_CANT_GIVE;
+}
+
+// Kanto port: for the Hoenn chapter's stolen team (hoenn_story.c)
+u8 GiveMonToPC(struct Pokemon *mon)
+{
+    return CopyMonToPC(mon);
 }
 
 u8 CalculatePlayerPartyCount(void)
@@ -4668,7 +4676,7 @@ bool8 IsPokemonStorageFull(void)
 {
     s32 i, j;
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
+    for (i = GetFirstUsableBox(); i < TOTAL_BOXES_COUNT; i++)
         for (j = 0; j < IN_BOX_COUNT; j++)
             if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
                 return FALSE;

@@ -1340,6 +1340,7 @@ SootopolisCity_EventScript_ArchieRayquaza::
 	end
 
 SootopolisCity_EventScript_MaxieArchieLeave::
+	call HoennStory_EventScript_ArchieMaxiePromise
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_MAXIE
 	setflag FLAG_HIDE_SOOTOPOLIS_CITY_ARCHIE
 	setflag FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE

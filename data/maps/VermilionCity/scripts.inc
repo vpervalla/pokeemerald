@@ -458,11 +458,21 @@ VermilionCity_EventScript_HoennSailorAgain::
 	msgbox VermilionCity_Text_HoennSailorAgain, MSGBOX_YESNO
 VermilionCity_EventScript_HoennSailorAnswer::
 	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_HoennSailorNotYet
+	@ HOENN's PC borrows the last 7 boxes on the first crossing (docs/hoenn_plan.md, section 3b)
+	goto_if_set FLAG_ARRIVED_IN_HOENN, VermilionCity_EventScript_HoennSailorAllAboard
+	special CheckKantoBoxesFit
+	goto_if_eq VAR_RESULT, FALSE, VermilionCity_EventScript_HoennSailorBoxesFull
+VermilionCity_EventScript_HoennSailorAllAboard::
 	msgbox VermilionCity_Text_ApexSailorAllAboard
 	closemessage
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	setvar VAR_0x8006, SEAGALLOP_SLATEPORT
 	goto Kanto_EventScript_SetSail
+	end
+
+VermilionCity_EventScript_HoennSailorBoxesFull::
+	msgbox VermilionCity_Text_HoennSailorBoxesFull
+	release
 	end
 
 VermilionCity_EventScript_HoennSailorNotYet::
@@ -483,6 +493,15 @@ VermilionCity_Text_HoennSailor:
 VermilionCity_Text_HoennSailorAgain:
 	.string "Ahoy, {PLAYER}!\n"
 	.string "Back to SLATEPORT?$"
+
+VermilionCity_Text_HoennSailorBoxesFull:
+	.string "Hold on! BILL asked me to tell you\n"
+	.string "something before you go.\p"
+	.string "HOENN's PC system borrows half of\n"
+	.string "the boxes: the last 7 of them.\p"
+	.string "Your POKéMON in the PC have to fit\n"
+	.string "in the first 7 boxes: 210 at most.\p"
+	.string "Make some room, then come back!$"
 
 VermilionCity_Text_HoennSailorNotYet:
 	.string "Get ready, then. HOENN is a long\n"
