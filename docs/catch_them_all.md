@@ -21,7 +21,9 @@ each time she's beaten she also hides the earlier ones the player skipped:
 | Late      | ROUTE 23, by VICTORY ROAD                  | NIDOQUEEN 50, CLEFABLE 49, RAPIDASH 50, GOLDUCK 50, DRAGONAIR 51, VENUSAUR 53 |
 | Post-game | CERULEAN CITY, by CERULEAN CAVE (Surf)     | NIDOQUEEN 74, CLEFABLE 74, RAPIDASH 75, STARMIE 75, DRAGONITE 76, VENUSAUR 78 (VENUSAURITE) |
 
-RED (or ETHAN) waits deep in CERULEAN CAVE (B1F), where MEWTWO used to be, after the Hall of Fame.
+RED (or ETHAN) waits deep in CERULEAN CAVE (B1F), where MEWTWO used to be, once the player is back
+from Hoenn (`FLAG_HOENN_KANTO_LINK`, after Hoenn's Hall of Fame; see `docs/hoenn_plan.md`). The
+post-game LEAF waits for that too.
 MEWTWO isn't there anymore: it's MR. M., on APEX ISLAND. His team: SNORLAX 77, LAPRAS 77,
 ESPEON 76, AERODACTYL 76, GENGAR 76 and CHARIZARD 80 with CHARIZARDITE X.
 
@@ -104,8 +106,8 @@ The scripts are after the generated NPCs in `PewterCity_Museum_1F` and
 
 ## The other DOJO POKéMON
 
-In FireRed, the SAFFRON CITY DOJO gives either HITMONLEE or HITMONCHAN. Here, after the ELITE FOUR
-(`FLAG_SYS_GAME_CLEAR`), the DOJO's trainers are swapped on transition for stronger ones
+In FireRed, the SAFFRON CITY DOJO gives either HITMONLEE or HITMONCHAN. Here, once the player is back
+from Hoenn (`FLAG_HOENN_KANTO_LINK`, after Hoenn's Hall of Fame), the DOJO's trainers are swapped on transition for stronger ones
 (`FLAG_HIDE_DOJO_TRAINERS` / `FLAG_HIDE_DOJO_REMATCH_TRAINERS`, trainers `TRAINER_DOJO_*` in
 `src/data/dojo_trainers.h` and `dojo_trainer_parties.h`):
 
@@ -118,7 +120,7 @@ In FireRed, the SAFFRON CITY DOJO gives either HITMONLEE or HITMONCHAN. Here, af
   (`FLAG_GOT_HERACRONITE_FROM_KOICHI`; with a full BAG he gives it the next time they talk). Until
   the altar is empty, he reminds them of the POKéMON waiting there.
 
-Before the ELITE FOUR, nothing changes. Breeding a HITMON with DITTO for a TYROGUE is still another
+Before then, nothing changes. Breeding a HITMON with DITTO for a TYROGUE is still another
 way.
 
 ## Version exclusives

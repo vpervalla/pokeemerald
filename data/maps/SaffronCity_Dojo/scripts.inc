@@ -251,13 +251,14 @@ SaffronCity_Dojo_Text_YouWantHitmonlee:
     .string "You want the hard-kicking\n"
     .string "HITMONLEE?$"
 
-@ Added: after the ELITE FOUR (FLAG_SYS_GAME_CLEAR), the DOJO's trainers are replaced by stronger
+@ Added: once the player is back from Hoenn (FLAG_HOENN_KANTO_LINK, after Hoenn's Hall of Fame), the
+@ DOJO's trainers are replaced by stronger
 @ ones (TRAINER_DOJO_*, see src/data/dojo_trainers.h). Beating MASTER KOICHI, whose HERACROSS Mega
 @ Evolves, earns the POKéMON the player didn't pick the first time, so both HITMONLEE and
 @ HITMONCHAN can be caught in one game.
 SaffronCity_Dojo_OnTransition:
-	call_if_unset FLAG_SYS_GAME_CLEAR, SaffronCity_Dojo_EventScript_ShowFirstTrainers
-	call_if_set FLAG_SYS_GAME_CLEAR, SaffronCity_Dojo_EventScript_ShowRematchTrainers
+	call_if_unset FLAG_HOENN_KANTO_LINK, SaffronCity_Dojo_EventScript_ShowFirstTrainers
+	call_if_set FLAG_HOENN_KANTO_LINK, SaffronCity_Dojo_EventScript_ShowRematchTrainers
 	end
 
 SaffronCity_Dojo_EventScript_ShowFirstTrainers:

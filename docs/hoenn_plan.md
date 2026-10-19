@@ -408,8 +408,8 @@ Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay clo
 - BIRCH gives the Mega Stone of the player's Hoenn starter (SCEPTILITE, BLAZIKENITE or
   SWAMPERTITE) after Hoenn's Hall of Fame.
 - In MR. M.'s tournament, STEVEN remembers the player from Hoenn.
-- The Kanto GYM LEADERS' rematches and the ELITE FOUR's rematch (and so the MEGA STONES they give and
-  MR. M.'s invitation) open only now, with the link mended (`FLAG_HOENN_KANTO_LINK`): Hoenn comes
+- The Kanto GYM LEADERS' rematches, the ELITE FOUR's rematch, the post-game LEAF and RED and the DOJO's
+  rematch (and so the MEGA STONES they give and MR. M.'s invitation) open only now, with the link mended (`FLAG_HOENN_KANTO_LINK`): Hoenn comes
   before Kanto's rematches (`docs/mega_island.md`).
 
 GIOVANNI and ALAIN have no part in this chapter: GIOVANNI's rematch stays as it is, and ALAIN

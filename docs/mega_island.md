@@ -54,10 +54,10 @@ STONE, and the player has none. The tournament comes after the League's rematch.
    (hold the stone, press START when choosing a move, once per battle). A player who beat him
    without getting it gets it by talking to him again, before or after the Hall of Fame.
 2. **The first Hall of Fame** (`FLAG_SYS_GAME_CLEAR`). The Kanto trainers who hold MEGA STONES
-   can now be battled for them (below): LEAF, RED and the DOJO. The LEAGUE closes, as in FireRed,
-   until the Sevii Islands quest is done, and now also until the player is back from Hoenn
-   (`FLAG_HOENN_KANTO_LINK`, set when ARCHIE and MAXIE mend the link after Hoenn's Hall of Fame,
-   `docs/hoenn_plan.md`). The GYM LEADERS' rematches wait for Hoenn too.
+   wait until the player is back from Hoenn (`FLAG_HOENN_KANTO_LINK`, set when ARCHIE and MAXIE
+   mend the link after Hoenn's Hall of Fame, `docs/hoenn_plan.md`): LEAF, RED, the DOJO and the
+   GYM LEADERS' rematches (below). The LEAGUE closes, as in FireRed, until the Sevii Islands quest
+   is done, and also until the player is back from Hoenn.
 3. **The second Hall of Fame**, after the LEAGUE's rematch (`FLAG_SYS_CAN_LINK_WITH_RS` and
    `FLAG_HOENN_KANTO_LINK`), where the
    ELITE FOUR and the champion also give MEGA STONES. `PokemonLeague_HallOfFame_EventScript_GameClear`
@@ -82,8 +82,8 @@ stone until the player comes back with room for it.
 
 | Trainer | Where | Battle | MEGA STONE | Flag |
 |---------|-------|--------|------------|------|
-| LEAF (or KRIS) | CERULEAN CITY, by CERULEAN CAVE | Post-game (`docs/catch_them_all.md`) | VENUSAURITE | `FLAG_GOT_VENUSAURITE_FROM_LEAF` |
-| RED (or ETHAN) | CERULEAN CAVE B1F | Post-game | CHARIZARDITE X | `FLAG_GOT_CHARIZARDITE_X_FROM_RED` |
+| LEAF (or KRIS) | CERULEAN CITY, by CERULEAN CAVE | Post-game, after Hoenn (`docs/catch_them_all.md`) | VENUSAURITE | `FLAG_GOT_VENUSAURITE_FROM_LEAF` |
+| RED (or ETHAN) | CERULEAN CAVE B1F | Post-game, after Hoenn | CHARIZARDITE X | `FLAG_GOT_CHARIZARDITE_X_FROM_RED` |
 | BROCK | PEWTER CITY GYM | Rematch | AERODACTYLITE | `FLAG_GOT_MEGA_STONE_FROM_BROCK` |
 | MISTY | CERULEAN CITY GYM | Rematch | GYARADOSITE | `FLAG_GOT_MEGA_STONE_FROM_MISTY` |
 | LT. SURGE | VERMILION CITY GYM | Rematch | AMPHAROSITE | `FLAG_GOT_MEGA_STONE_FROM_LT_SURGE` |

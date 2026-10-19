@@ -1,7 +1,7 @@
 @ The trainers who took the Kanto starters from OAK's lab (see docs/catch_them_all.md). LEAF took
 @ BULBASAUR, and battles the player four times: ROUTE 24, CELADON CITY, ROUTE 23 by VICTORY ROAD, and
-@ by CERULEAN CAVE after the Hall of Fame. RED took CHARMANDER, and waits deep in CERULEAN CAVE (where
-@ MEWTWO was, before it left for APEX ISLAND) after the Hall of Fame. When the player is dressed as LEAF, KRIS takes her place, and when they're
+@ by CERULEAN CAVE once the player is back from Hoenn. RED took CHARMANDER, and waits deep in CERULEAN
+@ CAVE (where MEWTWO was, before it left for APEX ISLAND) from then on too. When the player is dressed as LEAF, KRIS takes her place, and when they're
 @ dressed as RED, ETHAN takes his (their sprites do the same, see GetObjectEventGraphicsInfo).
 @ Talking to them starts the battle. Afterwards they leave, and each LEAF also hides the earlier ones.
 @ The post-game LEAF and RED give the player the MEGA STONE of their ace before leaving (with a full
@@ -35,11 +35,12 @@ LabTrainers_EventScript_Return::
 	return
 
 @ Called on transition by CERULEAN CITY and CERULEAN CAVE B1F: the post-game trainers appear once the
-@ game is clear, until they've given the player their MEGA STONE.
+@ player is back from Hoenn (FLAG_HOENN_KANTO_LINK, after Hoenn's Hall of Fame), until they've given
+@ the player their MEGA STONE.
 LabTrainers_EventScript_UpdatePostgameTrainers::
 	setflag FLAG_HIDE_LEAF_CERULEAN_CAVE
 	setflag FLAG_HIDE_RED_CERULEAN_CAVE
-	goto_if_unset FLAG_SYS_GAME_CLEAR, LabTrainers_EventScript_Return
+	goto_if_unset FLAG_HOENN_KANTO_LINK, LabTrainers_EventScript_Return
 	call_if_unset FLAG_GOT_VENUSAURITE_FROM_LEAF, LabTrainers_EventScript_ShowPostgameLeaf
 	call_if_unset FLAG_GOT_CHARIZARDITE_X_FROM_RED, LabTrainers_EventScript_ShowPostgameRed
 	return
