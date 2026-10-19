@@ -5,6 +5,12 @@ story: a ship from Vermilion to Slateport, Hoenn's own story played from Profess
 lab to its Hall of Fame, with Team Aqua and Team Magma after Kyogre's and Groudon's Primal
 Reversion, and Hoenn's legendaries and post-game. Phases 1 to 6 are implemented (see Status).
 
+**Changed after phase 6** (D5, D9-D11, section 3b, phase 7): on the first arrival, Team Aqua and Team
+Magma steal the player's POKéMON and BAG and cut the link with Kanto (the ship home and Kanto's PC
+boxes). The player starts Hoenn with BIRCH's starter, at Emerald's own levels: phase 4's rescale is
+undone. The bag comes back from the Magma Hideout, the team from the Aqua Hideout, and the link once
+ARCHIE and MAXIE give up in Sootopolis.
+
 ## Status
 
 Phase 1 is implemented: Kanto and Hoenn keep their progress apart.
@@ -93,8 +99,10 @@ right since the fix below.
 - Not done: a bed that heals in the guest room (D6); NORMAN is still the player's father in
   Emerald's text.
 
-Phase 4 is implemented: Hoenn's levels, by `tools/hoenn/rescale_levels.py`, run once (it marks
-`src/data/trainer_parties.h` and refuses to run again). Every level L becomes round(53 + 0.47 L):
+Phase 4 was implemented, and is **to be undone** in phase 7 (D5 changed: Hoenn keeps Emerald's levels,
+since the player plays it with a new team). What it did: Hoenn's levels, by
+`tools/hoenn/rescale_levels.py`, run once (it marks `src/data/trainer_parties.h` and refuses to run
+again). Every level L becomes round(53 + 0.47 L):
 
 - **Trainers** (`src/data/trainer_parties.h`, all of Emerald's but the four link placeholders):
   1821 POKéMON, now 54-80 in the story (WALLACE 79-80) and up to 90 in the rematches. 980 of them
@@ -261,15 +269,23 @@ Groudon's to dry the seas. Each team learns of the file and races the other for 
 - POKéMON MANSION: Aqua and Magma grunts searching the building, fighting each other as much as
   the player. On B1F, the open safe: an Aqua admin (SHELLY) and a Magma admin (TABITHA) have
   split the file and each run with half. Battles with grunts and with the two admins, at the
-  start of the post-game levels (section 4).
+  start of the post-game levels (they're in Kanto, so they keep them).
 - Vermilion's pier: the two teams' boats leave for Hoenn as the player arrives. A sailor
   offers the ship to Slateport (`FLAG_HOENN_OPEN`). BLAINE asks the player to get the file
   back: "If those fools force that power out of Kyogre and Groudon, nothing will stop it."
 
-### Act 1: the arrival
+### Act 1: the arrival, and the theft
 
-- Slateport Harbor: BIRCH, warned by BLAINE and OAK, meets the player and takes them to his lab.
-  Hoenn's story starts there (section 3). BIRCH has heard of the ORBS, kept at MT. PYRE.
+- **The crossing**: in the night, the SEAGALLOP is stopped at sea. An Aqua submarine comes alongside
+  and Magma and Aqua grunts, together for once, climb aboard while the player sleeps. When the player
+  wakes, the POKé BALLS and the BAG are gone, and the ship's radio is smashed. SHELLY and TABITHA knew
+  BLAINE would send the KANTO CHAMPION after the file; with the team gone, the player is no threat.
+- **Slateport Harbor**: the sailor docks and can't sail back ("the teams cut the cable to KANTO too:
+  no radio, no PC link"). BIRCH, warned by OAK before the line went dead, meets the player, hears what
+  happened, and takes them to his lab. Hoenn's story starts there (section 3), with BIRCH's starter
+  and ¥3000 he lends. BIRCH has heard of the ORBS, kept at MT. PYRE.
+- From here, until Sootopolis: the SEAGALLOP doesn't sail to Kanto, the PC shows only the two HOENN
+  boxes, and the player's item storage is closed (section 3b).
 
 ### Act 2: the race, at Emerald's own beats
 
@@ -282,6 +298,8 @@ about their plans.
 | Mt. Chimney (Maxie and the METEORITE) | Maxie: the file says the METEORITE's energy is what Mega Stones are made of; it will wake Groudon, and the RED ORB will make it Primal |
 | Weather Institute (Shelly's raid) | Shelly: Aqua's half of the file says the BLUE ORB awakens Kyogre's "true form" |
 | Mt. Pyre summit (both ORBS stolen) | Archie and Maxie name Primal Reversion. The old lady: the ORBS were never meant to make them stronger, only to calm them |
+| Magma Hideout (MAXIE awakens GROUDON) | **New:** after MAXIE's battle, a grunt's storeroom on 4F holds the stolen BAG: the player gets it back, with the money and the MEGA RING (section 3b) |
+| Aqua Hideout (MATT, the submarine) | **New:** after MATT's battle, the POKé BALLS stolen on the SEAGALLOP are in the submarine bay: the Kanto team is sent to the HOENN boxes |
 | Team Aqua Hideout or Magma Hideout | The player finds a half of the file (a key item, PRIMAL NOTES), and its last page: "When the two were in their primal fury, a third came from the sky… and changed, as our Mega Evolutions change, at the call of a person's wish" |
 
 ### Act 3: the climax
@@ -295,6 +313,9 @@ about their plans.
 - **Sootopolis**: RAYQUAZA comes down and **Mega Evolves**, and the two Primals revert and
   leave (Emerald's scene, with Mega Rayquaza's object and a flash for the change). This is the
   first time the player sees MEGA RAYQUAZA.
+- **The link**: when ARCHIE and MAXIE leave the player in Sootopolis (Emerald's scene before
+  WALLACE's gym opens), they say their grunts will mend the cable to Kanto. From then on the PC shows
+  every box and the item storage again, and the SEAGALLOP sails home (`FLAG_HOENN_KANTO_LINK`).
 - **After**: Archie and Maxie give the ORBS back at MT. PYRE, as in Emerald. The player hands
   the PRIMAL NOTES to BIRCH, who sends them to BLAINE. Hoenn's story goes on to the eighth gym,
   Victory Road and the Hoenn League.
@@ -303,7 +324,7 @@ about their plans.
 
 | Legendary | Where | When | Reward |
 |-----------|-------|------|--------|
-| RAYQUAZA | Sky Pillar (Emerald's) | After Sootopolis | MEGA RAYQUAZA, with DRAGON ASCENT and the player's MEGA RING (already in the game) |
+| RAYQUAZA | Sky Pillar (Emerald's, at level 70 like the others: Emerald's levels, D5) | After Sootopolis | MEGA RAYQUAZA, with DRAGON ASCENT and the player's MEGA RING (already in the game) |
 | KYOGRE | Marine Cave (Emerald's roaming cave, found from the Weather Institute's reports) | After Hoenn's Hall of Fame | The old lady of MT. PYRE gives the BLUE ORB: held, **PRIMAL KYOGRE** in battle (new: phase 6 of `docs/mega_evolution_plan.md`) |
 | GROUDON | Terra Cave (same) | After Hoenn's Hall of Fame | The RED ORB, from the same old lady: **PRIMAL GROUDON** (new, same phase) |
 | LATIAS and LATIOS | Southern Island, today reachable only with the EON TICKET event. A sailor in Lilycove takes the player there | After Hoenn's Hall of Fame | Both can be caught; LATIASITE and LATIOSITE on the island |
@@ -335,10 +356,13 @@ These need an answer before phase 1. The recommendation is in the second column.
 | D2 | How the player gets there | A new Seagallop destination, `SEAGALLOP_SLATEPORT`, from a sailor on Vermilion's pier, to `MAP_SLATEPORT_CITY_HARBOR`, and back from a sailor there and in Lilycove Harbor | `src/seagallop.c` already does the ride, the docking and the arrival; Slateport is Hoenn's port |
 | D3 | Where Hoenn's story starts | At Birch's lab: BIRCH meets the player at Slateport Harbor and takes them to Littleroot (fade and warp). The truck, the bedroom, the clock and the Route 101 rescue are skipped; BIRCH gives a Hoenn starter, and the story goes on from the rival on Route 103 | Hoenn's scripts are a chain of state vars; starting from its first link keeps every later script valid. Starting in Slateport would skip the Devon Goods, Mr. Briney and Petalburg links |
 | D4 | Badges in Hoenn | Eight new flags for the Hoenn badges. On a Hoenn map, field moves need the Hoenn badge (Cut with the Stone Badge, as in Emerald); on a Kanto map, the Kanto badge | Without it the player Surfs to Lilycove on arrival and skips the region. FRLG and Emerald already disagree on which badge unlocks which HM, so a per-region table is needed anyway |
-| D5 | Levels | Raise Hoenn's trainers and wild Pokémon to a post-game band once, in the data, with a script: story trainers from 3-58 to about 55-80, rematches to 80-88, wild Pokémon in step. A rescaled Pokémon evolves to the stage its new level allows | The Kanto champion is at 63, the tournament at 85-90. A one-time rescale keeps the gyms' order meaningful; levels that follow the player's party would not |
+| D5 | Levels | **Changed:** Emerald's own levels (3-58 in the story, up to 78 in the rematches), for trainers, wild and static Pokémon. Phase 4's rescale is undone. (It was: raise everything once to a post-game band, 54-80) | The player plays Hoenn's story with BIRCH's starter, not with the Kanto team (D9), so Emerald's curve fits again. The Kanto team, once back, is for Hoenn's post-game: the rematches and the Battle Frontier |
 | D6 | The player's home in Hoenn | None: the house of the player's gender in Littleroot becomes a guest room BIRCH lends them (no MOM, a bed that heals). The rival is the other house's child, chosen by `checkplayergender` as now | The player comes from Pallet Town; six characters can be picked, so Brendan's or May's own home can't be the player's |
 | D7 | Hoenn's Navel Rock and Birth Island | Taken out of Lilycove Harbor's ferry menu. Kanto's are the ones with the event | Two copies of Lugia, Ho-Oh and Deoxys behind the same flags |
 | D8 | Hoenn's Hall of Fame | Records the team and sets `FLAG_HOENN_GAME_CLEAR`, with Hoenn's credits but no `GameClear` reset of the Kanto story; Continue puts the player in the Littleroot guest room | `FLAG_SYS_GAME_CLEAR` and `FLAG_SYS_CAN_LINK_WITH_RS` already mean Kanto's progress |
+| D9 | The Kanto team in Hoenn | **New:** on the first arrival, Team Aqua and Team Magma steal the player's party and BAG (money included) and cut the link with Kanto. BIRCH gives the starter and lends ¥3000 | Hoenn's story is played again from the start, at its own pace and levels; the teams have a reason to fear the player (BLAINE sent them) |
+| D10 | The PC while the link is cut | **New:** Kanto's PC is out of reach: the PC shows only two boxes, HOENN 1 and HOENN 2 (boxes 13 and 14, emptied into boxes 1-12 on arrival), and the item storage is closed. Catches and gifts go to those two boxes | The player can't fetch the Kanto team from a box; 60 places are enough until the link comes back. The storage's 14 boxes can't grow (save space), so two of them are lent |
+| D11 | When things come back | **New:** the BAG (and the money) after beating MAXIE in the Magma Hideout; the stolen POKéMON after beating MATT in the Aqua Hideout, sent to the HOENN boxes; the link (all boxes, the item storage, the ship home) when ARCHIE and MAXIE give up in Sootopolis | Each team gives back what it took when the player beats it, as asked; the MEGA RING comes back with the BAG, before Sky Pillar needs it. The stolen POKéMON go to the PC, not the party, so whether the Kanto team plays the last gym and the League is the player's choice |
 
 ## 1. Separate Hoenn's state from Kanto's
 
@@ -408,7 +432,67 @@ In C:
 - Text: BIRCH and the rival should know the player is OAK's trainer from Kanto. The rest of
   Hoenn's text can stay as it is in a first pass.
 
+## 3b. The theft and the cut link (D9-D11)
+
+**State.** `FLAG_HOENN_TEAM_STOLEN` (set by the crossing, cleared when everything is back),
+`FLAG_HOENN_BAG_RETURNED`, `FLAG_HOENN_PARTY_RETURNED` and `FLAG_HOENN_KANTO_LINK`, in the Hoenn
+block of section 1 (`KANTO_EXTRA_FLAGS_START + 0x191`-`0x194`).
+
+**The stash.** What the teams took is kept in the save, in `struct PokemonStorage`'s free space
+(after the Kanto port's vars and flags: about 1650 bytes of the storage's 9 sectors are unused;
+SaveBlock1 has only 24 left):
+
+| Field | Size |
+|-------|-----:|
+| `stolenParty[PARTY_SIZE]` (`struct Pokemon`) and `stolenPartyCount` | 601 |
+| `stolenBag`: the five pockets' `struct ItemSlot`s (30 + 30 + 16 + 64 + 46), quantities decrypted | 744 |
+| `stolenMoney` (decrypted) | 4 |
+
+A `STATIC_ASSERT` checks that the storage still fits its sectors.
+
+**The theft** (a special, `StealPlayerTeamAndBag`, run by the SEAGALLOP's arrival when
+`VAR_HOENN_STORY_STATE` is 3): copies the party, the pockets and the money to the stash; empties the
+party and the pockets; sets the money to 3000; moves any POKéMON in boxes 13 and 14 to free places in
+boxes 1-12 (the Vermilion sailor checks there's room before sailing, which only fails with 360+
+POKéMON); names boxes 13 and 14 HOENN 1 and HOENN 2. What stays: the flags (POKéDEX, RUNNING SHOES,
+badges, Kanto progress), the PC's boxes 1-12 and the item storage, out of reach.
+
+**While the link is cut** (`FLAG_HOENN_TEAM_STOLEN` set, `FLAG_HOENN_KANTO_LINK` clear):
+
+- `src/pokemon_storage_system.c`: the box list, the box-to-box moves and the jump between boxes stay
+  within boxes 13-14; withdrawing, depositing and moving open on box 13.
+- Catches and gifts (`SendMonToPC`, `IsPlayerPartyAndPokemonStorageFull` in `src/pokemon.c`): only
+  boxes 13-14 count; with both full, the player can't throw balls, as with a full PC in Emerald.
+- The player's PC: the item storage says the link with Kanto is down. The Mailbox and Decoration stay.
+- The SEAGALLOP at Slateport and Lilycove: "the line to Kanto is cut" instead of the sailing menu.
+- Whiting out with no POKéMON is impossible from here: the player is never without BIRCH's starter
+  outside the lab's scripted moments.
+
+**Coming back**, each a special run by the map's script after the battle:
+
+- `ReturnStolenBag` (Magma Hideout 4F, after MAXIE): each stolen item is added to the current BAG
+  (Hoenn's items stay); what doesn't fit its pocket waits in the stash and comes back with the link.
+  The money is added to the player's. The MEGA RING is in the KEY ITEMS, back before Sky Pillar.
+- `ReturnStolenParty` (Aqua Hideout B2F, after MATT): the stolen POKéMON go to boxes 13-14, in their
+  order, with "sent to HOENN 1" lines. If those boxes are full, the rest stay in the stash and come
+  back with the link.
+- `RestoreKantoLink` (Sootopolis, ARCHIE and MAXIE's goodbye): sets `FLAG_HOENN_KANTO_LINK` and
+  returns anything left in the stash (to the boxes and the item storage), then clears
+  `FLAG_HOENN_TEAM_STOLEN`. Boxes 13 and 14 keep their names; the player can rename them.
+- A player who skips none of the three never meets a gap: the Magma Hideout, the Aqua Hideout and
+  Sootopolis come in that order in Emerald's story, and each is needed to go on.
+
+**Text.** BIRCH's welcome and lab (Act 1), the Slateport and Lilycove sailors, the PC's messages, the
+two returns and ARCHIE and MAXIE's goodbye. The Route 103 rival greeting (phase 3) says the player is
+the KANTO CHAMPION; it can stay, with "...even without your team".
+
 ## 4. Levels
+
+**Changed (D5): Hoenn keeps Emerald's levels.** Phase 7 undoes phase 4: the data of commit `6b0697cd`
+(`src/data/trainer_parties.h`, `src/data/wild_encounters.json`, the `setwildbattle` levels of the
+Hoenn maps) goes back to Emerald's, keeping the later edits to those maps' scripts (Sky Pillar's
+MEGA RING scene). `tools/hoenn/rescale_levels.py` and its stray `__pycache__` are removed. The
+Mansion's raiders (Act 0, in Kanto) keep their levels. What phase 4 was:
 
 A host script, `tools/hoenn/rescale_levels.py`, run once and committed with its output:
 
@@ -474,8 +558,11 @@ What the story needs, on top of sections 1 to 5:
 4. Phase 5 (ending and post-game).
 5. Phase 6: Primal Reversion in battle (the Mega plan's phase 6), then Acts 2 and 3 (the
    lines, the PRIMAL NOTES, the Primal and Mega Rayquaza scenes).
-6. Phase 7: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5.
-7. The other features (section 6), each on its own.
+6. Phase 7 (new, after phase 6): the theft and the cut link (Act 1's crossing, section 3b, D9-D11)
+   and Emerald's levels back (D5, undoing phase 4). Then the recovery beats of Acts 2 and 3: the BAG
+   in the Magma Hideout, the team in the Aqua Hideout, the link in Sootopolis.
+7. Phase 8: Act 4 (the ORBS, Southern Island, then Jirachi) and Act 5.
+8. The other features (section 6), each on its own.
 
 ## 9. Tests
 
@@ -487,6 +574,12 @@ What the story needs, on top of sections 1 to 5:
   Hoenn's Navel Rock and Birth Island.
 - A check that no Hoenn map reads `FLAG_BADGE0n_GET`, `FLAG_SYS_GAME_CLEAR` or
   `VAR_STARTER_MON`, and no Kanto map reads the Hoenn flags.
+- The theft and the returns (phase 7), with test builds: a party of six with held items and a full
+  BAG, a Kanto PC with POKéMON in boxes 13 and 14; after the crossing, an empty party and BAG, ¥3000,
+  boxes 1-12 out of reach and their POKéMON still there; a catch with a full party going to HOENN 1;
+  the BAG back after MAXIE (Hoenn's items kept, the MEGA RING there), the team in the boxes after
+  MATT, everything after Sootopolis, and nothing lost or doubled (count the POKéMON and items before
+  and after). A save and reload at each step.
 - In-game: a save after the first Kanto Hall of Fame; the ship both ways; Birch's lab to the
   first gym; that Surf does nothing in Hoenn before Norman and works in Kanto; Fly between the
   regions; whiting out in Hoenn; the Hoenn Hall of Fame and Continue after it.
