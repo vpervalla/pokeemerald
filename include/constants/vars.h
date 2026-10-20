@@ -338,6 +338,9 @@
 // here on, Emerald's own story vars lead), 6 Hoenn's Hall of Fame: ARCHIE and MAXIE wait in LITTLEROOT with
 // the stolen team, 7 they gave it back and the link with Kanto is mended
 #define VAR_HOENN_STORY_STATE                       (KANTO_VARS_START + 0x71)
+// The Johto starters' side quests (docs/johto_starters_plan.md): how many times the player found the TOTODILE
+// thief, which is also where it hides: 0 ROUTE 109's beach, 1 SLATEPORT's beach, 2 DEWFORD's beach (it stays)
+#define VAR_TOTODILE_TIMES_FOUND                    (KANTO_VARS_START + 0x72)
 
 #define SPECIAL_VARS_START            0x8000
 // special vars

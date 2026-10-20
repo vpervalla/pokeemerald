@@ -27,9 +27,9 @@ LittlerootTown_ProfessorBirchsLab_OnTransition:
 	goto_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3, LittlerootTown_ProfessorBirchsLab_EventScript_CheckReadyForJohtoStarter
 	end
 
+@ Changed: the Johto starters come from side quests (docs/johto_starters_plan.md), so a complete Hoenn Dex no
+@ longer sets out the three POKé BALLS.
 LittlerootTown_ProfessorBirchsLab_EventScript_CheckReadyForJohtoStarter::
-	specialvar VAR_RESULT, HasAllHoennMons
-	goto_if_eq VAR_RESULT, TRUE, LittlerootTown_ProfessorBirchsLab_EventScript_SetReadyForJohtoStarter
 	setobjectmovementtype LOCALID_BIRCHS_LAB_RIVAL, MOVEMENT_TYPE_WANDER_UP_AND_DOWN
 	setobjectxyperm LOCALID_BIRCHS_LAB_RIVAL, 5, 10
 	end

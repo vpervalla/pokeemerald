@@ -1,6 +1,96 @@
 GraniteCave_1F_MapScripts::
 	.byte 0
 
+@ The Johto starters' side quests (data/scripts/starter_quests.inc): the HIKER's CYNDAQUIL, from the DEWFORD
+@ TOWN POKéMON CENTER, cornered by two ZUBAT west of the ladder down. Talking to any of the three starts the
+@ scene: a wild battle with each ZUBAT still there (beaten or caught, it stays gone), then CYNDAQUIL runs back.
+GraniteCave_1F_EventScript_CyndaquilScene::
+	lockall
+	playmoncry SPECIES_CYNDAQUIL, CRY_MODE_NORMAL
+	msgbox GraniteCave_1F_Text_CyndaquilCornered
+	waitmoncry
+	goto_if_set FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_1, GraniteCave_1F_EventScript_SecondZubat
+	applymovement LOCALID_GRANITE_CAVE_ZUBAT_1, GraniteCave_1F_Movement_ZubatNoticePlayer
+	waitmovement 0
+	msgbox GraniteCave_1F_Text_ZubatAttacks
+	closemessage
+	setwildbattle SPECIES_ZUBAT, 8
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, GraniteCave_1F_EventScript_DefeatedFirstZubat
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, GraniteCave_1F_EventScript_DefeatedFirstZubat
+	goto GraniteCave_1F_EventScript_ZubatStillThere
+
+GraniteCave_1F_EventScript_DefeatedFirstZubat::
+	setflag FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_1
+	removeobject LOCALID_GRANITE_CAVE_ZUBAT_1
+	msgbox GraniteCave_1F_Text_AnotherZubat
+GraniteCave_1F_EventScript_SecondZubat::
+	applymovement LOCALID_GRANITE_CAVE_ZUBAT_2, GraniteCave_1F_Movement_ZubatNoticePlayer
+	waitmovement 0
+	msgbox GraniteCave_1F_Text_ZubatAttacks
+	closemessage
+	setwildbattle SPECIES_ZUBAT, 8
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, GraniteCave_1F_EventScript_DefeatedSecondZubat
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, GraniteCave_1F_EventScript_DefeatedSecondZubat
+	goto GraniteCave_1F_EventScript_ZubatStillThere
+
+GraniteCave_1F_EventScript_DefeatedSecondZubat::
+	setflag FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_2
+	removeobject LOCALID_GRANITE_CAVE_ZUBAT_2
+	delay 20
+	playmoncry SPECIES_CYNDAQUIL, CRY_MODE_NORMAL
+	applymovement LOCALID_GRANITE_CAVE_CYNDAQUIL, GraniteCave_1F_Movement_CyndaquilHop
+	waitmovement 0
+	waitmoncry
+	msgbox GraniteCave_1F_Text_CyndaquilFlameLit
+	closemessage
+	fadescreenspeed FADE_TO_BLACK, 4
+	removeobject LOCALID_GRANITE_CAVE_CYNDAQUIL
+	setflag FLAG_RESCUED_GRANITE_CAVE_CYNDAQUIL
+	fadescreenspeed FADE_FROM_BLACK, 4
+	msgbox GraniteCave_1F_Text_CyndaquilRanBack
+	releaseall
+	end
+
+GraniteCave_1F_EventScript_ZubatStillThere::
+	msgbox GraniteCave_1F_Text_ZubatStillThere
+	releaseall
+	end
+
+GraniteCave_1F_Movement_ZubatNoticePlayer:
+	emote_exclamation_mark
+	step_end
+
+GraniteCave_1F_Movement_CyndaquilHop:
+	jump_in_place_down
+	jump_in_place_down
+	step_end
+
+GraniteCave_1F_Text_CyndaquilCornered:
+	.string "A CYNDAQUIL is cornered by ZUBAT!\n"
+	.string "The flame on its back has gone out…$"
+
+GraniteCave_1F_Text_ZubatAttacks:
+	.string "The ZUBAT turned on {PLAYER}!$"
+
+GraniteCave_1F_Text_AnotherZubat:
+	.string "But another ZUBAT is still there!$"
+
+GraniteCave_1F_Text_ZubatStillThere:
+	.string "The ZUBAT are still circling\n"
+	.string "around CYNDAQUIL…$"
+
+GraniteCave_1F_Text_CyndaquilFlameLit:
+	.string "CYNDAQUIL's flame flared up again!\n"
+	.string "It lights up the whole cave!$"
+
+GraniteCave_1F_Text_CyndaquilRanBack:
+	.string "CYNDAQUIL ran off toward the exit.\n"
+	.string "It must be going back to its TRAINER.$"
+
 GraniteCave_1F_EventScript_Hiker::
 	lock
 	faceplayer

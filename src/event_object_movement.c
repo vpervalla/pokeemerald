@@ -2038,6 +2038,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return GetLabTrainerGraphicsInfo(graphicsId);
     if (graphicsId >= OBJ_EVENT_GFX_HOENN_LEGEND_START && graphicsId < OBJ_EVENT_GFX_HOENN_LEGEND_START + NUM_HOENN_LEGEND_OBJ_EVENT_GFX)
         return sHoennLegendObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_HOENN_LEGEND_START];
+    if (graphicsId >= OBJ_EVENT_GFX_JOHTO_STARTER_START && graphicsId < OBJ_EVENT_GFX_JOHTO_STARTER_START + NUM_JOHTO_STARTER_OBJ_EVENT_GFX)
+        return sJohtoStarterObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_JOHTO_STARTER_START];
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;

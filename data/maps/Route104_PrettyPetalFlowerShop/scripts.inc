@@ -94,3 +94,124 @@ Route104_PrettyPetalFlowerShop_EventScript_AlreadyReceivedBerry::
 	msgbox Route104_PrettyPetalFlowerShop_Text_MachineMixesBerries, MSGBOX_DEFAULT
 	release
 	end
+
+@ The Johto starters' side quests (data/scripts/starter_quests.inc): a visitor from JOHTO and her CHIKORITA,
+@ which won't eat until the player brings an ORAN, a PECHA and a CHERI BERRY.
+Route104_PrettyPetalFlowerShop_EventScript_JohtoVisitor::
+	lock
+	faceplayer
+	goto_if_set FLAG_GOT_JOHTO_CHIKORITA, Route104_PrettyPetalFlowerShop_EventScript_VisitorGaveChikorita
+	goto_if_set FLAG_FED_FLOWER_SHOP_CHIKORITA, Route104_PrettyPetalFlowerShop_EventScript_OfferChikorita
+	checkitem ITEM_ORAN_BERRY
+	goto_if_eq VAR_RESULT, FALSE, Route104_PrettyPetalFlowerShop_EventScript_ChikoritaWontEat
+	checkitem ITEM_PECHA_BERRY
+	goto_if_eq VAR_RESULT, FALSE, Route104_PrettyPetalFlowerShop_EventScript_ChikoritaWontEat
+	checkitem ITEM_CHERI_BERRY
+	goto_if_eq VAR_RESULT, FALSE, Route104_PrettyPetalFlowerShop_EventScript_ChikoritaWontEat
+	msgbox Route104_PrettyPetalFlowerShop_Text_YouHaveTheBerries, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route104_PrettyPetalFlowerShop_EventScript_KeepBerries
+	removeitem ITEM_ORAN_BERRY
+	removeitem ITEM_PECHA_BERRY
+	removeitem ITEM_CHERI_BERRY
+	playmoncry SPECIES_CHIKORITA, CRY_MODE_NORMAL
+	msgbox Route104_PrettyPetalFlowerShop_Text_ChikoritaAte
+	waitmoncry
+	setflag FLAG_FED_FLOWER_SHOP_CHIKORITA
+Route104_PrettyPetalFlowerShop_EventScript_OfferChikorita::
+	msgbox Route104_PrettyPetalFlowerShop_Text_TakeChikorita, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route104_PrettyPetalFlowerShop_EventScript_DeclineChikorita
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_CHIKORITA
+	givemon SPECIES_CHIKORITA, 5
+	call JohtoStarters_EventScript_ReceivedMon
+	goto_if_eq VAR_0x8008, MON_CANT_GIVE, JohtoStarters_EventScript_NoRoomForMon
+	setflag FLAG_GOT_JOHTO_CHIKORITA
+	removeobject LOCALID_FLOWER_SHOP_CHIKORITA
+	msgbox Route104_PrettyPetalFlowerShop_Text_TakeGoodCareOfChikorita
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_ChikoritaWontEat::
+	msgbox Route104_PrettyPetalFlowerShop_Text_ChikoritaWontEat
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_KeepBerries::
+	msgbox Route104_PrettyPetalFlowerShop_Text_KeepBerries
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_DeclineChikorita::
+	msgbox Route104_PrettyPetalFlowerShop_Text_ChikoritaWillWait
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_VisitorGaveChikorita::
+	msgbox Route104_PrettyPetalFlowerShop_Text_HowsChikorita
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_Chikorita::
+	lock
+	faceplayer
+	playmoncry SPECIES_CHIKORITA, CRY_MODE_NORMAL
+	goto_if_set FLAG_FED_FLOWER_SHOP_CHIKORITA, Route104_PrettyPetalFlowerShop_EventScript_ChikoritaHappy
+	msgbox Route104_PrettyPetalFlowerShop_Text_ChikoritaDroops
+	waitmoncry
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_EventScript_ChikoritaHappy::
+	msgbox Route104_PrettyPetalFlowerShop_Text_ChikoritaHappy
+	waitmoncry
+	release
+	end
+
+Route104_PrettyPetalFlowerShop_Text_ChikoritaWontEat:
+	.string "I came all the way from JOHTO with\n"
+	.string "my CHIKORITA, but it won't eat.\p"
+	.string "The sisters say it must miss the\n"
+	.string "BERRIES of the gardens back home.\p"
+	.string "An ORAN BERRY, a PECHA BERRY and a\n"
+	.string "CHERI BERRY… They grow in HOENN too.\p"
+	.string "Could you bring one of each? I saw\n"
+	.string "trees with them out on ROUTE 104.$"
+
+Route104_PrettyPetalFlowerShop_Text_YouHaveTheBerries:
+	.string "Oh! You have an ORAN, a PECHA and\n"
+	.string "a CHERI BERRY!\p"
+	.string "May CHIKORITA have them?$"
+
+Route104_PrettyPetalFlowerShop_Text_KeepBerries:
+	.string "Oh… All right. CHIKORITA will be\n"
+	.string "here if you change your mind.$"
+
+Route104_PrettyPetalFlowerShop_Text_ChikoritaAte:
+	.string "CHIKORITA ate all three BERRIES!\n"
+	.string "The leaf on its head perked up!$"
+
+Route104_PrettyPetalFlowerShop_Text_TakeChikorita:
+	.string "It's eating again! Thank you!\p"
+	.string "…Look at it. It won't take its eyes\n"
+	.string "off you. I think it has chosen you.\p"
+	.string "I'm going back to JOHTO soon, but\n"
+	.string "CHIKORITA wants to stay with you.\p"
+	.string "Will you take it with you?$"
+
+Route104_PrettyPetalFlowerShop_Text_ChikoritaWillWait:
+	.string "CHIKORITA will be sad… Come back\n"
+	.string "for it, won't you?$"
+
+Route104_PrettyPetalFlowerShop_Text_TakeGoodCareOfChikorita:
+	.string "Take good care of CHIKORITA!\n"
+	.string "Feed it plenty of BERRIES!$"
+
+Route104_PrettyPetalFlowerShop_Text_HowsChikorita:
+	.string "How's my CHIKORITA doing? I'm sure\n"
+	.string "it's happy with you.$"
+
+Route104_PrettyPetalFlowerShop_Text_ChikoritaDroops:
+	.string "CHIKORITA: Chiko…\n"
+	.string "The leaf on its head is drooping.$"
+
+Route104_PrettyPetalFlowerShop_Text_ChikoritaHappy:
+	.string "CHIKORITA: Chiko! Chikori!$"

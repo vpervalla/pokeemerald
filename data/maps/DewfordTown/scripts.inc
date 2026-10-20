@@ -4,6 +4,8 @@ DewfordTown_MapScripts::
 
 DewfordTown_OnTransition:
 	setflag FLAG_VISITED_DEWFORD_TOWN
+	setvar VAR_0x8004, 2  @ added: the TOTODILE thief's last beach (data/scripts/starter_quests.inc)
+	call JohtoStarters_EventScript_UpdateTotodile
 	end
 
 DewfordTown_EventScript_Briney::

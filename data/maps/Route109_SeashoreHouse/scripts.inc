@@ -9,6 +9,7 @@ Route109_SeashoreHouse_OnTransition:
 Route109_SeashoreHouse_EventScript_Owner::
 	lock
 	faceplayer
+	call Route109_SeashoreHouse_EventScript_TotodileThief
 	goto_if_set FLAG_RECEIVED_6_SODA_POP, Route109_SeashoreHouse_EventScript_AlreadyReceivedSodaPop
 	goto_if_set FLAG_DEFEATED_SEASHORE_HOUSE, Route109_SeashoreHouse_EventScript_DefeatedTrainers
 	goto_if_set FLAG_TEMP_2, Route109_SeashoreHouse_EventScript_AlreadyGaveIntroduction
@@ -175,3 +176,36 @@ Route109_SeashoreHouse_Text_SimonPostBattle:
 	.string "for carrying me across water on its\l"
 	.string "back, I could get rid of this inner tube.$"
 
+
+@ The Johto starters' side quests (data/scripts/starter_quests.inc): the owner tells of the TOTODILE stealing
+@ his SODA POP, and thanks the player once it has gone with them.
+Route109_SeashoreHouse_EventScript_TotodileThief::
+	goto_if_set FLAG_GOT_JOHTO_TOTODILE, Route109_SeashoreHouse_EventScript_TotodileGone
+	goto_if_set FLAG_HEARD_ABOUT_TOTODILE, Common_EventScript_NopReturn
+	msgbox Route109_SeashoreHouse_Text_SodaPopThief
+	setflag FLAG_HEARD_ABOUT_TOTODILE
+	return
+
+Route109_SeashoreHouse_EventScript_TotodileGone::
+	goto_if_set FLAG_GOT_SODA_POP_FOR_TOTODILE, Common_EventScript_NopReturn
+	msgbox Route109_SeashoreHouse_Text_ThanksForTakingTotodile
+	giveitem ITEM_SODA_POP
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NopReturn
+	setflag FLAG_GOT_SODA_POP_FOR_TOTODILE
+	return
+
+Route109_SeashoreHouse_Text_SodaPopThief:
+	.string "Listen to this! Some little blue\n"
+	.string "POKéMON keeps stealing my SODA POP!\p"
+	.string "It's quick, too. When I chase it,\n"
+	.string "it dives into the sea and turns up\l"
+	.string "on another beach.\p"
+	.string "If you see it on the beach, see if\n"
+	.string "you can't wear it out!\p"
+	.string "…Anyway, where was I?$"
+
+Route109_SeashoreHouse_Text_ThanksForTakingTotodile:
+	.string "So the SODA POP thief was a TOTODILE,\n"
+	.string "and it's with you now? Ha!\p"
+	.string "My SODA POP is safe at last. Here,\n"
+	.string "one for the road. Share it with it!$"

@@ -2122,6 +2122,18 @@
 #define FLAG_BLAINE_HEARD_ABOUT_HOENN               (KANTO_EXTRA_FLAGS_START + 0x19C) // Act 5, once the link is mended
 #define FLAG_RECEIVED_OTHER_HOENN_STARTER_1         (KANTO_EXTRA_FLAGS_START + 0x19D) // BIRCH, after the MEGA STONE: the first of the two
 #define FLAG_RECEIVED_OTHER_HOENN_STARTER_2         (KANTO_EXTRA_FLAGS_START + 0x19E) // and the second
+// The Johto starters' side quests in Hoenn (docs/johto_starters_plan.md)
+#define FLAG_GOT_JOHTO_CHIKORITA                    (KANTO_EXTRA_FLAGS_START + 0x19F) // Also hides it in the PRETTY PETAL FLOWER SHOP
+#define FLAG_FED_FLOWER_SHOP_CHIKORITA              (KANTO_EXTRA_FLAGS_START + 0x1A0) // The three BERRIES given
+#define FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_1          (KANTO_EXTRA_FLAGS_START + 0x1A1) // Also hides it
+#define FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_2          (KANTO_EXTRA_FLAGS_START + 0x1A2) // Also hides it
+#define FLAG_RESCUED_GRANITE_CAVE_CYNDAQUIL         (KANTO_EXTRA_FLAGS_START + 0x1A3) // Also hides it in GRANITE CAVE
+#define FLAG_HIDE_DEWFORD_CENTER_CYNDAQUIL          (KANTO_EXTRA_FLAGS_START + 0x1A4) // Kept by the POKéMON CENTER's transition
+#define FLAG_GOT_JOHTO_CYNDAQUIL                    (KANTO_EXTRA_FLAGS_START + 0x1A5)
+#define FLAG_HIDE_TOTODILE                          (KANTO_EXTRA_FLAGS_START + 0x1A6) // Kept by the beaches' transitions from VAR_TOTODILE_TIMES_FOUND
+#define FLAG_HEARD_ABOUT_TOTODILE                   (KANTO_EXTRA_FLAGS_START + 0x1A7) // From the SEASHORE HOUSE's owner
+#define FLAG_GOT_JOHTO_TOTODILE                     (KANTO_EXTRA_FLAGS_START + 0x1A8)
+#define FLAG_GOT_SODA_POP_FOR_TOTODILE              (KANTO_EXTRA_FLAGS_START + 0x1A9) // The SEASHORE HOUSE's owner's thanks
 
 #define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
 

@@ -502,8 +502,8 @@ In C:
   `VAR_ROUTE101_STATE`, `VAR_BIRCH_LAB_STATE`, `FLAG_HIDE_ROUTE_101_BIRCH_*`, the MOM and
   rival flags. To be read from `data/maps/InsideOfTruck`, `LittlerootTown*` and `Route101`
   before writing it.
-- Birch's lab: BIRCH offers the three Hoenn starters (the lab's Johto Poké Balls stay
-  post-game), sets `VAR_HOENN_STARTER`, and sends the player to meet the rival on Route 103,
+- Birch's lab: BIRCH offers the three Hoenn starters (the lab's Johto Poké Balls are gone: the
+  Johto starters come from side quests, `docs/johto_starters_plan.md`), sets `VAR_HOENN_STARTER`, and sends the player to meet the rival on Route 103,
   as in Emerald. The Pokédex scene gives nothing (the player has OAK's).
 - Littleroot: the guest room (D6). `FLAG_VISITED_LITTLEROOT_TOWN` and the other visited
   flags are already set by the Hoenn maps' `OnTransition` scripts, so Fly works from the

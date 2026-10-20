@@ -2,7 +2,14 @@
 @  These are labeled in DewfordTown/scripts.inc
 
 Route109_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route109_OnTransition
 	.byte 0
+
+@ The TOTODILE thief's first beach (data/scripts/starter_quests.inc)
+Route109_OnTransition:
+	setvar VAR_0x8004, 0
+	call JohtoStarters_EventScript_UpdateTotodile
+	end
 
 Route109_EventScript_StartDepartForDewford::
 	call EventScript_BackupMrBrineyLocation

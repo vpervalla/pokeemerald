@@ -91,8 +91,18 @@ Kanto NPCs in the scripts of `ViridianForest`, `VermilionCity_House2`, `MtMoon_B
 
 BIRCH gives one Hoenn starter when the player arrives in Hoenn (`docs/hoenn_plan.md`, Act 1). After
 Hoenn's Hall of Fame, right after the starter's MEGA STONE, he gives the other two at level 5
-(`HoennStory_EventScript_GiveOtherHoennStarters` in `data/scripts/hoenn_story.inc`). The Johto
-starters are planned in `docs/johto_starters_plan.md`.
+(`HoennStory_EventScript_GiveOtherHoennStarters` in `data/scripts/hoenn_story.inc`).
+
+## Johto starters
+
+Each Johto starter has a side quest early in Hoenn, before WATTSON's gym (`docs/johto_starters_plan.md`;
+BIRCH's lab no longer offers one of the three after a complete Hoenn Dex):
+
+| POKéMON   | Where                                                         | Level |
+|-----------|---------------------------------------------------------------|-------|
+| CHIKORITA | ROUTE 104's flower shop: bring an ORAN, a PECHA and a CHERI BERRY | 5  |
+| CYNDAQUIL | DEWFORD's POKéMON CENTER: save the HIKER's CYNDAQUIL from two ZUBAT in GRANITE CAVE 1F | 10 |
+| TOTODILE  | ROUTE 109's SEASHORE HOUSE: find the SODA POP thief on ROUTE 109's, SLATEPORT's and DEWFORD's beaches | 15 |
 
 ## The other MT. MOON fossil
 

@@ -48,6 +48,12 @@ EverGrandeCity_HallOfFame_EventScript_ReadyReceiveSSTicketEvent::
 	clearflag FLAG_HIDE_PLAYERS_HOUSE_DAD
 	return
 
+@ Changed (docs/johto_starters_plan.md, J1 and J2): no National Dex scene, since the player has OAK's, and no
+@ Johto starter in the lab. What the scene would have left: BIRCH and the rival back inside, SCOTT's call.
 EverGrandeCity_HallOfFame_EventScript_ReadyDexUpgradeEvent::
-	setvar VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1
+	setvar VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCH
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_RIVAL
+	setvar VAR_SCOTT_BF_CALL_STEP_COUNTER, 0
+	setflag FLAG_SCOTT_CALL_BATTLE_FRONTIER
 	return

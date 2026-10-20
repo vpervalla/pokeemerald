@@ -2,7 +2,7 @@
 
 This is a plan for making CHIKORITA, CYNDAQUIL and TOTODILE gifts from three side quests in Hoenn,
 the way the Kanto starters are gifts from three side quests in Kanto (`docs/catch_them_all.md`,
-"Kanto starters"). Nothing is implemented yet.
+"Kanto starters"). It is implemented: see "Status" at the end.
 
 ## Where things are now
 
@@ -40,7 +40,7 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
 |---------|-------|------------|-------|
 | CHIKORITA | ROUTE 104, the PRETTY PETAL FLOWER SHOP | Reaching ROUTE 104, after PETALBURG (the shop's first visit gives the WAILMER PAIL) | 5 |
 | CYNDAQUIL | DEWFORD TOWN's POKéMON CENTER, then GRANITE CAVE 1F | MR. BRINEY's boat to DEWFORD (after the DEVON GOODS) | 10 |
-| TOTODILE | ROUTE 109's SEASHORE HOUSE, then SLATEPORT's beach, ROUTE 109's beach and DEWFORD's beach | MR. BRINEY's boat to SLATEPORT (`FLAG_DELIVERED_STEVEN_LETTER`) | 15 |
+| TOTODILE | ROUTE 109's SEASHORE HOUSE, then ROUTE 109's, SLATEPORT's and DEWFORD's beaches | MR. BRINEY's boat to SLATEPORT (`FLAG_DELIVERED_STEVEN_LETTER`) | 15 |
 
 ### ROUTE 104: the CHIKORITA that won't eat
 
@@ -63,7 +63,7 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
   see GRANITE CAVE's old wall, and his CYNDAQUIL ran off into the cave when the ZUBAT swarmed. In the
   dark its flame went out, and he can't find it without one.
 - In GRANITE CAVE 1F, by the ladder down to B1F (past the HIKER who gives FLASH; FLASH isn't needed),
-  CYNDAQUIL is cornered by wild ZUBAT. Stepping in front of it starts the scene: two wild battles
+  CYNDAQUIL is cornered by wild ZUBAT. Talking to it or to a ZUBAT starts the scene: two wild battles
   against ZUBAT at level 8, as with VIRIDIAN FOREST's BEEDRILL (each one beaten or caught stays gone;
   running or blacking out leaves the rest). GRANITE CAVE's own ZUBAT (7-10) keep it a scene of the
   place.
@@ -77,45 +77,39 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
 - In ROUTE 109's SEASHORE HOUSE (`Route109_SeashoreHouse`), the owner says a little blue POKéMON
   has been stealing his SODA POP and diving back into the sea. Nobody can catch it: it's always
   somewhere else.
-- TOTODILE hides at one of four places by the water, all reachable on foot or by MR. BRINEY's boat
-  (no SURF): SLATEPORT's beach, two places on ROUTE 109's beach, and DEWFORD's beach (MR. BRINEY
-  sails between ROUTE 109 and DEWFORD). The spot is kept in `VAR_TOTODILE_HIDING_SPOT`, and each
-  map's transition script moves TOTODILE there (`setobjectxyperm`) or hides it.
-- Each time the player finds it, it splashes away to the next spot, in a fixed order
-  (`VAR_TOTODILE_TIMES_FOUND`). The third time, it's out of breath and stays: it takes the player's
-  SODA POP if they have one, or else just follows them. The SEASHORE HOUSE owner, glad it's gone,
-  says it can go with the player (YES/NO) and adds a SODA POP for its trouble.
+- TOTODILE hides on three beaches, one after the other, all reachable on foot or by MR. BRINEY's
+  boat (no SURF): ROUTE 109's (28, 19), where BRINEY docks, then SLATEPORT's (25, 55), then DEWFORD's
+  (18, 10) (BRINEY sails between ROUTE 109 and DEWFORD). Each beach has its own TOTODILE object, and
+  each map's transition shows it only when `VAR_TOTODILE_TIMES_FOUND` is that beach's number.
+- Each time the player finds it, it hops, dives and swims to the next beach, and the text says
+  where. The third time, on DEWFORD's beach, it's out of breath and stays: it asks to come along
+  (YES/NO, the offer stays open), and drinks a SODA POP if the player has one. The SEASHORE HOUSE
+  owner, glad it's gone, gives a SODA POP the next time the player talks to him.
 - No daily reset: with no FLY yet, a spot that changed overnight could mean another boat ride for
   nothing.
 
 ## 2. Code and data
 
-- **Flags** (`include/constants/flags.h`, `KANTO_EXTRA_FLAGS_START + 0x19F` on, under a
-  "Johto starters" comment): `FLAG_GOT_JOHTO_CHIKORITA`, `FLAG_GOT_JOHTO_CYNDAQUIL`,
-  `FLAG_GOT_JOHTO_TOTODILE`, `FLAG_HIDE_FLOWER_SHOP_JOHTO_VISITOR`, `FLAG_HIDE_DEWFORD_JOHTO_HIKER`,
-  `FLAG_HIDE_GRANITE_CAVE_CYNDAQUIL`, `FLAG_HIDE_TOTODILE` (each map's transition keeps it), and the
-  quest steps (berries asked, CYNDAQUIL rescued, ...). About 12 flags.
-- **Vars** (`include/constants/vars.h`, after `VAR_HOENN_STORY_STATE`): `VAR_GRANITE_CAVE_ZUBAT_LEFT`,
-  `VAR_TOTODILE_HIDING_SPOT`, `VAR_TOTODILE_TIMES_FOUND`. Two of them could be temp vars if each
-  scene stays on one map; to be decided when writing them.
-- **Objects**: three entries in `starter_object_events.h` (`STARTER_PIC_TABLE(gMonIcon_Chikorita)`,
-  ...), `OBJ_EVENT_PAL_TAG_STARTER_ICON_2` for `gMonIconPalettes[2]`, the three
-  `OBJ_EVENT_GFX_STARTER_*` constants in `include/constants/event_objects.h` and their graphics info,
-  as CHARMANDER's were added. They share the special NPC palette slot, so no two on one map (none is).
-- **Scripts**: the three quests appended to `data/scripts/starter_quests.inc` (its header comment
-  grows a Hoenn section), with the maps' own events in their `scripts.inc` and new objects in their
-  `map.json`: `Route104_PrettyPetalFlowerShop`, `DewfordTown_PokemonCenter_1F`, `GraniteCave_1F`,
-  `Route109_SeashoreHouse`, `SlateportCity`, `Route109`, `DewfordTown`. Every gift with the same
-  shape as the Kanto ones: `givemon`, the "sent to the PC" branch (it goes to a HOENN box while the
-  link is cut, `docs/hoenn_plan.md` 3b), the nickname prompt.
-- **J1 and J2**: `data/scripts/hall_of_fame.inc` sets `VAR_DEX_UPGRADE_JOHTO_STARTER_STATE` to 3
-  instead of 1; `LittlerootTown_ProfessorBirchsLab`'s `CheckReadyForJohtoStarter` no longer moves to
-  state 4. The lab's three ball scripts and texts stay in the file, unreachable, so Emerald's diffs
-  stay small (or are removed, if unreachable code is unwanted).
-- **Hoenn's shared-state check** (`tools/hoenn/check_shared_state.py`): nothing new to check: the
-  flags are Hoenn's own and only Hoenn maps read them.
-- **Docs**: `docs/catch_them_all.md` gets a "Johto starters" section like "Kanto starters", and
-  `docs/hoenn_plan.md` a line in Act 4 or 5 pointing here.
+- **Flags** (`include/constants/flags.h`, `KANTO_EXTRA_FLAGS_START + 0x19F`-`0x1A9`): `FLAG_GOT_JOHTO_*`
+  for each gift, `FLAG_FED_FLOWER_SHOP_CHIKORITA`, `FLAG_DEFEATED_GRANITE_CAVE_ZUBAT_1`/`_2` and
+  `FLAG_RESCUED_GRANITE_CAVE_CYNDAQUIL` (which also hide their objects), `FLAG_HIDE_DEWFORD_CENTER_CYNDAQUIL`
+  and `FLAG_HIDE_TOTODILE` (kept by the maps' transitions), `FLAG_HEARD_ABOUT_TOTODILE` and
+  `FLAG_GOT_SODA_POP_FOR_TOTODILE`.
+- **Var** (`include/constants/vars.h`): `VAR_TOTODILE_TIMES_FOUND`, `KANTO_VARS_START + 0x72`, which is
+  also the beach TOTODILE hides on.
+- **Objects** (`src/data/object_events/starter_object_events.h`): `OBJ_EVENT_GFX_STARTER_CHIKORITA`,
+  `_CYNDAQUIL`, `_TOTODILE` and `OBJ_EVENT_GFX_ICON_ZUBAT`, from their box icons, in a new range after
+  the Hoenn legends' (`OBJ_EVENT_GFX_JOHTO_STARTER_START`, so no older graphics id moves). TOTODILE and
+  ZUBAT use icon palette 2 (`OBJ_EVENT_PAL_TAG_STARTER_ICON_2`). The ZUBAT are on screen with
+  CYNDAQUIL, so they take the special NPC's reflection slot, as the Primal legends do in SOOTOPOLIS.
+- **Scripts**: the shared parts in `data/scripts/starter_quests.inc` (`JohtoStarters_EventScript_ReceivedMon`
+  for the fanfare, nickname and PC message; TOTODILE, on all three beaches), the rest in the maps:
+  `Route104_PrettyPetalFlowerShop`, `DewfordTown_PokemonCenter_1F`, `GraniteCave_1F`,
+  `Route109_SeashoreHouse`, and the transitions of `Route109` (new), `SlateportCity` and `DewfordTown`.
+- **J1 and J2**: `data/scripts/hall_of_fame.inc` sets `VAR_DEX_UPGRADE_JOHTO_STARTER_STATE` to 3 instead
+  of 1, with what the skipped scene would have set (BIRCH and the rival hidden in LITTLEROOT, SCOTT's
+  Battle Frontier call). `LittlerootTown_ProfessorBirchsLab`'s `CheckReadyForJohtoStarter` no longer
+  moves to state 4. The lab's three ball scripts stay in the file, unreachable.
 
 ## 3. Phases
 
@@ -139,3 +133,19 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
   lab's table never shows the balls, even with the Hoenn Dex complete.
 - The text measured against the text box (205 pixels at most), as in phase 6 of
   `docs/hoenn_plan.md`.
+
+## Status
+
+Implemented as above. Checked in mGBA with test builds that start a new game at each quest:
+
+- CHIKORITA: the three BERRIES taken, CHIKORITA given at level 5, the shop drawn with the visitor and
+  CHIKORITA.
+- CYNDAQUIL: both ZUBAT battles in GRANITE CAVE 1F, CYNDAQUIL's flame and its leaving; the HIKER's
+  gift at level 10, with CYNDAQUIL beside him.
+- TOTODILE: the first find on ROUTE 109 (it dives away), TOTODILE shown on SLATEPORT's beach after it,
+  the last find on DEWFORD's beach (the SODA POP, the gift at level 15), and the SEASHORE HOUSE
+  owner's SODA POP.
+- The new text measured against the text box.
+
+Not played: the Hall of Fame without the National Dex scene (J1, J2), running or blacking out against
+a ZUBAT, a gift with no room, the YES/NO refusals, and the playthrough to WATTSON.
