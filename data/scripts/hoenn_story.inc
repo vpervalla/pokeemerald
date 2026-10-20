@@ -423,6 +423,68 @@ HoennStory_EventScript_GaveStarterMegaStone::
 	goto_if_eq VAR_RESULT, FALSE, HoennStory_EventScript_StoneNoRoom
 	setflag FLAG_RECEIVED_HOENN_STARTER_MEGA_STONE
 	msgbox HoennStory_Text_BirchStarterStoneAfter
+	goto HoennStory_EventScript_GiveOtherHoennStarters
+
+@ Act 5: right after the MEGA STONE, BIRCH gives the two Hoenn starters the player didn't pick, at level 5,
+@ one after the other. Each has its flag, so with no room the player gets the rest the next time.
+HoennStory_EventScript_TryGiveOtherHoennStarters::
+	goto_if_unset FLAG_RECEIVED_HOENN_STARTER_MEGA_STONE, Common_EventScript_NopReturn
+	goto_if_set FLAG_RECEIVED_OTHER_HOENN_STARTER_2, Common_EventScript_NopReturn
+HoennStory_EventScript_GiveOtherHoennStarters::
+	goto_if_set FLAG_RECEIVED_OTHER_HOENN_STARTER_1, HoennStory_EventScript_GiveSecondOtherStarter
+	msgbox HoennStory_Text_BirchOtherStarters
+	switch VAR_HOENN_STARTER
+	case 0, HoennStory_EventScript_FirstOtherStarterTorchic
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TREECKO
+	goto HoennStory_EventScript_GiveFirstOtherStarter
+
+HoennStory_EventScript_FirstOtherStarterTorchic::
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TORCHIC
+HoennStory_EventScript_GiveFirstOtherStarter::
+	call HoennStory_EventScript_GiveOtherStarter
+	goto_if_eq VAR_0x8008, MON_CANT_GIVE, HoennStory_EventScript_OtherStarterNoRoom
+	setflag FLAG_RECEIVED_OTHER_HOENN_STARTER_1
+HoennStory_EventScript_GiveSecondOtherStarter::
+	switch VAR_HOENN_STARTER
+	case 2, HoennStory_EventScript_SecondOtherStarterTorchic
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_MUDKIP
+	goto HoennStory_EventScript_GiveSecondOtherStarterMon
+
+HoennStory_EventScript_SecondOtherStarterTorchic::
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TORCHIC
+HoennStory_EventScript_GiveSecondOtherStarterMon::
+	call HoennStory_EventScript_GiveOtherStarter
+	goto_if_eq VAR_0x8008, MON_CANT_GIVE, HoennStory_EventScript_OtherStarterNoRoom
+	setflag FLAG_RECEIVED_OTHER_HOENN_STARTER_2
+	msgbox HoennStory_Text_BirchOtherStartersAfter
+	release
+	end
+
+@ Gives VAR_TEMP_TRANSFERRED_SPECIES; the result (MON_GIVEN_TO_PARTY, _TO_PC or MON_CANT_GIVE) is in VAR_0x8008.
+HoennStory_EventScript_GiveOtherStarter::
+	bufferspeciesname STR_VAR_1, VAR_TEMP_TRANSFERRED_SPECIES
+	givemon VAR_TEMP_TRANSFERRED_SPECIES, 5
+	copyvar VAR_0x8008, VAR_RESULT
+	goto_if_eq VAR_0x8008, MON_CANT_GIVE, Common_EventScript_NopReturn
+	playfanfare MUS_OBTAIN_ITEM
+	message HoennStory_Text_ReceivedOtherStarter
+	waitmessage
+	waitfanfare
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, HoennStory_EventScript_OtherStarterNamed
+	goto_if_eq VAR_0x8008, MON_GIVEN_TO_PC, HoennStory_EventScript_NameOtherStarterInPC
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto HoennStory_EventScript_OtherStarterNamed
+
+HoennStory_EventScript_NameOtherStarterInPC::
+	call Common_EventScript_NameReceivedBoxMon
+HoennStory_EventScript_OtherStarterNamed::
+	call_if_eq VAR_0x8008, MON_GIVEN_TO_PC, Common_EventScript_TransferredToPC
+	return
+
+HoennStory_EventScript_OtherStarterNoRoom::
+	msgbox HoennStory_Text_OtherStarterNoRoom
 	release
 	end
 
@@ -447,6 +509,28 @@ HoennStory_Text_BirchStarterStoneAfter:
 	.string "Oh, and the SEAGALLOP sailor in\n"
 	.string "LILYCOVE says two rare POKéMON were\l"
 	.string "seen on SOUTHERN ISLAND.$"
+
+HoennStory_Text_BirchOtherStarters:
+	.string "PROF. BIRCH: There's one more thing.\p"
+	.string "The two POKéMON you didn't choose\n"
+	.string "that day are still in my bag.\p"
+	.string "They've grown restless watching you\n"
+	.string "on TV. They want to go with the\l"
+	.string "CHAMPION. Here, take them both!$"
+
+HoennStory_Text_ReceivedOtherStarter:
+	.string "{PLAYER} received the {STR_VAR_1}\n"
+	.string "from PROF. BIRCH!$"
+
+HoennStory_Text_BirchOtherStartersAfter:
+	.string "PROF. BIRCH: Now all three of my\n"
+	.string "POKéMON are with you. Take good\l"
+	.string "care of them, {PLAYER}{KUN}!$"
+
+HoennStory_Text_OtherStarterNoRoom:
+	.string "PROF. BIRCH: Your party and your\n"
+	.string "BOXES are full! Make some room, and\l"
+	.string "come back for the rest.$"
 
 @ Act 5: BLAINE, the first time the player is back in his gym with the link mended
 HoennStory_EventScript_BlaineHoennNews::

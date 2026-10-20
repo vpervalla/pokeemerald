@@ -19,8 +19,8 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
 - **The pattern to follow**: `data/scripts/starter_quests.inc` and the five Kanto maps it names;
   CHARMANDER and SQUIRTLE as overworld objects made from their box icons
   (`src/data/object_events/starter_object_events.h`, `OBJ_EVENT_GFX_STARTER_*`).
-- **Room**: the Hoenn flag block has `KANTO_EXTRA_FLAGS_START + 0x19D`-`0x1BF` free (35 flags),
-  right after Act 5's. `KANTO_VARS_START` has free vars after `0x71`. Emerald's spare trainer ids are
+- **Room**: the Hoenn flag block has `KANTO_EXTRA_FLAGS_START + 0x19F`-`0x1BF` free (33 flags),
+  right after Act 5's and BIRCH's other Hoenn starters. `KANTO_VARS_START` has free vars after `0x71`. Emerald's spare trainer ids are
   only 861-863 and the Kanto trainers' flag block has 2 left, so the quests use no new trainers.
 
 ## 0. Decisions
@@ -90,7 +90,7 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
 
 ## 2. Code and data
 
-- **Flags** (`include/constants/flags.h`, `KANTO_EXTRA_FLAGS_START + 0x19D` on, under a
+- **Flags** (`include/constants/flags.h`, `KANTO_EXTRA_FLAGS_START + 0x19F` on, under a
   "Johto starters" comment): `FLAG_GOT_JOHTO_CHIKORITA`, `FLAG_GOT_JOHTO_CYNDAQUIL`,
   `FLAG_GOT_JOHTO_TOTODILE`, `FLAG_HIDE_FLOWER_SHOP_JOHTO_VISITOR`, `FLAG_HIDE_LAVARIDGE_TOURIST`,
   `FLAG_HIDE_FIERY_PATH_CYNDAQUIL`, `FLAG_HIDE_TOTODILE` (each map's transition keeps it), and the
@@ -137,8 +137,3 @@ the way the Kanto starters are gifts from three side quests in Kanto (`docs/catc
   lab's table never shows the balls, even with the Hoenn Dex complete.
 - The text measured against the text box (205 pixels at most), as in phase 6 of
   `docs/hoenn_plan.md`.
-
-## 5. Left out
-
-- The two Hoenn starters BIRCH didn't give still need a trade. They could get the same treatment
-  later (a plan of their own, or a section here).

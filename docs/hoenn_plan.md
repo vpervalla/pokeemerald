@@ -228,11 +228,15 @@ Island and JIRACHI.
   and both LATI, the MILLENNIUM COMET has left a JIRACHI at level 5.
 - **BIRCH** (Act 5): after Hoenn's Hall of Fame, the MEGA STONE of the starter he gave
   (`VAR_HOENN_STARTER`: SCEPTILITE, BLAZIKENITE or SWAMPERTITE), "sent by BLAINE".
+  Right after it, the two Hoenn starters the player didn't pick, at level 5, each with the nickname
+  prompt and to the PC if the party is full (`HoennStory_EventScript_GiveOtherHoennStarters`,
+  `FLAG_RECEIVED_OTHER_HOENN_STARTER_1`/`_2`, `KANTO_EXTRA_FLAGS_START + 0x19D`-`0x19E`). With the party
+  and the boxes full, BIRCH keeps the rest for the next talk.
 - **BLAINE** (Act 5, his gym's rematch): once the link is mended, he thanks the player, for the file
   if BIRCH sent it.
 - **STEVEN** (Act 5, MR. M's tournament, story and replays): after Hoenn's Hall of Fame he remembers
   the player from SOOTOPOLIS.
-- New flags `KANTO_EXTRA_FLAGS_START + 0x195`-`0x19C`.
+- New flags `KANTO_EXTRA_FLAGS_START + 0x195`-`0x19E`.
 - Not played in-game: LATIOS (the same script), the Mega Stone item balls, BLAINE's and STEVEN's lines.
 
 ## Hoenn's tilesets
@@ -406,7 +410,7 @@ Kanto's Birth Island, and Hoenn's copies of Navel Rock and Birth Island stay clo
 
 - BLAINE, with the notes back: the last missing piece of the MANSION's research.
 - BIRCH gives the Mega Stone of the player's Hoenn starter (SCEPTILITE, BLAZIKENITE or
-  SWAMPERTITE) after Hoenn's Hall of Fame.
+  SWAMPERTITE) after Hoenn's Hall of Fame, then the two Hoenn starters the player didn't pick.
 - In MR. M.'s tournament, STEVEN remembers the player from Hoenn.
 - The Kanto GYM LEADERS' rematches, the ELITE FOUR's rematch, the post-game LEAF and RED and the DOJO's
   rematch (and so the MEGA STONES they give and MR. M.'s invitation) open only now, with the link mended (`FLAG_HOENN_KANTO_LINK`): Hoenn comes

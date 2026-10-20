@@ -87,6 +87,13 @@ Kanto NPCs in the scripts of `ViridianForest`, `VermilionCity_House2`, `MtMoon_B
 `Route4_PokemonCenter_1F` and `CeruleanCity_House5`. The flags are at the end of the Kanto extra flags in
 `include/constants/flags.h`.
 
+## Hoenn starters
+
+BIRCH gives one Hoenn starter when the player arrives in Hoenn (`docs/hoenn_plan.md`, Act 1). After
+Hoenn's Hall of Fame, right after the starter's MEGA STONE, he gives the other two at level 5
+(`HoennStory_EventScript_GiveOtherHoennStarters` in `data/scripts/hoenn_story.inc`). The Johto
+starters are planned in `docs/johto_starters_plan.md`.
+
 ## The other MT. MOON fossil
 
 In FireRed, the player and MIGUEL each take one of the two fossils on MT. MOON B2F, so either
