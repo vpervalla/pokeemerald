@@ -32,6 +32,7 @@
 #include "pokeblock.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
+#include "script_pokemon_util.h"
 #include "random.h"
 #include "rayquaza_scene.h"
 #include "region_map.h"
@@ -1576,6 +1577,76 @@ u16 GetTournamentOpponent(void)
     if (round < 1 || round > 3)
         round = 1;
     return (VarGet(VAR_TOURNAMENT_OPPONENTS) >> (4 * (round - 1))) & 0xF;
+}
+
+// The daily tournament's rules (after the story's): no legendary POKéMON, and every POKéMON
+// battles at level 50, the player's included. The player's party is set to level 50 just before
+// each match and put back as it was right after (SetTournamentPartyLevel50 and
+// RestoreTournamentParty), so nothing is saved at level 50; no EXP is gained in between (Cmd_getexp).
+static const u16 sTournamentBannedSpecies[] = {
+    SPECIES_ARTICUNO, SPECIES_ZAPDOS, SPECIES_MOLTRES, SPECIES_MEWTWO, SPECIES_MEW,
+    SPECIES_RAIKOU, SPECIES_ENTEI, SPECIES_SUICUNE, SPECIES_LUGIA, SPECIES_HO_OH, SPECIES_CELEBI,
+    SPECIES_REGIROCK, SPECIES_REGICE, SPECIES_REGISTEEL, SPECIES_LATIAS, SPECIES_LATIOS,
+    SPECIES_KYOGRE, SPECIES_GROUDON, SPECIES_RAYQUAZA, SPECIES_JIRACHI, SPECIES_DEOXYS,
+};
+
+#define TOURNAMENT_LEVEL 50
+
+static EWRAM_DATA struct Pokemon sTournamentPartyBackup[PARTY_SIZE] = {0};
+static EWRAM_DATA bool8 sTournamentPartyScaled = FALSE;
+
+// TRUE if no POKéMON in the party is legendary
+bool8 IsTournamentPartyEligible(void)
+{
+    u32 i, j;
+    u8 partyCount = CalculatePlayerPartyCount();
+
+    for (i = 0; i < partyCount; i++)
+    {
+        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG, NULL);
+        for (j = 0; j < ARRAY_COUNT(sTournamentBannedSpecies); j++)
+        {
+            if (species == sTournamentBannedSpecies[j])
+                return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+void SetTournamentPartyLevel50(void)
+{
+    u32 i;
+
+    if (sTournamentPartyScaled)
+        return;
+    memcpy(sTournamentPartyBackup, gPlayerParty, sizeof(sTournamentPartyBackup));
+    sTournamentPartyScaled = TRUE;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG, NULL);
+        u32 exp;
+
+        if (species == SPECIES_NONE || species == SPECIES_EGG)
+            continue;
+        exp = gExperienceTables[gSpeciesInfo[species].growthRate][TOURNAMENT_LEVEL];
+        SetMonData(&gPlayerParty[i], MON_DATA_EXP, &exp);
+        CalculateMonStats(&gPlayerParty[i]);
+    }
+}
+
+// Puts the party back as it was before the match, healed (the matches end with a heal)
+void RestoreTournamentParty(void)
+{
+    if (!sTournamentPartyScaled)
+        return;
+    memcpy(gPlayerParty, sTournamentPartyBackup, sizeof(sTournamentPartyBackup));
+    sTournamentPartyScaled = FALSE;
+    HealPlayerParty();
+}
+
+bool8 IsTournamentPartyScaled(void)
+{
+    return sTournamentPartyScaled;
 }
 
 bool8 IsStarterInParty(void)

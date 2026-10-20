@@ -3372,7 +3372,8 @@ static void Cmd_getexp(void)
               | BATTLE_TYPE_FRONTIER
               | BATTLE_TYPE_SAFARI
               | BATTLE_TYPE_BATTLE_TOWER
-              | BATTLE_TYPE_EREADER_TRAINER)))
+              | BATTLE_TYPE_EREADER_TRAINER))
+            || IsTournamentPartyScaled()) // the daily tournament at level 50 (field_specials.c)
         {
             gBattleScripting.getexpState = 6; // goto last case
         }

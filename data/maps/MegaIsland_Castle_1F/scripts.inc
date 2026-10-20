@@ -69,6 +69,9 @@ MegaIsland_Castle_1F_EventScript_ReceptionistChampion::
 MegaIsland_Castle_1F_EventScript_ReceptionistReplay::
 	goto_if_ne VAR_TOURNAMENT_ROUND, 0, MegaIsland_Castle_1F_EventScript_ReplayNextRound
 	goto_if_set FLAG_DAILY_APEX_TOURNAMENT, MegaIsland_Castle_1F_EventScript_ReplayTomorrow
+	msgbox MegaIsland_Castle_1F_Text_ReplayRules
+	specialvar VAR_RESULT, IsTournamentPartyEligible
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Castle_1F_EventScript_ReplayNotEligible
 	msgbox MegaIsland_Castle_1F_Text_ReplayRegister, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MegaIsland_Castle_1F_EventScript_ReceptionistNotYet
 	setflag FLAG_DAILY_APEX_TOURNAMENT
@@ -86,9 +89,30 @@ MegaIsland_Castle_1F_EventScript_ReplayNextRound::
 	call_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Castle_1F_EventScript_BufferFinal
 	msgbox MegaIsland_Castle_1F_Text_RestoreBeforeMatch
 	call MegaIsland_Castle_1F_EventScript_ReceptionistHeal
+	specialvar VAR_RESULT, IsTournamentPartyEligible
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Castle_1F_EventScript_ReplayNotEligible
 	msgbox MegaIsland_Castle_1F_Text_ReplayGoToTheArena
 	release
 	end
+
+@ The daily tournament's rules (see IsTournamentPartyEligible and SetTournamentPartyLevel50)
+MegaIsland_Castle_1F_EventScript_ReplayNotEligible::
+	msgbox MegaIsland_Castle_1F_Text_ReplayNotEligible
+	release
+	end
+
+MegaIsland_Castle_1F_Text_ReplayRules:
+	.string "Today's tournament has its own\n"
+	.string "rules.\p"
+	.string "Every POKéMON battles at level 50,\n"
+	.string "yours too, and legendary POKéMON\l"
+	.string "may not enter.$"
+
+MegaIsland_Castle_1F_Text_ReplayNotEligible:
+	.string "I'm sorry, but there's a legendary\n"
+	.string "POKéMON in your party.\p"
+	.string "Please come back with a team\n"
+	.string "without one.$"
 
 MegaIsland_Castle_1F_EventScript_ReplayTomorrow::
 	msgbox MegaIsland_Castle_1F_Text_Champion

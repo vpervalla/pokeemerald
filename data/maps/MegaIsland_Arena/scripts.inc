@@ -516,6 +516,8 @@ MegaIsland_Arena_SetReplayOpponentAlain:
 	return
 
 MegaIsland_Arena_EventScript_ReplayMatch::
+	specialvar VAR_RESULT, IsTournamentPartyEligible
+	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Arena_EventScript_ReplayNotEligible
 	bufferstring STR_VAR_2, MegaIsland_Arena_Text_ReplayQuarterfinal
 	call_if_eq VAR_TOURNAMENT_ROUND, 2, MegaIsland_Arena_EventScript_BufferReplaySemifinal
 	call_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Arena_EventScript_BufferReplayFinal
@@ -553,6 +555,7 @@ MegaIsland_Arena_EventScript_ReplayRival::
 	msgbox MegaIsland_Arena_Text_ReplayRivalIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_BLUE_SQUIRTLE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayRivalDefeat, MegaIsland_Arena_Text_ReplayRivalVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -563,6 +566,7 @@ MegaIsland_Arena_EventScript_ReplayLance::
 	msgbox MegaIsland_Arena_Text_ReplayLanceIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_LANCE, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLanceDefeat, MegaIsland_Arena_Text_ReplayLanceVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -573,6 +577,7 @@ MegaIsland_Arena_EventScript_ReplaySteven::
 	call HoennStory_EventScript_StevenReplayIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_STEVEN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayStevenDefeat, MegaIsland_Arena_Text_ReplayStevenVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -583,6 +588,7 @@ MegaIsland_Arena_EventScript_ReplayCynthia::
 	msgbox MegaIsland_Arena_Text_ReplayCynthiaIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_CYNTHIA, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayCynthiaDefeat, MegaIsland_Arena_Text_ReplayCynthiaVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -593,6 +599,7 @@ MegaIsland_Arena_EventScript_ReplayAlder::
 	msgbox MegaIsland_Arena_Text_ReplayAlderIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_ALDER, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlderDefeat, MegaIsland_Arena_Text_ReplayAlderVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -603,6 +610,7 @@ MegaIsland_Arena_EventScript_ReplayDiantha::
 	msgbox MegaIsland_Arena_Text_ReplayDianthaIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_DIANTHA, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayDianthaDefeat, MegaIsland_Arena_Text_ReplayDianthaVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -613,6 +621,7 @@ MegaIsland_Arena_EventScript_ReplayLeon::
 	msgbox MegaIsland_Arena_Text_ReplayLeonIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_TOURNAMENT_LEON, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayLeonDefeat, MegaIsland_Arena_Text_ReplayLeonVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
@@ -623,11 +632,13 @@ MegaIsland_Arena_EventScript_ReplayAlain::
 	msgbox MegaIsland_Arena_Text_ReplayAlainIntro
 	closemessage
 	special RemoveCameraObject
+	special SetTournamentPartyLevel50
 	trainerbattle_earlyrival TRAINER_ALAIN, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayAlainDefeat, MegaIsland_Arena_Text_ReplayAlainVictory
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
 MegaIsland_Arena_EventScript_ReplayAfterBattle::
+	special RestoreTournamentParty
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_ReplayLost
 	call MegaIsland_Arena_EventScript_CameraOnField
 	specialvar VAR_RESULT, GetTournamentOpponent
@@ -647,6 +658,21 @@ MegaIsland_Arena_EventScript_ReplayAfterBattle::
 	special RemoveCameraObject
 	goto MegaIsland_Arena_EventScript_BackToHall
 	end
+
+@ The daily tournament's rules: no legendary POKéMON (IsTournamentPartyEligible). The player is sent
+@ back to the receptionist, and the round waits.
+MegaIsland_Arena_EventScript_ReplayNotEligible::
+	msgbox MegaIsland_Arena_Text_ReplayNotEligible
+	closemessage
+	special RemoveCameraObject
+	goto MegaIsland_Arena_EventScript_BackToHall
+	end
+
+MegaIsland_Arena_Text_ReplayNotEligible:
+	.string "Hold on! Legendary POKéMON may not\n"
+	.string "enter this tournament.\p"
+	.string "Please see the receptionist and\n"
+	.string "come back with another team.$"
 
 MegaIsland_Arena_EventScript_ReplayWon::
 	setvar VAR_TOURNAMENT_ROUND, 0

@@ -36,5 +36,6 @@ void RunMassageCooldownStepCounter(void);
 void IncrementResortGorgeousStepCounter(void);
 
 u16 GetStarterSpecies(void);
+bool8 IsTournamentPartyScaled(void);
 
 #endif // GUARD_FIELD_SPECIALS_H

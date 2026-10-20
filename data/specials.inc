@@ -582,6 +582,9 @@ gSpecials::
 	def_special CanPlayerMegaEvolve
 	def_special RemoveTournamentMegaStones
 	def_special RandomizeTournamentOpponents
+	def_special IsTournamentPartyEligible
+	def_special SetTournamentPartyLevel50
+	def_special RestoreTournamentParty
 	def_special GetTournamentOpponent
 	def_special PlayCardGame, waitstate=1
 	def_special CardGame_GiveStarterDeck

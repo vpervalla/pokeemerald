@@ -140,7 +140,7 @@ Seven champions answered MR. M.'s invitation. With the player, that makes an 8-t
 Their trainers are `TRAINER_TOURNAMENT_*` in `include/constants/opponents_kanto.h` (after the
 generated Kanto trainers); the teams are in `src/data/tournament_trainer_parties.h`. Each one's
 ace, sent out last, holds its MEGA STONE. The `TRAINER_TOURNAMENT_*` teams are the daily
-tournament's (below), all lv 85-90. The story's tournament uses copies of its three opponents at
+tournament's (below), all lv 50. The story's tournament uses copies of its three opponents at
 rising levels (`TRAINER_TOURNAMENT_STORY_*`): STEVEN 76-80 in the quarterfinal, CYNTHIA 78-81 in
 the semifinal and LEON 80-84 in the final. MEWTWO, after the tournament, is lv 85.
 
@@ -225,6 +225,22 @@ and `GetTournamentOpponent` in `src/field_specials.c`; `VAR_TOURNAMENT_ROUND` an
 `VAR_TOURNAMENT_OPPONENTS`, which took two unused Hoenn vars). Each one has its own replay lines
 (the `Replay*` scripts at the end of `MegaIsland_Arena`). There is no MR. M. any more and no MEGA
 STONE to win; losing a match just ends the day's tournament.
+
+The daily tournament has its own rules, which the receptionist gives before registering:
+
+- **Level 50.** The opponents' teams are at lv 50, and so is the player's: right before each match
+  (`special SetTournamentPartyLevel50`, `src/field_specials.c`) every POKéMON in the party is set
+  to lv 50, up or down, with its stats recalculated (its moves stay). The party is kept as it was
+  and put back, healed, right after the match (`RestoreTournamentParty`, first thing in
+  `MegaIsland_Arena_EventScript_ReplayAfterBattle`), so nothing is ever saved at lv 50. No EXP is
+  gained while the party is at lv 50 (`IsTournamentPartyScaled`, checked by `Cmd_getexp`), so no
+  POKéMON levels up or evolves there.
+- **No legendary POKéMON** (`IsTournamentPartyEligible`): the 21 legendaries of Gen 1-3, from
+  ARTICUNO to DEOXYS. The receptionist won't register a party with one, or send it to the next
+  round, and the arena sends it back to her if the player goes up anyway. None of the champions'
+  teams has one.
+
+The story's tournament keeps its own levels (76-84) and allows any POKéMON.
 
 ## MEWTWO
 
