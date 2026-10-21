@@ -33,6 +33,9 @@
 #define INGAME_TRADE_KANTO_ELECTRODE 23
 #define INGAME_TRADE_KANTO_TANGELA 24
 #define INGAME_TRADE_KANTO_SEEL 25
+// Two more double-exchange traders, in Hoenn: HUNTAIL and GOREBYSS take two exchanges (docs/catch_them_all.md)
+#define INGAME_TRADE_EXCHANGE_MOSSDEEP_CITY 26
+#define INGAME_TRADE_EXCHANGE_LILYCOVE_CITY 27
 
 // Return values for WouldMonEvolveThroughTrade
 #define TRADE_EVO_NONE       0

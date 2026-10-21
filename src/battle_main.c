@@ -5344,6 +5344,9 @@ static void ReturnFromBattleToOverworld(void)
             gBattleOutcome == B_OUTCOME_DREW)
 #endif
             SetRoamerInactive();
+        // Kanto port: once one beast is caught, the next one roams (docs/catch_them_all.md)
+        if (gBattleOutcome == B_OUTCOME_CAUGHT)
+            TryStartNextRoamer();
     }
 
     m4aSongNumStop(SE_LOW_HEALTH);

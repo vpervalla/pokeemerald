@@ -1,5 +1,6 @@
 #include "global.h"
 #include "event_data.h"
+#include "pokedex.h"
 #include "pokemon.h"
 #include "random.h"
 #include "roamer.h"
@@ -88,29 +89,38 @@ void ClearRoamerLocationData(void)
     sRoamerLocation[MAP_NUM] = 0;
 }
 
-// Kanto port: like in FRLG, the legendary beast depends on the starter (VAR_STARTER_MON is 0 for
-// BULBASAUR, 1 for SQUIRTLE and 2 for CHARMANDER).
-static void CreateInitialRoamerMon(void)
+// Kanto port: the three legendary beasts roam one after the other (see docs/catch_them_all.md,
+// "Johto and Hoenn"), in this order from the one FRLG gives for the starter (VAR_STARTER_MON is 0 for
+// BULBASAUR, 1 for SQUIRTLE and 2 for CHARMANDER): ENTEI, SUICUNE, RAIKOU.
+static const u16 sRoamerSpecies[] = {SPECIES_ENTEI, SPECIES_SUICUNE, SPECIES_RAIKOU};
+
+static u8 GetFirstRoamerId(void)
 {
     if (VarGet(VAR_STARTER_MON) == 0)
-        ROAMER->species = SPECIES_ENTEI;
+        return 0;
     else if (VarGet(VAR_STARTER_MON) == 2)
-        ROAMER->species = SPECIES_SUICUNE;
+        return 1;
     else
-        ROAMER->species = SPECIES_RAIKOU;
+        return 2;
+}
 
-    CreateMon(&gEnemyParty[0], ROAMER->species, 50, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+static void CreateRoamerMon(u16 species)
+{
+    struct Pokemon mon;
+
+    ROAMER->species = species;
+    CreateMon(&mon, ROAMER->species, 50, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
     ROAMER->level = 50;
     ROAMER->status = 0;
     ROAMER->active = TRUE;
-    ROAMER->ivs = GetMonData(&gEnemyParty[0], MON_DATA_IVS);
-    ROAMER->personality = GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY);
-    ROAMER->hp = GetMonData(&gEnemyParty[0], MON_DATA_MAX_HP);
-    ROAMER->cool = GetMonData(&gEnemyParty[0], MON_DATA_COOL);
-    ROAMER->beauty = GetMonData(&gEnemyParty[0], MON_DATA_BEAUTY);
-    ROAMER->cute = GetMonData(&gEnemyParty[0], MON_DATA_CUTE);
-    ROAMER->smart = GetMonData(&gEnemyParty[0], MON_DATA_SMART);
-    ROAMER->tough = GetMonData(&gEnemyParty[0], MON_DATA_TOUGH);
+    ROAMER->ivs = GetMonData(&mon, MON_DATA_IVS);
+    ROAMER->personality = GetMonData(&mon, MON_DATA_PERSONALITY);
+    ROAMER->hp = GetMonData(&mon, MON_DATA_MAX_HP);
+    ROAMER->cool = GetMonData(&mon, MON_DATA_COOL);
+    ROAMER->beauty = GetMonData(&mon, MON_DATA_BEAUTY);
+    ROAMER->cute = GetMonData(&mon, MON_DATA_CUTE);
+    ROAMER->smart = GetMonData(&mon, MON_DATA_SMART);
+    ROAMER->tough = GetMonData(&mon, MON_DATA_TOUGH);
     sRoamerLocation[MAP_GRP] = ROAMER_MAP_GROUP;
     sRoamerLocation[MAP_NUM] = sRoamerLocations[Random() % NUM_LOCATION_SETS][0];
 }
@@ -119,7 +129,32 @@ void InitRoamer(void)
 {
     ClearRoamerData();
     ClearRoamerLocationData();
-    CreateInitialRoamerMon();
+    CreateRoamerMon(sRoamerSpecies[GetFirstRoamerId()]);
+}
+
+// Once the beasts roam (CELIO's link with Hoenn), and none is roaming now: the first one in the order
+// above that the player hasn't caught starts roaming, at full health. Called when the roamer is
+// caught, so the next one follows at once, and by the Kanto Hall of Fame, so one that was knocked
+// out (it stops roaming, as in FRLG) comes back then. Returns TRUE if one starts.
+bool8 TryStartNextRoamer(void)
+{
+    u8 i, id;
+
+    if (ROAMER->active || !FlagGet(FLAG_SYS_CAN_LINK_WITH_RS))
+        return FALSE;
+
+    for (i = 0; i < ARRAY_COUNT(sRoamerSpecies); i++)
+    {
+        id = (GetFirstRoamerId() + i) % ARRAY_COUNT(sRoamerSpecies);
+        if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(sRoamerSpecies[id]), FLAG_GET_CAUGHT))
+        {
+            ClearRoamerData();
+            ClearRoamerLocationData();
+            CreateRoamerMon(sRoamerSpecies[id]);
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 void UpdateLocationHistoryForRoamer(void)

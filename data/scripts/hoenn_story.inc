@@ -375,6 +375,22 @@ HoennStory_EventScript_JirachiNoRoom::
 	release
 	end
 
+@ Added (docs/catch_them_all.md, "Johto and Hoenn"): after JIRACHI, the director has tracked a meteorite to
+@ Kanto's BIRTH ISLAND and gives the AURORA TICKET, which only Mystery Gift gave. VERMILION's SEAGALLOP then
+@ sails there (DEOXYS), as for the ticket from the gift (data/scripts/gift_aurora_ticket.inc).
+HoennStory_EventScript_TryGiveAuroraTicket::
+	goto_if_unset FLAG_RECEIVED_JIRACHI, Common_EventScript_NopReturn
+	goto_if_set FLAG_ENABLE_SHIP_BIRTH_ISLAND, Common_EventScript_NopReturn
+	lock
+	faceplayer
+	msgbox HoennStory_Text_MeteoriteBirthIsland
+	giveitem ITEM_AURORA_TICKET
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
+	msgbox HoennStory_Text_AuroraTicketVermilion
+	release
+	end
+
 HoennStory_Text_MillenniumComet:
 	.string "DIRECTOR: Ah, the CHAMPION who\n"
 	.string "met KYOGRE, GROUDON and RAYQUAZA!\p"
@@ -398,6 +414,21 @@ HoennStory_Text_JirachiWish:
 HoennStory_Text_JirachiNoRoom:
 	.string "DIRECTOR: Oh, your party and your\n"
 	.string "BOXES are full. Make some room!$"
+
+HoennStory_Text_MeteoriteBirthIsland:
+	.string "DIRECTOR: Our telescope followed\n"
+	.string "a meteorite that fell with the\l"
+	.string "MILLENNIUM COMET.\p"
+	.string "It came down on BIRTH ISLAND, far\n"
+	.string "to the south of KANTO's islands.\p"
+	.string "There's a strange power in that\n"
+	.string "rock. Will you go and see?\p"
+	.string "The SEAGALLOP's company sent us\n"
+	.string "this ticket. It's yours.$"
+
+HoennStory_Text_AuroraTicketVermilion:
+	.string "DIRECTOR: Show it to the SEAGALLOP's\n"
+	.string "crew in VERMILION.$"
 
 @ Act 5: BIRCH, after Hoenn's Hall of Fame, gives the MEGA STONE of the starter he gave (VAR_HOENN_STARTER)
 HoennStory_EventScript_TryGiveStarterMegaStone::

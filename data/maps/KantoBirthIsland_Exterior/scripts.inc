@@ -66,6 +66,7 @@ KantoBirthIsland_Exterior_EventScript_RanFromDeoxys::
 KantoBirthIsland_Exterior_EventScript_Triangle::
 	lock
 	faceplayer
+	special DoDeoxysTriangleInteraction  @ restored: the special was missing
 	waitstate
 	switch VAR_RESULT
 	case 0, KantoBirthIsland_Exterior_EventScript_NotSolved1
@@ -91,6 +92,7 @@ KantoBirthIsland_Exterior_OnResume::
 	end
 
 KantoBirthIsland_Exterior_OnReturnToField::
+	special SetDeoxysTrianglePalette  @ restored: the special was missing
 	end
 
 KantoBirthIsland_Exterior_OnTransition::

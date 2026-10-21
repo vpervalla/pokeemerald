@@ -608,3 +608,6 @@ gSpecials::
 	def_special TakeStolenMegaRing
 	def_special RestoreKantoLink
 	def_special ScriptIsKantoLinkCut
+	def_special TryStartNextRoamer
+	def_special DoDeoxysTriangleInteraction
+	def_special SetDeoxysTrianglePalette

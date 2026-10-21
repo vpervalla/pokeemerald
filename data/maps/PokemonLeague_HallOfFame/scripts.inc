@@ -71,9 +71,15 @@ PokemonLeague_HallOfFame_Text_OakCongratulations:
 @ The end of the League: record the team in the Hall of Fame, roll the credits and save
 @ (GameClear; the game continues in the player's room). The second time, after the League's rematch
 @ (it reopens once the Sevii Islands quest is done, FLAG_SYS_CAN_LINK_WITH_RS), MEWTWO's invitation to
-@ the tournament is waiting at home (see PalletTown_PlayersHouse_1F).
+@ the tournament is waiting at home (see PalletTown_PlayersHouse_1F). The legendaries that were knocked
+@ out come back: a legendary beast roams again (TryStartNextRoamer), and LUGIA, HO-OH and DEOXYS are back
+@ at NAVEL ROCK and BIRTH ISLAND (docs/catch_them_all.md).
 PokemonLeague_HallOfFame_EventScript_GameClear::
 	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_HallOfFame_EventScript_CheckInvitation
+	special TryStartNextRoamer
+	clearflag FLAG_LUGIA_FLEW_AWAY
+	clearflag FLAG_HO_OH_FLEW_AWAY
+	clearflag FLAG_DEOXYS_FLEW_AWAY
 	fadescreenspeed FADE_TO_BLACK, 24
 	special GameClear
 	releaseall
