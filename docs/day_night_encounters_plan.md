@@ -9,7 +9,25 @@ ILLUMISE swarming Route 117 after dark. It uses the day/night phases the game al
 
 Phases 1 to 4 are implemented: the engine, the script that writes the tables, and 38 timed
 tables (the Test Area, 16 Kanto maps, 3 Sevii maps, 13 Hoenn maps). The ROM builds (agbcc and
-modern). Nothing has been tested in-game yet.
+modern).
+
+Checked in mGBA (libmgba) with a test build that starts a new game in the Test Area's grass with
+a MEWTWO: the first wild POKéMON, three runs per case, walking left and right until a battle.
+
+| Clock | VAR_DAY_NIGHT_OVERRIDE | Wild POKéMON |
+|---|---|---|
+| 07:30 (morning) | none | MEW, MEW, MEW |
+| 12:30 (day) | none | MEW, MEW, MEW |
+| 18:30 (evening) | none | HOOTHOOT, HOOTHOOT, HOOTHOOT |
+| 22:30 (night) | none | HOOTHOOT, HOOTHOOT, HOOTHOOT |
+| 03:30 (night) | none | HOOTHOOT, HOOTHOOT, HOOTHOOT |
+| 22:30 | MORNING | MEW, MEW, MEW |
+| 22:30 | DAY | MEW, MEW, MEW |
+| 12:30 | EVENING | HOOTHOOT, HOOTHOOT, HOOTHOOT |
+| 12:30 | NIGHT | HOOTHOOT, HOOTHOOT, HOOTHOOT |
+
+The other maps' tables, Sweet Scent, fishing, Rock Smash and the Pokédex area haven't been
+checked in-game yet.
 
 Differences from the first version of this plan:
 
