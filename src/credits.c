@@ -1576,14 +1576,15 @@ static void SpriteCB_CreditsMonBg(struct Sprite *sprite)
 static void DeterminePokemonToShow(void)
 {
     u16 starter;
+    u16 page;
+    u16 dexNum;
+    u16 j;
+
     // Kanto port: the starter of the region whose Hall of Fame this is (the credits run on its map)
     if (GetPlayerRegion() == REGION_HOENN)
         starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_HOENN_STARTER)));
     else
         starter = SpeciesToNationalPokedexNum(GetStarterSpecies());
-    u16 page;
-    u16 dexNum;
-    u16 j;
 
     // Go through the Pokédex, and anything that has gotten caught we put into our massive array.
     // This basically packs all of the caught Pokémon into the front of the array
