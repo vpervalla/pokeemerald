@@ -8,6 +8,12 @@
 #define DAY_NIGHT_PHASE_NIGHT    3  // 20:00 - 05:59
 #define DAY_NIGHT_PHASE_COUNT    4
 
+// Times of day of the wild encounter tables (src/data/wild_encounters.json). A map's own table
+// is used at any time; one for DAY or NIGHT, right after it, replaces the fields it has.
+#define WILD_TIME_ANY    0
+#define WILD_TIME_DAY    1  // Morning and day
+#define WILD_TIME_NIGHT  2  // Evening and night
+
 // Values of VAR_DAY_NIGHT_OVERRIDE. Anything but NONE pins the phase, ignoring the clock.
 #define DAY_NIGHT_OVERRIDE_NONE     0
 #define DAY_NIGHT_OVERRIDE_MORNING  (DAY_NIGHT_PHASE_MORNING + 1)

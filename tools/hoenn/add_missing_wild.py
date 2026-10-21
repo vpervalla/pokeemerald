@@ -38,7 +38,7 @@ def main():
     data = json.load(open(PATH))
     tables = [e for g in data['wild_encounter_groups'] if g['label'] == 'gWildMonHeaders'
               for e in g['encounters']]
-    by_map = {e['map']: e for e in tables}
+    by_map = {e["map"]: e for e in tables if "time" not in e}
     changes = []
 
     for map_id, field, slots, old, new in FIXED:

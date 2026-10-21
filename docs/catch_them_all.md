@@ -181,6 +181,9 @@ After running `port_kanto.py encounters` again, run the script again:
 
     python3 tools/kanto_port/add_leafgreen_exclusives.py --frlg ../pokefirered --write
 
+then `tools/hoenn/add_missing_wild.py --write` and `tools/day_night_encounters/apply.py --write`,
+which rebuilds the day and night tables (`docs/day_night_encounters_plan.md`).
+
 ## Trade evolutions
 
 Twelve double-exchange traders wait in Pokémon Centers along the way, using the mechanism tested
