@@ -190,9 +190,9 @@ evolution needs one (METAL COAT, KING'S ROCK, DRAGON SCALE, UP-GRADE…).
 
 Each trader exchanges only once (`FLAG_DID_DOUBLE_EXCHANGE_*`). So that no exchange is wasted,
 they first check the chosen POKéMON with the `WouldMonEvolveThroughTrade` special: if it wouldn't
-evolve they refuse, and if it needs an item it isn't holding they name the item. Twelve traders
+evolve they refuse, and if it needs an item it isn't holding they name the item. Fourteen traders
 cover the ten Kanto trade evolutions (ALAKAZAM, MACHAMP, GOLEM, GENGAR, STEELIX, SCIZOR, POLITOED,
-SLOWKING, KINGDRA, PORYGON2) with two to spare.
+SLOWKING, KINGDRA, PORYGON2) and Hoenn's two (HUNTAIL and GOREBYSS), with two to spare.
 
 | Pokémon Center | Trader | Their POKéMON |
 |---|---|---|
@@ -208,8 +208,11 @@ SLOWKING, KINGDRA, PORYGON2) with two to spare.
 | Three Island | RICK (Biker) | GRIMER |
 | Four Island | SUZY (Little girl) | SWINUB |
 | Seven Island | EDNA (Old woman) | PONYTA |
+| Mossdeep City | MARIO (Sailor) | WINGULL |
+| Lilycove City | NELSON (Fisherman) | LUVDISC |
 
-They all stand at (10, 7), next to the table. The shared script is
+The Kanto ones stand at (10, 7), next to the table; in Hoenn's Pokémon Centers, MARIO stands at
+(10, 7) and NELSON at (10, 6). The shared script is
 `data/scripts/double_exchange.inc`; each map has a short script that sets its
 `INGAME_TRADE_EXCHANGE_*` and checks its flag. Their POKéMON (in `src/data/trade.h`) never evolve
 through trade, so the first half of the exchange doesn't evolve them. Like any trade, the exchange
@@ -244,7 +247,7 @@ their FRLG names, so porting again keeps the lines), or mapped to Emerald's equi
   LABYRINTH TOGEPI EGG (friendship check), Icefall Cave's cracked ice, the Seafoam currents and
   the layouts the scripts switch to, the Dunsparce Tunnel, and the braille rooms.
 - **Roamer:** RAIKOU, ENTEI or SUICUNE (depending on the starter) roams the Kanto routes, as in
-  FireRed.
+  FireRed. The other two follow (see "Johto and Hoenn" below).
 - **Smaller things:** Vermilion Gym's trash cans, DAISY's grooming, the Name Rater, the move
   deleter, the diploma, SELPHY's requests at RESORT GORGEOUS, the MAGIKARP and HERACROSS size
   records, the BERRY POWDER vendor (it now takes the powder), Cycling Road's forced bike, the
@@ -252,4 +255,113 @@ their FRLG names, so porting again keeps the lines), or mapped to Emerald's equi
 
 Still missing (they don't affect which POKéMON can be caught): the Fan Club's rankings, the
 museum's fossil pictures, the S.S. ANNE departure cutscene, LORELEI's dolls, the help system,
-Trainer Tower, the e-Reader trainer, and the Birth Island DEOXYS puzzle (an event-only POKéMON).
+Trainer Tower and the e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and
+Hoenn" below).
+
+## Johto and Hoenn
+
+A check of every Johto and Hoenn species (#152-386): the wild tables of the maps the player can reach
+(`tools/hoenn/check_reachability.py`), every `givemon`, `giveegg`, `setwildbattle` and `seteventmon`,
+the NPC trades, then what evolving and breeding add (the BABY POKéMON, AZURILL and WYNAUT with the
+SEA and LAX INCENSE from LOST CAVE, a DITTO for the female-only ones), plus the cases scripts and code
+decide (FEEBAS's fishing spots, the roamer, the Game Corner, the DOJO, Altering Cave's tables). After
+the Johto starters' quests and BIRCH's other two starters, 18 were still missing:
+
+| POKéMON | Why | Now |
+|---|---|---|
+| SURSKIT, MASQUERAIN, MEDITITE, MEDICHAM, ROSELIA, ZANGOOSE, LUNATONE | Emerald has no wild slot for them | Wild in Hoenn, where Ruby and Sapphire had them |
+| HUNTAIL or GOREBYSS | CAPT. STERN trades the SCANNER for one deep-sea item only, and nothing else gives the other. With both, the 12 traders would all be needed | STERN gives both, and two more traders wait in Hoenn |
+| RAIKOU, ENTEI | Only one beast roams, picked from the starter (always SUICUNE here) | The other two roam after it |
+| LUGIA, HO-OH | NAVEL ROCK needs the MYSTIC TICKET, from Mystery Gift only | CELIO gives the ticket |
+| DEOXYS | BIRTH ISLAND needs the AURORA TICKET, from Mystery Gift only, and the port had lost its puzzle | The Space Center gives the ticket; the puzzle is back |
+| CELEBI | Nothing gave it | In the BERRY FOREST, after LUGIA and HO-OH |
+
+Altering Cave only has ZUBAT without Mystery Gift, but every species of its other tables is also in
+Hoenn's Safari Zone (its north-east and south-east areas, open after Hoenn's Hall of Fame) or Artisan
+Cave.
+
+### Two more double-exchange traders
+
+The trade evolutions take 12 exchanges (Kanto's 10 and two CLAMPERL), as many as there were traders,
+so one exchange spent on a POKéMON the player already had (a second ALAKAZAM) would have left a gap
+in the POKéDEX, and the traders were all in Kanto. Two more wait in Hoenn's Pokémon Centers, where
+CLAMPERL lives (see "Trade evolutions" above): MARIO in MOSSDEEP CITY and NELSON in LILYCOVE CITY
+(`INGAME_TRADE_EXCHANGE_MOSSDEEP_CITY`/`_LILYCOVE_CITY`, `FLAG_DID_DOUBLE_EXCHANGE_MOSSDEEP_CITY`/
+`_LILYCOVE_CITY`).
+
+### The wild tables
+
+`tools/hoenn/add_missing_wild.py` gives each species slots of the one it shares its area with in Ruby
+and Sapphire; the slots keep their levels:
+
+| POKéMON | Where | Slots |
+|---|---|---|
+| LUNATONE | METEOR FALLS, every room | Every other SOLROCK slot, land and water (which one gets the first slot alternates by room) |
+| ZANGOOSE | ROUTE 114 | The first SEVIPER slot (4%) |
+| ROSELIA | ROUTE 117 | Two ODDISH slots (20%) |
+| MEDITITE | MT. PYRE, outside | Two VULPIX slots (15%) |
+| SURSKIT | ROUTE 102, 111, 114, 117 and 120's water | The 30% surfing slot; also ROUTE 102's 1% grass slot, as in Ruby |
+
+### CAPT. STERN's deep-sea items
+
+Right after the SCANNER trade (`SlateportCity_Harbor`), whichever item the player picked, STERN gives
+the other: the SCANNER showed where the ABANDONED SHIP's cargo went down. Each item has its own flag
+(`FLAG_RECEIVED_DEEP_SEA_TOOTH`/`_SCALE`), so with a full BAG he keeps it for the next talk, and a save
+that traded before this gets the other one too.
+
+### The legendary beasts
+
+The beasts roam one after the other, in the order ENTEI, SUICUNE, RAIKOU, from the one FireRed gives
+for the starter (`src/roamer.c`). When the roaming beast is caught, the next one the player hasn't
+caught starts roaming at once (`TryStartNextRoamer`, from the end of the battle in
+`src/battle_main.c`). A beast that is knocked out stops roaming, as in FireRed, and roams again after
+the next Kanto Hall of Fame (the same special, in `PokemonLeague_HallOfFame`).
+
+### The tickets, NAVEL ROCK and BIRTH ISLAND
+
+- **MYSTIC TICKET**: CELIO, in ONE ISLAND's POKéMON CENTER, once the link with Hoenn is mended
+  (`FLAG_HOENN_KANTO_LINK`) and his quest is done: his network machine printed it. VERMILION's
+  SEAGALLOP then sails to NAVEL ROCK (`FLAG_ENABLE_SHIP_NAVEL_ROCK`, as the Mystery Gift sets).
+- **AURORA TICKET**: the Mossdeep Space Center's director, after JIRACHI
+  (`HoennStory_EventScript_TryGiveAuroraTicket`): the meteorite that fell with the MILLENNIUM COMET came
+  down on BIRTH ISLAND. Then `FLAG_ENABLE_SHIP_BIRTH_ISLAND`.
+- **BIRTH ISLAND's puzzle**: the port had dropped FRLG's `DoDeoxysTriangleInteraction`. It is back, as
+  Emerald's `DoDeoxysRockInteraction` (`src/field_specials.c`) with Kanto's vars and flag
+  (`VAR_DEOXYS_INTERACTION_NUM`, `VAR_DEOXYS_INTERACTION_STEP_COUNTER`, `FLAG_SYS_DEOXYS_AWAKENED`),
+  for the island the player is on, and so is `SetDeoxysTrianglePalette`. Hoenn's copies of the two
+  islands stay closed (`docs/hoenn_plan.md`, D7).
+- In FireRed, LUGIA, HO-OH and DEOXYS fly away for good when knocked out. They are back after the next
+  Kanto Hall of Fame (`FLAG_LUGIA_FLEW_AWAY`, `FLAG_HO_OH_FLEW_AWAY` and `FLAG_DEOXYS_FLEW_AWAY` cleared
+  there).
+
+### CELEBI
+
+Once LUGIA and HO-OH are caught (`FLAG_FOUGHT_LUGIA` and `FLAG_FOUGHT_HO_OH`, which FireRed sets only on
+a catch), CELEBI floats in the BERRY FOREST's north-west corner (THREE ISLAND), at level 50. It is drawn
+from its PC box icon, like the Johto starters (`OBJ_EVENT_GFX_ICON_CELEBI`). CELIO tells the player
+about it until it's caught. Beaten or run from, it vanishes, and is back the next time the player
+enters the forest (`FLAG_CAUGHT_BERRY_FOREST_CELEBI`, `FLAG_HIDE_BERRY_FOREST_CELEBI`).
+
+The new flags are `KANTO_EXTRA_FLAGS_START + 0x1AA`-`0x1AF`.
+
+### Status
+
+Implemented. Checked in mGBA with test builds:
+
+- STERN: the SCANNER traded for the DEEPSEATOOTH, then the DEEPSEASCALE given, and his thanks after.
+- MARIO in MOSSDEEP: a CLAMPERL holding the DEEPSEATOOTH exchanged and back as HUNTAIL. NELSON in
+  LILYCOVE: his lines.
+- The beasts: SUICUNE roaming, then RAIKOU in the next roamer battle once SUICUNE was caught; and the
+  order of `TryStartNextRoamer` through every case (SUICUNE, then RAIKOU, RAIKOU again after a
+  knock-out, ENTEI, then none).
+- CELIO's MYSTIC TICKET, then his CELEBI rumor; the director's AURORA TICKET; VERMILION's SEAGALLOP
+  offering NAVEL ROCK and BIRTH ISLAND, and the ride to NAVEL ROCK.
+- BIRTH ISLAND: the puzzle solved (the triangle's colors change), DEOXYS appearing, caught, and gone
+  after.
+- CELEBI: shown in the BERRY FOREST, the battle, and vanishing after a knock-out.
+- The new text measured against the text box (205 pixels at most, `{PLAYER}` counted as seven Ws).
+
+Not played: the wild encounters themselves, a full BAG at STERN's and CELIO's, the Hall of Fame bringing
+back a knocked-out legendary, CELEBI caught and coming back after a knock-out, LUGIA and HO-OH inside
+NAVEL ROCK (FireRed's scripts, unchanged).
+

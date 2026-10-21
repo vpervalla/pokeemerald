@@ -70,15 +70,18 @@ static const struct SpriteFrameImage sPicTable_StarterChikorita[] = STARTER_PIC_
 static const struct SpriteFrameImage sPicTable_StarterCyndaquil[] = STARTER_PIC_TABLE(gMonIcon_Cyndaquil);
 static const struct SpriteFrameImage sPicTable_StarterTotodile[] = STARTER_PIC_TABLE(gMonIcon_Totodile);
 static const struct SpriteFrameImage sPicTable_IconZubat[] = STARTER_PIC_TABLE(gMonIcon_Zubat);
+static const struct SpriteFrameImage sPicTable_IconCelebi[] = STARTER_PIC_TABLE(gMonIcon_Celebi); // BERRY FOREST (docs/catch_them_all.md)
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_StarterChikorita = STARTER_GRAPHICS_INFO(OBJ_EVENT_PAL_TAG_STARTER_ICON_1, sPicTable_StarterChikorita);
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_StarterCyndaquil = STARTER_GRAPHICS_INFO(OBJ_EVENT_PAL_TAG_STARTER_ICON_1, sPicTable_StarterCyndaquil);
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_StarterTotodile = STARTER_GRAPHICS_INFO(OBJ_EVENT_PAL_TAG_STARTER_ICON_2, sPicTable_StarterTotodile);
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_IconZubat = STARTER_GRAPHICS_INFO_IN_SLOT(OBJ_EVENT_PAL_TAG_STARTER_ICON_2, sPicTable_IconZubat, PALSLOT_NPC_SPECIAL_REFLECTION);
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_IconCelebi = STARTER_GRAPHICS_INFO(OBJ_EVENT_PAL_TAG_STARTER_ICON_1, sPicTable_IconCelebi);
 
 static const struct ObjectEventGraphicsInfo *const sJohtoStarterObjectEventGraphicsInfoPointers[NUM_JOHTO_STARTER_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_STARTER_CHIKORITA - OBJ_EVENT_GFX_JOHTO_STARTER_START] = &gObjectEventGraphicsInfo_StarterChikorita,
     [OBJ_EVENT_GFX_STARTER_CYNDAQUIL - OBJ_EVENT_GFX_JOHTO_STARTER_START] = &gObjectEventGraphicsInfo_StarterCyndaquil,
     [OBJ_EVENT_GFX_STARTER_TOTODILE - OBJ_EVENT_GFX_JOHTO_STARTER_START] = &gObjectEventGraphicsInfo_StarterTotodile,
     [OBJ_EVENT_GFX_ICON_ZUBAT - OBJ_EVENT_GFX_JOHTO_STARTER_START] = &gObjectEventGraphicsInfo_IconZubat,
+    [OBJ_EVENT_GFX_ICON_CELEBI - OBJ_EVENT_GFX_JOHTO_STARTER_START] = &gObjectEventGraphicsInfo_IconCelebi,
 };

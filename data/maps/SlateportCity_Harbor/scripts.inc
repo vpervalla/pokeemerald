@@ -304,6 +304,7 @@ SlateportCity_Harbor_EventScript_NeedDive::
 
 SlateportCity_Harbor_EventScript_CaptSternFerryOrScannerComment::
 	goto_if_eq VAR_TEMP_1, 1, SlateportCity_Harbor_EventScript_TradedScanner
+	goto_if_set FLAG_EXCHANGED_SCANNER, SlateportCity_Harbor_EventScript_TryGiveOtherDeepSeaItem  @ added
 	checkitem ITEM_SCANNER
 	goto_if_eq VAR_RESULT, TRUE, SlateportCity_Harbor_EventScript_AskToTradeScanner
 	goto_if_set FLAG_HOENN_GAME_CLEAR, SlateportCity_Harbor_EventScript_FerryFinished
@@ -336,10 +337,11 @@ SlateportCity_Harbor_EventScript_DeepSeaTooth::
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_ChooseDifferentTrade
 	giveitem ITEM_DEEP_SEA_TOOTH
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_RECEIVED_DEEP_SEA_TOOTH  @ added
 	removeitem ITEM_SCANNER
 	msgbox SlateportCity_Harbor_Text_HandedScannerToStern, MSGBOX_DEFAULT
 	setflag FLAG_EXCHANGED_SCANNER
-	goto SlateportCity_Harbor_EventScript_TradedScanner
+	goto SlateportCity_Harbor_EventScript_GiveOtherDeepSeaItem  @ changed: then the other one (docs/catch_them_all.md)
 	end
 
 SlateportCity_Harbor_EventScript_DeepSeaScale::
@@ -347,10 +349,11 @@ SlateportCity_Harbor_EventScript_DeepSeaScale::
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_ChooseDifferentTrade
 	giveitem ITEM_DEEP_SEA_SCALE
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_RECEIVED_DEEP_SEA_SCALE  @ added
 	removeitem ITEM_SCANNER
 	msgbox SlateportCity_Harbor_Text_HandedScannerToStern, MSGBOX_DEFAULT
 	setflag FLAG_EXCHANGED_SCANNER
-	goto SlateportCity_Harbor_EventScript_TradedScanner
+	goto SlateportCity_Harbor_EventScript_GiveOtherDeepSeaItem  @ changed: then the other one (docs/catch_them_all.md)
 	end
 
 SlateportCity_Harbor_EventScript_DeclineTrade::
@@ -367,6 +370,37 @@ SlateportCity_Harbor_EventScript_ChooseDifferentTrade::
 SlateportCity_Harbor_EventScript_TradedScanner::
 	setvar VAR_TEMP_1, 1
 	msgbox SlateportCity_Harbor_Text_ThisWillHelpResearch, MSGBOX_DEFAULT
+	release
+	end
+
+@ Added (docs/catch_them_all.md, "Johto and Hoenn"): CLAMPERL needs both items, one for HUNTAIL and one
+@ for GOREBYSS, and nothing else gives them. Right after the trade, STERN gives the one the player didn't
+@ pick; with a full BAG, he keeps it for the next talk. Each item has its own flag, so a save that
+@ traded before this gets the other item too (and a second of the one it picked).
+SlateportCity_Harbor_EventScript_TryGiveOtherDeepSeaItem::
+	goto_if_unset FLAG_RECEIVED_DEEP_SEA_TOOTH, SlateportCity_Harbor_EventScript_GiveOtherDeepSeaItem
+	goto_if_unset FLAG_RECEIVED_DEEP_SEA_SCALE, SlateportCity_Harbor_EventScript_GiveOtherDeepSeaItem
+	goto_if_set FLAG_HOENN_GAME_CLEAR, SlateportCity_Harbor_EventScript_FerryFinished
+	msgbox SlateportCity_Harbor_Text_WontBeLongBeforeWeFinishFerry, MSGBOX_DEFAULT
+	release
+	end
+
+SlateportCity_Harbor_EventScript_GiveOtherDeepSeaItem::
+	msgbox SlateportCity_Harbor_Text_ScannerFoundTheOther, MSGBOX_DEFAULT
+	goto_if_set FLAG_RECEIVED_DEEP_SEA_TOOTH, SlateportCity_Harbor_EventScript_GiveDeepSeaScale
+	giveitem ITEM_DEEP_SEA_TOOTH
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_Harbor_EventScript_KeepOtherDeepSeaItem
+	setflag FLAG_RECEIVED_DEEP_SEA_TOOTH
+	goto_if_set FLAG_RECEIVED_DEEP_SEA_SCALE, SlateportCity_Harbor_EventScript_TradedScanner
+SlateportCity_Harbor_EventScript_GiveDeepSeaScale::
+	giveitem ITEM_DEEP_SEA_SCALE
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_Harbor_EventScript_KeepOtherDeepSeaItem
+	setflag FLAG_RECEIVED_DEEP_SEA_SCALE
+	goto SlateportCity_Harbor_EventScript_TradedScanner
+	end
+
+SlateportCity_Harbor_EventScript_KeepOtherDeepSeaItem::
+	msgbox SlateportCity_Harbor_Text_KeepOtherDeepSeaItem, MSGBOX_DEFAULT
 	release
 	end
 
@@ -528,6 +562,18 @@ SlateportCity_Harbor_Text_HandedScannerToStern:
 SlateportCity_Harbor_Text_ThisWillHelpResearch:
 	.string "CAPT. STERN: Thanks, {PLAYER}{KUN}!\n"
 	.string "This will help our research a lot!$"
+
+SlateportCity_Harbor_Text_ScannerFoundTheOther:
+	.string "CAPT. STERN: Oh, look at this!\n"
+	.string "The SCANNER recorded where the\l"
+	.string "ABANDONED SHIP's cargo went down.\p"
+	.string "My crew brought up the other one,\n"
+	.string "too. A CLAMPERL needs both, so\l"
+	.string "please, take it!$"
+
+SlateportCity_Harbor_Text_KeepOtherDeepSeaItem:
+	.string "CAPT. STERN: Your BAG is full?\n"
+	.string "I'll keep it for you, then.$"
 
 @ The Hoenn chapter (see data/scripts/hoenn_story.inc): on the first arrival from VERMILION, BIRCH,
 @ warned by BLAINE and OAK, welcomes the player and takes them to his lab.

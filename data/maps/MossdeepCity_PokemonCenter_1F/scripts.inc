@@ -34,3 +34,15 @@ MossdeepCity_PokemonCenter_1F_Text_AbilitiesMightChangeMoves:
 	.string "POKéMON, some moves might change\l"
 	.string "or not work at all.$"
 
+@ A double-exchange trader (see data/scripts/double_exchange.inc). They exchange only once.
+@ Added with the one in LILYCOVE (docs/catch_them_all.md, "Johto and Hoenn").
+MossdeepCity_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
+	lock
+	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_EXCHANGE_MOSSDEEP_CITY
+	goto_if_set FLAG_DID_DOUBLE_EXCHANGE_MOSSDEEP_CITY, EventScript_DoubleExchangeAlreadyDone
+	call EventScript_DoubleExchange
+	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleExchangeEnd
+	setflag FLAG_DID_DOUBLE_EXCHANGE_MOSSDEEP_CITY
+	release
+	end

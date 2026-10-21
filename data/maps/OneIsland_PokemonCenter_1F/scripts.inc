@@ -97,6 +97,8 @@ OneIsland_PokemonCenter_1F_Text_YoullBeTradingFromTrainersFarAway:
     .string "TRAINERS far away.$"
 
 OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact::
+	call OneIsland_PokemonCenter_1F_EventScript_TryGiveMysticTicket  @ added (docs/catch_them_all.md)
+	call OneIsland_PokemonCenter_1F_EventScript_TryCelebiRumor  @ added
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioHearingRumorsAboutYou
 	random 3
 	goto_if_eq VAR_RESULT, 0, OneIsland_PokemonCenter_1F_EventScript_BillFact1
@@ -906,3 +908,53 @@ OneIsland_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
 OneIsland_PokemonCenter_1F_EventScript_WeatherForecaster::
 	setvar VAR_0x8004, FORECAST_ONE_ISLAND
 	goto EventScript_WeatherForecaster
+
+@ Added (docs/catch_them_all.md, "Johto and Hoenn"): once the link with Hoenn is mended, CELIO's network
+@ machine picks up the MYSTIC TICKET, which only Mystery Gift gave. VERMILION's SEAGALLOP then sails to
+@ NAVEL ROCK (LUGIA and HO-OH), as for the ticket from the gift (data/scripts/gift_mystic_ticket.inc).
+OneIsland_PokemonCenter_1F_EventScript_TryGiveMysticTicket::
+	goto_if_unset FLAG_HOENN_KANTO_LINK, Kanto_EventScript_Return
+	goto_if_set FLAG_ENABLE_SHIP_NAVEL_ROCK, Kanto_EventScript_Return
+	msgbox OneIsland_PokemonCenter_1F_Text_NetworkPickedUpTicket
+	giveitem ITEM_MYSTIC_TICKET
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
+	msgbox OneIsland_PokemonCenter_1F_Text_MysticTicketNavelRock
+	release
+	end
+
+@ Once LUGIA and HO-OH are caught, and until CELEBI is: where it waits (ThreeIsland_BerryForest)
+OneIsland_PokemonCenter_1F_EventScript_TryCelebiRumor::
+	goto_if_set FLAG_CAUGHT_BERRY_FOREST_CELEBI, Kanto_EventScript_Return
+	goto_if_unset FLAG_FOUGHT_LUGIA, Kanto_EventScript_Return
+	goto_if_unset FLAG_FOUGHT_HO_OH, Kanto_EventScript_Return
+	msgbox OneIsland_PokemonCenter_1F_Text_CelebiRumor
+	release
+	end
+
+OneIsland_PokemonCenter_1F_Text_CelebiRumor:
+	.string "CELIO: {PLAYER}, you caught LUGIA\n"
+	.string "and HO-OH? That's amazing!\p"
+	.string "In JOHTO, there's a legend about\n"
+	.string "a third POKéMON, which travels\l"
+	.string "through time to visit forests.\p"
+	.string "And a man from THREE ISLAND told\n"
+	.string "me something odd. He saw a little\l"
+	.string "green POKéMON in the BERRY FOREST,\p"
+	.string "deep in its north-west corner.\n"
+	.string "It vanished when he looked again.$"
+
+OneIsland_PokemonCenter_1F_Text_NetworkPickedUpTicket:
+	.string "CELIO: {PLAYER}! Since you mended\n"
+	.string "the link with HOENN, my network\l"
+	.string "machine has been picking up data.\p"
+	.string "This morning, it printed something\n"
+	.string "all by itself. It looks like a ticket.\p"
+	.string "I think it's meant for you.$"
+
+OneIsland_PokemonCenter_1F_Text_MysticTicketNavelRock:
+	.string "CELIO: It's for NAVEL ROCK, a rock\n"
+	.string "far out at sea. Sailors say two\l"
+	.string "POKéMON of legend rest there.\p"
+	.string "Show it to the SEAGALLOP's crew\n"
+	.string "in VERMILION.$"

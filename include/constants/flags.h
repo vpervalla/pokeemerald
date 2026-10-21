@@ -2134,6 +2134,13 @@
 #define FLAG_HEARD_ABOUT_TOTODILE                   (KANTO_EXTRA_FLAGS_START + 0x1A7) // From the SEASHORE HOUSE's owner
 #define FLAG_GOT_JOHTO_TOTODILE                     (KANTO_EXTRA_FLAGS_START + 0x1A8)
 #define FLAG_GOT_SODA_POP_FOR_TOTODILE              (KANTO_EXTRA_FLAGS_START + 0x1A9) // The SEASHORE HOUSE's owner's thanks
+// The other Johto and Hoenn POKéMON (docs/catch_them_all.md, "Johto and Hoenn")
+#define FLAG_RECEIVED_DEEP_SEA_TOOTH                (KANTO_EXTRA_FLAGS_START + 0x1AA) // CAPT. STERN, for the SCANNER or after it
+#define FLAG_RECEIVED_DEEP_SEA_SCALE                (KANTO_EXTRA_FLAGS_START + 0x1AB)
+#define FLAG_CAUGHT_BERRY_FOREST_CELEBI             (KANTO_EXTRA_FLAGS_START + 0x1AC) // Once LUGIA and HO-OH are caught
+#define FLAG_HIDE_BERRY_FOREST_CELEBI               (KANTO_EXTRA_FLAGS_START + 0x1AD) // Kept by BERRY FOREST's transition
+#define FLAG_DID_DOUBLE_EXCHANGE_MOSSDEEP_CITY      (KANTO_EXTRA_FLAGS_START + 0x1AE) // The traders in Hoenn
+#define FLAG_DID_DOUBLE_EXCHANGE_LILYCOVE_CITY      (KANTO_EXTRA_FLAGS_START + 0x1AF)
 
 #define NUM_HOENN_BADGES (1 + FLAG_HOENN_BADGE08_GET - FLAG_HOENN_BADGE01_GET)
 

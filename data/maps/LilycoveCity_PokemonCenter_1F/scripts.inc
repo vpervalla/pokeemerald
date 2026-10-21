@@ -64,3 +64,15 @@ LilycoveCity_PokemonCenter_1F_Text_HaventSeenRottenScoundrels:
 	.string "POKéMON and rip off METEORITES…\p"
 	.string "I haven't seen them around recently.$"
 
+@ A double-exchange trader (see data/scripts/double_exchange.inc). They exchange only once.
+@ Added with the one in MOSSDEEP (docs/catch_them_all.md, "Johto and Hoenn").
+LilycoveCity_PokemonCenter_1F_EventScript_DoubleExchangeTrader::
+	lock
+	faceplayer
+	setvar VAR_0x8008, INGAME_TRADE_EXCHANGE_LILYCOVE_CITY
+	goto_if_set FLAG_DID_DOUBLE_EXCHANGE_LILYCOVE_CITY, EventScript_DoubleExchangeAlreadyDone
+	call EventScript_DoubleExchange
+	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleExchangeEnd
+	setflag FLAG_DID_DOUBLE_EXCHANGE_LILYCOVE_CITY
+	release
+	end

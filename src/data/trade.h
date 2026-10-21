@@ -1401,6 +1401,39 @@ static const struct InGameTrade sIngameTrades[] =
         .otGender = MALE,
         .sheen = 10,
         .requestedSpecies = SPECIES_PONYTA
+    },
+    // The double-exchange traders in Hoenn's Pokémon Centers
+    [INGAME_TRADE_EXCHANGE_MOSSDEEP_CITY] =
+    {
+        .nickname = _("SKIPPER"),
+        .species = SPECIES_WINGULL,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 51207,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x7a,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("MARIO"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
+    },
+    [INGAME_TRADE_EXCHANGE_LILYCOVE_CITY] =
+    {
+        .nickname = _("HEARTY"),
+        .species = SPECIES_LUVDISC,
+        .ivs = {15, 15, 15, 15, 15, 15},
+        .abilityNum = 0,
+        .otId = 33468,
+        .conditions = {5, 5, 5, 5, 5},
+        .personality = 0x13c,
+        .heldItem = ITEM_NONE,
+        .mailNum = -1,
+        .otName = _("NELSON"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_NONE
     }
 };
 
