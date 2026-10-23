@@ -419,6 +419,9 @@ const u16 gMetatileAttributes_KantoHallOfFame[] = INCBIN_U16("data/tilesets/seco
 const u16 gMetatiles_KantoMegaCastle[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_castle/metatiles.bin");
 const u16 gMetatileAttributes_KantoMegaCastle[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_castle/metatile_attributes.bin");
 
+const u16 gMetatiles_KantoNewBarkTown[] = INCBIN_U16("data/tilesets/secondary/kanto_new_bark_town/metatiles.bin");
+const u16 gMetatileAttributes_KantoNewBarkTown[] = INCBIN_U16("data/tilesets/secondary/kanto_new_bark_town/metatile_attributes.bin");
+
 const u16 gMetatiles_KantoMegaArena[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_arena/metatiles.bin");
 const u16 gMetatileAttributes_KantoMegaArena[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_arena/metatile_attributes.bin");
 

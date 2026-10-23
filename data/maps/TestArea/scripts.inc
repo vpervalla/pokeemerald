@@ -185,3 +185,20 @@ TestArea_Text_CardTesterVintage:
 
 TestArea_Text_CardTesterHereIsAPack:
 	.string "Here's a card pack to test!$"
+
+@ Takes the player to NEW BARK TOWN, Johto's starting town (docs/new_bark_town.md), by the west road.
+TestArea_EventScript_JohtoGuide::
+	lock
+	faceplayer
+	msgbox TestArea_Text_GoToNewBark, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, TestArea_EventScript_JohtoGuideDone
+	closemessage
+	warp MAP_NEW_BARK_TOWN, 1, 10
+	waitstate
+TestArea_EventScript_JohtoGuideDone::
+	release
+	end
+
+TestArea_Text_GoToNewBark:
+	.string "Want to see NEW BARK TOWN,\n"
+	.string "in JOHTO?$"

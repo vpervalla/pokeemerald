@@ -21,5 +21,6 @@ extern const struct Tileset gTileset_KantoSeviiIslands45;
 extern const struct Tileset gTileset_KantoMegaCastle;
 extern const struct Tileset gTileset_KantoMegaArena;
 extern const struct Tileset gTileset_KantoMegaHall;
+extern const struct Tileset gTileset_KantoNewBarkTown;
 
 #endif //GUARD_tilesets_H

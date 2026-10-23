@@ -1592,6 +1592,17 @@ const struct Tileset gTileset_KantoMegaCastle =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_KantoNewBarkTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoNewBarkTown,
+    .palettes = gTilesetPalettes_KantoNewBarkTown,
+    .metatiles = gMetatiles_KantoNewBarkTown,
+    .metatileAttributes = gMetatileAttributes_KantoNewBarkTown,
+    .callback = NULL,
+};
+
 const struct Tileset gTileset_KantoMegaArena =
 {
     .isCompressed = TRUE,

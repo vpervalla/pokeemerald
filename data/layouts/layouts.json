@@ -7590,6 +7590,16 @@
       "secondary_tileset": "gTileset_KantoCave",
       "border_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/border.bin",
       "blockdata_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEW_BARK_TOWN",
+      "name": "NewBarkTown_Layout",
+      "width": 22,
+      "height": 17,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoNewBarkTown",
+      "border_filepath": "data/layouts/NewBarkTown/border.bin",
+      "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
     }
   ]
 }
