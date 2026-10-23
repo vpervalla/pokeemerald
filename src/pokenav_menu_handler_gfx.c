@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "window.h"
 #include "pokenav.h"
+#include "region_map.h"
 #include "graphics.h"
 #include "sound.h"
 #include "gym_leader_rematch.h"
@@ -153,7 +154,7 @@ static const struct CompressedSpriteSheet sPokenavOptionsSpriteSheets[] =
 {
     {
         .data = gPokenavOptions_Gfx,
-        .size = 0x3400,
+        .size = 0x3C00,
         .tag = GFXTAG_OPTIONS
     },
     {
@@ -188,6 +189,8 @@ static const u16 sOptionsLabelGfx_Cute[]      = {0x120, PALTAG_OPTIONS_PINK - PA
 static const u16 sOptionsLabelGfx_Smart[]     = {0x140, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Tough[]     = {0x160, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Cancel[]    = {0x180, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
+static const u16 sOptionsLabelGfx_KantoMap[]  = {0x1A0, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
+static const u16 sOptionsLabelGfx_SeviiMap[]  = {0x1C0, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 
 struct
 {
@@ -851,20 +854,38 @@ static void DrawCurrentMenuOptionLabels(void)
     DrawOptionLabelGfx(sPokenavMenuOptionLabelGfx[menuType].gfx, sPokenavMenuOptionLabelGfx[menuType].yStart, sPokenavMenuOptionLabelGfx[menuType].deltaY);
 }
 
+// The map option is named after the region the map shows: the one the player is in
+static const u16 *GetRegionMapLabelGfx(void)
+{
+    switch (GetPlayerRegion())
+    {
+    case REGION_HOENN:
+        return sOptionsLabelGfx_RegionMap;
+    case REGION_KANTO:
+        return sOptionsLabelGfx_KantoMap;
+    default:
+        return sOptionsLabelGfx_SeviiMap;
+    }
+}
+
 static void DrawOptionLabelGfx(const u16 *const *optionGfx, s32 yPos, s32 deltaY)
 {
     s32 i, j;
     struct Pokenav_MenuGfx *gfx = GetSubstructPtr(POKENAV_SUBSTRUCT_MENU_GFX);
     s32 baseTile = GetSpriteTileStartByTag(GFXTAG_OPTIONS);
+    const u16 *labelGfx;
 
     for (i = 0; i < MAX_POKENAV_MENUITEMS; i++)
     {
         if (*optionGfx != NULL)
         {
+            labelGfx = *optionGfx;
+            if (labelGfx == sOptionsLabelGfx_RegionMap)
+                labelGfx = GetRegionMapLabelGfx();
             for (j = 0; j < NUM_OPTION_SUBSPRITES; j++)
             {
-                gfx->iconSprites[i][j]->oam.tileNum = (*optionGfx)[0] + baseTile + 8 * j;
-                gfx->iconSprites[i][j]->oam.paletteNum = IndexOfSpritePaletteTag((*optionGfx)[1] + PALTAG_OPTIONS_START);
+                gfx->iconSprites[i][j]->oam.tileNum = labelGfx[0] + baseTile + 8 * j;
+                gfx->iconSprites[i][j]->oam.paletteNum = IndexOfSpritePaletteTag(labelGfx[1] + PALTAG_OPTIONS_START);
                 gfx->iconSprites[i][j]->invisible = TRUE;
                 gfx->iconSprites[i][j]->y = yPos;
                 gfx->iconSprites[i][j]->x = OPTION_DEFAULT_X;
@@ -1225,7 +1246,13 @@ static void PrintCurrentOptionDescription(void)
     struct Pokenav_MenuGfx *gfx = GetSubstructPtr(POKENAV_SUBSTRUCT_MENU_GFX);
     int menuItem = GetCurrentMenuItemId();
     const u8 *desc = sPageDescriptions[menuItem];
-    u32 width = GetStringWidth(FONT_NORMAL, desc, -1);
+    u32 width;
+
+    if (menuItem == POKENAV_MENUITEM_MAP && GetPlayerRegion() == REGION_KANTO)
+        desc = gText_CheckMapOfKanto;
+    else if (menuItem == POKENAV_MENUITEM_MAP && GetPlayerRegion() != REGION_HOENN)
+        desc = gText_CheckMapOfSevii;
+    width = GetStringWidth(FONT_NORMAL, desc, -1);
     FillWindowPixelBuffer(gfx->optionDescWindowId, PIXEL_FILL(6));
     AddTextPrinterParameterized3(gfx->optionDescWindowId, FONT_NORMAL, (192 - width) / 2, 1, sOptionDescTextColors, 0, desc);
 }

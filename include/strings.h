@@ -2960,6 +2960,8 @@ extern const u8 gText_Cancel6[];
 
 // PokéNav Menu Handler
 extern const u8 gText_CheckMapOfHoenn[];
+extern const u8 gText_CheckMapOfKanto[];
+extern const u8 gText_CheckMapOfSevii[];
 extern const u8 gText_CheckPokemonInDetail[];
 extern const u8 gText_CallRegisteredTrainer[];
 extern const u8 gText_CheckObtainedRibbons[];
