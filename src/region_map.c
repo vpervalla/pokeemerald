@@ -82,6 +82,9 @@ static EWRAM_DATA struct {
 
 static bool32 sDrawFlyDestTextWindow;
 
+// Set while the fly map is shown as the TOWN MAP: no flying, and B goes back here
+static EWRAM_DATA MainCallback sTownMapExitCallback = NULL;
+
 static u8 ProcessRegionMapInput_Full(void);
 static u8 MoveRegionMapCursor_Full(void);
 static u8 ProcessRegionMapInput_Zoomed(void);
@@ -122,6 +125,17 @@ static u8 GetNextVisitedRegion(u8 region, s8 delta);
 static void DrawFlyToWhereWindow(void);
 
 static const u8 sText_SwitchRegion[] = _("{L_BUTTON}{R_BUTTON}");
+static const u8 sText_Kanto[] = _("KANTO");
+static const u8 sText_Sevii[] = _("SEVII");
+
+static const u8 *const sRegionNames[REGION_COUNT] =
+{
+    [REGION_HOENN]     = gText_Hoenn,
+    [REGION_KANTO]     = sText_Kanto,
+    [REGION_SEVII_123] = sText_Sevii,
+    [REGION_SEVII_45]  = sText_Sevii,
+    [REGION_SEVII_67]  = sText_Sevii,
+};
 
 static const u16 sRegionMapCursorPal[] = INCGFX_U16("graphics/pokenav/region_map/cursor.pal", ".gbapal");
 static const u32 sRegionMapCursorSmallGfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/cursor_small.png", ".4bpp.lz");
@@ -1828,6 +1842,26 @@ bool32 IsEventIslandMapSecId(mapsec_u8_t mapSecId)
     return FALSE;
 }
 
+const u8 *GetRegionName(u8 region)
+{
+    return sRegionNames[region];
+}
+
+// The TOWN MAP: the fly map, without flying
+void OpenTownMap(void (*exitCallback)(void))
+{
+    sTownMapExitCallback = exitCallback;
+    SetMainCallback2(CB2_OpenFlyMap);
+}
+
+static void ExitTownMap(void)
+{
+    MainCallback callback = sTownMapExitCallback;
+
+    sTownMapExitCallback = NULL;
+    SetMainCallback2(callback);
+}
+
 void CB2_OpenFlyMap(void)
 {
     switch (gMain.state)
@@ -1846,7 +1880,10 @@ void CB2_OpenFlyMap(void)
         sFlyMap = Alloc(sizeof(*sFlyMap));
         if (sFlyMap == NULL)
         {
-            SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+            if (sTownMapExitCallback != NULL)
+                ExitTownMap();
+            else
+                SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
         }
         else
         {
@@ -2206,6 +2243,8 @@ static void CB_HandleFlyMapInput(void)
             DrawFlyDestTextWindow();
             break;
         case MAP_INPUT_A_BUTTON:
+            if (sTownMapExitCallback != NULL)
+                break;
             if (sFlyMap->regionMap.mapSecType == MAPSECTYPE_CITY_CANFLY || sFlyMap->regionMap.mapSecType == MAPSECTYPE_BATTLE_FRONTIER)
             {
                 m4aSongNumStart(SE_SELECT);
@@ -2238,7 +2277,10 @@ static u8 GetNextVisitedRegion(u8 region, s8 delta)
 static void DrawFlyToWhereWindow(void)
 {
     FillWindowPixelBuffer(WIN_FLY_TO_WHERE, PIXEL_FILL(0));
-    AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, gText_FlyToWhere, 0, 1, 0, NULL);
+    if (sTownMapExitCallback != NULL)
+        AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, GetRegionName(sFlyMap->regionMap.region), 0, 1, 0, NULL);
+    else
+        AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, gText_FlyToWhere, 0, 1, 0, NULL);
     if (GetNextVisitedRegion(sFlyMap->regionMap.region, 1) != sFlyMap->regionMap.region)
         AddTextPrinterParameterized(WIN_FLY_TO_WHERE, FONT_NORMAL, sText_SwitchRegion, GetStringRightAlignXOffset(FONT_NORMAL, sText_SwitchRegion, 14 * 8), 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
@@ -2371,6 +2413,10 @@ static void CB_ExitFlyMap(void)
                     break;
                 }
                 ReturnToFieldFromFlyMapSelect();
+            }
+            else if (sTownMapExitCallback != NULL)
+            {
+                ExitTownMap();
             }
             else
             {
