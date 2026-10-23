@@ -894,6 +894,19 @@ static u8 GetTrainerBattleTransition(void)
             return B_TRANSITION_GLACIA;
         if (gTrainerBattleOpponent_A == TRAINER_DRAKE)
             return B_TRANSITION_DRAKE;
+        // Kanto's: the banner of the Hoenn member of the same type (the picture is their own)
+        if (gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_LORELEI
+         || gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_LORELEI_2)
+            return B_TRANSITION_GLACIA;
+        if (gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_BRUNO
+         || gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_BRUNO_2)
+            return B_TRANSITION_SIDNEY;
+        if (gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_AGATHA
+         || gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_AGATHA_2)
+            return B_TRANSITION_PHOEBE;
+        if (gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_LANCE
+         || gTrainerBattleOpponent_A == TRAINER_KANTO_ELITE_FOUR_LANCE_2)
+            return B_TRANSITION_DRAKE;
         return B_TRANSITION_CHAMPION;
     }
 
