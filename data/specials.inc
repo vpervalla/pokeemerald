@@ -611,3 +611,5 @@ gSpecials::
 	def_special TryStartNextRoamer
 	def_special DoDeoxysTriangleInteraction
 	def_special SetDeoxysTrianglePalette
+	def_special BufferLastRepelCount
+	def_special UseLastRepel
