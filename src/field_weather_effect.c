@@ -2607,10 +2607,35 @@ void SetSavedWeatherFromCurrMapHeader(void)
     DynamicWeather_SetOverridden(FALSE);
 }
 
+// Harsh sun is sunlight, so outdoors at night it gives way to clear weather. The saved weather stays
+// WEATHER_DROUGHT, so the sun comes back in the morning. Battles take the weather on screen
+// (GetCurrentWeather), so they have no harsh sun at night either. The Groudon/Kyogre alternation
+// (WEATHER_ABNORMAL) is a story event and is left as it is.
+static u8 GetWeatherForTimeOfDay(u8 weather)
+{
+    if (weather == WEATHER_DROUGHT && IsMapTypeOutdoors(gMapHeader.mapType)
+     && DayNight_GetPhaseNow() == DAY_NIGHT_PHASE_NIGHT)
+        return WEATHER_SUNNY;
+    return weather;
+}
+
+// Once a second in the field (DynamicWeather_UpdateField): clears the harsh sun when night falls
+// and brings it back in the morning.
+void UpdateWeatherForTimeOfDay(void)
+{
+    u8 weather = GetSavedWeather();
+
+    if (weather != WEATHER_DROUGHT)
+        return;
+    weather = GetWeatherForTimeOfDay(weather);
+    if (gWeatherPtr->nextWeather != weather)
+        SetNextWeather(weather);
+}
+
 void SetWeather(u32 weather)
 {
     SetSavedWeather(weather);
-    SetNextWeather(GetSavedWeather());
+    SetNextWeather(GetWeatherForTimeOfDay(GetSavedWeather()));
 }
 
 void SetWeather_Unused(u32 weather)
@@ -2634,6 +2659,7 @@ void DoCurrentWeather(void)
         if (FuncIsActiveTask(Task_DoAbnormalWeather))
             DestroyTask(FindTaskIdByFunc(Task_DoAbnormalWeather));
         sCurrentAbnormalWeather = WEATHER_DOWNPOUR;
+        weather = GetWeatherForTimeOfDay(weather);
     }
     SetNextWeather(weather);
 }
@@ -2653,6 +2679,7 @@ void ResumePausedWeather(void)
         if (FuncIsActiveTask(Task_DoAbnormalWeather))
             DestroyTask(FindTaskIdByFunc(Task_DoAbnormalWeather));
         sCurrentAbnormalWeather = WEATHER_DOWNPOUR;
+        weather = GetWeatherForTimeOfDay(weather);
     }
     SetCurrentAndNextWeather(weather);
 }

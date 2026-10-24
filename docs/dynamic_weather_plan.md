@@ -47,6 +47,11 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   their palettes has, Kanto's primary palettes are full, and its primary tileset has about 35 free
   tiles. So on maps with Kanto's tilesets (`AreCloudReflectionsShown`) cloudy weather draws no
   clouds and looks like clear weather (the street lamps' light pools stay too). Hoenn keeps them.
+- **Harsh sun at night** (`WEATHER_DROUGHT`, from a script or a coord event) lit the map at
+  22:00. Now outdoors at night it gives way to clear weather (`GetWeatherForTimeOfDay`), and comes
+  back at 06:00; the saved weather stays `WEATHER_DROUGHT`, and battles at night have no harsh sun.
+  The dynamic weather only uses it by day (`HEAT_WAVE`), and the Groudon/Kyogre alternation
+  (`WEATHER_ABNORMAL`) is left as it is.
 - Rain, thunderstorm, downpour, shade, ash, sandstorm and drought look as in Hoenn.
 
 Differences from the plan below:

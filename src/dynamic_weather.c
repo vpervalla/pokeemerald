@@ -94,10 +94,11 @@ void DynamicWeather_UpdateField(void)
         return;
     sUpdateTimer = 0;
 
-    if (!IsDynamicWeather(gMapHeader.weather) || sOverridden)
-        return;
     // Try again next time rather than change the weather under a script, a menu or a fade
     if (ArePlayerFieldControlsLocked() || gPaletteFade.active)
+        return;
+    UpdateWeatherForTimeOfDay();
+    if (!IsDynamicWeather(gMapHeader.weather) || sOverridden)
         return;
     if (GetDynamicWeather(gMapHeader.weather - WEATHER_DYNAMIC_START) == GetSavedWeather())
         return;
