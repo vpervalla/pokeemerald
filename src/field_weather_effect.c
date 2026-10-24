@@ -1394,9 +1394,13 @@ static void DestroyFogHorizontalSprites(void);
 // OBJ) are right under it: the fog's tiles have no transparent pixels, so BG1 blends with the fog
 // itself, its colour (with the day/night tint) and its streaks, and fades with it. The blend is
 // even (FOG_BLEND_EVA = FOG_BLEND_EVB), so BG1 over the fog and the fog over BG2 come out the same.
-// The fog sprites are semi-transparent, so they alpha blend whatever BLDCNT's first targets. The
-// field's windows cover the screen with effects off (which doesn't stop that), so they let effects
-// through while BG1 blends.
+// BLDALPHA's two weights are the fog's and the map's for the fog's sprites, but BG1's and the fog's
+// for BG1: only even weights treat both alike. While the fog comes and goes they aren't (from 0 and
+// 16, the map's clear blend), and BG1 would turn into the fog's colour first, in flat bands. So BG1
+// blends only at the full blend; until then it is lightened by as much as the fog is blended in
+// (BLDY = EVA), which ends about as light as the blend. The fog sprites are semi-transparent, so they
+// alpha blend whatever BLDCNT's effect. The field's windows cover the screen with effects off (which
+// doesn't stop that), so they let effects through while BG1 blends or is lightened.
 static void UpdateFogTopLayerBlend(bool8 show)
 {
     u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
@@ -1410,12 +1414,22 @@ static void UpdateFogTopLayerBlend(bool8 show)
     if (show)
     {
         SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
-        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
+        if (gWeatherPtr->currBlendEVA == FOG_BLEND_EVA && gWeatherPtr->currBlendEVB == FOG_BLEND_EVB)
+        {
+            SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
+            SetGpuReg(REG_OFFSET_BLDY, 0);
+        }
+        else
+        {
+            SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_LIGHTEN);
+            SetGpuReg(REG_OFFSET_BLDY, gWeatherPtr->currBlendEVA);
+        }
     }
     else
     {
         SetGpuReg(REG_OFFSET_WININ, winin);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
     }
 }
 
