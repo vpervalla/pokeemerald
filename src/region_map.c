@@ -51,6 +51,7 @@ enum {
     TAG_CURSOR,
     TAG_PLAYER_ICON,
     TAG_FLY_ICON,
+    TAG_KANTO_FLY_ICON,
 };
 
 // Window IDs for the fly map
@@ -394,6 +395,10 @@ static const mapsec_u8_t sMapSecIdsOffMap[] =
 static const u16 sRegionMapFramePal[] = INCGFX_U16("graphics/pokenav/region_map/frame.png", ".gbapal");
 static const u32 sRegionMapFrameGfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/frame.png", ".4bpp.lz");
 static const u32 sRegionMapFrameTilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/frame.bin", ".lz");
+// FRLG's fly icon (a wing in a frame) and its palette, from pokefirered's region map. The Kanto and
+// Sevii maps show it on the towns the player can fly to, like FRLG; the other towns get no icon.
+static const u32 sKantoFlyIcon_Gfx[] = INCGFX_U32("graphics/pokenav/region_map/kanto/fly_icon.png", ".4bpp");
+static const u16 sKantoFlyIcon_Pal[] = INCGFX_U16("graphics/pokenav/region_map/kanto/fly_icon.pal", ".gbapal");
 static const u16 sFlyTargetIcons_Pal[] = INCGFX_U16("graphics/pokenav/region_map/fly_target_icons.png", ".gbapal");
 static const u32 sFlyTargetIcons_Gfx[] = INCGFX_U32("graphics/pokenav/region_map/fly_target_icons.png", ".4bpp.lz");
 
@@ -603,6 +608,24 @@ static const union AnimCmd *const sFlyDestIcon_Anims[] =
     [SPRITE_SHAPE(16x8) + 3]  = sFlyDestIcon_Anim_16x8CantFly,
     [SPRITE_SHAPE(8x16) + 3]  = sFlyDestIcon_Anim_8x16CantFly,
     [FLYDESTICON_RED_OUTLINE] = sFlyDestIcon_Anim_RedOutline
+};
+
+static const struct OamData sKantoFlyIcon_OamData =
+{
+    .shape = SPRITE_SHAPE(16x16),
+    .size = SPRITE_SIZE(16x16),
+    .priority = 2
+};
+
+static const struct SpriteTemplate sKantoFlyIconSpriteTemplate =
+{
+    .tileTag = TAG_KANTO_FLY_ICON,
+    .paletteTag = TAG_KANTO_FLY_ICON,
+    .oam = &sKantoFlyIcon_OamData,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
 };
 
 static const struct SpriteTemplate sFlyDestIconSpriteTemplate =
@@ -2047,6 +2070,14 @@ static void LoadFlyDestIcons(void)
     sheet.tag = TAG_FLY_ICON;
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&sFlyTargetIconsSpritePalette);
+    {
+        // The first of fly_icon.png's two 16x16 frames: the icon (the second is blank)
+        struct SpriteSheet kantoSheet = {sKantoFlyIcon_Gfx, 16 * 16 / 2, TAG_KANTO_FLY_ICON};
+        struct SpritePalette kantoPalette = {sKantoFlyIcon_Pal, TAG_KANTO_FLY_ICON};
+
+        LoadSpriteSheet(&kantoSheet);
+        LoadSpritePalette(&kantoPalette);
+    }
     CreateFlyDestIcons();
     TryCreateRedOutlineFlyDestIcons();
 }
@@ -2111,24 +2142,17 @@ static void CreateKantoFlyDestIcons(void)
 
     for (i = 0; i < ARRAY_COUNT(sKantoFlyDestinations); i++)
     {
-        if (GetMapSecRegion(sKantoFlyDestinations[i].mapSecId) != sFlyMap->regionMap.region)
+        if (GetMapSecRegion(sKantoFlyDestinations[i].mapSecId) != sFlyMap->regionMap.region
+         || !FlagGet(sKantoFlyDestinations[i].flag))
             continue;
 
         GetMapSecDimensions(sKantoFlyDestinations[i].mapSecId, &x, &y, &width, &height);
         x = (x + MAPCURSOR_X_MIN) * 8 + 4;
         y = (y + MAPCURSOR_Y_MIN) * 8 + 4;
-        spriteId = CreateSprite(&sFlyDestIconSpriteTemplate, x, y, 10);
+        spriteId = CreateSprite(&sKantoFlyIconSpriteTemplate, x, y, 10);
         if (spriteId != MAX_SPRITES)
         {
-            if (FlagGet(sKantoFlyDestinations[i].flag))
-            {
-                gSprites[spriteId].callback = SpriteCB_FlyDestIcon;
-                StartSpriteAnim(&gSprites[spriteId], SPRITE_SHAPE(8x8));
-            }
-            else
-            {
-                StartSpriteAnim(&gSprites[spriteId], SPRITE_SHAPE(8x8) + 3);
-            }
+            gSprites[spriteId].callback = SpriteCB_FlyDestIcon;
             gSprites[spriteId].sIconMapSec = sKantoFlyDestinations[i].mapSecId;
         }
     }
@@ -2140,7 +2164,8 @@ static void DestroyFlyDestIcons(void)
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
-        if (gSprites[i].inUse && gSprites[i].template == &sFlyDestIconSpriteTemplate)
+        if (gSprites[i].inUse && (gSprites[i].template == &sFlyDestIconSpriteTemplate
+                               || gSprites[i].template == &sKantoFlyIconSpriteTemplate))
             DestroySprite(&gSprites[i]);
     }
 }
