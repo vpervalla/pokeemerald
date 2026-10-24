@@ -33,6 +33,10 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   BG1 is lightened along with the fog (`UpdateFogTopLayerBlend`), less in the tint's darker
   phases. Sprite palettes loaded in the fog (the street lamps) also stayed pale after it cleared
   into clear or cloudy weather; fixed.
+- **Fog and screen fades**: the lightening of BG1 is done by the hardware after the palettes are
+  faded, so going through a door (the POKéMON MANSION), coming back from a battle and a wild
+  battle's gray flash left roofs and treetops light on a dark screen. It now follows how far the
+  map's palette is faded (`GetMapPaletteContrast`), which covers every kind of fade.
 - **Characters in fog**: the fog sprites are behind the characters and sprites don't blend with
   sprites, so the player and the NPCs stood out of the fog at full colour, except the ones whose
   palette was loaded once the fog had started, which were very pale. Now every sprite but the
