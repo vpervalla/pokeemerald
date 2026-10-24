@@ -1,8 +1,10 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_setup.h"
 #include "battle_transition.h"
 #include "battle_transition_frontier.h"
 #include "bg.h"
+#include "data.h"
 #include "decompress.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
@@ -21,6 +23,7 @@
 #include "trig.h"
 #include "util.h"
 #include "constants/field_effects.h"
+#include "constants/opponents.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/rgb.h"
@@ -2576,12 +2579,21 @@ static void HBlankCB_Mugshots(void)
         REG_BG0HOFS = sTransitionData->BG0HOFS_Upper;
 }
 
+// The opponent's own picture, so Kanto's ELITE FOUR and CHAMPION (and the tournaments'
+// champions) don't show Hoenn's. A secret base keeps WALLACE, as it always has.
+static u16 GetMugshotOpponentPicId(s16 mugshotId)
+{
+    if (gTrainerBattleOpponent_A != TRAINER_SECRET_BASE && gTrainerBattleOpponent_A < ALL_TRAINERS_COUNT)
+        return gTrainers[gTrainerBattleOpponent_A].trainerPic;
+    return sMugshotsTrainerPicIDsTable[mugshotId];
+}
+
 static void Mugshots_CreateTrainerPics(struct Task *task)
 {
     struct Sprite *opponentSprite, *playerSprite;
 
     s16 mugshotId = task->tMugshotId;
-    task->tOpponentSpriteId = CreateTrainerSprite(sMugshotsTrainerPicIDsTable[mugshotId],
+    task->tOpponentSpriteId = CreateTrainerSprite(GetMugshotOpponentPicId(mugshotId),
                                                   sMugshotsOpponentCoords[mugshotId][0] - 32,
                                                   sMugshotsOpponentCoords[mugshotId][1] + 42,
                                                   0, gDecompressionBuffer);

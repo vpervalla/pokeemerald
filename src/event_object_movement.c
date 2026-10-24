@@ -492,6 +492,7 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #include "data/object_events/starter_object_events.h"
 #include "data/object_events/lab_trainer_object_events.h"
 #include "data/object_events/hoenn_legend_object_events.h"
+#include "data/object_events/mansion_raider_object_events.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Npc1,                  OBJ_EVENT_PAL_TAG_NPC_1},
@@ -2040,6 +2041,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sHoennLegendObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_HOENN_LEGEND_START];
     if (graphicsId >= OBJ_EVENT_GFX_JOHTO_STARTER_START && graphicsId < OBJ_EVENT_GFX_JOHTO_STARTER_START + NUM_JOHTO_STARTER_OBJ_EVENT_GFX)
         return sJohtoStarterObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_JOHTO_STARTER_START];
+    if (graphicsId >= OBJ_EVENT_GFX_MANSION_RAIDER_START && graphicsId < OBJ_EVENT_GFX_MANSION_RAIDER_START + NUM_MANSION_RAIDER_OBJ_EVENT_GFX)
+        return sMansionRaiderObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_MANSION_RAIDER_START];
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;

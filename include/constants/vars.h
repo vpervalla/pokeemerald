@@ -341,6 +341,8 @@
 // The Johto starters' side quests (docs/johto_starters_plan.md): how many times the player found the TOTODILE
 // thief, which is also where it hides: 0 ROUTE 109's beach, 1 SLATEPORT's beach, 2 DEWFORD's beach (it stays)
 #define VAR_TOTODILE_TIMES_FOUND                    (KANTO_VARS_START + 0x72)
+// The last REPEL the player used, offered again when its effect wears off (data/scripts/repel.inc)
+#define VAR_LAST_REPEL_USED                         (KANTO_VARS_START + 0x73)
 
 #define SPECIAL_VARS_START            0x8000
 // special vars

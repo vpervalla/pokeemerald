@@ -32,6 +32,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "region_map.h"
 #include "script.h"
 #include "sound.h"
 #include "strings.h"
@@ -674,6 +675,37 @@ void ItemUseOutOfBattle_CardCase(u8 taskId)
     }
 }
 
+// The TOWN MAP shows the map of the region the player is in (L/R for the others visited)
+static void CB2_OpenTownMapFromBag(void)
+{
+    OpenTownMap(CB2_ReturnToBagMenuPocket);
+}
+
+static void Task_OpenRegisteredTownMap(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        OpenTownMap(CB2_ReturnToField);
+        DestroyTask(taskId);
+    }
+}
+
+void ItemUseOutOfBattle_TownMap(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenTownMapFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredTownMap;
+    }
+}
+
 void ItemUseOutOfBattle_CoinCase(u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 4);
@@ -888,12 +920,39 @@ static void Task_UseRepel(u8 taskId)
     if (!IsSEPlaying())
     {
         VarSet(VAR_REPEL_STEP_COUNT, GetItemHoldEffectParam(gSpecialVar_ItemId));
+        VarSet(VAR_LAST_REPEL_USED, gSpecialVar_ItemId);
         RemoveUsedItem();
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
         else
             DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
     }
+}
+
+// When a REPEL wears off: buffers the name of the last REPEL used and how many are left in the Bag,
+// returning that count (0 if there are none, so the script doesn't offer another)
+u16 BufferLastRepelCount(void)
+{
+    u16 itemId = VarGet(VAR_LAST_REPEL_USED);
+    u16 count;
+
+    if (GetItemFieldFunc(itemId) != ItemUseOutOfBattle_Repel)
+        return 0;
+    count = CountTotalItemQuantityInBag(itemId);
+    if (count == 0)
+        return 0;
+    CopyItemName(itemId, gStringVar1);
+    ConvertIntToDecimalStringN(gStringVar2, count, STR_CONV_MODE_LEFT_ALIGN, 3);
+    return count;
+}
+
+// Uses another of the last REPEL from the Bag, after BufferLastRepelCount found one
+void UseLastRepel(void)
+{
+    u16 itemId = VarGet(VAR_LAST_REPEL_USED);
+
+    VarSet(VAR_REPEL_STEP_COUNT, GetItemHoldEffectParam(itemId));
+    RemoveBagItem(itemId, 1);
 }
 
 static void Task_UsedBlackWhiteFlute(u8 taskId)

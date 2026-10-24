@@ -1,10 +1,12 @@
 #include "global.h"
 #include "battle_anim.h"
+#include "day_night.h"
 #include "dynamic_weather.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
 #include "field_weather.h"
 #include "overworld.h"
+#include "palette.h"
 #include "random.h"
 #include "script.h"
 #include "constants/weather.h"
@@ -93,13 +95,23 @@ static const struct SpriteTemplate sCloudSpriteTemplate =
     .callback = UpdateCloudSprite,
 };
 
+// The clouds are reflections drawn between the map's bottom layer (BG3) and the layers above it.
+// Emerald's tilesets only leave BG3 uncovered on water, but many of Kanto's metatiles (tree rows,
+// walls, ledges) keep their ground on BG3 under a top layer with gaps, so the clouds showed through
+// there as drifting patches. Merging the layers would need colours their palettes don't have, so
+// on maps with Kanto's tilesets cloudy weather has no clouds and looks like clear weather.
+bool8 AreCloudReflectionsShown(void)
+{
+    return gMapHeader.mapLayout != NULL && gMapHeader.mapLayout->primaryTileset->isHoennLayout;
+}
+
 void Clouds_InitVars(void)
 {
     gWeatherPtr->targetColorMapIndex = 0;
     gWeatherPtr->colorMapStepDelay = 20;
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->initStep = 0;
-    if (gWeatherPtr->cloudSpritesCreated == FALSE)
+    if (gWeatherPtr->cloudSpritesCreated == FALSE && AreCloudReflectionsShown())
         Weather_SetBlendCoeffs(0, 16);
 }
 
@@ -112,6 +124,11 @@ void Clouds_InitAll(void)
 
 void Clouds_Main(void)
 {
+    if (!AreCloudReflectionsShown())
+    {
+        gWeatherPtr->weatherGfxLoaded = TRUE;
+        return;
+    }
     switch (gWeatherPtr->initStep)
     {
     case 0:
@@ -134,6 +151,8 @@ void Clouds_Main(void)
 
 bool8 Clouds_Finish(void)
 {
+    if (!gWeatherPtr->cloudSpritesCreated)
+        return FALSE;
     switch (gWeatherPtr->finishStep)
     {
     case 0:
@@ -941,8 +960,9 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
 
 static void WaitSnowflakeSprite(struct Sprite *sprite)
 {
-    // Timer is never incremented
-    if (gWeatherPtr->snowflakeTimer > 18)
+    // Vanilla never incremented the timer, so a snowflake that had fallen waited here for good and
+    // the snow stopped after the first flakes (Four Island's snow uses this)
+    if (++gWeatherPtr->snowflakeTimer > 18)
     {
         sprite->invisible = FALSE;
         sprite->callback = UpdateSnowflakeSprite;
@@ -1368,12 +1388,103 @@ void FogHorizontal_Main(void);
 static void CreateFogHorizontalSprites(void);
 static void DestroyFogHorizontalSprites(void);
 
+// The fog's sprites are at priority 2, under BG1, the map's top layer. Kanto's tilesets put the
+// upper rows of houses and the treetops on that layer and the rest on BG2, so the fog only covered
+// their lower parts: a bright band across each house and stripes along rows of trees. While there
+// is fog, BG1 is lightened by as much as the fog is blended in (GetFogTopLayerLightening), so the
+// top layer looks about as foggy as the rest. The fog sprites are semi-transparent, so they still alpha blend whatever BLDCNT's effect
+// is. The field's windows cover the screen with effects off (which doesn't stop that), so they let
+// effects through while BG1 is lightened.
+static s32 GetColorLuminance(u16 color)
+{
+    return (color & 0x1F) + ((color >> 5) & 0x1F) + ((color >> 10) & 0x1F);
+}
+
+// How much of its contrast the map's first palette has left, from 16 (none faded) to 0. Any fade
+// (a palette fade, the fog's own fade-in, BlendPalettes) blends every colour towards one colour, so
+// it shrinks the gap between the palette's darkest and lightest colours by the fade's amount.
+// *fadedLevel gets the faded palette's middle level (0-31), the fade's colour at a full fade.
+static u8 GetMapPaletteContrast(u8 *fadedLevel)
+{
+    s32 minLum = 0x7FFF, maxLum = -1, unfaded, faded, fadedDark, fadedLight;
+    u32 i, darkest = 1, lightest = 1;
+
+    for (i = 1; i < 16; i++)
+    {
+        s32 lum = GetColorLuminance(gPlttBufferUnfaded[BG_PLTT_ID(0) + i]);
+
+        if (lum < minLum)
+        {
+            minLum = lum;
+            darkest = i;
+        }
+        if (lum > maxLum)
+        {
+            maxLum = lum;
+            lightest = i;
+        }
+    }
+    fadedDark = GetColorLuminance(gPlttBufferFaded[BG_PLTT_ID(0) + darkest]);
+    fadedLight = GetColorLuminance(gPlttBufferFaded[BG_PLTT_ID(0) + lightest]);
+    *fadedLevel = (fadedDark + fadedLight) / 6;
+    unfaded = maxLum - minLum;
+    faded = fadedLight - fadedDark;
+    if (unfaded <= 0 || faded >= unfaded)
+        return 16;
+    if (faded <= 0)
+        return 0;
+    return faded * 16 / unfaded;
+}
+
+// BLDY for the top layer: as much as the fog is blended in (EVA, less in the tint's darker
+// phases). The hardware lightens after the palettes are faded, so this fades with them, or roofs
+// and treetops would stay light on a black screen going through a door, or in a battle's gray
+// flash. At a full fade the map is one flat colour, which the fog's blend (EVA + EVB over 16)
+// still brightens where it covers BG2, so BG1 is lightened by as much there.
+static u8 GetFogTopLayerLightening(void)
+{
+    u8 level;
+    u32 contrast = GetMapPaletteContrast(&level);
+    u32 base = (gWeatherPtr->currBlendEVA * DayNight_GetTintBrightness()) >> 8;
+    u32 flat = 0;
+    s32 extra = gWeatherPtr->currBlendEVA + gWeatherPtr->currBlendEVB - 16;
+
+    if (extra > 0 && level > 0)
+        flat = level >= 31 ? 16 : min(16, level * extra / (31 - level));
+    return (base * contrast + flat * (16 - contrast)) / 16;
+}
+
+static void UpdateFogTopLayerBlend(bool8 show)
+{
+    u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
+    u16 winin = GetGpuReg(REG_OFFSET_WININ) & ~(WININ_WIN0_CLR | WININ_WIN1_CLR);
+
+    // Leave the registers to a field effect that has its own first targets
+    if (bldcnt & BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_BG1)
+        return;
+
+    bldcnt &= ~(BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_DARKEN);
+    if (show)
+    {
+        SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_LIGHTEN);
+        SetGpuReg(REG_OFFSET_BLDY, GetFogTopLayerLightening());
+    }
+    else
+    {
+        SetGpuReg(REG_OFFSET_WININ, winin);
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
+    }
+}
+
 void FogHorizontal_InitVars(void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->targetColorMapIndex = 0;
     gWeatherPtr->colorMapStepDelay = 20;
+    gWeatherPtr->fogSpriteBlend = 0xFF;
     if (gWeatherPtr->fogHSpritesCreated == 0)
     {
         gWeatherPtr->fogHScrollCounter = 0;
@@ -1416,6 +1527,11 @@ void FogHorizontal_Main(void)
         }
         break;
     }
+    if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+    {
+        UpdateFogTopLayerBlend(TRUE);
+        UpdateFogSpritePalettes();
+    }
 }
 
 bool8 FogHorizontal_Finish(void)
@@ -1436,9 +1552,21 @@ bool8 FogHorizontal_Finish(void)
     case 1:
         if (Weather_UpdateBlend())
             gWeatherPtr->finishStep++;
+        if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+        {
+            UpdateFogTopLayerBlend(TRUE);
+            UpdateFogSpritePalettes();
+        }
         break;
     case 2:
         DestroyFogHorizontalSprites();
+        if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+        {
+            UpdateFogTopLayerBlend(FALSE);
+            // The sprites were faded into the fog (UpdateFogSpritePalettes). A next weather with the
+            // same color map (clear, clouds) wouldn't reapply it, so they'd stay pale.
+            ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
+        }
         gWeatherPtr->finishStep++;
         break;
     default:
@@ -1741,6 +1869,7 @@ void FogDiagonal_InitVars(void)
     gWeatherPtr->colorMapStepDelay = 20;
     gWeatherPtr->fogHScrollCounter = 0;
     gWeatherPtr->fogHScrollOffset = 1;
+    gWeatherPtr->fogSpriteBlend = 0xFF;
     if (!gWeatherPtr->fogDSpritesCreated)
     {
         gWeatherPtr->fogDScrollXCounter = 0;
@@ -1780,6 +1909,8 @@ void FogDiagonal_Main(void)
         gWeatherPtr->initStep++;
         break;
     }
+    UpdateFogTopLayerBlend(TRUE);
+    UpdateFogSpritePalettes();
 }
 
 bool8 FogDiagonal_Finish(void)
@@ -1792,12 +1923,16 @@ bool8 FogDiagonal_Finish(void)
         gWeatherPtr->finishStep++;
         break;
     case 1:
+        UpdateFogTopLayerBlend(TRUE);
+        UpdateFogSpritePalettes();
         if (!Weather_UpdateBlend())
             break;
         gWeatherPtr->finishStep++;
         break;
     case 2:
         DestroyFogDiagonalSprites();
+        UpdateFogTopLayerBlend(FALSE);
+        ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
         gWeatherPtr->finishStep++;
         break;
     default:
@@ -2531,10 +2666,35 @@ void SetSavedWeatherFromCurrMapHeader(void)
     DynamicWeather_SetOverridden(FALSE);
 }
 
+// Harsh sun is sunlight, so outdoors at night it gives way to clear weather. The saved weather stays
+// WEATHER_DROUGHT, so the sun comes back in the morning. Battles take the weather on screen
+// (GetCurrentWeather), so they have no harsh sun at night either. The Groudon/Kyogre alternation
+// (WEATHER_ABNORMAL) is a story event and is left as it is.
+static u8 GetWeatherForTimeOfDay(u8 weather)
+{
+    if (weather == WEATHER_DROUGHT && IsMapTypeOutdoors(gMapHeader.mapType)
+     && DayNight_GetPhaseNow() == DAY_NIGHT_PHASE_NIGHT)
+        return WEATHER_SUNNY;
+    return weather;
+}
+
+// Once a second in the field (DynamicWeather_UpdateField): clears the harsh sun when night falls
+// and brings it back in the morning.
+void UpdateWeatherForTimeOfDay(void)
+{
+    u8 weather = GetSavedWeather();
+
+    if (weather != WEATHER_DROUGHT)
+        return;
+    weather = GetWeatherForTimeOfDay(weather);
+    if (gWeatherPtr->nextWeather != weather)
+        SetNextWeather(weather);
+}
+
 void SetWeather(u32 weather)
 {
     SetSavedWeather(weather);
-    SetNextWeather(GetSavedWeather());
+    SetNextWeather(GetWeatherForTimeOfDay(GetSavedWeather()));
 }
 
 void SetWeather_Unused(u32 weather)
@@ -2558,6 +2718,7 @@ void DoCurrentWeather(void)
         if (FuncIsActiveTask(Task_DoAbnormalWeather))
             DestroyTask(FindTaskIdByFunc(Task_DoAbnormalWeather));
         sCurrentAbnormalWeather = WEATHER_DOWNPOUR;
+        weather = GetWeatherForTimeOfDay(weather);
     }
     SetNextWeather(weather);
 }
@@ -2577,6 +2738,7 @@ void ResumePausedWeather(void)
         if (FuncIsActiveTask(Task_DoAbnormalWeather))
             DestroyTask(FindTaskIdByFunc(Task_DoAbnormalWeather));
         sCurrentAbnormalWeather = WEATHER_DOWNPOUR;
+        weather = GetWeatherForTimeOfDay(weather);
     }
     SetCurrentAndNextWeather(weather);
 }

@@ -23,8 +23,40 @@ battle, opening with "It is hailing."
 
 Phase 5 is implemented: a weather forecaster (a scientist) in the Pokémon Centers of
 Viridian, Cerulean, Celadon and One Island gives today's and tomorrow's weather for the
-zones around it. Nothing has been tested in-game yet, and snow has not been looked at on
-Four Island (section 5).
+zones around it.
+
+Checked in mGBA (libmgba, `make modern`) with a test build that starts a new game in Pallet Town
+or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
+
+- **Fog** (horizontal and diagonal) left a bright band across each house and stripes along rows
+  of trees: the fog sprites are under BG1, where Kanto's tilesets put roofs and treetops. Fixed:
+  BG1 is lightened along with the fog (`UpdateFogTopLayerBlend`), less in the tint's darker
+  phases. Sprite palettes loaded in the fog (the street lamps) also stayed pale after it cleared
+  into clear or cloudy weather; fixed.
+- **Fog and screen fades**: the lightening of BG1 is done by the hardware after the palettes are
+  faded, so going through a door (the POKéMON MANSION), coming back from a battle and a wild
+  battle's gray flash left roofs and treetops light on a dark screen. It now follows how far the
+  map's palette is faded (`GetMapPaletteContrast`), which covers every kind of fade.
+- **Characters in fog**: the fog sprites are behind the characters and sprites don't blend with
+  sprites, so the player and the NPCs stood out of the fog at full colour, except the ones whose
+  palette was loaded once the fog had started, which were very pale. Now every sprite but the
+  weather's own is faded 6/16 towards the fog's colour (`UpdateFogSpritePalettes`), in both fogs,
+  following the fog's fade in and out.
+- **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
+  start again was never incremented). Fixed; still to look at on Four Island itself.
+- **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto
+  metatiles (tree rows, walls, ledges) keep their ground on BG3 under a top layer with gaps, so
+  the clouds also showed through there as drifting patches. Merging those layers isn't possible
+  without changing colours: about 940 of the 1,300 tile quarters involved need colours neither of
+  their palettes has, Kanto's primary palettes are full, and its primary tileset has about 35 free
+  tiles. So on maps with Kanto's tilesets (`AreCloudReflectionsShown`) cloudy weather draws no
+  clouds and looks like clear weather (the street lamps' light pools stay too). Hoenn keeps them.
+- **Harsh sun at night** (`WEATHER_DROUGHT`, from a script or a coord event) lit the map at
+  22:00. Now outdoors at night it gives way to clear weather (`GetWeatherForTimeOfDay`), and comes
+  back at 06:00; the saved weather stays `WEATHER_DROUGHT`, and battles at night have no harsh sun.
+  The dynamic weather only uses it by day (`HEAT_WAVE`), and the Groudon/Kyogre alternation
+  (`WEATHER_ABNORMAL`) is left as it is.
+- Rain, thunderstorm, downpour, shade, ash, sandstorm and drought look as in Hoenn.
 
 Differences from the plan below:
 

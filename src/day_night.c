@@ -807,6 +807,7 @@ static bool8 IsWeatherUsingBlend(void)
     switch (gWeatherPtr->currWeather)
     {
     case WEATHER_SUNNY_CLOUDS:
+        return AreCloudReflectionsShown();
     case WEATHER_FOG_HORIZONTAL:
     case WEATHER_FOG_DIAGONAL:
     case WEATHER_VOLCANIC_ASH:
@@ -1060,6 +1061,15 @@ void DayNight_UpdateBattle(void)
             tintedColors[OBJ_PAL(i)] = ALL_COLORS;
     }
     UpdateTint(reentered, tintedColors, FALSE);
+}
+
+// How bright the tint leaves the map, out of 256 (untinted): its darkest channel. The fog lightens
+// the map's top layer towards white by this much less (see UpdateFogTopLayerBlend).
+u16 DayNight_GetTintBrightness(void)
+{
+    if (!sTintActive)
+        return TINT_FULL;
+    return min(sTint.r, min(sTint.g, sTint.b));
 }
 
 // Whether the tinted buffer is up to date: the field or battle updated it in the last frames, or

@@ -107,7 +107,7 @@
     },
     {
       "local_id": "LOCALID_MANSION_AQUA_GRUNT",
-      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_AQUA_MEMBER_F",
       "x": 35,
       "y": 19,
       "elevation": 3,
@@ -121,7 +121,7 @@
     },
     {
       "local_id": "LOCALID_MANSION_MAGMA_GRUNT",
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_F",
       "x": 30,
       "y": 8,
       "elevation": 3,
@@ -135,7 +135,7 @@
     },
     {
       "local_id": "LOCALID_MANSION_SHELLY",
-      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_AQUA_MEMBER_F",
       "x": 29,
       "y": 4,
       "elevation": 3,
@@ -149,7 +149,7 @@
     },
     {
       "local_id": "LOCALID_MANSION_TABITHA",
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_M",
       "x": 31,
       "y": 4,
       "elevation": 3,

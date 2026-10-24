@@ -42,7 +42,8 @@ struct WeatherCallbacks
 };
 
 // This file's functions.
-static bool8 LightenSpritePaletteInFog(u8);
+static bool8 IsWeatherSpritePalette(u8 paletteIndex);
+static u8 GetFogSpriteBlend(void);
 static void BuildColorMaps(void);
 static void UpdateWeatherColorMap(void);
 static void ApplyColorMap(u8 startPalIndex, u8 numPalettes, s8 colorMapIndex);
@@ -170,7 +171,7 @@ void StartWeather(void)
         gWeatherPtr->sandstormSpritesCreated = 0;
         gWeatherPtr->sandstormSwirlSpritesCreated = 0;
         gWeatherPtr->bubblesSpritesCreated = 0;
-        gWeatherPtr->lightenedFogSpritePalsCount = 0;
+        gWeatherPtr->fogSpriteBlend = 0xFF;
         Weather_SetBlendCoeffs(16, 0);
         gWeatherPtr->currWeather = 0;
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_IDLE;
@@ -659,10 +660,11 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
 
     for (curPalIndex = 16; curPalIndex < 32; curPalIndex++)
     {
-        if (LightenSpritePaletteInFog(curPalIndex))
+        if (!IsWeatherSpritePalette(curPalIndex))
         {
             u16 palEnd = PLTT_ID(curPalIndex + 1);
             u16 palOffset = PLTT_ID(curPalIndex);
+            u8 fogBlend = GetFogSpriteBlend();
 
             while (palOffset < palEnd)
             {
@@ -671,9 +673,9 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
                 u8 g = color.g;
                 u8 b = color.b;
 
-                r += ((28 - r) * 3) >> 2;
-                g += ((31 - g) * 3) >> 2;
-                b += ((28 - b) * 3) >> 2;
+                r += ((28 - r) * fogBlend) >> 4;
+                g += ((31 - g) * fogBlend) >> 4;
+                b += ((28 - b) * fogBlend) >> 4;
 
                 r += ((rBlend - r) * blendCoeff) >> 4;
                 g += ((gBlend - g) * blendCoeff) >> 4;
@@ -690,26 +692,51 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
     }
 }
 
-static void MarkFogSpritePalToLighten(u8 paletteIndex)
+// In fog every sprite but the weather's own (the player, the NPCs, field effects, the street
+// lamps) is faded towards the fog's colour, by as much as the fog is blended in, so they all look
+// the same in it. The fog's sprites are behind them and sprites don't blend with sprites, so
+// without this they'd stand out of the fog at full colour. (Vanilla faded only the palettes loaded
+// once the fog had started, so some characters were pale and others not.)
+#define FOG_SPRITE_COLOR    RGB(28, 31, 28)
+#define FOG_SPRITE_BLEND    6   // Out of 16, at the fog's full blend (EVA 12)
+
+static bool8 IsFogWeather(void)
 {
-    if (gWeatherPtr->lightenedFogSpritePalsCount < 6)
-    {
-        gWeatherPtr->lightenedFogSpritePals[gWeatherPtr->lightenedFogSpritePalsCount] = paletteIndex;
-        gWeatherPtr->lightenedFogSpritePalsCount++;
-    }
+    return gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL || gWeatherPtr->currWeather == WEATHER_FOG_DIAGONAL;
 }
 
-static bool8 LightenSpritePaletteInFog(u8 paletteIndex)
+static bool8 IsWeatherSpritePalette(u8 paletteIndex)
 {
-    u16 i;
+    return paletteIndex - 16 == gWeatherPtr->contrastColorMapSpritePalIndex
+        || paletteIndex - 16 == gWeatherPtr->weatherPicSpritePalIndex;
+}
 
-    for (i = 0; i < gWeatherPtr->lightenedFogSpritePalsCount; i++)
+static u8 GetFogSpriteBlend(void)
+{
+    return gWeatherPtr->currBlendEVA * FOG_SPRITE_BLEND / 12;
+}
+
+// Each frame of fog (and of its fading out): fades the sprite palettes again when the fog's blend
+// has changed, or after a screen fade, which wrote them itself.
+void UpdateFogSpritePalettes(void)
+{
+    u8 blend;
+    u8 i;
+
+    if (gWeatherPtr->palProcessingState != WEATHER_PAL_STATE_IDLE || gPaletteFade.active)
     {
-        if (gWeatherPtr->lightenedFogSpritePals[i] == paletteIndex)
-            return TRUE;
+        gWeatherPtr->fogSpriteBlend = 0xFF;
+        return;
     }
-
-    return FALSE;
+    blend = GetFogSpriteBlend();
+    if (blend == gWeatherPtr->fogSpriteBlend)
+        return;
+    gWeatherPtr->fogSpriteBlend = blend;
+    for (i = 16; i < 32; i++)
+    {
+        if (!IsWeatherSpritePalette(i))
+            BlendPalette(PLTT_ID(i), 16, blend, FOG_SPRITE_COLOR);
+    }
 }
 
 void ApplyWeatherColorMapIfIdle(s8 colorMapIndex)
@@ -817,8 +844,6 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
     case WEATHER_PAL_STATE_SCREEN_FADING_IN:
         if (gWeatherPtr->fadeInFirstFrame)
         {
-            if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
-                MarkFogSpritePalToLighten(paletteIndex);
             paletteIndex = PLTT_ID(paletteIndex);
             for (i = 0; i < 16; i++)
                 gPlttBufferFaded[paletteIndex + i] = gWeatherPtr->fadeDestColor;
@@ -832,14 +857,14 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
     // WEATHER_PAL_STATE_CHANGING_WEATHER
     // WEATHER_PAL_STATE_CHANGING_IDLE
     default:
-        if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL)
+        if (!IsFogWeather() || IsWeatherSpritePalette(paletteIndex))
         {
             ApplyColorMap(paletteIndex, 1, gWeatherPtr->colorMapIndex);
         }
         else
         {
             paletteIndex = PLTT_ID(paletteIndex);
-            BlendPalette(paletteIndex, 16, 12, RGB(28, 31, 28));
+            BlendPalette(paletteIndex, 16, GetFogSpriteBlend(), FOG_SPRITE_COLOR);
         }
         break;
     }
