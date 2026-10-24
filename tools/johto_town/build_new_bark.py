@@ -1,13 +1,15 @@
 # Imports NEW BARK TOWN, Johto's starting town, from the user's reference map
-# (reference/new_bark_town.jpg) as the kanto_new_bark_town tileset and the NewBarkTown layout.
+# (reference/new_bark_town.png) as the kanto_new_bark_town tileset and the NewBarkTown layout.
 #
-# The reference is a JPEG of 16 px tile art scaled up about 1.24x: the map is x 0-438, y 46.5-385
-# of it, 22x17 metatiles. It is scaled back down to its native 352x272 and cut on that 16 px grid.
-# The black void around its top (outside the original map) is filled with the forest below it.
+# The reference is 16 px tile art (slightly smoothed), 400x373, whose grid starts 3 px above the
+# picture: it is moved down 3 px (the top rows filled from the trees one tree below) and cut into
+# 25x23 metatiles, which puts each door on its own cell. The NPC standing on the jetty, with his
+# name, is painted over with the path and bank above him.
 # Colours are reduced to six 15-colour palettes (slots 7-12), each 8x8 tile using one, and the
 # tiles merged with their closest neighbours until they fit the 384 secondary tiles (as in
-# tools/mega_island/build_castle.py). Every cell is its own metatile, drawn below the player.
-# What blocks, the doors and the pond are set by hand in MAP below.
+# tools/mega_island/build_castle.py); then cells drawn alike share a metatile, merging the closest
+# ones until they fit the 384 secondary metatiles. Everything is drawn below the player.
+# What blocks, the doors and the lake are set by hand in MAP below.
 # PREVIEW=out.png renders the map.
 import sys, os, struct
 sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','mega_island'))
@@ -18,47 +20,57 @@ HERE=os.path.dirname(os.path.abspath(__file__))+'/'
 REPO=HERE+'../../'
 TSDIR=REPO+'data/tilesets/secondary/kanto_new_bark_town/'
 LAYOUT=REPO+'data/layouts/NewBarkTown/'
-MW,MH=22,17
+MW,MH=25,23
 
-src=Image.open(HERE+'reference/new_bark_town.jpg').convert('RGB')
-N=np.asarray(src.crop((0,46.5,438,384.8)).resize((MW*16,MH*16),Image.LANCZOS)).astype(int)
+src=np.asarray(Image.open(HERE+'reference/new_bark_town.png').convert('RGB')).astype(int)
+for y in range(146,186):                  # the NPC on the jetty: the path and bank 16 px up, repeated
+    src[y,250:278]=src[128+(y-128)%16,250:278]
+N=np.zeros((MH*16,MW*16,3),int)
+N[3:]=src[:MH*16-3]
+N[:3]=src[29:32]                          # the trees' tops, from one tree below
 
-# ---- the void: the forest's rows 5-6 (two rows of trees, one per cell) repeated ----
-FOREST=N[80:112,0:96].copy()
-void=N.sum(2)<90
-ys,xs=np.nonzero(void)
-N[ys,xs]=FOREST[ys%32,xs%96]
-
-# What each cell is: # blocks, . walkable, D door (MB_NON_ANIMATED_DOOR), W pond (MB_POND_WATER,
-# surfable), S sign (blocks; its text is a bg event). Stairs between the levels are walkable, the
-# ledges' edges block.
+# What each cell is: # blocks, . walkable, D door (MB_NON_ANIMATED_DOOR), W lake (MB_POND_WATER,
+# surfable), S sign (blocks; its text is a bg event).
 MAP='''\
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-##################.###
-#############D##D##.##
-S..########...S#......
-..........#........#WW
-...######..##.#....#.W
-..#######.#D#.S#######
-#########......#D#####
-###########.......####
-######################
-######################'''.split('\n')
+#########################
+#########################
+#########################
+#########################
+#####################WWWW
+#####################WWWW
+####D###...##########WWWW
+###........#D########WWWW
+#................WWWWWWWW
+.................WWWWWWWW
+.................WWWWWWWW
+.................WWWWWWWW
+#...............##WWWWWWW
+######..........##WWWWWWW
+######..#######.##WWWWWWW
+##D###..######..##WWWWWWW
+#........#D###..##WWWWWWW
+#...............##WWWWWWW
+#####...........##WWWWWWW
+#########################
+#########################
+#########################
+#########################'''.split('\n')
 assert len(MAP)==MH and all(len(r)==MW for r in MAP)
 
-BUILDINGS=[(11,6,15,9),(15,5,19,9),(10,11,13,13),(15,11,18,14)]   # x0,y0,x1,y1 in cells
+BUILDINGS=[(1,2,8,7),(11,5,16,8),(1,12,6,16),(9,13,14,17)]   # x0,y0,x1,y1 in cells
 def in_building(tx,ty): return any(x0<=tx//2<x1 and y0<=ty//2<y1 for x0,y0,x1,y1 in BUILDINGS)
 
 # ---- palettes: GBA colours, then six 15-colour palettes, one per 8x8 tile ----
-cells=[(tx,ty) for ty in range(MH*2) for tx in range(MW*2)]
+# The open lake (lake cells that are all water) is Kanto's own animated sea (kanto_general's
+# metatile 0x12B, MB_OCEAN_WATER); only its banks are imported.
+SEA=0x12B
+def all_water(x,y):
+    c=N[y*16:y*16+16,x*16:x*16+16]
+    return ((c[:,:,2]>c[:,:,0]+60)&(c[:,:,2]>c[:,:,1]+20)).mean()>0.97
+OPEN={(x,y) for y in range(MH) for x in range(MW) if MAP[y][x]=='W' and all_water(x,y)}
+cells=[(tx,ty) for ty in range(MH*2) for tx in range(MW*2) if (tx//2,ty//2) not in OPEN]
 PX=np.array([N[ty*8:ty*8+8,tx*8:tx*8+8].reshape(64,3) for tx,ty in cells],float)
-BLD=np.array([in_building(*c) for c in cells])
+BLD=np.array([in_building(*c) or MAP[c[1]//2][c[0]//2]=='W' for c in cells])   # buildings and banks
 rng=np.random.default_rng(7)
 def kmeans(X,k,it=20):
     # k colours for the pixels X (k-means, from a spread-out start)
@@ -80,7 +92,8 @@ def tile_err(t,P): return ((PX[t][:,None]-P[None])**2).sum(2).min(1).sum()
 means=PX.mean(1)
 grp=np.argmin(((means[:,None]-kmeans(means,6)[None])**2).sum(2),1)
 for _ in range(6):
-    # the buildings' pixels count six times, so their shades aren't lost among the forest's
+    # the buildings' and the lake's pixels count six times, so their shades aren't lost among the
+    # forest's
     P=[gba(kmeans(np.concatenate([PX[(grp==g)&~BLD].reshape(-1,3)]+[PX[(grp==g)&BLD].reshape(-1,3)]*6),15))
        if (grp==g).any() else np.zeros((1,3)) for g in range(6)]
     grp=np.array([min(range(6),key=lambda g:tile_err(t,P[g])) for t in range(len(cells))])
@@ -140,18 +153,43 @@ class Cv:
         return pi*16+t[y%8,x%8]
 CV=Cv()
 BEHAVIOR={'D':96,'W':16}                  # MB_NON_ANIMATED_DOOR, MB_POND_WATER
-grid=[[0]*MW for _ in range(MH)]
-coll=[[0]*MW for _ in range(MH)]
+# Each cell's tiles and attributes; cells drawn alike share a metatile. While there are too many,
+# the two closest (same attributes, pixels apart times the cells of the rarer) become one.
+cell={}
 for y in range(MH):
     for x in range(MW):
-        k=MAP[y][x]
-        attr=(1<<12)|BEHAVIOR.get(k,0)    # COVERED: the art is below the player
-        grid[y][x]=B.metatile(B.entries(CV,x*16,y*16),[tilesetgen.EMPTY_TOP]*4,attr)
-        coll[y][x]=1 if k in '#S' else 0
+        if (x,y) in OPEN: continue
+        attr=(1<<12)|BEHAVIOR.get(MAP[y][x],0)    # COVERED: the art is below the player
+        cell[(x,y)]=(tuple(B.entries(CV,x*16,y*16)),attr)
+kinds={}
+for c,k in cell.items(): kinds.setdefault(k,[]).append(c)
+keys=list(kinds); MLIMIT=384
+print('distinct cells',len(keys))
+if len(keys)>MLIMIT:
+    art=np.array([[CV.get(x*16+i%16,y*16+i//16) for i in range(256)] for x,y in (kinds[k][0] for k in keys)])
+    rgb=np.array(ART_PAL,float)[art]
+    n=len(keys); D=np.full((n,n),np.inf)
+    for i in range(n):
+        d=((rgb[i]-rgb)**2).sum(2).sum(1)
+        d[[keys[j][1]!=keys[i][1] for j in range(n)]]=np.inf; d[i]=np.inf; D[i]=d
+    weight=np.array([len(kinds[k]) for k in keys],float); rep=np.arange(n); alive=n
+    while alive>MLIMIT:
+        W=D*np.minimum(weight[:,None],weight[None,:])
+        i,j=np.unravel_index(np.argmin(W),W.shape)
+        keep,drop=(i,j) if weight[i]>=weight[j] else (j,i)
+        D[drop,:]=np.inf; D[:,drop]=np.inf; weight[keep]+=weight[drop]; rep[rep==drop]=keep; alive-=1
+    for r,k in enumerate(keys):
+        for c in kinds[k]: cell[c]=keys[rep[r]]
+grid=[[SEA if (x,y) in OPEN else B.metatile(cell[(x,y)][0],[tilesetgen.EMPTY_TOP]*4,cell[(x,y)][1])
+       for x in range(MW)] for y in range(MH)]
+coll=[[1 if MAP[y][x] in '#S' else 0 for x in range(MW)] for y in range(MH)]
 B.check()
 B.write_tileset(TSDIR)
-# the border: a block of the forest (rows 5-6, two trees wide), solid
-tilesetgen.write_layout(LAYOUT,grid,coll,tuple(grid[y][x]|0xc00|0x3000 for y,x in ((5,2),(5,3),(6,2),(6,3))))
+# the border: a block of the forest (rows 20-21, one tree wide), solid
+tilesetgen.write_layout(LAYOUT,grid,coll,tuple(grid[y][x]|0xc00|0x3000 for y,x in ((20,6),(20,7),(21,6),(21,7))))
+# the lake is at elevation 1, as water is (the land at 3)
+open(LAYOUT+'map.bin','wb').write(b''.join(struct.pack('<H',grid[y][x]|(coll[y][x]<<10)|((1 if MAP[y][x]=='W' else 3)<<12))
+                                          for y in range(MH) for x in range(MW)))
 print('written')
 if os.environ.get('PREVIEW'):
     render.render_layout('LAYOUT_NEW_BARK_TOWN',os.environ['PREVIEW'])

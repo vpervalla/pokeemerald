@@ -7594,8 +7594,8 @@
     {
       "id": "LAYOUT_NEW_BARK_TOWN",
       "name": "NewBarkTown_Layout",
-      "width": 22,
-      "height": 17,
+      "width": 25,
+      "height": 23,
       "primary_tileset": "gTileset_KantoGeneral",
       "secondary_tileset": "gTileset_KantoNewBarkTown",
       "border_filepath": "data/layouts/NewBarkTown/border.bin",
