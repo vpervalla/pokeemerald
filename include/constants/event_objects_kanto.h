@@ -181,4 +181,14 @@
 #define OBJ_EVENT_GFX_ICON_CELEBI         (OBJ_EVENT_GFX_JOHTO_STARTER_START + 4) // BERRY FOREST (docs/catch_them_all.md)
 #define NUM_JOHTO_STARTER_OBJ_EVENT_GFX 5
 
+// Added for Team Aqua and Team Magma in the POKéMON MANSION (not generated, docs/hoenn_plan.md, Act 0):
+// Emerald's grunts, which Kanto maps would draw with FRLG's NPC palettes. These load Emerald's palettes in
+// the special NPC slots instead. See src/data/object_events/mansion_raider_object_events.h.
+#define OBJ_EVENT_GFX_MANSION_RAIDER_START (OBJ_EVENT_GFX_JOHTO_STARTER_START + NUM_JOHTO_STARTER_OBJ_EVENT_GFX)
+#define OBJ_EVENT_GFX_KANTO_AQUA_MEMBER_M   (OBJ_EVENT_GFX_MANSION_RAIDER_START + 0)
+#define OBJ_EVENT_GFX_KANTO_AQUA_MEMBER_F   (OBJ_EVENT_GFX_MANSION_RAIDER_START + 1)
+#define OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_M  (OBJ_EVENT_GFX_MANSION_RAIDER_START + 2)
+#define OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_F  (OBJ_EVENT_GFX_MANSION_RAIDER_START + 3)
+#define NUM_MANSION_RAIDER_OBJ_EVENT_GFX 4
+
 #endif // GUARD_CONSTANTS_EVENT_OBJECTS_KANTO_H

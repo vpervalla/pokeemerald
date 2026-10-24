@@ -80,7 +80,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_M",
       "x": 8,
       "y": 29,
       "elevation": 3,
@@ -93,7 +93,7 @@
       "flag": "FLAG_HIDE_MANSION_RAIDERS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_M",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_AQUA_MEMBER_M",
       "x": 23,
       "y": 28,
       "elevation": 3,
