@@ -33,6 +33,11 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   BG1 is lightened along with the fog (`UpdateFogTopLayerBlend`), less in the tint's darker
   phases. Sprite palettes loaded in the fog (the street lamps) also stayed pale after it cleared
   into clear or cloudy weather; fixed.
+- **Characters in fog**: the fog sprites are behind the characters and sprites don't blend with
+  sprites, so the player and the NPCs stood out of the fog at full colour, except the ones whose
+  palette was loaded once the fog had started, which were very pale. Now every sprite but the
+  weather's own is faded 6/16 towards the fog's colour (`UpdateFogSpritePalettes`), in both fogs,
+  following the fog's fade in and out.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
 - **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. That works on

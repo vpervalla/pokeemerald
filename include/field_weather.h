@@ -87,8 +87,7 @@ struct Weather
     u16 fogHScrollPosX;
     u16 fogHScrollCounter;
     u16 fogHScrollOffset;
-    u8 lightenedFogSpritePals[6];
-    u8 lightenedFogSpritePalsCount;
+    u8 fogSpriteBlend;       // How far the sprites are faded into the fog now (0xFF: to redo)
     u8 fogHSpritesCreated;
     // Ash
     u16 ashBaseSpritesX;
@@ -155,6 +154,7 @@ bool8 IsWeatherNotFadingIn(void);
 void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex);
 void ApplyWeatherColorMapToPal(u8 paletteIndex);
 void LoadCustomWeatherSpritePalette(const u16 *palette);
+void UpdateFogSpritePalettes(void);
 void ResetDroughtWeatherPaletteLoading(void);
 bool8 LoadDroughtWeatherPalettes(void);
 void DroughtStateInit(void);

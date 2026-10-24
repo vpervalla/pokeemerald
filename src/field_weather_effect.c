@@ -1408,6 +1408,7 @@ void FogHorizontal_InitVars(void)
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->targetColorMapIndex = 0;
     gWeatherPtr->colorMapStepDelay = 20;
+    gWeatherPtr->fogSpriteBlend = 0xFF;
     if (gWeatherPtr->fogHSpritesCreated == 0)
     {
         gWeatherPtr->fogHScrollCounter = 0;
@@ -1451,7 +1452,10 @@ void FogHorizontal_Main(void)
         break;
     }
     if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+    {
         UpdateFogTopLayerBlend(TRUE);
+        UpdateFogSpritePalettes();
+    }
 }
 
 bool8 FogHorizontal_Finish(void)
@@ -1473,15 +1477,18 @@ bool8 FogHorizontal_Finish(void)
         if (Weather_UpdateBlend())
             gWeatherPtr->finishStep++;
         if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+        {
             UpdateFogTopLayerBlend(TRUE);
+            UpdateFogSpritePalettes();
+        }
         break;
     case 2:
         DestroyFogHorizontalSprites();
         if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
         {
             UpdateFogTopLayerBlend(FALSE);
-            // Sprite palettes loaded in the fog were lightened (UpdateSpritePaletteWithWeather). A next
-            // weather with the same color map (clear, clouds) wouldn't reapply it, so they'd stay pale.
+            // The sprites were faded into the fog (UpdateFogSpritePalettes). A next weather with the
+            // same color map (clear, clouds) wouldn't reapply it, so they'd stay pale.
             ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
         }
         gWeatherPtr->finishStep++;
@@ -1786,6 +1793,7 @@ void FogDiagonal_InitVars(void)
     gWeatherPtr->colorMapStepDelay = 20;
     gWeatherPtr->fogHScrollCounter = 0;
     gWeatherPtr->fogHScrollOffset = 1;
+    gWeatherPtr->fogSpriteBlend = 0xFF;
     if (!gWeatherPtr->fogDSpritesCreated)
     {
         gWeatherPtr->fogDScrollXCounter = 0;
@@ -1826,6 +1834,7 @@ void FogDiagonal_Main(void)
         break;
     }
     UpdateFogTopLayerBlend(TRUE);
+    UpdateFogSpritePalettes();
 }
 
 bool8 FogDiagonal_Finish(void)
@@ -1839,6 +1848,7 @@ bool8 FogDiagonal_Finish(void)
         break;
     case 1:
         UpdateFogTopLayerBlend(TRUE);
+        UpdateFogSpritePalettes();
         if (!Weather_UpdateBlend())
             break;
         gWeatherPtr->finishStep++;
@@ -1846,6 +1856,7 @@ bool8 FogDiagonal_Finish(void)
     case 2:
         DestroyFogDiagonalSprites();
         UpdateFogTopLayerBlend(FALSE);
+        ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
         gWeatherPtr->finishStep++;
         break;
     default:
