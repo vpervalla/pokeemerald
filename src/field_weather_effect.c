@@ -6,6 +6,9 @@
 #include "fieldmap.h"
 #include "field_weather.h"
 #include "overworld.h"
+#include "palette.h"
+#include "util.h"
+#include "constants/rgb.h"
 #include "random.h"
 #include "script.h"
 #include "constants/weather.h"
@@ -1395,41 +1398,49 @@ static void DestroyFogHorizontalSprites(void);
 // itself, its colour (with the day/night tint) and its streaks, and fades with it. The blend is
 // even (FOG_BLEND_EVA = FOG_BLEND_EVB), so BG1 over the fog and the fog over BG2 come out the same.
 // BLDALPHA's two weights are the fog's and the map's for the fog's sprites, but BG1's and the fog's
-// for BG1: only even weights treat both alike. While the fog comes and goes they aren't (from 0 and
-// 16, the map's clear blend), and BG1 would turn into the fog's colour first, in flat bands. So BG1
-// blends only at the full blend; until then it is lightened by as much as the fog is blended in
-// (BLDY = EVA), which ends about as light as the blend. The fog sprites are semi-transparent, so they
-// alpha blend whatever BLDCNT's effect. The field's windows cover the screen with effects off (which
-// doesn't stop that), so they let effects through while BG1 blends or is lightened.
+// for BG1, so only even weights treat both alike. While the fog comes and goes, its blend runs from
+// or to 0 and 16 (the map with no fog), which would turn BG1 into the fog's colour first, in flat
+// bands. So the weights stay even all the way, from 16 and 16 to the fog's, and the fog's palette
+// fades from black to its colours alongside (GetFogFadeIn): black added at full weight leaves the
+// map as it is, and the full blend is the fog's. BG1 and BG2 get the same fog, colour and streaks,
+// at every step. The fog sprites are semi-transparent, so they alpha blend whatever BLDCNT's effect.
+// The field's windows cover the screen with effects off (which doesn't stop that), so they let
+// effects through while BG1 blends.
+// How far the fog has faded in, out of 16, from how much of its blend the weather has reached.
+static u32 GetFogFadeIn(void)
+{
+    return min(16, gWeatherPtr->currBlendEVA * 16 / FOG_BLEND_EVA);
+}
+
 static void UpdateFogTopLayerBlend(bool8 show)
 {
     u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
     u16 winin = GetGpuReg(REG_OFFSET_WININ) & ~(WININ_WIN0_CLR | WININ_WIN1_CLR);
+    u8 fogPalette = gWeatherPtr->contrastColorMapSpritePalIndex;
+    u32 fadeIn = GetFogFadeIn();
 
     // Leave the registers to a field effect that has its own first targets
     if (bldcnt & BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_BG1)
         return;
 
     bldcnt &= ~(BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_DARKEN);
-    if (show)
+    if (show && fadeIn > 0)
     {
+        u32 weight = 16 - (16 - FOG_BLEND_EVA) * fadeIn / 16;
+
         SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
-        if (gWeatherPtr->currBlendEVA == FOG_BLEND_EVA && gWeatherPtr->currBlendEVB == FOG_BLEND_EVB)
-        {
-            SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
-            SetGpuReg(REG_OFFSET_BLDY, 0);
-        }
-        else
-        {
-            SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_LIGHTEN);
-            SetGpuReg(REG_OFFSET_BLDY, gWeatherPtr->currBlendEVA);
-        }
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(weight, weight));
+        // The palette fade sets the palettes itself while it runs
+        if (!gPaletteFade.active)
+            BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 16 - fadeIn, RGB_BLACK);
     }
     else
     {
         SetGpuReg(REG_OFFSET_WININ, winin);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
-        SetGpuReg(REG_OFFSET_BLDY, 0);
+        if (!gPaletteFade.active)
+            BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 0, RGB_BLACK);
     }
 }
 
