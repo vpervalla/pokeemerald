@@ -736,7 +736,11 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
             DoSpinExitWarp();
             return TRUE;
         }
-        if (MetatileBehavior_IsMtPyreHole(metatileBehavior) == TRUE)
+        // Kanto port: FRLG's fall warps (MB_FALL_WARP, ported as MB_CRACKED_FLOOR_HOLE) drop through the
+        // tile's warp event, like MT. PYRE's hole. Emerald's cracked floors have no warp event, and keep
+        // falling to the map's hole warp (TryStartMiscWalkingScripts).
+        if (MetatileBehavior_IsMtPyreHole(metatileBehavior) == TRUE
+         || MetatileBehavior_IsCrackedFloorHole(metatileBehavior) == TRUE)
         {
             ScriptContext_SetupScript(EventScript_FallDownHoleMtPyre);
             return TRUE;
@@ -762,6 +766,7 @@ static bool8 IsWarpMetatileBehavior(u16 metatileBehavior)
      && MetatileBehavior_IsLavaridge1FWarp(metatileBehavior) != TRUE
      && MetatileBehavior_IsAquaHideoutWarp(metatileBehavior) != TRUE
      && MetatileBehavior_IsMtPyreHole(metatileBehavior) != TRUE
+     && MetatileBehavior_IsCrackedFloorHole(metatileBehavior) != TRUE
      && MetatileBehavior_IsMossdeepGymWarp(metatileBehavior) != TRUE
      && MetatileBehavior_IsUnionRoomWarp(metatileBehavior) != TRUE)
         return FALSE;
