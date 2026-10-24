@@ -2,6 +2,10 @@
 //   wait N          run N frames with no key held
 //   press KEY [N]   hold KEY (A B SELECT START RIGHT LEFT UP DOWN R L) for N frames (default 6), then release for 6
 //   shot FILE       write the screen to FILE (PPM)
+//   keys MASK N     hold the keys in MASK (bit 0 A, 1 B, 2 SELECT, 3 START, 4 RIGHT, 5 LEFT, 6 UP, 7 DOWN, 8 R, 9 L) for N frames
+//   peek ADDR LEN   print LEN bytes from the bus at ADDR (hex) as hex, on one line
+//   savestate FILE / loadstate FILE
+//   sync            print "ok" (every reply is flushed, so a script can drive this through a pipe)
 // Build: cc -O2 -o mgba_driver mgba_driver.c -lmgba
 // Usage: mgba_driver ROM SAVE < commands    (SAVE is the cartridge's flash: created if missing, written on exit)
 #include <mgba/core/core.h>
@@ -65,6 +69,36 @@ int main(int argc, char **argv)
             for (i = 0; i < 6; i++)
                 core->runFrame(core);
         }
+        else if (!strcmp(cmd, "keys"))
+        {
+            core->setKeys(core, strtoul(arg, NULL, 0));
+            for (i = 0; i < n; i++)
+                core->runFrame(core);
+            core->setKeys(core, 0);
+        }
+        else if (!strcmp(cmd, "peek"))
+        {
+            uint32_t addr = strtoul(arg, NULL, 16);
+            for (i = 0; i < n; i++)
+                printf("%02x", core->busRead8(core, addr + i));
+            printf("\n");
+        }
+        else if (!strcmp(cmd, "savestate") || !strcmp(cmd, "loadstate"))
+        {
+            size_t size = core->stateSize(core);
+            void *state = malloc(size);
+            FILE *f = fopen(arg, cmd[0] == 's' ? "wb" : "rb");
+            if (cmd[0] == 's')
+                core->saveState(core, state), fwrite(state, 1, size, f);
+            else if (fread(state, 1, size, f) == size)
+                core->loadState(core, state);
+            fclose(f);
+            free(state);
+        }
+        else if (!strcmp(cmd, "sync"))
+        {
+            printf("ok\n");
+        }
         else if (!strcmp(cmd, "shot"))
         {
             FILE *f = fopen(arg, "wb");
@@ -76,6 +110,7 @@ int main(int argc, char **argv)
             }
             fclose(f);
         }
+        fflush(stdout);
     }
     core->deinit(core);
     return 0;
