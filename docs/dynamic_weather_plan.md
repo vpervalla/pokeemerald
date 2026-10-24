@@ -23,8 +23,23 @@ battle, opening with "It is hailing."
 
 Phase 5 is implemented: a weather forecaster (a scientist) in the Pokémon Centers of
 Viridian, Cerulean, Celadon and One Island gives today's and tomorrow's weather for the
-zones around it. Nothing has been tested in-game yet, and snow has not been looked at on
-Four Island (section 5).
+zones around it.
+
+Checked in mGBA (libmgba, `make modern`) with a test build that starts a new game in Pallet Town
+or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
+
+- **Fog** (horizontal and diagonal) left a bright band across each house and stripes along rows
+  of trees: the fog sprites are under BG1, where Kanto's tilesets put roofs and treetops. Fixed:
+  BG1 is lightened along with the fog (`UpdateFogTopLayerBlend`), less in the tint's darker
+  phases. Sprite palettes loaded in the fog (the street lamps) also stayed pale after it cleared
+  into clear or cloudy weather; fixed.
+- **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
+  start again was never incremented). Fixed; still to look at on Four Island itself.
+- **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. That works on
+  Pallet Town's pond, but they also show through the gaps of some Kanto metatiles whose ground is
+  on BG3 (between treetops, the lower right window of the houses, some ledges and flowers).
+  Not fixed yet.
+- Rain, thunderstorm, downpour, shade, ash, sandstorm and drought look as in Hoenn.
 
 Differences from the plan below:
 

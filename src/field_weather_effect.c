@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_anim.h"
+#include "day_night.h"
 #include "dynamic_weather.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
@@ -941,8 +942,9 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
 
 static void WaitSnowflakeSprite(struct Sprite *sprite)
 {
-    // Timer is never incremented
-    if (gWeatherPtr->snowflakeTimer > 18)
+    // Vanilla never incremented the timer, so a snowflake that had fallen waited here for good and
+    // the snow stopped after the first flakes (Four Island's snow uses this)
+    if (++gWeatherPtr->snowflakeTimer > 18)
     {
         sprite->invisible = FALSE;
         sprite->callback = UpdateSnowflakeSprite;
@@ -1368,6 +1370,38 @@ void FogHorizontal_Main(void);
 static void CreateFogHorizontalSprites(void);
 static void DestroyFogHorizontalSprites(void);
 
+// The fog's sprites are at priority 2, under BG1, the map's top layer. Kanto's tilesets put the
+// upper rows of houses and the treetops on that layer and the rest on BG2, so the fog only covered
+// their lower parts: a bright band across each house and stripes along rows of trees. While there
+// is fog, BG1 is lightened by as much as the fog is blended in (BLDY = EVA, less in the day/night
+// tint's darker phases, where the fog is darker too), so the top layer looks about as foggy as the
+// rest. The fog sprites are semi-transparent, so they still alpha blend whatever BLDCNT's effect
+// is. The field's windows cover the screen with effects off (which doesn't stop that), so they let
+// effects through while BG1 is lightened.
+static void UpdateFogTopLayerBlend(bool8 show)
+{
+    u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
+    u16 winin = GetGpuReg(REG_OFFSET_WININ) & ~(WININ_WIN0_CLR | WININ_WIN1_CLR);
+
+    // Leave the registers to a field effect that has its own first targets
+    if (bldcnt & BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_BG1)
+        return;
+
+    bldcnt &= ~(BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_DARKEN);
+    if (show)
+    {
+        SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_LIGHTEN);
+        SetGpuReg(REG_OFFSET_BLDY, (gWeatherPtr->currBlendEVA * DayNight_GetTintBrightness()) >> 8);
+    }
+    else
+    {
+        SetGpuReg(REG_OFFSET_WININ, winin);
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
+    }
+}
+
 void FogHorizontal_InitVars(void)
 {
     gWeatherPtr->initStep = 0;
@@ -1416,6 +1450,8 @@ void FogHorizontal_Main(void)
         }
         break;
     }
+    if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+        UpdateFogTopLayerBlend(TRUE);
 }
 
 bool8 FogHorizontal_Finish(void)
@@ -1436,9 +1472,18 @@ bool8 FogHorizontal_Finish(void)
     case 1:
         if (Weather_UpdateBlend())
             gWeatherPtr->finishStep++;
+        if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+            UpdateFogTopLayerBlend(TRUE);
         break;
     case 2:
         DestroyFogHorizontalSprites();
+        if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
+        {
+            UpdateFogTopLayerBlend(FALSE);
+            // Sprite palettes loaded in the fog were lightened (UpdateSpritePaletteWithWeather). A next
+            // weather with the same color map (clear, clouds) wouldn't reapply it, so they'd stay pale.
+            ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
+        }
         gWeatherPtr->finishStep++;
         break;
     default:
@@ -1780,6 +1825,7 @@ void FogDiagonal_Main(void)
         gWeatherPtr->initStep++;
         break;
     }
+    UpdateFogTopLayerBlend(TRUE);
 }
 
 bool8 FogDiagonal_Finish(void)
@@ -1792,12 +1838,14 @@ bool8 FogDiagonal_Finish(void)
         gWeatherPtr->finishStep++;
         break;
     case 1:
+        UpdateFogTopLayerBlend(TRUE);
         if (!Weather_UpdateBlend())
             break;
         gWeatherPtr->finishStep++;
         break;
     case 2:
         DestroyFogDiagonalSprites();
+        UpdateFogTopLayerBlend(FALSE);
         gWeatherPtr->finishStep++;
         break;
     default:
