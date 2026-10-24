@@ -40,10 +40,13 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   following the fog's fade in and out.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
-- **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. That works on
-  Pallet Town's pond, but they also show through the gaps of some Kanto metatiles whose ground is
-  on BG3 (between treetops, the lower right window of the houses, some ledges and flowers).
-  Not fixed yet.
+- **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto
+  metatiles (tree rows, walls, ledges) keep their ground on BG3 under a top layer with gaps, so
+  the clouds also showed through there as drifting patches. Merging those layers isn't possible
+  without changing colours: about 940 of the 1,300 tile quarters involved need colours neither of
+  their palettes has, Kanto's primary palettes are full, and its primary tileset has about 35 free
+  tiles. So on maps with Kanto's tilesets (`AreCloudReflectionsShown`) cloudy weather draws no
+  clouds and looks like clear weather (the street lamps' light pools stay too). Hoenn keeps them.
 - Rain, thunderstorm, downpour, shade, ash, sandstorm and drought look as in Hoenn.
 
 Differences from the plan below:

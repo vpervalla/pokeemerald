@@ -807,6 +807,7 @@ static bool8 IsWeatherUsingBlend(void)
     switch (gWeatherPtr->currWeather)
     {
     case WEATHER_SUNNY_CLOUDS:
+        return AreCloudReflectionsShown();
     case WEATHER_FOG_HORIZONTAL:
     case WEATHER_FOG_DIAGONAL:
     case WEATHER_VOLCANIC_ASH:

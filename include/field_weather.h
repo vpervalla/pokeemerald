@@ -172,6 +172,7 @@ void PreservePaletteInWeather(u8 preservedPalIndex);
 void ResetPreservedPalettesInWeather(void);
 
 // field_weather_effect.c
+bool8 AreCloudReflectionsShown(void);
 void Clouds_InitVars(void);
 void Clouds_Main(void);
 void Clouds_InitAll(void);

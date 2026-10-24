@@ -94,13 +94,23 @@ static const struct SpriteTemplate sCloudSpriteTemplate =
     .callback = UpdateCloudSprite,
 };
 
+// The clouds are reflections drawn between the map's bottom layer (BG3) and the layers above it.
+// Emerald's tilesets only leave BG3 uncovered on water, but many of Kanto's metatiles (tree rows,
+// walls, ledges) keep their ground on BG3 under a top layer with gaps, so the clouds showed through
+// there as drifting patches. Merging the layers would need colours their palettes don't have, so
+// on maps with Kanto's tilesets cloudy weather has no clouds and looks like clear weather.
+bool8 AreCloudReflectionsShown(void)
+{
+    return gMapHeader.mapLayout != NULL && gMapHeader.mapLayout->primaryTileset->isHoennLayout;
+}
+
 void Clouds_InitVars(void)
 {
     gWeatherPtr->targetColorMapIndex = 0;
     gWeatherPtr->colorMapStepDelay = 20;
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->initStep = 0;
-    if (gWeatherPtr->cloudSpritesCreated == FALSE)
+    if (gWeatherPtr->cloudSpritesCreated == FALSE && AreCloudReflectionsShown())
         Weather_SetBlendCoeffs(0, 16);
 }
 
@@ -113,6 +123,11 @@ void Clouds_InitAll(void)
 
 void Clouds_Main(void)
 {
+    if (!AreCloudReflectionsShown())
+    {
+        gWeatherPtr->weatherGfxLoaded = TRUE;
+        return;
+    }
     switch (gWeatherPtr->initStep)
     {
     case 0:
@@ -135,6 +150,8 @@ void Clouds_Main(void)
 
 bool8 Clouds_Finish(void)
 {
+    if (!gWeatherPtr->cloudSpritesCreated)
+        return FALSE;
     switch (gWeatherPtr->finishStep)
     {
     case 0:
