@@ -30,13 +30,13 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
 
 - **Fog** (horizontal and diagonal) left a bright band across each house and stripes along rows
   of trees: the fog sprites are under BG1, where Kanto's tilesets put roofs and treetops. Fixed:
-  BG1 is lightened along with the fog (`UpdateFogTopLayerBlend`), less in the tint's darker
-  phases. Sprite palettes loaded in the fog (the street lamps) also stayed pale after it cleared
-  into clear or cloudy weather; fixed.
-- **Fog and screen fades**: the lightening of BG1 is done by the hardware after the palettes are
-  faded, so going through a door (the POKéMON MANSION), coming back from a battle and a wild
-  battle's gray flash left roofs and treetops light on a dark screen. It now follows how far the
-  map's palette is faded (`GetMapPaletteContrast`), which covers every kind of fade.
+  BG1 alpha blends with the fog sprites right under it (`UpdateFogTopLayerBlend`), so it gets the
+  fog's colour, tint and streaks, and fades with it (doors, battles, the gray flash). The fog's
+  blend is even, 10 and 10 (`FOG_BLEND_EVA`, vanilla 12 and 8), so BG1 over the fog looks like the
+  fog over BG2. (A first fix lightened BG1 towards white instead: it couldn't take the fog's colour
+  or streaks, and in the evening the treetops and roofs stood out yellow.) Sprite palettes loaded
+  in the fog (the street lamps) also stayed pale after it cleared into clear or cloudy weather;
+  fixed.
 - **Characters in fog**: the fog sprites are behind the characters and sprites don't blend with
   sprites, so the player and the NPCs stood out of the fog at full colour, except the ones whose
   palette was loaded once the fog had started, which were very pale. Now every sprite but the

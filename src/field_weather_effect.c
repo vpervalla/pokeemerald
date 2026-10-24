@@ -6,7 +6,6 @@
 #include "fieldmap.h"
 #include "field_weather.h"
 #include "overworld.h"
-#include "palette.h"
 #include "random.h"
 #include "script.h"
 #include "constants/weather.h"
@@ -1391,69 +1390,13 @@ static void DestroyFogHorizontalSprites(void);
 // The fog's sprites are at priority 2, under BG1, the map's top layer. Kanto's tilesets put the
 // upper rows of houses and the treetops on that layer and the rest on BG2, so the fog only covered
 // their lower parts: a bright band across each house and stripes along rows of trees. While there
-// is fog, BG1 is lightened by as much as the fog is blended in (GetFogTopLayerLightening), so the
-// top layer looks about as foggy as the rest. The fog sprites are semi-transparent, so they still alpha blend whatever BLDCNT's effect
-// is. The field's windows cover the screen with effects off (which doesn't stop that), so they let
-// effects through while BG1 is lightened.
-static s32 GetColorLuminance(u16 color)
-{
-    return (color & 0x1F) + ((color >> 5) & 0x1F) + ((color >> 10) & 0x1F);
-}
-
-// How much of its contrast the map's first palette has left, from 16 (none faded) to 0. Any fade
-// (a palette fade, the fog's own fade-in, BlendPalettes) blends every colour towards one colour, so
-// it shrinks the gap between the palette's darkest and lightest colours by the fade's amount.
-// *fadedLevel gets the faded palette's middle level (0-31), the fade's colour at a full fade.
-static u8 GetMapPaletteContrast(u8 *fadedLevel)
-{
-    s32 minLum = 0x7FFF, maxLum = -1, unfaded, faded, fadedDark, fadedLight;
-    u32 i, darkest = 1, lightest = 1;
-
-    for (i = 1; i < 16; i++)
-    {
-        s32 lum = GetColorLuminance(gPlttBufferUnfaded[BG_PLTT_ID(0) + i]);
-
-        if (lum < minLum)
-        {
-            minLum = lum;
-            darkest = i;
-        }
-        if (lum > maxLum)
-        {
-            maxLum = lum;
-            lightest = i;
-        }
-    }
-    fadedDark = GetColorLuminance(gPlttBufferFaded[BG_PLTT_ID(0) + darkest]);
-    fadedLight = GetColorLuminance(gPlttBufferFaded[BG_PLTT_ID(0) + lightest]);
-    *fadedLevel = (fadedDark + fadedLight) / 6;
-    unfaded = maxLum - minLum;
-    faded = fadedLight - fadedDark;
-    if (unfaded <= 0 || faded >= unfaded)
-        return 16;
-    if (faded <= 0)
-        return 0;
-    return faded * 16 / unfaded;
-}
-
-// BLDY for the top layer: as much as the fog is blended in (EVA, less in the tint's darker
-// phases). The hardware lightens after the palettes are faded, so this fades with them, or roofs
-// and treetops would stay light on a black screen going through a door, or in a battle's gray
-// flash. At a full fade the map is one flat colour, which the fog's blend (EVA + EVB over 16)
-// still brightens where it covers BG2, so BG1 is lightened by as much there.
-static u8 GetFogTopLayerLightening(void)
-{
-    u8 level;
-    u32 contrast = GetMapPaletteContrast(&level);
-    u32 base = (gWeatherPtr->currBlendEVA * DayNight_GetTintBrightness()) >> 8;
-    u32 flat = 0;
-    s32 extra = gWeatherPtr->currBlendEVA + gWeatherPtr->currBlendEVB - 16;
-
-    if (extra > 0 && level > 0)
-        flat = level >= 31 ? 16 : min(16, level * extra / (31 - level));
-    return (base * contrast + flat * (16 - contrast)) / 16;
-}
-
+// is fog, BG1 is a first target of the alpha blend too, and the fog's sprites (second targets, as
+// OBJ) are right under it: the fog's tiles have no transparent pixels, so BG1 blends with the fog
+// itself, its colour (with the day/night tint) and its streaks, and fades with it. The blend is
+// even (FOG_BLEND_EVA = FOG_BLEND_EVB), so BG1 over the fog and the fog over BG2 come out the same.
+// The fog sprites are semi-transparent, so they alpha blend whatever BLDCNT's first targets. The
+// field's windows cover the screen with effects off (which doesn't stop that), so they let effects
+// through while BG1 blends.
 static void UpdateFogTopLayerBlend(bool8 show)
 {
     u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
@@ -1467,14 +1410,12 @@ static void UpdateFogTopLayerBlend(bool8 show)
     if (show)
     {
         SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
-        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_LIGHTEN);
-        SetGpuReg(REG_OFFSET_BLDY, GetFogTopLayerLightening());
+        SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
     }
     else
     {
         SetGpuReg(REG_OFFSET_WININ, winin);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
-        SetGpuReg(REG_OFFSET_BLDY, 0);
     }
 }
 
@@ -1514,7 +1455,7 @@ void FogHorizontal_Main(void)
     case 0:
         CreateFogHorizontalSprites();
         if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
-            Weather_SetTargetBlendCoeffs(12, 8, 3);
+            Weather_SetTargetBlendCoeffs(FOG_BLEND_EVA, FOG_BLEND_EVB, 3);
         else
             Weather_SetTargetBlendCoeffs(4, 16, 0);
         gWeatherPtr->initStep++;
@@ -1899,7 +1840,7 @@ void FogDiagonal_Main(void)
         gWeatherPtr->initStep++;
         break;
     case 1:
-        Weather_SetTargetBlendCoeffs(12, 8, 8);
+        Weather_SetTargetBlendCoeffs(FOG_BLEND_EVA, FOG_BLEND_EVB, 8);
         gWeatherPtr->initStep++;
         break;
     case 2:

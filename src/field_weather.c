@@ -698,7 +698,7 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
 // without this they'd stand out of the fog at full colour. (Vanilla faded only the palettes loaded
 // once the fog had started, so some characters were pale and others not.)
 #define FOG_SPRITE_COLOR    RGB(28, 31, 28)
-#define FOG_SPRITE_BLEND    6   // Out of 16, at the fog's full blend (EVA 12)
+#define FOG_SPRITE_BLEND    6   // Out of 16, at the fog's full blend (FOG_BLEND_EVA)
 
 static bool8 IsFogWeather(void)
 {
@@ -713,7 +713,7 @@ static bool8 IsWeatherSpritePalette(u8 paletteIndex)
 
 static u8 GetFogSpriteBlend(void)
 {
-    return gWeatherPtr->currBlendEVA * FOG_SPRITE_BLEND / 12;
+    return gWeatherPtr->currBlendEVA * FOG_SPRITE_BLEND / FOG_BLEND_EVA;
 }
 
 // Each frame of fog (and of its fading out): fades the sprite palettes again when the fog's blend

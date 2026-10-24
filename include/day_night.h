@@ -10,6 +10,5 @@ void DayNight_UpdateField(void);
 const u16 *DayNight_GetPlttBufferToShow(void);
 void DayNight_UpdateBattle(void);
 void DayNight_TransferPlttBuffer(void);
-u16 DayNight_GetTintBrightness(void);
 
 #endif // GUARD_DAY_NIGHT_H

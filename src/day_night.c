@@ -1063,15 +1063,6 @@ void DayNight_UpdateBattle(void)
     UpdateTint(reentered, tintedColors, FALSE);
 }
 
-// How bright the tint leaves the map, out of 256 (untinted): its darkest channel. The fog lightens
-// the map's top layer towards white by this much less (see UpdateFogTopLayerBlend).
-u16 DayNight_GetTintBrightness(void)
-{
-    if (!sTintActive)
-        return TINT_FULL;
-    return min(sTint.r, min(sTint.g, sTint.b));
-}
-
 // Whether the tinted buffer is up to date: the field or battle updated it in the last frames, or
 // is still running and just hasn't finished a frame (e.g. crossing into a connected map loads it
 // within one long frame). A screen that borrows their VBlank without updating the tint (e.g. during

@@ -21,6 +21,11 @@ enum {
 
 #define NUM_WEATHER_COLOR_MAPS 19
 
+// The fog's blend, at full fog: its sprites over the map, and the map's top layer over them (see
+// UpdateFogTopLayerBlend). Even, so both look the same; vanilla's was 12 and 8.
+#define FOG_BLEND_EVA 10
+#define FOG_BLEND_EVB 10
+
 struct Weather
 {
     union
