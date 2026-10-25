@@ -45,10 +45,11 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   following the fog's fade in and out. (A first fix faded them 6/16 towards a pale green: still
   much more vivid than the map around them.)
 - **Characters under a roof in fog**: BG1 blends with the sprite right under it, so under
-  VERMILION's harbor tent (or a treetop) the player showed through BG1. The fog cover
-  (`UpdateFogCover`) is a sprite in front of the player with the fog's grey wherever a pixel of
-  BG1 is over a pixel of the player, so BG1 blends with the fog there and hides the player.
-  Checked in mGBA walking through the tent.
+  VERMILION's harbor tent (or a treetop) the player and the NPCs showed through BG1. A fog cover
+  (`UpdateFogCover`) is a sprite in front of a character with the fog's grey wherever a pixel of
+  BG1 is over a pixel of theirs, so BG1 blends with the fog there and hides them. There are four
+  covers, handed out each frame to the characters BG1 is over, the player's first. Checked in
+  mGBA walking through the tent, with a sailor moved under it in a test build.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
 - **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto
