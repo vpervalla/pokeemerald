@@ -552,6 +552,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	setvar VAR_OLDALE_TOWN_STATE, 1
 	setvar VAR_LITTLEROOT_RIVAL_STATE, 4
 	setvar VAR_LITTLEROOT_TOWN_STATE, 4  @ changed: no MOM in LITTLEROOT to give the RUNNING SHOES
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_PokemonAwaitCanHelpYou, MSGBOX_DEFAULT  @ added
 	releaseall
 	end
 
@@ -785,9 +786,18 @@ LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "why, {RIVAL} looks for me while I'm out\l"
 	.string "doing fieldwork, and shows me.$"
 
+LittlerootTown_ProfessorBirchsLab_Text_PokemonAwaitCanHelpYou:
+	.string "PROF. BIRCH: And don't forget,\n"
+	.string "{PLAYER}{KUN}, countless POKéMON\l"
+	.string "await you in HOENN.\p"
+	.string "Every one you meet on the way can\n"
+	.string "help you in your quest, too!$"
+
 LittlerootTown_ProfessorBirchsLab_Text_CountlessPokemonAwait:
 	.string "PROF. BIRCH: Countless POKéMON\n"
 	.string "await you!\p"
+	.string "Every one of them can help you\n"
+	.string "against TEAM AQUA and TEAM MAGMA.\p"
 	.string "Argh, I'm getting the itch to get out\n"
 	.string "and do fieldwork again!$"
 
@@ -1198,7 +1208,10 @@ LittlerootTown_ProfessorBirchsLab_Text_ChoosingMudkip:
 
 LittlerootTown_ProfessorBirchsLab_Text_ThisMonIsEnergetic:
 	.string "PROF. BIRCH: Good choice!\n"
-	.string "It already seems to like you.$"
+	.string "It already seems to like you.\p"
+	.string "Raise it well, {PLAYER}{KUN}. Together,\n"
+	.string "you can stand up to TEAM AQUA and\l"
+	.string "TEAM MAGMA, and stop them!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_OtherHoennStarters:
 	.string "PROF. BIRCH's other POKéMON.\n"
