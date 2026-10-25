@@ -64,6 +64,9 @@ static u8 None_Finish(void);
 
 EWRAM_DATA struct Weather gWeather = {0};
 EWRAM_DATA static u8 ALIGNED(2) sFieldEffectPaletteColorMapTypes[32] = {0};
+EWRAM_DATA static u16 ALIGNED(4) sUnfadedBeforeWeatherFade[PLTT_BUFFER_SIZE] = {0};
+EWRAM_DATA static u16 sWeatherFadeSums[32] = {0};
+EWRAM_DATA static bool8 sRestoreUnfadedOnFadeIn = FALSE;
 
 static const u8 *sPaletteColorMapTypes;
 
@@ -783,6 +786,47 @@ void ApplyWeatherColorMapIfIdle_Gradual(u8 colorMapIndex, u8 targetColorMapIndex
     }
 }
 
+static u16 SumPalette(u32 paletteIndex)
+{
+    u32 i;
+    u16 sum = 0;
+
+    for (i = 0; i < 16; i++)
+        sum = (sum << 1 | sum >> 15) ^ gPlttBufferUnfaded[PLTT_ID(paletteIndex) + i];
+    return sum;
+}
+
+// Fading out with the weather's colours copies them over the unfaded palettes, so the fade starts
+// from what's on screen. The weather's fade in then applies them again to those palettes, so after a
+// script's fade to black and back on the same map (BLAINE in the POKéMON MANSION, with WEATHER_SHADE)
+// the map was darker each time; a warp hides it, as the new map loads its palettes. So the unfaded
+// palettes are kept, and the fade in puts back those still holding the weather's copy. A palette
+// loaded in the dark (a new map, an object's sprite) is left as it is.
+static void SaveUnfadedForWeatherFade(void)
+{
+    u32 i;
+
+    CpuFastCopy(gPlttBufferUnfaded, sUnfadedBeforeWeatherFade, PLTT_SIZE);
+    CpuFastCopy(gPlttBufferFaded, gPlttBufferUnfaded, PLTT_SIZE);
+    for (i = 0; i < ARRAY_COUNT(sWeatherFadeSums); i++)
+        sWeatherFadeSums[i] = SumPalette(i);
+    sRestoreUnfadedOnFadeIn = TRUE;
+}
+
+static void RestoreUnfadedForWeatherFade(void)
+{
+    u32 i;
+
+    if (!sRestoreUnfadedOnFadeIn)
+        return;
+    sRestoreUnfadedOnFadeIn = FALSE;
+    for (i = 0; i < ARRAY_COUNT(sWeatherFadeSums); i++)
+    {
+        if (SumPalette(i) == sWeatherFadeSums[i])
+            CpuCopy16(&sUnfadedBeforeWeatherFade[PLTT_ID(i)], &gPlttBufferUnfaded[PLTT_ID(i)], PLTT_SIZE_4BPP);
+    }
+}
+
 void FadeScreen(u8 mode, s8 delay)
 {
     u32 fadeColor;
@@ -830,7 +874,7 @@ void FadeScreen(u8 mode, s8 delay)
     if (fadeOut)
     {
         if (useWeatherPal)
-            CpuFastCopy(gPlttBufferFaded, gPlttBufferUnfaded, PLTT_SIZE);
+            SaveUnfadedForWeatherFade();
 
         BeginNormalPaletteFade(PALETTES_ALL, delay, 0, 16, fadeColor);
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_OUT;
@@ -838,6 +882,7 @@ void FadeScreen(u8 mode, s8 delay)
     else
     {
         gWeatherPtr->fadeDestColor = fadeColor;
+        RestoreUnfadedForWeatherFade();
         if (useWeatherPal)
             gWeatherPtr->fadeScreenCounter = 0;
         else

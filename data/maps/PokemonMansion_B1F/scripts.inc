@@ -138,8 +138,13 @@ PokemonMansion_B1F_EventScript_AdminsFlee::
 	removeobject LOCALID_MANSION_AQUA_GRUNT
 	removeobject LOCALID_MANSION_MAGMA_GRUNT
 	waitse
+	@ BLAINE has come down to the player: just south of them, facing them, above the text box
+	getplayerxy VAR_0x8004, VAR_0x8005
+	addvar VAR_0x8005, 1
+	setobjectxyperm LOCALID_MANSION_BLAINE, VAR_0x8004, VAR_0x8005
 	clearflag FLAG_HIDE_MANSION_BLAINE
 	addobject LOCALID_MANSION_BLAINE
+	turnobject LOCALID_PLAYER, DIR_SOUTH
 	fadescreen FADE_FROM_BLACK
 	msgbox PokemonMansion_B1F_Text_BlaineArrives
 	msgbox PokemonMansion_B1F_Text_BlainePrimalNotes
