@@ -40,8 +40,15 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
 - **Characters in fog**: the fog sprites are behind the characters and sprites don't blend with
   sprites, so the player and the NPCs stood out of the fog at full colour, except the ones whose
   palette was loaded once the fog had started, which were very pale. Now every sprite but the
-  weather's own is faded 6/16 towards the fog's colour (`UpdateFogSpritePalettes`), in both fogs,
-  following the fog's fade in and out.
+  weather's own gets, through its palette, what the hardware does to BG1 over the fog: both
+  weighted alike and added, with the fog's average grey (`UpdateFogSpritePalettes`), in both fogs,
+  following the fog's fade in and out. (A first fix faded them 6/16 towards a pale green: still
+  much more vivid than the map around them.)
+- **Characters under a roof in fog**: BG1 blends with the sprite right under it, so under
+  VERMILION's harbor tent (or a treetop) the player showed through BG1. The fog cover
+  (`UpdateFogCover`) is a sprite in front of the player with the fog's grey wherever a pixel of
+  BG1 is over a pixel of the player, so BG1 blends with the fog there and hides the player.
+  Checked in mGBA walking through the tent.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
 - **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto

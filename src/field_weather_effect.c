@@ -4,6 +4,7 @@
 #include "dynamic_weather.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
+#include "field_camera.h"
 #include "field_weather.h"
 #include "overworld.h"
 #include "palette.h"
@@ -20,6 +21,7 @@
 #include "gpu_regs.h"
 
 EWRAM_DATA static u8 sCurrentAbnormalWeather = 0;
+EWRAM_DATA static u8 sFogCoverSpriteId = 0;
 EWRAM_DATA static u16 sUnusedWeatherRelated = 0;
 
 const u16 gCloudsWeatherPalette[] = INCGFX_U16("graphics/weather/cloud.png", ".gbapal");
@@ -1406,6 +1408,145 @@ static void DestroyFogHorizontalSprites(void);
 // at every step. The fog sprites are semi-transparent, so they alpha blend whatever BLDCNT's effect.
 // The field's windows cover the screen with effects off (which doesn't stop that), so they let
 // effects through while BG1 blends.
+
+// BG1 blends with whatever sprite is right under it: the fog almost everywhere, but under a tent
+// or a roof the player, who showed through it. So where the player is under BG1, a sprite in front
+// of them, the fog cover, has the fog's colour, pixel for pixel: BG1 blends with that as it does
+// with the fog around it, and hides the player. Where nothing of BG1 is over the player the cover
+// is clear, and the player is in the fog by their palette (see UpdateFogSpritePalettes).
+#define FOG_COVER_COLOR 5   // fog.pal's colour nearest the fog's average grey
+
+static EWRAM_DATA ALIGNED(4) u8 sFogCoverTiles[32 * 32 / 2] = {0};
+static const struct SpriteFrameImage sFogCoverImage[] = {{sFogCoverTiles, sizeof(sFogCoverTiles)}};
+static const struct OamData sOam_FogCover = {.shape = SPRITE_SHAPE(32x32), .size = SPRITE_SIZE(32x32)};
+
+static const struct SpriteTemplate sSpriteTemplate_FogCover =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = TAG_NONE,
+    .oam = &sOam_FogCover,
+    .anims = gDummySpriteAnimTable,
+    .images = sFogCoverImage,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+static bool8 IsFogCoverSprite(u8 spriteId)
+{
+    return spriteId < MAX_SPRITES && gSprites[spriteId].inUse
+        && gSprites[spriteId].images == sFogCoverImage;
+}
+
+static void ShowFogCover(bool8 show)
+{
+    if (show)
+    {
+        if (!IsFogCoverSprite(sFogCoverSpriteId))
+        {
+            sFogCoverSpriteId = CreateSprite(&sSpriteTemplate_FogCover, 0, 0, 0);
+            if (sFogCoverSpriteId < MAX_SPRITES)
+                gSprites[sFogCoverSpriteId].invisible = TRUE;
+        }
+    }
+    else
+    {
+        if (IsFogCoverSprite(sFogCoverSpriteId))
+            DestroySprite(&gSprites[sFogCoverSpriteId]);
+        sFogCoverSpriteId = MAX_SPRITES;
+    }
+}
+
+// Whether BG1's pixel at this spot of the screen isn't clear
+static bool8 IsTopLayerPixel(s32 x, s32 y, s16 bgX, s16 bgY)
+{
+    u32 mapX = (x + bgX) & 0xFF;
+    u32 mapY = (y + bgY) & 0xFF;
+    u16 entry = gOverworldTilemapBuffer_Bg1[(mapY / 8) * 32 + mapX / 8];
+    u32 tileX = mapX % 8;
+    u32 tileY = mapY % 8;
+    u8 pair;
+
+    if (entry & 0x400)
+        tileX = 7 - tileX;
+    if (entry & 0x800)
+        tileY = 7 - tileY;
+    // BG1's tiles are at the start of VRAM (charBaseIndex 0)
+    pair = ((vu8 *)VRAM)[(entry & 0x3FF) * TILE_SIZE_4BPP + tileY * 4 + tileX / 2];
+    return (tileX & 1 ? pair >> 4 : pair & 0xF) != 0;
+}
+
+// Called each overworld frame, once the camera has moved and before the sprites go to OAM.
+void UpdateFogCover(void)
+{
+    struct Sprite *cover;
+    struct Sprite *player = &gSprites[gPlayerAvatar.spriteId];
+    const u8 *pic;
+    s32 width, height, left, top, x, y;
+    s16 bgX, bgY, frame;
+    bool8 covered = FALSE;
+
+    if (!IsFogCoverSprite(sFogCoverSpriteId))
+        return;
+    cover = &gSprites[sFogCoverSpriteId];
+    cover->invisible = TRUE;
+    if (!player->inUse || player->invisible || player->usingSheet || player->images == NULL
+     || (player->oam.affineMode & ST_OAM_AFFINE_ON_MASK) || gOverworldTilemapBuffer_Bg1 == NULL)
+        return;
+
+    // Where the player is on the screen, as BuildOamBuffer will put them
+    width = -2 * player->centerToCornerVecX;
+    height = -2 * player->centerToCornerVecY;
+    if (width > 32 || height > 32)
+        return;
+    left = player->x + player->x2 + player->centerToCornerVecX;
+    top = player->y + player->y2 + player->centerToCornerVecY;
+    if (player->coordOffsetEnabled)
+    {
+        left += gSpriteCoordOffsetX;
+        top += gSpriteCoordOffsetY;
+    }
+    frame = player->anims[player->animNum][player->animCmdIndex].frame.imageValue;
+    if (frame < 0)
+        return;
+    pic = player->images[frame].data;
+    GetCameraOffsetWithPan(&bgX, &bgY);
+
+    CpuFill16(0, sFogCoverTiles, sizeof(sFogCoverTiles));
+    for (y = 0; y < height; y++)
+    {
+        if (top + y < 0 || top + y >= DISPLAY_HEIGHT)
+            continue;
+        for (x = 0; x < width; x++)
+        {
+            // The player's pixel (the frame's tiles are in rows of width / 8), flipped as on screen
+            s32 picX = player->oam.matrixNum & ST_OAM_HFLIP ? width - 1 - x : x;
+            s32 picY = player->oam.matrixNum & ST_OAM_VFLIP ? height - 1 - y : y;
+            u8 pair = pic[((picY / 8) * (width / 8) + picX / 8) * TILE_SIZE_4BPP + (picY % 8) * 4 + (picX % 8) / 2];
+            u8 *dest;
+
+            if ((picX & 1 ? pair >> 4 : pair & 0xF) == 0)
+                continue;
+            if (left + x < 0 || left + x >= DISPLAY_WIDTH || !IsTopLayerPixel(left + x, top + y, bgX, bgY))
+                continue;
+            // The cover's tiles are in rows of 4
+            dest = &sFogCoverTiles[((y / 8) * 4 + x / 8) * TILE_SIZE_4BPP + (y % 8) * 4 + (x % 8) / 2];
+            *dest |= x & 1 ? FOG_COVER_COLOR << 4 : FOG_COVER_COLOR;
+            covered = TRUE;
+        }
+    }
+    if (!covered)
+        return;
+
+    cover->invisible = FALSE;
+    cover->x = left + 16;
+    cover->y = top + 16;
+    cover->coordOffsetEnabled = FALSE;
+    cover->oam.priority = player->oam.priority;
+    cover->oam.paletteNum = gWeatherPtr->contrastColorMapSpritePalIndex;
+    cover->subpriority = player->subpriority > 0 ? player->subpriority - 1 : 0;
+    RequestSpriteCopy(sFogCoverTiles, (u8 *)OBJ_VRAM0 + cover->oam.tileNum * TILE_SIZE_4BPP, sizeof(sFogCoverTiles));
+}
+
 // How far the fog has faded in, out of 16, from how much of its blend the weather has reached.
 static u32 GetFogFadeIn(void)
 {
@@ -1421,7 +1562,10 @@ static void UpdateFogTopLayerBlend(bool8 show)
 
     // Leave the registers to a field effect that has its own first targets
     if (bldcnt & BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_BG1)
+    {
+        ShowFogCover(FALSE);
         return;
+    }
 
     bldcnt &= ~(BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_DARKEN);
     if (show && fadeIn > 0)
@@ -1431,6 +1575,7 @@ static void UpdateFogTopLayerBlend(bool8 show)
         SetGpuReg(REG_OFFSET_WININ, winin | WININ_WIN0_CLR | WININ_WIN1_CLR);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(weight, weight));
+        ShowFogCover(TRUE);
         // The palette fade sets the palettes itself while it runs
         if (!gPaletteFade.active)
             BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 16 - fadeIn, RGB_BLACK);
@@ -1439,6 +1584,7 @@ static void UpdateFogTopLayerBlend(bool8 show)
     {
         SetGpuReg(REG_OFFSET_WININ, winin);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
+        ShowFogCover(FALSE);
         if (!gPaletteFade.active)
             BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 0, RGB_BLACK);
     }

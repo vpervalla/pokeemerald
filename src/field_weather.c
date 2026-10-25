@@ -43,7 +43,8 @@ struct WeatherCallbacks
 
 // This file's functions.
 static bool8 IsWeatherSpritePalette(u8 paletteIndex);
-static u8 GetFogSpriteBlend(void);
+static u8 GetFogSpriteFadeIn(void);
+static u16 FogSpriteColor(u16 color, u32 fadeIn);
 static void BuildColorMaps(void);
 static void UpdateWeatherColorMap(void);
 static void ApplyColorMap(u8 startPalIndex, u8 numPalettes, s8 colorMapIndex);
@@ -664,18 +665,15 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
         {
             u16 palEnd = PLTT_ID(curPalIndex + 1);
             u16 palOffset = PLTT_ID(curPalIndex);
-            u8 fogBlend = GetFogSpriteBlend();
+            u8 fadeIn = GetFogSpriteFadeIn();
 
             while (palOffset < palEnd)
             {
-                struct RGBColor color = *(struct RGBColor *)&gPlttBufferUnfaded[palOffset];
+                u16 fogged = FogSpriteColor(gPlttBufferUnfaded[palOffset], fadeIn);
+                struct RGBColor color = *(struct RGBColor *)&fogged;
                 u8 r = color.r;
                 u8 g = color.g;
                 u8 b = color.b;
-
-                r += ((28 - r) * fogBlend) >> 4;
-                g += ((31 - g) * fogBlend) >> 4;
-                b += ((28 - b) * fogBlend) >> 4;
 
                 r += ((rBlend - r) * blendCoeff) >> 4;
                 g += ((gBlend - g) * blendCoeff) >> 4;
@@ -693,12 +691,15 @@ static void ApplyFogBlend(u8 blendCoeff, u16 blendColor)
 }
 
 // In fog every sprite but the weather's own (the player, the NPCs, field effects, the street
-// lamps) is faded towards the fog's colour, by as much as the fog is blended in, so they all look
-// the same in it. The fog's sprites are behind them and sprites don't blend with sprites, so
-// without this they'd stand out of the fog at full colour. (Vanilla faded only the palettes loaded
-// once the fog had started, so some characters were pale and others not.)
-#define FOG_SPRITE_COLOR    RGB(28, 31, 28)
-#define FOG_SPRITE_BLEND    6   // Out of 16, at the fog's full blend (FOG_BLEND_EVA)
+// lamps) is put into the fog by its palette, so they all look the same in it. The fog's sprites
+// are behind them and sprites don't blend with sprites, so without this they'd stand out of the
+// fog at full colour. (Vanilla faded only the palettes loaded once the fog had started, so some
+// characters were pale and others not.) They get what the hardware does to the map's top layer
+// over the fog (see UpdateFogTopLayerBlend in field_weather_effect.c): both weighted alike and
+// added, the fog's palette faded in from black, with the fog's average colour standing in for its
+// streaks. So the characters are as deep in the fog as the map around them.
+#define FOG_H_SPRITE_COLOR  25  // The average grey of the fog's tiles (fog_horizontal.png)
+#define FOG_D_SPRITE_COLOR  24  // and fog_diagonal.png, in fog.pal's colours
 
 static bool8 IsFogWeather(void)
 {
@@ -711,9 +712,30 @@ static bool8 IsWeatherSpritePalette(u8 paletteIndex)
         || paletteIndex - 16 == gWeatherPtr->weatherPicSpritePalIndex;
 }
 
-static u8 GetFogSpriteBlend(void)
+// How far the fog has faded in, out of 16 (as GetFogFadeIn in field_weather_effect.c)
+static u8 GetFogSpriteFadeIn(void)
 {
-    return gWeatherPtr->currBlendEVA * FOG_SPRITE_BLEND / FOG_BLEND_EVA;
+    return min(16, gWeatherPtr->currBlendEVA * 16 / FOG_BLEND_EVA);
+}
+
+static u16 FogSpriteColor(u16 color, u32 fadeIn)
+{
+    u32 weight = 16 - (16 - FOG_BLEND_EVA) * fadeIn / 16;
+    u32 fog = (gWeatherPtr->currWeather == WEATHER_FOG_DIAGONAL ? FOG_D_SPRITE_COLOR : FOG_H_SPRITE_COLOR) * fadeIn / 16;
+    u32 r = min(31, (GET_R(color) + fog) * weight / 16);
+    u32 g = min(31, (GET_G(color) + fog) * weight / 16);
+    u32 b = min(31, (GET_B(color) + fog) * weight / 16);
+
+    return RGB2(r, g, b);
+}
+
+static void FogSpritePalette(u8 paletteIndex, u32 fadeIn)
+{
+    u16 offset = PLTT_ID(paletteIndex);
+    u16 i;
+
+    for (i = 0; i < 16; i++)
+        gPlttBufferFaded[offset + i] = FogSpriteColor(gPlttBufferUnfaded[offset + i], fadeIn);
 }
 
 // Each frame of fog (and of its fading out): fades the sprite palettes again when the fog's blend
@@ -728,14 +750,14 @@ void UpdateFogSpritePalettes(void)
         gWeatherPtr->fogSpriteBlend = 0xFF;
         return;
     }
-    blend = GetFogSpriteBlend();
+    blend = GetFogSpriteFadeIn();
     if (blend == gWeatherPtr->fogSpriteBlend)
         return;
     gWeatherPtr->fogSpriteBlend = blend;
     for (i = 16; i < 32; i++)
     {
         if (!IsWeatherSpritePalette(i))
-            BlendPalette(PLTT_ID(i), 16, blend, FOG_SPRITE_COLOR);
+            FogSpritePalette(i, blend);
     }
 }
 
@@ -863,8 +885,7 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex)
         }
         else
         {
-            paletteIndex = PLTT_ID(paletteIndex);
-            BlendPalette(paletteIndex, 16, GetFogSpriteBlend(), FOG_SPRITE_COLOR);
+            FogSpritePalette(paletteIndex, GetFogSpriteFadeIn());
         }
         break;
     }
