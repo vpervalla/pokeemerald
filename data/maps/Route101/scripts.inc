@@ -5,7 +5,15 @@ Route101_MapScripts::
 
 Route101_OnTransition:
 	call ProfBirch_EventScript_UpdateLocation
+	@ added: the ZIGZAGOON that chased BIRCH is gone once he's rescued (removeobject hides it in the
+	@ rescue; HoennStory_EventScript_ReadyHoennOpening skips the rescue, and saves made before it set
+	@ the flag too still had it)
+	call_if_set FLAG_RESCUED_BIRCH, Route101_EventScript_HideZigzagoon
 	end
+
+Route101_EventScript_HideZigzagoon::
+	setflag FLAG_HIDE_ROUTE_101_ZIGZAGOON
+	return
 
 Route101_OnFrame:
 	map_script_2 VAR_ROUTE101_STATE, 0, Route101_EventScript_HideMapNamePopup
