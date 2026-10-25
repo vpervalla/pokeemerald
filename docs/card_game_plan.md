@@ -258,6 +258,7 @@ Split the rules from the GBA screen so the rules can be tested on the host.
 | `src/card_game.c` | The duel screen: CB2, BG/window setup, sprites, input, animations of the event queue, entry/exit |
 | `src/card_game_deck.c` | The deck builder (collection list + deck list on `ListMenu`, Energy types) |
 | `src/card_game_pack.c` | Opening a pack (5 cards revealed one by one) |
+| `src/card_game_vintage.c` | The cards drawn like the Base Set's (1999), for the card viewer, the deck builder and the pack screen |
 | `src/data/card_game/*.h` | Tables above |
 | `graphics/card_game/` | Board tilemap, card frames, Energy symbols, trophies, status icons |
 | `src/card_game_data.c` | The card tables and their lookups (`CardGame_GetPokemonInfo`, `CardGame_GetTrainerInfo`, `CardGame_GetCardKind`), which the engine only reaches through those functions |
@@ -770,6 +771,35 @@ phases:
   the Sevii Islands (the town marts, the Celadon Dept. Store's clerks, the Indigo Plateau, Two
   Island's shop and the Trainer Tower): the first clerk talked to that day gives it, before the
   shop. Once it's taken, the clerks say nothing about it. The AIDE's lines in Pewter say so.
+
+**After phase 9: the cards drawn like the Base Set's everywhere.**
+
+- The vintage card of the Test Area's test (`src/card_game_vintage.c`) is now how the game
+  shows a card: in the duel's card viewer, in the CARD CASE and on the pack screen (rewards
+  too). It draws into any two 14x20-tile windows at the same place (`VintageCard_Init`: the
+  frame's on a BG under the sprites, the text's over them), and `VintageCard_EnableClipping`
+  sets window 0 to the picture's frame and window 1 to the side of the screen beside the card,
+  so the screen's own sprites (the list's scroll arrows) still show.
+- Trainer cards have their own look: a gray panel, "TRAINER" and the kind on top, the item's
+  icon at twice its size in the frame (the Supporters have no picture), what the card does and
+  a Supporter's "(1 a turn)".
+- Pokémon cards show the ability's name in red, like the Base Set's Pokémon Powers, and its
+  text. What doesn't fit under the picture is left out, the ex rule first, then the attacks'
+  effects and the ability's text; `VintageCard_Draw` returns FALSE then, and the viewer and
+  the pack screen print the card's whole text beside it (`VintageCard_PrintFullText`).
+- Each screen keeps the card on the right (columns 16-29) and uses the left 16 columns:
+  - Card viewer: where the card is (YOUR HAND 2/5, OPPONENT'S BENCH 1), a Pokémon in play's HP
+    left, Special Conditions and Tool, and the help. It covers the board and the message box and
+    uses their windows' tiles; closing it redraws the table, the board and the message box.
+  - CARD CASE: the header (deck, IN USE, card count and the Energy types as icons), the list
+    (6 rows now) and the help on 4 lines. The Card Player list shows the player's details
+    where the card is. In the Energy list there is no card.
+  - Pack screen: "CARD 1/5" and how many the player has in the header, the card's whole text
+    when it doesn't fit on the card, and the help.
+- The Test Area's test now goes through the Trainer cards too.
+- Checked in mGBA (a throwaway build whose NEW GAME opens each screen): the viewer on hand,
+  Active and Bench cards and back to the board, the CARD CASE lists, Energy list and Card Player
+  list, packs with Pokémon, ex, Mega ex, abilities, Hoenn species and Trainers of each kind.
 
 Phases 1-3 are the core and should land first, behind a debug script so the main game is
 untouched until phase 7. There is no link phase: the game is played only against NPCs.

@@ -3,14 +3,12 @@
 #include "bg.h"
 #include "data.h"
 #include "gpu_regs.h"
-#include "item_icon.h"
 #include "list_menu.h"
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
 #include "palette.h"
 #include "pokemon.h"
-#include "pokemon_icon.h"
 #include "region_map.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -29,19 +27,23 @@
 //
 // Deck builder: a list of the player's cards (A adds one to the deck), or of the deck's cards
 // (A takes one out), or of the Energy types (A turns one on or off, 3 at most), with the
-// highlighted card described on the right. L/R: the saved decks; START: duel with this deck.
-// Left of the player's cards, the Card Player list: the card players met, where they are, and
-// whether they were beaten.
+// highlighted card on the right, drawn like the Base Set's (src/card_game_vintage.c). L/R: the
+// saved decks; START: duel with this deck. Left of the player's cards, the Card Player list:
+// the card players met, where they are, and whether they were beaten.
 //
-// Pack screen: the cards of a pack, one at a time, with their picture.
+// Pack screen: the cards of a pack, one at a time, drawn the same way, with how many the player
+// has, and the card's whole text left of it when the card can't show it all.
+//
+// The left half (SIDE_WIDTH tiles) has the header, the list and the help; the card is on the
+// right, its frame on BG1.
 
 enum
 {
     WIN_HEADER,
-    WIN_LIST,
-    WIN_INFO,
+    WIN_LIST,   // the pack screen: the card's whole text
     WIN_HELP,
-    WIN_PACK,   // the pack screen's wider description
+    WIN_CARD,   // the card's text, or a card player's details
+    WIN_FRAME,  // the card's frame
 };
 
 enum
@@ -61,15 +63,17 @@ enum
 };
 
 #define TEXT_PALETTE        15
+#define FRAME_PALETTE       14
 #define TAG_ARROWS          0x4C10
-#define TAG_INFO_ITEM       0x4C11
 #define LABEL_LENGTH        24
 #define MAX_ITEMS           CARD_COUNT
-#define LIST_ROWS           7
-#define PACK_WINDOW_HEIGHT  17  // tiles: the pack screen's card text goes down to the bottom
-#define PACK_LINE_HEIGHT    12
-#define PACK_MIN_LINE_HEIGHT 9
-#define NOT_SHINY_PERSONALITY 0x0000FFFF
+#define LIST_ROWS           6
+#define SIDE_WIDTH          (DISPLAY_TILE_WIDTH - VINTAGE_CARD_WIDTH)   // tiles
+#define HEADER_HEIGHT       2
+#define LIST_HEIGHT         (LIST_ROWS * 2)
+#define HELP_HEIGHT         (DISPLAY_TILE_HEIGHT - HEADER_HEIGHT - LIST_HEIGHT)
+#define HELP_TOP            8   // pixels: the list's scroll arrow is above
+#define HELP_LINE_HEIGHT    9
 
 // The Energy types a deck can make
 #define ZONE_TYPE_COUNT     (CARD_TYPE_METAL - CARD_TYPE_GRASS + 1)
@@ -86,8 +90,6 @@ struct DeckBuilder
     u16 row;
     u16 itemCount;
     u16 infoCard;
-    u16 infoSprite;
-    u8 infoSpriteKind;      // 0: none, 1: icon, 2: item, 3: picture
     bool8 showingMessage;
     // Pack
     const u16 *packCards;
@@ -96,7 +98,6 @@ struct DeckBuilder
     struct ListMenuItem items[MAX_ITEMS];
     u8 labels[MAX_ITEMS][LABEL_LENGTH];
     u8 text[400];
-    u8 line[80];
 };
 
 static EWRAM_DATA struct DeckBuilder *sBuilder = NULL;
@@ -114,18 +115,12 @@ static const u16 sBackdropColor = RGB(4, 10, 6);
 static const u8 sHeaderTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 
 static const u8 sText_Deck[] = _("DECK ");
-static const u8 sText_InUse[] = _(" (IN USE)");
+static const u8 sText_InUse[] = _(" IN USE");
 static const u8 sText_Slash[] = _("/");
 static const u8 sText_Space[] = _(" ");
-static const u8 sText_Cards[] = _(" cards  ENERGY ");
 static const u8 sText_NoEnergy[] = _("-");
 static const u8 sText_Times[] = _("x");
 static const u8 sText_On[] = _("ON");
-static const u8 sText_Hp[] = _(" HP ");
-static const u8 sText_Basic[] = _("BASIC");
-static const u8 sText_Stage1[] = _("STAGE 1");
-static const u8 sText_Stage2[] = _("STAGE 2");
-static const u8 sText_AbilityLabel[] = _("ABILITY");
 static const u8 sText_YouHave[] = _("You have ");
 static const u8 sText_PackCard[] = _("CARD ");
 static const u8 sText_NoCards[] = _("No cards yet.");
@@ -140,15 +135,14 @@ static const u8 sText_PlaysYourDeck[] = _("Plays a copy of your deck");
 static const u8 sText_Prize[] = _("Prize card:");
 static const u8 sText_PrizeUnknown[] = _("???");
 
-static const u8 sHelp_Collection[] = _("A: add  {LEFT_ARROW}: players  {RIGHT_ARROW}: the deck  L/R: deck 1-3\nSELECT: Energy  START: duel with this deck  B: done");
-static const u8 sHelp_Deck[] = _("A: take out  {LEFT_ARROW}: your cards  L/R: deck 1-3\nSELECT: Energy  START: duel with this deck  B: done");
+static const u8 sHelp_Collection[] = _("A: add  L/R: deck\n{LEFT_ARROW}: players  {RIGHT_ARROW}: the deck\nSELECT: Energy  B: done\nSTART: duel with this deck");
+static const u8 sHelp_Deck[] = _("A: take out  L/R: deck\n{LEFT_ARROW}: your cards\nSELECT: Energy  B: done\nSTART: duel with this deck");
 static const u8 sHelp_Energy[] = _("A: on/off (3 at most)\nB: back");
 static const u8 sHelp_Players[] = _("{RIGHT_ARROW}: your cards\nB: done");
 static const u8 sHelp_Pack[] = _("A: next card");
-static const u8 sText_PackStats[] = _("  ");
 
 static const u8 sMessage_DeckFull[] = _("The deck already has 20 cards.");
-static const u8 sMessage_NoMoreCopies[] = _("No more copies of this card:\nyou have them all in the deck, or 2 already.");
+static const u8 sMessage_NoMoreCopies[] = _("No more copies of this card: you have them all in the deck, or 2 already.");
 static const u8 sMessage_TooManyTypes[] = _("A deck makes 3 Energy types at most.");
 static const u8 sMessage_InUse[] = _("You will duel with this deck.");
 static const u8 sMessage_WrongSize[] = _("The deck needs exactly 20 cards.");
@@ -178,15 +172,24 @@ static const struct BgTemplate sBgTemplates[] =
         .priority = 0,
         .baseTile = 0,
     },
+    {
+        .bg = 1,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 30,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 2,
+        .baseTile = 0,
+    },
 };
 
 static const struct WindowTemplate sWindowTemplates[] =
 {
-    [WIN_HEADER] = {.bg = 0, .tilemapLeft = 0, .tilemapTop = 0, .width = 30, .height = 2, .paletteNum = TEXT_PALETTE, .baseBlock = 1},
-    [WIN_LIST]   = {.bg = 0, .tilemapLeft = 1, .tilemapTop = 2, .width = 16, .height = 14, .paletteNum = TEXT_PALETTE, .baseBlock = 61},
-    [WIN_INFO]   = {.bg = 0, .tilemapLeft = 18, .tilemapTop = 2, .width = 11, .height = 14, .paletteNum = TEXT_PALETTE, .baseBlock = 285},
-    [WIN_HELP]   = {.bg = 0, .tilemapLeft = 0, .tilemapTop = 16, .width = 30, .height = 4, .paletteNum = TEXT_PALETTE, .baseBlock = 439},
-    [WIN_PACK]   = {.bg = 0, .tilemapLeft = 12, .tilemapTop = 2, .width = 17, .height = PACK_WINDOW_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 559},
+    [WIN_HEADER] = {.bg = 0, .tilemapLeft = 0, .tilemapTop = 0, .width = SIDE_WIDTH, .height = HEADER_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 1},
+    [WIN_LIST]   = {.bg = 0, .tilemapLeft = 0, .tilemapTop = HEADER_HEIGHT, .width = SIDE_WIDTH, .height = LIST_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 33},
+    [WIN_HELP]   = {.bg = 0, .tilemapLeft = 0, .tilemapTop = HEADER_HEIGHT + LIST_HEIGHT, .width = SIDE_WIDTH, .height = HELP_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 225},
+    [WIN_CARD]   = {.bg = 0, .tilemapLeft = SIDE_WIDTH, .tilemapTop = 0, .width = VINTAGE_CARD_WIDTH, .height = VINTAGE_CARD_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 321},
+    [WIN_FRAME]  = {.bg = 1, .tilemapLeft = SIDE_WIDTH, .tilemapTop = 0, .width = VINTAGE_CARD_WIDTH, .height = VINTAGE_CARD_HEIGHT, .paletteNum = FRAME_PALETTE, .baseBlock = 1},
     DUMMY_WIN_TEMPLATE,
 };
 
@@ -201,7 +204,6 @@ static void StartScreen(void (*exitCallback)(void), u8 mode)
     sBuilder->deckIndex = gSaveBlock1Ptr->cardGame.activeDeck < CARD_SAVED_DECKS ? gSaveBlock1Ptr->cardGame.activeDeck : 0;
     sBuilder->arrowTaskId = TASK_NONE;
     sBuilder->listTaskId = TASK_NONE;
-    sBuilder->infoSprite = SPRITE_NONE;
     gMain.state = 0;
     SetMainCallback2(CB2_InitDeckBuilder);
 }
@@ -250,6 +252,8 @@ static void CB2_InitDeckBuilder(void)
         InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
         ChangeBgX(0, 0, BG_COORD_SET);
         ChangeBgY(0, 0, BG_COORD_SET);
+        ChangeBgX(1, 0, BG_COORD_SET);
+        ChangeBgY(1, 0, BG_COORD_SET);
         InitWindows(sWindowTemplates);
         DeactivateAllTextPrinters();
         ResetPaletteFade();
@@ -258,14 +262,15 @@ static void CB2_InitDeckBuilder(void)
         ResetSpriteData();
         ResetAllPicSprites();
         FreeAllSpritePalettes();
+        VintageCard_Init(WIN_FRAME, WIN_CARD);
         gMain.state++;
         break;
     case 1:
         LoadPalette(&sBackdropColor, BG_PLTT_ID(0), PLTT_SIZEOF(1));
         LoadPalette(gStandardMenuPalette, BG_PLTT_ID(TEXT_PALETTE), PLTT_SIZE_4BPP);
         CardGame_LoadEnergyIconPalette(TEXT_PALETTE);
-        LoadMonIconPalettes();
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 32, 32);
+        FillBgTilemapBufferRect_Palette0(1, 0, 0, 0, 32, 32);
         gMain.state++;
         break;
     case 2:
@@ -277,13 +282,15 @@ static void CB2_InitDeckBuilder(void)
         {
             DrawHeader();
             ShowList();
-            DrawHelp();
         }
+        DrawHelp();
         gMain.state++;
         break;
     case 3:
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
+        VintageCard_EnableClipping();
         ShowBg(0);
+        ShowBg(1);
         SetVBlankCallback(VBlankCB_DeckBuilder);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         CreateTask(Task_DeckBuilder, 0);
@@ -292,32 +299,12 @@ static void CB2_InitDeckBuilder(void)
     }
 }
 
-static void DestroyInfoSprite(void)
-{
-    switch (sBuilder->infoSpriteKind)
-    {
-    case 1:
-        FreeAndDestroyMonIconSprite(&gSprites[sBuilder->infoSprite]);
-        break;
-    case 2:
-        DestroySprite(&gSprites[sBuilder->infoSprite]);
-        FreeSpriteTilesByTag(TAG_INFO_ITEM);
-        FreeSpritePaletteByTag(TAG_INFO_ITEM);
-        break;
-    case 3:
-        CardGame_DestroyPokemonPic(sBuilder->infoSprite);
-        break;
-    }
-    sBuilder->infoSpriteKind = 0;
-    sBuilder->infoSprite = SPRITE_NONE;
-}
-
 static void ExitScreen(void)
 {
     HideList();
-    DestroyInfoSprite();
+    VintageCard_Free();
+    VintageCard_DisableClipping();
     SetMainCallback2(sBuilder->exitCallback);
-    FreeMonIconPalettes();
     FreeAllWindowBuffers();
     FREE_AND_SET_NULL(sBuilder);
 }
@@ -516,6 +503,7 @@ static void DrawHeader(void)
         return;
     }
 
+    // "DECK 1 IN USE  18/20" and the Energy types' icons
     end = StringCopy(sBuilder->text, sText_Deck);
     end = AppendNumber(end, sBuilder->deckIndex + 1);
     if (gSaveBlock1Ptr->cardGame.activeDeck == sBuilder->deckIndex)
@@ -525,29 +513,46 @@ static void DrawHeader(void)
     end = AppendNumber(end, CountDeck());
     end = StringAppend(end, sText_Slash);
     end = AppendNumber(end, CARD_DECK_SIZE);
-    end = StringAppend(end, sText_Cards);
+    end = StringAppend(end, sText_Space);
     CardGame_GetDeckZone(sBuilder->deckIndex, zoneTypes);
     for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
     {
         if (zoneTypes[i] == CARD_TYPE_NONE)
             continue;
-        if (any)
-            end = StringAppend(end, sText_Space);
-        end = StringAppend(end, gCardTypeNames[zoneTypes[i]]);
+        end = CardGame_AppendTypeIcon(end, zoneTypes[i]);
         any = TRUE;
     }
     if (!any)
         StringAppend(end, sText_NoEnergy);
     FillWindowPixelBuffer(WIN_HEADER, PIXEL_FILL(0));
     AddTextPrinterParameterized3(WIN_HEADER, FONT_SMALL, 4, 0, sHeaderTextColors, TEXT_SKIP_DRAW, sBuilder->text);
+    CardGame_DrawEnergyIcons(WIN_HEADER, sBuilder->text, 4, 0, 12);
     PutWindowTilemap(WIN_HEADER);
     CopyWindowToVram(WIN_HEADER, COPYWIN_FULL);
 }
 
+// The help, or a message: 4 lines at most once wrapped, closer together than FONT_SMALL's,
+// under the list's scroll arrow
 static void PrintHelp(const u8 *text)
 {
+    u8 *line = sBuilder->text;
+    u8 *end;
+    u8 y = HELP_TOP;
+    bool8 last;
+
+    StringCopy(sBuilder->text, text);
+    WrapText(sBuilder->text, FONT_SMALL, SIDE_WIDTH * 8 - 8);
     FillWindowPixelBuffer(WIN_HELP, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(WIN_HELP, FONT_SMALL, 4, 4, sHeaderTextColors, TEXT_SKIP_DRAW, text);
+    do
+    {
+        for (end = line; *end != CHAR_NEWLINE && *end != EOS; end++)
+            ;
+        last = (*end == EOS);
+        *end = EOS;
+        AddTextPrinterParameterized3(WIN_HELP, FONT_SMALL, 4, y, sHeaderTextColors, TEXT_SKIP_DRAW, line);
+        line = end + 1;
+        y += HELP_LINE_HEIGHT;
+    } while (!last);
     PutWindowTilemap(WIN_HELP);
     CopyWindowToVram(WIN_HELP, COPYWIN_FULL);
 }
@@ -573,198 +578,21 @@ static void ShowHelpMessage(const u8 *text)
     PrintHelp(text);
 }
 
-// Prints text (with newlines) one line at a time from y, lineHeight apart; returns the next y
-static u8 PrintPackLines(const u8 *text, u8 y, u8 lineHeight)
-{
-    u8 *line = sBuilder->line;
-    u8 i;
-
-    while (TRUE)
-    {
-        for (i = 0; text[i] != EOS && text[i] != CHAR_NEWLINE && i < sizeof(sBuilder->line) - 1; i++)
-            line[i] = text[i];
-        line[i] = EOS;
-        AddTextPrinterParameterized(WIN_PACK, FONT_SMALL, line, 2, y, TEXT_SKIP_DRAW, NULL);
-        y += lineHeight;
-        if (text[i] != CHAR_NEWLINE)
-            return y;
-        text += i + 1;
-    }
-}
-
-static u8 CountLines(const u8 *text)
-{
-    u8 lines = 1;
-
-    for (; *text != EOS; text++)
-    {
-        if (*text == CHAR_NEWLINE)
-            lines++;
-    }
-    return lines;
-}
-
-// The pack screen's card, right of its picture: the name, then the stage, type and HP on one
-// line, then the ability, the attacks with their effects and the ex rule (Trainers: kind and
-// what they do).
-// The lines move closer together when a card has many.
-static void ShowPackCardText(u16 cardId)
-{
-    const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
-    const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(cardId);
-    u8 *text = sBuilder->text;
-    u8 *end;
-    u8 i, y, lines, lineHeight;
-    const u8 top = 18, bottom = PACK_WINDOW_HEIGHT * 8 - 2;
-
-    FillWindowPixelBuffer(WIN_PACK, PIXEL_FILL(1));
-    *text = EOS;
-    CardGame_AppendCardName(text, cardId);
-    TruncateToWidth(text, FONT_NORMAL, 130);
-    AddTextPrinterParameterized(WIN_PACK, FONT_NORMAL, text, 2, 2, TEXT_SKIP_DRAW, NULL);
-
-    // Everything below the name, as lines
-    end = text;
-    *end = EOS;
-    if (pokemon != NULL)
-    {
-        end = StringAppend(end, pokemon->stage == CARD_STAGE_BASIC ? sText_Basic : (pokemon->stage == CARD_STAGE_1 ? sText_Stage1 : sText_Stage2));
-        end = StringAppend(end, sText_PackStats);
-        end = CardGame_AppendTypeIcon(end, pokemon->type);
-        end = StringAppend(end, sText_Hp);
-        end = AppendNumber(end, pokemon->hp);
-        if (pokemon->ability != CARD_ABILITY_NONE)
-        {
-            *end++ = CHAR_NEWLINE;
-            *end = EOS;
-            end = CardGame_AppendAbilityText(end, pokemon);
-            WrapText(text, FONT_SMALL, 130);
-            end = text + StringLength(text);
-        }
-        for (i = 0; i < pokemon->numAttacks; i++)
-        {
-            *end++ = CHAR_NEWLINE;
-            *end = EOS;
-            end = CardGame_AppendAttackText(end, &pokemon->attacks[i]);
-            WrapText(text, FONT_SMALL, 130);
-            end = text + StringLength(text);
-        }
-        if (pokemon->isEx)
-        {
-            *end++ = CHAR_NEWLINE;
-            *end = EOS;
-            CardGame_AppendExRule(end, pokemon);
-            WrapText(text, FONT_SMALL, 130);
-        }
-    }
-    else if (trainer != NULL)
-    {
-        end = CardGame_AppendTrainerKind(end, trainer);
-        *end++ = CHAR_NEWLINE;
-        *end = EOS;
-        CardGame_AppendTrainerText(end, trainer);
-        WrapText(text, FONT_SMALL, 130);
-    }
-    lines = CountLines(text);
-    lineHeight = PACK_LINE_HEIGHT;
-    if (top + lines * lineHeight > bottom)
-        lineHeight = max((bottom - top) / lines, PACK_MIN_LINE_HEIGHT);
-    y = PrintPackLines(text, top, lineHeight);
-    CardGame_DrawEnergyIcons(WIN_PACK, text, 2, top, lineHeight);
-    PutWindowTilemap(WIN_PACK);
-    CopyWindowToVram(WIN_PACK, COPYWIN_FULL);
-}
-
-// The highlighted card: its icon with the stage and ability beside it, then its name, type
-// and HP, and its attacks (Trainers: what they do). The pack screen has its own layout
-// (ShowPackCardText), with the picture instead of the icon.
+// The highlighted card, drawn whole on the right (nothing for CARD_NONE)
 static void ShowCardInfo(u16 cardId)
 {
-    const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
-    const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(cardId);
-    u8 windowId = WIN_INFO;
-    u8 width = 84;
-    u8 *text = sBuilder->text;
-    u8 *end;
-    u8 i, y;
-
     if (sBuilder->infoCard == cardId)
         return;
     sBuilder->infoCard = cardId;
-    DestroyInfoSprite();
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    if (cardId != CARD_NONE)
-    {
-        *text = EOS;
-        CardGame_AppendCardName(text, cardId);
-        TruncateToWidth(text, FONT_SMALL, width);
-        AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, 34, TEXT_SKIP_DRAW, NULL);
-        y = 46;
-        if (pokemon != NULL)
-        {
-            // Beside the icon: stage and ability
-            StringCopy(text, pokemon->stage == CARD_STAGE_BASIC ? sText_Basic : (pokemon->stage == CARD_STAGE_1 ? sText_Stage1 : sText_Stage2));
-            AddTextPrinterParameterized(windowId, FONT_SMALL, text, 38, 4, TEXT_SKIP_DRAW, NULL);
-            if (pokemon->ability != CARD_ABILITY_NONE)
-                AddTextPrinterParameterized(windowId, FONT_SMALL, sText_AbilityLabel, 38, 16, TEXT_SKIP_DRAW, NULL);
-            *text = EOS;
-            end = CardGame_AppendTypeIcon(text, pokemon->type);
-            end = StringAppend(end, sText_Hp);
-            AppendNumber(end, pokemon->hp);
-            AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
-            CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
-            y += 12;
-            for (i = 0; i < pokemon->numAttacks; i++)
-            {
-                // Cost, name and damage (the pack screen shows the effects)
-                struct CardAttack attack = pokemon->attacks[i];
-
-                attack.effect = CARD_EFFECT_NONE;
-                *text = EOS;
-                CardGame_AppendAttackText(text, &attack);
-                WrapText(text, FONT_SMALL, width);
-                AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
-                CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
-                for (end = text, y += 12; *end != EOS; end++)
-                {
-                    if (*end == CHAR_NEWLINE)
-                        y += 12;
-                }
-            }
-            sBuilder->infoSprite = CreateMonIcon(pokemon->isMega ? GetMegaBaseSpecies(pokemon->species) : pokemon->species,
-                                                 SpriteCB_MonIcon, 18 * 8 + 18, 2 * 8 + 16, 0, 0, FALSE);
-            gSprites[sBuilder->infoSprite].oam.priority = 0; // over the window
-            sBuilder->infoSpriteKind = 1;
-        }
-        else if (trainer != NULL)
-        {
-            *text = EOS;
-            CardGame_AppendTrainerKind(text, trainer);
-            WrapText(text, FONT_SMALL, 48);
-            AddTextPrinterParameterized(windowId, FONT_SMALL, text, 38, 4, TEXT_SKIP_DRAW, NULL);
-            *text = EOS;
-            CardGame_AppendTrainerText(text, trainer);
-            WrapText(text, FONT_SMALL, width);
-            AddTextPrinterParameterized(windowId, FONT_SMALL, text, 2, y, TEXT_SKIP_DRAW, NULL);
-            CardGame_DrawEnergyIcons(windowId, text, 2, y, 12);
-            if (trainer->iconItem != ITEM_NONE)
-            {
-                sBuilder->infoSprite = AddItemIconSprite(TAG_INFO_ITEM, TAG_INFO_ITEM, trainer->iconItem);
-                if (sBuilder->infoSprite < MAX_SPRITES)
-                {
-                    gSprites[sBuilder->infoSprite].x = 18 * 8 + 18;
-                    gSprites[sBuilder->infoSprite].y = 2 * 8 + 16;
-                    gSprites[sBuilder->infoSprite].oam.priority = 0;
-                    sBuilder->infoSpriteKind = 2;
-                }
-            }
-        }
-    }
-    PutWindowTilemap(windowId);
-    CopyWindowToVram(windowId, COPYWIN_FULL);
+    VintageCard_Draw(cardId);
 }
 
-// A card player: where they are, their Energy, beaten or not, and their prize card (once won)
+// A card player, where the card is: where they are, their Energy, beaten or not, and their
+// prize card (once won)
+#define PLAYER_INFO_GAP     4   // pixels left of the panel, between it and the list
+#define PLAYER_INFO_X       (PLAYER_INFO_GAP + 4)
+#define PLAYER_INFO_WIDTH   (VINTAGE_CARD_WIDTH * 8 - PLAYER_INFO_X - 4)
+
 static void ShowPlayerInfo(u8 opponentId)
 {
     const struct CardOpponent *opponent = &gCardOpponents[opponentId];
@@ -775,13 +603,13 @@ static void ShowPlayerInfo(u8 opponentId)
     u8 i;
 
     sBuilder->infoCard = CARD_COUNT;
-    DestroyInfoSprite();
-    FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(1));
+    VintageCard_Clear();
+    FillWindowPixelRect(WIN_CARD, PIXEL_FILL(1), PLAYER_INFO_GAP, 0, VINTAGE_CARD_WIDTH * 8 - PLAYER_INFO_GAP, VINTAGE_CARD_HEIGHT * 8);
     CardGame_GetOpponentName(text, opponentId);
-    AddTextPrinterParameterized(WIN_INFO, FONT_NORMAL, text, 2, 2, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(WIN_CARD, FONT_NORMAL, text, PLAYER_INFO_X, 2, TEXT_SKIP_DRAW, NULL);
     GetMapName(text, opponent->mapsec, 0);
-    TruncateToWidth(text, FONT_SMALL, 84);
-    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 18, TEXT_SKIP_DRAW, NULL);
+    TruncateToWidth(text, FONT_SMALL, PLAYER_INFO_WIDTH);
+    AddTextPrinterParameterized(WIN_CARD, FONT_SMALL, text, PLAYER_INFO_X, 18, TEXT_SKIP_DRAW, NULL);
     end = StringCopy(text, sText_PlaysEnergy);
     for (i = 0; i < CARD_MAX_ZONE_TYPES; i++)
     {
@@ -793,12 +621,12 @@ static void ShowPlayerInfo(u8 opponentId)
     }
     if (opponent->deck == CARD_DECK_COPYCAT)
         StringCopy(text, sText_PlaysYourDeck);
-    WrapText(text, FONT_SMALL, 84);
-    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 34, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, beaten ? sText_Beaten : sText_NotBeaten, 2, 62, TEXT_SKIP_DRAW, NULL);
+    WrapText(text, FONT_SMALL, PLAYER_INFO_WIDTH);
+    AddTextPrinterParameterized(WIN_CARD, FONT_SMALL, text, PLAYER_INFO_X, 34, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(WIN_CARD, FONT_SMALL, beaten ? sText_Beaten : sText_NotBeaten, PLAYER_INFO_X, 62, TEXT_SKIP_DRAW, NULL);
     if (opponent->rewardCard != CARD_NONE)
     {
-        AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, sText_Prize, 2, 78, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(WIN_CARD, FONT_SMALL, sText_Prize, PLAYER_INFO_X, 78, TEXT_SKIP_DRAW, NULL);
         if (beaten)
         {
             *text = EOS;
@@ -808,11 +636,11 @@ static void ShowPlayerInfo(u8 opponentId)
         {
             StringCopy(text, sText_PrizeUnknown);
         }
-        WrapText(text, FONT_SMALL, 84);
-        AddTextPrinterParameterized(WIN_INFO, FONT_SMALL, text, 2, 90, TEXT_SKIP_DRAW, NULL);
+        WrapText(text, FONT_SMALL, PLAYER_INFO_WIDTH);
+        AddTextPrinterParameterized(WIN_CARD, FONT_SMALL, text, PLAYER_INFO_X, 90, TEXT_SKIP_DRAW, NULL);
     }
-    PutWindowTilemap(WIN_INFO);
-    CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
+    PutWindowTilemap(WIN_CARD);
+    CopyWindowToVram(WIN_CARD, COPYWIN_FULL);
 }
 
 // The counts right of each card: in the deck/owned, or in the deck, or ON
@@ -982,7 +810,7 @@ static void ShowList(void)
     sBuilder->listTaskId = ListMenuInit(&template, sBuilder->scroll, sBuilder->row);
     CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
     if (sBuilder->itemCount > LIST_ROWS)
-        sBuilder->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 72, 14, 132, sBuilder->itemCount - LIST_ROWS,
+        sBuilder->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, SIDE_WIDTH * 4, HEADER_HEIGHT * 8 - 2, (HEADER_HEIGHT + LIST_HEIGHT) * 8 + 4, sBuilder->itemCount - LIST_ROWS,
                                                                          TAG_ARROWS, TAG_ARROWS, &sBuilder->scroll);
 }
 
@@ -1004,46 +832,28 @@ static void SetMode(u8 mode)
 static void ShowPackCard(void)
 {
     u16 cardId = sBuilder->packCards[sBuilder->packIndex];
-    const struct PokemonCardInfo *pokemon = CardGame_GetPokemonInfo(cardId);
-    const struct TrainerCardInfo *trainer = CardGame_GetTrainerInfo(cardId);
     u8 *end;
 
-    ClearWindowTilemap(WIN_LIST);
-    DestroyInfoSprite();
-    ShowPackCardText(cardId);
-    // Left of the text: the Pokémon's picture, or the Trainer's item
-    if (pokemon != NULL)
-    {
-        sBuilder->infoSprite = CardGame_CreatePokemonPic(pokemon->species, 52, 72);
-        if (sBuilder->infoSprite < MAX_SPRITES)
-            sBuilder->infoSpriteKind = 3;
-    }
-    else if (trainer != NULL && trainer->iconItem != ITEM_NONE)
-    {
-        sBuilder->infoSprite = AddItemIconSprite(TAG_INFO_ITEM, TAG_INFO_ITEM, trainer->iconItem);
-        if (sBuilder->infoSprite < MAX_SPRITES)
-        {
-            gSprites[sBuilder->infoSprite].x = 52;
-            gSprites[sBuilder->infoSprite].y = 72;
-            gSprites[sBuilder->infoSprite].oam.priority = 0;
-            sBuilder->infoSpriteKind = 2;
-        }
-    }
-
+    // The header: "CARD 1/5", and how many the player has on the right
     end = StringCopy(sBuilder->text, sText_PackCard);
     end = AppendNumber(end, sBuilder->packIndex + 1);
     end = StringAppend(end, sText_Slash);
-    end = AppendNumber(end, sBuilder->packCount);
-    end = StringAppend(end, sText_Space);
-    end = StringAppend(end, sText_Space);
-    end = StringAppend(end, sText_YouHave);
-    AppendNumber(end, CardGame_GetOwnedCopies(cardId));
+    AppendNumber(end, sBuilder->packCount);
     FillWindowPixelBuffer(WIN_HEADER, PIXEL_FILL(0));
     AddTextPrinterParameterized3(WIN_HEADER, FONT_NORMAL, 4, 0, sHeaderTextColors, TEXT_SKIP_DRAW, sBuilder->text);
-    // The help goes in the header: the card takes the rest of the screen
-    AddTextPrinterParameterized3(WIN_HEADER, FONT_SMALL, 240 - 4 - GetStringWidth(FONT_SMALL, sHelp_Pack, 0), 2, sHeaderTextColors, TEXT_SKIP_DRAW, sHelp_Pack);
+    end = StringCopy(sBuilder->text, sText_YouHave);
+    AppendNumber(end, CardGame_GetOwnedCopies(cardId));
+    AddTextPrinterParameterized3(WIN_HEADER, FONT_SMALL, SIDE_WIDTH * 8 - 4 - GetStringWidth(FONT_SMALL, sBuilder->text, 0), 2,
+                                 sHeaderTextColors, TEXT_SKIP_DRAW, sBuilder->text);
     PutWindowTilemap(WIN_HEADER);
     CopyWindowToVram(WIN_HEADER, COPYWIN_FULL);
+
+    // Left of the card: its whole text, if it can't show it all
+    FillWindowPixelBuffer(WIN_LIST, PIXEL_FILL(0));
+    if (!VintageCard_Draw(cardId))
+        VintageCard_PrintFullText(WIN_LIST, cardId, 4, 2, SIDE_WIDTH * 8 - 8, LIST_HEIGHT * 8, sHeaderTextColors);
+    PutWindowTilemap(WIN_LIST);
+    CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
     PlaySE(SE_SELECT);
 }
 

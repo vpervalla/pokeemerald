@@ -283,7 +283,17 @@ void OpenCardDeckBuilderFromScript(void);
 void OpenCardDeckBuilder(void (*exitCallback)(void));
 void OpenCardPackScreen(const u16 *cards, u8 count, void (*exitCallback)(void));
 
-// src/card_game_vintage.c: a test of a card drawn like the Base Set's
+// src/card_game_vintage.c: the cards drawn like the Base Set's (1999), in two windows of
+// VINTAGE_CARD_WIDTH x VINTAGE_CARD_HEIGHT tiles at the same place of the screen
+#define VINTAGE_CARD_WIDTH  14
+#define VINTAGE_CARD_HEIGHT 20
+void VintageCard_Init(u8 frameWindowId, u8 textWindowId);
+bool8 VintageCard_Draw(u16 cardId);
+void VintageCard_Clear(void);
+void VintageCard_Free(void);
+void VintageCard_EnableClipping(void);
+void VintageCard_DisableClipping(void);
+void VintageCard_PrintFullText(u8 windowId, u16 cardId, u8 x, u8 y, u8 width, u8 bottom, const u8 *colors);
 void OpenVintageCardTest(void);
 void OpenVintageCardScreen(u16 cardId, void (*exitCallback)(void));
 
@@ -294,6 +304,8 @@ u8 *CardGame_AppendAttackText(u8 *dst, const struct CardAttack *attack);
 u8 *CardGame_AppendAttackEffect(u8 *dst, const struct CardAttack *attack);
 void CardGame_WrapText(u8 *text, u8 fontId, u16 width);
 u8 *CardGame_AppendAbilityText(u8 *dst, const struct PokemonCardInfo *info);
+u8 *CardGame_AppendAbilityName(u8 *dst, const struct PokemonCardInfo *info);
+u8 *CardGame_AppendAbilityEffect(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendExRule(u8 *dst, const struct PokemonCardInfo *info);
 u8 *CardGame_AppendTrainerKind(u8 *dst, const struct TrainerCardInfo *info);
 u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info);
