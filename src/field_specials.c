@@ -4919,12 +4919,12 @@ bool8 NameRaterWasNicknameChanged(void)
 
 // Kanto (FRLG): the species of the player's starter (VAR_STARTER_MON is 0 for BULBASAUR,
 // 1 for SQUIRTLE and 2 for CHARMANDER).
+// The player's first POKéMON in Kanto is always OAK's PIKACHU (PalletTown_ProfessorOaksLab):
+// VAR_STARTER_MON only says which of the three the rival's teams are built around, and is 2 (as if
+// the player had picked CHARMANDER) for that PIKACHU.
 u16 GetStarterSpecies(void)
 {
-    static const u16 sKantoStarters[] = {SPECIES_BULBASAUR, SPECIES_SQUIRTLE, SPECIES_CHARMANDER};
-    u16 starter = VarGet(VAR_STARTER_MON);
-
-    return sKantoStarters[starter < ARRAY_COUNT(sKantoStarters) ? starter : 0];
+    return SPECIES_PIKACHU;
 }
 
 // Five Island's RESORT GORGEOUS: SELPHY asks to see a POKéMON the player has seen, within 250 steps (from FRLG)

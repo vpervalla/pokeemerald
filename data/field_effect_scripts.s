@@ -325,7 +325,7 @@ gFieldEffectScript_SecretBaseBootPC::
 
 gFieldEffectScript_HallOfFameRecord::
 	field_eff_loadfadedpal gSpritePalette_PokeballGlow
-	field_eff_loadfadedpal_callnative gSpritePalette_HofMonitor, FldEff_HallOfFameRecord
+	field_eff_callnative FldEff_HallOfFameRecord  @ loads the monitor palette of this region's room
 	field_eff_end
 
 gFieldEffectScript_UseTeleport::

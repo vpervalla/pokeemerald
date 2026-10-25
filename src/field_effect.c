@@ -27,6 +27,7 @@
 #include "trig.h"
 #include "util.h"
 #include "constants/field_effects.h"
+#include "constants/maps.h"
 #include "constants/event_object_movement.h"
 #include "constants/metatile_behaviors.h"
 #include "constants/rgb.h"
@@ -53,6 +54,8 @@ static void HallOfFameRecordEffect_WaitForBallFlashing(struct Task *);
 static void HallOfFameRecordEffect_WaitForSoundAndEnd(struct Task *);
 static void CreateHofMonitorSprite(s16, s16, s16, bool8);
 static void SpriteCB_HallOfFameMonitor(struct Sprite *);
+static void CreateKantoHofMonitorSprite(s16, s16);
+static void SpriteCB_KantoHallOfFameMonitor(struct Sprite *);
 
 static u8 CreateGlowingPokeballsEffect(s16, s16, s16, bool16);
 static void SpriteCB_PokeballGlowEffect(struct Sprite *);
@@ -253,6 +256,8 @@ static const u32 sPokecenterMonitor1_Gfx[] = INCGFX_U32("graphics/field_effects/
 static const u32 sHofMonitorBig_Gfx[] = INCGFX_U32("graphics/field_effects/pics/hof_monitor_big.png", ".4bpp");
 static const u8 sHofMonitorSmall_Gfx[] = INCGFX_U8("graphics/field_effects/pics/hof_monitor_small.png", ".4bpp");
 static const u16 sHofMonitor_Pal[16] = INCGFX_U16("graphics/field_effects/palettes/hof_monitor.pal", ".gbapal");
+static const u8 sKantoHofMonitor_Gfx[] = INCGFX_U8("graphics/field_effects/pics/kanto_hof_monitor.png", ".4bpp");
+static const u16 sKantoHofMonitor_Pal[16] = INCGFX_U16("graphics/field_effects/pics/kanto_hof_monitor.png", ".gbapal");
 
 // Graphics for the lights streaking past your Pokémon when it uses a field move.
 static const u32 sFieldMoveStreaksOutdoors_Gfx[] = INCGFX_U32("graphics/field_effects/pics/field_move_streaks.png", ".4bpp");
@@ -370,6 +375,12 @@ const struct SpritePalette gSpritePalette_HofMonitor =
     .tag = FLDEFF_PAL_TAG_HOF_MONITOR
 };
 
+static const struct SpritePalette sSpritePalette_KantoHofMonitor =
+{
+    .data = sKantoHofMonitor_Pal,
+    .tag = FLDEFF_PAL_TAG_KANTO_HOF_MONITOR
+};
+
 static const struct OamData sOam_32x16 =
 {
     .y = 0,
@@ -403,6 +414,14 @@ static const struct SpriteFrameImage sPicTable_HofMonitorBig[] =
 static const struct SpriteFrameImage sPicTable_HofMonitorSmall[] =
 {
     {.data = sHofMonitorSmall_Gfx, .size = 0x200} // the macro breaks down here
+};
+
+static const struct SpriteFrameImage sPicTable_KantoHofMonitor[] =
+{
+    {.data = sKantoHofMonitor_Gfx + 0x000, .size = 0x80},
+    {.data = sKantoHofMonitor_Gfx + 0x080, .size = 0x80},
+    {.data = sKantoHofMonitor_Gfx + 0x100, .size = 0x80},
+    {.data = sKantoHofMonitor_Gfx + 0x180, .size = 0x80}
 };
 
 /*
@@ -522,6 +541,26 @@ static const union AnimCmd *const sAnims_HofMonitor[] =
     sAnim_Static
 };
 
+// FRLG's Hall of Fame monitor lights up, pulses twice and dims again
+static const union AnimCmd sAnim_KantoHofMonitor[] =
+{
+    ANIMCMD_FRAME(.imageValue = 3, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 2, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 1, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 0, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 1, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 2, .duration = 8),
+    ANIMCMD_LOOP(2),
+    ANIMCMD_FRAME(.imageValue = 1, .duration = 8),
+    ANIMCMD_FRAME(.imageValue = 0, .duration = 8),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sAnims_KantoHofMonitor[] =
+{
+    sAnim_KantoHofMonitor
+};
+
 static const struct SpriteTemplate sSpriteTemplate_PokeballGlow =
 {
     .tileTag = TAG_NONE,
@@ -564,6 +603,17 @@ static const struct SpriteTemplate sSpriteTemplate_HofMonitorSmall =
     .images = sPicTable_HofMonitorSmall,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCB_HallOfFameMonitor
+};
+
+static const struct SpriteTemplate sSpriteTemplate_KantoHofMonitor =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = FLDEFF_PAL_TAG_KANTO_HOF_MONITOR,
+    .oam = &sOam_16x16,
+    .anims = sAnims_KantoHofMonitor,
+    .images = sPicTable_KantoHofMonitor,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_KantoHallOfFameMonitor
 };
 
 static void (*const sPokecenterHealEffectFuncs[])(struct Task *) =
@@ -1012,6 +1062,7 @@ void MultiplyPaletteRGBComponents(u16 i, u8 r, u8 g, u8 b)
 #define tMonitorY        data[5]
 #define tBallSpriteId    data[6]
 #define tMonitorSpriteId data[7]
+#define tIsKantoHof      data[8]
 #define tStartHofFlash   data[15]
 
 // Sprite data for SpriteCB_PokeballGlowEffect
@@ -1090,7 +1141,22 @@ bool8 FldEff_HallOfFameRecord(void)
     task = &gTasks[CreateTask(Task_HallOfFameRecord, 0xff)];
     task->tNumMons = nPokemon;
     task->tFirstBallX = 117;
-    task->tFirstBallY = 52;
+    // Kanto port: FRLG's Hall of Fame room has its own machine, a step lower than RSE's, with a
+    // single monitor above it instead of RSE's five
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_POKEMON_LEAGUE_HALL_OF_FAME)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_POKEMON_LEAGUE_HALL_OF_FAME))
+    {
+        task->tIsKantoHof = TRUE;
+        task->tFirstBallY = 60;
+        LoadSpritePalette(&sSpritePalette_KantoHofMonitor);
+        UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_KANTO_HOF_MONITOR));
+    }
+    else
+    {
+        task->tFirstBallY = 52;
+        LoadSpritePalette(&gSpritePalette_HofMonitor);
+        UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_HOF_MONITOR));
+    }
     return FALSE;
 }
 
@@ -1106,6 +1172,8 @@ static void HallOfFameRecordEffect_Init(struct Task *task)
     u8 taskId;
     task->tState++;
     task->tBallSpriteId = CreateGlowingPokeballsEffect(task->tNumMons, task->tFirstBallX, task->tFirstBallY, FALSE);
+    if (task->tIsKantoHof)
+        return;
     taskId = FindTaskIdByFunc(Task_HallOfFameRecord);
     CreateHofMonitorSprite(taskId, 120, 24, FALSE);
     CreateHofMonitorSprite(taskId, 40, 8, TRUE);
@@ -1118,6 +1186,8 @@ static void HallOfFameRecordEffect_WaitForBallPlacement(struct Task *task)
 {
     if (gSprites[task->tBallSpriteId].sState > 1)
     {
+        if (task->tIsKantoHof)
+            CreateKantoHofMonitorSprite(120, 25);
         task->tStartHofFlash++;
         task->tState++;
     }
@@ -1335,6 +1405,17 @@ static void SpriteCB_HallOfFameMonitor(struct Sprite *sprite)
     {
         FieldEffectFreeGraphicsResources(sprite);
     }
+}
+
+static void CreateKantoHofMonitorSprite(s16 x, s16 y)
+{
+    CreateSpriteAtEnd(&sSpriteTemplate_KantoHofMonitor, x, y, 0);
+}
+
+static void SpriteCB_KantoHallOfFameMonitor(struct Sprite *sprite)
+{
+    if (sprite->animEnded)
+        FieldEffectFreeGraphicsResources(sprite);
 }
 
 #undef tState
