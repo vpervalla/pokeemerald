@@ -22,6 +22,7 @@ LittlerootTown_ProfessorBirchsLab_MapScripts::
 LittlerootTown_ProfessorBirchsLab_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
 	call ProfBirch_EventScript_UpdateLocation
+	call LittlerootTown_ProfessorBirchsLab_EventScript_SetHoennStarterTable
 	goto_if_ge VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 6, LittlerootTown_ProfessorBirchsLab_EventScript_SetAfterJohtoStarterLayout
 	goto_if_ge VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_SetJohtoStarterLayout
 	goto_if_eq VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 3, LittlerootTown_ProfessorBirchsLab_EventScript_CheckReadyForJohtoStarter
@@ -96,7 +97,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_SetObjectPosForJohtoStarters::
 	end
 
 LittlerootTown_ProfessorBirchsLab_OnFrame:
-	map_script_2 VAR_HOENN_STORY_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_GiveHoennStarter
+	map_script_2 VAR_TEMP_1, 1, LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterIntro
 	map_script_2 VAR_BIRCH_LAB_STATE, 2, LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent
 	map_script_2 VAR_BIRCH_LAB_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedexEvent
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex
@@ -457,6 +458,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedJohtoStarter::
 LittlerootTown_ProfessorBirchsLab_EventScript_Birch::
 	lock
 	faceplayer
+	goto_if_eq VAR_HOENN_STORY_STATE, 4, LittlerootTown_ProfessorBirchsLab_EventScript_BirchWhichOne
 	checkitem ITEM_PRIMAL_NOTES
 	goto_if_eq VAR_RESULT, TRUE, LittlerootTown_ProfessorBirchsLab_EventScript_GivePrimalNotes
 	call HoennStory_EventScript_TryGiveStarterMegaStone
@@ -1025,33 +1027,109 @@ LittlerootTown_ProfessorBirchsLab_Text_ScottAboardSSTidalCall:
 
 @ The Hoenn chapter (see data/scripts/hoenn_story.inc): BIRCH, who brought the player from SLATEPORT,
 @ gives a Hoenn starter from his bag, then sends them to meet his kid on Route 103.
-LittlerootTown_ProfessorBirchsLab_EventScript_GiveHoennStarter::
+@ The Hoenn starter (docs/hoenn_plan.md, Act 1), chosen as in OAK's lab: three POKé BALLS on the
+@ table, shown only while VAR_HOENN_STORY_STATE is 4. VAR_TEMP_1: 1 BIRCH's word on arrival is due,
+@ 2 the player is choosing (BIRCH stops them at the door), 3 chosen.
+LittlerootTown_ProfessorBirchsLab_EventScript_SetHoennStarterTable::
+	setflag FLAG_HIDE_BIRCHS_LAB_TREECKO_BALL
+	setflag FLAG_HIDE_BIRCHS_LAB_TORCHIC_BALL
+	setflag FLAG_HIDE_BIRCHS_LAB_MUDKIP_BALL
+	goto_if_ne VAR_HOENN_STORY_STATE, 4, Common_EventScript_NopReturn
+	clearflag FLAG_HIDE_BIRCHS_LAB_TREECKO_BALL
+	clearflag FLAG_HIDE_BIRCHS_LAB_TORCHIC_BALL
+	clearflag FLAG_HIDE_BIRCHS_LAB_MUDKIP_BALL
+	setmaplayoutindex LAYOUT_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB_WITH_TABLE
+	setvar VAR_TEMP_1, 1
+	return
+
+LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterIntro::
 	lockall
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_ChooseHoennStarter
 	closemessage
-	fadescreen FADE_TO_BLACK
-	special ChooseHoennStarter
-	waitstate
-	switch VAR_HOENN_STARTER
-	case 1, LittlerootTown_ProfessorBirchsLab_EventScript_GiveTorchic
-	case 2, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMudkip
-	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TREECKO
-	givemon SPECIES_TREECKO, 5
+	setvar VAR_TEMP_1, 2
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_BirchWhichOne::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_WhichOneWillYouChoose
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_DontLeaveWithoutStarter::
+	lockall
+	applymovement LOCALID_BIRCHS_LAB_BIRCH, Common_Movement_FacePlayer
+	waitmovement 0
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_DontGoAwayYet
+	closemessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkUp
+	waitmovement 0
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_TreeckoBall::
+	lockall
+	setvar VAR_TEMP_2, 0
+	setvar VAR_TEMP_3, SPECIES_TREECKO
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterBall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_TorchicBall::
+	lockall
+	setvar VAR_TEMP_2, 1
+	setvar VAR_TEMP_3, SPECIES_TORCHIC
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterBall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_MudkipBall::
+	lockall
+	setvar VAR_TEMP_2, 2
+	setvar VAR_TEMP_3, SPECIES_MUDKIP
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterBall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterBall::
+	goto_if_ne VAR_TEMP_1, 2, LittlerootTown_ProfessorBirchsLab_EventScript_OtherHoennStarterBall
+	applymovement LOCALID_BIRCHS_LAB_BIRCH, Common_Movement_FaceRight
+	waitmovement 0
+	showmonpic VAR_TEMP_3, 10, 3
+	switch VAR_TEMP_2
+	case 1, LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmTorchic
+	case 2, LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmMudkip
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ChoosingTreecko, MSGBOX_YESNO
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmedHoennStarter
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmTorchic::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ChoosingTorchic, MSGBOX_YESNO
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmedHoennStarter
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmMudkip::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ChoosingMudkip, MSGBOX_YESNO
+LittlerootTown_ProfessorBirchsLab_EventScript_ConfirmedHoennStarter::
+	hidemonpic
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_DeclinedHoennStarter
+	removeobject VAR_LAST_TALKED
+	setvar VAR_TEMP_1, 3
+	copyvar VAR_HOENN_STARTER, VAR_TEMP_2
+	copyvar VAR_TEMP_TRANSFERRED_SPECIES, VAR_TEMP_3
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ThisMonIsEnergetic
+	givemon VAR_TEMP_3, 5
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
 	end
 
-LittlerootTown_ProfessorBirchsLab_EventScript_GiveTorchic::
-	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TORCHIC
-	givemon SPECIES_TORCHIC, 5
-	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
+LittlerootTown_ProfessorBirchsLab_EventScript_DeclinedHoennStarter::
+	applymovement LOCALID_BIRCHS_LAB_BIRCH, Common_Movement_FaceDown
+	waitmovement 0
+	releaseall
 	end
 
-LittlerootTown_ProfessorBirchsLab_EventScript_GiveMudkip::
-	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_MUDKIP
-	givemon SPECIES_MUDKIP, 5
-	goto LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter
+@ The two left on the table, once the player has chosen
+LittlerootTown_ProfessorBirchsLab_EventScript_OtherHoennStarterBall::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_OtherHoennStarters
+	releaseall
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_ReceivedHoennStarter::
@@ -1083,12 +1161,48 @@ LittlerootTown_ProfessorBirchsLab_EventScript_HoennStarterNamed::
 
 LittlerootTown_ProfessorBirchsLab_Text_ChooseHoennStarter:
 	.string "PROF. BIRCH: So, this is my lab.\p"
-	.string "Your team is strong, {PLAYER}{KUN},\n"
-	.string "but it's a long way from home.\p"
+	.string "You've lost your team, {PLAYER}{KUN},\n"
+	.string "but not what you learned with it.\p"
 	.string "A partner born in HOENN will help\n"
 	.string "you understand this land.\p"
-	.string "There are three POKéMON in my bag.\n"
-	.string "Choose the one you like!$"
+	.string "There are three POKéMON in those\n"
+	.string "POKé BALLS on the table.\p"
+	.string "Go on, choose the one you like!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_WhichOneWillYouChoose:
+	.string "PROF. BIRCH: The three POKé BALLS\n"
+	.string "on the table, {PLAYER}{KUN}.\p"
+	.string "Which one will you choose?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_DontGoAwayYet:
+	.string "PROF. BIRCH: Hold on!\n"
+	.string "Don't go out empty-handed!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ChoosingTreecko:
+	.string "TREECKO, the GRASS POKéMON!\n"
+	.string "Calm, and it never panics.\p"
+	.string "So, {PLAYER}{KUN}, you'll go with\n"
+	.string "TREECKO?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ChoosingTorchic:
+	.string "TORCHIC, the FIRE POKéMON!\n"
+	.string "It's warm to hug, and so loyal.\p"
+	.string "So, {PLAYER}{KUN}, you'll go with\n"
+	.string "TORCHIC?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ChoosingMudkip:
+	.string "MUDKIP, the WATER POKéMON!\n"
+	.string "Small, but it's very strong.\p"
+	.string "So, {PLAYER}{KUN}, you'll go with\n"
+	.string "MUDKIP?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_ThisMonIsEnergetic:
+	.string "PROF. BIRCH: Good choice!\n"
+	.string "It already seems to like you.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_OtherHoennStarters:
+	.string "PROF. BIRCH's other POKéMON.\n"
+	.string "He's keeping them for now.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_ReceivedHoennStarter:
 	.string "{PLAYER} received the {STR_VAR_1}!$"

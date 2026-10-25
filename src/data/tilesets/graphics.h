@@ -908,7 +908,7 @@ const u16 gTilesetPalettes_BrendansMaysHouse[][16] =
 	INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_Lab[] = INCGFX_U32("data/tilesets/secondary/lab/tiles.png", ".4bpp.lz", "-num_tiles 500 -Wnum_tiles");
+const u32 gTilesetTiles_Lab[] = INCGFX_U32("data/tilesets/secondary/lab/tiles.png", ".4bpp.lz", "-num_tiles 508 -Wnum_tiles");
 
 const u16 gTilesetPalettes_Lab[][16] =
 {

@@ -2100,6 +2100,9 @@
 #define FLAG_HOENN_GAME_CLEAR                       (KANTO_EXTRA_FLAGS_START + 0x188) // Hoenn's Hall of Fame
 #define FLAG_HOENN_OPEN                             (KANTO_EXTRA_FLAGS_START + 0x189) // The ship to Slateport sails
 #define FLAG_ARRIVED_IN_HOENN                       (KANTO_EXTRA_FLAGS_START + 0x18A) // BIRCH's welcome at Slateport Harbor, once
+#define FLAG_HIDE_BIRCHS_LAB_TREECKO_BALL           (KANTO_EXTRA_FLAGS_START + 0x64) // The POKé BALLS on BIRCH's table, kept by
+#define FLAG_HIDE_BIRCHS_LAB_TORCHIC_BALL           (KANTO_EXTRA_FLAGS_START + 0x65) // the lab's transition from VAR_HOENN_STORY_STATE
+#define FLAG_HIDE_BIRCHS_LAB_MUDKIP_BALL            (KANTO_EXTRA_FLAGS_START + 0x66)
 #define FLAG_HIDDEN_ITEM_HOENN_VICTORY_ROAD_1F_ULTRA_BALL (KANTO_EXTRA_FLAGS_START + 0x18B) // Kanto's VICTORY ROAD 1F has the old one
 // Kept by the maps' transition scripts from VAR_HOENN_STORY_STATE and FLAG_HOENN_OPEN, so saves from before them work
 #define FLAG_HIDE_MANSION_RAIDERS                   (KANTO_EXTRA_FLAGS_START + 0x18C) // Aqua and Magma in the POKéMON MANSION

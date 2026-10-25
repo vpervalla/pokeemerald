@@ -97,6 +97,48 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "LittlerootTown_ProfessorBirchsLab_EventScript_Chikorita",
       "flag": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_CHIKORITA"
+    },
+    {
+      "local_id": "LOCALID_BIRCHS_LAB_TREECKO_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 8,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_TreeckoBall",
+      "flag": "FLAG_HIDE_BIRCHS_LAB_TREECKO_BALL"
+    },
+    {
+      "local_id": "LOCALID_BIRCHS_LAB_TORCHIC_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 9,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_TorchicBall",
+      "flag": "FLAG_HIDE_BIRCHS_LAB_TORCHIC_BALL"
+    },
+    {
+      "local_id": "LOCALID_BIRCHS_LAB_MUDKIP_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 10,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_MudkipBall",
+      "flag": "FLAG_HIDE_BIRCHS_LAB_MUDKIP_BALL"
     }
   ],
   "warp_events": [
@@ -115,7 +157,26 @@
       "dest_warp_id": "2"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 11,
+      "elevation": 3,
+      "var": "VAR_TEMP_1",
+      "var_value": "2",
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_DontLeaveWithoutStarter"
+    },
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 11,
+      "elevation": 3,
+      "var": "VAR_TEMP_1",
+      "var_value": "2",
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_DontLeaveWithoutStarter"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",

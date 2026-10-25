@@ -90,10 +90,14 @@ right since the fix below.
   clock, the rival's bedroom and the Route 101 rescue are marked done; the player's-gender house in
   LITTLEROOT has no MOM (both MOMs, the one outside and the movers are hidden), and the player
   respawns in its bedroom.
-- **Starter** (`LittlerootTown_ProfessorBirchsLab`): BIRCH's bag (`ChooseHoennStarter`, which
-  only stores the choice in `VAR_HOENN_STARTER`, without Route 101's battle), then the script gives
-  it at level 5, to the PC if the party is full, with a nickname; then BIRCH sends the player to
-  ROUTE 103: `VAR_BIRCH_LAB_STATE` 3, state 5. From here Emerald's own vars lead.
+- **Starter** (`LittlerootTown_ProfessorBirchsLab`): chosen as in OAK's lab. While the state is 4
+  the lab has its table (`LAYOUT_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB_WITH_TABLE`, drawn like OAK's:
+  its tiles and palette, palette 11 of the Lab tileset) with three POKé BALLS on it
+  (`FLAG_HIDE_BIRCHS_LAB_*_BALL`); BIRCH asks the player to choose, stops them at the door until they
+  have, and each ball shows its POKéMON and asks. The choice goes in `VAR_HOENN_STARTER`, the
+  POKéMON at level 5, to the PC if the party is full, with a nickname; then BIRCH sends the player to
+  ROUTE 103: `VAR_BIRCH_LAB_STATE` 3, state 5, and the table is gone next time. From here Emerald's
+  own vars lead. (Emerald's bag, `ChooseHoennStarter`, is no longer used.)
 - **Pokédex**: after the rival, BIRCH gives no POKéDEX (the player has OAK's) and the lab sets
   `VAR_LITTLEROOT_TOWN_STATE` to 4, past MOM's RUNNING SHOES. The rivals' Route 103 greeting
   knows the player is the KANTO CHAMPION.
