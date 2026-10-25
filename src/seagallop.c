@@ -325,7 +325,11 @@ static void Task_Seagallop_3(void)
     SetWarpDestination(warpInfo[0], warpInfo[1], WARP_ID_NONE, warpInfo[2], warpInfo[3]);
     PlayRainStoppingSoundEffect();
     PlaySE(SE_EXIT);
-    gFieldCallback = FieldCB_DefaultWarpExit;
+    // The first crossing to HOENN goes on in the dark at SLATEPORT (SlateportCity_Harbor_EventScript_BirchWelcome)
+    if (gSpecialVar_0x8006 == SEAGALLOP_SLATEPORT && VarGet(VAR_HOENN_STORY_STATE) == 3)
+        gFieldCallback = FieldCB_WarpExitStayBlack;
+    else
+        gFieldCallback = FieldCB_DefaultWarpExit;
     WarpIntoMap();
     SetMainCallback2(CB2_LoadMap);
     ResetInitialPlayerAvatarState();

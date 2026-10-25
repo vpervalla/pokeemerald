@@ -270,6 +270,15 @@ static void SetUpWarpExitTask(void)
     CreateTask(func, 10);
 }
 
+// For a warp to a scene whose script starts in the dark and fades the map in itself (an ON_FRAME
+// map script), so the map isn't shown first: the screen stays black, and the controls free for it
+void FieldCB_WarpExitStayBlack(void)
+{
+    Overworld_PlaySpecialMapMusic();
+    FillPalBufferBlack();
+    UnlockPlayerFieldControls();
+}
+
 void FieldCB_DefaultWarpExit(void)
 {
     Overworld_PlaySpecialMapMusic();

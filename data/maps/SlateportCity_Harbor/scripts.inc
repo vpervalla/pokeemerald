@@ -583,8 +583,8 @@ SlateportCity_Harbor_OnFrame:
 
 SlateportCity_Harbor_EventScript_BirchWelcome::
 	lockall
-	@ The crossing (docs/hoenn_plan.md, Act 1): Aqua and Magma take the team and the BAG, and cut the link
-	fadescreen FADE_TO_BLACK
+	@ The crossing (docs/hoenn_plan.md, Act 1): Aqua and Magma take the team and the BAG, and cut the link.
+	@ The SEAGALLOP leaves the screen black for it (FieldCB_WarpExitStayBlack).
 	special StealPlayerTeamAndBag
 	msgbox HoennStory_Text_NightCrossing
 	closemessage
