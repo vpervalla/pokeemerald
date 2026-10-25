@@ -92,7 +92,7 @@ right since the fix below.
   respawns in its bedroom.
 - **Starter** (`LittlerootTown_ProfessorBirchsLab`): chosen as in OAK's lab. While the state is 4
   the lab has its table (`LAYOUT_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB_WITH_TABLE`, drawn like OAK's:
-  its tiles and palette, palette 11 of the Lab tileset) with three POKé BALLS on it
+  its tiles and palette, palette 12 of the Lab tileset) with three POKé BALLS on it
   (`FLAG_HIDE_BIRCHS_LAB_*_BALL`); BIRCH asks the player to choose, stops them at the door until they
   have, and each ball shows its POKéMON and asks. The choice goes in `VAR_HOENN_STARTER`, the
   POKéMON at level 5, to the PC if the party is full, with a nickname; then BIRCH sends the player to
