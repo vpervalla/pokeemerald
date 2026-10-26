@@ -17,6 +17,28 @@ SWITCH = int(os.environ.get("SWITCH", "0")); pending = 1 if SWITCH else 0
 RESHARE = os.environ.get("RESHARE") == "1"
 ACTION_CUR, MOVE_CUR = S["gActionSelectionCursor"], S["gMoveSelectionCursor"]
 e = Emu()
+ORDERS = ["GAEM", "GAME", "GEAM", "GEMA", "GMAE", "GMEA", "AGEM", "AGME", "AEGM", "AEMG", "AMGE", "AMEG",
+          "EGAM", "EGMA", "EAGM", "EAMG", "EMGA", "EMAG", "MGAE", "MGEA", "MAGE", "MAEG", "MEGA", "MEAG"]
+
+
+def move_pp():
+    """(moves, pp) of the Pokemon in the active slot: the PP shown in the move menu is the party copy."""
+    idx = e.peek(S["gBattlerPartyIndexes"], 1)[0]
+    m = e.peek(S["gPlayerParty"] + idx * 100, 100)
+    pers, otid = int.from_bytes(m[:4], "little"), int.from_bytes(m[4:8], "little")
+    k = pers ^ otid
+    raw = b"".join((int.from_bytes(m[32 + j * 4:36 + j * 4], "little") ^ k).to_bytes(4, "little") for j in range(12))
+    o = ORDERS[pers % 24].index("A") * 12
+    return raw[o:o + 8], raw[o + 8:o + 12]
+
+
+def usable(want):
+    """The wanted move slot if it has PP, else the nearest slot that does (a move at 0 PP just loops forever)."""
+    moves, pp = move_pp()
+    ok = [i for i in range(4) if pp[i] > 0 and moves[2 * i:2 * i + 2] != b"\0\0"]
+    return want if want in ok else (ok[0] if ok else want)
+
+
 turns = idle = 0; log = []; last_ei = None
 
 
@@ -51,8 +73,9 @@ for _ in range(3000):
             e.keys(BIT["A"], 4); e.wait(90); e.keys(BIT["A"], 4); e.wait(30); e.keys(BIT["A"], 4); e.wait(30)
             turns += 1
         else:
-            e.wait(10); e.keys(BIT["A"], 4); e.wait(20)       # FIGHT
-            cursor(MOVE_CUR, slot)
+            e.wait(10); cursor(ACTION_CUR, 0)                 # the menu remembers the last choice
+            e.keys(BIT["A"], 4); e.wait(20)                  # FIGHT
+            cursor(MOVE_CUR, usable(slot))
             e.keys(BIT["A"], 4); e.wait(30)
             turns += 1
         idle = 0
@@ -61,7 +84,10 @@ for _ in range(3000):
         log.append("CAUGHT"); break
     if cb2 != CB2_BATTLE and os.environ.get("STOPEVO") and turns > 0:
         log.append("left battle (evolution?)"); break
-    e.keys(BIT["B"] if cb2 == CB2_BATTLE else BIT["A"], 4); e.wait(20)
+    # inside the battle (or one of its sub-screens: party, bag) B backs out and advances text; once the battle has
+    # an outcome (evolution, level-up scenes) A is needed because B cancels an evolution
+    in_battle = cb2 == CB2_BATTLE or e.peek(S["gBattleOutcome"], 1)[0] == 0
+    e.keys(BIT["B"] if in_battle else BIT["A"], 4); e.wait(20)
     idle += 1
     if idle > 400:
         log.append("stuck"); break
