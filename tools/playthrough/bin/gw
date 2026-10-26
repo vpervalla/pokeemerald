@@ -1,0 +1,5 @@
+#!/bin/bash
+# gw TOKENS... : g, but if a wild battle interrupts the walk, fight it with move ${SLOT:-0}. Prints the position.
+out=$(g "$@"); echo "$out" | grep -v '^ok$'
+if echo "$out" | grep -q STOPPED; then g w200 >/dev/null; st | grep ENEMY; fight ${SLOT:-0}; fi
+st | head -1

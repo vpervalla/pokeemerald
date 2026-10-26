@@ -1,0 +1,9 @@
+#!/bin/sh
+# strip NAME... : tile shots/NAME.png three across into $PLAY_DIR/strip.png, to review several screens at once.
+cd "${PLAY_DIR:-$HOME/.playthrough}" && python3 -c "
+from PIL import Image; import sys
+ims = [Image.open('shots/' + n + '.png') for n in sys.argv[1:]]
+c = min(len(ims), 3); r = (len(ims) + 2) // 3
+W = Image.new('RGB', (240 * c, 160 * r))
+[W.paste(im, (240 * (i % 3), 160 * (i // 3))) for i, im in enumerate(ims)]
+W.save('strip.png')" "$@"

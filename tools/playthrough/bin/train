@@ -1,0 +1,14 @@
+#!/bin/bash
+# train N : stand in grass and pace up/down until a battle, N times. Fights with move ${SLOT:-0}.
+# Stops when the enemy matches the regex $CATCH (prints CATCHME, the battle is left open) or when any
+# party member drops under ${MINHP:-45}% HP (prints LOWHP). SWITCH/RESHARE pass through to fight.
+for n in $(seq 1 $1); do
+  for i in $(seq 1 15); do out=$(g U1 D1 U1 D1 U1 D1 U1 D1); echo "$out" | grep -q STOPPED && break; done
+  g w200 >/dev/null
+  e=$(st | grep ENEMY); echo "$e"
+  if [ -n "$CATCH" ] && echo "$e" | grep -Eq "$CATCH"; then echo CATCHME; break; fi
+  fight ${SLOT:-0} ${MAXT:-99}
+  s=$(st | grep -v ENEMY); echo "$s" | sed -n 2,3p
+  low=$(echo "$s" | grep -o "HP [0-9]*/[0-9]*" | tr -d "HP " | awk -F/ -v m=${MINHP:-45} '$1*100<m*$2{print}' | head -1)
+  if [ -n "$low" ]; then echo "LOWHP $low"; break; fi
+done

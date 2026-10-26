@@ -1,0 +1,5 @@
+#!/bin/bash
+# heal : standing on a Pokemon Center's entrance mat, walk to the nurse, heal, and walk back to the mat.
+g w30 U4 hU2 w4 hU2 w10 A w50 A w50 A w50 A w250 A w60 A w60 B w30 B w30 B w30 B w30 >/dev/null
+g D4 >/dev/null
+st | sed -n 2,7p

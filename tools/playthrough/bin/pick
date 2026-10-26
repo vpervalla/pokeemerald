@@ -1,0 +1,8 @@
+#!/bin/bash
+# pick X Y [NAME] : walk next to (X,Y), face it and press A (item ball, hidden item, sign or person).
+# The screen after the press is saved as shots/NAME.png.
+goto $1 $2 --adj >/dev/null
+s=$(st | head -1); x=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); y=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
+d=U; [ $1 -gt $x ] && d=R; [ $1 -lt $x ] && d=L; [ $2 -gt $y ] && d=D; [ $2 -lt $y ] && d=U
+g h${d}2 w4 h${d}2 w10 A w70 shot:${3:-pick} >/dev/null
+echo "$s -> faced $d"

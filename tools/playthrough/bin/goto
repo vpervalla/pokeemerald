@@ -1,0 +1,18 @@
+#!/bin/bash
+# goto X Y [--adj] : walk to (X,Y) on the current map (or next to it with --adj), fighting wild battles
+# with move ${SLOT:-0} and re-planning after each one. Ledges and moving NPCs can still need a hand.
+g B w20 B w20 >/dev/null
+for i in 1 2 3 4 5 6 7 8; do
+  s=$(st | head -1)
+  map=$(echo "$s" | awk '{print $2}'); x=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); y=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
+  if [ "$x" = "$1" ] && [ "$y" = "$2" ]; then echo "at $map ($x,$y)"; exit 0; fi
+  if [ "$x,$y" = "$last" ]; then echo "blocked at ($x,$y): an NPC, a sign or a ledge the planner does not know"; exit 2; fi
+  last="$x,$y"
+  p=$(pathf "$map" $x $y $1 $2 $3 2>&1)
+  echo "$map ($x,$y): $p"
+  case "$p" in *"no path"*) exit 1;; esac
+  out=$(g ${p%%#*} 2>&1)
+  if echo "$out" | grep -q STOPPED; then g w200 >/dev/null; st | grep ENEMY; fight ${SLOT:-0}; g w60 >/dev/null; continue; fi
+  [ -n "$3" ] && { st | head -1; exit 0; }
+done
+st | head -1
