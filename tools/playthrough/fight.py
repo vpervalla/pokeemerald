@@ -32,10 +32,23 @@ def move_pp():
     return raw[o:o + 8], raw[o + 8:o + 12]
 
 
+def hp_state():
+    """(my active HP, foe active HP): if neither changes for a turn the chosen move did nothing (Disable, no PP left)"""
+    mi, ei = e.peek(S["gBattlerPartyIndexes"], 1)[0], e.peek(S["gBattlerPartyIndexes"] + 2, 1)[0]
+    mine = int.from_bytes(e.peek(S["gPlayerParty"] + mi * 100 + 86, 2), "little")
+    foe = int.from_bytes(e.peek(S["gEnemyParty"] + ei * 100 + 86, 2), "little")
+    return mine, foe
+
+
+stalled = 0
+last_hp = None
+banned = set()
+
+
 def usable(want):
     """The wanted move slot if it has PP, else the nearest slot that does (a move at 0 PP just loops forever)."""
     moves, pp = move_pp()
-    ok = [i for i in range(4) if pp[i] > 0 and moves[2 * i:2 * i + 2] != b"\0\0"]
+    ok = [i for i in range(4) if pp[i] > 0 and moves[2 * i:2 * i + 2] != b"\0\0" and i not in banned]
     return want if want in ok else (ok[0] if ok else want)
 
 
@@ -75,6 +88,11 @@ for _ in range(3000):
         else:
             e.wait(10); cursor(ACTION_CUR, 0)                 # the menu remembers the last choice
             e.keys(BIT["A"], 4); e.wait(20)                  # FIGHT
+            hs = hp_state()
+            stalled = stalled + 1 if hs == last_hp else 0
+            last_hp = hs
+            if stalled >= 2:          # two turns with no effect on either side: the move is disabled or useless, rotate
+                banned.add(usable(slot)); stalled = 0
             cursor(MOVE_CUR, usable(slot))
             e.keys(BIT["A"], 4); e.wait(30)
             turns += 1

@@ -22,6 +22,10 @@ numpy), builds `pokeemerald_modern.gba` if it is missing (`make modern -j$(nproc
 `tools/test_saves/mgba_driver.c` into `$PLAY_DIR`, and with a `.sav` argument boots it through
 CONTINUE into the overworld.
 
+To keep playing while you change the source, copy the ROM and ELF to a stable place and point the tools at them:
+`cp pokeemerald_modern.gba pokeemerald_modern.elf $PLAY_DIR/rom/; export PLAY_ROM=$PLAY_DIR/rom/pokeemerald_modern.gba`
+(a rebuild invalidates `cur.ss`; in-game saves from `saves/` still load).
+
 Every RAM and ROM address comes from `pokeemerald_modern.elf` through `arm-none-eabi-nm`
 (`tools/playthrough/syms.py`). Never hard-code one: they move whenever the code changes. If you
 rebuild the ROM, a savestate made with the old ROM may not load. The in-game save (`game.sav`)
@@ -50,6 +54,10 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 | `heal` | From a Pokémon Center's entrance mat: nurse, heal, back to the mat. |
 | `pathf MAP X0 Y0 X1 Y1 [--adj]` | Just the planner: prints walk tokens. |
 | `render MAP OUT.png --grid --coll --objs --x2` | Draw a map from the repo data, with a coordinate grid, collision in red, objects and warps. Use it to plan; coordinates match `st`. |
+| `gotf X Y` | `goto`, and when a trainer or script stops the walk it presses A until the battle starts, fights with move `${SLOT:-0}` and carries on (`ROUNDS`, default 4, interruptions). The workhorse for long walks. |
+| `lead A B` | Swap party slots A and B in RAM (overworld only). Faster and safer than START > POKéMON > SWITCH. |
+| `sendout K` | On the forced "Choose a POKéMON" screen after a faint, send out party slot K. |
+| `xpathf MAP X Y GOALMAP[:X,Y]` | Cross-map route: which warps to take to get from here to another map, with the walk inside each map planned by `pathf`. Use it for caves with several floors (Rock Tunnel, Mt. Moon) before walking. |
 | `strip NAMES...` | Tile shots three across into `$PLAY_DIR/strip.png`, to review a scene at once. |
 
 `tools/playthrough/assets.py` turns maps with numbered markers, front sprites and icons into
@@ -100,6 +108,24 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 - **Scripted scenes** (Oak, the rival, Luna) take control: alternate `A w60` and look.
 - **Time of day** follows the host clock through the RTC: day 6–17, night 17–6. The night tables
   swap in Hoothoot, Spinarak and others.
+- **Stairs, ladders and some doors are arrow warps.** `goto` can land on the warp tile without anything
+  happening. Stand on the tile and press the direction the stairs lead (look at the screenshot): `U1` then `L1`
+  on the Underground Path stairs, `R1` in the S.S. Anne, `D1` at the ship's gangway. A plain door warp triggers by
+  just stepping onto it.
+- **Messages come in parts.** "This tree looks like it can be CUT down!" is only the first box; press A once more
+  for the YES/NO. The Captain's, Bill's and most NPC scenes are the same: keep pressing A with a screenshot in
+  between, and stop pressing A once you are facing an NPC that only offers a card duel ("Maybe next time" loops).
+- **Move-learning prompts stop `fight`.** "Stop learning X?" (YES = don't learn), "Delete a move to make room for
+  X?" (YES then pick the move). Take a screenshot, answer by hand, run `fight` again.
+- **Disable / Encore / Sing stalls.** `fight` bans a move after two turns in which neither side's HP changed and
+  tries the next one, but look at the screen when a fight takes more than 10 turns.
+- **The planner knows more now:** one-way ledges (jumps them in their direction, so a `goto` may drop you where you
+  can't climb back; check `render --coll` first), directional cliff walls, and surfable water (walls without Surf).
+  It still treats removed objects (cut trees, taken fossils) as blocking: step through by hand.
+- **Soft-lock on leaving the S.S. Anne** (fixed in `data/maps/SSAnne_Exterior/scripts.inc`; a ROM built before the
+  fix needs `poke 3000d90:00` style rescue: the script stops at `waitstate` and `sGlobalScriptContextStatus`
+  (nm it) has to be set back to 0 for it to resume).
+- **Weather and time.** Rain starts on Route 10; the clock is the host's, so day/night tables change under you.
 - **Pipes.** `g ... | head` can raise BrokenPipe; send stderr to /dev/null or read the whole output.
 
 ## 4. Battle and training tactics
@@ -118,6 +144,27 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 - **Low Kick** gets stronger with the target's weight: Mankey's Low Kick does 120 to Onix.
 - **Gym trainers** can be strung out by Defense Curl and Sand-Attack. Watch PP and heal between
   them.
+
+
+## 4b. Lessons from the run to Celadon
+
+- **Trainers are about 5 levels above their vanilla teams** (Caterpie L20, Geodude L25, Slowpoke L25 in Rock
+  Tunnel) and carry full parties. Expect to lose a Pokémon per trainer until the lead is L25+.
+- **A blackout is a cheap heal.** Whiting out returns you to the last Pokémon Center you healed at with the whole
+  party restored, keeps all exp and every trainer you already beat, and costs half your money. Heal at a Center
+  right before a dangerous stretch (Route 10 before Rock Tunnel) and use wipes as free healing.
+- **Status first, then hit.** Butterfree's Sleep Powder (75%) stopped every big trainer Pokémon for 2-5 turns, but
+  Starmie/Staryu out-heal Confusion with Recover and resist it. Misty was won with Sleep Powder, Poison Powder and a
+  poisoned Starmie dying to the poison tick (L22 Butterfree against a L21 Starmie). Electric or Grass would have
+  been far easier: bring them.
+- **Type answers that worked:** Pidgeotto's Aerial Ace (TM40) and Gust against Fighting and Bug; Mankey's Low Kick
+  against Geodude, Onix, Cubone (weight based, Fighting is 2x on Rock/Ground); Pikachu against Water/Flying;
+  Nidoking (Nidorino + Moon Stone at L16) hits hard with Double Kick and the Rock Tomb TM.
+- **Raise a weak Pokémon:** lead it, `SWITCH=1 RESHARE=1` to a strong one on turn 1 (see section 4). Both get exp.
+  This took Nidoran from L13 to L16 inside Rock Tunnel and evolved Pidgey and Nidorino at the same time.
+- **Level-up evolutions are cancelled by B:** answer the post-battle screens with A.
+- **Cut trees may need cutting again** after you leave and re-enter a map (Route 9's did); keep a Cut user in the
+  party (Nidoran learned it from HM01 without issue; Cut needs the Cascade Badge here).
 
 ## 5. What this build changes
 
@@ -175,17 +222,50 @@ R10 to (70,9), R2, then up to Route 4.
 **Route 4 Pokémon Center** (at the foot of Mt. Moon). Luna's mother asks you to find Luna in
 Mt. Moon. Save here.
 
-**Mt. Moon.** Three floors and a maze; use `render --coll` and `goto` rather than exploring.
-1F ladder (19,14) → B1F (25,4) → ladder (17,5) → B2F (31,11). On B2F Rockets stand at (12,20),
-(35,12) and (37,21); Miguel and the fossils at (13–14,7). Out: ladder (5,10) → B1F (39,4) → exit
-(45,4) onto Route 4 east → Cerulean. Zubat everywhere (Supersonic). 1F also has a Moon Stone item
-at (3,2), a Parlyz Heal at (2,22), and five trainers.
+**Mt. Moon.** The floors are islands joined only by ladders (check with `xpathf`, but it treats the fossils as
+walls, so finish the fossil step by hand). The route that works, 1F entry (18,36) from Route 4:
+1F (31,16) -> B1F (43,21) -> walk to (26,36) -> B2F (17,31) is the Luna/Charmander corridor (a dead end except for
+the ladder and an Escape Rope). For the way on: 1F (5,6) -> B1F (3,3) -> walk to (22,18) -> B2F (25,21), the big
+cave floor with Rockets at (12,20) and (37,21). Go to the scientist at (13,11) (he stops you: fight his Grimer;
+Disable-ing Drowzee and Machop live nearby), take a fossil at (14,7) (Helix) and keep walking up the now free stairs
+through (14,7) to the west room, then the ladder (5,10) -> B1F (39,4) -> exit (45,4) onto Route 4 east. The ladder
+(17,5) on B1F leads to a sealed pocket (B2F (31,11)): don't take it. Zubat everywhere (Supersonic). 1F also has a
+Moon Stone item at (3,2), a Parlyz Heal at (2,22), and five trainers.
 
 **The Charmander quest.** On B2F a Rocket Grunt above the corridor battles you, then Luna is
 cornered by a wild **Charmander L10**. Catch it (Sleep Powder, then a weak move to red HP,
 Thunder Wave, balls; bring at least 5). Luna thanks you and runs back to her mother; the
 **Star Piece** sits up the stairs behind where she stood. Back at the Route 4 Center (an Escape
 Rope is the quick way out) her mother gives a **Moon Stone**.
+
+
+**Cerulean City.** The city is three pockets joined only by doors. From the Route 4 side you can reach the plaza
+(Center (22,19), Gym (31,21), Mart (29,28), Route 24 bridge at the top). The thief's house (door (30,11)) has a
+hole in its back wall: its exit (4,1) puts you at (31,8) in the back yard, which connects east to Route 9 (exit
+(47,18)) and, down a long corridor, to the south road and **Route 5 (enter at x=33, y=39)**. The tree at (26,32)
+shortcut needs Cut. Rival Blue waits at the Nugget Bridge (triggers (22-24,6)): Pidgeotto, Kadabra... L17-ish,
+use Pikachu/Charmander's Ember and potions. A Rocket in the back yard (33,6) has Machop and Drowzee (Drowzee
+Disables a move: switch to another).
+**Nugget Bridge, Route 24/25.** Five trainers on the bridge and eight on Route 25 (Franklin's Geodude, Wayne's
+Onix: Low Kick). The TM43 ball at (26,2) is behind bushes. Bill's cottage is at (51,4); talk to the Clefairy,
+let it enter the teleporter, use the PC at (4,5) from below (face up at (4,6)), then talk to Bill: **S.S. Ticket**.
+**Cerulean Gym.** Luis (Horsea), Diana, Misty: Staryu L18 and Starmie L21 hit hard and Recover. Reward
+**Cascade Badge** + TM03. Misty's intro text looks like a refusal ("You have to face other TRAINERS"); keep pressing A.
+**Route 5 / Underground Path / Route 6 / Vermilion.** Route 5 (33,1) down to the house at (31,31); inside, stairs
+(7,4) go down to the tunnel (arrive (4,3)); walk to (3,60) and press `L1` on the stairs; the south house exit (5-7,8)
+opens on Route 6 (19,14). Route 6 grass at (13-16,30-33) is L10-16. Vermilion: Center (15,6), Mart (29,17), pier to
+the S.S. Anne at (24,33) (show the ticket, walk down the left side of the gangway).
+**S.S. Anne.** Exterior door (32,14) `D1`; 1F corridor stairs (3,8) `L1` to 2F; walk to (30,6) to trigger Blue
+(Pidgeotto, Kadabra, Raticate-line, Wartortle L18-20: Sleep Powder + Confusion, Pikachu for Wartortle);
+then step `R1` at (30,2) into the Captain's cabin; talk to him: **HM01 Cut**. Teach it from the bag.
+**Route 9, Route 10, Rock Tunnel.** Cut the tree at (2,8). Route 9 is a one-way descent: do not jump the ledge near
+(11,17) unless you mean it. Route 10 has a **Pokémon Center at (13,20)**: heal and save there. Rock Tunnel:
+`xpathf RockTunnel_1F 17 3 Route10:8,57` gives the four-leg route (1F (45,2) -> B1F (33,3) -> 1F (20,13) ->
+B1F (2,3) -> 1F (18,37)); it is dark but the planner does not care. About ten trainers with L19-25 teams.
+**Lavender Town -> Celadon.** Route 10 south to Lavender; the way west to Route 8 is at (0,9-11). Route 8 to the
+Underground entrance (13,4) (`U1` onto it), stairs (7,4) `L1`, tunnel east end (76,3) to west end (3,4) and `L1`,
+exit (5-7,8), Route 7, west edge (0,1-3), Celadon City at (57,13). The Saffron gates ask for Tea (Celadon) so the
+Route 6/5/7/8 gate houses are closed until then.
 
 ## 7. Recording a run as a walkthrough page
 
@@ -210,6 +290,10 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_viridian_forest_gate.sav` | Route 2, at the forest gate. Pikachu, Pidgey, Mankey, Ledyba. |
 | `saves/ethan_boulder_badge.sav` | Pewter Center after Brock. Butterfree, Mankey, Ledyba, Pikachu, Pidgey. |
 | `saves/ethan_route4_charmander.sav` | Route 4 Center, Charmander caught, Moon Stone. Next: Mt. Moon to Cerulean. |
+| `saves/ethan_cascade_badge.sav` | Cerulean Center after Misty and Bill: 2 badges, S.S. Ticket. Next: Route 5, Vermilion, Cut. |
+| `saves/ethan_route10.sav` | Route 10 Center, Cut learned, Route 9 done. Next: Rock Tunnel. |
+| `saves/ethan_lavender.sav` | Lavender Center after Rock Tunnel (Nidoking, Pidgeotto). Next: Route 8, Underground Path, Celadon. |
+| `saves/ethan_celadon.sav` | Celadon Center, all healed, 2 badges. Next: Celadon (Rocket hideout, Tea, Erika) and Saffron. |
 
 Save in the game (START → SAVE, then A through the prompts) at the end of each leg, check with
 `st`, and copy `$PLAY_DIR/game.sav` into `saves/`.

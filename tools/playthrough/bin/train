@@ -3,7 +3,7 @@
 # Stops when the enemy matches the regex $CATCH (prints CATCHME, the battle is left open) or when any
 # party member drops under ${MINHP:-45}% HP (prints LOWHP). SWITCH/RESHARE pass through to fight.
 for n in $(seq 1 $1); do
-  for i in $(seq 1 15); do out=$(g U1 D1 U1 D1 U1 D1 U1 D1); echo "$out" | grep -q STOPPED && break; done
+  for i in $(seq 1 15); do out=$(g ${PACE:-U1 D1 U1 D1 U1 D1 U1 D1}); echo "$out" | grep -q STOPPED && break; done
   g w200 >/dev/null
   e=$(st | grep ENEMY); echo "$e"
   if [ -n "$CATCH" ] && echo "$e" | grep -Eq "$CATCH"; then echo CATCHME; break; fi

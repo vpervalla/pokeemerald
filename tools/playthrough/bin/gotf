@@ -1,0 +1,11 @@
+#!/bin/bash
+# gotf X Y : goto, and whenever a trainer or script stops the walk ("blocked"), press A until the battle starts,
+# fight it with move ${SLOT:-0}, then carry on. Stops after ${ROUNDS:-4} interruptions or when a fainted-lead prompt sticks.
+for r in $(seq 1 ${ROUNDS:-4}); do
+  out=$(goto "$@" 2>&1); echo "$out" | tail -1
+  case "$out" in *blocked*) ;; *) exit 0;; esac
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12; do st | grep -q ENEMY && break; g A w60 >/dev/null; done
+  g w120 >/dev/null; st | grep ENEMY | cut -c1-70
+  fight ${SLOT:-0} 40
+  g w60 >/dev/null
+done
