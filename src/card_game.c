@@ -3,7 +3,9 @@
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
+#include "event_object_movement.h"
 #include "event_data.h"
+#include "field_screen_effect.h"
 #include "gpu_regs.h"
 #include "list_menu.h"
 #include "main.h"
@@ -663,6 +665,22 @@ static s16 GetSlotY(u8 side, u8 slot)
 // ---------------------------------------------------------------------------------------------
 // Entry and exit
 
+// The script's lock keeps the opponent still by the held movement faceplayer gave them, and coming
+// back to the field clears held movements, so a wandering opponent walked off while they were still
+// talking. They're frozen before the field shows, until the script's release.
+static void FieldCB_ReturnFromCardGame(void)
+{
+    if (gObjectEvents[gSelectedObjectEvent].active && !gObjectEvents[gSelectedObjectEvent].isPlayer)
+        FreezeObjectEvent(&gObjectEvents[gSelectedObjectEvent]);
+    FieldCB_ContinueScriptHandleMusic();
+}
+
+static void CB2_ReturnFromCardGame(void)
+{
+    CB2_ReturnToFieldContinueScriptPlayMapMusic();
+    gFieldCallback = FieldCB_ReturnFromCardGame;  // Runs once the map is loaded
+}
+
 void PlayCardGame(void)
 {
     u8 opponentId = gSpecialVar_0x8004 < CARD_OPPONENTS_COUNT ? gSpecialVar_0x8004 : 0;
@@ -670,7 +688,7 @@ void PlayCardGame(void)
     sScreen = AllocZeroed(sizeof(*sScreen));
     sScreen->opponentDeck = gCardOpponents[opponentId].deck;
     CardGame_GetOpponentName(sScreen->opponentName, opponentId);
-    sScreen->exitCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
+    sScreen->exitCallback = CB2_ReturnFromCardGame;
     CreateTask(Task_FadeToCardGame, 0);
 }
 
