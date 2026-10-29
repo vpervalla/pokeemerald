@@ -24,7 +24,7 @@ Text_WeatherForecasterIntro:
 
 Text_WeatherForecasterArea:
 	.string "{STR_VAR_1}:\n"
-	.string "Today, {STR_VAR_2}.\l"
+	.string "Now, {STR_VAR_2}.\l"
 	.string "Tomorrow, {STR_VAR_3}.$"
 
 Text_WeatherForecasterOutro:

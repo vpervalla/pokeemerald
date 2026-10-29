@@ -121,10 +121,11 @@ static void TestSeedsDiffer(void)
     }
 }
 
-// The forecaster's text is "{area}:" then "Today, {phrase}." and "Tomorrow, {phrase}.", one
-// per line of the message box: keep them short enough to fit.
+// The forecaster's text is "{area}:" then "Now, {word}.", maybe "Later today, {word}." and
+// "Tomorrow, {phrase}.", one per line of the message box: keep them short enough to fit.
 #define MAX_AREA_NAME_LENGTH 26
 #define MAX_PHRASE_LENGTH    20
+#define MAX_WORD_LENGTH      20
 
 static void TestForecastTexts(void)
 {
@@ -135,16 +136,26 @@ static void TestForecastTexts(void)
         if (phrase != NULL)
             CHECK(strlen((const char *)phrase) <= MAX_PHRASE_LENGTH, "pattern %d: phrase \"%s\" is too long", pattern, phrase);
     }
+    for (u8 pattern = 0; pattern < DYN_PATTERN_COUNT; pattern++)
+    {
+        for (u8 phase = 0; phase < DAY_NIGHT_PHASE_COUNT; phase++)
+        {
+            const u8 *word = DynamicWeather_GetWeatherWord(DynamicWeather_GetPatternWeather(pattern, phase));
+            CHECK(strlen((const char *)word) <= MAX_WORD_LENGTH, "pattern %d: word \"%s\" is too long", pattern, word);
+        }
+    }
     for (u8 zone = 0; zone < DYN_ZONE_COUNT; zone++)
     {
         const u8 *area = DynamicWeather_GetAreaName(zone);
+        if (zone == DYN_ZONE_MEGA_ISLAND)
+            continue;
         CHECK(area != NULL, "zone %d has no area name", zone);
         if (area != NULL)
             CHECK(strlen((const char *)area) <= MAX_AREA_NAME_LENGTH, "zone %d: area \"%s\" is too long", zone, area);
     }
 }
 
-// Every zone is in exactly one forecaster's list, and every list ends.
+// Every zone is in exactly one forecaster's list, but MEGA ISLAND (a secret) in none, and every list ends.
 static void TestForecastersCoverEveryZone(void)
 {
     int seen[DYN_ZONE_COUNT] = {0};
@@ -157,7 +168,7 @@ static void TestForecastersCoverEveryZone(void)
         CHECK(i > 0, "forecaster %d covers no zone", forecaster);
     }
     for (u8 zone = 0; zone < DYN_ZONE_COUNT; zone++)
-        CHECK(seen[zone] == 1, "zone %d is in %d forecasters' lists", zone, seen[zone]);
+        CHECK(seen[zone] == (zone != DYN_ZONE_MEGA_ISLAND), "zone %d is in %d forecasters' lists", zone, seen[zone]);
     CHECK(DynamicWeather_GetForecastZone(FORECAST_COUNT, 0) == DYN_ZONE_COUNT, "bad forecaster");
 }
 

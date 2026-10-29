@@ -98,7 +98,6 @@ static const u8 sAreaName_SeviiNorth[] = _("ONE, TWO and THREE ISLAND");
 static const u8 sAreaName_FourIsland[] = _("FOUR ISLAND");
 static const u8 sAreaName_SeviiFourFive[] = _("FIVE ISLAND");
 static const u8 sAreaName_SeviiSouth[] = _("SIX and SEVEN ISLAND");
-static const u8 sAreaName_MegaIsland[] = _("MEGA ISLAND");
 
 static const u8 sForecast_Clear[] = _("clear skies");
 static const u8 sForecast_Cloudy[] = _("cloudy, then clear");
@@ -113,6 +112,35 @@ static const u8 sForecast_HeatWave[] = _("harsh sun at midday");
 static const u8 sForecast_Dust[] = _("sandstorms by day");
 static const u8 sForecast_Snowfall[] = _("snow on and off");
 static const u8 sForecast_Flurries[] = _("snow tonight");
+
+static const u8 sWeatherWord_Clear[] = _("clear skies");
+static const u8 sWeatherWord_Cloudy[] = _("cloudy");
+static const u8 sWeatherWord_Overcast[] = _("overcast");
+static const u8 sWeatherWord_Fog[] = _("fog");
+static const u8 sWeatherWord_Rain[] = _("rain");
+static const u8 sWeatherWord_Storm[] = _("a thunderstorm");
+static const u8 sWeatherWord_Downpour[] = _("heavy rain");
+static const u8 sWeatherWord_HarshSun[] = _("harsh sun");
+static const u8 sWeatherWord_Sandstorm[] = _("a sandstorm");
+static const u8 sWeatherWord_Snow[] = _("snow");
+
+// What the weather forecasters say of each pattern weather, for "now" and "later today"
+const u8 *DynamicWeather_GetWeatherWord(u8 weather)
+{
+    switch (weather)
+    {
+    case WEATHER_SUNNY_CLOUDS:      return sWeatherWord_Cloudy;
+    case WEATHER_SHADE:             return sWeatherWord_Overcast;
+    case WEATHER_FOG_HORIZONTAL:    return sWeatherWord_Fog;
+    case WEATHER_RAIN:              return sWeatherWord_Rain;
+    case WEATHER_RAIN_THUNDERSTORM: return sWeatherWord_Storm;
+    case WEATHER_DOWNPOUR:          return sWeatherWord_Downpour;
+    case WEATHER_DROUGHT:           return sWeatherWord_HarshSun;
+    case WEATHER_SANDSTORM:         return sWeatherWord_Sandstorm;
+    case WEATHER_SNOW:              return sWeatherWord_Snow;
+    default:                        return sWeatherWord_Clear;
+    }
+}
 
 // What the weather forecasters say of a day with each pattern
 static const u8 *const sForecastPhrases[DYN_PATTERN_COUNT] =
@@ -134,11 +162,11 @@ static const u8 *const sForecastPhrases[DYN_PATTERN_COUNT] =
 
 #define FORECAST_END DYN_ZONE_COUNT
 
-// The zones each weather forecaster covers, nearest first
+// The zones each weather forecaster covers, nearest first. MEGA ISLAND is a secret: no one forecasts it.
 static const u8 sForecastZones[FORECAST_COUNT][5] =
 {
     [FORECAST_VIRIDIAN]   = {DYN_ZONE_VIRIDIAN, DYN_ZONE_PEWTER, DYN_ZONE_INDIGO, FORECAST_END},
-    [FORECAST_CERULEAN]   = {DYN_ZONE_CERULEAN, DYN_ZONE_VERMILION, DYN_ZONE_LAVENDER, DYN_ZONE_MEGA_ISLAND, FORECAST_END},
+    [FORECAST_CERULEAN]   = {DYN_ZONE_CERULEAN, DYN_ZONE_VERMILION, DYN_ZONE_LAVENDER, FORECAST_END},
     [FORECAST_CELADON]    = {DYN_ZONE_CELADON, DYN_ZONE_FUCHSIA, DYN_ZONE_SEA, FORECAST_END},
     [FORECAST_ONE_ISLAND] = {DYN_ZONE_SEVII_NORTH, DYN_ZONE_FOUR_ISLAND, DYN_ZONE_SEVII_FOUR_FIVE, DYN_ZONE_SEVII_SOUTH, FORECAST_END},
 };
@@ -361,7 +389,6 @@ static const struct DynamicWeatherZone sZones[DYN_ZONE_COUNT] =
     [DYN_ZONE_MEGA_ISLAND] =
     {
         .name = gText_DynamicWeatherZone_MegaIsland,
-        .areaName = sAreaName_MegaIsland,
         .fallback = WEATHER_SUNNY,
         .weights =
         {

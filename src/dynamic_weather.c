@@ -110,30 +110,46 @@ void DynamicWeather_UpdateField(void)
 // ---------------------------------------------------------------------------------------------
 // Weather forecasters (data/scripts/weather_forecaster.inc)
 
+static const u8 sText_LaterToday[] = _(".\lLater today, ");
+
 // Buffers the forecast for zone VAR_0x8005 of forecaster VAR_0x8004's list (FORECAST_*):
-// gStringVar1: the area, gStringVar2: today, gStringVar3: tomorrow. VAR_RESULT is FALSE past
-// the end of the list. While the dynamic weather is off the maps stay clear, and so does the
-// forecast. The draw is the one the maps use, so the forecast is always right.
+// gStringVar1: the area, gStringVar2: the weather now, and the next change later today if any,
+// gStringVar3: tomorrow. VAR_RESULT is FALSE past the end of the list. Today's is told from the
+// weather the zone's maps have now, then the phases left in the day, so it is what the player
+// sees outside. While the dynamic weather is off the maps stay clear, and so does the forecast.
 void DynamicWeather_BufferForecast(void)
 {
     u8 zone = DynamicWeather_GetForecastZone(gSpecialVar_0x8004, gSpecialVar_0x8005);
-    u8 today = DYN_PATTERN_CLEAR;
-    u8 tomorrow = DYN_PATTERN_CLEAR;
+    u8 now, phase, today, tomorrow = DYN_PATTERN_CLEAR;
+    u8 *str;
 
     if (zone >= DYN_ZONE_COUNT)
     {
         gSpecialVar_Result = FALSE;
         return;
     }
+    now = GetDynamicWeather(zone);
+    str = StringCopy(gStringVar2, DynamicWeather_GetWeatherWord(now));
     if (IsDynamicWeatherOn())
     {
         u16 day = GetWeatherDay();
 
         today = DynamicWeather_PickPattern(zone, GetSeed(), day);
         tomorrow = DynamicWeather_PickPattern(zone, GetSeed(), day + 1);
+        // The night runs to 06:00, the end of the weather day
+        for (phase = DayNight_GetPhaseNow() + 1; phase < DAY_NIGHT_PHASE_COUNT; phase++)
+        {
+            u8 later = DynamicWeather_GetPatternWeather(today, phase);
+
+            if (DynamicWeather_GetWeatherWord(later) != DynamicWeather_GetWeatherWord(now))
+            {
+                str = StringCopy(str, sText_LaterToday);
+                StringCopy(str, DynamicWeather_GetWeatherWord(later));
+                break;
+            }
+        }
     }
     StringCopy(gStringVar1, DynamicWeather_GetAreaName(zone));
-    StringCopy(gStringVar2, DynamicWeather_GetForecastPhrase(today));
     StringCopy(gStringVar3, DynamicWeather_GetForecastPhrase(tomorrow));
     gSpecialVar_Result = TRUE;
 }

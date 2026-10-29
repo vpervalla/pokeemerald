@@ -48,6 +48,7 @@ const u8 *DynamicWeather_GetZoneName(u8 zone);
 const u8 *DynamicWeather_GetPatternName(u8 pattern);
 const u8 *DynamicWeather_GetAreaName(u8 zone);
 const u8 *DynamicWeather_GetForecastPhrase(u8 pattern);
+const u8 *DynamicWeather_GetWeatherWord(u8 weather);
 u8 DynamicWeather_GetForecastZone(u8 forecaster, u8 i);
 
 // src/dynamic_weather.c

@@ -327,7 +327,7 @@ Done. As built:
   | Forecaster | Zones |
   |------------|-------|
   | Viridian | Viridian, Pewter, Indigo |
-  | Cerulean | Cerulean, Vermilion, Lavender, Mega Island (by boat from Vermilion) |
+  | Cerulean | Cerulean, Vermilion, Lavender (MEGA ISLAND is a secret: no one forecasts it) |
   | Celadon | Celadon, Fuchsia, the sea |
   | One Island | Sevii north, Four Island, Five Island, Sevii south |
 
@@ -338,10 +338,15 @@ Done. As built:
   list, one message per zone:
 
   > CERULEAN CITY:
-  > Today, a midday shower.
+  > Now, clear skies.
+  > Later today, rain.
   > Tomorrow, clear skies.
 
-- **Text per pattern** (not per phase), in `sForecastPhrases`: clear skies, cloudy then
+- **Today** is told from the weather the zone's maps have now (`GetDynamicWeather`) and the
+  first different one among the phases left before 06:00, so it matches what the player
+  sees outside. (A phrase for the whole day, as tomorrow's, read as wrong once its rain was
+  over or not there yet.)
+- **Tomorrow's text per pattern** (not per phase), in `sForecastPhrases`: clear skies, cloudy then
   clear, overcast all day, early and late fog, a midday shower, rain until evening, rain
   tonight, storms by day, heavy rain all day, harsh sun at midday, sandstorms by day, snow
   on and off, snow tonight. Each zone has an area name for the forecast ("CELADON and
@@ -350,9 +355,9 @@ Done. As built:
   "Today" is the weather day, which starts at 06:00. Before the POKéDEX (and with no
   clock) the maps stay clear, and so does the forecast. The Test Area's "next day" offset
   moves the forecast too.
-- **Host tests**: every pattern has a phrase of at most 20 characters and every zone an
-  area name of at most 26, so each line fits in the message box; every zone is in
-  exactly one forecaster's list.
+- **Host tests**: every pattern has a phrase of at most 20 characters, every pattern weather
+  a word of at most 20 and every forecast zone an area name of at most 26, so each line
+  fits in the message box; every zone but MEGA ISLAND is in exactly one forecaster's list.
 - The Test Area debug entry already has a menu of every zone (phase 3).
 
 ## 7. Phases

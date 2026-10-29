@@ -58,7 +58,7 @@
 
 // The weather forecasters (data/scripts/weather_forecaster.inc), by the zones they cover
 #define FORECAST_VIRIDIAN               0   // Viridian, Pewter, Indigo
-#define FORECAST_CERULEAN               1   // Cerulean, Vermilion, Lavender, Mega Island
+#define FORECAST_CERULEAN               1   // Cerulean, Vermilion, Lavender
 #define FORECAST_CELADON                2   // Celadon, Fuchsia, the sea
 #define FORECAST_ONE_ISLAND             3   // The Sevii Islands
 #define FORECAST_COUNT                  4
