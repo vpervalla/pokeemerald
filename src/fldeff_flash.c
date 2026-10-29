@@ -1,4 +1,5 @@
 #include "global.h"
+#include "bg.h"
 #include "braille_puzzles.h"
 #include "event_data.h"
 #include "event_scripts.h"
@@ -6,6 +7,7 @@
 #include "fldeff.h"
 #include "gpu_regs.h"
 #include "main.h"
+#include "map_preview_screen.h"
 #include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
@@ -13,8 +15,10 @@
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
+#include "window.h"
 #include "constants/songs.h"
 #include "constants/map_types.h"
+#include "constants/rgb.h"
 
 struct FlashStruct
 {
@@ -39,6 +43,8 @@ static void Task_EnterCaveTransition1(u8 taskId);
 static void Task_EnterCaveTransition2(u8 taskId);
 static void Task_EnterCaveTransition3(u8 taskId);
 static void Task_EnterCaveTransition4(u8 taskId);
+static void RunMapPreviewScreen(u8 mapsec);
+static void Task_MapPreviewScreen(u8 taskId);
 
 static const struct FlashStruct sTransitionTypes[] =
 {
@@ -151,6 +157,13 @@ static bool8 TryDoMapTransition(void)
     u8 i;
     u8 fromType = GetLastUsedWarpMapType();
     u8 toType = GetCurrentMapType();
+
+    // A cave's map preview (FRLG), then the cave transition
+    if (MapHasPreviewScreenOnWarp(MPS_TYPE_CAVE))
+    {
+        RunMapPreviewScreen(gMapHeader.regionMapSectionId);
+        return TRUE;
+    }
 
     for (i = 0; sTransitionTypes[i].fromType; i++)
     {
@@ -358,3 +371,82 @@ static void Task_EnterCaveTransition4(u8 taskId)
         SetMainCallback2(gMain.savedCallback);
     }
 }
+
+#define tState    data[0]
+#define tTimer    data[1]
+#define tDuration data[2]
+#define tMapsec   data[3]
+#define tWindowId data[4]
+#define tVBlankCB 5 // and 6
+
+static void RunMapPreviewScreen(u8 mapsec)
+{
+    u8 taskId = CreateTask(Task_MapPreviewScreen, 0);
+    gTasks[taskId].tMapsec = mapsec;
+}
+
+// The preview fades in from black and out to white, where the cave transition starts. B cuts it short.
+static void Task_MapPreviewScreen(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    switch (tState)
+    {
+    case 0:
+        SetWordTaskArg(taskId, tVBlankCB, (uintptr_t)gMain.vblankCallback);
+        SetVBlankCallback(NULL);
+        MapPreview_InitBgs();
+        MapPreview_LoadGfx(tMapsec);
+        BlendPalettes(PALETTES_ALL, 16, RGB_BLACK);
+        tState++;
+        break;
+    case 1:
+        if (!MapPreview_IsGfxLoadFinished())
+        {
+            tWindowId = MapPreview_CreateMapNameWindow(tMapsec);
+            CopyWindowToVram(tWindowId, COPYWIN_FULL);
+            tState++;
+        }
+        break;
+    case 2:
+        if (!IsDma3ManagerBusyWithBgCopy())
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, -1, 16, 0, RGB_BLACK);
+            SetVBlankCallback((IntrCallback)GetWordTaskArg(taskId, tVBlankCB));
+            tState++;
+        }
+        break;
+    case 3:
+        if (!UpdatePaletteFade())
+        {
+            tDuration = MapPreview_GetDuration(tMapsec);
+            tState++;
+        }
+        break;
+    case 4:
+        if (++tTimer > tDuration || JOY_HELD(B_BUTTON))
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_WHITE);
+            tState++;
+        }
+        break;
+    case 5:
+        if (!UpdatePaletteFade())
+        {
+            u32 i;
+
+            MapPreview_Unload(tWindowId);
+            for (i = 0; i < NUM_TASK_DATA; i++)
+                data[i] = 0;
+            gTasks[taskId].func = Task_EnterCaveTransition2;
+        }
+        break;
+    }
+}
+
+#undef tState
+#undef tTimer
+#undef tDuration
+#undef tMapsec
+#undef tWindowId
+#undef tVBlankCB

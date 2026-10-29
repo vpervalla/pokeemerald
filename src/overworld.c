@@ -31,6 +31,7 @@
 #include "malloc.h"
 #include "m4a.h"
 #include "map_name_popup.h"
+#include "map_preview_screen.h"
 #include "match_call.h"
 #include "menu.h"
 #include "metatile_behavior.h"
@@ -1948,7 +1949,10 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
         (*state)++;
         break;
     case 11:
-        if (gMapHeader.showMapName == TRUE && SecretBaseMapPopupEnabled() == TRUE)
+        // A forest's map preview (FRLG) instead of the map's name
+        if (MapHasPreviewScreenOnWarp(MPS_TYPE_FOREST))
+            MapPreview_StartForestTransition(gMapHeader.regionMapSectionId);
+        else if (gMapHeader.showMapName == TRUE && SecretBaseMapPopupEnabled() == TRUE)
             ShowMapNamePopup();
         (*state)++;
         break;

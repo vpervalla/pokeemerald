@@ -17,6 +17,7 @@
 #include "link_rfu.h"
 #include "load_save.h"
 #include "main.h"
+#include "map_preview_screen.h"
 #include "menu.h"
 #include "mirage_tower.h"
 #include "metatile_behavior.h"
@@ -482,9 +483,10 @@ static bool32 PaletteFadeActive(void)
     return gPaletteFade.active;
 }
 
+// Also waits for a forest's map preview (FRLG), which the warp's fade in shows
 static bool32 WaitForWeatherFadeIn(void)
 {
-    if (IsWeatherNotFadingIn() == TRUE)
+    if (IsWeatherNotFadingIn() == TRUE && !MapPreview_IsForestTransitionRunning())
         return TRUE;
     else
         return FALSE;
