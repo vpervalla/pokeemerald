@@ -9,7 +9,7 @@ CeruleanCity_House1_EventScript_BadgeGuy::
 	msgbox CeruleanCity_House1_Text_BadgesHaveAmazingSecrets
 	message CeruleanCity_House1_Text_DescribeWhichBadge
 	waitmessage
-	setvar VAR_0x8004, SCROLL_MULTI_NONE
+	setvar VAR_0x8004, SCROLL_MULTI_KANTO_BADGES
 	special ShowScrollableMultichoice
 	waitstate
 	switch VAR_RESULT
@@ -28,6 +28,8 @@ CeruleanCity_House1_EventScript_BadgeGuy::
 CeruleanCity_House1_EventScript_DescribeAnotherBadge::
 	message CeruleanCity_House1_Text_DescribeWhichBadge
 	waitmessage
+	setvar VAR_0x8004, SCROLL_MULTI_KANTO_BADGES  @ added: Emerald's list closes on a choice, FRLG's stayed open
+	special ShowScrollableMultichoice
 	waitstate
 	switch VAR_RESULT
 	case 0, CeruleanCity_House1_EventScript_DescribeBoulderBadge

@@ -45,6 +45,7 @@
 #define SCROLL_MULTI_TEST_AREA_TIME                       14
 #define SCROLL_MULTI_KANTO_SILPH_CO_FLOORS                15
 #define SCROLL_MULTI_TEST_AREA_ZONE                       16
+#define SCROLL_MULTI_KANTO_BADGES                         17  // CERULEAN's badge man (FRLG's LISTMENU_BADGES)
 
 #define MAX_SCROLL_MULTI_ON_SCREEN 6
 #define MAX_SCROLL_MULTI_LENGTH 16

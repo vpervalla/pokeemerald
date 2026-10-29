@@ -54,7 +54,7 @@ CeruleanCity_House5_EventScript_Carbos::
 CeruleanCity_House5_EventScript_ChooseExchangeItem::
 	message CeruleanCity_House5_Text_ExchangeWithWhat
 	waitmessage
-	setvar VAR_0x8004, SCROLL_MULTI_NONE
+	setvar VAR_0x8004, SCROLL_MULTI_BERRY_POWDER_VENDOR
 	special ShowScrollableMultichoice
 	waitstate
 	switch VAR_RESULT

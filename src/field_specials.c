@@ -2662,6 +2662,16 @@ void ShowScrollableMultichoice(void)
         task->tScrollOffset = sKantoElevatorScrollOffset;
         task->tSelectedRow = sKantoElevatorSelectedRow;
         break;
+    case SCROLL_MULTI_KANTO_BADGES:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 9;
+        task->tLeft = 1;
+        task->tTop = 1;
+        task->tWidth = 12;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     case SCROLL_MULTI_TEST_AREA_ZONE:
         task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
         task->tNumItems = DYN_ZONE_COUNT + 1;
@@ -2713,8 +2723,23 @@ static const u8 sText_TimeDay[] = _("DAY");
 static const u8 sText_TimeEvening[] = _("EVENING");
 static const u8 sText_TimeNight[] = _("NIGHT");
 
+static const u8 sText_KantoBoulderBadge[] = _("BOULDERBADGE");
+static const u8 sText_KantoCascadeBadge[] = _("CASCADEBADGE");
+static const u8 sText_KantoThunderBadge[] = _("THUNDERBADGE");
+static const u8 sText_KantoRainbowBadge[] = _("RAINBOWBADGE");
+static const u8 sText_KantoSoulBadge[] = _("SOULBADGE");
+static const u8 sText_KantoMarshBadge[] = _("MARSHBADGE");
+static const u8 sText_KantoVolcanoBadge[] = _("VOLCANOBADGE");
+static const u8 sText_KantoEarthBadge[] = _("EARTHBADGE");
+
 static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] =
 {
+    [SCROLL_MULTI_KANTO_BADGES] =
+    {
+        sText_KantoBoulderBadge, sText_KantoCascadeBadge, sText_KantoThunderBadge, sText_KantoRainbowBadge,
+        sText_KantoSoulBadge, sText_KantoMarshBadge, sText_KantoVolcanoBadge, sText_KantoEarthBadge,
+        gText_Exit
+    },
     [SCROLL_MULTI_KANTO_SILPH_CO_FLOORS] =
     {
         gText_11F, gText_10F, gText_9F, gText_8F, gText_7F, gText_6F,
