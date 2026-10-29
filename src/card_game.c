@@ -100,6 +100,7 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define ENERGY_ICON_SPACE   (ENERGY_ICON_SIZE + 1)
 #define ENERGY_ICON_Y       2   // below the top of the line
 #define TAG_CARD_PIC        0x4C05  // a Gold picture, here or in the deck builder (never both)
+#define TAG_CARD_PIC_2      0x4C06  // the next one, loaded while the last is still shown
 
 #define PIP_TROPHY          11  // pips.png: then the card types, a trophy won and one to win
 #define PIP_TROPHY_EMPTY    12
@@ -233,6 +234,17 @@ static const struct SpriteTemplate sSpriteTemplate_CardPic =
 {
     .tileTag = TAG_CARD_PIC,
     .paletteTag = TAG_CARD_PIC,
+    .oam = &sOamData_CardPic,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_CardPic2 =
+{
+    .tileTag = TAG_CARD_PIC_2,
+    .paletteTag = TAG_CARD_PIC_2,
     .oam = &sOamData_CardPic,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -1844,27 +1856,31 @@ u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
 
 // A Pokémon card's picture: its Gold sprite, or its front pic for the species Gold doesn't have
 // (Megas, Hoenn). One at a time. Returns MAX_SPRITES if it can't be made.
+// While a picture is shown the next one goes in its own tiles and palette (the other tag), so it
+// can be loaded before the first is destroyed: the two swap at once (VintageCard's ShowCard)
 u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y)
 {
     u16 spriteId;
 
     if (species < ARRAY_COUNT(sRetroPics) && sRetroPics[species].gfx != NULL)
     {
+        const struct SpriteTemplate *template = GetSpriteTileStartByTag(TAG_CARD_PIC) == 0xFFFF
+                                              ? &sSpriteTemplate_CardPic : &sSpriteTemplate_CardPic2;
         struct CompressedSpriteSheet sheet;
         struct SpritePalette palette;
 
         sheet.data = sRetroPics[species].gfx;
         sheet.size = MON_PIC_SIZE;
-        sheet.tag = TAG_CARD_PIC;
+        sheet.tag = template->tileTag;
         palette.data = sRetroPics[species].palette;
-        palette.tag = TAG_CARD_PIC;
+        palette.tag = template->paletteTag;
         LoadCompressedSpriteSheet(&sheet);
         LoadSpritePalette(&palette);
-        spriteId = CreateSprite(&sSpriteTemplate_CardPic, x, y, 0);
+        spriteId = CreateSprite(template, x, y, 0);
         if (spriteId == MAX_SPRITES)
         {
-            FreeSpriteTilesByTag(TAG_CARD_PIC);
-            FreeSpritePaletteByTag(TAG_CARD_PIC);
+            FreeSpriteTilesByTag(template->tileTag);
+            FreeSpritePaletteByTag(template->paletteTag);
         }
         return spriteId;
     }
@@ -1874,11 +1890,13 @@ u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y)
 
 void CardGame_DestroyPokemonPic(u16 spriteId)
 {
-    if (gSprites[spriteId].template == &sSpriteTemplate_CardPic)
+    const struct SpriteTemplate *template = gSprites[spriteId].template;
+
+    if (template == &sSpriteTemplate_CardPic || template == &sSpriteTemplate_CardPic2)
     {
         DestroySprite(&gSprites[spriteId]);
-        FreeSpriteTilesByTag(TAG_CARD_PIC);
-        FreeSpritePaletteByTag(TAG_CARD_PIC);
+        FreeSpriteTilesByTag(template->tileTag);
+        FreeSpritePaletteByTag(template->paletteTag);
     }
     else
     {

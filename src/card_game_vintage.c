@@ -51,6 +51,7 @@
 #define CARD_HEIGHT     VINTAGE_CARD_HEIGHT
 
 #define TAG_ITEM        0x4C20
+#define TAG_ITEM_2      0x4C21  // the next card's, loaded while the last is still shown
 
 // The frame's colors
 enum {
@@ -100,6 +101,10 @@ struct VintageCard
     u8 textWindow;
     u16 picSprite;
     bool8 picIsItem;
+    u16 picItemTag;
+    u8 frameType;   // The panel's colours, and the picture: shown with the card's windows (ShowCard)
+    u16 picSpecies;
+    u16 picItem;
     u8 text[400];
     u8 line[80];
 };
@@ -228,20 +233,25 @@ static u8 GetCardY(void)
     return GetWindowAttribute(sCard->textWindow, WINDOW_TILEMAP_TOP) * 8;
 }
 
-static void DestroyPicture(void)
+static void DestroyPictureSprite(u16 spriteId, bool8 isItem, u16 itemTag)
 {
-    if (sCard->picSprite == MAX_SPRITES)
+    if (spriteId == MAX_SPRITES)
         return;
-    if (sCard->picIsItem)
+    if (isItem)
     {
-        // Its template was a copy, freed already: its tags are TAG_ITEM
-        FreeSpriteOamMatrix(&gSprites[sCard->picSprite]);
-        DestroySprite(&gSprites[sCard->picSprite]);
-        FreeSpriteTilesByTag(TAG_ITEM);
-        FreeSpritePaletteByTag(TAG_ITEM);
+        // Its template was a copy, freed already: its tags are itemTag
+        FreeSpriteOamMatrix(&gSprites[spriteId]);
+        DestroySprite(&gSprites[spriteId]);
+        FreeSpriteTilesByTag(itemTag);
+        FreeSpritePaletteByTag(itemTag);
     }
     else
-        CardGame_DestroyPokemonPic(sCard->picSprite);
+        CardGame_DestroyPokemonPic(spriteId);
+}
+
+static void DestroyPicture(void)
+{
+    DestroyPictureSprite(sCard->picSprite, sCard->picIsItem, sCard->picItemTag);
     sCard->picSprite = MAX_SPRITES;
 }
 
@@ -641,16 +651,14 @@ static void FillFrame(u8 color, u8 x, u8 y, u8 width, u8 height)
 }
 
 // The border, the panel, the picture's frame and background (the ground only under a
-// Pokémon) and the line above the weakness (Pokémon only)
+// Pokémon) and the line above the weakness (Pokémon only). Only in the window's buffer: ShowCard
+// puts it on screen with the rest of the card.
 static void DrawFrame(u8 type, bool8 isPokemon)
 {
     const u8 w = CARD_WIDTH * 8, h = CARD_HEIGHT * 8;
-    u8 palette = GetWindowAttribute(sCard->frameWindow, WINDOW_PALETTE_NUM);
     u8 i;
 
-    LoadPalette(sFramePalette, BG_PLTT_ID(palette), sizeof(sFramePalette));
-    LoadPalette(sPanelColors[type], BG_PLTT_ID(palette) + FRAME_PANEL, PLTT_SIZEOF(2));
-
+    sCard->frameType = type;
     FillWindowPixelBuffer(sCard->frameWindow, PIXEL_FILL(FRAME_BORDER));
     // Rounded corners
     for (i = 0; i < 3; i++)
@@ -681,8 +689,50 @@ static void DrawFrame(u8 type, bool8 isPokemon)
         // The line above weakness and retreat
         FillFrame(FRAME_LINE, BORDER + 3, BOTTOM_LINE_Y, w - 2 * BORDER - 6, 1);
     }
+}
+
+// The panel's colours, both windows and the picture at once, once the whole card is drawn: drawing
+// its text takes several frames, and what was loaded first showed on the old card in the meantime
+static void ShowCard(void)
+{
+    u8 palette = GetWindowAttribute(sCard->frameWindow, WINDOW_PALETTE_NUM);
+    u16 oldSprite = sCard->picSprite;
+    bool8 oldIsItem = sCard->picIsItem;
+    u16 oldItemTag = sCard->picItemTag;
+
+    // All of it from the start of a frame, so that the next VBlank shows it at once: the colours and
+    // the sprites go out at every VBlank, the windows' tiles when queued in time
+    VBlankIntrWait();
+    // The new picture in its own tiles and palette first, the old one destroyed after: its sprite is
+    // on screen until the next frame, and would show the new one's tiles if they took its place
+    sCard->picSprite = MAX_SPRITES;
+    if (sCard->picSpecies != SPECIES_NONE)
+    {
+        // Its feet on the ground (the sprite's bottom rows are empty); a big one fits whole, under
+        // the frame's top
+        sCard->picSprite = CardGame_CreatePokemonPic(sCard->picSpecies, GetCardX() + ART_X + ART_WIDTH / 2, GetCardY() + ART_Y + ART_HEIGHT - 3 - 28);
+        sCard->picIsItem = FALSE;
+        if (sCard->picSprite != MAX_SPRITES)
+            gSprites[sCard->picSprite].oam.priority = 1;
+    }
+    else if (sCard->picItem != ITEM_NONE)
+    {
+        sCard->picItemTag = (oldIsItem && oldSprite != MAX_SPRITES && oldItemTag == TAG_ITEM) ? TAG_ITEM_2 : TAG_ITEM;
+        sCard->picSprite = AddCustomItemIconSprite(&sSpriteTemplate_Item, sCard->picItemTag, sCard->picItemTag, sCard->picItem);
+        sCard->picIsItem = TRUE;
+        if (sCard->picSprite != MAX_SPRITES)
+        {
+            gSprites[sCard->picSprite].x = GetCardX() + ART_X + ART_WIDTH / 2;
+            gSprites[sCard->picSprite].y = GetCardY() + ART_Y + ART_HEIGHT / 2;
+        }
+    }
+    DestroyPictureSprite(oldSprite, oldIsItem, oldItemTag);
+    LoadPalette(sFramePalette, BG_PLTT_ID(palette), sizeof(sFramePalette));
+    LoadPalette(sPanelColors[sCard->frameType], BG_PLTT_ID(palette) + FRAME_PANEL, PLTT_SIZEOF(2));
     PutWindowTilemap(sCard->frameWindow);
+    PutWindowTilemap(sCard->textWindow);
     CopyWindowToVram(sCard->frameWindow, COPYWIN_FULL);
+    CopyWindowToVram(sCard->textWindow, COPYWIN_FULL);
 }
 
 static void PrintSmall(u8 x, u8 y, const u8 *text)
@@ -832,12 +882,8 @@ static bool8 DrawPokemonCard(u16 cardId, const struct PokemonCardInfo *info)
             TinyPrintRight(TEXT_RIGHT, STAGE_Y, COLOR_INK, text);
     }
 
-    // The picture, its feet on the ground (the sprite's bottom rows are empty); a big one fits
-    // whole, under the frame's top
-    sCard->picSprite = CardGame_CreatePokemonPic(info->species, GetCardX() + ART_X + ART_WIDTH / 2, GetCardY() + ART_Y + ART_HEIGHT - 3 - 28);
-    sCard->picIsItem = FALSE;
-    if (sCard->picSprite != MAX_SPRITES)
-        gSprites[sCard->picSprite].oam.priority = 1;
+    // The picture, put up by ShowCard with the rest
+    sCard->picSpecies = info->species;
 
     // The ability and attacks, with all they can of the rest
     for (i = 0; i < ARRAY_COUNT(sShowLevels) - 1; i++)
@@ -884,16 +930,7 @@ static bool8 DrawTrainerCard(u16 cardId, const struct TrainerCardInfo *info)
     StringCopy(sCard->line, rule);
     DrawName(cardId, TEXT_RIGHT);
 
-    if (info->iconItem != ITEM_NONE)
-    {
-        sCard->picSprite = AddCustomItemIconSprite(&sSpriteTemplate_Item, TAG_ITEM, TAG_ITEM, info->iconItem);
-        sCard->picIsItem = TRUE;
-        if (sCard->picSprite != MAX_SPRITES)
-        {
-            gSprites[sCard->picSprite].x = GetCardX() + ART_X + ART_WIDTH / 2;
-            gSprites[sCard->picSprite].y = GetCardY() + ART_Y + ART_HEIGHT / 2;
-        }
-    }
+    sCard->picItem = info->iconItem;
 
     *text = EOS;
     CardGame_AppendTrainerText(text, info);
@@ -920,14 +957,14 @@ bool8 VintageCard_Draw(u16 cardId)
         VintageCard_Clear();
         return TRUE;
     }
-    DestroyPicture();
+    sCard->picSpecies = SPECIES_NONE;
+    sCard->picItem = ITEM_NONE;
     FillWindowPixelBuffer(sCard->textWindow, PIXEL_FILL(0));
     if (pokemon != NULL)
         complete = DrawPokemonCard(cardId, pokemon);
     else
         complete = DrawTrainerCard(cardId, trainer);
-    PutWindowTilemap(sCard->textWindow);
-    CopyWindowToVram(sCard->textWindow, COPYWIN_FULL);
+    ShowCard();
     return complete;
 }
 
