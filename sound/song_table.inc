@@ -499,7 +499,7 @@ gSongTable::
 	song mus_rg_title, MUSIC_PLAYER_BGM, 0
 	song mus_rg_cinnabar, MUSIC_PLAYER_BGM, 0
 	song mus_rg_lavender, MUSIC_PLAYER_BGM, 0
-	song mus_rg_heal, MUSIC_PLAYER_BGM, 0
+	song mus_rg_heal, MUSIC_PLAYER_SE2, 2  @ changed: a fanfare (PlayFanfare), as mus_heal
 	song mus_rg_cycling, MUSIC_PLAYER_BGM, 0
 	song mus_rg_encounter_rocket, MUSIC_PLAYER_BGM, 0
 	song mus_rg_encounter_girl, MUSIC_PLAYER_BGM, 0
