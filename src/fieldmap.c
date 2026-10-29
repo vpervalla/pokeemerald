@@ -43,17 +43,38 @@ static void FillNorthConnection(struct MapHeader const *mapHeader, struct MapHea
 static void FillWestConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void FillEastConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void InitBackupMapLayoutConnections(const struct MapHeader *mapHeader);
+static u16 GetBorderBlock(s32 x, s32 y);
 static void LoadSavedMapView(void);
 static bool8 SkipCopyingMetatileFromSavedMap(u16 *mapBlock, u16 mapWidth, u8 yMode);
 static const struct MapConnection *GetIncomingConnection(u8 direction, s32 x, s32 y);
 static bool8 IsPosInIncomingConnectingMap(u8 direction, s32 x, s32 y, const struct MapConnection *connection);
 static bool8 IsCoordInIncomingConnectingMap(s32 coord, s32 srcMax, s32 destMax, s32 offset);
 
-#define GetBorderBlockAt(x, y) (gMapHeader.mapLayout->border[((x + 1) & 1) + (((y + 1) & 1) << 1)] | MAPGRID_IMPASSABLE)
+#define GetBorderBlockAt(x, y) (GetBorderBlock(x, y) | MAPGRID_IMPASSABLE)
 
 #define AreCoordsWithinMapGridBounds(x, y) (x >= 0 && x < gBackupMapLayout.width && y >= 0 && y < gBackupMapLayout.height)
 
 #define GetMapGridBlockAt(x, y) (AreCoordsWithinMapGridBounds(x, y) ? gBackupMapLayout.map[x + gBackupMapLayout.width * y] : GetBorderBlockAt(x, y))
+
+// The border repeats from the map's top-left corner. Emerald's are 2x2; layouts ported from FRLG
+// can have larger ones (e.g. VIRIDIAN FOREST's, three metatiles wide like its trees), as in FRLG.
+static u16 GetBorderBlock(s32 x, s32 y)
+{
+    const struct MapLayout *layout = gMapHeader.mapLayout;
+    s32 width = layout->borderWidth;
+    s32 height = layout->borderHeight;
+
+    if (width == 2 && height == 2)
+        return layout->border[((x + 1) & 1) + (((y + 1) & 1) << 1)];
+
+    x = (x - MAP_OFFSET) % width;
+    if (x < 0)
+        x += width;
+    y = (y - MAP_OFFSET) % height;
+    if (y < 0)
+        y += height;
+    return layout->border[x + y * width];
+}
 
 const struct MapHeader *const GetMapHeaderFromConnection(const struct MapConnection *connection)
 {

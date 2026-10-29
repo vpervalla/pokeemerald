@@ -293,9 +293,8 @@ def cmd_maps(args):
             border = fh.read()
         bw, bh = fl.get("border_width", 2), fl.get("border_height", 2)
         if (bw, bh) != (2, 2):
-            # Emerald borders are always 2x2: keep the top-left 2x2 of the FRLG border.
-            border = b"".join(border[(r * bw + c) * 2:(r * bw + c) * 2 + 2] for r in range(2) for c in range(2))
-            notes.append(f"{new_id}: {bw}x{bh} border cropped to 2x2")
+            # Kept whole: the layouts take FRLG's border sizes (tools/mapjson, GetBorderBlockAt)
+            entry["border_width"], entry["border_height"] = bw, bh
         with open(entry["border_filepath"], "wb") as fh:
             fh.write(border)
         existing = next((i for i, l in enumerate(lj["layouts"]) if l and l["id"] == new_id), None)

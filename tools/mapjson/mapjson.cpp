@@ -616,6 +616,13 @@ string generate_layout_headers_text(Json layouts_data) {
             text << "\t.byte " << json_to_string(layout, "border_width") << "\n"
                  << "\t.byte " << json_to_string(layout, "border_height") << "\n"
                  << "\t.2byte 0\n";
+        } else {
+            // Emerald's borders are 2x2, but the layouts ported from FRLG can have larger ones.
+            string border_width = layout["border_width"].is_null() ? "2" : json_to_string(layout, "border_width");
+            string border_height = layout["border_height"].is_null() ? "2" : json_to_string(layout, "border_height");
+            text << "\t.byte " << border_width << "\n"
+                 << "\t.byte " << border_height << "\n"
+                 << "\t.2byte 0\n";
         }
         text << "\n";
     }
