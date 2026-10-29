@@ -2190,7 +2190,7 @@ static const struct PokemonCardInfo sPokemonCards[CARD_POKEMON_END] =
         .numAttacks = 2,
         .attacks =
         {
-            {gMoveNames[MOVE_BITE], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 50, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_BITE], {CARD_TYPE_FIGHTING}, 20, CARD_EFFECT_NONE, 0},
             {gMoveNames[MOVE_ANCIENT_POWER], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 50, CARD_EFFECT_NONE, 0},
         },
     },
@@ -2775,7 +2775,7 @@ static const struct PokemonCardInfo sPokemonCards[CARD_POKEMON_END] =
         .numAttacks = 2,
         .attacks =
         {
-            {gMoveNames[MOVE_PURSUIT], {CARD_TYPE_DARKNESS, CARD_TYPE_COLORLESS}, 60, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_PURSUIT], {CARD_TYPE_DARKNESS}, 20, CARD_EFFECT_NONE, 0},
             {gMoveNames[MOVE_FAINT_ATTACK], {CARD_TYPE_DARKNESS, CARD_TYPE_COLORLESS}, 60, CARD_EFFECT_NONE, 0},
         },
     },
@@ -3823,7 +3823,7 @@ static const struct PokemonCardInfo sPokemonCards[CARD_POKEMON_END] =
         .numAttacks = 2,
         .attacks =
         {
-            {gMoveNames[MOVE_BITE], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_NONE, 0},
+            {gMoveNames[MOVE_BITE], {CARD_TYPE_FIGHTING}, 40, CARD_EFFECT_NONE, 0},
             {gMoveNames[MOVE_ANCIENT_POWER], {CARD_TYPE_FIGHTING, CARD_TYPE_COLORLESS}, 80, CARD_EFFECT_NONE, 0},
         },
     },

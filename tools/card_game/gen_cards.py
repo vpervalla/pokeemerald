@@ -288,12 +288,12 @@ class Card:
     pass
 
 
-def design_attack(move_name, move, ctype, stage_role, card):
+def design_attack(move_name, move, ctype, stage_role, card, max_count=4):
     """stage_role: 'small' (a Basic that evolves), 'mid' (a Stage 1 that evolves), 'big'."""
     power = move['power']
     count = cost_for_power(power)
     if stage_role == 'small':
-        count = min(count, 2)
+        count = max(1, min(count, 2, max_count))
     elif stage_role == 'mid':
         count = min(max(count, 2), 3)
     else:
@@ -354,7 +354,12 @@ def pick_attacks(card, learnset, moves, ctype):
     small = [c for c in candidates if c[1] != big[1] and c[2]['power'] <= 60]
     if card.bst >= 450 and small:
         first = max(small, key=lambda c: (c[2]['effect'] != 'EFFECT_HIT', stab(c[2]), c[2]['power']))
-        attacks.insert(0, design_attack(first[1], first[2], ctype, 'small', card))
+        opener = design_attack(first[1], first[2], ctype, 'small', card)
+        # Two attacks with the same cost, damage and effect leave nothing to choose: the first one,
+        # the opener, then costs one Energy less (AERODACTYL's BITE and ANCIENTPOWER)
+        if all(opener[k] == attacks[0][k] for k in ('cost', 'damage', 'effect', 'arg')):
+            opener = design_attack(first[1], first[2], ctype, 'small', card, len(attacks[0]['cost']) - 1)
+        attacks.insert(0, opener)
     return attacks
 
 
