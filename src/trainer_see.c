@@ -27,6 +27,7 @@ static void InitTrainerApproachTask(struct ObjectEvent *trainerObj, u8 range);
 static void Task_RunTrainerSeeFuncList(u8 taskId);
 static void Task_EndTrainerApproach(u8 taskId);
 static void SetIconSpriteData(struct Sprite *sprite, u16 fldEffId, u8 spriteAnimNum);
+static void UseNpcPaletteIfIconPaletteMissing(struct Sprite *sprite);
 
 static u8 GetTrainerApproachDistanceSouth(struct ObjectEvent *trainerObj, s16 range, s16 x, s16 y);
 static u8 GetTrainerApproachDistanceNorth(struct ObjectEvent *trainerObj, s16 range, s16 x, s16 y);
@@ -698,7 +699,10 @@ u8 FldEff_ExclamationMarkIcon(void)
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
 
     if (spriteId != MAX_SPRITES)
+    {
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
+        UseNpcPaletteIfIconPaletteMissing(&gSprites[spriteId]);
+    }
 
     return 0;
 }
@@ -708,7 +712,10 @@ u8 FldEff_QuestionMarkIcon(void)
     u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
+    {
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
+        UseNpcPaletteIfIconPaletteMissing(&gSprites[spriteId]);
+    }
 
     return 0;
 }
@@ -726,6 +733,16 @@ u8 FldEff_HeartIcon(void)
     }
 
     return 0;
+}
+
+// The overworld has only 4 free sprite palette slots. Weather can take 2, and at night the glowing
+// signs and the lamps take the others, so the icons' palette may not load: the sprite would then
+// draw with slot 15, the signs' yellow glow. The icons only use colours 14 and 15, white and black,
+// which the NPC palettes have too.
+static void UseNpcPaletteIfIconPaletteMissing(struct Sprite *sprite)
+{
+    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_PLAYER_EFFECTS) == 0xFF)
+        sprite->oam.paletteNum = PALSLOT_NPC_1;
 }
 
 static void SetIconSpriteData(struct Sprite *sprite, u16 fldEffId, u8 spriteAnimNum)
