@@ -215,7 +215,8 @@ static const u16 sCoinPalette[] = INCGFX_U16("graphics/card_game/coin.png", ".gb
 static const u8 sEnergyIconGfx[] = INCGFX_U8("graphics/card_game/energy_icons.png", ".4bpp");
 static const u16 sEnergyIconPalette[] = INCGFX_U16("graphics/card_game/energy_icons.png", ".gbapal");
 
-// The cards' pictures: the Pokémon Gold front sprites (made by tools/card_game/gen_retro_pics.py)
+// The cards' pictures: the Pokémon Gold front sprites (made by tools/card_game/gen_retro_pics.py),
+// and the Supporters' Crystal trainer sprites (tools/card_game/gen_trainer_pics.py)
 struct RetroPic
 {
     const u32 *gfx;
@@ -223,6 +224,7 @@ struct RetroPic
 };
 
 #include "data/card_game/retro_pics.h"
+#include "data/card_game/trainer_pics.h"
 
 static const struct OamData sOamData_CardPic =
 {
@@ -1858,34 +1860,52 @@ u8 *CardGame_AppendTrainerText(u8 *dst, const struct TrainerCardInfo *info)
 // (Megas, Hoenn). One at a time. Returns MAX_SPRITES if it can't be made.
 // While a picture is shown the next one goes in its own tiles and palette (the other tag), so it
 // can be loaded before the first is destroyed: the two swap at once (VintageCard's ShowCard)
+static u16 CreateRetroPic(const struct RetroPic *pic, s16 x, s16 y)
+{
+    const struct SpriteTemplate *template = GetSpriteTileStartByTag(TAG_CARD_PIC) == 0xFFFF
+                                          ? &sSpriteTemplate_CardPic : &sSpriteTemplate_CardPic2;
+    struct CompressedSpriteSheet sheet;
+    struct SpritePalette palette;
+    u16 spriteId;
+
+    sheet.data = pic->gfx;
+    sheet.size = MON_PIC_SIZE;
+    sheet.tag = template->tileTag;
+    palette.data = pic->palette;
+    palette.tag = template->paletteTag;
+    LoadCompressedSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    spriteId = CreateSprite(template, x, y, 0);
+    if (spriteId == MAX_SPRITES)
+    {
+        FreeSpriteTilesByTag(template->tileTag);
+        FreeSpritePaletteByTag(template->paletteTag);
+    }
+    return spriteId;
+}
+
 u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y)
 {
     u16 spriteId;
 
     if (species < ARRAY_COUNT(sRetroPics) && sRetroPics[species].gfx != NULL)
-    {
-        const struct SpriteTemplate *template = GetSpriteTileStartByTag(TAG_CARD_PIC) == 0xFFFF
-                                              ? &sSpriteTemplate_CardPic : &sSpriteTemplate_CardPic2;
-        struct CompressedSpriteSheet sheet;
-        struct SpritePalette palette;
-
-        sheet.data = sRetroPics[species].gfx;
-        sheet.size = MON_PIC_SIZE;
-        sheet.tag = template->tileTag;
-        palette.data = sRetroPics[species].palette;
-        palette.tag = template->paletteTag;
-        LoadCompressedSpriteSheet(&sheet);
-        LoadSpritePalette(&palette);
-        spriteId = CreateSprite(template, x, y, 0);
-        if (spriteId == MAX_SPRITES)
-        {
-            FreeSpriteTilesByTag(template->tileTag);
-            FreeSpritePaletteByTag(template->paletteTag);
-        }
-        return spriteId;
-    }
+        return CreateRetroPic(&sRetroPics[species], x, y);
     spriteId = CreateMonPicSprite_HandleDeoxys(species, 0, NOT_SHINY_PERSONALITY, TRUE, x, y, 15, TAG_NONE);
     return spriteId < MAX_SPRITES ? spriteId : MAX_SPRITES;
+}
+
+bool8 CardGame_HasTrainerPic(u16 cardId)
+{
+    return cardId >= CARD_TRAINER_START && cardId < CARD_COUNT && sTrainerPics[cardId - CARD_TRAINER_START].gfx != NULL;
+}
+
+// A Trainer card's picture, its trainer's Crystal sprite (CardGame_HasTrainerPic), as a Pokémon's:
+// CardGame_DestroyPokemonPic destroys it
+u16 CardGame_CreateTrainerPic(u16 cardId, s16 x, s16 y)
+{
+    if (!CardGame_HasTrainerPic(cardId))
+        return MAX_SPRITES;
+    return CreateRetroPic(&sTrainerPics[cardId - CARD_TRAINER_START], x, y);
 }
 
 void CardGame_DestroyPokemonPic(u16 spriteId)

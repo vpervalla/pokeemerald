@@ -314,6 +314,8 @@ void CardGame_LoadEnergyIconPalette(u8 paletteNum);
 void CardGame_DrawEnergyIcon(u8 windowId, u8 type, u16 x, u16 y);
 void CardGame_DrawEnergyIcons(u8 windowId, const u8 *text, u8 x, u8 y, u8 lineHeight);
 u16 CardGame_CreatePokemonPic(u16 species, s16 x, s16 y);
+bool8 CardGame_HasTrainerPic(u16 cardId);
+u16 CardGame_CreateTrainerPic(u16 cardId, s16 x, s16 y);
 void CardGame_DestroyPokemonPic(u16 spriteId);
 extern const u8 *const gCardTypeNames[CARD_TYPE_COUNT];
 

@@ -104,6 +104,7 @@ struct VintageCard
     u16 picItemTag;
     u8 frameType;   // The panel's colours, and the picture: shown with the card's windows (ShowCard)
     u16 picSpecies;
+    u16 picTrainer; // a Trainer card with its trainer's sprite (CardGame_HasTrainerPic)
     u16 picItem;
     u8 text[400];
     u8 line[80];
@@ -715,6 +716,14 @@ static void ShowCard(void)
         if (sCard->picSprite != MAX_SPRITES)
             gSprites[sCard->picSprite].oam.priority = 1;
     }
+    else if (sCard->picTrainer != CARD_NONE)
+    {
+        // Placed as a Pokémon: its feet on the ground
+        sCard->picSprite = CardGame_CreateTrainerPic(sCard->picTrainer, GetCardX() + ART_X + ART_WIDTH / 2, GetCardY() + ART_Y + ART_HEIGHT - 3 - 28);
+        sCard->picIsItem = FALSE;
+        if (sCard->picSprite != MAX_SPRITES)
+            gSprites[sCard->picSprite].oam.priority = 1;
+    }
     else if (sCard->picItem != ITEM_NONE)
     {
         sCard->picItemTag = (oldIsItem && oldSprite != MAX_SPRITES && oldItemTag == TAG_ITEM) ? TAG_ITEM_2 : TAG_ITEM;
@@ -930,7 +939,11 @@ static bool8 DrawTrainerCard(u16 cardId, const struct TrainerCardInfo *info)
     StringCopy(sCard->line, rule);
     DrawName(cardId, TEXT_RIGHT);
 
-    sCard->picItem = info->iconItem;
+    // Its trainer if it has one, otherwise its item
+    if (CardGame_HasTrainerPic(cardId))
+        sCard->picTrainer = cardId;
+    else
+        sCard->picItem = info->iconItem;
 
     *text = EOS;
     CardGame_AppendTrainerText(text, info);
@@ -958,6 +971,7 @@ bool8 VintageCard_Draw(u16 cardId)
         return TRUE;
     }
     sCard->picSpecies = SPECIES_NONE;
+    sCard->picTrainer = CARD_NONE;
     sCard->picItem = ITEM_NONE;
     FillWindowPixelBuffer(sCard->textWindow, PIXEL_FILL(0));
     if (pokemon != NULL)
