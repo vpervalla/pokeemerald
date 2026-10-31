@@ -7070,14 +7070,16 @@ void HandleSetPokedexFlag(u16 nationalNum, u8 caseId, u32 personality)
 
 const u8 *GetTrainerClassNameFromId(u16 trainerId)
 {
-    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START)
+     || (trainerId >= KANTO_TRAINERS_GAP_START && trainerId < KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE))
         trainerId = TRAINER_NONE;
     return gTrainerClassNames[gTrainers[trainerId].trainerClass];
 }
 
 const u8 *GetTrainerNameFromId(u16 trainerId)
 {
-    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START))
+    if (trainerId >= ALL_TRAINERS_COUNT || (trainerId >= TRAINERS_COUNT && trainerId < KANTO_TRAINERS_START)
+     || (trainerId >= KANTO_TRAINERS_GAP_START && trainerId < KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE))
         trainerId = TRAINER_NONE;
     return gTrainers[trainerId].trainerName;
 }

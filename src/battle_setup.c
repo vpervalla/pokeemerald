@@ -1074,10 +1074,19 @@ static u8 TrainerBattleLoadArg8(const u8 *ptr)
     return T1_READ_8(ptr);
 }
 
+// The Kanto trainers' ids skip Emerald's special ones (KANTO_TRAINERS_GAP_START), which no
+// trainer of the maps must have
+STATIC_ASSERT(KANTO_TRAINERS_GAP_START == TRAINER_FRONTIER_BRAIN
+           && KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE == TRAINER_SECRET_BASE + 1, KantoTrainersSkipTheSpecialIds);
+STATIC_ASSERT(KANTO_TRAINERS_START + NUM_KANTO_TRAINERS > KANTO_TRAINERS_GAP_START, KantoTrainersReachTheGap);
+
 // Kanto trainers come after Emerald's, whose flags fill the trainer flag range, so theirs are
-// kept apart (in SaveBlock1.kantoFlags)
+// kept apart (in SaveBlock1.kantoFlags). Their flags are in a row, without the ids' gap, so
+// saves made before the gap keep every trainer's flag.
 static u16 GetTrainerFlagId(u16 trainerId)
 {
+    if (trainerId >= KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE)
+        trainerId -= KANTO_TRAINERS_GAP_SIZE;
     if (trainerId >= KANTO_TRAINERS_START)
         return KANTO_TRAINER_FLAGS_START + trainerId - KANTO_TRAINERS_START;
     return TRAINER_FLAGS_START + trainerId;
