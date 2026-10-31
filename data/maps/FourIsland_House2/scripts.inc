@@ -177,12 +177,18 @@ FourIsland_House2_EventScript_ChooseBrag::
 	end
 
 FourIsland_House2_EventScript_ChooseBragEggs::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 16, 8, MULTI_KANTO_EGGS_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragEggs
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag
 	end
 
 FourIsland_House2_EventScript_ChooseBragEggsLinkWins::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 6, MULTI_KANTO_EGGS_VICTORIES_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragEggs
 	case 1, FourIsland_House2_EventScript_BragLinkWins
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -190,12 +196,18 @@ FourIsland_House2_EventScript_ChooseBragEggsLinkWins::
 	end
 
 FourIsland_House2_EventScript_ChooseBragHoF::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 8, MULTI_KANTO_HOF_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag
 	end
 
 FourIsland_House2_EventScript_ChooseBragHoFEggs::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 6, MULTI_KANTO_HOF_EGGS_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragEggs
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -203,6 +215,9 @@ FourIsland_House2_EventScript_ChooseBragHoFEggs::
 	end
 
 FourIsland_House2_EventScript_ChooseBragHoFLinkWins::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 6, MULTI_KANTO_HOF_VICTORIES_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragLinkWins
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -210,6 +225,9 @@ FourIsland_House2_EventScript_ChooseBragHoFLinkWins::
 	end
 
 FourIsland_House2_EventScript_ChooseBragHofEggsLinkWins::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 5, MULTI_KANTO_HOF_EGGS_VICTORIES_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragEggs
 	case 2, FourIsland_House2_EventScript_BragLinkWins
@@ -218,6 +236,9 @@ FourIsland_House2_EventScript_ChooseBragHofEggsLinkWins::
 	end
 
 FourIsland_House2_EventScript_ChooseBragLinkWins::
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 15, 8, MULTI_KANTO_VICTORIES_QUIT, FALSE
+	switch VAR_RESULT
 	case 0, FourIsland_House2_EventScript_BragLinkWins
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag

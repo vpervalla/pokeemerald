@@ -159,6 +159,14 @@
 #define MULTI_KANTO_LINKED_DIRECT_UNION                   147
 #define MULTI_KANTO_MUSHROOMS                             148
 #define MULTI_KANTO_TRAINER_SCHOOL_WHITEBOARD             149
+#define MULTI_KANTO_TRAINER_CARD_ICON_TINT                 150
+#define MULTI_KANTO_HOF_QUIT                               151
+#define MULTI_KANTO_EGGS_QUIT                              152
+#define MULTI_KANTO_VICTORIES_QUIT                         153
+#define MULTI_KANTO_HOF_EGGS_QUIT                          154
+#define MULTI_KANTO_HOF_VICTORIES_QUIT                     155
+#define MULTI_KANTO_EGGS_VICTORIES_QUIT                    156
+#define MULTI_KANTO_HOF_EGGS_VICTORIES_QUIT                157
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

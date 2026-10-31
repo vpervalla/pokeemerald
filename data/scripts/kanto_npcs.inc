@@ -217,6 +217,9 @@ Kanto_CableClub_EventScript_ChooseLinkLeaderMinigame::
 	message Kanto_CableClub_Text_ChooseGroupLeader
 	waitmessage
 	call Kanto_EventScript_RestorePrevTextColor
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 16, 6, MULTI_LINK_LEADER, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_CableClub_EventScript_TryJoinMinigameLinkGroup
 	case 1, Kanto_CableClub_EventScript_TryBecomeMinigameLinkLeader
 	case 2, Kanto_CableClub_EventScript_AbortMinigame
@@ -324,7 +327,7 @@ Kanto_CableClub_EventScript_TryJoinMinigameLinkGroup::
 	return
 
 Kanto_CableClub_OnFrame:
-	map_script_2 VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1, CableClub_EventScript_Tutorial
+	map_script_2 VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1, Kanto_CableClub_EventScript_Tutorial
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_SINGLE_BATTLE, CableClub_EventScript_ExitLinkRoom
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_DOUBLE_BATTLE, CableClub_EventScript_ExitLinkRoom
 	map_script_2 VAR_CABLE_CLUB_STATE, USING_MULTI_BATTLE, CableClub_EventScript_ExitLinkRoom
@@ -685,6 +688,9 @@ Kanto_EventScript_AcceptGiveProfile::
 Kanto_EventScript_AskForNewProfile::
 	message Kanto_Text_ChangeYourProfile
 	waitmessage
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 18, 6, MULTI_YESNOINFO, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_AcceptGiveNewProfile
 	case 1, Kanto_EventScript_DeclineGiveNewProfile
 	case 2, Kanto_EventScript_ProfileInfo2
@@ -694,11 +700,21 @@ Kanto_EventScript_AskForNewProfile::
 Kanto_EventScript_AskForProfile::
 	message Kanto_Text_TellMeWhatsYourProfile
 	waitmessage
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 18, 6, MULTI_YESNOINFO, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_EventScript_AcceptGiveProfile
 	case 1, Kanto_EventScript_DeclineGiveProfile
 	case 2, Kanto_EventScript_ProfileInfo
 	case MULTI_B_PRESSED, Kanto_EventScript_DeclineGiveProfile
 	end
+
+@ Emerald's tutorial ends by setting its own VAR_CABLE_CLUB_TUTORIAL_STATE, not the Kanto maps'
+@ VAR_MAP_SCENE_POKEMON_CENTER_TEALA (FRLG's), so on its own it started again as soon as it ended,
+@ for good. (Seeing it in Kanto also counts for Hoenn's POKéMON CENTERS: it's the same tutorial.)
+Kanto_CableClub_EventScript_Tutorial::
+	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 2
+	goto CableClub_EventScript_Tutorial
 
 Kanto_EventScript_AskSaveGame::
 	special SaveGame
@@ -1823,6 +1839,9 @@ Kanto_JoyfulGameCorner_EventScript_InfoMan2::
 	faceplayer
 	message Kanto_Text_DescribeWhichGame
 	waitmessage
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_CableClub_EventScript_PokemonJumpInfo
 	case 1, Kanto_CableClub_EventScript_DodrioBerryPickingInfo
 	case 2, Kanto_CableClub_EventScript_MinigameInfoExit
@@ -1839,6 +1858,9 @@ Kanto_JoyfulGameCorner_EventScript_MinigameAttendant::
 	delay 60
 	message Kanto_Text_PlayWhichGame
 	waitmessage
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
+	switch VAR_RESULT
 	case 0, Kanto_CableClub_EventScript_PlayPokemonJump
 	case 1, Kanto_CableClub_EventScript_PlayDodrioBerryPicking
 	case 2, Kanto_CableClub_EventScript_AbortMinigame
@@ -3522,12 +3544,14 @@ Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer::
 	setvar VAR_0x8006, 0
 	goto Kanto_TrainerTower_EventScript_DoPostBattleText
 
+@ FRLG's TRAINER TOWER challenge (its ttower_* commands: the owner's state, prize and record time)
+@ isn't ported, so the owner only has a word for the player. Its cases were left to a stale
+@ VAR_0x8000 and could end with the player still locked.
 Kanto_TrainerTower_EventScript_SpeakToOwner::
 	lock
 	faceplayer
-	case 0, TrainerTower_Roof_EventScript_Arrived
-	case 1, TrainerTower_Roof_EventScript_GivePrize
-	case 2, TrainerTower_Roof_EventScript_OwnerEnd
+	msgbox Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime
+	release
 	end
 
 Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer::

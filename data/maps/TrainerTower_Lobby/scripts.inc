@@ -93,7 +93,8 @@ TrainerTower_Lobby_EventScript_DeclineChallenge::
 
 TrainerTower_Lobby_EventScript_Enter::
 	setvar VAR_TEMP_0, 1
-	case CHALLENGE_STATUS_LOST, TrainerTower_Lobby_EventScript_LostChallenge
+	@ FRLG checked the challenge's status here (ttower_getchallengestatus, not ported): the case was
+	@ left to a stale VAR_0x8000, and could start the lost challenge's scene on entering
 	end
 
 TrainerTower_Lobby_EventScript_EntryTrigger::

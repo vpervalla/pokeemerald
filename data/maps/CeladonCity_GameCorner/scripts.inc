@@ -229,6 +229,9 @@ CeladonCity_GameCorner_EventScript_PhotoPrinter::
 	waitse
 	message CeladonCity_GameCorner_Text_ChoosePrintType
 	waitmessage
+	@ restored: the port had dropped this menu, leaving its cases to a stale VAR_0x8000
+	multichoice 21, 0, MULTI_KANTO_TRAINER_CARD_ICON_TINT, TRUE
+	switch VAR_RESULT
 	case 0, CeladonCity_GameCorner_EventScript_PrintTypeNormal
 	case 1, CeladonCity_GameCorner_EventScript_PrintTypeBlack
 	case 2, CeladonCity_GameCorner_EventScript_PrintTypePink

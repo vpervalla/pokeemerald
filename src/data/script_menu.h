@@ -879,6 +879,21 @@ static const u8 sText_Kanto_Brn[] = _("BRN");
 static const u8 sText_Kanto_Frz[] = _("FRZ");
 static const struct MenuAction MultichoiceList_KantoTrainerSchoolWhiteboard[] = {{sText_Kanto_Slp}, {sText_Kanto_Psn}, {sText_Kanto_Par}, {sText_Kanto_Brn}, {sText_Kanto_Frz}, {sText_Kanto_Exit}};
 static const struct MenuAction MultichoiceList_KantoMushrooms[] = {{sText_Kanto_2Tinymushrooms}, {sText_Kanto_1BigMushroom}};
+// The CELADON GAME CORNER's photo printer, and the FOUR ISLAND sticker man's choice of what to brag about
+static const u8 sText_Kanto_Normal[] = _("NORMAL");
+static const u8 sText_Kanto_Black[] = _("BLACK");
+static const u8 sText_Kanto_Pink[] = _("PINK");
+static const u8 sText_Kanto_Sepia[] = _("SEPIA");
+static const u8 sText_Kanto_Eggs[] = _("EGGS");
+static const u8 sText_Kanto_Victories[] = _("VICTORIES");
+static const struct MenuAction MultichoiceList_KantoTrainerCardIconTint[] = {{sText_Kanto_Normal}, {sText_Kanto_Black}, {sText_Kanto_Pink}, {sText_Kanto_Sepia}};
+static const struct MenuAction MultichoiceList_KantoHofQuit[] = {{gText_HallOfFame}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoEggsQuit[] = {{sText_Kanto_Eggs}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoVictoriesQuit[] = {{sText_Kanto_Victories}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoHofEggsQuit[] = {{gText_HallOfFame}, {sText_Kanto_Eggs}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoHofVictoriesQuit[] = {{gText_HallOfFame}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoEggsVictoriesQuit[] = {{sText_Kanto_Eggs}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
+static const struct MenuAction MultichoiceList_KantoHofEggsVictoriesQuit[] = {{gText_HallOfFame}, {sText_Kanto_Eggs}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
 
 // Seagallop destinations, see DrawSeagallopDestinationMenu
 static const u8 *const sSeagallopDestinationNames[] = {
@@ -1038,6 +1053,14 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_KANTO_LINKED_DIRECT_UNION] = MULTICHOICE(MultichoiceList_KantoLinkedDirectUnion),
     [MULTI_KANTO_MUSHROOMS] = MULTICHOICE(MultichoiceList_KantoMushrooms),
     [MULTI_KANTO_TRAINER_SCHOOL_WHITEBOARD] = MULTICHOICE(MultichoiceList_KantoTrainerSchoolWhiteboard),
+    [MULTI_KANTO_TRAINER_CARD_ICON_TINT] = MULTICHOICE(MultichoiceList_KantoTrainerCardIconTint),
+    [MULTI_KANTO_HOF_QUIT] = MULTICHOICE(MultichoiceList_KantoHofQuit),
+    [MULTI_KANTO_EGGS_QUIT] = MULTICHOICE(MultichoiceList_KantoEggsQuit),
+    [MULTI_KANTO_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoVictoriesQuit),
+    [MULTI_KANTO_HOF_EGGS_QUIT] = MULTICHOICE(MultichoiceList_KantoHofEggsQuit),
+    [MULTI_KANTO_HOF_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoHofVictoriesQuit),
+    [MULTI_KANTO_EGGS_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoEggsVictoriesQuit),
+    [MULTI_KANTO_HOF_EGGS_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoHofEggsVictoriesQuit),
 };
 
 const u8 *const gStdStrings[] =
