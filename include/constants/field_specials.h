@@ -92,4 +92,9 @@
 #define DEOXYS_ROCK_SOLVED     2
 #define DEOXYS_ROCK_COMPLETE   3
 
+// GetPCOwner: whose name the PC's POKéMON Storage System goes by
+#define PC_OWNER_SOMEONE 0
+#define PC_OWNER_BILL    1  // in Kanto and the Sevii Islands, once the player has met BILL
+#define PC_OWNER_LANETTE 2  // in Hoenn, once the player has met LANETTE
+
 #endif // GUARD_CONSTANTS_FIELD_SPECIALS_H

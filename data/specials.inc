@@ -506,6 +506,7 @@ gSpecials::
 	def_special ChangeBoxPokemonNickname, waitstate=1
 	def_special GetPCBoxToSendMon
 	def_special ShouldShowBoxWasFullMessage
+	def_special GetPCOwner
 	def_special SetMatchCallRegisteredFlag
 	def_special DoDomeConfetti
 	def_special CreateAbnormalWeatherEvent

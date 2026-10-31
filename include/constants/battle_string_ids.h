@@ -394,8 +394,10 @@
 #define STRINGID_HARSHSUNEND                394
 #define STRINGID_FIREMOVEFIZZLED            395
 #define STRINGID_WATERMOVEEVAPORATED        396
+#define STRINGID_PKMNTRANSFERREDBILLSPC     397
+#define STRINGID_PKMNBOXBILLSPCFULL         398
 
-#define BATTLESTRINGS_COUNT                 397
+#define BATTLESTRINGS_COUNT                 399
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,
@@ -549,6 +551,8 @@
 #define B_MSG_SENT_LANETTES_PC  1
 #define B_MSG_SOMEONES_BOX_FULL 2
 #define B_MSG_LANETTES_BOX_FULL 3
+#define B_MSG_SENT_BILLS_PC     4
+#define B_MSG_BILLS_BOX_FULL    5
 
 // gInobedientStringIds
 #define B_MSG_LOAFING            0

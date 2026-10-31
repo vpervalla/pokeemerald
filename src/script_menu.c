@@ -364,11 +364,19 @@ static void CreatePCMultichoice(void)
         AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_LogOff, x, 33, TEXT_SKIP_DRAW, NULL);
     }
 
-    // Change PC name if player has met Lanette
-    if (FlagGet(FLAG_SYS_PC_LANETTE))
+    // The PC's name once the player has met its owner: BILL in Kanto, LANETTE in Hoenn
+    switch (GetPCOwner())
+    {
+    case PC_OWNER_BILL:
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_BillsPC, x, 1, TEXT_SKIP_DRAW, NULL);
+        break;
+    case PC_OWNER_LANETTE:
         AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_LanettesPC, x, 1, TEXT_SKIP_DRAW, NULL);
-    else
+        break;
+    default:
         AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SomeonesPC, x, 1, TEXT_SKIP_DRAW, NULL);
+        break;
+    }
 
     StringExpandPlaceholders(gStringVar4, gText_PlayersPC);
     PrintPlayerNameOnWindow(windowId, gStringVar4, x, 17);

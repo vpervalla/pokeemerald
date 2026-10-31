@@ -15,8 +15,21 @@ Common_EventScript_NameReceivedBoxMon::
 Common_EventScript_TransferredToPC::
 	bufferboxname STR_VAR_1, VAR_PC_BOX_TO_SEND_MON
 	bufferspeciesname STR_VAR_2, VAR_TEMP_TRANSFERRED_SPECIES
-	call_if_unset FLAG_SYS_PC_LANETTE, EventScript_TransferredSomeonesPC
-	call_if_set FLAG_SYS_PC_LANETTE, EventScript_TransferredLanettesPC
+	specialvar VAR_RESULT, GetPCOwner
+	goto_if_eq VAR_RESULT, PC_OWNER_BILL, EventScript_TransferredBillsPC
+	goto_if_eq VAR_RESULT, PC_OWNER_LANETTE, EventScript_TransferredLanettesPC
+	goto EventScript_TransferredSomeonesPC
+
+EventScript_TransferredBillsPC::
+	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
+	goto_if_eq VAR_RESULT, TRUE, EventScript_BillsPCBoxFull
+	msgbox gText_PkmnTransferredBillsPC, MSGBOX_DEFAULT
+	return
+
+EventScript_BillsPCBoxFull::
+	specialvar VAR_RESULT, GetPCBoxToSendMon
+	bufferboxname STR_VAR_3, VAR_RESULT
+	msgbox gText_PkmnTransferredBillsPCBoxFull, MSGBOX_DEFAULT
 	return
 
 EventScript_TransferredSomeonesPC::

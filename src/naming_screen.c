@@ -1,4 +1,5 @@
 #include "global.h"
+#include "constants/field_specials.h"
 #include "naming_screen.h"
 #include "malloc.h"
 #include "palette.h"
@@ -195,7 +196,9 @@ static const u8 *const sTransferredToPCMessages[] =
     gText_PkmnTransferredSomeonesPC,
     gText_PkmnTransferredLanettesPC,
     gText_PkmnTransferredSomeonesPCBoxFull,
-    gText_PkmnTransferredLanettesPCBoxFull
+    gText_PkmnTransferredLanettesPCBoxFull,
+    gText_PkmnTransferredBillsPC,
+    gText_PkmnTransferredBillsPCBoxFull,
 };
 
 static const u8 sText_AlphabetUpperLower[] = _("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!");
@@ -727,8 +730,10 @@ static void DisplaySentToPCMessage(void)
         stringToDisplay = 2;
     }
 
-    if (FlagGet(FLAG_SYS_PC_LANETTE))
+    if (GetPCOwner() == PC_OWNER_LANETTE)
         stringToDisplay++;
+    else if (GetPCOwner() == PC_OWNER_BILL)
+        stringToDisplay = 4 + stringToDisplay / 2; // BILL's, after LANETTE's
 
     StringExpandPlaceholders(gStringVar4, sTransferredToPCMessages[stringToDisplay]);
     DrawDialogueFrame(0, FALSE);

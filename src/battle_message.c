@@ -1,4 +1,6 @@
 #include "global.h"
+#include "constants/field_specials.h"
+#include "field_specials.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
@@ -485,6 +487,7 @@ static const u8 sText_GotchaPkmnCaughtWally[] = _("Gotcha!\n{B_OPPONENT_MON1_NAM
 static const u8 sText_GiveNicknameCaptured[] = _("Give a nickname to the\ncaptured {B_OPPONENT_MON1_NAME}?");
 static const u8 sText_PkmnSentToPC[] = _("{B_OPPONENT_MON1_NAME} was sent to\n{B_PC_CREATOR_NAME} PC.");
 static const u8 sText_Someones[] = _("someone's");
+static const u8 sText_Bills[] = _("BILL's");
 static const u8 sText_Lanettes[] = _("LANETTE's");
 static const u8 sText_PkmnDataAddedToDex[] = _("{B_OPPONENT_MON1_NAME}'s data was\nadded to the POKéDEX.\p");
 static const u8 sText_ItIsRaining[] = _("It is raining.");
@@ -910,6 +913,8 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT - BATTLESTRINGS_TABLE_ST
     [STRINGID_PKMNTRANSFERREDLANETTESPC - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredLanettesPC,
     [STRINGID_PKMNBOXSOMEONESPCFULL - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredSomeonesPCBoxFull,
     [STRINGID_PKMNBOXLANETTESPCFULL - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredLanettesPCBoxFull,
+    [STRINGID_PKMNTRANSFERREDBILLSPC - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredBillsPC,
+    [STRINGID_PKMNBOXBILLSPCFULL - BATTLESTRINGS_TABLE_START] = gText_PkmnTransferredBillsPCBoxFull,
     [STRINGID_TRAINER1WINTEXT - BATTLESTRINGS_TABLE_START] = sText_Trainer1WinText,
     [STRINGID_TRAINER2WINTEXT - BATTLESTRINGS_TABLE_START] = sText_Trainer2WinText,
     [STRINGID_MEGAEVOREACTING - BATTLESTRINGS_TABLE_START] = sText_MegaEvoReacting,
@@ -1294,6 +1299,8 @@ const u16 gCaughtMonStringIds[] =
     [B_MSG_SENT_LANETTES_PC]  = STRINGID_PKMNTRANSFERREDLANETTESPC,
     [B_MSG_SOMEONES_BOX_FULL] = STRINGID_PKMNBOXSOMEONESPCFULL,
     [B_MSG_LANETTES_BOX_FULL] = STRINGID_PKMNBOXLANETTESPCFULL,
+    [B_MSG_SENT_BILLS_PC]     = STRINGID_PKMNTRANSFERREDBILLSPC,
+    [B_MSG_BILLS_BOX_FULL]    = STRINGID_PKMNBOXBILLSPCFULL,
 };
 
 const u16 gTrappingMoves[NUM_TRAPPING_MOVES + 1] =
@@ -2695,8 +2702,10 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst)
                 HANDLE_NICKNAME_STRING_CASE(gBattleScripting.battler, *(&gBattleStruct->scriptPartyIdx))
                 break;
             case B_TXT_PC_CREATOR_NAME: // lanette pc
-                if (FlagGet(FLAG_SYS_PC_LANETTE))
+                if (GetPCOwner() == PC_OWNER_LANETTE)
                     toCpy = sText_Lanettes;
+                else if (GetPCOwner() == PC_OWNER_BILL)
+                    toCpy = sText_Bills;
                 else
                     toCpy = sText_Someones;
                 break;

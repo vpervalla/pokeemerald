@@ -32,12 +32,21 @@ EventScript_AccessPlayersPC::
 
 EventScript_AccessPokemonStorage::
 	playse SE_PC_LOGIN
-	call_if_unset FLAG_SYS_PC_LANETTE, EventScript_AccessSomeonesPC
-	call_if_set FLAG_SYS_PC_LANETTE, EventScript_AccessLanettesPC
+	call EventScript_AccessOwnersPC
 	msgbox gText_StorageSystemOpened, MSGBOX_DEFAULT
 	special ShowPokemonStorageSystemPC
 	goto EventScript_PCMainMenu
 	end
+
+EventScript_AccessOwnersPC::
+	specialvar VAR_RESULT, GetPCOwner
+	goto_if_eq VAR_RESULT, PC_OWNER_BILL, EventScript_AccessBillsPC
+	goto_if_eq VAR_RESULT, PC_OWNER_LANETTE, EventScript_AccessLanettesPC
+	goto EventScript_AccessSomeonesPC
+
+EventScript_AccessBillsPC::
+	msgbox gText_AccessedBillsPC, MSGBOX_DEFAULT
+	return
 
 EventScript_AccessSomeonesPC::
 	msgbox gText_AccessedSomeonesPC, MSGBOX_DEFAULT

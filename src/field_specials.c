@@ -5060,3 +5060,12 @@ void BufferBigGuyOrBigGirlString(void)
     else
         StringCopy(gStringVar1, gText_BigGirl);
 }
+
+// Whose PC the POKéMON Storage System is: BILL's in Kanto (FLAG_SYS_NOT_SOMEONES_PC, set when the
+// player meets him in the SEA COTTAGE), LANETTE's in Hoenn (FLAG_SYS_PC_LANETTE), SOMEONE's until then
+u8 GetPCOwner(void)
+{
+    if (GetPlayerRegion() == REGION_HOENN)
+        return FlagGet(FLAG_SYS_PC_LANETTE) ? PC_OWNER_LANETTE : PC_OWNER_SOMEONE;
+    return FlagGet(FLAG_SYS_NOT_SOMEONES_PC) ? PC_OWNER_BILL : PC_OWNER_SOMEONE;
+}
