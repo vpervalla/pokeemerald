@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Makes the Supporter cards' pictures from tools/card_game/trainer_sprites.jpg (the Pokémon
 Crystal trainer sprites, ripped by ShapelyMan) and, for those it doesn't have, from
-tools/card_game/trainer_sprites_2.png (Kanto's trainers in a Game Boy Color style).
+tools/card_game/trainer_sprites_2.png (Kanto's trainers in the same style, in 56x56 cells).
 
     python3 tools/card_game/gen_trainer_pics.py     (needs Pillow)
 
@@ -10,7 +10,7 @@ tools/card_game/trainer_sprites_2.png (Kanto's trainers in a Game Boy Color styl
 
 Each Crystal sprite has 4 colors: white, two shades and black. The sheet is a JPEG, so each
 sprite's pixels are put back on 4 colors (the 4 means of its pixels' colors). The second sheet's
-sprites keep their colors, the closest ones merged until 15 are left. Then as in
+sprites keep their colors (the closest ones merged if more than 15). Then as in
 gen_retro_pics.py: the white around the trainer becomes transparent (a flood fill from the
 edges), the white inside stays white, and the trainer sits centered, on the bottom of a 56x56 box,
 itself centered in the 64x64 picture.
@@ -31,7 +31,7 @@ TRANSPARENT = 0
 MAX_COLORS = 15
 
 # The card, and the box around its trainer in the sheet (left, top, right, bottom). The Supporters
-# in neither sheet (BILL, DAISY, CELIO) have no picture.
+# in neither sheet (DAISY, CELIO) have no picture.
 SPRITES = [
     ('PROF_OAKS_RESEARCH', 'oak',      (7, 0, 50, 66)),
     ('KOGA',               'koga',     (174, 0, 222, 66)),
@@ -46,12 +46,16 @@ SPRITES = [
     ('BLUE',               'blue',     (411, 135, 445, 203)),
 ]
 
-# The same, in the second sheet
+# The same in the second sheet, by cell (row, column): its 8x8 cells of 56x56 pixels start at
+# (17, 17), 64 pixels apart
 SPRITES_2 = [
-    ('LORELEI',            'lorelei',  (26, 0, 68, 68)),
-    ('AGATHA',             'agatha',   (124, 0, 156, 68)),
-    ('GIOVANNI',           'giovanni', (262, 72, 303, 137)),
+    ('GIOVANNI',           'giovanni', (0, 7)),
+    ('BILL',               'bill',     (3, 2)),
+    ('LORELEI',            'lorelei',  (5, 0)),
+    ('AGATHA',             'agatha',   (5, 2)),
 ]
+SHEET_2_LEFT = 17
+SHEET_2_STEP = 64
 
 
 def gba(color):
@@ -147,8 +151,10 @@ def main():
     os.makedirs(OUT_PICS, exist_ok=True)
     for _, name, box in SPRITES:
         convert(sheet, name, box, False)
-    for _, name, box in SPRITES_2:
-        convert(sheet2, name, box, True)
+    for _, name, (row, col) in SPRITES_2:
+        left = SHEET_2_LEFT + col * SHEET_2_STEP
+        top = SHEET_2_LEFT + row * SHEET_2_STEP
+        convert(sheet2, name, (left, top, left + BOX_SIZE, top + BOX_SIZE), True)
     sprites = SPRITES + SPRITES_2
 
     with open(OUT_TABLE, 'w') as f:

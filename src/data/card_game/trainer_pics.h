@@ -23,12 +23,14 @@ static const u32 sTrainerPic_Blaine[] = INCGFX_U32("graphics/card_game/retro/tra
 static const u16 sTrainerPal_Blaine[] = INCGFX_U16("graphics/card_game/retro/trainer_blaine.png", ".gbapal");
 static const u32 sTrainerPic_Blue[] = INCGFX_U32("graphics/card_game/retro/trainer_blue.png", ".4bpp.lz");
 static const u16 sTrainerPal_Blue[] = INCGFX_U16("graphics/card_game/retro/trainer_blue.png", ".gbapal");
+static const u32 sTrainerPic_Giovanni[] = INCGFX_U32("graphics/card_game/retro/trainer_giovanni.png", ".4bpp.lz");
+static const u16 sTrainerPal_Giovanni[] = INCGFX_U16("graphics/card_game/retro/trainer_giovanni.png", ".gbapal");
+static const u32 sTrainerPic_Bill[] = INCGFX_U32("graphics/card_game/retro/trainer_bill.png", ".4bpp.lz");
+static const u16 sTrainerPal_Bill[] = INCGFX_U16("graphics/card_game/retro/trainer_bill.png", ".gbapal");
 static const u32 sTrainerPic_Lorelei[] = INCGFX_U32("graphics/card_game/retro/trainer_lorelei.png", ".4bpp.lz");
 static const u16 sTrainerPal_Lorelei[] = INCGFX_U16("graphics/card_game/retro/trainer_lorelei.png", ".gbapal");
 static const u32 sTrainerPic_Agatha[] = INCGFX_U32("graphics/card_game/retro/trainer_agatha.png", ".4bpp.lz");
 static const u16 sTrainerPal_Agatha[] = INCGFX_U16("graphics/card_game/retro/trainer_agatha.png", ".gbapal");
-static const u32 sTrainerPic_Giovanni[] = INCGFX_U32("graphics/card_game/retro/trainer_giovanni.png", ".4bpp.lz");
-static const u16 sTrainerPal_Giovanni[] = INCGFX_U16("graphics/card_game/retro/trainer_giovanni.png", ".gbapal");
 
 static const struct RetroPic sTrainerPics[CARD_COUNT - CARD_TRAINER_START] =
 {
@@ -43,7 +45,8 @@ static const struct RetroPic sTrainerPics[CARD_COUNT - CARD_TRAINER_START] =
     [CARD_SABRINA - CARD_TRAINER_START] = {sTrainerPic_Sabrina, sTrainerPal_Sabrina},
     [CARD_BLAINE - CARD_TRAINER_START] = {sTrainerPic_Blaine, sTrainerPal_Blaine},
     [CARD_BLUE - CARD_TRAINER_START] = {sTrainerPic_Blue, sTrainerPal_Blue},
+    [CARD_GIOVANNI - CARD_TRAINER_START] = {sTrainerPic_Giovanni, sTrainerPal_Giovanni},
+    [CARD_BILL - CARD_TRAINER_START] = {sTrainerPic_Bill, sTrainerPal_Bill},
     [CARD_LORELEI - CARD_TRAINER_START] = {sTrainerPic_Lorelei, sTrainerPal_Lorelei},
     [CARD_AGATHA - CARD_TRAINER_START] = {sTrainerPic_Agatha, sTrainerPal_Agatha},
-    [CARD_GIOVANNI - CARD_TRAINER_START] = {sTrainerPic_Giovanni, sTrainerPal_Giovanni},
 };
