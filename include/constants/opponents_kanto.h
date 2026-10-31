@@ -487,53 +487,53 @@
 #define TRAINER_KANTO_YOUNG_COUPLE_LEA_JED               1340
 
 // Added for the Mega Evolution tournament (not generated)
-#define TRAINER_TOURNAMENT_BLUE_BULBASAUR                     1338
-#define TRAINER_TOURNAMENT_BLUE_CHARMANDER                    1339
-#define TRAINER_TOURNAMENT_BLUE_SQUIRTLE                      1340
-#define TRAINER_TOURNAMENT_LANCE                              1341
-#define TRAINER_TOURNAMENT_STEVEN                             1342
-#define TRAINER_TOURNAMENT_CYNTHIA                            1343
-#define TRAINER_TOURNAMENT_ALDER                              1344
-#define TRAINER_TOURNAMENT_DIANTHA                            1345
-#define TRAINER_TOURNAMENT_LEON                               1346
+#define TRAINER_TOURNAMENT_BLUE_BULBASAUR                     1341
+#define TRAINER_TOURNAMENT_BLUE_CHARMANDER                    1342
+#define TRAINER_TOURNAMENT_BLUE_SQUIRTLE                      1343
+#define TRAINER_TOURNAMENT_LANCE                              1344
+#define TRAINER_TOURNAMENT_STEVEN                             1345
+#define TRAINER_TOURNAMENT_CYNTHIA                            1346
+#define TRAINER_TOURNAMENT_ALDER                              1347
+#define TRAINER_TOURNAMENT_DIANTHA                            1348
+#define TRAINER_TOURNAMENT_LEON                               1349
 
-#define TRAINER_ALAIN                                 1347
+#define TRAINER_ALAIN                                 1350
 
 // Added for the SAFFRON CITY DOJO rematch after the ELITE FOUR (not generated)
-#define TRAINER_DOJO_MIKE                             1348
-#define TRAINER_DOJO_AARON                            1349
-#define TRAINER_DOJO_HIDEKI                           1350
-#define TRAINER_DOJO_HITOSHI                          1351
-#define TRAINER_DOJO_KOICHI                           1352
+#define TRAINER_DOJO_MIKE                             1351
+#define TRAINER_DOJO_AARON                            1352
+#define TRAINER_DOJO_HIDEKI                           1353
+#define TRAINER_DOJO_HITOSHI                          1354
+#define TRAINER_DOJO_KOICHI                           1355
 
 // The trainers who took the Kanto starters from OAK's lab (not generated). LEAF and KRIS, and RED and
 // ETHAN, share their parties: KRIS replaces LEAF, and ETHAN replaces RED, when the player is dressed as them.
-#define TRAINER_LEAF_ROUTE24                          1353
-#define TRAINER_KRIS_ROUTE24                          1354
-#define TRAINER_LEAF_CELADON                          1355
-#define TRAINER_KRIS_CELADON                          1356
-#define TRAINER_LEAF_ROUTE23                          1357
-#define TRAINER_KRIS_ROUTE23                          1358
-#define TRAINER_LEAF_CERULEAN_CAVE                    1359
-#define TRAINER_KRIS_CERULEAN_CAVE                    1360
-#define TRAINER_RED_CERULEAN_CAVE                     1361
-#define TRAINER_ETHAN_CERULEAN_CAVE                   1362
+#define TRAINER_LEAF_ROUTE24                          1356
+#define TRAINER_KRIS_ROUTE24                          1357
+#define TRAINER_LEAF_CELADON                          1358
+#define TRAINER_KRIS_CELADON                          1359
+#define TRAINER_LEAF_ROUTE23                          1360
+#define TRAINER_KRIS_ROUTE23                          1361
+#define TRAINER_LEAF_CERULEAN_CAVE                    1362
+#define TRAINER_KRIS_CERULEAN_CAVE                    1363
+#define TRAINER_RED_CERULEAN_CAVE                     1364
+#define TRAINER_ETHAN_CERULEAN_CAVE                   1365
 
 // Added for the KANTO GYM LEADERS' rematches after MR. M.'s invitation (not generated)
-#define TRAINER_REMATCH_BROCK                         1363
-#define TRAINER_REMATCH_MISTY                         1364
-#define TRAINER_REMATCH_LT_SURGE                      1365
-#define TRAINER_REMATCH_ERIKA                         1366
-#define TRAINER_REMATCH_KOGA                          1367
-#define TRAINER_REMATCH_SABRINA                       1368
-#define TRAINER_REMATCH_BLAINE                        1369
-#define TRAINER_REMATCH_GIOVANNI                      1370
+#define TRAINER_REMATCH_BROCK                         1366
+#define TRAINER_REMATCH_MISTY                         1367
+#define TRAINER_REMATCH_LT_SURGE                      1368
+#define TRAINER_REMATCH_ERIKA                         1369
+#define TRAINER_REMATCH_KOGA                          1370
+#define TRAINER_REMATCH_SABRINA                       1371
+#define TRAINER_REMATCH_BLAINE                        1372
+#define TRAINER_REMATCH_GIOVANNI                      1373
 
 // Added for MR. M.'s first tournament (the story): its three opponents at their story levels. The
 // TRAINER_TOURNAMENT_* above are the daily tournament's, at lv 85-90.
-#define TRAINER_TOURNAMENT_STORY_STEVEN               1371
-#define TRAINER_TOURNAMENT_STORY_CYNTHIA              1372
-#define TRAINER_TOURNAMENT_STORY_LEON                 1373
+#define TRAINER_TOURNAMENT_STORY_STEVEN               1374
+#define TRAINER_TOURNAMENT_STORY_CYNTHIA              1375
+#define TRAINER_TOURNAMENT_STORY_LEON                 1376
 
 #define NUM_KANTO_TRAINERS 510
 #define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS + KANTO_TRAINERS_GAP_SIZE)

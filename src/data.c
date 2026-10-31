@@ -360,6 +360,10 @@ STATIC_ASSERT(NUM_SPECIES_WITH_FORMS <= SPECIES_SHINY_TAG, SpeciesPaletteTagsOve
 #include "data/mansion_raid_trainer_parties.h"
 #include "data/gym_leader_rematch_parties.h"
 #include "data/text/trainer_class_names.h"
+// Two trainers with the same id would silently share an entry (the later one wins)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic error "-Woverride-init"
 #include "data/trainers.h"
+#pragma GCC diagnostic pop
 #include "data/text/species_names.h"
 #include "data/text/move_names.h"
