@@ -21,6 +21,11 @@ maps. The host tests cover every zone.
 Phase 4 is implemented: a battle that starts in the overworld's snow has hail for the whole
 battle, opening with "It is hailing."
 
+The S.S. ANNE's dock (`SSAnne_Exterior`) and deck (`SSAnne_Deck`) are indoor maps (as in FRLG:
+no FLY, TELEPORT or bike there) but have `VERMILION`'s weather. The day/night tint and harsh sun's
+clearing at night go by `IsMapUnderTheSky` (an outdoor map, or one with dynamic weather), so they
+get the city's tint too. Checked in mGBA on both, in rain and at night.
+
 Phase 5 is implemented: a weather forecaster (a scientist) in the Pokémon Centers of
 Viridian, Cerulean, Celadon and One Island gives today's and tomorrow's weather for the
 zones around it.
@@ -188,7 +193,7 @@ with weights (section 3). The maps listed get `"weather": "WEATHER_DYNAMIC_<ZONE
 | `VIRIDIAN` | Pallet Town, Route 1, Viridian City, Route 2, Route 22 (and the Test Area, for testing) | Mild: mostly clear, some showers |
 | `PEWTER` | Pewter City, Route 3 | Dry and rocky: clear, dust in the afternoon (sandstorm) |
 | `CERULEAN` | Route 4, Cerulean City, Routes 24, 25, 5, 9 | Wet: showers and storms |
-| `VERMILION` | Vermilion City, Routes 6, 11 | Harbour: morning fog, showers |
+| `VERMILION` | Vermilion City, Routes 6, 11, the S.S. ANNE's dock and deck | Harbour: morning fog, showers |
 | `LAVENDER` | Lavender Town, Routes 8, 10, 12 | Gloomy: overcast, fog, rain at night |
 | `CELADON` | Celadon City, Saffron City (+ `SaffronCity_Connection`), Routes 7, 16, 17, 18 | City: clear or cloudy, the odd storm |
 | `FUCHSIA` | Fuchsia City, Routes 13, 14, 15, Safari Zone (`SafariZone_Center`, `_East`, `_West`, `KantoSafariZone_North`) | Coastal: fog, warm afternoons, showers |

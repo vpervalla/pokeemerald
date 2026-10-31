@@ -1366,6 +1366,14 @@ bool8 IsMapTypeOutdoors(u8 mapType)
         return FALSE;
 }
 
+// Whether the current map is under the sky, for the day/night tint and the weather: an outdoor map,
+// or one with the sky's weather though it's an indoor map for everything else (the S.S. ANNE's
+// dock and deck: no FLY, TELEPORT or bike there, as in FRLG).
+bool8 IsMapUnderTheSky(void)
+{
+    return IsMapTypeOutdoors(gMapHeader.mapType) || IsDynamicWeather(gMapHeader.weather);
+}
+
 bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType)
 {
     if (mapType == MAP_TYPE_ROUTE

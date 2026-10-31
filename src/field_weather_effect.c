@@ -2936,7 +2936,7 @@ void SetSavedWeatherFromCurrMapHeader(void)
 // (WEATHER_ABNORMAL) is a story event and is left as it is.
 static u8 GetWeatherForTimeOfDay(u8 weather)
 {
-    if (weather == WEATHER_DROUGHT && IsMapTypeOutdoors(gMapHeader.mapType)
+    if (weather == WEATHER_DROUGHT && IsMapUnderTheSky()
      && DayNight_GetPhaseNow() == DAY_NIGHT_PHASE_NIGHT)
         return WEATHER_SUNNY;
     return weather;

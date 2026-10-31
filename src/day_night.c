@@ -135,7 +135,7 @@ u8 DayNight_GetPhaseNow(void)
 
 static bool8 IsMapTinted(void)
 {
-    return IsMapTypeOutdoors(gMapHeader.mapType);
+    return IsMapUnderTheSky();
 }
 
 static bool8 ShouldLightWindows(void)
