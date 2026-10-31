@@ -1695,6 +1695,17 @@ static u32 GetFogFadeIn(void)
     return min(16, gWeatherPtr->currBlendEVA * 16 / FOG_BLEND_EVA);
 }
 
+// Whether the fog may set its palette. Not while a palette fade runs, which sets it itself, nor
+// while the screen is faded out or the weather fades it back in (FadeScreen): a fade's end leaves
+// the palettes black for a while (going through a door, into a menu), and setting the fog's then
+// showed it alone on the black screen for a frame or more.
+static bool8 CanSetFogPalette(void)
+{
+    return !gPaletteFade.active
+        && (gWeatherPtr->palProcessingState == WEATHER_PAL_STATE_IDLE
+         || gWeatherPtr->palProcessingState == WEATHER_PAL_STATE_CHANGING_WEATHER);
+}
+
 static void UpdateFogTopLayerBlend(bool8 show)
 {
     u16 bldcnt = GetGpuReg(REG_OFFSET_BLDCNT);
@@ -1718,8 +1729,7 @@ static void UpdateFogTopLayerBlend(bool8 show)
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(weight, weight));
         ShowFogCover(TRUE);
-        // The palette fade sets the palettes itself while it runs
-        if (!gPaletteFade.active)
+        if (CanSetFogPalette())
             BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 16 - fadeIn, RGB_BLACK);
     }
     else
@@ -1727,7 +1737,7 @@ static void UpdateFogTopLayerBlend(bool8 show)
         SetGpuReg(REG_OFFSET_WININ, winin);
         SetGpuReg(REG_OFFSET_BLDCNT, bldcnt | BLDCNT_EFFECT_BLEND);
         ShowFogCover(FALSE);
-        if (!gPaletteFade.active)
+        if (CanSetFogPalette())
             BlendPalette(OBJ_PLTT_ID(fogPalette), 16, 0, RGB_BLACK);
     }
 }

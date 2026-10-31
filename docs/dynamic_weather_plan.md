@@ -57,6 +57,12 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   harbor tent, against 104 with no weather. Measured in mGBA with a test build that counts each
   frame's scanlines of work; a second test build ran the old and the new covers side by side over
   8000 calls (330 with a character under BG1) and they matched pixel for pixel.
+- **The fog alone on a black screen**: going through a door or into and out of the party menu,
+  the fog showed over the black screen for a frame (a dozen frames entering a building, while it
+  cleared). Its palette was set each frame unless a palette fade was running, but a fade's end
+  leaves the screen black, and coming back the weather fades the palettes in itself. It's now set
+  only while the weather's palettes are idle or changing (`CanSetFogPalette`). Checked frame by
+  frame in mGBA at the VERMILION POKéMON CENTER's door and through START > POKéMON and back.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
 - **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto
