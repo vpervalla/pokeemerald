@@ -1645,6 +1645,13 @@ u16 GetSpritePaletteTagByPaletteNum(u8 paletteNum)
     return sSpritePaletteTags[paletteNum];
 }
 
+// Records which palette a slot holds, for one loaded by hand: e.g. in a slot reserved for the
+// overworld's objects, which IndexOfSpritePaletteTag doesn't look at.
+void SetSpritePaletteTagByPaletteNum(u8 paletteNum, u16 tag)
+{
+    sSpritePaletteTags[paletteNum] = tag;
+}
+
 void FreeSpritePaletteByTag(u16 tag)
 {
     u8 index = IndexOfSpritePaletteTag(tag);

@@ -10,5 +10,6 @@ void DayNight_UpdateField(void);
 const u16 *DayNight_GetPlttBufferToShow(void);
 void DayNight_UpdateBattle(void);
 void DayNight_TransferPlttBuffer(void);
+void DayNight_OnObjectPaletteSlotLoaded(u8 slot);
 
 #endif // GUARD_DAY_NIGHT_H

@@ -550,6 +550,65 @@ static void SpriteCB_Sign(struct Sprite *sprite)
     }
 }
 
+// The overworld leaves only 4 sprite palette slots (12-15) free, and the weather always takes 2 of them:
+// the lamps and the signs used to take the last 2, so at night the field effects (footprints, the
+// grass, a field move's POKéMON) found none, and were drawn with slot 15, the signs' glowing colours.
+// So when no object on the map uses the special NPC's slots, which very few do (the Seagallop, the
+// S.S. ANNE), the signs take PALSLOT_NPC_SPECIAL and the lamps PALSLOT_NPC_SPECIAL_REFLECTION.
+// If such an object turns up (DayNight_OnObjectPaletteSlotLoaded), they move to the free slots.
+static EWRAM_DATA u8 sGlowPaletteNum = 0xFF;
+static EWRAM_DATA u8 sLampPaletteNum = 0xFF;
+static EWRAM_DATA bool8 sSpecialSlotsTaken = FALSE; // By an object, until the next map load
+
+static bool8 MapUsesSpecialPaletteSlots(void)
+{
+    u32 i;
+
+    if (sSpecialSlotsTaken)
+        return TRUE;
+    for (i = 0; i < gMapHeader.events->objectEventCount; i++)
+    {
+        const struct ObjectEventTemplate *template = &gMapHeader.events->objectEvents[i];
+        u8 slot;
+
+        if (template->flagId != 0 && FlagGet(template->flagId))
+            continue;
+        slot = GetObjectEventGraphicsInfo(GetTemplateGraphicsId(template))->paletteSlot;
+        if (slot == PALSLOT_NPC_SPECIAL || slot == PALSLOT_NPC_SPECIAL_REFLECTION)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Loads a palette of the lamps or the signs: in its special NPC's slot if it's free, else in a free slot.
+static u8 LoadDayNightPalette(const struct SpritePalette *palette, u8 specialSlot)
+{
+    u8 paletteNum;
+
+    if (!MapUsesSpecialPaletteSlots())
+    {
+        paletteNum = specialSlot;
+        LoadPalette(palette->data, OBJ_PLTT_ID(paletteNum), PLTT_SIZE_4BPP);
+        SetSpritePaletteTagByPaletteNum(paletteNum, palette->tag);
+    }
+    else
+    {
+        paletteNum = LoadSpritePalette(palette);
+        if (paletteNum == 0xFF)
+            return 0xFF;
+    }
+    UpdateSpritePaletteWithWeather(paletteNum);
+    return paletteNum;
+}
+
+static void FreeDayNightPalette(u8 *paletteNum, u16 tag)
+{
+    // A warp frees every slot, after which this one may hold another palette
+    if (*paletteNum != 0xFF && GetSpritePaletteTagByPaletteNum(*paletteNum) == tag)
+        SetSpritePaletteTagByPaletteNum(*paletteNum, TAG_NONE);
+    *paletteNum = 0xFF;
+}
+
 static void DestroySignSprites(void)
 {
     u32 i;
@@ -564,10 +623,8 @@ static void DestroySignSprites(void)
     }
     sNumSignSprites = 0;
     for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
-    {
         FreeSpriteTilesByTag(sGlowingSigns[i].sheet.tag);
-        FreeSpritePaletteByTag(sGlowingSigns[i].palette.tag);
-    }
+    FreeDayNightPalette(&sGlowPaletteNum, TAG_GLOW_PAL);
 }
 
 static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
@@ -577,19 +634,18 @@ static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
 
     if (GetSpriteTileStartByTag(sign->sheet.tag) == 0xFFFF)
         LoadSpriteSheet(&sign->sheet);
-    if (IndexOfSpritePaletteTag(sign->palette.tag) == 0xFF)
+    if (sGlowPaletteNum == 0xFF)
     {
-        u8 paletteNum = LoadSpritePalette(&sign->palette);
-
-        if (paletteNum == 0xFF)
+        sGlowPaletteNum = LoadDayNightPalette(&sign->palette, PALSLOT_NPC_SPECIAL);
+        if (sGlowPaletteNum == 0xFF)
             return;
-        UpdateSpritePaletteWithWeather(paletteNum);
     }
 
     SetSpritePosToMapCoords(mapX + MAP_OFFSET, mapY + MAP_OFFSET, &x, &y);
     spriteId = CreateSprite(sign->template, x + sign->x + sign->size / 2, y + sign->y + sign->size / 2, 0xFF);
     if (spriteId == MAX_SPRITES)
         return;
+    gSprites[spriteId].oam.paletteNum = sGlowPaletteNum;
     gSprites[spriteId].coordOffsetEnabled = TRUE;
     gSprites[spriteId].sDoorX = mapX + MAP_OFFSET;
     gSprites[spriteId].sDoorY = mapY + MAP_OFFSET;
@@ -753,7 +809,7 @@ static void DestroyLampSprites(void)
     sNumLampSprites = 0;
     FreeSpriteTilesByTag(TAG_LAMP);
     FreeSpriteTilesByTag(TAG_LAMP_POOL);
-    FreeSpritePaletteByTag(TAG_LAMP_PAL);
+    FreeDayNightPalette(&sLampPaletteNum, TAG_LAMP_PAL);
 }
 
 // (cx, cy): the sprite's centre, in pixels from the top-left corner of the lamp's tile
@@ -766,6 +822,7 @@ static void CreateLampSprite(const struct SpriteTemplate *template, const struct
     spriteId = CreateSprite(template, x + cx, y + cy, subpriority);
     if (spriteId == MAX_SPRITES)
         return;
+    gSprites[spriteId].oam.paletteNum = sLampPaletteNum;
     gSprites[spriteId].coordOffsetEnabled = TRUE;
     gSprites[spriteId].data[7] = SIGN_MAGIC;
     gSprites[spriteId].callback(&gSprites[spriteId]);
@@ -787,11 +844,9 @@ static void CreateLampSprites(bool8 lit, bool8 night)
             continue;
         if (!loaded)
         {
-            u8 paletteNum = LoadSpritePalette(&palette);
-
-            if (paletteNum == 0xFF)
+            sLampPaletteNum = LoadDayNightPalette(&palette, PALSLOT_NPC_SPECIAL_REFLECTION);
+            if (sLampPaletteNum == 0xFF)
                 return;
-            UpdateSpritePaletteWithWeather(paletteNum);
             LoadSpriteSheet(night ? &nightLampSheet : &lampSheet);
             if (lit)
                 LoadSpriteSheet(&poolSheet);
@@ -857,8 +912,26 @@ static void UpdateSigns(bool8 lit)
 }
 
 // Called after the map's tileset palettes are (re)loaded.
+// An object's palette is loaded into a slot of the overworld's objects: if it's the special NPC's,
+// the lamps or the signs may be using it, and move to free slots.
+void DayNight_OnObjectPaletteSlotLoaded(u8 slot)
+{
+    u16 tag;
+
+    if (slot != PALSLOT_NPC_SPECIAL && slot != PALSLOT_NPC_SPECIAL_REFLECTION)
+        return;
+    tag = GetSpritePaletteTagByPaletteNum(slot);
+    if (tag != TAG_GLOW_PAL && tag != TAG_LAMP_PAL)
+        return;
+    sSpecialSlotsTaken = TRUE;
+    DestroySignSprites();
+    DestroyLampSprites();
+    sSignsDirty = TRUE;
+}
+
 void DayNight_OnTilesetPalettesLoaded(void)
 {
+    sSpecialSlotsTaken = FALSE;
     sClockPhase = ReadClockPhase();
     sClockTimer = 0;
     SetWindowsLit(ShouldLightWindows(), TRUE);

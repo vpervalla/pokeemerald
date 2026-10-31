@@ -1,4 +1,7 @@
 #include "global.h"
+#include "main.h"
+#include "field_weather.h"
+#include "day_night.h"
 #include "region_map.h"
 #include "malloc.h"
 #include "battle_pyramid.h"
@@ -2178,7 +2181,15 @@ void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
     // paletteTag is assumed to exist in sObjectEventSpritePalettes
     u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
+    // The street lamps and glowing signs may be using a special NPC's slot (see day_night.c)
+    DayNight_OnObjectPaletteSlotLoaded(paletteSlot);
+
     LoadPalette(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    // In the field (not while a map loads, before its weather starts), the weather's work on the
+    // palettes (the fog's, a darker colour map) is done again: e.g. the player's field move pose
+    // loads the player's palette again, which then stood out of the fog until the next map.
+    if (gMain.callback2 == CB2_Overworld)
+        UpdateSpritePaletteWithWeather(paletteSlot);
 }
 
 void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)
