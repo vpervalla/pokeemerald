@@ -701,7 +701,7 @@ Kanto_EventScript_AskForProfile::
 	end
 
 Kanto_EventScript_AskSaveGame::
-	waitstate
+	special SaveGame
 	return
 
 Kanto_EventScript_AwakenSnorlax::
