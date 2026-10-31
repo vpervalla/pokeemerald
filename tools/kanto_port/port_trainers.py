@@ -59,7 +59,7 @@ CONST_RENAMES = {"MULTICHOICE_YES_NO": "MULTI_YESNO", "STEP_CB_ICE": "STEP_CB_IC
 MOVEMENT_RENAMES = [(r"walk_slowe(r|st)_(\w+)", r"walk_slow_\2"), (r"face_(\w+)_fast", r"face_\1"),
                     (r"glide_(\w+)", r"walk_fast_\1"), (r"player_run_(\w+)_slow", r"player_run_\1"),
                     (r"spin_(\w+)", r"face_\1"), (r"emote_double_exclamation_mark", "emote_exclamation_mark")]
-SPECIAL_RENAMES = {"GetPokedexCount": "ScriptGetPokedexInfo", "StartLegendaryBattle": "BattleSetup_StartLegendaryBattle",
+SPECIAL_RENAMES = {"StartLegendaryBattle": "BattleSetup_StartLegendaryBattle",
                    # FRLG's elevators work like Emerald's
                    "DrawElevatorCurrentFloorWindow": "ShowDeptStoreElevatorFloorSelect",
                    "CloseElevatorCurrentFloorWindow": "CloseDeptStoreElevatorWindow",

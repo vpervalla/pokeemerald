@@ -3456,8 +3456,11 @@ static void Cmd_getexp(void)
             }
             else
             {
-                // music change in wild battle after fainting a poke
-                if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && gBattleMons[0].hp != 0 && !gBattleStruct->wildVictorySong)
+                // music change in wild battle after fainting a poke: the last one, as a wild double
+                // battle (the VIRIDIAN FOREST's two BEEDRILL) goes on after the first
+                if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && gBattleMons[0].hp != 0 && !gBattleStruct->wildVictorySong
+                 && gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)].hp == 0
+                 && (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE) || gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)].hp == 0))
                 {
                     BattleStopLowHpSound();
                     PlayBGM(MUS_RG_VICTORY_WILD);

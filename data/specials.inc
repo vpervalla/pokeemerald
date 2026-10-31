@@ -508,6 +508,7 @@ gSpecials::
 	def_special ShouldShowBoxWasFullMessage
 	def_special GetPCOwner
 	def_special DoSSAnneDepartureCutscene
+	def_special GetPokedexCount
 	def_special SetMatchCallRegisteredFlag
 	def_special DoDomeConfetti
 	def_special CreateAbnormalWeatherEvent

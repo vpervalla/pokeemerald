@@ -5069,3 +5069,16 @@ u8 GetPCOwner(void)
         return FlagGet(FLAG_SYS_PC_LANETTE) ? PC_OWNER_LANETTE : PC_OWNER_SOMEONE;
     return FlagGet(FLAG_SYS_NOT_SOMEONES_PC) ? PC_OWNER_BILL : PC_OWNER_SOMEONE;
 }
+
+// FRLG's GetPokedexCount, for the Kanto maps (OAK's aides, OAK's POKéDEX rating, the NATIONAL DEX
+// check): VAR_0x8005 seen and VAR_0x8006 caught, returns whether the NATIONAL DEX is on. FRLG
+// counted the 151 Kanto POKéMON when VAR_0x8004 is 0, but here OAK's POKéDEX lists the National
+// order from the start, and the POKéDEX and the CONTINUE screen count every POKéMON: so does this.
+// (The Kanto maps used Emerald's ScriptGetPokedexInfo, which counts the HOENN dex for 0: OAK's
+// aide saw 10 POKéMON of 35.)
+bool16 GetPokedexCount(void)
+{
+    gSpecialVar_0x8005 = GetNationalPokedexCount(FLAG_GET_SEEN);
+    gSpecialVar_0x8006 = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+    return IsNationalPokedexEnabled();
+}

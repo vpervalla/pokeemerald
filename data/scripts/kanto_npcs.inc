@@ -2001,7 +2001,7 @@ Kanto_PokedexRating_EventScript_NormalIntro::
 
 Kanto_PokedexRating_EventScript_Rate::
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, ScriptGetPokedexInfo
+	specialvar VAR_RESULT, GetPokedexCount
 	copyvar VAR_0x8008, VAR_0x8005
 	copyvar VAR_0x8009, VAR_0x8006
 	copyvar VAR_0x800A, VAR_RESULT
@@ -2012,7 +2012,7 @@ Kanto_PokedexRating_EventScript_Rate::
 	call Kanto_PokedexRating_EventScript_ShowRatingMsg
 	goto_if_eq VAR_0x800A, FALSE, Kanto_PokedexRating_EventScript_EndRating
 	setvar VAR_0x8004, 1
-	specialvar VAR_RESULT, ScriptGetPokedexInfo
+	specialvar VAR_RESULT, GetPokedexCount
 	copyvar VAR_0x8008, VAR_0x8005
 	copyvar VAR_0x8009, VAR_0x8006
 	buffernumberstring STR_VAR_1, VAR_0x8008

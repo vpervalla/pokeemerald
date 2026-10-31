@@ -11,7 +11,7 @@ Route11_EastEntrance_2F_EventScript_Aide::
 	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, Kanto_Aide_EventScript_DeclineCheckMons
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, ScriptGetPokedexInfo
+	specialvar VAR_RESULT, GetPokedexCount
 	buffernumberstring STR_VAR_3, VAR_0x8006
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, 30, Kanto_Aide_EventScript_HaventCaughtEnough
