@@ -1477,32 +1477,55 @@ static void ShowFogCover(bool8 show)
     }
 }
 
-// Whether BG1's pixel at this spot of the screen isn't clear
-static bool8 IsTopLayerPixel(s32 x, s32 y, s16 bgX, s16 bgY)
+// A row of a 4bpp tile (8 pixels, 4 bits each, the first in the lowest bits) to 8 bits, one per
+// pixel that isn't clear, the first in bit 0
+static inline u32 OpaquePixels(u32 row)
 {
-    u32 mapX = (x + bgX) & 0xFF;
-    u32 mapY = (y + bgY) & 0xFF;
-    u16 entry = gOverworldTilemapBuffer_Bg1[(mapY / 8) * 32 + mapX / 8];
-    u32 tileX = mapX % 8;
-    u32 tileY = mapY % 8;
-    u8 pair;
+    row |= row >> 1;
+    row |= row >> 2;
+    row &= 0x11111111;
+    row = (row | (row >> 3)) & 0x03030303;
+    row = (row | (row >> 6)) & 0x000F000F;
+    return (row | (row >> 12)) & 0xFF;
+}
 
-    if (entry & 0x400)
-        tileX = 7 - tileX;
-    if (entry & 0x800)
-        tileY = 7 - tileY;
-    // BG1's tiles are at the start of VRAM (charBaseIndex 0)
-    pair = ((vu8 *)VRAM)[(entry & 0x3FF) * TILE_SIZE_4BPP + tileY * 4 + tileX / 2];
-    return (tileX & 1 ? pair >> 4 : pair & 0xF) != 0;
+// The other way: 8 bits, one per pixel, to a row of a 4bpp tile with 0xF on those pixels
+static inline u32 PixelsToRow(u32 bits)
+{
+    bits = (bits | (bits << 12)) & 0x000F000F;
+    bits = (bits | (bits << 6)) & 0x03030303;
+    bits = (bits | (bits << 3)) & 0x11111111;
+    return bits * 0xF;
+}
+
+static inline u32 ReverseBits8(u32 bits)
+{
+    bits = ((bits & 0xF0) >> 4) | ((bits & 0x0F) << 4);
+    bits = ((bits & 0xCC) >> 2) | ((bits & 0x33) << 2);
+    return ((bits & 0xAA) >> 1) | ((bits & 0x55) << 1);
+}
+
+static inline u32 ReverseBits32(u32 bits)
+{
+    bits = (bits >> 16) | (bits << 16);
+    bits = ((bits & 0xFF00FF00) >> 8) | ((bits & 0x00FF00FF) << 8);
+    bits = ((bits & 0xF0F0F0F0) >> 4) | ((bits & 0x0F0F0F0F) << 4);
+    bits = ((bits & 0xCCCCCCCC) >> 2) | ((bits & 0x33333333) << 2);
+    return ((bits & 0xAAAAAAAA) >> 1) | ((bits & 0x55555555) << 1);
 }
 
 // Puts the cover on the character's pixels that BG1 is over. FALSE if there are none, and the
 // cover is still free.
 // (tiles: the cover's own, which it shows)
+// This runs for every character on screen each frame of fog, so it skips BG1's clear tiles and
+// works a row at a time, with a bit per pixel: the character's pixels that aren't clear, and BG1's
+// over them. Going pixel by pixel over every character took more than a frame, and the game ran
+// at half speed in fog.
 static bool8 CoverFromFog(struct Sprite *cover, u8 *tiles, struct Sprite *sprite, s16 bgX, s16 bgY)
 {
-    const u8 *pic;
-    s32 width, height, left, top, x, y;
+    const u16 *pic;
+    s32 width, height, left, top, x, y, row, bandEnd, startX, endX, startY, endY;
+    u32 onScreen, tileCols;
     s16 frame;
     bool8 covered = FALSE;
 
@@ -1513,7 +1536,7 @@ static bool8 CoverFromFog(struct Sprite *cover, u8 *tiles, struct Sprite *sprite
     // Where the character is on the screen, as BuildOamBuffer will put them
     width = -2 * sprite->centerToCornerVecX;
     height = -2 * sprite->centerToCornerVecY;
-    if (width > 32 || height > 32)
+    if (width <= 0 || width > 32 || height <= 0 || height > 32)
         return FALSE;
     left = sprite->x + sprite->x2 + sprite->centerToCornerVecX;
     top = sprite->y + sprite->y2 + sprite->centerToCornerVecY;
@@ -1527,27 +1550,90 @@ static bool8 CoverFromFog(struct Sprite *cover, u8 *tiles, struct Sprite *sprite
     frame = sprite->anims[sprite->animNum][sprite->animCmdIndex].frame.imageValue;
     if (frame < 0)
         return FALSE;
+    // Read by halves: a frame's tiles needn't be 4-aligned
     pic = sprite->images[frame].data;
+    tileCols = width / 8;
 
-    CpuFill16(0, tiles, sizeof(sFogCoverTiles[0]));
-    for (y = 0; y < height; y++)
+    // The character's columns on the screen (x and y are from the character's top left), a bit each
+    startX = max(0, -left);
+    endX = min(width, DISPLAY_WIDTH - left);
+    onScreen = (endX == 32 ? 0xFFFFFFFF : (1u << endX) - 1) & ~((1u << startX) - 1);
+    startY = max(0, -top);
+    endY = min(height, DISPLAY_HEIGHT - top);
+
+    // A band of rows at a time, as tall as what's left of BG1's tile row: BG1 is clear almost
+    // everywhere, so most bands have none of its tiles to look at and are skipped
+    for (y = startY; y < endY; y = bandEnd)
     {
-        if (top + y < 0 || top + y >= DISPLAY_HEIGHT)
-            continue;
-        for (x = 0; x < width; x++)
-        {
-            // The character's pixel (the frame's tiles are in rows of width / 8), flipped as on screen
-            s32 picX = sprite->oam.matrixNum & ST_OAM_HFLIP ? width - 1 - x : x;
-            s32 picY = sprite->oam.matrixNum & ST_OAM_VFLIP ? height - 1 - y : y;
-            u8 pair = pic[((picY / 8) * (width / 8) + picX / 8) * TILE_SIZE_4BPP + (picY % 8) * 4 + (picX % 8) / 2];
+        u32 mapY = (top + y + bgY) & 0xFF;
+        const u16 *bgRow = &gOverworldTilemapBuffer_Bg1[(mapY / 8) * 32];
+        u16 entries[32 / 8 + 1]; // the character is at most 32 wide
+        s8 tileLefts[32 / 8 + 1];
+        u32 numTiles = 0, i;
 
-            if ((picX & 1 ? pair >> 4 : pair & 0xF) == 0)
+        bandEnd = min(endY, y + 8 - (s32)(mapY % 8));
+        // BG1's tiles along the band that aren't clear (its tiles are at the start of VRAM, charBaseIndex 0)
+        for (x = startX; x < endX;)
+        {
+            u32 mapX = (left + x + bgX) & 0xFF;
+            u16 entry = bgRow[mapX / 8];
+            const u32 *tile = &((const u32 *)VRAM)[(entry & 0x3FF) * (TILE_SIZE_4BPP / 4)];
+            s32 tileLeft = x - (s32)(mapX % 8);
+
+            if (tile[0] | tile[1] | tile[2] | tile[3] | tile[4] | tile[5] | tile[6] | tile[7])
+            {
+                entries[numTiles] = entry;
+                tileLefts[numTiles] = tileLeft;
+                numTiles++;
+            }
+            x = tileLeft + 8;
+        }
+        if (numTiles == 0)
+            continue;
+
+        for (row = y; row < bandEnd; row++)
+        {
+            u32 rowMapY = (top + row + bgY) & 7;
+            u32 picY, charBits = 0, bgBits = 0, col;
+            const u16 *picRow;
+
+            for (i = 0; i < numTiles; i++)
+            {
+                u32 tileY = entries[i] & 0x800 ? 7 - rowMapY : rowMapY;
+                u32 bits = OpaquePixels(((const u32 *)VRAM)[(entries[i] & 0x3FF) * (TILE_SIZE_4BPP / 4) + tileY]);
+
+                if (entries[i] & 0x400)
+                    bits = ReverseBits8(bits);
+                bgBits |= tileLefts[i] >= 0 ? bits << tileLefts[i] : bits >> -tileLefts[i];
+            }
+            bgBits &= onScreen;
+            if (bgBits == 0)
                 continue;
-            if (left + x < 0 || left + x >= DISPLAY_WIDTH || !IsTopLayerPixel(left + x, top + y, bgX, bgY))
+
+            // The character's row (flipped as on screen; the frame's tiles are in rows of width / 8)
+            picY = sprite->oam.matrixNum & ST_OAM_VFLIP ? height - 1 - row : row;
+            picRow = &pic[((picY / 8) * tileCols * (TILE_SIZE_4BPP / 4) + picY % 8) * 2];
+            for (col = 0; col < tileCols; col++)
+                charBits |= OpaquePixels(picRow[col * (TILE_SIZE_4BPP / 2)] | (picRow[col * (TILE_SIZE_4BPP / 2) + 1] << 16)) << (col * 8);
+            if (sprite->oam.matrixNum & ST_OAM_HFLIP)
+                charBits = ReverseBits32(charBits) >> (32 - width);
+            charBits &= bgBits;
+            if (charBits == 0)
                 continue;
+
+            if (!covered)
+            {
+                CpuFill16(0, tiles, sizeof(sFogCoverTiles[0]));
+                covered = TRUE;
+            }
             // The cover's tiles are in rows of 4
-            tiles[((y / 8) * 4 + x / 8) * TILE_SIZE_4BPP + (y % 8) * 4 + (x % 8) / 2] |= x & 1 ? FOG_COVER_COLOR << 4 : FOG_COVER_COLOR;
-            covered = TRUE;
+            for (col = 0; col < tileCols; col++)
+            {
+                u32 bits = (charBits >> (col * 8)) & 0xFF;
+
+                if (bits != 0)
+                    ((u32 *)tiles)[((row / 8) * 4 + col) * (TILE_SIZE_4BPP / 4) + row % 8] |= PixelsToRow(bits) & (FOG_COVER_COLOR * 0x11111111);
+            }
         }
     }
     if (!covered)

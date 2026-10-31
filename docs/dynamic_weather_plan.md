@@ -50,6 +50,13 @@ or on Route 1 with a forced weather, at 08:00, 12:00, 18:00 and 22:00:
   BG1 is over a pixel of theirs, so BG1 blends with the fog there and hides them. There are four
   covers, handed out each frame to the characters BG1 is over, the player's first. Checked in
   mGBA walking through the tent, with a sailor moved under it in a test build.
+- **Fog ran at half speed**: the covers were worked out pixel by pixel over every character on
+  screen, each frame, which took more than a frame (Vermilion City: about 400 scanlines of work
+  per frame, out of 228, so every frame lagged). `CoverFromFog` now skips BG1's clear tiles and
+  works a row at a time with a bit per pixel: about 120 scanlines in the open and 136 under the
+  harbor tent, against 104 with no weather. Measured in mGBA with a test build that counts each
+  frame's scanlines of work; a second test build ran the old and the new covers side by side over
+  8000 calls (330 with a character under BG1) and they matched pixel for pixel.
 - **Snow** stopped after the first flakes (a vanilla bug: the timer that lets a fallen flake
   start again was never incremented). Fixed; still to look at on Four Island itself.
 - **Clouds** (`WEATHER_SUNNY_CLOUDS`) are drawn under BG2, as reflections in water. Many Kanto
