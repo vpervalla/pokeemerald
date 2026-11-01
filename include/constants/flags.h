@@ -2011,6 +2011,11 @@
 #define FLAG_WORLD_MAP_ONE_ISLAND                   (KANTO_EXTRA_FLAGS_START + 0x063)
 // END KANTO STORY FLAGS
 
+// The CAPE BRINK tutor's ultimate moves, taught once each (FRLG's; the port had left them out)
+#define FLAG_TUTOR_FRENZY_PLANT                     (KANTO_EXTRA_FLAGS_START + 0x100)
+#define FLAG_TUTOR_BLAST_BURN                       (KANTO_EXTRA_FLAGS_START + 0x101)
+#define FLAG_TUTOR_HYDRO_CANNON                     (KANTO_EXTRA_FLAGS_START + 0x102)
+
 // The Mega Evolution story. These sit at the end of the extra flags, clear of the generated ones.
 #define FLAG_RECEIVED_MEGA_RING                     (KANTO_EXTRA_FLAGS_START + 0x1F0)
 #define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)

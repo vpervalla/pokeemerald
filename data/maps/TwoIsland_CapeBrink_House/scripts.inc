@@ -10,6 +10,9 @@ TwoIsland_CapeBrink_House_EventScript_StarterTutor::
 	goto_if_set FLAG_TEMP_2, Kanto_CapeBrinkTutor_EventScript_MoveJustTaught
 	bufferleadmonspeciesname STR_VAR_1
 	msgbox Kanto_Text_UltimateMoveThatMon
+	@ restored: the port had dropped the special (and the move it chooses)
+	specialvar VAR_RESULT, CapeBrinkGetMoveToTeachLeadPokemon
+	goto_if_eq VAR_RESULT, FALSE, Kanto_CapeBrinkTutor_EventScript_NoLeadStarter
 	copyvar VAR_0x8009, VAR_0x8005
 	call_if_eq VAR_FACING, DIR_NORTH, Kanto_CapeBrinkTutor_EventScript_JumpInPlaceDown
 	call_if_eq VAR_FACING, DIR_SOUTH, Kanto_CapeBrinkTutor_EventScript_JumpInPlaceUp

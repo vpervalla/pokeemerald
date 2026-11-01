@@ -5082,3 +5082,46 @@ bool16 GetPokedexCount(void)
     gSpecialVar_0x8006 = GetNationalPokedexCount(FLAG_GET_CAUGHT);
     return IsNationalPokedexEnabled();
 }
+
+// The CAPE BRINK tutor (FRLG): his ultimate move for the lead POKéMON, a starter's last evolution
+// with the most friendship. VAR_0x8005 = the tutor move, VAR_0x8007 = the lead's slot, gStringVar2 =
+// the move's name; FALSE if the lead can't learn one, or already has.
+bool8 CapeBrinkGetMoveToTeachLeadPokemon(void)
+{
+    static const struct
+    {
+        u16 species, tutorMove, flag, move;
+    } sCapeBrinkMoves[] =
+    {
+        {SPECIES_VENUSAUR,  TUTOR_MOVE_FRENZY_PLANT, FLAG_TUTOR_FRENZY_PLANT, MOVE_FRENZY_PLANT},
+        {SPECIES_CHARIZARD, TUTOR_MOVE_BLAST_BURN,   FLAG_TUTOR_BLAST_BURN,   MOVE_BLAST_BURN},
+        {SPECIES_BLASTOISE, TUTOR_MOVE_HYDRO_CANNON, FLAG_TUTOR_HYDRO_CANNON, MOVE_HYDRO_CANNON},
+    };
+    u8 leadMonSlot = GetLeadMonIndex();
+    u16 species = GetMonData(&gPlayerParty[leadMonSlot], MON_DATA_SPECIES_OR_EGG);
+    u32 i;
+
+    gSpecialVar_0x8007 = leadMonSlot;
+    for (i = 0; i < ARRAY_COUNT(sCapeBrinkMoves); i++)
+    {
+        if (sCapeBrinkMoves[i].species == species)
+            break;
+    }
+    if (i == ARRAY_COUNT(sCapeBrinkMoves) || GetMonData(&gPlayerParty[leadMonSlot], MON_DATA_FRIENDSHIP) != MAX_FRIENDSHIP)
+        return FALSE;
+    StringCopy(gStringVar2, gMoveNames[sCapeBrinkMoves[i].move]);
+    gSpecialVar_0x8005 = sCapeBrinkMoves[i].tutorMove;
+    return !FlagGet(sCapeBrinkMoves[i].flag);
+}
+
+// After the CAPE BRINK tutor has taught VAR_0x8005: whether he has now taught all three moves
+bool8 HasLearnedAllMovesFromCapeBrinkTutor(void)
+{
+    if (gSpecialVar_0x8005 == TUTOR_MOVE_FRENZY_PLANT)
+        FlagSet(FLAG_TUTOR_FRENZY_PLANT);
+    else if (gSpecialVar_0x8005 == TUTOR_MOVE_BLAST_BURN)
+        FlagSet(FLAG_TUTOR_BLAST_BURN);
+    else
+        FlagSet(FLAG_TUTOR_HYDRO_CANNON);
+    return FlagGet(FLAG_TUTOR_FRENZY_PLANT) && FlagGet(FLAG_TUTOR_BLAST_BURN) && FlagGet(FLAG_TUTOR_HYDRO_CANNON);
+}

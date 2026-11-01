@@ -34,6 +34,7 @@ Route4_EventScript_MegaKickTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MegaKickDeclined
 	msgbox Kanto_Text_MegaKickWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_MEGA_KICK  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_MegaKickDeclined
 	setflag FLAG_TUTOR_MEGA_KICK
@@ -49,6 +50,7 @@ Route4_EventScript_MegaPunchTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MegaPunchDeclined
 	msgbox Kanto_Text_MegaPunchWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_MEGA_PUNCH  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_MegaPunchDeclined
 	setflag FLAG_TUTOR_MEGA_PUNCH

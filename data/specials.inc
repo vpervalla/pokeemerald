@@ -509,6 +509,8 @@ gSpecials::
 	def_special GetPCOwner
 	def_special DoSSAnneDepartureCutscene
 	def_special GetPokedexCount
+	def_special CapeBrinkGetMoveToTeachLeadPokemon
+	def_special HasLearnedAllMovesFromCapeBrinkTutor
 	def_special SetMatchCallRegisteredFlag
 	def_special DoDomeConfetti
 	def_special CreateAbnormalWeatherEvent

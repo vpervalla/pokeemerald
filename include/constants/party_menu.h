@@ -43,6 +43,11 @@
 #define TUTOR_MOVE_FIRE_PUNCH      28
 #define TUTOR_MOVE_FURY_CUTTER     29
 #define TUTOR_MOVE_COUNT           30
+// The CAPE BRINK tutor's ultimate moves (FRLG), each for one starter's last evolution: past
+// gTutorMoves and sTutorLearnsets (see GetTutorMove and CanLearnTutorMove in party_menu.c)
+#define TUTOR_MOVE_FRENZY_PLANT    (TUTOR_MOVE_COUNT + 0)
+#define TUTOR_MOVE_BLAST_BURN      (TUTOR_MOVE_COUNT + 1)
+#define TUTOR_MOVE_HYDRO_CANNON    (TUTOR_MOVE_COUNT + 2)
 
 #define PARTY_LAYOUT_SINGLE          0
 #define PARTY_LAYOUT_DOUBLE          1

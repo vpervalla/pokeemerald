@@ -54,6 +54,7 @@ VictoryRoad_2F_EventScript_DoubleEdgeTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_DoubleEdgeDeclined
 	msgbox Kanto_Text_DoubleEdgeWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_DOUBLE_EDGE  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_DoubleEdgeDeclined
 	setflag FLAG_TUTOR_DOUBLE_EDGE

@@ -417,10 +417,34 @@ Kanto_CapeBrinkTutor_EventScript_TaughtAllMoves::
 
 Kanto_CapeBrinkTutor_EventScript_TaughtMove::
 	copyvar VAR_0x8005, VAR_0x8009
+	specialvar VAR_RESULT, HasLearnedAllMovesFromCapeBrinkTutor
+	goto_if_eq VAR_RESULT, TRUE, Kanto_CapeBrinkTutor_EventScript_LearnedAllMoves
 	msgbox Kanto_Text_TaughtMove
 	setflag FLAG_TEMP_2
 	release
 	end
+
+Kanto_CapeBrinkTutor_EventScript_LearnedAllMoves::
+	msgbox Kanto_Text_PassedOnEverythingIKnow
+	setflag FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK
+	release
+	end
+
+Kanto_CapeBrinkTutor_EventScript_NoLeadStarter::
+	msgbox Kanto_Text_JustMistaken
+	release
+	end
+
+Kanto_Text_JustMistaken:
+	.string "…No…\n"
+	.string "I was just mistaken.$"
+
+Kanto_Text_PassedOnEverythingIKnow:
+	.string "Gasp, gasp, gasp…\p"
+	.string "I have no regrets now.\n"
+	.string "I've passed on everything I know.\p"
+	.string "Now I can live out my life knowing\n"
+	.string "my work is done.$"
 
 Kanto_CeruleanCity_BikeShop_EventScript_Bicycle::
 	msgbox Kanto_CeruleanCity_BikeShop_Text_ShinyNewBicycle, MSGBOX_SIGN
@@ -1037,6 +1061,7 @@ Kanto_EventScript_CounterTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_CounterDeclined
 	msgbox Kanto_Text_CounterWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_COUNTER  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_CounterDeclined
 	setflag FLAG_TUTOR_COUNTER
@@ -1107,6 +1132,7 @@ Kanto_EventScript_DreamEaterTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_DreamEaterDeclined
 	msgbox Kanto_Text_DreamEaterWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_DREAM_EATER  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_DreamEaterDeclined
 	setflag FLAG_TUTOR_DREAM_EATER
@@ -1227,6 +1253,7 @@ Kanto_EventScript_MetronomeTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MetronomeDeclined
 	msgbox Kanto_Text_MetronomeWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_METRONOME  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_MetronomeDeclined
 	setflag FLAG_TUTOR_METRONOME
@@ -1260,6 +1287,7 @@ Kanto_EventScript_MimicTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_MimicDeclined
 	msgbox Kanto_Text_MimicWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_MIMIC  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	lock
 	faceplayer
@@ -1753,6 +1781,7 @@ Kanto_EventScript_SoftboiledTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_SoftboiledDeclined
 	msgbox Kanto_Text_SoftboiledWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_SOFT_BOILED  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_SoftboiledDeclined
 	setflag FLAG_TUTOR_SOFT_BOILED
@@ -1798,6 +1827,7 @@ Kanto_EventScript_ThunderWaveTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_ThunderWaveDeclined
 	msgbox Kanto_Text_ThunderWaveWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_THUNDER_WAVE  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_ThunderWaveDeclined
 	setflag FLAG_TUTOR_THUNDER_WAVE

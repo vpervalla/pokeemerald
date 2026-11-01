@@ -25,6 +25,7 @@ SevenIsland_EventScript_SwordsDanceTutor::
 	call Kanto_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, Kanto_EventScript_SwordsDanceDeclined
 	msgbox Kanto_Text_SwordsDanceWhichMon
+	setvar VAR_0x8005, TUTOR_MOVE_SWORDS_DANCE  @ restored: the port had dropped it, so the tutor taught whatever move was left
 	call Kanto_EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_SwordsDanceDeclined
 	setflag FLAG_TUTOR_SWORDS_DANCE

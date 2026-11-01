@@ -2040,11 +2040,30 @@ static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
 
 static u16 GetTutorMove(u8 tutor)
 {
+    switch (tutor)
+    {
+    case TUTOR_MOVE_FRENZY_PLANT:
+        return MOVE_FRENZY_PLANT;
+    case TUTOR_MOVE_BLAST_BURN:
+        return MOVE_BLAST_BURN;
+    case TUTOR_MOVE_HYDRO_CANNON:
+        return MOVE_HYDRO_CANNON;
+    }
     return gTutorMoves[tutor];
 }
 
 static bool8 CanLearnTutorMove(u16 species, u8 tutor)
 {
+    // The CAPE BRINK tutor's moves, each for one POKéMON (FRLG)
+    switch (tutor)
+    {
+    case TUTOR_MOVE_FRENZY_PLANT:
+        return species == SPECIES_VENUSAUR;
+    case TUTOR_MOVE_BLAST_BURN:
+        return species == SPECIES_CHARIZARD;
+    case TUTOR_MOVE_HYDRO_CANNON:
+        return species == SPECIES_BLASTOISE;
+    }
     if (sTutorLearnsets[species] & (1 << tutor))
         return TRUE;
     else
