@@ -67,6 +67,8 @@ struct CardOpponent
     u16 rewardCard;             // given on the first win, CARD_NONE for none
     u8 deck;                    // CARD_DECK_*
     u8 mapsec;                  // MAPSEC_*, where they are, for the Card Player list
+    u8 trainerPic;              // TRAINER_PIC_*, shown in the duel's intro
+    u8 rank;                    // CARD_OPPONENT_RANK_*
 };
 
 extern const struct CardOpponent gCardOpponents[CARD_OPPONENTS_COUNT];

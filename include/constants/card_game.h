@@ -320,4 +320,9 @@
 #define CARD_OPPONENT_TEXT_PLAYER_WON   1
 #define CARD_OPPONENT_TEXT_PLAYER_LOST  2
 
+// How strong a card player is: the music and the battle transition before their duels
+#define CARD_OPPONENT_RANK_TRAINER      0
+#define CARD_OPPONENT_RANK_LEADER       1   // the gym leaders and the Elite Four
+#define CARD_OPPONENT_RANK_CHAMPION     2   // Mega Island's guests and MR. M.
+
 #endif // GUARD_CONSTANTS_CARD_GAME_H

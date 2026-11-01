@@ -282,9 +282,16 @@ waitstate
   challenge line, "Play? YES/NO", the checks (has the Card Case, has a legal deck), the
   duel, and the win/loss line and reward. Turning an NPC into a card player is then one
   line in their script.
-- `PlayCardGame` fades out, sets `CB2_CardGame`, and on exit
+- `PlayCardGame` starts like a trainer battle: FRLG's battle music and a battle transition on
+  the field, both by the card player's rank (`CARD_OPPONENT_RANK_*` in `gCardOpponents`:
+  trainers get `MUS_RG_VS_TRAINER` and the grid squares, gym leaders and LORELEI
+  `MUS_RG_VS_GYM_LEADER` and the big Poké Ball, Mega Island's guests and MR. M.
+  `MUS_RG_VS_CHAMPION` and the shred split). Then an intro: the card player's trainer pic
+  (`trainerPic`) and the player's slide in on the table's two halves, "VS" lands between them
+  with their names, and the board is drawn. The music plays until the duel is over: then the
+  victory music if the player won, else it fades out. On exit
   `SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic)`, the same exit the slot
-  machine uses (`src/scrcmd.c:1919`).
+  machine uses (`src/scrcmd.c:1919`), brings the map's music back.
 - The reward card and `opponentsBeaten` bit are set in C on a win, so scripts only branch
   on the result for dialogue. With no link mode, `struct CardDuel` never has to be
   serialized or kept in sync, and the RNG is just `Random()`.

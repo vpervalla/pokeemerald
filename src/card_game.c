@@ -1,5 +1,6 @@
 #include "global.h"
 #include "card_game.h"
+#include "battle_transition.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -7,6 +8,7 @@
 #include "event_data.h"
 #include "field_screen_effect.h"
 #include "gpu_regs.h"
+#include "graphics.h"
 #include "list_menu.h"
 #include "main.h"
 #include "malloc.h"
@@ -66,6 +68,8 @@ enum
     WIN_VIEW_INFO,  // the card viewer: where the card is, and its state in play
     WIN_VIEW_CARD,  // the card's text (src/card_game_vintage.c)
     WIN_VIEW_FRAME, // the card's frame, on the board's BG
+    WIN_INTRO_OPPONENT, // the intro's names, before the board is drawn
+    WIN_INTRO_PLAYER,
 };
 
 // Per side: info, Bench, Energy Zone, Active
@@ -101,6 +105,7 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define ENERGY_ICON_Y       2   // below the top of the line
 #define TAG_CARD_PIC        0x4C05  // a Gold picture, here or in the deck builder (never both)
 #define TAG_CARD_PIC_2      0x4C06  // the next one, loaded while the last is still shown
+#define TAG_VS_LETTERS      0x4C07  // the intro's "VS"
 
 #define PIP_TROPHY          11  // pips.png: then the card types, a trophy won and one to win
 #define PIP_TROPHY_EMPTY    12
@@ -116,6 +121,17 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 #define AI_DELAY_FRAMES     20
 #define COIN_SPIN_FRAMES    30
 
+// The intro: the two players slide in, then "VS" lands between them
+#define INTRO_SLIDE_FRAMES  24
+#define INTRO_HOLD_FRAMES   110 // A or B skips it, after INTRO_MIN_FRAMES
+#define INTRO_MIN_FRAMES    20
+#define INTRO_ROW_SPLIT     10  // the opponent's half above, the player's below (tiles)
+#define INTRO_OPPONENT_X    184 // the trainer pics' centers, where they stop
+#define INTRO_OPPONENT_Y    40
+#define INTRO_PLAYER_X      56
+#define INTRO_PLAYER_Y      120
+#define INTRO_PIC_OFFSCREEN 64  // how far off the screen's edge they start
+
 // With the Trainer ID 0, a personality whose halves don't cancel out: not shiny
 #define NOT_SHINY_PERSONALITY 0x0000FFFF
 
@@ -124,6 +140,10 @@ static const u8 sSideWindows[CARD_SIDE_COUNT][4] =
 
 enum
 {
+    STATE_INTRO_FADE_IN,
+    STATE_INTRO_SLIDE,
+    STATE_INTRO_HOLD,
+    STATE_INTRO_FADE_OUT,
     STATE_FADE_IN,
     STATE_NEXT,
     STATE_ANIMATE,
@@ -158,6 +178,8 @@ struct CardGameScreen
     struct CardDuel display;            // what the board shows, see above
     MainCallback exitCallback;
     u8 opponentDeck;
+    u8 opponentPic;                     // TRAINER_PIC_*, for the intro
+    u8 opponentRank;                    // CARD_OPPONENT_RANK_*
     u8 opponentName[24];
     u8 state;
     u8 nextEvent;
@@ -175,6 +197,10 @@ struct CardGameScreen
     u8 pipSprites[MAX_PIPS];
     u8 pipCount;
     u8 coinSprite;
+    // The intro
+    u16 introOpponentSprite;
+    u16 introPlayerSprite;
+    u8 vsSprites[2];
     // The current animation
     u8 anim;
     u8 animSide;
@@ -198,6 +224,7 @@ static EWRAM_DATA struct CardGameScreen *sScreen = NULL;
 static void CB2_InitCardGame(void);
 static void Task_FadeToCardGame(u8 taskId);
 static void Task_CardGame(u8 taskId);
+static void StartIntro(void);
 static void RefreshBoard(void);
 static void ShowMessage(const u8 *text);
 static void OpenActionMenu(void);
@@ -225,6 +252,40 @@ struct RetroPic
 
 #include "data/card_game/retro_pics.h"
 #include "data/card_game/trainer_pics.h"
+
+// The battle intro's VS letters (graphics/battle_transitions/vs.png), white, landing from twice
+// their size
+static const u16 sVsLettersPalette[16] = {[15] = RGB_WHITE};
+
+static const struct OamData sOamData_VsLetter =
+{
+    .affineMode = ST_OAM_AFFINE_DOUBLE,
+    .shape = SPRITE_SHAPE(64x64),
+    .size = SPRITE_SIZE(64x64),
+};
+
+static const union AffineAnimCmd sAffineAnim_VsLetter[] =
+{
+    AFFINEANIMCMD_FRAME(0x40, 0x40, 0, 0),
+    AFFINEANIMCMD_FRAME(8, 8, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd *const sAffineAnims_VsLetter[] =
+{
+    sAffineAnim_VsLetter,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_VsLetter =
+{
+    .tileTag = TAG_VS_LETTERS,
+    .paletteTag = TAG_VS_LETTERS,
+    .oam = &sOamData_VsLetter,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = sAffineAnims_VsLetter,
+    .callback = SpriteCallbackDummy,
+};
 
 static const struct OamData sOamData_CardPic =
 {
@@ -598,6 +659,9 @@ static const struct WindowTemplate sWindowTemplates[] =
     [WIN_VIEW_INFO]  = {.bg = 0, .tilemapLeft = 0, .tilemapTop = 0, .width = VIEW_INFO_WIDTH, .height = DISPLAY_TILE_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 1},
     [WIN_VIEW_CARD]  = {.bg = 0, .tilemapLeft = VIEW_INFO_WIDTH, .tilemapTop = 0, .width = VINTAGE_CARD_WIDTH, .height = VINTAGE_CARD_HEIGHT, .paletteNum = TEXT_PALETTE, .baseBlock = 1 + VIEW_INFO_WIDTH * DISPLAY_TILE_HEIGHT},
     [WIN_VIEW_FRAME] = {.bg = 1, .tilemapLeft = VIEW_INFO_WIDTH, .tilemapTop = 0, .width = VINTAGE_CARD_WIDTH, .height = VINTAGE_CARD_HEIGHT, .paletteNum = FRAME_PALETTE, .baseBlock = BOARD_TILE_COUNT},
+    // The intro is over before the board's windows are drawn, so it borrows their tiles
+    [WIN_INTRO_OPPONENT] = {.bg = 0, .tilemapLeft = 2, .tilemapTop = 3, .width = 12, .height = 2, .paletteNum = TEXT_PALETTE, .baseBlock = 1},
+    [WIN_INTRO_PLAYER]   = {.bg = 0, .tilemapLeft = 16, .tilemapTop = 15, .width = 12, .height = 2, .paletteNum = TEXT_PALETTE, .baseBlock = 1 + 12 * 2},
     DUMMY_WIN_TEMPLATE,
 };
 
@@ -701,19 +765,37 @@ void PlayCardGame(void)
 
     sScreen = AllocZeroed(sizeof(*sScreen));
     sScreen->opponentDeck = gCardOpponents[opponentId].deck;
+    sScreen->opponentPic = gCardOpponents[opponentId].trainerPic;
+    sScreen->opponentRank = gCardOpponents[opponentId].rank;
     CardGame_GetOpponentName(sScreen->opponentName, opponentId);
     sScreen->exitCallback = CB2_ReturnFromCardGame;
     CreateTask(Task_FadeToCardGame, 0);
 }
 
+// A duel starts like a trainer battle: FRLG's battle music, which plays until the duel is over, and
+// a battle transition on the field (the stronger the card player, the grander both are)
 static void Task_FadeToCardGame(u8 taskId)
 {
     if (gTasks[taskId].data[0] == 0)
     {
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        switch (sScreen->opponentRank)
+        {
+        case CARD_OPPONENT_RANK_CHAMPION:
+            PlayMapChosenOrBattleBGM(MUS_RG_VS_CHAMPION);
+            BattleTransition_StartOnField(B_TRANSITION_SHRED_SPLIT);
+            break;
+        case CARD_OPPONENT_RANK_LEADER:
+            PlayMapChosenOrBattleBGM(MUS_RG_VS_GYM_LEADER);
+            BattleTransition_StartOnField(B_TRANSITION_BIG_POKEBALL);
+            break;
+        default:
+            PlayMapChosenOrBattleBGM(MUS_RG_VS_TRAINER);
+            BattleTransition_StartOnField(B_TRANSITION_GRID_SQUARES);
+            break;
+        }
         gTasks[taskId].data[0]++;
     }
-    else if (!gPaletteFade.active)
+    else if (IsBattleTransitionDone())
     {
         CleanupOverworldWindowsAndTilemaps();
         SetMainCallback2(CB2_InitCardGame);
@@ -819,10 +901,22 @@ static void CB2_InitCardGame(void)
     {
     case 0:
         SetVBlankCallback(NULL);
+        SetHBlankCallback(NULL);
         DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         DmaClear32(3, OAM, OAM_SIZE);
         DmaClear16(3, PLTT, PLTT_SIZE);
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
+        // What the battle transition may have left
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
+        SetGpuReg(REG_OFFSET_WININ, 0);
+        SetGpuReg(REG_OFFSET_WINOUT, 0);
+        SetGpuReg(REG_OFFSET_WIN0H, 0);
+        SetGpuReg(REG_OFFSET_WIN0V, 0);
+        SetGpuReg(REG_OFFSET_WIN1H, 0);
+        SetGpuReg(REG_OFFSET_WIN1V, 0);
+        SetGpuReg(REG_OFFSET_MOSAIC, 0);
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
         ChangeBgX(0, 0, BG_COORD_SET);
@@ -852,12 +946,7 @@ static void CB2_InitCardGame(void)
         break;
     case 2:
         StartDuel();
-        DrawTable();
-        RefreshBoard();
-        StringCopy(sScreen->text, sText_DuelStart);
-        StringAppend(sScreen->text, sScreen->opponentName);
-        StringAppend(sScreen->text, sText_ChooseActive);
-        ShowMessage(sScreen->text);
+        StartIntro();
         gMain.state++;
         break;
     case 3:
@@ -2189,6 +2278,122 @@ static void ShowResult(void)
         ShowMessage(sText_ItsADraw);
 }
 
+// ---------------------------------------------------------------------------------------------
+// The intro: like a trainer battle's, the two players slide in from the sides of a table split in
+// their two colors, then "VS" lands between them and their names show
+
+static void PrintIntroName(u8 windowId, const u8 *name)
+{
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 0, 1, sBoardTextColors, TEXT_SKIP_DRAW, name);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
+static void StartIntro(void)
+{
+    u16 pic;
+
+    FillBgTilemapBufferRect(1, BOARD_TILE_OPPONENT, 0, 0, 32, INTRO_ROW_SPLIT, BOARD_PALETTE);
+    FillBgTilemapBufferRect(1, BOARD_TILE_PLAYER, 0, INTRO_ROW_SPLIT, 32, 32 - INTRO_ROW_SPLIT, BOARD_PALETTE);
+    CopyBgTilemapBufferToVram(1);
+
+    pic = sScreen->opponentPic;
+    sScreen->introOpponentSprite = CreateTrainerPicSprite(pic, TRUE, DISPLAY_WIDTH + INTRO_PIC_OFFSCREEN / 2,
+                                                          INTRO_OPPONENT_Y, 0, gTrainerFrontPicPaletteTable[pic].tag);
+    pic = GetPlayerFrontTrainerPicId();
+    sScreen->introPlayerSprite = CreateTrainerPicSprite(pic, TRUE, -INTRO_PIC_OFFSCREEN / 2,
+                                                        INTRO_PLAYER_Y, 0, gTrainerFrontPicPaletteTable[pic].tag);
+    // The player faces the opponent
+    if (sScreen->introPlayerSprite < MAX_SPRITES)
+    {
+        gSprites[sScreen->introPlayerSprite].hFlip = TRUE;
+        gSprites[sScreen->introPlayerSprite].oam.matrixNum |= ST_OAM_HFLIP;
+    }
+    sScreen->vsSprites[0] = sScreen->vsSprites[1] = MAX_SPRITES;
+}
+
+static void MoveIntroPic(u16 spriteId, s16 from, s16 to, u16 frame)
+{
+    if (spriteId < MAX_SPRITES)
+        gSprites[spriteId].x = from + (to - from) * frame / INTRO_SLIDE_FRAMES;
+}
+
+// Returns FALSE once they're in place
+static bool8 SlideIntroPics(void)
+{
+    u16 frame = ++sScreen->timer;
+
+    if (frame > INTRO_SLIDE_FRAMES)
+        frame = INTRO_SLIDE_FRAMES;
+    MoveIntroPic(sScreen->introOpponentSprite, DISPLAY_WIDTH + INTRO_PIC_OFFSCREEN / 2, INTRO_OPPONENT_X, frame);
+    MoveIntroPic(sScreen->introPlayerSprite, -INTRO_PIC_OFFSCREEN / 2, INTRO_PLAYER_X, frame);
+    return frame < INTRO_SLIDE_FRAMES;
+}
+
+static void ShowIntroVs(void)
+{
+    struct CompressedSpriteSheet sheet = {gVsLettersGfx, 0x1000, TAG_VS_LETTERS};
+    struct SpritePalette palette = {sVsLettersPalette, TAG_VS_LETTERS};
+    u8 i;
+
+    LoadCompressedSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    // As in a link battle's intro: the V's tiles, then the S's
+    for (i = 0; i < ARRAY_COUNT(sScreen->vsSprites); i++)
+    {
+        sScreen->vsSprites[i] = CreateSprite(&sSpriteTemplate_VsLetter, DISPLAY_WIDTH / 2 - 9 + i * 18, INTRO_ROW_SPLIT * 8, 0);
+        if (sScreen->vsSprites[i] < MAX_SPRITES)
+            gSprites[sScreen->vsSprites[i]].oam.tileNum += i * 64;
+    }
+    PrintIntroName(WIN_INTRO_OPPONENT, sScreen->opponentName);
+    StringCopy_PlayerName(sScreen->text, gSaveBlock2Ptr->playerName);
+    PrintIntroName(WIN_INTRO_PLAYER, sScreen->text);
+    PlaySE(SE_BANG);
+}
+
+// Then the board, for the duel's first message
+static void EndIntro(void)
+{
+    u8 i;
+
+    if (sScreen->introOpponentSprite < MAX_SPRITES)
+        FreeAndDestroyTrainerPicSprite(sScreen->introOpponentSprite);
+    if (sScreen->introPlayerSprite < MAX_SPRITES)
+        FreeAndDestroyTrainerPicSprite(sScreen->introPlayerSprite);
+    for (i = 0; i < ARRAY_COUNT(sScreen->vsSprites); i++)
+    {
+        if (sScreen->vsSprites[i] < MAX_SPRITES)
+        {
+            FreeSpriteOamMatrix(&gSprites[sScreen->vsSprites[i]]);
+            DestroySprite(&gSprites[sScreen->vsSprites[i]]);
+        }
+    }
+    FreeSpriteTilesByTag(TAG_VS_LETTERS);
+    FreeSpritePaletteByTag(TAG_VS_LETTERS);
+    ClearWindowTilemap(WIN_INTRO_OPPONENT);
+    ClearWindowTilemap(WIN_INTRO_PLAYER);
+
+    DrawTable();
+    RefreshBoard();
+    StringCopy(sScreen->text, sText_DuelStart);
+    StringAppend(sScreen->text, sScreen->opponentName);
+    StringAppend(sScreen->text, sText_ChooseActive);
+    ShowMessage(sScreen->text);
+}
+
+// The duel's over: the victory music if the player won, else the battle music fades out (the
+// map's comes back on the field)
+static void PlayResultMusic(void)
+{
+    const struct CardDuel *duel = &sScreen->duel;
+
+    if (!sScreen->forfeited && duel->winner == CARD_SIDE_PLAYER)
+        PlayBGM(sScreen->opponentRank == CARD_OPPONENT_RANK_TRAINER ? MUS_RG_VICTORY_TRAINER : MUS_RG_VICTORY_GYM_LEADER);
+    else
+        FadeOutBGM(4);
+}
+
 static void Task_CardGame(u8 taskId)
 {
     struct CardDuel *duel = &sScreen->duel;
@@ -2196,6 +2401,36 @@ static void Task_CardGame(u8 taskId)
 
     switch (sScreen->state)
     {
+    case STATE_INTRO_FADE_IN:
+        if (!gPaletteFade.active)
+        {
+            sScreen->timer = 0;
+            sScreen->state = STATE_INTRO_SLIDE;
+        }
+        break;
+    case STATE_INTRO_SLIDE:
+        if (!SlideIntroPics())
+        {
+            ShowIntroVs();
+            sScreen->timer = 0;
+            sScreen->state = STATE_INTRO_HOLD;
+        }
+        break;
+    case STATE_INTRO_HOLD:
+        if (++sScreen->timer >= INTRO_HOLD_FRAMES || (sScreen->timer >= INTRO_MIN_FRAMES && PressedAorB()))
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            sScreen->state = STATE_INTRO_FADE_OUT;
+        }
+        break;
+    case STATE_INTRO_FADE_OUT:
+        if (!gPaletteFade.active)
+        {
+            EndIntro();
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+            sScreen->state = STATE_FADE_IN;
+        }
+        break;
     case STATE_FADE_IN:
         if (!gPaletteFade.active)
         {
@@ -2212,6 +2447,7 @@ static void Task_CardGame(u8 taskId)
         }
         else if (duel->phase == CARD_PHASE_OVER)
         {
+            PlayResultMusic();
             ShowResult();
             sScreen->state = STATE_RESULT;
         }
