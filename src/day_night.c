@@ -529,6 +529,7 @@ static EWRAM_DATA u8 sSignSpriteIds[MAX_SIGN_SPRITES] = {0};
 static EWRAM_DATA u8 sNumSignSprites = 0;
 static EWRAM_DATA bool8 sSignsShown = FALSE;
 static EWRAM_DATA bool8 sSignsDirty = FALSE;
+static EWRAM_DATA u16 sSignsMap = 0; // The map the signs and lamps were made for
 static EWRAM_DATA bool8 sLampsNight = FALSE; // The lamps have their night shadow
 
 // Hides the sprite while it's off screen, so its coordinates can't wrap around into view,
@@ -656,6 +657,69 @@ static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
     sSignSpriteIds[sNumSignSprites++] = spriteId;
 }
 
+// Where the signs and lamps are looked for: the map, and the band of each connected map that can be
+// seen from it, so they're there before the player crosses (LAVENDER's lamp seen from ROUTE 8)
+// rather than appearing on screen. dx, dy take an area's coordinates to the map's.
+#define CONNECTED_BAND_WIDTH  16 // Tiles of a map to the east or west that can be on screen
+#define CONNECTED_BAND_HEIGHT 11 // Of a map to the north or south
+
+struct DayNightArea
+{
+    const struct MapLayout *layout;
+    u16 layoutId;
+    s16 dx, dy;
+    s16 left, top, right, bottom; // The area's tiles, in its own coordinates (right and bottom excluded)
+};
+
+static u32 GetDayNightAreas(struct DayNightArea *areas)
+{
+    const struct MapConnections *connections = gMapHeader.connections;
+    const struct MapLayout *layout = gMapHeader.mapLayout;
+    u32 count = 0;
+    s32 i;
+
+    if (layout == NULL)
+        return 0;
+    areas[count++] = (struct DayNightArea){layout, gMapHeader.mapLayoutId, 0, 0, 0, 0, layout->width, layout->height};
+    if (connections == NULL)
+        return count;
+    for (i = 0; i < connections->count && count < 1 + 4; i++)
+    {
+        const struct MapConnection *connection = &connections->connections[i];
+        const struct MapHeader *header = Overworld_GetMapHeaderByGroupAndId(connection->mapGroup, connection->mapNum);
+        const struct MapLayout *other = header->mapLayout;
+        struct DayNightArea area = {other, header->mapLayoutId, 0, 0, 0, 0, other->width, other->height};
+
+        switch (connection->direction)
+        {
+        case CONNECTION_EAST:
+            area.dx = layout->width;
+            area.dy = connection->offset;
+            area.right = min(other->width, CONNECTED_BAND_WIDTH);
+            break;
+        case CONNECTION_WEST:
+            area.dx = -other->width;
+            area.dy = connection->offset;
+            area.left = max(0, other->width - CONNECTED_BAND_WIDTH);
+            break;
+        case CONNECTION_NORTH:
+            area.dx = connection->offset;
+            area.dy = -other->height;
+            area.top = max(0, other->height - CONNECTED_BAND_HEIGHT);
+            break;
+        case CONNECTION_SOUTH:
+            area.dx = connection->offset;
+            area.dy = layout->height;
+            area.bottom = min(other->height, CONNECTED_BAND_HEIGHT);
+            break;
+        default:
+            continue;
+        }
+        areas[count++] = area;
+    }
+    return count;
+}
+
 // Signs that stay dark: the Fighting Dojo's billboard, the same metatiles as the Saffron Gym's.
 static const struct
 {
@@ -667,13 +731,13 @@ static const struct
     {LAYOUT_SAFFRON_CITY_CONNECTION, 32, 6},
 };
 
-static bool8 IsDarkSign(s32 x, s32 y)
+static bool8 IsDarkSign(u16 layoutId, s32 x, s32 y)
 {
     u32 i;
 
     for (i = 0; i < ARRAY_COUNT(sDarkSigns); i++)
     {
-        if (sDarkSigns[i].layoutId == gMapHeader.mapLayoutId && sDarkSigns[i].x == x
+        if (sDarkSigns[i].layoutId == layoutId && sDarkSigns[i].x == x
          && (sDarkSigns[i].y == y || sDarkSigns[i].y + 1 == y))
             return TRUE;
     }
@@ -682,26 +746,31 @@ static bool8 IsDarkSign(s32 x, s32 y)
 
 static void CreateSignSprites(void)
 {
-    const struct MapLayout *layout = gMapHeader.mapLayout;
+    struct DayNightArea areas[1 + 4];
+    u32 numAreas = GetDayNightAreas(areas);
+    u32 a, i;
     s32 x, y;
-    u32 i;
 
-    // The metatile ids are kanto_general's.
-    if (layout == NULL || layout->primaryTileset != &gTileset_KantoGeneral)
-        return;
-
-    for (y = 0; y < layout->height; y++)
+    for (a = 0; a < numAreas; a++)
     {
-        for (x = 0; x < layout->width; x++)
-        {
-            u16 metatileId = layout->map[x + y * layout->width] & MAPGRID_METATILE_ID_MASK;
+        const struct MapLayout *layout = areas[a].layout;
 
-            for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
+        // The metatile ids are kanto_general's.
+        if (layout->primaryTileset != &gTileset_KantoGeneral)
+            continue;
+        for (y = areas[a].top; y < areas[a].bottom; y++)
+        {
+            for (x = areas[a].left; x < areas[a].right; x++)
             {
-                if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES
-                 && (sGlowingSigns[i].secondaryTileset == NULL || sGlowingSigns[i].secondaryTileset == layout->secondaryTileset)
-                 && !IsDarkSign(x, y))
-                    CreateSignSprite(&sGlowingSigns[i], x, y);
+                u16 metatileId = layout->map[x + y * layout->width] & MAPGRID_METATILE_ID_MASK;
+
+                for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
+                {
+                    if (metatileId == sGlowingSigns[i].metatileId && sNumSignSprites < MAX_SIGN_SPRITES
+                     && (sGlowingSigns[i].secondaryTileset == NULL || sGlowingSigns[i].secondaryTileset == layout->secondaryTileset)
+                     && !IsDarkSign(areas[a].layoutId, x, y))
+                        CreateSignSprite(&sGlowingSigns[i], x + areas[a].dx, y + areas[a].dy);
+                }
             }
         }
     }
@@ -813,12 +882,12 @@ static void DestroyLampSprites(void)
 }
 
 // (cx, cy): the sprite's centre, in pixels from the top-left corner of the lamp's tile
-static void CreateLampSprite(const struct SpriteTemplate *template, const struct Lamp *lamp, s16 cx, s16 cy, u8 subpriority)
+static void CreateLampSprite(const struct SpriteTemplate *template, const struct Lamp *lamp, const struct DayNightArea *area, s16 cx, s16 cy, u8 subpriority)
 {
     s16 x, y;
     u8 spriteId;
 
-    SetSpritePosToMapCoords(lamp->x + MAP_OFFSET, lamp->y + MAP_OFFSET, &x, &y);
+    SetSpritePosToMapCoords(lamp->x + area->dx + MAP_OFFSET, lamp->y + area->dy + MAP_OFFSET, &x, &y);
     spriteId = CreateSprite(template, x + cx, y + cy, subpriority);
     if (spriteId == MAX_SPRITES)
         return;
@@ -835,12 +904,18 @@ static void CreateLampSprites(bool8 lit, bool8 night)
     static const struct SpriteSheet nightLampSheet = {sLampNight_Gfx, 16 * 32 / 2, TAG_LAMP};
     static const struct SpriteSheet poolSheet = {sLampPool_Gfx, 64 * 32 / 2, TAG_LAMP_POOL};
     struct SpritePalette palette = {lit ? sLampNight_Pal : sLampDay_Pal, TAG_LAMP_PAL};
+    struct DayNightArea areas[1 + 4];
+    u32 numAreas = GetDayNightAreas(areas);
     bool8 loaded = FALSE;
-    u32 i;
+    u32 a, i;
 
+    for (a = 0; a < numAreas; a++)
     for (i = 0; i < ARRAY_COUNT(sLamps) && sNumLampSprites + 2 <= ARRAY_COUNT(sLampSpriteIds); i++)
     {
-        if (sLamps[i].layoutId != gMapHeader.mapLayoutId)
+        const struct DayNightArea *area = &areas[a];
+
+        if (sLamps[i].layoutId != area->layoutId
+         || sLamps[i].x < area->left || sLamps[i].x >= area->right || sLamps[i].y < area->top || sLamps[i].y >= area->bottom)
             continue;
         if (!loaded)
         {
@@ -853,9 +928,9 @@ static void CreateLampSprites(bool8 lit, bool8 night)
             loaded = TRUE;
         }
         // Positioned like an object's sprite on that tile: the post's foot on it, the head above.
-        CreateLampSprite(&sSpriteTemplate_Lamp, &sLamps[i], 8, 0, 0);
+        CreateLampSprite(&sSpriteTemplate_Lamp, &sLamps[i], area, 8, 0, 0);
         if (lit)
-            CreateLampSprite(&sSpriteTemplate_LampPool, &sLamps[i], 8, 12, 0xFF);
+            CreateLampSprite(&sSpriteTemplate_LampPool, &sLamps[i], area, 8, 12, 0xFF);
     }
 }
 
@@ -895,9 +970,13 @@ static void UpdateLampPools(bool8 lit)
 static void UpdateSigns(bool8 lit)
 {
     bool8 night = lit && DayNight_GetPhase() == DAY_NIGHT_PHASE_NIGHT;
+    // Crossing into a connected map doesn't always load tileset palettes: its own neighbours' signs
+    // and lamps are wanted all the same
+    u16 map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
 
-    if (sSignsDirty || lit != sSignsShown || night != sLampsNight)
+    if (sSignsDirty || lit != sSignsShown || night != sLampsNight || map != sSignsMap)
     {
+        sSignsMap = map;
         DestroySignSprites();
         DestroyLampSprites();
         CreateLampSprites(lit, night);

@@ -1694,6 +1694,32 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
     return spriteId;
 }
 
+// FRLG's clone objects (clone_event, the Kanto maps): an object of a connected map, shown from this
+// one where it stands across the border, so it's there before the player crosses (VERMILION's CUT
+// tree seen from CERULEAN) rather than appearing on screen. The clone template holds the target's
+// local id in elevation and its map in trainerType (num) and trainerRange_berryTreeId (group). It
+// spawns as the target object itself, at the clone's place: so the target doesn't spawn again on
+// the other map, and the object carries on there when the player crosses. Unlike FRLG, not while
+// the target is hidden by its flag (a tree that was cut).
+static void TrySpawnClonedObjectEvent(const struct ObjectEventTemplate *clone, s16 cameraX, s16 cameraY)
+{
+    u8 mapNum = clone->trainerType;
+    u8 mapGroup = clone->trainerRange_berryTreeId;
+    const struct MapHeader *mapHeader = Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum);
+    const struct ObjectEventTemplate *target;
+    struct ObjectEventTemplate template;
+
+    if (mapHeader->events == NULL)
+        return;
+    target = FindObjectEventTemplateByLocalId(clone->elevation, mapHeader->events->objectEvents, mapHeader->events->objectEventCount);
+    if (target == NULL || FlagGet(target->flagId))
+        return;
+    template = *target;
+    template.x = clone->x;
+    template.y = clone->y;
+    TrySpawnObjectEventTemplate(&template, mapNum, mapGroup, cameraX, cameraY);
+}
+
 void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
 {
     u8 i;
@@ -1721,7 +1747,12 @@ void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
 
             if (top <= npcY && bottom >= npcY && left <= npcX && right >= npcX
                 && !FlagGet(template->flagId))
-                TrySpawnObjectEventTemplate(template, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
+            {
+                if (template->kind == OBJ_KIND_CLONE)
+                    TrySpawnClonedObjectEvent(template, cameraX, cameraY);
+                else
+                    TrySpawnObjectEventTemplate(template, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
+            }
         }
     }
 }

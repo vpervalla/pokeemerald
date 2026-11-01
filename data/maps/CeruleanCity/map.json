@@ -197,6 +197,14 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "LabTrainers_EventScript_LeafCeruleanCave",
       "flag": "FLAG_HIDE_LEAF_CERULEAN_CAVE"
+    },
+    {
+      "type": "clone",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_CUT_TREE",
+      "x": 50,
+      "y": 18,
+      "target_local_id": "LOCALID_ROUTE9_CUT_TREE",
+      "target_map": "MAP_ROUTE9"
     }
   ],
   "warp_events": [

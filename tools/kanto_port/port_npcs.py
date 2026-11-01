@@ -450,6 +450,19 @@ def cmd_objects(args):
                     scripts.append(script_text)
             objects.append(obj)
 
+        # FRLG's clones: an object of a connected map shown from this one near the border (a CUT tree,
+        # a guard), so it doesn't appear on screen when the player crosses (TrySpawnObjectEvents spawns
+        # them). After the map's own objects, so these keep their local ids.
+        for o in fj["object_events"]:
+            if o.get("type") != "clone":
+                continue
+            target_local_id = o["target_local_id"]
+            if target_local_id in em_localids:
+                target_local_id = "LOCALID_KANTO_" + target_local_id[len("LOCALID_"):]
+            objects.append({"type": "clone", "graphics_id": "OBJ_EVENT_GFX_KANTO_" + o["graphics_id"][len("OBJ_EVENT_GFX_"):],
+                            "x": o["x"], "y": o["y"], "target_local_id": target_local_id,
+                            "target_map": porter.const_renames.get(o["target_map"], o["target_map"])})
+
         ej["object_events"] = objects
 
         # Map scripts: the FRLG map script table, translated

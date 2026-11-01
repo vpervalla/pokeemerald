@@ -222,6 +222,14 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "LabTrainers_EventScript_LeafCeladon",
       "flag": "FLAG_HIDE_LEAF_CELADON"
+    },
+    {
+      "type": "clone",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_CUT_TREE",
+      "x": -7,
+      "y": 21,
+      "target_local_id": "LOCALID_ROUTE16_CUT_TREE",
+      "target_map": "MAP_ROUTE16"
     }
   ],
   "warp_events": [
