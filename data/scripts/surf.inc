@@ -6,8 +6,8 @@ EventScript_UseSurf::
 	lockall
 	msgbox gText_WantToUseSurf, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_ReleaseUseSurf
-	call EventScript_BorrowedMonAppears
-	msgbox gText_PlayerUsedSurf, MSGBOX_DEFAULT
+	buffermovename STR_VAR_2, MOVE_SURF
+	call EventScript_ShowFieldMoveUser
 	dofieldeffect FLDEFF_USE_SURF
 EventScript_ReleaseUseSurf::
 	releaseall

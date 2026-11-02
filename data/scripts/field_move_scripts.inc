@@ -10,8 +10,7 @@ EventScript_CutTree::
 	buffermovename STR_VAR_2, MOVE_CUT
 	msgbox Text_WantToCut, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CancelCut
-	call EventScript_BorrowedMonAppears
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	call EventScript_ShowFieldMoveUser
 	closemessage
 	dofieldeffect FLDEFF_USE_CUT_ON_TREE
 	waitstate
@@ -70,8 +69,7 @@ EventScript_RockSmash::
 	buffermovename STR_VAR_2, MOVE_ROCK_SMASH
 	msgbox Text_WantToSmash, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CancelSmash
-	call EventScript_BorrowedMonAppears
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	call EventScript_ShowFieldMoveUser
 	closemessage
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
 	waitstate
@@ -150,7 +148,13 @@ EventScript_UseStrength::
 
 EventScript_ActivateStrength::
 	setflag FLAG_SYS_USE_STRENGTH
+	goto_if_eq VAR_0x8005, FIELD_MOVE_MON_BORROWED, EventScript_ActivateStrengthBorrowed
 	msgbox Text_MonUsedStrength, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_ActivateStrengthBorrowed::
+	msgbox Text_WildMonUsedStrength, MSGBOX_DEFAULT
 	releaseall
 	end
 
@@ -179,6 +183,11 @@ Text_MonUsedStrength:
 	.string "{STR_VAR_1}'s STRENGTH made it\n"
 	.string "possible to move boulders around!$"
 
+Text_WildMonUsedStrength:
+	.string "The wild {STR_VAR_1} used STRENGTH!\p"
+	.string "Its STRENGTH made it possible\n"
+	.string "to move boulders around!$"
+
 Text_CantStrength:
 	.string "It's a big boulder, but a POKéMON\n"
 	.string "may be able to push it aside.$"
@@ -195,8 +204,8 @@ EventScript_UseWaterfall::
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox Text_WantToWaterfall, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndWaterfall
-	call EventScript_BorrowedMonAppears
-	msgbox Text_MonUsedWaterfall, MSGBOX_DEFAULT
+	buffermovename STR_VAR_2, MOVE_WATERFALL
+	call EventScript_ShowFieldMoveUser
 	dofieldeffect FLDEFF_USE_WATERFALL
 	goto EventScript_EndWaterfall
 
@@ -218,9 +227,6 @@ Text_WantToWaterfall:
 	.string "It's a large waterfall.\n"
 	.string "Would you like to use WATERFALL?$"
 
-Text_MonUsedWaterfall:
-	.string "{STR_VAR_1} used WATERFALL.$"
-
 EventScript_UseDive::
 	lockall
 	setvar VAR_0x8004, FIELD_MOVE_DIVE
@@ -230,8 +236,8 @@ EventScript_UseDive::
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToDive, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndDive
-	call EventScript_BorrowedMonAppears
-	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
+	buffermovename STR_VAR_2, MOVE_DIVE
+	call EventScript_ShowFieldMoveUser
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndDive
 	end
@@ -254,8 +260,8 @@ EventScript_UseDiveUnderwater::
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToSurface, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndSurface
-	call EventScript_BorrowedMonAppears
-	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
+	buffermovename STR_VAR_2, MOVE_DIVE
+	call EventScript_ShowFieldMoveUser
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndSurface
 	end
@@ -277,9 +283,6 @@ Text_CantDive:
 Text_WantToDive:
 	.string "The sea is deep here.\n"
 	.string "Would you like to use DIVE?$"
-
-Text_MonUsedDive:
-	.string "{STR_VAR_1} used DIVE.$"
 
 Text_CantSurface:
 	.string "Light is filtering down from above.\n"
@@ -304,6 +307,20 @@ EventScript_BorrowedMonAppears::
 EventScript_BorrowedMonAppearsEnd:
 	return
 
+@ The same, then who used the HM (STR_VAR_2): "{STR_VAR_1} used CUT!" or "The wild {STR_VAR_1} used CUT!"
+EventScript_ShowFieldMoveUser::
+	goto_if_eq VAR_0x8005, FIELD_MOVE_MON_BORROWED, EventScript_ShowBorrowedFieldMoveUser
+	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	return
+
+EventScript_ShowBorrowedFieldMoveUser:
+	msgbox Text_BorrowedMonAppears, MSGBOX_DEFAULT
+	msgbox Text_WildMonUsedFieldMove, MSGBOX_DEFAULT
+	return
+
 Text_BorrowedMonAppears:
 	.string "A wild {STR_VAR_1} appeared!\n"
 	.string "It looks willing to lend a hand!$"
+
+Text_WildMonUsedFieldMove:
+	.string "The wild {STR_VAR_1} used {STR_VAR_2}!$"

@@ -39,6 +39,7 @@ bool8 FldEff_UseStrength(void)
     gTasks[taskId].data[8] = (u32)StartStrengthFieldEffect >> 16;
     gTasks[taskId].data[9] = (u32)StartStrengthFieldEffect;
     GetFieldMoveUserName(gFieldEffectArguments[0], gStringVar1);
+    gSpecialVar_0x8005 = gFieldEffectArguments[0]; // EventScript_ActivateStrength tells a borrowed POKéMON apart
     return FALSE;
 }
 

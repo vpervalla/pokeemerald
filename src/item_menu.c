@@ -1821,6 +1821,8 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
     }
 }
 
+static const u8 sText_BorrowedMonUsedMove[] = _("A wild {STR_VAR_1} appeared!\nIt looks willing to lend a hand!\pThe wild {STR_VAR_1} used {STR_VAR_2}!{PAUSE_UNTIL_PRESS}");
+
 // FLY or FLASH from their HM: used by a party POKéMON that knows the move, else by a borrowed one
 static void ItemMenu_UseHMFieldMove(u8 taskId)
 {
@@ -1857,6 +1859,14 @@ static void ItemMenu_UseHMFieldMove(u8 taskId)
             return;
         }
         gBagMenu->newScreenCallback = CB2_ReturnToField;
+    }
+    if (monId == FIELD_MOVE_MON_BORROWED)
+    {
+        GetFieldMoveUserName(monId, gStringVar1);
+        StringCopy(gStringVar2, gMoveNames[fieldMove == FIELD_MOVE_FLY ? MOVE_FLY : MOVE_FLASH]);
+        StringExpandPlaceholders(gStringVar4, sText_BorrowedMonUsedMove);
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_FadeAndCloseBagMenu);
+        return;
     }
     Task_FadeAndCloseBagMenu(taskId);
 }
