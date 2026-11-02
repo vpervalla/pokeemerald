@@ -38,7 +38,25 @@ SilphCo_8F_EventScript_FloorSign::
 SilphCo_8F_EventScript_Scientist::
 	lock
 	faceplayer
+	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_8F_EventScript_ScientistRocketsGone
 	msgbox SilphCo_8F_Text_ToRocketBossMonsAreTools
+	release
+	end
+
+@ Once GIOVANNI is beaten: the IV CHECKER, his work that TEAM ROCKET wanted
+SilphCo_8F_EventScript_ScientistRocketsGone::
+	goto_if_set FLAG_RECEIVED_IV_CHECKER, SilphCo_8F_EventScript_ExplainIvChecker
+	msgbox SilphCo_8F_Text_TakeIvChecker
+	checkitemspace ITEM_IV_CHECKER
+	goto_if_eq VAR_RESULT, FALSE, Kanto_EventScript_BagIsFull
+	setflag FLAG_RECEIVED_IV_CHECKER
+	kanto_giveitem_msg SilphCo_8F_Text_ReceivedIvChecker, ITEM_IV_CHECKER, 1, MUS_RG_OBTAIN_KEY_ITEM
+	msgbox SilphCo_8F_Text_ExplainIvChecker
+	release
+	end
+
+SilphCo_8F_EventScript_ExplainIvChecker::
+	msgbox SilphCo_8F_Text_ExplainIvChecker
 	release
 	end
 
@@ -105,6 +123,32 @@ SilphCo_8F_Text_ToRocketBossMonsAreTools:
     .string "be used.\p"
     .string "What will happen if that tyrant\n"
     .string "takes over our company…$"
+
+SilphCo_8F_Text_TakeIvChecker:
+    .string "You saved us from TEAM ROCKET!\n"
+    .string "Thank you!\p"
+    .string "Their BOSS wanted my latest\n"
+    .string "invention to find the strongest\l"
+    .string "POKéMON and throw away the rest.\p"
+    .string "I'd rather it went to a TRAINER\n"
+    .string "who cares for every POKéMON.\p"
+    .string "Please, take it!$"
+
+SilphCo_8F_Text_ReceivedIvChecker:
+    .string "{PLAYER} received an IV CHECKER\n"
+    .string "from the SCIENTIST.$"
+
+SilphCo_8F_Text_ExplainIvChecker:
+    .string "The IV CHECKER reads a POKéMON's\n"
+    .string "hidden potential, its IVs.\p"
+    .string "Each stat has an IV from 0 to 31.\n"
+    .string "The higher it is, the better.\p"
+    .string "It shows the POKéMON in your\n"
+    .string "party and in your PC BOXES.\p"
+    .string "It also shows the type and power\n"
+    .string "of their HIDDEN POWER.\p"
+    .string "But remember: a POKéMON's worth\n"
+    .string "isn't just numbers!$"
 
 SilphCo_8F_Text_WonderIfSilphIsFinished:
     .string "I wonder if SILPH is finished…$"

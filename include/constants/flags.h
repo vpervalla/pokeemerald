@@ -2149,6 +2149,7 @@
 #define FLAG_HIDE_BERRY_FOREST_CELEBI               (KANTO_EXTRA_FLAGS_START + 0x1AD) // Kept by BERRY FOREST's transition
 #define FLAG_DID_DOUBLE_EXCHANGE_MOSSDEEP_CITY      (KANTO_EXTRA_FLAGS_START + 0x1AE) // The traders in Hoenn
 #define FLAG_DID_DOUBLE_EXCHANGE_LILYCOVE_CITY      (KANTO_EXTRA_FLAGS_START + 0x1AF)
+#define FLAG_RECEIVED_IV_CHECKER                    (KANTO_EXTRA_FLAGS_START + 0x1B0) // The SILPH CO. 8F scientist, once TEAM ROCKET is gone
 
 // FRLG's map preview screens (src/map_preview_screen.c): set once a place's preview has been shown, so
 // later visits show it for a shorter time. They sit at the top of the generated flags' room, clear of them.

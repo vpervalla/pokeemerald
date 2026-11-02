@@ -448,5 +448,6 @@ const u32 *const gItemIconTable[ITEMS_COUNT + 1][2] =
     // Return to field arrow
     [ITEM_CARD_CASE] = {gItemIcon_CardCase, gItemIconPalette_CardCase},
     [ITEM_PRIMAL_NOTES] = {gItemIcon_Letter, gItemIconPalette_LavaCookieAndLetter},
+    [ITEM_IV_CHECKER] = {gItemIcon_IvChecker, gItemIconPalette_IvChecker},
     [ITEMS_COUNT] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

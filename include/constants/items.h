@@ -459,6 +459,9 @@ enum {
     // Hoenn chapter
     ITEM_PRIMAL_NOTES,
 
+    // SILPH CO.'s thanks (src/iv_checker.c)
+    ITEM_IV_CHECKER,
+
     ITEMS_COUNT
 };
 

@@ -4565,6 +4565,19 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
+    [ITEM_IV_CHECKER] =
+    {
+        .name = _("IV CHECKER"),
+        .itemId = ITEM_IV_CHECKER,
+        .price = 0,
+        .description = sIvCheckerDesc,
+        .importance = 1,
+        .registrability = TRUE,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_IvChecker,
+    },
+
     // <mega-evolutions>
     [ITEM_MEGA_RING] =
     {

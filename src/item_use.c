@@ -21,6 +21,7 @@
 #include "field_weather.h"
 #include "item.h"
 #include "item_menu.h"
+#include "iv_checker.h"
 #include "item_use.h"
 #include "mail.h"
 #include "main.h"
@@ -672,6 +673,37 @@ void ItemUseOutOfBattle_CardCase(u8 taskId)
         gFieldCallback = FieldCB_ReturnToFieldNoScript;
         FadeScreen(FADE_TO_BLACK, 0);
         gTasks[taskId].func = Task_OpenRegisteredCardCase;
+    }
+}
+
+// The IV CHECKER's screen (src/iv_checker.c)
+static void CB2_OpenIvCheckerFromBag(void)
+{
+    OpenIvChecker(CB2_ReturnToBagMenuPocket);
+}
+
+static void Task_OpenRegisteredIvChecker(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        OpenIvChecker(CB2_ReturnToField);
+        DestroyTask(taskId);
+    }
+}
+
+void ItemUseOutOfBattle_IvChecker(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenIvCheckerFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredIvChecker;
     }
 }
 

@@ -1560,6 +1560,11 @@ static const u8 sPrimalNotesDesc[] = _(
     "the MANSION's file\n"
     "on PRIMAL REVERSION.");
 
+static const u8 sIvCheckerDesc[] = _(
+    "A SILPH CO. device\n"
+    "that reads the IVs\n"
+    "of your POKéMON.");
+
 static const u8 sCardCaseDesc[] = _(
     "A case for game\n"
     "cards. Build your\n"

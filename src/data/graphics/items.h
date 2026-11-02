@@ -703,6 +703,8 @@ const u32 gItemIconPalette_TMCase[] = INCGFX_U32("graphics/items/icon_palettes/t
 
 const u32 gItemIcon_CardCase[] = INCGFX_U32("graphics/items/icons/card_case.png", ".4bpp.lz");
 const u32 gItemIconPalette_CardCase[] = INCGFX_U32("graphics/items/icon_palettes/card_case.pal", ".gbapal.lz");
+const u32 gItemIcon_IvChecker[] = INCGFX_U32("graphics/items/icons/iv_checker.png", ".4bpp.lz");
+const u32 gItemIconPalette_IvChecker[] = INCGFX_U32("graphics/items/icon_palettes/iv_checker.pal", ".gbapal.lz");
 
 const u32 gItemIcon_BerryPouch[] = INCGFX_U32("graphics/items/icons/berry_pouch.png", ".4bpp.lz");
 const u32 gItemIconPalette_BerryPouch[] = INCGFX_U32("graphics/items/icon_palettes/berry_pouch.pal", ".gbapal.lz");
