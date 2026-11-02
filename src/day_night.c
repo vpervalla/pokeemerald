@@ -610,7 +610,10 @@ static void FreeDayNightPalette(u8 *paletteNum, u16 tag)
     *paletteNum = 0xFF;
 }
 
-static void DestroySignSprites(void)
+// freeGfx: also free their tiles and palette. Not when only the map changed: crossing into a
+// connected map is one long frame, during which the screen keeps the sprites' old tile numbers, and
+// loading their graphics again elsewhere showed the lamps as other tiles for a few frames.
+static void DestroySignSprites(bool8 freeGfx)
 {
     u32 i;
 
@@ -623,6 +626,8 @@ static void DestroySignSprites(void)
             DestroySprite(sprite);
     }
     sNumSignSprites = 0;
+    if (!freeGfx)
+        return;
     for (i = 0; i < ARRAY_COUNT(sGlowingSigns); i++)
         FreeSpriteTilesByTag(sGlowingSigns[i].sheet.tag);
     FreeDayNightPalette(&sGlowPaletteNum, TAG_GLOW_PAL);
@@ -635,6 +640,9 @@ static void CreateSignSprite(const struct GlowingSign *sign, s16 mapX, s16 mapY)
 
     if (GetSpriteTileStartByTag(sign->sheet.tag) == 0xFFFF)
         LoadSpriteSheet(&sign->sheet);
+    // Kept from the last map, unless a warp has freed every slot since
+    if (sGlowPaletteNum != 0xFF && GetSpritePaletteTagByPaletteNum(sGlowPaletteNum) != TAG_GLOW_PAL)
+        sGlowPaletteNum = 0xFF;
     if (sGlowPaletteNum == 0xFF)
     {
         sGlowPaletteNum = LoadDayNightPalette(&sign->palette, PALSLOT_NPC_SPECIAL);
@@ -863,7 +871,7 @@ static void SpriteCB_LampPool(struct Sprite *sprite)
         sprite->invisible = TRUE;
 }
 
-static void DestroyLampSprites(void)
+static void DestroyLampSprites(bool8 freeGfx)
 {
     u32 i;
 
@@ -876,6 +884,8 @@ static void DestroyLampSprites(void)
             DestroySprite(sprite);
     }
     sNumLampSprites = 0;
+    if (!freeGfx)
+        return;
     FreeSpriteTilesByTag(TAG_LAMP);
     FreeSpriteTilesByTag(TAG_LAMP_POOL);
     FreeDayNightPalette(&sLampPaletteNum, TAG_LAMP_PAL);
@@ -919,11 +929,16 @@ static void CreateLampSprites(bool8 lit, bool8 night)
             continue;
         if (!loaded)
         {
-            sLampPaletteNum = LoadDayNightPalette(&palette, PALSLOT_NPC_SPECIAL_REFLECTION);
+            // Kept from the last map, unless a warp has freed every slot and tile since
+            if (sLampPaletteNum != 0xFF && GetSpritePaletteTagByPaletteNum(sLampPaletteNum) != TAG_LAMP_PAL)
+                sLampPaletteNum = 0xFF;
+            if (sLampPaletteNum == 0xFF)
+                sLampPaletteNum = LoadDayNightPalette(&palette, PALSLOT_NPC_SPECIAL_REFLECTION);
             if (sLampPaletteNum == 0xFF)
                 return;
-            LoadSpriteSheet(night ? &nightLampSheet : &lampSheet);
-            if (lit)
+            if (GetSpriteTileStartByTag(TAG_LAMP) == 0xFFFF)
+                LoadSpriteSheet(night ? &nightLampSheet : &lampSheet);
+            if (lit && GetSpriteTileStartByTag(TAG_LAMP_POOL) == 0xFFFF)
                 LoadSpriteSheet(&poolSheet);
             loaded = TRUE;
         }
@@ -976,12 +991,20 @@ static void UpdateSigns(bool8 lit)
 
     if (sSignsDirty || lit != sSignsShown || night != sLampsNight || map != sSignsMap)
     {
+        // The lamps' and signs' graphics change with lit and night; else they're kept where they are
+        bool8 newGfx = (lit != sSignsShown || night != sLampsNight);
+
         sSignsMap = map;
-        DestroySignSprites();
-        DestroyLampSprites();
+        DestroySignSprites(newGfx);
+        DestroyLampSprites(newGfx);
         CreateLampSprites(lit, night);
         if (lit)
             CreateSignSprites();
+        // None left (e.g. a map without any): their graphics aren't kept
+        if (sNumSignSprites == 0)
+            DestroySignSprites(TRUE);
+        if (sNumLampSprites == 0)
+            DestroyLampSprites(TRUE);
         sSignsShown = lit;
         sLampsNight = night;
         sSignsDirty = FALSE;
@@ -1003,8 +1026,8 @@ void DayNight_OnObjectPaletteSlotLoaded(u8 slot)
     if (tag != TAG_GLOW_PAL && tag != TAG_LAMP_PAL)
         return;
     sSpecialSlotsTaken = TRUE;
-    DestroySignSprites();
-    DestroyLampSprites();
+    DestroySignSprites(TRUE);
+    DestroyLampSprites(TRUE);
     sSignsDirty = TRUE;
 }
 
