@@ -321,6 +321,7 @@ gSpecials::
 	def_special LoadWallyZigzagoon
 	def_special IsStarterInParty
 	def_special CheckBadgeForFieldMove
+	def_special GetFieldMoveUserForScript
 	def_special GetPlayerCostume
 	def_special CopyCurSecretBaseOwnerName_StrVar1
 	def_special ScriptCheckFreePokemonStorageSpace

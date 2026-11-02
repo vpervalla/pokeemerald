@@ -231,7 +231,7 @@ bool8 ShouldDoBrailleRegisteelEffect(void)
 
 void SetUpPuzzleEffectRegisteel(void)
 {
-    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    gFieldEffectArguments[0] = GetFieldMoveMonId();
     FieldEffectStart(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
 }
 

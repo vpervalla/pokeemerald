@@ -3715,11 +3715,147 @@ bool8 CheckBadgeForFieldMove(void)
     return HasBadgeForFieldMove(gSpecialVar_0x8004);
 }
 
+// Borrowed POKéMON
+// Outside battle an HM is used by a party POKéMON that knows it or, when none does, by a wild
+// POKéMON that comes to lend a hand. That needs the HM in the BAG and the badge that enables it.
+
+// The HM item that teaches each HM field move
+static const u16 sFieldMoveHMItems[FIELD_MOVE_WATERFALL + 1] =
+{
+    [FIELD_MOVE_CUT]        = ITEM_HM01,
+    [FIELD_MOVE_FLY]        = ITEM_HM02,
+    [FIELD_MOVE_SURF]       = ITEM_HM03,
+    [FIELD_MOVE_STRENGTH]   = ITEM_HM04,
+    [FIELD_MOVE_FLASH]      = ITEM_HM05,
+    [FIELD_MOVE_ROCK_SMASH] = ITEM_HM06,
+    [FIELD_MOVE_WATERFALL]  = ITEM_HM07,
+    [FIELD_MOVE_DIVE]       = ITEM_HM08,
+};
+
+// The wild POKéMON that comes to help on a Hoenn map
+static const u16 sBorrowedFieldMoveSpecies_Hoenn[FIELD_MOVE_WATERFALL + 1] =
+{
+    [FIELD_MOVE_CUT]        = SPECIES_NINCADA,  // Route 116, next to RUSTBORO
+    [FIELD_MOVE_FLASH]      = SPECIES_VOLBEAT,  // a glowing firefly
+    [FIELD_MOVE_ROCK_SMASH] = SPECIES_MAKUHITA, // GRANITE CAVE
+    [FIELD_MOVE_STRENGTH]   = SPECIES_MACHOP,   // FIERY PATH
+    [FIELD_MOVE_SURF]       = SPECIES_WAILMER,
+    [FIELD_MOVE_FLY]        = SPECIES_TROPIUS,  // Route 119, where HM02 is given
+    [FIELD_MOVE_DIVE]       = SPECIES_RELICANTH,// lives on the seabed
+    [FIELD_MOVE_WATERFALL]  = SPECIES_WHISCASH, // METEOR FALLS
+};
+
+// The wild POKéMON that comes to help everywhere else (Kanto and the Sevii Islands)
+static const u16 sBorrowedFieldMoveSpecies_Kanto[FIELD_MOVE_WATERFALL + 1] =
+{
+    [FIELD_MOVE_CUT]        = SPECIES_FARFETCHD,
+    [FIELD_MOVE_FLASH]      = SPECIES_PIKACHU,  // VIRIDIAN FOREST
+    [FIELD_MOVE_ROCK_SMASH] = SPECIES_GEODUDE,
+    [FIELD_MOVE_STRENGTH]   = SPECIES_MACHOP,
+    [FIELD_MOVE_SURF]       = SPECIES_LAPRAS,
+    [FIELD_MOVE_FLY]        = SPECIES_PIDGEOT,
+    [FIELD_MOVE_DIVE]       = SPECIES_SEEL,     // SEAFOAM ISLANDS
+    [FIELD_MOVE_WATERFALL]  = SPECIES_SEAKING,
+};
+
+// The species shown when a field effect's mon is FIELD_MOVE_MON_BORROWED
+static EWRAM_DATA u16 sBorrowedFieldMoveSpecies = SPECIES_NONE;
+// FLY and FLASH used from the BAG: the mon using them, in place of the party menu's cursor
+static EWRAM_DATA bool8 sFieldMoveFromBag = FALSE;
+static EWRAM_DATA u8 sFieldMoveFromBagMonId = 0;
+
+static u16 GetBorrowedSpeciesForFieldMove(u32 fieldMove)
+{
+    if (GetPlayerRegion() == REGION_HOENN)
+        return sBorrowedFieldMoveSpecies_Hoenn[fieldMove];
+    return sBorrowedFieldMoveSpecies_Kanto[fieldMove];
+}
+
+// Whether a wild POKéMON can be borrowed for an HM: its HM in the BAG and its badge
+bool32 CanBorrowMonForFieldMove(u32 fieldMove)
+{
+    if (fieldMove > FIELD_MOVE_WATERFALL)
+        return FALSE;
+    return CheckBagHasItem(sFieldMoveHMItems[fieldMove], 1) && HasBadgeForFieldMove(fieldMove);
+}
+
+// Who uses a field move outside battle: the first party POKéMON that knows it, else
+// FIELD_MOVE_MON_BORROWED if one can be borrowed, else PARTY_SIZE
+u8 GetFieldMoveUser(u32 fieldMove)
+{
+    u32 i;
+    u16 move = sFieldMoves[fieldMove];
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
+            break;
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], move))
+            return i;
+    }
+    if (CanBorrowMonForFieldMove(fieldMove))
+    {
+        sBorrowedFieldMoveSpecies = GetBorrowedSpeciesForFieldMove(fieldMove);
+        return FIELD_MOVE_MON_BORROWED;
+    }
+    return PARTY_SIZE;
+}
+
+u16 GetBorrowedFieldMoveSpecies(void)
+{
+    return sBorrowedFieldMoveSpecies;
+}
+
+// The name a field move's user goes by: its nickname, or the borrowed POKéMON's species name
+void GetFieldMoveUserName(u8 monId, u8 *dest)
+{
+    if (monId == FIELD_MOVE_MON_BORROWED)
+        StringCopy(dest, gSpeciesNames[sBorrowedFieldMoveSpecies]);
+    else
+        GetMonNickname(&gPlayerParty[monId], dest);
+}
+
+// Special: GetFieldMoveUser for the field move in VAR_0x8004. The user goes in VAR_RESULT and
+// VAR_0x8005 (which survives a yes/no box) and its name in STR_VAR_1.
+u16 GetFieldMoveUserForScript(void)
+{
+    u8 monId = GetFieldMoveUser(gSpecialVar_0x8004);
+
+    gSpecialVar_0x8005 = monId;
+    if (monId != PARTY_SIZE)
+        GetFieldMoveUserName(monId, gStringVar1);
+    return monId;
+}
+
+// Whether the player can SURF where they stand, with a party POKéMON or a borrowed one
+bool32 CanUseSurfOutsideBattle(void)
+{
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+        return FALSE;
+    return PartyHasMonWithSurf() == TRUE || CanBorrowMonForFieldMove(FIELD_MOVE_SURF);
+}
+
+// FLY or FLASH used from the BAG, by monId (a party slot or FIELD_MOVE_MON_BORROWED)
+void SetFieldMoveMonFromBag(u8 monId)
+{
+    sFieldMoveFromBag = TRUE;
+    sFieldMoveFromBagMonId = monId;
+}
+
+// The mon using the field move chosen in the party menu, or in the BAG
+u8 GetFieldMoveMonId(void)
+{
+    if (sFieldMoveFromBag)
+        return sFieldMoveFromBagMonId;
+    return GetCursorSelectionMonId();
+}
+
 static void CursorCb_FieldMove(u8 taskId)
 {
     u8 fieldMove = sPartyMenuInternal->actions[Menu_GetCursorPos()] - MENU_FIELD_MOVES;
     const struct MapHeader *mapHeader;
 
+    sFieldMoveFromBag = FALSE;
     PlaySE(SE_SELECT);
     if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc == NULL)
         return;

@@ -4,13 +4,13 @@ EventScript_CutTree::
 	setvar VAR_0x8004, FIELD_MOVE_CUT
 	specialvar VAR_RESULT, CheckBadgeForFieldMove
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CheckTreeCantCut
-	checkpartymove MOVE_CUT
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CheckTreeCantCut
 	setfieldeffectargument 0, VAR_RESULT
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
 	buffermovename STR_VAR_2, MOVE_CUT
 	msgbox Text_WantToCut, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CancelCut
+	call EventScript_BorrowedMonAppears
 	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
 	closemessage
 	dofieldeffect FLDEFF_USE_CUT_ON_TREE
@@ -64,13 +64,13 @@ EventScript_RockSmash::
 	setvar VAR_0x8004, FIELD_MOVE_ROCK_SMASH
 	specialvar VAR_RESULT, CheckBadgeForFieldMove
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CantSmashRock
-	checkpartymove MOVE_ROCK_SMASH
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSmashRock
 	setfieldeffectargument 0, VAR_RESULT
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
 	buffermovename STR_VAR_2, MOVE_ROCK_SMASH
 	msgbox Text_WantToSmash, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CancelSmash
+	call EventScript_BorrowedMonAppears
 	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
 	closemessage
 	dofieldeffect FLDEFF_USE_ROCK_SMASH
@@ -129,11 +129,12 @@ EventScript_StrengthBoulder::
 	specialvar VAR_RESULT, CheckBadgeForFieldMove
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CantStrength
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_CheckActivatedBoulder
-	checkpartymove MOVE_STRENGTH
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantStrength
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox Text_WantToStrength, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CancelStrength
+	call EventScript_BorrowedMonAppears
 	closemessage
 	dofieldeffect FLDEFF_USE_STRENGTH
 	waitstate
@@ -188,12 +189,13 @@ Text_StrengthActivated:
 
 EventScript_UseWaterfall::
 	lockall
-	checkpartymove MOVE_WATERFALL
+	setvar VAR_0x8004, FIELD_MOVE_WATERFALL
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantWaterfall
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	msgbox Text_WantToWaterfall, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndWaterfall
+	call EventScript_BorrowedMonAppears
 	msgbox Text_MonUsedWaterfall, MSGBOX_DEFAULT
 	dofieldeffect FLDEFF_USE_WATERFALL
 	goto EventScript_EndWaterfall
@@ -221,13 +223,14 @@ Text_MonUsedWaterfall:
 
 EventScript_UseDive::
 	lockall
-	checkpartymove MOVE_DIVE
+	setvar VAR_0x8004, FIELD_MOVE_DIVE
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantDive
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToDive, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndDive
+	call EventScript_BorrowedMonAppears
 	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndDive
@@ -244,13 +247,14 @@ EventScript_EndDive::
 
 EventScript_UseDiveUnderwater::
 	lockall
-	checkpartymove MOVE_DIVE
+	setvar VAR_0x8004, FIELD_MOVE_DIVE
+	specialvar VAR_RESULT, GetFieldMoveUserForScript
 	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSurface
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
 	setfieldeffectargument 0, VAR_RESULT
 	setfieldeffectargument 1, 1
 	msgbox Text_WantToSurface, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndSurface
+	call EventScript_BorrowedMonAppears
 	msgbox Text_MonUsedDive, MSGBOX_DEFAULT
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndSurface
@@ -291,3 +295,15 @@ EventScript_FailSweetScent::
 
 Text_FailSweetScent:
 	.string "Looks like there's nothing here…$"
+
+@ After the player agrees to use an HM: when no party POKéMON knows it (VAR_0x8005, from
+@ GetFieldMoveUserForScript), a wild one named in STR_VAR_1 comes to lend a hand
+EventScript_BorrowedMonAppears::
+	goto_if_ne VAR_0x8005, FIELD_MOVE_MON_BORROWED, EventScript_BorrowedMonAppearsEnd
+	msgbox Text_BorrowedMonAppears, MSGBOX_DEFAULT
+EventScript_BorrowedMonAppearsEnd:
+	return
+
+Text_BorrowedMonAppears:
+	.string "A wild {STR_VAR_1} appeared!\n"
+	.string "It looks willing to lend a hand!$"

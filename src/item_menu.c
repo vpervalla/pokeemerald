@@ -14,6 +14,7 @@
 #include "event_scripts.h"
 #include "field_player_avatar.h"
 #include "field_specials.h"
+#include "fldeff.h"
 #include "graphics.h"
 #include "gpu_regs.h"
 #include "international_string_util.h"
@@ -34,6 +35,7 @@
 #include "player_pc.h"
 #include "pokemon.h"
 #include "pokemon_summary_screen.h"
+#include "region_map.h"
 #include "scanline_effect.h"
 #include "script.h"
 #include "shop.h"
@@ -48,6 +50,8 @@
 #include "apprentice.h"
 #include "battle_pike.h"
 #include "constants/items.h"
+#include "constants/moves.h"
+#include "constants/party_menu.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
@@ -88,6 +92,8 @@ enum {
     ACTION_SHOW,
     ACTION_GIVE_FAVOR_LADY,
     ACTION_CONFIRM_QUIZ_LADY,
+    ACTION_FLY,
+    ACTION_FLASH,
     ACTION_DUMMY,
 };
 
@@ -200,6 +206,7 @@ static void ItemMenu_CheckTag(u8);
 static void ItemMenu_Show(u8);
 static void ItemMenu_GiveFavorLady(u8);
 static void ItemMenu_ConfirmQuizLady(u8);
+static void ItemMenu_UseHMFieldMove(u8);
 static void Task_ItemContext_Normal(u8);
 static void Task_ItemContext_GiveToParty(u8);
 static void Task_ItemContext_Sell(u8);
@@ -278,6 +285,8 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_SHOW]              = {gMenuText_Show,     {ItemMenu_Show}},
     [ACTION_GIVE_FAVOR_LADY]   = {gMenuText_Give2,    {ItemMenu_GiveFavorLady}},
     [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm,  {ItemMenu_ConfirmQuizLady}},
+    [ACTION_FLY]               = {gMoveNames[MOVE_FLY],   {ItemMenu_UseHMFieldMove}},
+    [ACTION_FLASH]             = {gMoveNames[MOVE_FLASH], {ItemMenu_UseHMFieldMove}},
     [ACTION_DUMMY]             = {gText_EmptyString2, {NULL}}
 };
 
@@ -1629,8 +1638,17 @@ static void OpenContextMenu(u8 taskId)
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_BallsPocket);
                 break;
             case TMHM_POCKET:
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_TmHmPocket;
+                gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_TmHmPocket);
+                memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_TmHmPocket, sizeof(sContextMenuItems_TmHmPocket));
+                // FLY and FLASH aren't used by facing something, so their HMs can use them from here
+                if (gBagPosition.location == ITEMMENULOCATION_FIELD)
+                {
+                    if (gSpecialVar_ItemId == ITEM_HM02)
+                        gBagMenu->contextMenuItemsBuffer[2] = ACTION_FLY;
+                    else if (gSpecialVar_ItemId == ITEM_HM05)
+                        gBagMenu->contextMenuItemsBuffer[2] = ACTION_FLASH;
+                }
                 break;
             case BERRIES_POCKET:
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_BerriesPocket;
@@ -1801,6 +1819,46 @@ static void ItemMenu_UseOutOfBattle(u8 taskId)
                 ItemUseOutOfBattle_Berry(taskId);
         }
     }
+}
+
+// FLY or FLASH from their HM: used by a party POKéMON that knows the move, else by a borrowed one
+static void ItemMenu_UseHMFieldMove(u8 taskId)
+{
+    u32 fieldMove = (gSpecialVar_ItemId == ITEM_HM02) ? FIELD_MOVE_FLY : FIELD_MOVE_FLASH;
+    u8 monId;
+
+    RemoveContextWindow();
+    if (!HasBadgeForFieldMove(fieldMove))
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_CantUseUntilNewBadge, CloseItemMessage);
+        return;
+    }
+    monId = GetFieldMoveUser(fieldMove);
+    if (monId == PARTY_SIZE)
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_DadsAdvice, CloseItemMessage);
+        return;
+    }
+    SetFieldMoveMonFromBag(monId);
+    if (fieldMove == FIELD_MOVE_FLY)
+    {
+        if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) != TRUE)
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_DadsAdvice, CloseItemMessage);
+            return;
+        }
+        gBagMenu->newScreenCallback = CB2_OpenFlyMapFromBag;
+    }
+    else
+    {
+        if (!SetUpFieldMove_Flash())
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_DadsAdvice, CloseItemMessage);
+            return;
+        }
+        gBagMenu->newScreenCallback = CB2_ReturnToField;
+    }
+    Task_FadeAndCloseBagMenu(taskId);
 }
 
 static void ItemMenu_Toss(u8 taskId)

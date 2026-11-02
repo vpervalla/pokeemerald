@@ -27,6 +27,7 @@
 #include "trig.h"
 #include "util.h"
 #include "constants/field_effects.h"
+#include "constants/party_menu.h"
 #include "constants/maps.h"
 #include "constants/event_object_movement.h"
 #include "constants/metatile_behaviors.h"
@@ -1459,8 +1460,8 @@ static void Task_UseFly(u8 taskId)
         if (!IsWeatherNotFadingIn())
             return;
 
-        gFieldEffectArguments[0] = GetCursorSelectionMonId();
-        if ((int)gFieldEffectArguments[0] > PARTY_SIZE - 1)
+        gFieldEffectArguments[0] = GetFieldMoveMonId();
+        if ((int)gFieldEffectArguments[0] > PARTY_SIZE - 1 && gFieldEffectArguments[0] != FIELD_MOVE_MON_BORROWED)
             gFieldEffectArguments[0] = 0;
 
         FieldEffectStart(FLDEFF_USE_FLY);
@@ -2684,10 +2685,20 @@ bool8 FldEff_FieldMoveShowMonInit(void)
 {
     struct Pokemon *pokemon;
     bool32 noDucking = gFieldEffectArguments[0] & SHOW_MON_CRY_NO_DUCKING;
-    pokemon = &gPlayerParty[(u8)gFieldEffectArguments[0]];
-    gFieldEffectArguments[0] = GetMonData(pokemon, MON_DATA_SPECIES);
-    gFieldEffectArguments[1] = GetMonData(pokemon, MON_DATA_OT_ID);
-    gFieldEffectArguments[2] = GetMonData(pokemon, MON_DATA_PERSONALITY);
+    if ((u8)gFieldEffectArguments[0] == FIELD_MOVE_MON_BORROWED)
+    {
+        // A wild POKéMON lending a hand (never shiny: OT ID 0 with this personality)
+        gFieldEffectArguments[0] = GetBorrowedFieldMoveSpecies();
+        gFieldEffectArguments[1] = 0;
+        gFieldEffectArguments[2] = 0x12345678;
+    }
+    else
+    {
+        pokemon = &gPlayerParty[(u8)gFieldEffectArguments[0]];
+        gFieldEffectArguments[0] = GetMonData(pokemon, MON_DATA_SPECIES);
+        gFieldEffectArguments[1] = GetMonData(pokemon, MON_DATA_OT_ID);
+        gFieldEffectArguments[2] = GetMonData(pokemon, MON_DATA_PERSONALITY);
+    }
     gFieldEffectArguments[0] |= noDucking;
     FieldEffectStart(FLDEFF_FIELD_MOVE_SHOW_MON);
     FieldEffectActiveListRemove(FLDEFF_FIELD_MOVE_SHOW_MON_INIT);

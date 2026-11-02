@@ -1,4 +1,5 @@
 #include "global.h"
+#include "item_menu.h"
 #include "main.h"
 #include "text.h"
 #include "menu.h"
@@ -85,6 +86,8 @@ static bool32 sDrawFlyDestTextWindow;
 
 // Set while the fly map is shown as the TOWN MAP: no flying, and B goes back here
 static EWRAM_DATA MainCallback sTownMapExitCallback = NULL;
+// Where cancelling the fly map goes when it wasn't opened from the party menu
+static EWRAM_DATA MainCallback sFlyMapCancelCallback = NULL;
 
 static u8 ProcessRegionMapInput_Full(void);
 static u8 MoveRegionMapCursor_Full(void);
@@ -1885,6 +1888,24 @@ static void ExitTownMap(void)
     SetMainCallback2(callback);
 }
 
+// FLY from HM02 in the BAG: cancelling goes back to the BAG rather than the party menu
+void CB2_OpenFlyMapFromBag(void)
+{
+    sFlyMapCancelCallback = CB2_ReturnToBagMenuPocket;
+    SetMainCallback2(CB2_OpenFlyMap);
+}
+
+static void CancelFlyMap(void)
+{
+    MainCallback callback = sFlyMapCancelCallback;
+
+    sFlyMapCancelCallback = NULL;
+    if (callback != NULL)
+        SetMainCallback2(callback);
+    else
+        SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
+}
+
 void CB2_OpenFlyMap(void)
 {
     switch (gMain.state)
@@ -1903,6 +1924,7 @@ void CB2_OpenFlyMap(void)
         sFlyMap = Alloc(sizeof(*sFlyMap));
         if (sFlyMap == NULL)
         {
+            sFlyMapCancelCallback = NULL;
             if (sTownMapExitCallback != NULL)
                 ExitTownMap();
             else
@@ -2437,6 +2459,7 @@ static void CB_ExitFlyMap(void)
                         SetWarpDestinationToMapWarp(sMapHealLocations[sFlyMap->regionMap.mapSecId][0], sMapHealLocations[sFlyMap->regionMap.mapSecId][1], WARP_ID_NONE);
                     break;
                 }
+                sFlyMapCancelCallback = NULL;
                 ReturnToFieldFromFlyMapSelect();
             }
             else if (sTownMapExitCallback != NULL)
@@ -2445,7 +2468,7 @@ static void CB_ExitFlyMap(void)
             }
             else
             {
-                SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
+                CancelFlyMap();
             }
             TRY_FREE_AND_SET_NULL(sFlyMap);
             FreeAllWindowBuffers();

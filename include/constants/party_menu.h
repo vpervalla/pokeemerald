@@ -155,4 +155,8 @@
 #define FIELD_MOVE_SWEET_SCENT   13
 #define FIELD_MOVES_COUNT        14
 
+// The user of a field move when no party POKéMON knows it and a wild one is borrowed instead
+// (any value that is not a party slot, nor PARTY_SIZE, which means nobody can use it)
+#define FIELD_MOVE_MON_BORROWED  7
+
 #endif // GUARD_CONSTANTS_PARTY_MENU_H

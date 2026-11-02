@@ -81,7 +81,7 @@ bool8 SetUpFieldMove_Flash(void)
     // Flash is used instead.
     if (ShouldDoBrailleRegisteelEffect())
     {
-        gSpecialVar_Result = GetCursorSelectionMonId();
+        gSpecialVar_Result = GetFieldMoveMonId();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = SetUpPuzzleEffectRegisteel;
         return TRUE;
@@ -99,7 +99,7 @@ bool8 SetUpFieldMove_Flash(void)
 static void FieldCallback_Flash(void)
 {
     u8 taskId = CreateFieldMoveTask();
-    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    gFieldEffectArguments[0] = GetFieldMoveMonId();
     gTasks[taskId].data[8] = (uintptr_t)FldEff_UseFlash >> 16;
     gTasks[taskId].data[9] = (uintptr_t)FldEff_UseFlash;
 }
