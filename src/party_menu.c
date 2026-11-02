@@ -3748,8 +3748,8 @@ static const u16 sBorrowedFieldMoveSpecies_Hoenn[FIELD_MOVE_WATERFALL + 1] =
 // The wild POKéMON that comes to help everywhere else (Kanto and the Sevii Islands)
 static const u16 sBorrowedFieldMoveSpecies_Kanto[FIELD_MOVE_WATERFALL + 1] =
 {
-    [FIELD_MOVE_CUT]        = SPECIES_FARFETCHD,
-    [FIELD_MOVE_FLASH]      = SPECIES_PIKACHU,  // VIRIDIAN FOREST
+    [FIELD_MOVE_CUT]        = SPECIES_PARAS,
+    [FIELD_MOVE_FLASH]      = SPECIES_VOLTORB,
     [FIELD_MOVE_ROCK_SMASH] = SPECIES_GEODUDE,
     [FIELD_MOVE_STRENGTH]   = SPECIES_MACHOP,
     [FIELD_MOVE_SURF]       = SPECIES_LAPRAS,
