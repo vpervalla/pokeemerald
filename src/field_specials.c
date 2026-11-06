@@ -1055,9 +1055,14 @@ static void PCTurnOnEffect(struct Task *task)
 #define METATILE_KantoBuilding_PC_On  0x063
 #define METATILE_KantoGenericBuilding1_PlayersPC_Off 0x28F
 #define METATILE_KantoGenericBuilding1_PlayersPC_On  0x28A
+// APEX ISLAND castle hall: the same PC, drawn over the castle's floor
+#define METATILE_KantoMegaHall_PC_Off 0x2DC
+#define METATILE_KantoMegaHall_PC_On  0x2DD
 
 static u16 GetOtherPCMetatileId(bool32 screenOn)
 {
+    if (gMapHeader.mapLayout->secondaryTileset == &gTileset_KantoMegaHall)
+        return screenOn ? METATILE_KantoMegaHall_PC_On : METATILE_KantoMegaHall_PC_Off;
     if (gMapHeader.mapLayout->primaryTileset == &gTileset_KantoBuilding)
         return screenOn ? METATILE_KantoBuilding_PC_On : METATILE_KantoBuilding_PC_Off;
     return screenOn ? METATILE_Building_PC_On : METATILE_Building_PC_Off;
