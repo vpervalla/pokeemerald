@@ -21,9 +21,9 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_CASTLE_1F` | `LAYOUT_MEGA_ISLAND_CASTLE_1F`, 23x16, `kanto_building` + `kanto_mega_hall` | The entrance hall, on the ground floor, in the style of the Pokémon Mansion: its walls, windows and checked floor, and its pink carpet from the entrance (a red mat and a three-wide door mat) up to the registration desk, between two pillars. The desk is the Celadon Hotel's counter (`MB_COUNTER`), so the receptionist is spoken to across it; two Mewtwo statues stand behind it. Two waiting areas with a table and chairs (one with an open book), plants, and the mansion's stairs in the top left corner, up to the guest floor. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a corridor with windows, plants and two Mewtwo statues, the mansion's stairs down to the hall at the west end and up to the arena at the east end, and the six guest rooms' doors (door mats) in the south wall. |
 | `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: the mansion's walls and floor, a bed (from the S.S. Anne's cabins), a table with a chair, plants, and the way out (a red mat and a door mat) in the south wall. |
-| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall in the mansion's style with four windows. MR. M. stands on a red mat between two Mewtwo statues with their eyes lit, at the north end. The battlefield is Agatha's (the Elite Four's lilac floor with white lines and a Poké Ball in the middle), lengthened. Rows of chairs for the spectators down both sides, pillars in the corners, plants, and the way down to the guest floor (a red mat and a door mat) in the middle of the south wall. Behind MR. M.'s mat, a hidden door in the north wall (11,2), open from state 9. Music `MUS_RG_TRAINER_TOWER`. |
-| `MAP_MEGA_ISLAND_HIDDEN_ROOM` | `LAYOUT_MEGA_ISLAND_HIDDEN_ROOM`, 9x8, `kanto_general` + `kanto_cave` | Behind the arena's hidden door: a small cave room, in through the opening in its south wall, with a ladder down. Music `MUS_RG_SEVII_DUNGEON`, as the three below. |
-| `MAP_MEGA_ISLAND_TUNNEL` | `LAYOUT_MEGA_ISLAND_TUNNEL`, 7x26, the same | A tunnel going south, from the ladder up at its north end to the opening in its south end. |
+| `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall in the mansion's style with four windows. MR. M. stands on a red mat between two Mewtwo statues with their eyes lit, at the north end. The battlefield is Agatha's (the Elite Four's lilac floor with white lines and a Poké Ball in the middle), lengthened. Rows of chairs for the spectators down both sides, pillars in the corners, plants, and the way down to the guest floor (a red mat and a door mat) in the middle of the south wall. Behind MR. M.'s mat, a hidden door in the base of the north wall (11,2), there from state 9. Music `MUS_RG_TRAINER_TOWER`. |
+| `MAP_MEGA_ISLAND_HIDDEN_ROOM` | `LAYOUT_MEGA_ISLAND_HIDDEN_ROOM`, 11x9, `kanto_building` + `kanto_mega_arena` | Behind the arena's hidden door: a small room of the castle in the mansion's style, with two Mewtwo statues with their eyes lit, plants, the way back to the arena (a red mat and a door mat) in the middle of the south wall, and on the floor the small stairwell going down of FRLG's underground path entrances, entered from the east. Music `MUS_RG_POKE_MANSION`. |
+| `MAP_MEGA_ISLAND_TUNNEL` | `LAYOUT_MEGA_ISLAND_TUNNEL`, 7x26, `kanto_general` + `kanto_cave` | A tunnel going south, from the ladder up at its north end to the opening in its south end. Music `MUS_RG_SEVII_DUNGEON`, as the two below. |
 | `MAP_MEGA_ISLAND_SANCTUM` | `LAYOUT_MEGA_ISLAND_SANCTUM`, 17x13, the same | The big cave where MEWTWO waits, in front of its east wall, behind a ring drawn on the floor. In through the north door; after the battle, a passage opens in the east wall behind MEWTWO. |
 | `MAP_MEGA_ISLAND_LEDGE_ROOM` | `LAYOUT_MEGA_ISLAND_LEDGE_ROOM`, 11x11, the same | Past the passage, in from the west: a ledge across the room, which can only be jumped down from the north, and below it a ladder up to the island's cave on the route. |
 
@@ -35,12 +35,14 @@ east (`MB_EAST_ARROW_WARP`). The guest floor's stairs down are entered from the 
 (`MB_SOUTH_ARROW_WARP`) goes back down to the guest floor. The guest floor's doors
 (`MB_SOUTH_ARROW_WARP` above each door mat) lead to the guest rooms, whose ways out lead back.
 
-The arena's hidden door is a black cell in the wall's base (`METATILE_MegaArena_HiddenDoor`,
-`MB_NON_ANIMATED_DOOR`) under the black edge (`METATILE_KantoBuilding_Black`), set by the arena's
-`ON_LOAD` script from state 9; the player arrives on it and steps out onto MR. M.'s mat. The way down
-to MEWTWO and back out, all both ways except the ledge:
+The arena's hidden door is a wooden door in the wall's base, under a lintel, as short as FRLG's house
+doors (`METATILE_MegaArena_HiddenDoor`, `MB_ANIMATED_DOOR`, and `METATILE_MegaArena_HiddenDoorTop`
+above it), put in the wall's place by the arena's `ON_LOAD` script from state 9. It opens and closes
+like any door: its animation (`graphics/door_anims/kanto/mega_arena.png`) is in `src/field_door.c`,
+in a table of its own for `kanto_mega_arena`, since its metatile number means other things in the
+other Kanto tilesets. The way down to MEWTWO and back out, all both ways except the ledge:
 
-    arena door (11,2) -> hidden room, south opening (4,5); its ladder down (4,3) -> tunnel, ladder up (3,2)
+    arena door (11,2) -> hidden room, way out (4-6,7); its stairs (6,4, walking west) -> tunnel, ladder up (3,2)
     tunnel, south opening (3,23) -> sanctum, north door (4,1)
     sanctum, east passage (14,6) -> ledge room, west opening (2,3); the ledge (row 5)
     ledge room, ladder up (6,7) -> the island's cave, ladder down (5,5)
@@ -262,10 +264,11 @@ MEWTWO is no longer in CERULEAN CAVE: RED (or ETHAN) waits there instead (see
 `docs/catch_them_all.md`). After the tournament (state 7), MR. M. stands on his dais in the
 arena. Talking to him, still as the tall gentleman, he tells the player he has watched their
 battles and that it's time they saw who invited them, but not before an audience: they must follow
-him, alone. He turns to the wall behind his mat, the arena shakes, a hidden door opens there, and he
-walks through it (state 9). The door stays open.
+him, alone. He turns to the wall behind his mat, the arena shakes, and a door appears in the wall.
+He goes through it as the player would: it opens, he walks in, and it closes behind him (state 9).
+The door stays there.
 
-It leads to a small room with a ladder down, then a tunnel south to the sanctum
+It leads to a small room of the castle with a stairwell going down, then a tunnel south to the sanctum
 (`MegaIsland_Sanctum`), where MEWTWO waits in front of the east wall. The first time it's spoken to
 (`FLAG_MET_MEWTWO_IN_SANCTUM`), it reveals itself: MR. M. never existed, only its mind made the
 player see him; it tells how it broke free and took the stones, and why it gathered the champions.
@@ -331,21 +334,27 @@ that already holds the same colours, its own slot if it's free, or the first fre
   metatiles (see above): a small vocabulary of the mansion's pieces (its room shell, stairs, statues,
   pillars, tables, plants, carpet and exits) placed on each map, with their collision and behaviors.
   It writes `kanto_mega_hall`, `kanto_mega_arena` and the four layouts. `PREVIEW=out.png` also
-  renders the four maps.
+  renders the four maps. Its pieces (the source tilesets, the tileset being built, the mansion's
+  room shell and furniture) are in `interiors_lib.py`.
+- `build_hidden_room.py`: appends to `kanto_mega_arena` the hidden door (drawn there in the wall's
+  palette, with its animation) and the hidden room, with the underground path entrance's stairwell
+  (`kanto_generic_building_2`) on the mansion's floor, and writes the room's layout. It starts from the
+  arena's tileset as it is, so run it after `build_interiors.py`. `PREVIEW=out.png` renders the room,
+  the arena with the door and the door's frames.
 - `build_route.py`: writes `data/layouts/MegaIsland` from a character design of the map, and the port
   and cave layouts. Rock and water
   are autotiled by `autotile.py`, which learns from FRLG's own maps (Routes 3, 4, 9, 10, 22-25, Kindle
   Road and others) which metatile each cell gets, given which of its neighbours are the same terrain.
   The terraces come from a height map: a cell on the high side of a drop becomes a wall, picked
   by where the lower ground is.
-- `build_caves.py`: writes the four cave layouts on the way to MEWTWO and back out (hidden room,
-  tunnel, sanctum, ledge room) from the Lost Cave's pieces: its two-layer rock walls, the openings in
+- `build_caves.py`: writes the three cave layouts on the way to MEWTWO and back out (tunnel,
+  sanctum, ledge room) from the Lost Cave's pieces: its two-layer rock walls, the openings in
   the south, north and side walls, ladders, boulders and a ledge. Its constants are the coordinates the
-  maps' events and scripts use. `PREVIEW=out.png` renders the four maps.
+  maps' events and scripts use. `PREVIEW=out.png` renders the three maps.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
-Run `build_castle.py`, `build_interiors.py`, `build_route.py` and `build_caves.py` after changing
+Run `build_castle.py`, `build_interiors.py` (then `build_hidden_room.py`), `build_route.py` and `build_caves.py` after changing
 the art or the layouts. (The route, the port, the hall and the guest floor have since been edited by
 hand, so re-running `build_route.py` or `build_interiors.py` overwrites those edits.) The output is deterministic. The castle tileset uses all 384 secondary tiles (none merged)
 and 207 of the 384 metatiles, the hall tileset 90 and 91, the arena tileset 64
-and 69.
+and 69 (96 and 82 with the hidden door and room).

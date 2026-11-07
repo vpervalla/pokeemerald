@@ -1,21 +1,22 @@
-# Builds the hidden way from the castle's arena to MEWTWO and back out to the island's route, as
-# rooms of the Lost Cave's kind (kanto_general + kanto_cave): their two-layer rock walls, the
-# light openings in the south wall, the openings in the side and north walls, ladders and ledges.
-#   MegaIsland_HiddenRoom   behind the arena's hidden door: a small room with a ladder down
-#   MegaIsland_Tunnel       a tunnel going south, from the ladder up to an opening in its south end
+# Builds the caves on the hidden way from the castle's arena to MEWTWO and back out to the island's
+# route, as rooms of the Lost Cave's kind (kanto_general + kanto_cave): their two-layer rock walls,
+# the light openings in the south wall, the openings in the side and north walls, ladders and ledges.
+# (The room behind the arena's hidden door, with the stairs down to the tunnel, is a room of the
+# castle: build_hidden_room.py.)
+#   MegaIsland_Tunnel       a tunnel going south, from the ladder up (to the hidden room's stairs) to
+#                           an opening in its south end
 #   MegaIsland_Sanctum      the big cave where MEWTWO waits, in front of its east wall; after the
 #                           battle a passage opens there, behind it
 #   MegaIsland_LedgeRoom    past the passage: a ledge that can only be jumped down from the north,
 #                           and a ladder up to the island's cave (MegaIsland_Cave, whose ladder down
 #                           build_route.py leaves under a boulder until the passage has opened)
 # The coordinates the map events and scripts use are the constants below. PREVIEW=out.png renders
-# the four maps side by side.
+# the three maps side by side.
 import struct, os
 REPO=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..')+'/'
 
 FLOOR,ROCK,FILL=0x281,0x282,0x291
 LEDGE_LEFT,LEDGE=0x2bc,0x2bd                 # jump south (MB_JUMP_SOUTH)
-HOLE=0x285                                   # ladder down (MB_LADDER)
 LADDER_TOP,LADDER=0x28f,0x297                # ladder up: its top (solid) and its foot (MB_LADDER)
 CIRCLE=((0x2d5,0x2d6),(0x2dd,0x2de))         # a ring drawn on the floor
 SOUTH_EXIT=(0x2c8,0x2c9,0x2ca)               # the light opening in the south wall, under...
@@ -75,14 +76,9 @@ class Room:
         open(d+'border.bin','wb').write(struct.pack('<4H',*([FILL|1<<10]*4)))
         print(name,s.w,s.h)
 
-# ---- behind the arena's hidden door: in through the south opening, down the ladder ----
-H=Room(9,8)
-HIDDEN_ENTRANCE=H.south_exit(4)              # (4,5), to the arena's door
-HIDDEN_LADDER=(4,3); H.floor(*HIDDEN_LADDER,HOLE)
-
 # ---- the tunnel going south, from the ladder up to the south opening ----
 T=Room(7,26)
-TUNNEL_LADDER=T.ladder_up(3,2)               # (3,2)
+TUNNEL_LADDER=T.ladder_up(3,2)               # (3,2), to the hidden room's stairs
 TUNNEL_EXIT=T.south_exit(3)                  # (3,23), to the sanctum's north door
 for p in ((2,7),(4,12),(2,17),(4,20)): T.rock(*p)
 
@@ -105,9 +101,8 @@ L.ledge(5)
 LEDGE_LADDER=L.ladder_up(6,7)                # (6,7)
 for p in ((8,2),(3,8),(8,8)): L.rock(*p)
 
-for room,name in ((H,'MegaIsland_HiddenRoom'),(T,'MegaIsland_Tunnel'),(S,'MegaIsland_Sanctum'),(L,'MegaIsland_LedgeRoom')):
+for room,name in ((T,'MegaIsland_Tunnel'),(S,'MegaIsland_Sanctum'),(L,'MegaIsland_LedgeRoom')):
     room.write(name)
-print('hidden room: entrance',HIDDEN_ENTRANCE,'ladder',HIDDEN_LADDER)
 print('tunnel: ladder',TUNNEL_LADDER,'exit',TUNNEL_EXIT)
 print('sanctum: entrance',SANCTUM_ENTRANCE,'MEWTWO',MEWTWO,'passage',SANCTUM_EXIT,
       'closed %#x %#x open %#x %#x'%(SANCTUM_CLOSED+SANCTUM_OPEN))
@@ -118,7 +113,7 @@ if os.environ.get('PREVIEW'):
     from PIL import Image
     ts=render.TS('kanto_general','kanto_cave')
     ims=[]
-    for room in (H,T,S,L):
+    for room in (T,S,L):
         im=Image.new('RGB',(room.w*16,room.h*16))
         for y in range(room.h):
             for x in range(room.w): ts.metatile(im,room.g[y][x]&0x3ff,x*16,y*16)

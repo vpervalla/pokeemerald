@@ -178,6 +178,8 @@ static const u8 sDoorAnimTiles_Kanto_Sevii67[] = INCGFX_U8("graphics/door_anims/
 static const u8 sDoorAnimTiles_Kanto_Teleporter[] = INCGFX_U8("graphics/door_anims/kanto/teleporter.png", ".4bpp");
 static const u8 sDoorAnimTiles_Kanto_TrainerTowerLobbyElevator[] = INCGFX_U8("graphics/door_anims/kanto/trainer_tower_lobby_elevator.png", ".4bpp");
 static const u8 sDoorAnimTiles_Kanto_TrainerTowerRoofElevator[] = INCGFX_U8("graphics/door_anims/kanto/trainer_tower_roof_elevator.png", ".4bpp");
+// The hidden door in the Mega Island castle's arena (tools/mega_island/build_hidden_room.py)
+static const u8 sDoorAnimTiles_Kanto_MegaArena[] = INCGFX_U8("graphics/door_anims/kanto/mega_arena.png", ".4bpp");
 
 static const struct DoorAnimFrame sDoorOpenAnimFrames[] =
 {
@@ -318,6 +320,7 @@ static const u8 sDoorAnimPalettes_Kanto_Sevii67[] = {5, 5, 5, 5, 5, 5, 5, 5};
 static const u8 sDoorAnimPalettes_Kanto_Teleporter[] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
 static const u8 sDoorAnimPalettes_Kanto_TrainerTowerLobbyElevator[] = {8, 8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 static const u8 sDoorAnimPalettes_Kanto_TrainerTowerRoofElevator[] = {11, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+static const u8 sDoorAnimPalettes_Kanto_MegaArena[] = {12, 12, 12, 12, 12, 12, 12, 12};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -601,6 +604,13 @@ static const struct DoorAnimFrame *GetLastDoorFrame(const struct DoorAnimFrame *
     return frame - 1;
 }
 
+// The arena's tileset has its own door: its metatile number means other things in the other Kanto tilesets.
+static const struct DoorGraphics sMegaArenaDoorAnimGraphicsTable[] =
+{
+    {METATILE_MegaArena_HiddenDoor, DOOR_SOUND_NORMAL, DOOR_SIZE_1x1, sDoorAnimTiles_Kanto_MegaArena, sDoorAnimPalettes_Kanto_MegaArena},
+    {},
+};
+
 static const struct DoorGraphics *GetDoorGraphics(const struct DoorGraphics *gfx, u16 metatileNum)
 {
     while (gfx->tiles != NULL)
@@ -616,6 +626,8 @@ static const struct DoorGraphics *GetDoorGraphicsTable(void)
 {
     const struct Tileset *primaryTileset = gMapHeader.mapLayout->primaryTileset;
 
+    if (gMapHeader.mapLayout->secondaryTileset == &gTileset_KantoMegaArena)
+        return sMegaArenaDoorAnimGraphicsTable;
     if (primaryTileset == &gTileset_KantoGeneral || primaryTileset == &gTileset_KantoBuilding)
         return sKantoDoorAnimGraphicsTable;
     return sDoorAnimGraphicsTable;

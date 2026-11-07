@@ -7608,10 +7608,10 @@
     {
       "id": "LAYOUT_MEGA_ISLAND_HIDDEN_ROOM",
       "name": "MegaIsland_HiddenRoom_Layout",
-      "width": 9,
-      "height": 8,
-      "primary_tileset": "gTileset_KantoGeneral",
-      "secondary_tileset": "gTileset_KantoCave",
+      "width": 11,
+      "height": 9,
+      "primary_tileset": "gTileset_KantoBuilding",
+      "secondary_tileset": "gTileset_KantoMegaArena",
       "border_filepath": "data/layouts/MegaIsland_HiddenRoom/border.bin",
       "blockdata_filepath": "data/layouts/MegaIsland_HiddenRoom/map.bin"
     },

@@ -2,13 +2,13 @@
   "id": "MAP_MEGA_ISLAND_HIDDEN_ROOM",
   "name": "MegaIsland_HiddenRoom",
   "layout": "LAYOUT_MEGA_ISLAND_HIDDEN_ROOM",
-  "music": "MUS_RG_SEVII_DUNGEON",
+  "music": "MUS_RG_POKE_MANSION",
   "region_map_section": "MAPSEC_MEGA_ISLAND",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
-  "map_type": "MAP_TYPE_UNDERGROUND",
+  "map_type": "MAP_TYPE_INDOOR",
   "allow_cycling": false,
-  "allow_escaping": true,
+  "allow_escaping": false,
   "allow_running": true,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
@@ -17,14 +17,28 @@
   "warp_events": [
     {
       "x": 4,
-      "y": 5,
+      "y": 7,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_ARENA",
       "dest_warp_id": "1"
     },
     {
-      "x": 4,
-      "y": 3,
+      "x": 5,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_ARENA",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 6,
+      "y": 4,
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_TUNNEL",
       "dest_warp_id": "0"

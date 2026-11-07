@@ -15,13 +15,13 @@ MegaIsland_Arena_MapScripts::
 @   final:         PLAYER - LEON
 @ Losing: the player wakes up in bed, it was a dream, and the tournament starts again.
 @ After the story, the tournament is replayed each day with random opponents (see the end of this file).
-@ Once MR. M. has led the player away (state 9), the hidden door behind his red mat stays open.
+@ Once MR. M. has led the player away (state 9), the hidden door behind his red mat stays there.
 MegaIsland_Arena_OnLoad:
-	call_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_EventScript_SetHiddenDoorOpen
+	call_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_EventScript_RevealHiddenDoor
 	end
 
-MegaIsland_Arena_EventScript_SetHiddenDoorOpen::
-	setmetatile 11, 1, METATILE_KantoBuilding_Black, TRUE
+MegaIsland_Arena_EventScript_RevealHiddenDoor::
+	setmetatile 11, 1, METATILE_MegaArena_HiddenDoorTop, TRUE
 	setmetatile 11, 2, METATILE_MegaArena_HiddenDoor, FALSE
 	return
 
@@ -342,8 +342,9 @@ MegaIsland_Arena_Text_TournamentWon:
 
 
 @ After the tournament (state 7) MR. M. doesn't battle the player here, before an audience: still as
-@ the tall gentleman, he asks the player to follow him, a hidden door opens in the wall behind his
-@ red mat, and he goes through (state 9). It leads down to MEWTWO's sanctum (MegaIsland_HiddenRoom,
+@ the tall gentleman, he asks the player to follow him. The arena shakes, a hidden door appears in the
+@ wall behind his red mat, and he goes through it as anyone would: the door opens, he walks in, and it
+@ closes behind him (state 9). It leads down to MEWTWO's sanctum (MegaIsland_HiddenRoom,
 @ MegaIsland_Tunnel, MegaIsland_Sanctum), where he waits as himself.
 MegaIsland_Arena_EventScript_MrM::
 	lock
@@ -360,12 +361,16 @@ MegaIsland_Arena_EventScript_MrM::
 	special ShakeCamera
 	waitstate
 	playse SE_M_STRENGTH
-	call MegaIsland_Arena_EventScript_SetHiddenDoorOpen
+	call MegaIsland_Arena_EventScript_RevealHiddenDoor
 	special DrawWholeMapView
 	waitse
-	delay 20
+	delay 30
+	opendoor 11, 2
+	waitdooranim
 	applymovement LOCALID_ARENA_MR_M, MegaIsland_Arena_Movement_MrMThroughDoor
 	waitmovement 0
+	closedoor 11, 2
+	waitdooranim
 	removeobject LOCALID_ARENA_MR_M
 	setvar VAR_MEGA_STORY_STATE, 9
 	release

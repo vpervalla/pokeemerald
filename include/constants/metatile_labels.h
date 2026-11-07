@@ -787,9 +787,9 @@
 #define METATILE_RSMossdeepGym_Switch_Down     0x239
 #define METATILE_RSMossdeepGym_Switch_Up       0x238
 
-// The Mega Island castle's arena and its hidden caves (tools/mega_island/build_interiors.py, build_caves.py)
-#define METATILE_KantoBuilding_Black           0x008
+// The Mega Island castle's arena and the hidden way to MEWTWO (tools/mega_island/build_hidden_room.py, build_caves.py)
 #define METATILE_MegaArena_HiddenDoor          0x2C5
+#define METATILE_MegaArena_HiddenDoorTop       0x2C6
 #define METATILE_KantoCave_Floor               0x281
 #define METATILE_KantoCave_Boulder             0x282
 #define METATILE_KantoCave_LadderDown          0x285
