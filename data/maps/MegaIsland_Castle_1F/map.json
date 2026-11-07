@@ -56,13 +56,6 @@
   ],
   "warp_events": [
     {
-      "x": 10,
-      "y": 14,
-      "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE",
-      "dest_warp_id": "0"
-    },
-    {
       "x": 11,
       "y": 14,
       "elevation": 3,
@@ -75,13 +68,6 @@
       "elevation": 3,
       "dest_map": "MAP_MEGA_ISLAND_CASTLE_2F",
       "dest_warp_id": "0"
-    },
-    {
-      "x": 12,
-      "y": 14,
-      "elevation": 3,
-      "dest_map": "MAP_MEGA_ISLAND_CASTLE",
-      "dest_warp_id": "1"
     }
   ],
   "coord_events": [],
