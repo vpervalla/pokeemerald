@@ -12,7 +12,7 @@ im=Image.open(REPO+'tools/mega_island/reference/mewtwo_sheet.png').convert('RGB'
 BG=(0,128,128)
 # The first frame of the idle column's rows: down, up, left (boxes inclusive).
 BOXES=((74,22,100,49),(76,52,100,81),(79,85,104,114))
-SCALE=0.75
+SCALE=0.85
 ALPHA=110                      # an averaged pixel less covered than this is left transparent
 cols=[BG]
 for x0,y0,x1,y1 in BOXES:
