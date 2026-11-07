@@ -1,5 +1,5 @@
 # Rocks in the water of the island's route and port, in unbroken lines near the maps' edges, so a
-# surfer can't reach the edges: on the route, across both ends of the river; at the port, down both
+# surfer can't reach the edges (and, at the port, the fences on the shore above the rocks): on the route, across both ends of the river; at the port, down both
 # sides of the sea and across it below the pier (the harbor building closes the line in the middle).
 # FRLG's small grey rock in the sea (kanto_general, 2x2 with its darker water, as in Five Island's
 # harbour), solid at elevation 0. A rock goes only where its four cells are water (or already a rock),
@@ -31,3 +31,22 @@ place('MegaIsland',30,[(1,3),(1,5),(27,3),(27,5)])
 # 15-16 from them to the harbor building (x 12-18).
 place('MegaIsland_Port',30,[(0,11),(0,13),(0,15)]+[(x,15) for x in range(2,12,2)]
                           +[(27,11),(27,13),(27,15)]+[(x,15) for x in range(19,27,2)])
+
+# The port's fences: the 2x2 posts on its two rows of grass, above the two columns of rocks, so the
+# land ends where the sea does; anywhere else on those rows, grass.
+FENCE=(0xea,0xeb,0xf2,0xf3)
+GRASS=(0x008,0x009,0x010)
+FENCES=(0,27)
+p=REPO+'data/layouts/MegaIsland_Port/map.bin'
+d=[v for (v,) in struct.iter_unpack('<H',open(p,'rb').read())]
+moved=0
+for x in range(30):
+    for y in (8,9):
+        m=d[y*30+x]&0x3ff
+        want=FENCE[(y-8)*2+(x-FENCES[0] if x-FENCES[0] in (0,1) else x-FENCES[1])] if any(0<=x-f<2 for f in FENCES) else None
+        if want is not None and m!=want:
+            d[y*30+x]=want|1<<10|3<<12; moved+=1
+        elif want is None and m in FENCE:
+            d[y*30+x]=GRASS[(x*7+y*3)%3]|3<<12; moved+=1
+open(p,'wb').write(b''.join(struct.pack('<H',v) for v in d))
+print('MegaIsland_Port : %d fence cells changed'%moved)

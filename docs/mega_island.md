@@ -64,7 +64,9 @@ port (from either side of the pier) can be surfed and fished, the same table day
 (`gMegaIsland`, `gMegaIslandPort`). The water is at elevation 1, as on FRLG's maps.
 FRLG's small grey sea rocks (2x2 with their darker water) in unbroken lines keep surfers off the maps'
 edges: two at each end of the river, and at the port down both sides and across below the pier, up
-to the harbor building (`tools/mega_island/water_rocks.py`, run after `build_route.py`).
+to the harbor building (`tools/mega_island/water_rocks.py`, run after `build_route.py`). The port's
+fences on the shore stand above its columns of rocks, so the grass in front of the gate ends where the
+sea does.
 
 | | |
 |---|---|
