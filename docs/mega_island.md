@@ -59,6 +59,17 @@ and its night table written by `tools/day_night_encounters/apply.py`):
 | 10% | DONPHAN | DONPHAN |
 | 6% / 12% | PINSIR, 6% HERACROSS | PINSIR |
 
+The route's river (from either side of the bridge; the bridge splits it in two) and the sea around the
+port (from either side of the pier) can be surfed and fished, the same table day and night
+(`gMegaIsland`, `gMegaIslandPort`). The water is at elevation 1, as on FRLG's maps.
+
+| | |
+|---|---|
+| Surf, lv 45-50 | TENTACRUEL 61%, SEAKING 30%, SLOWBRO 9% |
+| Old Rod, lv 10-20 | MAGIKARP |
+| Good Rod, lv 35-40 | POLIWHIRL 60%, SEAKING 20%, KINGLER 20% |
+| Super Rod, lv 45-50 | GYARADOS 55%, SEADRA 40%, DRAGONAIR 5% |
+
 ## Getting there
 
 - `SEAGALLOP_MEGA_ISLAND` (11) is a Seagallop destination: `src/seagallop.c` has its

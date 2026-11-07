@@ -12,6 +12,11 @@ W,H=30,58
 WATER,TALL,FLOWER,BUSH,POST=0x12b,0xd,0x4,0x5,0xde
 GRASS=[0x8,0x8,0x9,0x10]
 g=[[None]*W for _ in range(H)]; col=[[0]*W for _ in range(H)]
+# Water is at elevation 1, as on FRLG's maps, so the player surfs it; everything else at 3.
+_ATTR=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/primary/kanto_general/metatile_attributes.bin','rb').read())]
+_ATTR+=[a for (a,) in struct.iter_unpack('<H',open(REPO+'data/tilesets/secondary/kanto_sevii_islands_45/metatile_attributes.bin','rb').read())]
+MB_OCEAN_WATER=21
+def elevation(m): return 1 if _ATTR[m]&0xff==MB_OCEAN_WATER else 3
 def put(x,y,m,c=0):
     if 0<=x<W and 0<=y<H: g[y][x]=m; col[y][x]=c
 # ---- the design: R rock, W water (the river and the sea), = plank bridge, , tall grass, . grass
@@ -161,7 +166,7 @@ LD=REPO+'data/layouts/MegaIsland/'
 os.makedirs(LD,exist_ok=True)
 with open(LD+'map.bin','wb') as f:
     for y in range(H):
-        for x in range(W): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(3<<12)))
+        for x in range(W): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(elevation(g[y][x])<<12)))
 with open(LD+'border.bin','wb') as f:     # trees all around
     f.write(struct.pack('<4H',0x1e|0xc00|0x3000,0x1f|0xc00|0x3000,0x16|0xc00|0x3000,0x17|0xc00|0x3000))
 print('route written',W,H)
@@ -184,11 +189,12 @@ for dy in range(0,7):                              # the harbor building's door 
         v=fd[(13+dy)*24+9+dx][0]
         if dy==0 and (v&0x3ff)==0x123: continue
         put(12+dx,10+dy,v&0x3ff,(v>>10)&3)
+for x in (13,17): col[11][x]=0                     # the water beside the pier: the player surfs from it
 LD=REPO+'data/layouts/MegaIsland_Port/'
 os.makedirs(LD,exist_ok=True)
 with open(LD+'map.bin','wb') as f:
     for y in range(PH):
-        for x in range(PW): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(3<<12)))
+        for x in range(PW): f.write(struct.pack('<H',g[y][x]|(col[y][x]<<10)|(elevation(g[y][x])<<12)))
 with open(LD+'border.bin','wb') as f:
     f.write(struct.pack('<4H',*([WATER|0x3000]*4)))
 print('port written',PW,PH)
