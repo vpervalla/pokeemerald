@@ -62,6 +62,9 @@ and its night table written by `tools/day_night_encounters/apply.py`):
 The route's river (from either side of the bridge; the bridge splits it in two) and the sea around the
 port (from either side of the pier) can be surfed and fished, the same table day and night
 (`gMegaIsland`, `gMegaIslandPort`). The water is at elevation 1, as on FRLG's maps.
+FRLG's 2x2 sea rocks (grey rocks and brown boulders) in unbroken lines keep surfers off the maps'
+edges: two at each end of the river, and at the port down both sides and across below the pier, up
+to the harbor building (`tools/mega_island/water_rocks.py`, run after `build_route.py`).
 
 | | |
 |---|---|

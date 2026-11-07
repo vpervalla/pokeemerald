@@ -198,6 +198,7 @@ with open(LD+'map.bin','wb') as f:
 with open(LD+'border.bin','wb') as f:
     f.write(struct.pack('<4H',*([WATER|0x3000]*4)))
 print('port written',PW,PH)
+# (water_rocks.py then puts the rocks that keep surfers off the edges in both maps.)
 
 # ---- the small cave: the Lost Cave's first room as it is. Its ladder down leads to
 # MegaIsland_LedgeRoom, below the ledge: a dead end from here, and the way back up from MEWTWO's
