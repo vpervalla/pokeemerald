@@ -5,8 +5,8 @@
 
 Run from the pokeemerald root. SHEET is the 594x290 sheet: walking and running (row 1), the bike
 (row 2), surfing (row 3, last three), the field move (row 4), the trainer front pic and the five
-back pic frames. Its sprites are bigger than FRLG's (up to 19x25), so Ethan's overworld frames are
-32x32. The sheet is a JPEG: its white background is taken out, and its colours are brought down to
+back pic frames. Its sprites are bigger than FRLG's (up to 19x25): they are scaled down to the other
+costumes' height (shrink below). Ethan's overworld frames stay 32x32. The sheet is a JPEG: its white background is taken out, and its colours are brought down to
 one 15 colour overworld palette (PAL below), one for the front pic and one for the back pic.
 
 It writes Ethan's overworld sheets (FRLG's layout), his palettes, his trainer front and back pics,
@@ -14,7 +14,7 @@ and draws the VS SEEKER frames of his item sheet (9-11) from his field move. His
 aren't on the sheet: the old ones are kept, in the new palette.
 """
 import sys
-from collections import deque
+from collections import Counter, deque
 import numpy as np
 from PIL import Image
 
@@ -106,9 +106,44 @@ def vs_frame(idx, top, lit, clear_rows, x0=24):
     return out
 
 
+# The sheet's sprites are a fifth taller than the other player costumes' (23 pixels against 19):
+# they are brought down to the same height. Each pixel takes the colour that covers most of its
+# area (the outline wins with a third of it), so the palette is kept and nothing is blurred.
+SCALE = 19 / 23
+def shrink(idx, out_w=32, outline_share=0.34):
+    """Majority-vote downscale of a paletted 32x32 frame to SCALE, feet kept on the same row."""
+    ys,xs=np.where(idx>0); y0,y1,x0,x1=ys.min(),ys.max()+1,xs.min(),xs.max()+1
+    h,w=y1-y0,x1-x0
+    nh,nw=max(1,round(h*SCALE)),max(1,round(w*SCALE))
+    small=np.zeros((nh,nw),int)
+    for ty in range(nh):
+        sy0=y0+ty*h/nh; sy1=y0+(ty+1)*h/nh
+        for tx in range(nw):
+            sx0=x0+tx*w/nw; sx1=x0+(tx+1)*w/nw
+            c=Counter()
+            for sy in range(int(sy0),int(np.ceil(sy1))):
+                wy=min(sy+1,sy1)-max(sy,sy0)
+                for sx in range(int(sx0),int(np.ceil(sx1))):
+                    wx=min(sx+1,sx1)-max(sx,sx0)
+                    c[idx[sy,sx]]+=wy*wx
+            tot=sum(c.values())
+            if c[0]>tot*0.5: v=0
+            elif c[1]>=tot*outline_share: v=1
+            else:
+                c.pop(0,None); v=c.most_common(1)[0][0]
+            small[ty,tx]=v
+    out=np.zeros((32,out_w),int)
+    feet=y1-1
+    oy=feet-nh+1; ox=(out_w-nw)//2 + round(((x0+x1)/2-16)*SCALE) if out_w==32 else (out_w-nw)//2
+    ox=max(0,min(out_w-nw,ox))
+    out[oy:oy+nh,ox:ox+nw]=small
+    return out
+
+
 def main():
     im = np.array(Image.open(sys.argv[1]).convert("RGB")).astype(int)
     frame = lambda r, k: index(*cut(im, 6 + 32 * k, ROW_TOP[r], 32, 32), PAL)
+    small = lambda frames: [shrink(f) for f in frames]
     cat = lambda frames: np.concatenate(frames, axis=1)
 
     normal = [frame(1, k) for k in range(9)]
@@ -121,6 +156,7 @@ def main():
     vs = [vs_frame(item[3], 10, False, range(14, 20)),
           vs_frame(item[4], 6, False, range(9, 16)),
           vs_frame(item[4], 6, True, range(9, 16))]
+    normal, run, surf, bike, item, vs = map(small, (normal, run, surf, bike, item, vs))
     save(cat(normal), PAL, f"{PEOPLE}/normal.png")
     save(cat(surf + run + surf[:2]), PAL, f"{PEOPLE}/surf_run.png")   # surf 0-2, run 3-11
     save(cat(bike), PAL, f"{PEOPLE}/bike.png")

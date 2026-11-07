@@ -13,5 +13,7 @@ Ethan's overworld sprites (walking, running, bike, surfing and field move) and h
 back pics come from an HGSS-style sprite sheet whose artist isn't named on it: add the credit here
 if it's known. `tools/costumes/import_ethan.py` imported them. The sheet was a JPEG, so its colours
 were brought down to 15 per palette and its background taken out, which leaves a few stray pixels.
+Its overworld sprites were also a fifth taller than the other costumes': they are scaled down to the
+same height (19 pixels standing), so some details, the eyes for one, are simplified.
 His VS SEEKER frames were drawn over his field move, and his fishing frames are the old ones in the
 new palette.
