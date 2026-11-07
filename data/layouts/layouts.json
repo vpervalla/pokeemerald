@@ -7604,6 +7604,46 @@
       "secondary_tileset": "gTileset_KantoCave",
       "border_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/border.bin",
       "blockdata_filepath": "data/layouts/ThreeIsland_DunsparceTunnel_DugOut/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_HIDDEN_ROOM",
+      "name": "MegaIsland_HiddenRoom_Layout",
+      "width": 9,
+      "height": 8,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoCave",
+      "border_filepath": "data/layouts/MegaIsland_HiddenRoom/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_HiddenRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_TUNNEL",
+      "name": "MegaIsland_Tunnel_Layout",
+      "width": 7,
+      "height": 26,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoCave",
+      "border_filepath": "data/layouts/MegaIsland_Tunnel/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_Tunnel/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_SANCTUM",
+      "name": "MegaIsland_Sanctum_Layout",
+      "width": 17,
+      "height": 13,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoCave",
+      "border_filepath": "data/layouts/MegaIsland_Sanctum/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_Sanctum/map.bin"
+    },
+    {
+      "id": "LAYOUT_MEGA_ISLAND_LEDGE_ROOM",
+      "name": "MegaIsland_LedgeRoom_Layout",
+      "width": 11,
+      "height": 11,
+      "primary_tileset": "gTileset_KantoGeneral",
+      "secondary_tileset": "gTileset_KantoCave",
+      "border_filepath": "data/layouts/MegaIsland_LedgeRoom/border.bin",
+      "blockdata_filepath": "data/layouts/MegaIsland_LedgeRoom/map.bin"
     }
   ]
 }

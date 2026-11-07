@@ -2020,6 +2020,8 @@
 #define FLAG_RECEIVED_MEGA_RING                     (KANTO_EXTRA_FLAGS_START + 0x1F0)
 #define FLAG_HIDE_VERMILION_APEX_SAILOR             (KANTO_EXTRA_FLAGS_START + 0x1F1)
 #define FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE       (KANTO_EXTRA_FLAGS_START + 0x1F2)
+#define FLAG_MET_MEWTWO_IN_SANCTUM                  (KANTO_EXTRA_FLAGS_START + 0x1EC) // MEWTWO has told its story
+#define FLAG_OPENED_MEWTWO_PASSAGE                  (KANTO_EXTRA_FLAGS_START + 0x1ED) // The way out behind MEWTWO, after the battle
 
 // The lost BULBASAUR of Viridian Forest and its trainer in Vermilion City
 #define FLAG_DEFEATED_VIRIDIAN_BEEDRILL_1           (KANTO_EXTRA_FLAGS_START + 0x1F3)

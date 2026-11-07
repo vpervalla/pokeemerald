@@ -4,7 +4,7 @@ MegaIsland_Castle_1F_MapScripts::
 @ The receptionist registers the player for MR. M.'s tournament, and heals their team between
 @ rounds. VAR_MEGA_STORY_STATE: 2 invited, 3 registered (to sleep in guest room 1), 4 quarterfinal
 @ next, 5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match,
-@ 9 MEWTWO waiting in the island's cave, 10 MEWTWO caught. The matches are in MegaIsland_Arena.
+@ 9 MEWTWO waiting in its sanctum (MegaIsland_Sanctum), 10 MEWTWO caught. The matches are in MegaIsland_Arena.
 @ From state 9 on, a new tournament is held each day (FLAG_DAILY_APEX_TOURNAMENT), against three
 @ opponents drawn at random among the eight other champions (VAR_TOURNAMENT_ROUND and
 @ VAR_TOURNAMENT_OPPONENTS, see RandomizeTournamentOpponents).

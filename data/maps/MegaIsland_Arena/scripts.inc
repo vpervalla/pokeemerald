@@ -1,4 +1,5 @@
 MegaIsland_Arena_MapScripts::
+	map_script MAP_SCRIPT_ON_LOAD, MegaIsland_Arena_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, MegaIsland_Arena_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, MegaIsland_Arena_OnFrame
 	.byte 0
@@ -14,11 +15,20 @@ MegaIsland_Arena_MapScripts::
 @   final:         PLAYER - LEON
 @ Losing: the player wakes up in bed, it was a dream, and the tournament starts again.
 @ After the story, the tournament is replayed each day with random opponents (see the end of this file).
+@ Once MR. M. has led the player away (state 9), the hidden door behind his red mat stays open.
+MegaIsland_Arena_OnLoad:
+	call_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_EventScript_SetHiddenDoorOpen
+	end
+
+MegaIsland_Arena_EventScript_SetHiddenDoorOpen::
+	setmetatile 11, 1, METATILE_KantoBuilding_Black, TRUE
+	setmetatile 11, 2, METATILE_MegaArena_HiddenDoor, FALSE
+	return
+
 MegaIsland_Arena_OnTransition:
 	setvar VAR_TEMP_0, 0
 	setflag FLAG_TEMP_1
 	setflag FLAG_TEMP_2
-	setflag FLAG_TEMP_3
 	call_if_eq VAR_MEGA_STORY_STATE, 7, MegaIsland_Arena_EventScript_ShowMrM
 	goto_if_ge VAR_MEGA_STORY_STATE, 9, MegaIsland_Arena_OnTransitionReplay
 	goto_if_lt VAR_MEGA_STORY_STATE, 4, MegaIsland_Arena_OnTransitionEnd
@@ -331,33 +341,42 @@ MegaIsland_Arena_Text_TournamentWon:
 	.string "there is something I must show you.$"
 
 
-@ After the tournament (state 7) MR. M. reveals that he is MEWTWO, and doesn't battle the player here:
-@ he leaves for the cave on the island's route and waits for them there (state 9, see MegaIsland_Cave).
+@ After the tournament (state 7) MR. M. doesn't battle the player here, before an audience: still as
+@ the tall gentleman, he asks the player to follow him, a hidden door opens in the wall behind his
+@ red mat, and he goes through (state 9). It leads down to MEWTWO's sanctum (MegaIsland_HiddenRoom,
+@ MegaIsland_Tunnel, MegaIsland_Sanctum), where he waits as himself.
 MegaIsland_Arena_EventScript_MrM::
 	lock
 	faceplayer
-	msgbox MegaIsland_Arena_Text_MrMReveal
+	msgbox MegaIsland_Arena_Text_MrMFollowMe
 	closemessage
-	playse SE_M_TELEPORT
-	fadescreen FADE_TO_WHITE
+	applymovement LOCALID_ARENA_MR_M, Common_Movement_FaceUp
+	waitmovement 0
+	delay 20
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 0  @ horizontal pan
+	setvar VAR_0x8006, 6  @ num shakes
+	setvar VAR_0x8007, 4  @ shake delay
+	special ShakeCamera
+	waitstate
+	playse SE_M_STRENGTH
+	call MegaIsland_Arena_EventScript_SetHiddenDoorOpen
+	special DrawWholeMapView
+	waitse
+	delay 20
+	applymovement LOCALID_ARENA_MR_M, MegaIsland_Arena_Movement_MrMThroughDoor
+	waitmovement 0
 	removeobject LOCALID_ARENA_MR_M
-	clearflag FLAG_TEMP_3
-	addobject LOCALID_ARENA_MEWTWO
-	fadescreen FADE_FROM_WHITE
-	playmoncry SPECIES_MEWTWO, CRY_MODE_ENCOUNTER
-	waitmoncry
-	msgbox MegaIsland_Arena_Text_MewtwoInvitesToCave
-	closemessage
-	playse SE_M_TELEPORT
-	fadescreen FADE_TO_WHITE
-	removeobject LOCALID_ARENA_MEWTWO
-	fadescreen FADE_FROM_WHITE
 	setvar VAR_MEGA_STORY_STATE, 9
-	msgbox MegaIsland_Arena_Text_MewtwoVanished
 	release
 	end
 
-MegaIsland_Arena_Text_MrMReveal:
+MegaIsland_Arena_Movement_MrMThroughDoor:
+	walk_up
+	set_invisible
+	step_end
+
+MegaIsland_Arena_Text_MrMFollowMe:
 	.string "MR. M: You came.\p"
 	.string "I have watched every one of your\n"
 	.string "battles, {PLAYER}.\p"
@@ -365,26 +384,9 @@ MegaIsland_Arena_Text_MrMReveal:
 	.string "POKéMON. I did not think that\l"
 	.string "possible for a human.\p"
 	.string "It is time you saw who invited\n"
-	.string "you here.$"
-
-MegaIsland_Arena_Text_MewtwoInvitesToCave:
-	.string "MEWTWO: …Yes. I am MEWTWO.\p"
-	.string "Humans made me. Humans caged me.\n"
-	.string "I broke free, and I took the\l"
-	.string "stones they hoarded.\p"
-	.string "I gathered the strongest trainers\n"
-	.string "to learn what they could do\l"
-	.string "with this power.\p"
-	.string "You surpassed them all.\p"
-	.string "Now I will see if you can surpass\n"
-	.string "me.\p"
-	.string "Not here, before an audience.\p"
-	.string "Come to the cave on this island's\n"
-	.string "road. Come alone.\p"
-	.string "There, I will hold nothing back.$"
-
-MegaIsland_Arena_Text_MewtwoVanished:
-	.string "MEWTWO vanished!$"
+	.string "you here. But not before an\l"
+	.string "audience.\p"
+	.string "Follow me. Come alone.$"
 
 @ Added: the opponents whose POKéMON can be caught in KANTO give the MEGA STONE of one of them, once:
 @ LEON after the story's final, ALDER and the rival the first time they're beaten in the daily
@@ -470,6 +472,9 @@ MegaIsland_Arena_Text_StoneToPC:
 @ STONE to win (the tournament ones are given once), and a lost match just ends the day's tournament.
 MegaIsland_Arena_OnTransitionReplay:
 	goto_if_eq VAR_TOURNAMENT_ROUND, 0, MegaIsland_Arena_OnTransitionEnd
+	@ No match when coming back through the hidden door, at the north end: only from the stairs.
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_lt VAR_0x8005, 10, MegaIsland_Arena_OnTransitionEnd
 	clearflag FLAG_TEMP_1
 	setvar VAR_TEMP_0, 1
 	specialvar VAR_RESULT, GetTournamentOpponent

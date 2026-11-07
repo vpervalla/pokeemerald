@@ -865,7 +865,11 @@
     "MegaIsland_Port",
     "MegaIsland_Gate",
     "MegaIsland_RestHouse",
-    "MegaIsland_Cave"
+    "MegaIsland_Cave",
+    "MegaIsland_HiddenRoom",
+    "MegaIsland_Tunnel",
+    "MegaIsland_Sanctum",
+    "MegaIsland_LedgeRoom"
   ],
   "gMapGroup_KantoTownsAndRoutes": [
     "PalletTown",

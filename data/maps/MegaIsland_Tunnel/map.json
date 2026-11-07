@@ -1,0 +1,35 @@
+{
+  "id": "MAP_MEGA_ISLAND_TUNNEL",
+  "name": "MegaIsland_Tunnel",
+  "layout": "LAYOUT_MEGA_ISLAND_TUNNEL",
+  "music": "MUS_RG_SEVII_DUNGEON",
+  "region_map_section": "MAPSEC_MEGA_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": false,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 2,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_HIDDEN_ROOM",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 3,
+      "y": 23,
+      "elevation": 3,
+      "dest_map": "MAP_MEGA_ISLAND_SANCTUM",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

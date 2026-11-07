@@ -18,7 +18,7 @@ import sys, os, struct
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import render, tilesetgen
 REPO=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..')+'/'
-MB_NORMAL,MB_EAST_ARROW_WARP,MB_WEST_ARROW_WARP,MB_SOUTH_ARROW_WARP,MB_COUNTER=0,98,99,101,128
+MB_NORMAL,MB_NON_ANIMATED_DOOR,MB_EAST_ARROW_WARP,MB_WEST_ARROW_WARP,MB_SOUTH_ARROW_WARP,MB_COUNTER=0,96,98,99,101,128
 NUM_PRIMARY_TILES=NUM_PRIMARY_METATILES=640
 
 # ---- the source tilesets ----
@@ -262,6 +262,11 @@ MAPS=((hall,'MegaIsland_Castle_1F'),(GF,'MegaIsland_Castle_2F'),(GR,'MegaIsland_
 for maps,ts in ((MAPS[:3],'kanto_mega_hall'),(MAPS[3:],'kanto_mega_arena')):
     T=Tileset()
     grids=[[[T.metatile(R.cell[y][x],R.beh[y][x]) for x in range(R.w)] for y in range(R.h)] for R,_ in maps]
+    if ts=='kanto_mega_arena':
+        # The hidden door behind MR. M.'s mat, once it's open (MegaIsland_Arena's scripts): the
+        # black edge in the wall's base, entered from the south, under the black edge itself
+        # (kanto_building's, primary) in the wall. Last, so it's METATILE_MegaArena_HiddenDoor.
+        print('hidden door: metatile %#x'%T.metatile(mt(PRIM,BLACK),MB_NON_ANIMATED_DOOR))
     T.write(REPO+'data/tilesets/secondary/%s/'%ts)
     for (R,name),g in zip(maps,grids):
         tilesetgen.write_layout(REPO+'data/layouts/%s/'%name,g,R.coll,(BLACK|0xc00|0x3000,)*4)
