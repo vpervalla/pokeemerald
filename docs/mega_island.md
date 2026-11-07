@@ -47,7 +47,17 @@ other Kanto tilesets. The way down to MEWTWO and back out, all both ways except 
     sanctum, east passage (14,6) -> ledge room, west opening (2,3); the ledge (row 5)
     ledge room, ladder up (6,7) -> the island's cave, ladder down (5,5)
 
-The route has tall grass but no wild encounter table yet, so it has no encounters.
+Wild POKéMON in the route's tall grass, lv 45-50 (`gMegaIsland` in `src/data/wild_encounters.json`,
+and its night table written by `tools/day_night_encounters/apply.py`):
+
+| | Day (6-17) | Night (17-6) |
+|---|---|---|
+| 24% | DODRIO | NOCTOWL |
+| 24% | TAUROS | GOLBAT |
+| 20% | ARBOK | ARIADOS |
+| 10% | RHYDON | RHYDON |
+| 10% | DONPHAN | DONPHAN |
+| 6% / 12% | PINSIR, 6% HERACROSS | PINSIR |
 
 ## Getting there
 

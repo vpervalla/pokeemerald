@@ -83,6 +83,11 @@ TABLES = [
     ('MAP_ROUTE121', NIGHT, 'land_mons', [([8], 'WINGULL', 'SHUPPET'), ([9], 'WINGULL', 'ODDISH')]),
     ('MAP_ROUTE123', NIGHT, 'land_mons', [([8], 'WINGULL', 'SHUPPET'), ([9], 'WINGULL', 'ODDISH')]),
     ('MAP_MT_PYRE_EXTERIOR', NIGHT, 'land_mons', [([8, 9], 'WINGULL', 'SHUPPET')]),
+
+    # Mega Island's route (its own table is the day's: DODRIO, TAUROS, ARBOK, RHYDON, DONPHAN,
+    # PINSIR, HERACROSS, lv 45-50)
+    ('MAP_MEGA_ISLAND', NIGHT, 'land_mons', [('DODRIO', 'NOCTOWL'), ('TAUROS', 'GOLBAT'), ('ARBOK', 'ARIADOS'),
+                                             ('HERACROSS', 'PINSIR')]),
 ]
 
 

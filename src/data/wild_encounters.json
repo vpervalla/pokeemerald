@@ -20098,6 +20098,145 @@
           }
         },
         {
+          "map": "MAP_MEGA_ISLAND",
+          "base_label": "gMegaIsland",
+          "land_mons": {
+            "encounter_rate": 21,
+            "mons": [
+              {
+                "min_level": 45,
+                "max_level": 48,
+                "species": "SPECIES_DODRIO"
+              },
+              {
+                "min_level": 45,
+                "max_level": 48,
+                "species": "SPECIES_TAUROS"
+              },
+              {
+                "min_level": 45,
+                "max_level": 47,
+                "species": "SPECIES_ARBOK"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_RHYDON"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_DONPHAN"
+              },
+              {
+                "min_level": 47,
+                "max_level": 49,
+                "species": "SPECIES_ARBOK"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_HERACROSS"
+              },
+              {
+                "min_level": 48,
+                "max_level": 50,
+                "species": "SPECIES_DODRIO"
+              },
+              {
+                "min_level": 48,
+                "max_level": 50,
+                "species": "SPECIES_TAUROS"
+              },
+              {
+                "min_level": 50,
+                "max_level": 50,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 50,
+                "max_level": 50,
+                "species": "SPECIES_HERACROSS"
+              }
+            ]
+          }
+        },
+        {
+          "map": "MAP_MEGA_ISLAND",
+          "base_label": "gMegaIsland_Night",
+          "time": "WILD_TIME_NIGHT",
+          "land_mons": {
+            "encounter_rate": 21,
+            "mons": [
+              {
+                "min_level": 45,
+                "max_level": 48,
+                "species": "SPECIES_NOCTOWL"
+              },
+              {
+                "min_level": 45,
+                "max_level": 48,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 45,
+                "max_level": 47,
+                "species": "SPECIES_ARIADOS"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_RHYDON"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_DONPHAN"
+              },
+              {
+                "min_level": 47,
+                "max_level": 49,
+                "species": "SPECIES_ARIADOS"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 46,
+                "max_level": 48,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 48,
+                "max_level": 50,
+                "species": "SPECIES_NOCTOWL"
+              },
+              {
+                "min_level": 48,
+                "max_level": 50,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 50,
+                "max_level": 50,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 50,
+                "max_level": 50,
+                "species": "SPECIES_PINSIR"
+              }
+            ]
+          }
+        },
+        {
           "map": "MAP_SIX_ISLAND_OUTCAST_ISLAND",
           "base_label": "gSixIslandOutcastIsland",
           "water_mons": {

@@ -160,6 +160,7 @@ All on the land. Slot numbers are in `apply.py`.
 | Three Isle Berry Forest | | PIDGEY → HOOTHOOT, PIDGEOTTO → NOCTOWL |
 | Five Isle Meadow | | PIDGEY and SENTRET → HOOTHOOT, PIDGEOTTO → NOCTOWL |
 | Six Isle Water Path | one SENTRET slot → LEDYBA | SENTRET → SPINARAK |
+| Mega Island (its own table is the day's) | | DODRIO → NOCTOWL, TAUROS → GOLBAT, ARBOK → ARIADOS, HERACROSS → PINSIR |
 
 NOCTOWL, wild nowhere before, can be caught at night on Routes 13-15, in the Berry Forest and the
 Five Isle Meadow.
