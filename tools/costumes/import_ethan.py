@@ -92,16 +92,21 @@ def write_pal(path, colours):
 
 
 def vs_frame(idx, lit):
-    """A field move frame (scaled) with FRLG's VS SEEKER in place of the POKé BALL held up."""
+    """A field move frame (scaled) with FRLG's VS SEEKER in place of the POKé BALL held up.
+
+    The POKé BALL is right of the raised hand: the VS SEEKER takes its place, its bottom on the
+    POKé BALL's, so the hand (left of it) holds it as Red does. Only the POKé BALL's rows are
+    cleared, and never the hand's skin."""
     from vs_seeker_frames import DEVICE_OFF, DEVICE_ON
     out = idx.copy()
-    ys, xs = np.where(np.isin(out, (5, 6, 7, 13)) & (np.arange(32)[None, :] >= 22) & (np.arange(32)[:, None] <= 22))
+    cols, rows = np.arange(32)[None, :], np.arange(32)[:, None]
+    ys, xs = np.where(np.isin(out, (5, 6, 7, 13)) & (cols >= 23) & (rows <= 22))
     y0, y1, x0 = ys.min(), ys.max(), xs.min()
-    for y in range(y0, y1 + 1):            # the POKé BALL (right of the hand)
+    for y in range(y0, y1 + 1):
         for x in range(x0, 32):
             if out[y, x] not in (10, 11):
                 out[y, x] = 0
-    top = max(0, (y0 + y1) // 2 - 3)
+    top = y1 - 5
     for dy, row in enumerate(DEVICE_ON if lit else DEVICE_OFF):
         for dx, ch in enumerate(row):
             if ch != ".":
