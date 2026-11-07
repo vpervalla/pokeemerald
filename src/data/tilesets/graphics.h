@@ -3159,6 +3159,28 @@ const u16 gTilesetPalettes_KantoMegaArena[][16] =
 	INCBIN_U16("data/tilesets/secondary/kanto_mega_arena/palettes/15.gbapal"),
 };
 
+const u32 gTilesetTiles_KantoMegaSanctum[] = INCBIN_U32("data/tilesets/secondary/kanto_mega_sanctum/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_KantoMegaSanctum[][16] =
+{
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/00.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/01.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/02.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/03.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/04.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/05.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/06.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/07.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/08.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/09.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/10.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/11.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/12.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/13.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/14.gbapal"),
+	INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/palettes/15.gbapal"),
+};
+
 const u32 gTilesetTiles_KantoMegaHall[] = INCBIN_U32("data/tilesets/secondary/kanto_mega_hall/tiles.4bpp.lz");
 
 const u16 gTilesetPalettes_KantoMegaHall[][16] =

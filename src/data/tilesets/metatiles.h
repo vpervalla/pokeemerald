@@ -422,5 +422,8 @@ const u16 gMetatileAttributes_KantoMegaCastle[] = INCBIN_U16("data/tilesets/seco
 const u16 gMetatiles_KantoMegaArena[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_arena/metatiles.bin");
 const u16 gMetatileAttributes_KantoMegaArena[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_arena/metatile_attributes.bin");
 
+const u16 gMetatiles_KantoMegaSanctum[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/metatiles.bin");
+const u16 gMetatileAttributes_KantoMegaSanctum[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_sanctum/metatile_attributes.bin");
+
 const u16 gMetatiles_KantoMegaHall[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_hall/metatiles.bin");
 const u16 gMetatileAttributes_KantoMegaHall[] = INCBIN_U16("data/tilesets/secondary/kanto_mega_hall/metatile_attributes.bin");

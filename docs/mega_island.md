@@ -24,7 +24,7 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall in the mansion's style with four windows. MR. M. stands on a red mat between two Mewtwo statues with their eyes lit, at the north end. The battlefield is Agatha's (the Elite Four's lilac floor with white lines and a Poké Ball in the middle), lengthened. Rows of chairs for the spectators down both sides, pillars in the corners, plants, and the way down to the guest floor (a red mat and a door mat) in the middle of the south wall. Behind MR. M.'s mat, a hidden door in the base of the north wall (11,2), there from state 9. Music `MUS_RG_TRAINER_TOWER`. |
 | `MAP_MEGA_ISLAND_HIDDEN_ROOM` | `LAYOUT_MEGA_ISLAND_HIDDEN_ROOM`, 11x9, `kanto_building` + `kanto_mega_arena` | Behind the arena's hidden door: a small room of the castle in the mansion's style, with two Mewtwo statues with their eyes lit, plants, the way back to the arena (a red mat and a door mat) in the middle of the south wall, and on the floor the small stairwell going down of FRLG's underground path entrances, entered from the east. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_TUNNEL` | `LAYOUT_MEGA_ISLAND_TUNNEL`, 7x26, `kanto_general` + `kanto_cave` | A tunnel going south, from the ladder up at its north end to the opening in its south end. Music `MUS_RG_SEVII_DUNGEON`, as the two below. |
-| `MAP_MEGA_ISLAND_SANCTUM` | `LAYOUT_MEGA_ISLAND_SANCTUM`, 17x13, the same | The big cave where MEWTWO waits, in front of its east wall, behind a ring drawn on the floor. In through the north door; after the battle, a passage opens in the east wall behind MEWTWO. |
+| `MAP_MEGA_ISLAND_SANCTUM` | `LAYOUT_MEGA_ISLAND_SANCTUM`, 17x13, `kanto_general` + `kanto_mega_sanctum` (`kanto_cave` with a glowing rock) | The big cave where MEWTWO waits, in front of its east wall, behind a ring drawn on the floor. Its rocks glow purple, a light that pulses (`InitTilesetAnim_KantoMegaSanctum`). In through the north door; after the battle, a passage opens in the east wall behind MEWTWO. |
 | `MAP_MEGA_ISLAND_LEDGE_ROOM` | `LAYOUT_MEGA_ISLAND_LEDGE_ROOM`, 11x11, the same | Past the passage, in from the west: a ledge across the room, which can only be jumped down from the north, and below it a ladder up to the island's cave on the route. |
 
 The castle door's two tiles (`MB_NON_ANIMATED_DOOR`) lead into the entrance hall, whose
@@ -351,7 +351,10 @@ that already holds the same colours, its own slot if it's free, or the first fre
 - `build_caves.py`: writes the three cave layouts on the way to MEWTWO and back out (tunnel,
   sanctum, ledge room) from the Lost Cave's pieces: its two-layer rock walls, the openings in
   the south, north and side walls, ladders, boulders and a ledge. Its constants are the coordinates the
-  maps' events and scripts use. `PREVIEW=out.png` renders the three maps.
+  maps' events and scripts use. It also writes the sanctum's tileset, `kanto_mega_sanctum`: a copy of
+  `kanto_cave` with a glowing rock, the boulder with a purple rim, light and halo in three purples put in
+  its palette's unused colours, and its three frames of animation (`anim/glow`), shown dim, brighter,
+  brightest, brighter by `src/tileset_anims.c`. `PREVIEW=out.png` renders the three maps.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
 Run `build_castle.py`, `build_interiors.py` (then `build_hidden_room.py`), `build_route.py` and `build_caves.py` after changing

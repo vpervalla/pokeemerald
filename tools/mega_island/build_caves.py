@@ -10,6 +10,9 @@
 #   MegaIsland_LedgeRoom    past the passage: a ledge that can only be jumped down from the north,
 #                           and a ladder up to the island's cave (MegaIsland_Cave): from there, the
 #                           room below the ledge is a dead end
+# The sanctum has a tileset of its own, kanto_mega_sanctum: kanto_cave with a glowing rock, a purple
+# light around the boulder that pulses (three frames of animation, src/tileset_anims.c), in three
+# purples put in the rock's palette's free colours.
 # The coordinates the map events and scripts use are the constants below. PREVIEW=out.png renders
 # the three maps side by side.
 import struct, os
@@ -67,7 +70,7 @@ class Room:
     def ledge(s,y):
         # A ledge across the room, wall to wall, jumped down from the north only.
         for x in range(2,s.w-2): s.wall(x,y,(LEDGE_LEFT if x==2 else LEDGE)|3<<12)
-    def rock(s,x,y): s.wall(x,y,ROCK)
+    def rock(s,x,y,m=ROCK): s.wall(x,y,m)
     def write(s,name):
         d=REPO+'data/layouts/%s/'%name
         os.makedirs(d,exist_ok=True)
@@ -89,7 +92,72 @@ MEWTWO=(13,6)
 SANCTUM_EXIT=(14,6)                          # the passage that opens behind MEWTWO (see below)
 for j,r in enumerate(CIRCLE):                # the ring on the floor, before MEWTWO
     for i,m in enumerate(r): S.floor(9+i,5+j,m)
-for p in ((3,9),(7,3),(11,10),(14,3),(2,5),(13,9)): S.rock(*p)
+# ---- the sanctum's tileset: kanto_cave and the glowing rock ----
+def build_sanctum_tileset():
+    import render
+    from PIL import Image
+    SRC=REPO+'data/tilesets/secondary/kanto_cave/'; DST=REPO+'data/tilesets/secondary/kanto_mega_sanctum/'
+    tiles=render.load_tiles(SRC)
+    meta=list(struct.iter_unpack('<8H',open(SRC+'metatiles.bin','rb').read()))
+    attr=[a for (a,) in struct.iter_unpack('<H',open(SRC+'metatile_attributes.bin','rb').read())]
+    pals=[render.load_pal(SRC+'palettes/%02d.pal'%p) for p in range(16)]
+    rock=meta[ROCK-640]
+    PAL=rock[4]>>12
+    def layer(ents):
+        g=[[0]*16 for _ in range(16)]
+        for i,e in enumerate(ents):
+            t=tiles[(e&0x3ff)-640]; hf=e>>10&1; vf=e>>11&1
+            for y in range(8):
+                for x in range(8): g[(i>>1)*8+y][(i&1)*8+x]=t[7-y if vf else y][7-x if hf else x]
+        return g
+    stone=layer(rock[4:])
+    # The purples go in the colours the rock's palette leaves unused (magenta).
+    free=[i for i,c in enumerate(pals[PAL]) if c==(255,0,255)]
+    DARK,MID,BRIGHT=free[:3]
+    pals[PAL][DARK],pals[PAL][MID],pals[PAL][BRIGHT]=(112,56,160),(176,96,232),(238,190,255)
+    solid=lambda x,y: 0<=x<16 and 0<=y<16 and stone[y][x]!=0
+    near=lambda x,y: [(x+dx,y+dy) for dx,dy in ((1,0),(-1,0),(0,1),(0,-1))]
+    SHADOW=13                                          # its shadow on the floor, from this row down
+    def frame(level):
+        # 0: a dark purple rim; 1: brighter, the light catching its top, a halo around it;
+        # 2: brightest.
+        g=[r[:] for r in stone]
+        for y in range(SHADOW):
+            for x in range(16):
+                if solid(x,y):
+                    if any(not solid(a,b) for a,b in near(x,y)): g[y][x]=(DARK,MID,MID)[level]
+                    elif stone[y][x]==9 and level: g[y][x]=(MID,BRIGHT)[level-1]
+                    elif stone[y][x]==0xa and level==2: g[y][x]=MID
+                elif level and any(solid(a,b) for a,b in near(x,y)):
+                    g[y][x]=DARK if level==1 else (BRIGHT if (x+y)%2 else MID)
+        return g
+    frames=[frame(l) for l in (0,1,2)]
+    split=lambda g: [[g[ty*8+y][tx*8:tx*8+8] for y in range(8)] for ty in (0,1) for tx in (0,1)]
+    first=len(tiles); tiles+=split(frames[0])
+    glow=640+len(meta)
+    meta.append(rock[:4]+tuple((640+first+i)|PAL<<12 for i in range(4))); attr.append(attr[ROCK-640])
+    os.makedirs(DST+'palettes',exist_ok=True); os.makedirs(DST+'anim/glow',exist_ok=True)
+    src=Image.open(SRC+'tiles.png')
+    im=Image.new('P',(128,(len(tiles)+15)//16*8),0); im.putpalette(src.getpalette())
+    for i,t in enumerate(tiles):
+        for y in range(8):
+            for x in range(8): im.putpixel(((i%16)*8+x,(i//16)*8+y),t[y][x])
+    im.save(DST+'tiles.png')
+    for p in range(16):
+        with open(DST+'palettes/%02d.pal'%p,'w',newline='\r\n') as f:
+            f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in pals[p]))
+    open(DST+'metatiles.bin','wb').write(b''.join(struct.pack('<8H',*e) for e in meta))
+    open(DST+'metatile_attributes.bin','wb').write(b''.join(struct.pack('<H',a) for a in attr))
+    for f,g in enumerate(frames):
+        fi=Image.new('P',(16,16)); fi.putpalette([v for c in pals[PAL] for v in c])
+        for y in range(16):
+            for x in range(16): fi.putpixel((x,y),g[y][x])
+        fi.save(DST+'anim/glow/%d.png'%f)
+    print('kanto_mega_sanctum: %d tiles (the glowing rock\'s at %d), glowing rock metatile %#x'%(len(tiles),first,glow))
+    return glow,pals
+GLOW_ROCK,SANCTUM_PALS=build_sanctum_tileset()
+assert GLOW_ROCK==0x321
+for p in ((3,9),(7,3),(11,10),(14,3),(2,5),(13,9)): S.rock(*p,GLOW_ROCK)
 # The passage, closed and open: the floor cell in front of the east wall and the wall cell.
 SANCTUM_CLOSED=(FLOOR,0x290)
 SANCTUM_OPEN=(EAST_EXIT_WARP,EAST_EXIT)
@@ -111,9 +179,9 @@ print('ledge room: entrance',LEDGE_ENTRANCE,'ladder',LEDGE_LADDER)
 if os.environ.get('PREVIEW'):
     import render
     from PIL import Image
-    ts=render.TS('kanto_general','kanto_cave')
     ims=[]
     for room in (T,S,L):
+        ts=render.TS('kanto_general','kanto_mega_sanctum' if room is S else 'kanto_cave')
         im=Image.new('RGB',(room.w*16,room.h*16))
         for y in range(room.h):
             for x in range(room.w): ts.metatile(im,room.g[y][x]&0x3ff,x*16,y*16)

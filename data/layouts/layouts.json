@@ -7631,7 +7631,7 @@
       "width": 17,
       "height": 13,
       "primary_tileset": "gTileset_KantoGeneral",
-      "secondary_tileset": "gTileset_KantoCave",
+      "secondary_tileset": "gTileset_KantoMegaSanctum",
       "border_filepath": "data/layouts/MegaIsland_Sanctum/border.bin",
       "blockdata_filepath": "data/layouts/MegaIsland_Sanctum/map.bin"
     },

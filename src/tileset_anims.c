@@ -1281,6 +1281,18 @@ static const u16 *const sTilesetAnims_KantoMtEmber_Steam[] = {
     sTilesetAnims_KantoMtEmber_Steam_Frame3
 };
 
+// The glowing rocks in MEWTWO's sanctum on Mega Island (tools/mega_island/build_caves.py)
+static const u16 sTilesetAnims_KantoMegaSanctum_Glow_Frame0[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/glow/0.png", ".4bpp");
+static const u16 sTilesetAnims_KantoMegaSanctum_Glow_Frame1[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/glow/1.png", ".4bpp");
+static const u16 sTilesetAnims_KantoMegaSanctum_Glow_Frame2[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/glow/2.png", ".4bpp");
+
+static const u16 *const sTilesetAnims_KantoMegaSanctum_Glow[] = {
+    sTilesetAnims_KantoMegaSanctum_Glow_Frame0,
+    sTilesetAnims_KantoMegaSanctum_Glow_Frame1,
+    sTilesetAnims_KantoMegaSanctum_Glow_Frame2,
+    sTilesetAnims_KantoMegaSanctum_Glow_Frame1
+};
+
 static const u16 sTilesetAnims_KantoVermilionGym_MotorizedDoor_Frame0[] = INCGFX_U16("data/tilesets/secondary/kanto_vermilion_gym/anim/motorizeddoor/0.png", ".4bpp");
 static const u16 sTilesetAnims_KantoVermilionGym_MotorizedDoor_Frame1[] = INCGFX_U16("data/tilesets/secondary/kanto_vermilion_gym/anim/motorizeddoor/1.png", ".4bpp");
 
@@ -1384,6 +1396,26 @@ void InitTilesetAnim_KantoMtEmber(void)
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 256;
     sSecondaryTilesetAnimCallback = TilesetAnim_KantoMtEmber;
+}
+
+// The glowing rock's four tiles, after kanto_cave's 256: dim, brighter, brightest, brighter, each
+// for 14 frames.
+static void QueueAnimTiles_KantoMegaSanctum_Glow(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_KantoMegaSanctum_Glow[timer % ARRAY_COUNT(sTilesetAnims_KantoMegaSanctum_Glow)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(KANTO_NUM_TILES_IN_PRIMARY + 256)), 4 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_KantoMegaSanctum(u16 timer)
+{
+    if (timer % 14 == 0)
+        QueueAnimTiles_KantoMegaSanctum_Glow(timer / 14);
+}
+
+void InitTilesetAnim_KantoMegaSanctum(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 14 * 4;
+    sSecondaryTilesetAnimCallback = TilesetAnim_KantoMegaSanctum;
 }
 
 static void QueueAnimTiles_KantoVermilionGym_MotorizedDoor(u16 timer)

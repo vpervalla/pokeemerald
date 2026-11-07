@@ -35,6 +35,7 @@ void InitTilesetAnim_KantoGeneral(void);
 void InitTilesetAnim_KantoCeladonCity(void);
 void InitTilesetAnim_KantoSilphCo(void);
 void InitTilesetAnim_KantoMtEmber(void);
+void InitTilesetAnim_KantoMegaSanctum(void);
 void InitTilesetAnim_KantoVermilionGym(void);
 void InitTilesetAnim_KantoCeladonGym(void);
 

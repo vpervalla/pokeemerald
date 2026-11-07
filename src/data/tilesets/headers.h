@@ -1603,6 +1603,17 @@ const struct Tileset gTileset_KantoMegaArena =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_KantoMegaSanctum =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_KantoMegaSanctum,
+    .palettes = gTilesetPalettes_KantoMegaSanctum,
+    .metatiles = gMetatiles_KantoMegaSanctum,
+    .metatileAttributes = gMetatileAttributes_KantoMegaSanctum,
+    .callback = InitTilesetAnim_KantoMegaSanctum,
+};
+
 const struct Tileset gTileset_KantoMegaHall =
 {
     .isCompressed = TRUE,
