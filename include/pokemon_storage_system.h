@@ -54,6 +54,7 @@ struct PokemonStorage
     /*0x8510*/ struct HoennStolenTeam hoennStolenTeam;
     u8 kantoRematchFlags[KANTO_REMATCH_FLAGS_COUNT / 8];    // FlagGet(KANTO_REMATCH_FLAGS_START + n)
     struct VsSeekerSave vsSeeker;
+    struct DaycareMon route5DayCareMon;                    // the ROUTE 5 DAY CARE's POKéMON (FRLG)
 };
 
 extern struct PokemonStorage *gPokemonStoragePtr;

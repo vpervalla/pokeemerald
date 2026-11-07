@@ -930,6 +930,9 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 
 bool8 ShouldEggHatch(void)
 {
+    // The ROUTE 5 DAY CARE's POKéMON grows with the player's steps too
+    if (GetBoxMonData(&gPokemonStoragePtr->route5DayCareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
+        gPokemonStoragePtr->route5DayCareMon.steps++;
     return TryProduceOrHatchEgg(&gSaveBlock1Ptr->daycare);
 }
 
@@ -1295,4 +1298,33 @@ void ChooseSendDaycareMon(void)
 {
     ChooseMonForDaycare();
     gMain.savedCallback = CB2_ReturnToField;
+}
+
+// FRLG's ROUTE 5 DAY CARE: one POKéMON, raised apart from the DAY CARE couple's two (no eggs).
+// It is kept in PokemonStorage.route5DayCareMon.
+
+void PutMonInRoute5Daycare(void)
+{
+    StorePokemonInDaycare(&gPlayerParty[GetCursorSelectionMonId()], &gPokemonStoragePtr->route5DayCareMon);
+}
+
+// gSpecialVar_0x8005: the cost, also in gStringVar2 (and the POKéMON's nickname in gStringVar1)
+void GetCostToWithdrawRoute5DaycareMon(void)
+{
+    gSpecialVar_0x8005 = PrepareDaycareCostStringForSelectedMon(&gPokemonStoragePtr->route5DayCareMon);
+}
+
+bool8 IsThereMonInRoute5Daycare(void)
+{
+    return GetBoxMonData(&gPokemonStoragePtr->route5DayCareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE;
+}
+
+u8 GetNumLevelsGainedForRoute5DaycareMon(void)
+{
+    return GetNumLevelsGainedForDaycareMon(&gPokemonStoragePtr->route5DayCareMon);
+}
+
+u16 TakePokemonFromRoute5Daycare(void)
+{
+    return TakeSelectedPokemonFromDaycare(&gPokemonStoragePtr->route5DayCareMon);
 }
