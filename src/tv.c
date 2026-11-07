@@ -3398,6 +3398,13 @@ u8 CheckForPlayersHouseNews(void)
 
 void GetMomOrDadStringForTVMessage(void)
 {
+    // Kanto port: the player has no DAD in Kanto, so Kanto TVs always refer to their MOM.
+    if (!gMapHeader.mapLayout->primaryTileset->isHoennLayout)
+    {
+        StringCopy(gStringVar1, gText_Mom);
+        return;
+    }
+
     // If the player is checking the TV in their house it will only refer to their Mom.
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F))
     {
