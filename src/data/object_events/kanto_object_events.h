@@ -877,16 +877,17 @@ static const struct SpriteFrameImage sPicTable_KantoBirthIslandStone[] = {
     overworld_frame(gObjectEventPic_KantoBirthIslandStone, 4, 4, 0),
 };
 
+// Facing down (and up), and facing left (its mirror image facing right), for MEWTWO's sanctum.
 static const struct SpriteFrameImage sPicTable_KantoMewtwo[] = {
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
+    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 1),
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
     overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
-    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
-    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
-    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 0),
+    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 1),
+    overworld_frame(gObjectEventPic_KantoMewtwo, 2, 2, 1),
 };
 
 static const struct SpriteFrameImage sPicTable_KantoMGDeliveryman[] = {
