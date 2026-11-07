@@ -1120,21 +1120,21 @@ static const union AnimCmd sAnim_VSSeeker[] = {
     ANIMCMD_END,
 };
 
-// Brendan and May (frames 5-7 of their field move sheets)
+// Brendan and May (frames 5-10 of their field move sheets, shown with their VS SEEKER palettes)
 static const union AnimCmd sAnim_VSSeekerBrendanMay[] = {
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(2, 4),
     ANIMCMD_FRAME(5, 4),
     ANIMCMD_FRAME(6, 4),
+    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(8, 4),
+    ANIMCMD_FRAME(9, 4),
     ANIMCMD_LOOP(0),
+    ANIMCMD_FRAME(10, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_LOOP(6),
+    ANIMCMD_FRAME(8, 4),
     ANIMCMD_FRAME(7, 4),
     ANIMCMD_FRAME(6, 4),
-    ANIMCMD_LOOP(6),
     ANIMCMD_FRAME(5, 4),
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(0, 4),
     ANIMCMD_END,
 };
 

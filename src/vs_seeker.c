@@ -324,7 +324,7 @@ static void Task_VsSeeker_PlayerAnim(u8 taskId)
             // On the water the player just beeps it
             if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING))
             {
-                ObjectEventSetGraphicsId(playerObj, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FIELD_MOVE));
+                ObjectEventSetGraphicsId(playerObj, OBJ_EVENT_GFX_PLAYER_VS_SEEKER);
                 StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], ANIM_VS_SEEKER);
                 ObjectEventSetHeldMovement(playerObj, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
             }

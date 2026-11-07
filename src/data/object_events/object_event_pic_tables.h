@@ -94,10 +94,13 @@ static const struct SpriteFrameImage sPicTable_BrendanFieldMove[] = {
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 2),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 3),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 4),
-    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    // The VS SEEKER frames (ANIM_VS_SEEKER, with the *_VS_SEEKER palettes)
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 5),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 6),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 7),
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 8),
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 9),
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 10),
 };
 
 static const struct SpriteFrameImage sPicTable_QuintyPlump[] = {
@@ -1089,10 +1092,13 @@ static const struct SpriteFrameImage sPicTable_MayFieldMove[] = {
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 2),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 3),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 4),
-    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    // The VS SEEKER frames (ANIM_VS_SEEKER, with the *_VS_SEEKER palettes)
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 5),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 6),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 7),
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 8),
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 9),
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 10),
 };
 
 static const struct SpriteFrameImage sPicTable_Cameraman[] = {

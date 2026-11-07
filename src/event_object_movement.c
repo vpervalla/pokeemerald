@@ -487,6 +487,10 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION 0x1127
 #define OBJ_EVENT_PAL_TAG_PLAYER_KRIS             0x1128
 #define OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION  0x1129
+// Brendan's and May's palettes with FRLG's VS SEEKER blues (tools/costumes/vs_seeker_frames.py)
+#define OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER       0x112A
+#define OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER           0x112B
+#define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER  0x112C
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -547,6 +551,9 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_PlayerEthanReflection, OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION},
     {gObjectEventPal_PlayerKris,            OBJ_EVENT_PAL_TAG_PLAYER_KRIS},
     {gObjectEventPal_PlayerKrisReflection,  OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION},
+    {gObjectEventPal_BrendanVsSeeker,       OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER},
+    {gObjectEventPal_MayVsSeeker,           OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER},
+    {gObjectEventPal_PlayerEthanVsSeeker,   OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER},
     KANTO_OBJECT_EVENT_SPRITE_PALETTES
     CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
     STORY_MON_OBJECT_EVENT_SPRITE_PALETTES
@@ -609,6 +616,9 @@ static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,   sReflectionPaletteTags_PlayerRedLeaf},
     {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN,      sReflectionPaletteTags_PlayerEthan},
     {OBJ_EVENT_PAL_TAG_PLAYER_KRIS,       sReflectionPaletteTags_PlayerKris},
+    {OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER, sReflectionPaletteTags_Brendan},
+    {OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER,     sReflectionPaletteTags_May},
+    {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER, sReflectionPaletteTags_PlayerEthan},
     {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
     {OBJ_EVENT_PAL_TAG_NONE,              NULL},
 };
@@ -2015,6 +2025,18 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
 // Red or Leaf, they are drawn with the FRLG sprites instead of Brendan's and May's.
 // FRLG has no sprites for diving, watering berries or decorating, so those keep
 // Brendan's and May's.
+// The player holding up the VS SEEKER (src/vs_seeker.c), in the costume and gender played
+static const struct ObjectEventGraphicsInfo *GetPlayerVsSeekerGraphicsInfo(void)
+{
+    bool32 female = (gSaveBlock2Ptr->playerGender == FEMALE);
+
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        return female ? &gObjectEventGraphicsInfo_LeafPlayerFieldMove : &gObjectEventGraphicsInfo_RedPlayerFieldMove;
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        return female ? &gObjectEventGraphicsInfo_KrisPlayerFieldMove : &gObjectEventGraphicsInfo_EthanVsSeeker;
+    return female ? &gObjectEventGraphicsInfo_MayVsSeeker : &gObjectEventGraphicsInfo_BrendanVsSeeker;
+}
+
 static const struct ObjectEventGraphicsInfo *GetFRLGPlayerGraphicsInfo(u16 graphicsId)
 {
     switch (graphicsId)
@@ -2088,6 +2110,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sMansionRaiderObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_MANSION_RAIDER_START];
     if (graphicsId >= OBJ_EVENT_GFX_SANCTUM_MEWTWO_START && graphicsId < OBJ_EVENT_GFX_SANCTUM_MEWTWO_START + NUM_SANCTUM_MEWTWO_OBJ_EVENT_GFX)
         return sSanctumMewtwoObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_SANCTUM_MEWTWO_START];
+    if (graphicsId == OBJ_EVENT_GFX_PLAYER_VS_SEEKER)
+        return GetPlayerVsSeekerGraphicsInfo();
 
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
