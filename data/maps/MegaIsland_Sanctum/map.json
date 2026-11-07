@@ -16,7 +16,7 @@
   "object_events": [
     {
       "local_id": "LOCALID_SANCTUM_MEWTWO",
-      "graphics_id": "OBJ_EVENT_GFX_KANTO_MEWTWO",
+      "graphics_id": "OBJ_EVENT_GFX_SANCTUM_MEWTWO",
       "x": 13,
       "y": 6,
       "elevation": 3,

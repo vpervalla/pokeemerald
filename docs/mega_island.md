@@ -269,7 +269,9 @@ He goes through it as the player would: it opens, he walks in, and it closes beh
 The door stays there.
 
 It leads to a small room of the castle with a stairwell going down, then a tunnel south to the sanctum
-(`MegaIsland_Sanctum`), where MEWTWO waits in front of the east wall. The first time it's spoken to
+(`MegaIsland_Sanctum`), where MEWTWO waits in front of the east wall, facing west. (It's drawn with
+`OBJ_EVENT_GFX_SANCTUM_MEWTWO`: the idle frames of a Mystery Dungeon style sheet, 32x32, with a palette
+of its own, made by `tools/mega_island/sanctum_mewtwo.py`.) The first time it's spoken to
 (`FLAG_MET_MEWTWO_IN_SANCTUM`), it reveals itself: MR. M. never existed, only its mind made the
 player see him; it tells how it broke free and took the stones, and why it gathered the champions.
 Then it starts a legendary battle at lv 85. MEWTWO holds MEWTWONITE X and Mega Evolves on its first
@@ -357,6 +359,8 @@ that already holds the same colours, its own slot if it's free, or the first fre
   its greys turned into the rock's browns, on the cave's floor) glowing the same way. Their three frames
   of animation (`anim/glow`, `anim/spire`) are shown dim, brighter, brightest, brighter by
   `src/tileset_anims.c`, the spire's 40 tiles in one copy after the rock's 4. `PREVIEW=out.png` renders the three maps.
+- `sanctum_mewtwo.py`: cuts MEWTWO's idle frames (down, up, left) from `reference/mewtwo_sheet.png` into
+  its 32x32 overworld sprite and palette.
 - `render.py`: renders a tileset or a layout to PNG, for previews.
 
 Run `build_castle.py`, `build_interiors.py` (then `build_hidden_room.py`), `build_route.py` and `build_caves.py` after changing

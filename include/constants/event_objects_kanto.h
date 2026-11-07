@@ -191,4 +191,10 @@
 #define OBJ_EVENT_GFX_KANTO_MAGMA_MEMBER_F  (OBJ_EVENT_GFX_MANSION_RAIDER_START + 3)
 #define NUM_MANSION_RAIDER_OBJ_EVENT_GFX 4
 
+// Added for MEWTWO waiting in its sanctum on Mega Island (not generated): its idle frames from a Mystery
+// Dungeon style sheet, 32x32. See src/data/object_events/sanctum_mewtwo_object_events.h.
+#define OBJ_EVENT_GFX_SANCTUM_MEWTWO_START (OBJ_EVENT_GFX_MANSION_RAIDER_START + NUM_MANSION_RAIDER_OBJ_EVENT_GFX)
+#define OBJ_EVENT_GFX_SANCTUM_MEWTWO       (OBJ_EVENT_GFX_SANCTUM_MEWTWO_START + 0)
+#define NUM_SANCTUM_MEWTWO_OBJ_EVENT_GFX 1
+
 #endif // GUARD_CONSTANTS_EVENT_OBJECTS_KANTO_H
