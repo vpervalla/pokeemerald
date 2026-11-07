@@ -75,38 +75,47 @@ Route9_EventScript_ItemBurnHeal::
 	end
 
 Route9_EventScript_AlanRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_ALAN, Route9_Text_AlanRematchIntro, Route9_Text_AlanDefeat
 	msgbox Route9_Text_AlanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_AliciaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_ALICIA, Route9_Text_AliciaRematchIntro, Route9_Text_AliciaDefeat
 	msgbox Route9_Text_AliciaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_BrentRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_BRENT, Route9_Text_BrentRematchIntro, Route9_Text_BrentDefeat
 	msgbox Route9_Text_BrentPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_BriceRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_BRICE, Route9_Text_BriceRematchIntro, Route9_Text_BriceDefeat
 	msgbox Route9_Text_BricePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_CaitlinRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_CAITLIN, Route9_Text_CaitlinRematchIntro, Route9_Text_CaitlinDefeat
 	msgbox Route9_Text_CaitlinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_ChrisRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_CHRIS, Route9_Text_ChrisRematchIntro, Route9_Text_ChrisDefeat
 	msgbox Route9_Text_ChrisPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_ConnerRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_CONNER, Route9_Text_ConnerRematchIntro, Route9_Text_ConnerDefeat
 	msgbox Route9_Text_ConnerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_DrewRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_DREW, Route9_Text_DrewRematchIntro, Route9_Text_DrewDefeat
 	msgbox Route9_Text_DrewPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route9_EventScript_JeremyRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_JEREMY, Route9_Text_JeremyRematchIntro, Route9_Text_JeremyDefeat
 	msgbox Route9_Text_JeremyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -221,3 +230,40 @@ Route9_Text_RouteSign:
     .string "CERULEAN CITY - ROCK TUNNEL$"
 
 @ END KANTO NPCS
+
+Route9_Text_BrentRematchIntro:
+	.string "I got up early every day to train\n"
+	.string "my POKéMON from cocoons!$"
+
+Route9_Text_ConnerRematchIntro:
+	.string "Go win, my super BUG POKéMON!$"
+
+Route9_Text_ChrisRematchIntro:
+	.string "I haven't forgotten you were with\n"
+	.string "those good-looking POKéMON.$"
+
+Route9_Text_DrewRematchIntro:
+	.string "I'm taking ROCK TUNNEL to go to\n"
+	.string "LAVENDER…\p"
+	.string "But I keep getting stopped by\n"
+	.string "everyone along the way…$"
+
+Route9_Text_AliciaRematchIntro:
+	.string "We're to battle again?\n"
+	.string "This time, you're mine!$"
+
+Route9_Text_CaitlinRematchIntro:
+	.string "Don't you dare patronize me today!\n"
+	.string "We're playing for keeps!$"
+
+Route9_Text_AlanRematchIntro:
+	.string "Hahahaha!\n"
+	.string "I'll win this time!$"
+
+Route9_Text_BriceRematchIntro:
+	.string "Hahaha!\n"
+	.string "A little toughie, as always!$"
+
+Route9_Text_JeremyRematchIntro:
+	.string "Bwahaha!\n"
+	.string "Great! I was bored again, eh!$"

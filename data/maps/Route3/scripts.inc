@@ -60,30 +60,37 @@ Route3_EventScript_Ben::
 	end
 
 Route3_EventScript_BenRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_BEN, Route3_Text_BenRematchIntro, Route3_Text_BenDefeat
 	msgbox Route3_Text_BenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_CalvinRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_CALVIN, Route3_Text_CalvinRematchIntro, Route3_Text_CalvinDefeat
 	msgbox Route3_Text_CalvinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_ColtonRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_COLTON, Route3_Text_ColtonRematchIntro, Route3_Text_ColtonDefeat
 	msgbox Route3_Text_ColtonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_GregRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_GREG, Route3_Text_GregRematchIntro, Route3_Text_GregDefeat
 	msgbox Route3_Text_GregPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_JamesRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_JAMES, Route3_Text_JamesRematchIntro, Route3_Text_JamesDefeat
 	msgbox Route3_Text_JamesPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_JaniceRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_JANICE, Route3_Text_JaniceRematchIntro, Route3_Text_JaniceDefeat
 	msgbox Route3_Text_JanicePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route3_EventScript_RobinRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_ROBIN, Route3_Text_RobinRematchIntro, Route3_Text_RobinDefeat
 	msgbox Route3_Text_RobinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -92,6 +99,7 @@ Route3_EventScript_RouteSign::
 	end
 
 Route3_EventScript_SallyRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_SALLY, Route3_Text_SallyRematchIntro, Route3_Text_SallyDefeat
 	msgbox Route3_Text_SallyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -204,3 +212,36 @@ Route3_Text_TunnelFromCeruleanTiring:
     .string "lot out of you!$"
 
 @ END KANTO NPCS
+
+Route3_Text_BenRematchIntro:
+	.string "Hi! I like shorts!\n"
+	.string "They're comfy and easy to wear!\p"
+	.string "You should be wearing shorts, too!$"
+
+Route3_Text_CalvinRematchIntro:
+	.string "Hey! What's wrong with you?\n"
+	.string "You're still not wearing shorts!$"
+
+Route3_Text_ColtonRematchIntro:
+	.string "Hey!\n"
+	.string "I saw you in VIRIDIAN FOREST!$"
+
+Route3_Text_GregRematchIntro:
+	.string "You're a TRAINER, aren't you?\n"
+	.string "Let's get with it right away!$"
+
+Route3_Text_JamesRematchIntro:
+	.string "I'll battle you with the POKéMON\n"
+	.string "I started raising.$"
+
+Route3_Text_JaniceRematchIntro:
+	.string "Excuse me!\n"
+	.string "You keep looking at me, don't you?$"
+
+Route3_Text_SallyRematchIntro:
+	.string "That look you give me…\n"
+	.string "It intrigues me so!$"
+
+Route3_Text_RobinRematchIntro:
+	.string "Eek!\n"
+	.string "Did you push me?$"

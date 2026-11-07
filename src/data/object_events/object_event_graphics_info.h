@@ -4743,7 +4743,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedPlayerFieldMove
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_RedLeafFieldMove,
     .images = sPicTable_RedPlayerFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
@@ -4857,7 +4857,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_LeafPlayerFieldMov
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_RedLeafFieldMove,
     .images = sPicTable_LeafPlayerFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };

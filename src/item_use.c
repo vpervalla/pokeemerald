@@ -1,5 +1,6 @@
 #include "global.h"
 #include "item_use.h"
+#include "vs_seeker.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_pyramid.h"
@@ -283,6 +284,13 @@ static void ItemUseOnFieldCB_Rod(u8 taskId)
 {
     StartFishing(GetItemSecondaryId(gSpecialVar_ItemId));
     DestroyTask(taskId);
+}
+
+// FRLG's VS SEEKER (src/vs_seeker.c)
+void ItemUseOutOfBattle_VsSeeker(u8 taskId)
+{
+    sItemUseOnFieldCB = Task_VsSeeker_0;
+    SetUpItemUseOnFieldCallback(taskId);
 }
 
 void ItemUseOutOfBattle_Itemfinder(u8 var)

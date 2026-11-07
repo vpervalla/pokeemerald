@@ -78,30 +78,37 @@ Route25_EventScript_Beauty::
 	end
 
 Route25_EventScript_ChadRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_CHAD, Route25_Text_ChadRematchIntro, Route25_Text_ChadDefeat
 	msgbox Route25_Text_ChadPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_DanRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_DAN, Route25_Text_DanRematchIntro, Route25_Text_DanDefeat
 	msgbox Route25_Text_DanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_FlintRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_FLINT, Route25_Text_FlintRematchIntro, Route25_Text_FlintDefeat
 	msgbox Route25_Text_FlintPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_FranklinRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_FRANKLIN, Route25_Text_FranklinRematchIntro, Route25_Text_FranklinDefeat
 	msgbox Route25_Text_FranklinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_HaleyRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_HALEY, Route25_Text_HaleyRematchIntro, Route25_Text_HaleyDefeat
 	msgbox Route25_Text_HaleyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_JoeyRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_JOEY, Route25_Text_JoeyRematchIntro, Route25_Text_JoeyDefeat
 	msgbox Route25_Text_JoeyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route25_EventScript_KelseyRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_KELSEY, Route25_Text_KelseyRematchIntro, Route25_Text_KelseyDefeat
 	msgbox Route25_Text_KelseyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -110,6 +117,7 @@ Route25_EventScript_Man::
 	end
 
 Route25_EventScript_NobRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_NOB, Route25_Text_NobRematchIntro, Route25_Text_NobDefeat
 	msgbox Route25_Text_NobPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -118,6 +126,7 @@ Route25_EventScript_SeaCottageSign::
 	end
 
 Route25_EventScript_WayneRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_WAYNE, Route25_Text_WayneRematchIntro, Route25_Text_WayneDefeat
 	msgbox Route25_Text_WaynePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -241,3 +250,41 @@ Route25_Text_WaynePostBattle:
     .string "CERULEAN CITY.$"
 
 @ END KANTO NPCS
+
+Route25_Text_JoeyRematchIntro:
+	.string "I won't lose while I'm here!$"
+
+Route25_Text_DanRematchIntro:
+	.string "Dad took me to a great party on\n"
+	.string "the S.S. ANNE at VERMILION CITY.$"
+
+Route25_Text_ChadRematchIntro:
+	.string "I had this feeling…\n"
+	.string "I knew I had to battle you again!$"
+
+Route25_Text_KelseyRematchIntro:
+	.string "Hi!\n"
+	.string "My boyfriend is cool!\l"
+	.string "My conditioning's good today!$"
+
+Route25_Text_HaleyRematchIntro:
+	.string "My friend has many cute POKéMON.\n"
+	.string "I'm so jealous!$"
+
+Route25_Text_FranklinRematchIntro:
+	.string "I just trained up on MT. MOON,\n"
+	.string "but I've still got gas in the tank!$"
+
+Route25_Text_NobRematchIntro:
+	.string "A POKéMANIAC lives on the cape.\n"
+	.string "Have you seen his collection?$"
+
+Route25_Text_WayneRematchIntro:
+	.string "You're going to see BILL again?\n"
+	.string "First, we battle!$"
+
+Route25_Text_FlintRematchIntro:
+	.string "I'm a cool guy.\n"
+	.string "I've got a girlfriend!\p"
+	.string "I'll show her how cool I am for\n"
+	.string "sure this time!$"

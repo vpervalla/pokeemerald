@@ -92,46 +92,57 @@ Route15_EventScript_Mya::
 	end
 
 Route15_EventScript_AlexRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_ALEX, Route15_Text_AlexRematchIntro, Route15_Text_AlexDefeat
 	msgbox Route15_Text_AlexPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_BeckyRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_BECKY, Route15_Text_BeckyRematchIntro, Route15_Text_BeckyDefeat
 	msgbox Route15_Text_BeckyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_CeliaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_CELIA, Route15_Text_CeliaRematchIntro, Route15_Text_CeliaDefeat
 	msgbox Route15_Text_CeliaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_ChesterRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_CHESTER, Route15_Text_ChesterRematchIntro, Route15_Text_ChesterDefeat
 	msgbox Route15_Text_ChesterPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_EdwinRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_EDWIN, Route15_Text_EdwinRematchIntro, Route15_Text_EdwinDefeat
 	msgbox Route15_Text_EdwinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_ErnestRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_ERNEST, Route15_Text_ErnestRematchIntro, Route15_Text_ErnestDefeat
 	msgbox Route15_Text_ErnestPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_GraceRematch::
+	trainerbattle_rematch TRAINER_KANTO_BEAUTY_GRACE, Route15_Text_GraceRematchIntro, Route15_Text_GraceDefeat
 	msgbox Route15_Text_GracePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_KindraRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_KINDRA, Route15_Text_KindraRematchIntro, Route15_Text_KindraDefeat
 	msgbox Route15_Text_KindraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_MyaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_CRUSH_KIN_RON_MYA, Route15_Text_MyaRematchIntro, Route15_Text_MyaDefeat, Route15_Text_MyaNotEnoughMons
 	msgbox Route15_Text_MyaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_OliviaRematch::
+	trainerbattle_rematch TRAINER_KANTO_BEAUTY_OLIVIA, Route15_Text_OliviaRematchIntro, Route15_Text_OliviaDefeat
 	msgbox Route15_Text_OliviaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route15_EventScript_RonRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_CRUSH_KIN_RON_MYA, Route15_Text_RonRematchIntro, Route15_Text_RonDefeat, Route15_Text_RonNotEnoughMons
 	msgbox Route15_Text_RonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -140,6 +151,7 @@ Route15_EventScript_RouteSign::
 	end
 
 Route15_EventScript_YazminRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_YAZMIN, Route15_Text_YazminRematchIntro, Route15_Text_YazminDefeat
 	msgbox Route15_Text_YazminPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -299,3 +311,57 @@ Route15_Text_YazminPostBattle:
     .string "I'll go train with weaker people.$"
 
 @ END KANTO NPCS
+
+Route15_Text_ErnestRematchIntro:
+	.string "Hey, kid! C'mon!\n"
+	.string "I got these off some loser!$"
+
+Route15_Text_AlexRematchIntro:
+	.string "Fork over all your cash when you\n"
+	.string "lose to me, kid!$"
+
+Route15_Text_GraceRematchIntro:
+	.string "Oh, you're a little cutie!\n"
+	.string "So like a darling POKéMON!\l"
+	.string "I remember you now!$"
+
+Route15_Text_OliviaRematchIntro:
+	.string "I raise POKéMON for protection\n"
+	.string "because I live alone.\p"
+	.string "That hasn't changed.$"
+
+Route15_Text_EdwinRematchIntro:
+	.string "When I whistle, bird POKéMON\n"
+	.string "gather around.\p"
+	.string "They're amazingly cute!$"
+
+Route15_Text_ChesterRematchIntro:
+	.string "Hmm? My birds are shivering!\n"
+	.string "Wait, aren't you that TRAINER…$"
+
+Route15_Text_YazminRematchIntro:
+	.string "Want to play with my POKéMON\n"
+	.string "again?$"
+
+Route15_Text_KindraRematchIntro:
+	.string "I'm going to keep battling with the\n"
+	.string "POKéMON I got in trades.$"
+
+Route15_Text_BeckyRematchIntro:
+	.string "You look gentle, so I think I can\n"
+	.string "beat you.\p"
+	.string "I'll give it one more go!$"
+
+Route15_Text_CeliaRematchIntro:
+	.string "What's cool and happening?\n"
+	.string "Trading POKéMON, of course.$"
+
+Route15_Text_MyaRematchIntro:
+	.string "MYA: Hi, we keep meeting,\n"
+	.string "don't we?\p"
+	.string "Help me train my little brother\n"
+	.string "again?$"
+
+Route15_Text_RonRematchIntro:
+	.string "RON: My sister's gotten more\n"
+	.string "powerful…$"

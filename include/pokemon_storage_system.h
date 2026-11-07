@@ -13,6 +13,16 @@
 #define NUM_HOENN_BOXES         (TOTAL_BOXES_COUNT - HOENN_FIRST_BOX)
 #define NUM_STOLEN_BAG_SLOTS    (BAG_ITEMS_COUNT + BAG_KEYITEMS_COUNT + BAG_POKEBALLS_COUNT + BAG_TMHM_COUNT + BAG_BERRIES_COUNT)
 
+// The VS SEEKER's battery and the trainers it found (src/vs_seeker.c)
+struct VsSeekerSave
+{
+    u8 bagSteps;      // steps walked with it in the bag since it was last used, up to VSSEEKER_RECHARGE_STEPS
+    u8 chargeSteps;   // steps walked since trainers answered it, up to VSSEEKER_RECHARGE_STEPS
+    u8 charging:1;    // trainers answered it: they want their rematches until chargeSteps is full
+    u8 unused:7;
+    u8 rematchWanted[OBJECT_EVENT_TEMPLATES_COUNT / 8 + 1]; // a bit per local id (1-64): the trainers of the map who want a rematch
+};
+
 // What Team Aqua and Team Magma took on the crossing to Hoenn, until they give it back
 struct HoennStolenTeam
 {
@@ -42,6 +52,8 @@ struct PokemonStorage
     /*0x83D0*/ u16 kantoVars[KANTO_VARS_COUNT];               // VarGet(KANTO_VARS_START + n)
     /*0x84D0*/ u8 kantoExtraFlags[KANTO_EXTRA_FLAGS_COUNT / 8]; // FlagGet(KANTO_EXTRA_FLAGS_START + n)
     /*0x8510*/ struct HoennStolenTeam hoennStolenTeam;
+    u8 kantoRematchFlags[KANTO_REMATCH_FLAGS_COUNT / 8];    // FlagGet(KANTO_REMATCH_FLAGS_START + n)
+    struct VsSeekerSave vsSeeker;
 };
 
 extern struct PokemonStorage *gPokemonStoragePtr;

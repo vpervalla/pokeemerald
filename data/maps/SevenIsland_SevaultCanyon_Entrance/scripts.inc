@@ -46,26 +46,32 @@ SevenIsland_SevaultCanyon_Entrance_EventScript_Mason::
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_EveRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_EVE_JON, SevenIsland_SevaultCanyon_Entrance_Text_EveRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_EveDefeat, SevenIsland_SevaultCanyon_Entrance_Text_EveNotEnoughMons
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_EvePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_JonRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_EVE_JON, SevenIsland_SevaultCanyon_Entrance_Text_JonRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_JonDefeat, SevenIsland_SevaultCanyon_Entrance_Text_JonNotEnoughMons
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_JonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_MadelineRematch::
+	trainerbattle_rematch TRAINER_KANTO_PKMN_RANGER_MADELINE, SevenIsland_SevaultCanyon_Entrance_Text_MadelineRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_MadelineDefeat
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_MadelinePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_MasonRematch::
+	trainerbattle_rematch TRAINER_KANTO_JUGGLER_MASON, SevenIsland_SevaultCanyon_Entrance_Text_MasonRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_MasonDefeat
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_MasonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_MiahRematch::
+	trainerbattle_rematch TRAINER_KANTO_AROMA_LADY_MIAH, SevenIsland_SevaultCanyon_Entrance_Text_MiahRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_MiahDefeat
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_MiahPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_Entrance_EventScript_NicolasRematch::
+	trainerbattle_rematch TRAINER_KANTO_PKMN_RANGER_NICOLAS, SevenIsland_SevaultCanyon_Entrance_Text_NicolasRematchIntro, SevenIsland_SevaultCanyon_Entrance_Text_NicolasDefeat
 	msgbox SevenIsland_SevaultCanyon_Entrance_Text_NicolasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -167,3 +173,28 @@ SevenIsland_SevaultCanyon_Entrance_Text_RouteSign:
     .string "damaging plants in the CANYON.$"
 
 @ END KANTO NPCS
+
+SevenIsland_SevaultCanyon_Entrance_Text_MiahRematchIntro:
+	.string "Kyahaha!\p"
+	.string "Coming back won't change a thing.\n"
+	.string "I'll flick you away effortlessly!$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_EveRematchIntro:
+	.string "EVE: I'll team up with JON and\n"
+	.string "battle together again.$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_JonRematchIntro:
+	.string "JON: When I'm with EVE, it feels\n"
+	.string "like we could never lose, not ever.$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_MasonRematchIntro:
+	.string "Howdy! You're a member of my\n"
+	.string "fan club, isn't that right?$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_NicolasRematchIntro:
+	.string "This island is too spread out…\n"
+	.string "Patrolling the place is a drag…$"
+
+SevenIsland_SevaultCanyon_Entrance_Text_MadelineRematchIntro:
+	.string "I don't forgive people who abuse\n"
+	.string "POKéMON!$"

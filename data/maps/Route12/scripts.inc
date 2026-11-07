@@ -76,10 +76,12 @@ Route12_EventScript_Jes::
 	end
 
 Route12_EventScript_AndrewRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_ANDREW, Route12_Text_AndrewRematchIntro, Route12_Text_AndrewDefeat
 	msgbox Route12_Text_AndrewPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_ChipRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_CHIP, Route12_Text_ChipRematchIntro, Route12_Text_ChipDefeat
 	msgbox Route12_Text_ChipPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -88,6 +90,7 @@ Route12_EventScript_DontUsePokeFlute::
 	end
 
 Route12_EventScript_ElliotRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_ELLIOT, Route12_Text_ElliotRematchIntro, Route12_Text_ElliotDefeat
 	msgbox Route12_Text_ElliotPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -101,26 +104,32 @@ Route12_EventScript_FoughtSnorlax::
 	end
 
 Route12_EventScript_GiaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_GIA_JES, Route12_Text_GiaRematchIntro, Route12_Text_GiaDefeat, Route12_Text_GiaNotEnoughMons
 	msgbox Route12_Text_GiaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_HankRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_HANK, Route12_Text_HankRematchIntro, Route12_Text_HankDefeat
 	msgbox Route12_Text_HankPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_JesRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_GIA_JES, Route12_Text_JesRematchIntro, Route12_Text_JesDefeat, Route12_Text_JesNotEnoughMons
 	msgbox Route12_Text_JesPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_JustinRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_JUSTIN, Route12_Text_JustinRematchIntro, Route12_Text_JustinDefeat
 	msgbox Route12_Text_JustinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_LucaRematch::
+	trainerbattle_rematch TRAINER_KANTO_ROCKER_LUCA, Route12_Text_LucaRematchIntro, Route12_Text_LucaDefeat
 	msgbox Route12_Text_LucaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route12_EventScript_NedRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_NED, Route12_Text_NedRematchIntro, Route12_Text_NedDefeat
 	msgbox Route12_Text_NedPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -296,3 +305,45 @@ Route12_Text_SportfishingArea:
     .string "SPORTFISHING AREA$"
 
 @ END KANTO NPCS
+
+Route12_Text_NedRematchIntro:
+	.string "Yeah!\n"
+	.string "I got a bite, here!\l"
+	.string "Th-this might be the real thing!$"
+
+Route12_Text_ChipRematchIntro:
+	.string "You're finally here.\n"
+	.string "Fishing is a waiting game.$"
+
+Route12_Text_HankRematchIntro:
+	.string "The FISHING FOOL vs. POKéMON KID!\n"
+	.string "Another round, fight!$"
+
+Route12_Text_ElliotRematchIntro:
+	.string "I love fishing, don't get me wrong.\n"
+	.string "But, I wish I had more work…\l"
+	.string "…It's hard to give up fishing!$"
+
+Route12_Text_AndrewRematchIntro:
+	.string "What's catching?\p"
+	.string "You'll never know unless you beat\n"
+	.string "me!$"
+
+Route12_Text_LucaRematchIntro:
+	.string "Electricity has always been my\n"
+	.string "specialty.\p"
+	.string "I don't know a thing about POKéMON\n"
+	.string "of the sea, though.$"
+
+Route12_Text_JustinRematchIntro:
+	.string "Still can't find a MOON STONE…\n"
+	.string "Have you found one?$"
+
+Route12_Text_JesRematchIntro:
+	.string "JES: I'll win here today and\n"
+	.string "propose to my GIA.$"
+
+Route12_Text_GiaRematchIntro:
+	.string "GIA: Hey, JES…\n"
+	.string "I've been waiting a long time now.\p"
+	.string "If we win today, I'll marry you!$"

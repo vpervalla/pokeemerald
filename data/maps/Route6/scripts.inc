@@ -46,26 +46,32 @@ Route6_EventScript_Jeff::
 	end
 
 Route6_EventScript_ElijahRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_ELIJAH, Route6_Text_ElijahRematchIntro, Route6_Text_ElijahDefeat
 	msgbox Route6_Text_ElijahPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route6_EventScript_IsabelleRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_ISABELLE, Route6_Text_IsabelleRematchIntro, Route6_Text_IsabelleDefeat
 	msgbox Route6_Text_IsabellePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route6_EventScript_JeffRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_JEFF, Route6_Text_JeffRematchIntro, Route6_Text_JeffDefeat
 	msgbox Route6_Text_JeffPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route6_EventScript_KeigoRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_KEIGO, Route6_Text_KeigoRematchIntro, Route6_Text_KeigoDefeat
 	msgbox Route6_Text_KeigoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route6_EventScript_NancyRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_NANCY, Route6_Text_NancyRematchIntro, Route6_Text_NancyDefeat
 	msgbox Route6_Text_NancyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route6_EventScript_RickyRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_RICKY, Route6_Text_RickyRematchIntro, Route6_Text_RickyDefeat
 	msgbox Route6_Text_RickyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -147,3 +153,29 @@ Route6_Text_UndergroundPathSign:
     .string "CERULEAN CITY - VERMILION CITY$"
 
 @ END KANTO NPCS
+
+Route6_Text_KeigoRematchIntro:
+	.string "I'm trying to find something good\n"
+	.string "that's not a BUG POKéMON, but…$"
+
+Route6_Text_ElijahRematchIntro:
+	.string "Hey, long time!\n"
+	.string "Have you gotten better?$"
+
+Route6_Text_RickyRematchIntro:
+	.string "Oh! You're that nosy kid who\n"
+	.string "eavesdropped on us!$"
+
+Route6_Text_JeffRematchIntro:
+	.string "Huh?\n"
+	.string "You want to go with me again?$"
+
+Route6_Text_NancyRematchIntro:
+	.string "Excuse me! Didn't I tell you that\n"
+	.string "this is a private conversation?\p"
+	.string "You shouldn't be listening in,\n"
+	.string "you uncouth person!$"
+
+Route6_Text_IsabelleRematchIntro:
+	.string "Me?\n"
+	.string "Well, okay. I'll play this once.$"

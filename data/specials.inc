@@ -619,3 +619,4 @@ gSpecials::
 	def_special SetDeoxysTrianglePalette
 	def_special BufferLastRepelCount
 	def_special UseLastRepel
+	def_special VsSeekerResetObjectMovementAfterChargeComplete

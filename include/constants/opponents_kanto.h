@@ -536,6 +536,9 @@
 #define TRAINER_TOURNAMENT_STORY_LEON                 1376
 
 #define NUM_KANTO_TRAINERS 510
-#define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS + KANTO_TRAINERS_GAP_SIZE)
+// The parties of the VS SEEKER's rematches (port_rematches.py) come right after them
+#include "constants/opponents_kanto_rematches.h"
+
+#define ALL_TRAINERS_COUNT (KANTO_REMATCH_TRAINERS_START + NUM_KANTO_REMATCH_TRAINERS)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

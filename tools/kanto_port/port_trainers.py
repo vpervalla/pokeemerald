@@ -455,7 +455,10 @@ def cmd_trainers(args):
           "// TRAINER_SECRET_BASE (1022-1024), which the battle code checks for whatever the battle.\n"
           "// Their flags don't skip them: GetTrainerFlagId takes the gap out.\n"
           f"#define KANTO_TRAINERS_GAP_START {KANTO_TRAINERS_GAP_START}\n#define KANTO_TRAINERS_GAP_SIZE  {KANTO_TRAINERS_GAP_SIZE}\n\n" + "\n".join(consts) +
-          f"\n\n#define NUM_KANTO_TRAINERS {len(used)}\n#define ALL_TRAINERS_COUNT (KANTO_TRAINERS_START + NUM_KANTO_TRAINERS + KANTO_TRAINERS_GAP_SIZE)\n\n"
+          f"\n\n#define NUM_KANTO_TRAINERS {len(used)}\n\n"
+          "// The parties of the VS SEEKER's rematches (port_rematches.py) come right after them\n"
+          '#include "constants/opponents_kanto_rematches.h"\n\n'
+          "#define ALL_TRAINERS_COUNT (KANTO_REMATCH_TRAINERS_START + NUM_KANTO_REMATCH_TRAINERS)\n\n"
           "#endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H\n")
     if len(used) > KANTO_TRAINER_FLAGS_COUNT:
         sys.exit("too many Kanto trainers for KANTO_TRAINER_FLAGS_COUNT")

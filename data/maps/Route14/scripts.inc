@@ -88,50 +88,62 @@ Route14_EventScript_Kiri::
 	end
 
 Route14_EventScript_BeckRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_BECK, Route14_Text_BeckRematchIntro, Route14_Text_BeckDefeat
 	msgbox Route14_Text_BeckPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_BennyRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_BENNY, Route14_Text_BennyRematchIntro, Route14_Text_BennyDefeat
 	msgbox Route14_Text_BennyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_CarterRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_CARTER, Route14_Text_CarterRematchIntro, Route14_Text_CarterDefeat
 	msgbox Route14_Text_CarterPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_DonaldRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_DONALD, Route14_Text_DonaldRematchIntro, Route14_Text_DonaldDefeat
 	msgbox Route14_Text_DonaldPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_GeraldRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_GERALD, Route14_Text_GeraldRematchIntro, Route14_Text_GeraldDefeat
 	msgbox Route14_Text_GeraldPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_IsaacRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_ISAAC, Route14_Text_IsaacRematchIntro, Route14_Text_IsaacDefeat
 	msgbox Route14_Text_IsaacPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_JanRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_KIRI_JAN, Route14_Text_JanRematchIntro, Route14_Text_JanDefeat, Route14_Text_JanNotEnoughMons
 	msgbox Route14_Text_JanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_KiriRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_KIRI_JAN, Route14_Text_KiriRematchIntro, Route14_Text_KiriDefeat, Route14_Text_KiriNotEnoughMons
 	msgbox Route14_Text_KiriPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_LukasRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_LUKAS, Route14_Text_LukasRematchIntro, Route14_Text_LukasDefeat
 	msgbox Route14_Text_LukasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_MalikRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_MALIK, Route14_Text_MalikRematchIntro, Route14_Text_MalikDefeat
 	msgbox Route14_Text_MalikPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_MarlonRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_MARLON, Route14_Text_MarlonRematchIntro, Route14_Text_MarlonDefeat
 	msgbox Route14_Text_MarlonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route14_EventScript_MitchRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_MITCH, Route14_Text_MitchRematchIntro, Route14_Text_MitchDefeat
 	msgbox Route14_Text_MitchPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -297,3 +309,54 @@ Route14_Text_RouteSign:
     .string "West to FUCHSIA CITY$"
 
 @ END KANTO NPCS
+
+Route14_Text_MalikRematchIntro:
+	.string "POKéMON battle, right?\n"
+	.string "Cool! Rumble!$"
+
+Route14_Text_LukasRematchIntro:
+	.string "Hey!\n"
+	.string "I remember you!\p"
+	.string "C'mon, c'mon.\n"
+	.string "Let's go, let's go, let's go!$"
+
+Route14_Text_IsaacRematchIntro:
+	.string "You're here again, huh?\n"
+	.string "Shut up and battle.$"
+
+Route14_Text_GeraldRematchIntro:
+	.string "We've been riding here because of\n"
+	.string "the wide-open spaces.$"
+
+Route14_Text_DonaldRematchIntro:
+	.string "The legend of the winged mirages…\n"
+	.string "You've heard it, right?$"
+
+Route14_Text_BennyRematchIntro:
+	.string "I'm really not into it, but okay.\n"
+	.string "Let's go!$"
+
+Route14_Text_CarterRematchIntro:
+	.string "I used TMs to teach good moves\n"
+	.string "to my POKéMON.$"
+
+Route14_Text_MitchRematchIntro:
+	.string "My bird POKéMON should be ready\n"
+	.string "for battle this time.$"
+
+Route14_Text_BeckRematchIntro:
+	.string "Are you using TMs on POKéMON?\n"
+	.string "Just holding them is useless.$"
+
+Route14_Text_MarlonRematchIntro:
+	.string "Have you taught your bird POKéMON\n"
+	.string "how to FLY?\p"
+	.string "You'll be able to soar with it into\n"
+	.string "the sky! Give it a try.$"
+
+Route14_Text_KiriRematchIntro:
+	.string "KIRI: JAN, I hope we win today.$"
+
+Route14_Text_JanRematchIntro:
+	.string "JAN: KIRI, here we go!\n"
+	.string "Let's win for sure this time!$"

@@ -39,22 +39,27 @@ Route21_North_EventScript_Ian::
 	end
 
 Route21_North_EventScript_IanRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_LIL_IAN, Route21_North_Text_IanRematchIntro, Route21_North_Text_IanDefeat, Route21_North_Text_IanNotEnoughMons
 	msgbox Route21_North_Text_IanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_North_EventScript_LilRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_LIL_IAN, Route21_North_Text_LilRematchIntro, Route21_North_Text_LilDefeat, Route21_North_Text_LilNotEnoughMons
 	msgbox Route21_North_Text_LilPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_North_EventScript_RonaldRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_RONALD, Route21_North_Text_RonaldRematchIntro, Route21_North_Text_RonaldDefeat
 	msgbox Route21_North_Text_RonaldPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_North_EventScript_SpencerRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_SPENCER, Route21_North_Text_SpencerRematchIntro, Route21_North_Text_SpencerDefeat
 	msgbox Route21_North_Text_SpencerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_North_EventScript_WadeRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_WADE, Route21_North_Text_WadeRematchIntro, Route21_North_Text_WadeDefeat
 	msgbox Route21_North_Text_WadePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -132,3 +137,22 @@ Route21_North_Text_WadePostBattle:
 	.string "I seem to only catch MAGIKARP!$"
 
 @ END KANTO NPCS
+
+Route21_North_Text_RonaldRematchIntro:
+	.string "You want to know if the fish are\n"
+	.string "biting?$"
+
+Route21_North_Text_WadeRematchIntro:
+	.string "I got a big haul again!\n"
+	.string "Wanna go for it once more?$"
+
+Route21_North_Text_SpencerRematchIntro:
+	.string "The sea cleanses my body and soul!$"
+
+Route21_North_Text_LilRematchIntro:
+	.string "LIL: Huh? A battle again?\n"
+	.string "IAN, can't you do it alone?$"
+
+Route21_North_Text_IanRematchIntro:
+	.string "IAN: My sis is still a slob.\n"
+	.string "Help me get her into shape!$"

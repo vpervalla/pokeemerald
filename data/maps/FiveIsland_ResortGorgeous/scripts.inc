@@ -55,26 +55,32 @@ FiveIsland_ResortGorgeous_EventScript_Toby::
 	end
 
 FiveIsland_ResortGorgeous_EventScript_CelinaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PAINTER_CELINA, FiveIsland_ResortGorgeous_Text_CelinaRematchIntro, FiveIsland_ResortGorgeous_Text_CelinaDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_CelinaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_ResortGorgeous_EventScript_DaisyRematch::
+	trainerbattle_rematch TRAINER_KANTO_PAINTER_DAISY, FiveIsland_ResortGorgeous_Text_DaisyRematchIntro, FiveIsland_ResortGorgeous_Text_DaisyDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_DaisyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_ResortGorgeous_EventScript_DestinRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_DESTIN, FiveIsland_ResortGorgeous_Text_DestinRematchIntro, FiveIsland_ResortGorgeous_Text_DestinDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_DestinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_ResortGorgeous_EventScript_GillianRematch::
+	trainerbattle_rematch TRAINER_KANTO_LADY_GILLIAN, FiveIsland_ResortGorgeous_Text_GillianRematchIntro, FiveIsland_ResortGorgeous_Text_GillianDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_GillianPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_ResortGorgeous_EventScript_JackiRematch::
+	trainerbattle_rematch TRAINER_KANTO_LADY_JACKI, FiveIsland_ResortGorgeous_Text_JackiRematchIntro, FiveIsland_ResortGorgeous_Text_JackiDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_JackiPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_ResortGorgeous_EventScript_RaynaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PAINTER_RAYNA, FiveIsland_ResortGorgeous_Text_RaynaRematchIntro, FiveIsland_ResortGorgeous_Text_RaynaDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_RaynaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -101,6 +107,7 @@ FiveIsland_ResortGorgeous_EventScript_SelphysHouseSign::
 	end
 
 FiveIsland_ResortGorgeous_EventScript_TobyRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_TOBY, FiveIsland_ResortGorgeous_Text_TobyRematchIntro, FiveIsland_ResortGorgeous_Text_TobyDefeat
 	msgbox FiveIsland_ResortGorgeous_Text_TobyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -215,3 +222,33 @@ FiveIsland_ResortGorgeous_Text_TobyPostBattle:
     .string "How nonsensical.$"
 
 @ END KANTO NPCS
+
+FiveIsland_ResortGorgeous_Text_DaisyRematchIntro:
+	.string "With these hands, I will create\n"
+	.string "my victory today.$"
+
+FiveIsland_ResortGorgeous_Text_CelinaRematchIntro:
+	.string "Must I repeat myself?\n"
+	.string "I'm trying to paint.\l"
+	.string "Please keep out of my sight!$"
+
+FiveIsland_ResortGorgeous_Text_RaynaRematchIntro:
+	.string "I haven't made any progress…\n"
+	.string "I still can't get the right angle…$"
+
+FiveIsland_ResortGorgeous_Text_JackiRematchIntro:
+	.string "Oh, you will give me another\n"
+	.string "opportunity to match wits with you?$"
+
+FiveIsland_ResortGorgeous_Text_GillianRematchIntro:
+	.string "They're almost finished making the\n"
+	.string "pool for my POKéMON.\p"
+	.string "You must drop in for a visit.$"
+
+FiveIsland_ResortGorgeous_Text_DestinRematchIntro:
+	.string "I'm a good runner.\n"
+	.string "I've gotten even faster!$"
+
+FiveIsland_ResortGorgeous_Text_TobyRematchIntro:
+	.string "I say, friend!\n"
+	.string "Let us enjoy our time together!$"

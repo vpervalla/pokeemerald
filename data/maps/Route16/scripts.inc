@@ -63,6 +63,7 @@ Route16_EventScript_Jed::
 	end
 
 Route16_EventScript_CamronRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_CAMRON, Route16_Text_CamronRematchIntro, Route16_Text_CamronDefeat
 	msgbox Route16_Text_CamronPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -80,26 +81,32 @@ Route16_EventScript_FoughtSnorlax::
 	end
 
 Route16_EventScript_HideoRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_HIDEO, Route16_Text_HideoRematchIntro, Route16_Text_HideoDefeat
 	msgbox Route16_Text_HideoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route16_EventScript_JedRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_LEA_JED, Route16_Text_JedRematchIntro, Route16_Text_JedDefeat, Route16_Text_JedNotEnoughMons
 	msgbox Route16_Text_JedPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route16_EventScript_KojiRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_KOJI, Route16_Text_KojiRematchIntro, Route16_Text_KojiDefeat
 	msgbox Route16_Text_KojiPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route16_EventScript_LaoRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_LAO, Route16_Text_LaoRematchIntro, Route16_Text_LaoDefeat
 	msgbox Route16_Text_LaoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route16_EventScript_LeaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_YOUNG_COUPLE_LEA_JED, Route16_Text_LeaRematchIntro, Route16_Text_LeaDefeat, Route16_Text_LeaNotEnoughMons
 	msgbox Route16_Text_LeaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route16_EventScript_LukeRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_LUKE, Route16_Text_LukeRematchIntro, Route16_Text_LukeDefeat
 	msgbox Route16_Text_LukePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -112,6 +119,7 @@ Route16_EventScript_RouteSign::
 	end
 
 Route16_EventScript_RubenRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_RUBEN, Route16_Text_RubenRematchIntro, Route16_Text_RubenDefeat
 	msgbox Route16_Text_RubenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -278,3 +286,34 @@ Route16_Text_RubenPostBattle:
     .string "And, they bite, too.$"
 
 @ END KANTO NPCS
+
+Route16_Text_LaoRematchIntro:
+	.string "What do you want?$"
+
+Route16_Text_HideoRematchIntro:
+	.string "Hey, wait a second!\n"
+	.string "Don't call me and then run away!$"
+
+Route16_Text_RubenRematchIntro:
+	.string "Hey, there!\n"
+	.string "We'll have ourselves a good time!$"
+
+Route16_Text_KojiRematchIntro:
+	.string "Nice BIKE!\n"
+	.string "Hand it over quick!$"
+
+Route16_Text_LukeRematchIntro:
+	.string "Come out and play, little mouse.\n"
+	.string "I'll treat you right!$"
+
+Route16_Text_CamronRematchIntro:
+	.string "I'm feeling hungry and mean!\n"
+	.string "I really need a punching bag!$"
+
+Route16_Text_JedRematchIntro:
+	.string "JED: Are you here to see our\n"
+	.string "love, which knows no bounds?$"
+
+Route16_Text_LeaRematchIntro:
+	.string "LEA: Sometimes, the intensity of\n"
+	.string "our love scares me.$"

@@ -80,10 +80,12 @@ Route17_EventScript_BallsNotice::
 	end
 
 Route17_EventScript_BillyRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_BILLY, Route17_Text_BillyRematchIntro, Route17_Text_BillyDefeat
 	msgbox Route17_Text_BillyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_CoreyRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_COREY, Route17_Text_CoreyRematchIntro, Route17_Text_CoreyDefeat
 	msgbox Route17_Text_CoreyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -92,6 +94,7 @@ Route17_EventScript_CyclingRoadSign::
 	end
 
 Route17_EventScript_IsaiahRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_ISAIAH, Route17_Text_IsaiahRematchIntro, Route17_Text_IsaiahDefeat
 	msgbox Route17_Text_IsaiahPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -100,18 +103,22 @@ Route17_EventScript_ItemsNotice::
 	end
 
 Route17_EventScript_JamalRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_JAMAL, Route17_Text_JamalRematchIntro, Route17_Text_JamalDefeat
 	msgbox Route17_Text_JamalPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_JaxonRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_JAXON, Route17_Text_JaxonRematchIntro, Route17_Text_JaxonDefeat
 	msgbox Route17_Text_JaxonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_NikolasRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_NIKOLAS, Route17_Text_NikolasRematchIntro, Route17_Text_NikolasDefeat
 	msgbox Route17_Text_NikolasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_RaulRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_RAUL, Route17_Text_RaulRematchIntro, Route17_Text_RaulDefeat
 	msgbox Route17_Text_RaulPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -128,14 +135,17 @@ Route17_EventScript_TrainerTips2::
 	end
 
 Route17_EventScript_VirgilRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_VIRGIL, Route17_Text_VirgilRematchIntro, Route17_Text_VirgilDefeat
 	msgbox Route17_Text_VirgilPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_WilliamRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_WILLIAM, Route17_Text_WilliamRematchIntro, Route17_Text_WilliamDefeat
 	msgbox Route17_Text_WilliamPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route17_EventScript_ZeekRematch::
+	trainerbattle_rematch TRAINER_KANTO_CUE_BALL_ZEEK, Route17_Text_ZeekRematchIntro, Route17_Text_ZeekDefeat
 	msgbox Route17_Text_ZeekPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -271,3 +281,41 @@ Route17_Text_ZeekPostBattle:
     .string "STONES to evolve.$"
 
 @ END KANTO NPCS
+
+Route17_Text_BillyRematchIntro:
+	.string "We're BIKERS!\n"
+	.string "We rule the roads, man!$"
+
+Route17_Text_NikolasRematchIntro:
+	.string "VOLTORB's going to seriously\n"
+	.string "electrify you today!$"
+
+Route17_Text_JaxonRematchIntro:
+	.string "Yep, that's a nice BIKE!\n"
+	.string "How's it handle?$"
+
+Route17_Text_WilliamRematchIntro:
+	.string "Get lost, kid!\n"
+	.string "I'm bushed!$"
+
+Route17_Text_RaulRematchIntro:
+	.string "I told you, there's no getting rich\n"
+	.string "quick in battling kids.$"
+
+Route17_Text_IsaiahRematchIntro:
+	.string "I'm mighty proud of my bod, kiddo.\n"
+	.string "Come on!$"
+
+Route17_Text_ZeekRematchIntro:
+	.string "I leveled up my POKéMON, but it\n"
+	.string "absolutely won't evolve. Why?$"
+
+Route17_Text_JamalRematchIntro:
+	.string "Gaah! I really need to exercise\n"
+	.string "and seriously trim some flab!$"
+
+Route17_Text_CoreyRematchIntro:
+	.string "Be a rebel!$"
+
+Route17_Text_VirgilRematchIntro:
+	.string "You out for a stroll?$"

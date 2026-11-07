@@ -74,26 +74,32 @@ Route13_EventScript_Jared::
 	end
 
 Route13_EventScript_AlmaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_ALMA, Route13_Text_AlmaRematchIntro, Route13_Text_AlmaDefeat
 	msgbox Route13_Text_AlmaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_GwenRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_GWEN, Route13_Text_GwenRematchIntro, Route13_Text_GwenDefeat
 	msgbox Route13_Text_GwenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_JaredRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_JARED, Route13_Text_JaredRematchIntro, Route13_Text_JaredDefeat
 	msgbox Route13_Text_JaredPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_LolaRematch::
+	trainerbattle_rematch TRAINER_KANTO_BEAUTY_LOLA, Route13_Text_LolaRematchIntro, Route13_Text_LolaDefeat
 	msgbox Route13_Text_LolaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_PerryRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_PERRY, Route13_Text_PerryRematchIntro, Route13_Text_PerryDefeat
 	msgbox Route13_Text_PerryPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_RobertRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_ROBERT, Route13_Text_RobertRematchIntro, Route13_Text_RobertDefeat
 	msgbox Route13_Text_RobertPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -102,14 +108,17 @@ Route13_EventScript_RouteSign::
 	end
 
 Route13_EventScript_SebastianRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_SEBASTIAN, Route13_Text_SebastianRematchIntro, Route13_Text_SebastianDefeat
 	msgbox Route13_Text_SebastianPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_SheilaRematch::
+	trainerbattle_rematch TRAINER_KANTO_BEAUTY_SHEILA, Route13_Text_SheilaRematchIntro, Route13_Text_SheilaDefeat
 	msgbox Route13_Text_SheilaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route13_EventScript_SusieRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_SUSIE, Route13_Text_SusieRematchIntro, Route13_Text_SusieDefeat
 	msgbox Route13_Text_SusiePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -122,6 +131,7 @@ Route13_EventScript_TrainerTips2::
 	end
 
 Route13_EventScript_ValerieRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_VALERIE, Route13_Text_ValerieRematchIntro, Route13_Text_ValerieDefeat
 	msgbox Route13_Text_ValeriePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -254,3 +264,42 @@ Route13_Text_ValeriePostBattle:
     .string "LEADERS. I know!$"
 
 @ END KANTO NPCS
+
+Route13_Text_JaredRematchIntro:
+	.string "What're you starin' at?$"
+
+Route13_Text_LolaRematchIntro:
+	.string "Oh, you're back?\p"
+	.string "Sure, I'll play again with you,\n"
+	.string "sweetie.$"
+
+Route13_Text_SheilaRematchIntro:
+	.string "Can't you forget that you battled\n"
+	.string "with me?$"
+
+Route13_Text_SebastianRematchIntro:
+	.string "My bird POKéMON remember you!$"
+
+Route13_Text_PerryRematchIntro:
+	.string "I'm not going to lose this time.\n"
+	.string "The wind's blowing my way!$"
+
+Route13_Text_RobertRematchIntro:
+	.string "I always go with bird POKéMON.\n"
+	.string "I've dedicated myself to them.$"
+
+Route13_Text_AlmaRematchIntro:
+	.string "I cleaned out my savings and\n"
+	.string "bought more CARBOS.$"
+
+Route13_Text_SusieRematchIntro:
+	.string "I want to be the best TRAINER \n"
+	.string "while I'm a kid!$"
+
+Route13_Text_ValerieRematchIntro:
+	.string "Wow!\n"
+	.string "You got more cool BADGES!$"
+
+Route13_Text_GwenRematchIntro:
+	.string "My cutely grown POKéMON wish to\n"
+	.string "become reacquainted with you.$"

@@ -11,6 +11,7 @@ OneIsland_TreasureBeach_EventScript_Amara::
 	end
 
 OneIsland_TreasureBeach_EventScript_AmaraRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_AMARA, OneIsland_TreasureBeach_Text_AmaraRematchIntro, OneIsland_TreasureBeach_Text_AmaraDefeat
 	msgbox OneIsland_TreasureBeach_Text_AmaraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -37,3 +38,7 @@ OneIsland_TreasureBeach_Text_GoodThingsWashUpOnBeach:
     .string "some beachcombing.$"
 
 @ END KANTO NPCS
+
+OneIsland_TreasureBeach_Text_AmaraRematchIntro:
+	.string "Lying back, rocked by the waves…\n"
+	.string "I don't notice time slipping by…$"

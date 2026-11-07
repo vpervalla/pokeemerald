@@ -204,6 +204,8 @@ u8 *GetFlagPointer(u16 id)
         return &gSaveBlock1Ptr->kantoFlags[(id - KANTO_FLAGS_START) / 8];
     else if (id >= KANTO_EXTRA_FLAGS_START && id < KANTO_EXTRA_FLAGS_START + KANTO_EXTRA_FLAGS_COUNT)
         return &gPokemonStoragePtr->kantoExtraFlags[(id - KANTO_EXTRA_FLAGS_START) / 8];
+    else if (id >= KANTO_REMATCH_FLAGS_START && id < KANTO_REMATCH_FLAGS_START + KANTO_REMATCH_FLAGS_COUNT)
+        return &gPokemonStoragePtr->kantoRematchFlags[(id - KANTO_REMATCH_FLAGS_START) / 8];
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
     else

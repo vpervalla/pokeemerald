@@ -50,6 +50,7 @@ Route24_EventScript_ItemTM45::
 	end
 
 Route24_EventScript_AliRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_ALI, Route24_Text_AliRematchIntro, Route24_Text_AliDefeat
 	msgbox Route24_Text_AliPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -66,10 +67,12 @@ Route24_EventScript_BattleRocket::
 	return
 
 Route24_EventScript_CaleRematch::
+	trainerbattle_rematch TRAINER_KANTO_BUG_CATCHER_CALE, Route24_Text_CaleRematchIntro, Route24_Text_CaleDefeat
 	msgbox Route24_Text_CalePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_EthanRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_ETHAN, Route24_Text_EthanRematchIntro, Route24_Text_EthanDefeat
 	msgbox Route24_Text_EthanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -88,6 +91,7 @@ Route24_EventScript_NoRoomForNuggetTrigger::
 	end
 
 Route24_EventScript_ReliRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_RELI, Route24_Text_ReliRematchIntro, Route24_Text_ReliDefeat
 	msgbox Route24_Text_ReliPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -147,10 +151,12 @@ Route24_EventScript_RocketWalkBackToPos::
 	return
 
 Route24_EventScript_ShaneRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_SHANE, Route24_Text_ShaneRematchIntro, Route24_Text_ShaneDefeat
 	msgbox Route24_Text_ShanePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route24_EventScript_TimmyRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_TIMMY, Route24_Text_TimmyRematchIntro, Route24_Text_TimmyDefeat
 	msgbox Route24_Text_TimmyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -269,3 +275,31 @@ Route24_Text_YoudBecomeTopRocketLeader:
     .string "Don't let this chance go to waste.$"
 
 @ END KANTO NPCS
+
+Route24_Text_TimmyRematchIntro:
+	.string "You really must love coming to\n"
+	.string "NUGGET BRIDGE.$"
+
+Route24_Text_CaleRematchIntro:
+	.string "People call this the NUGGET\n"
+	.string "BRIDGE!\p"
+	.string "You've already beaten us, so you're\n"
+	.string "not allowed to take the challenge…\p"
+	.string "…But, you're welcome to battle with\n"
+	.string "us again.$"
+
+Route24_Text_ReliRematchIntro:
+	.string "You always look so busy…\n"
+	.string "Aren't you getting tired?$"
+
+Route24_Text_AliRematchIntro:
+	.string "The time we battled…\p"
+	.string "Even though I was the second in\n"
+	.string "line, I was the best, wasn't I?$"
+
+Route24_Text_ShaneRematchIntro:
+	.string "I saw your feat from the grass!$"
+
+Route24_Text_EthanRematchIntro:
+	.string "Okay!\n"
+	.string "I'll stomp you!$"

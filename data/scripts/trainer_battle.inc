@@ -123,3 +123,10 @@ Std_MsgboxAutoclose::
 	waitbuttonpress
 	release
 	return
+
+@ The VS SEEKER's battery is charged again: the trainers who raised a hand for it stop waiting
+EventScript_VsSeekerChargingDone::
+	lockall
+	special VsSeekerResetObjectMovementAfterChargeComplete
+	releaseall
+	end

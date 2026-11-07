@@ -79,34 +79,42 @@ SevenIsland_SevaultCanyon_EventScript_BlackBelt::
 	end
 
 SevenIsland_SevaultCanyon_EventScript_CyndyRematch::
+	trainerbattle_rematch TRAINER_KANTO_CRUSH_GIRL_CYNDY, SevenIsland_SevaultCanyon_Text_CyndyRematchIntro, SevenIsland_SevaultCanyon_Text_CyndyDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_CyndyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_EvanRematch::
+	trainerbattle_rematch TRAINER_KANTO_TAMER_EVAN, SevenIsland_SevaultCanyon_Text_EvanRematchIntro, SevenIsland_SevaultCanyon_Text_EvanDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_EvanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_JacksonRematch::
+	trainerbattle_rematch TRAINER_KANTO_PKMN_RANGER_JACKSON, SevenIsland_SevaultCanyon_Text_JacksonRematchIntro, SevenIsland_SevaultCanyon_Text_JacksonDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_JacksonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_KatelynRematch::
+	trainerbattle_rematch TRAINER_KANTO_PKMN_RANGER_KATELYN, SevenIsland_SevaultCanyon_Text_KatelynRematchIntro, SevenIsland_SevaultCanyon_Text_KatelynDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_KatelynPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_LeroyRematch::
+	trainerbattle_rematch TRAINER_KANTO_COOLTRAINER_LEROY, SevenIsland_SevaultCanyon_Text_LeroyRematchIntro, SevenIsland_SevaultCanyon_Text_LeroyDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_LeroyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_LexRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_COOL_COUPLE_LEX_NYA, SevenIsland_SevaultCanyon_Text_LexRematchIntro, SevenIsland_SevaultCanyon_Text_LexDefeat, SevenIsland_SevaultCanyon_Text_LexNotEnoughMons
 	msgbox SevenIsland_SevaultCanyon_Text_LexPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_MichelleRematch::
+	trainerbattle_rematch TRAINER_KANTO_COOLTRAINER_MICHELLE, SevenIsland_SevaultCanyon_Text_MichelleRematchIntro, SevenIsland_SevaultCanyon_Text_MichelleDefeat
 	msgbox SevenIsland_SevaultCanyon_Text_MichellePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_SevaultCanyon_EventScript_NyaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_COOL_COUPLE_LEX_NYA, SevenIsland_SevaultCanyon_Text_NyaRematchIntro, SevenIsland_SevaultCanyon_Text_NyaDefeat, SevenIsland_SevaultCanyon_Text_NyaNotEnoughMons
 	msgbox SevenIsland_SevaultCanyon_Text_NyaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -251,3 +259,39 @@ SevenIsland_SevaultCanyon_Text_RouteSign:
 SevenIsland_SevaultCanyon_EventScript_ItemTyranitarite::
 	finditem ITEM_TYRANITARITE
 	end
+
+SevenIsland_SevaultCanyon_Text_CyndyRematchIntro:
+	.string "Let's have another battle.\n"
+	.string "My conditioning's in top form!$"
+
+SevenIsland_SevaultCanyon_Text_EvanRematchIntro:
+	.string "It doesn't matter if you happen to\n"
+	.string "have the strongest POKéMON…\p"
+	.string "It doesn't mean a thing if you don't\n"
+	.string "know how to use them properly!$"
+
+SevenIsland_SevaultCanyon_Text_JacksonRematchIntro:
+	.string "I work to protect the environment.\n"
+	.string "In turn, nature protects me!$"
+
+SevenIsland_SevaultCanyon_Text_KatelynRematchIntro:
+	.string "Every time we meet, you have those\n"
+	.string "snazzy shoes on.$"
+
+SevenIsland_SevaultCanyon_Text_LeroyRematchIntro:
+	.string "You must have gotten tougher.\n"
+	.string "Let me battle you, please!$"
+
+SevenIsland_SevaultCanyon_Text_MichelleRematchIntro:
+	.string "I was given the best possible\n"
+	.string "education to become this strong.\p"
+	.string "I won't lose this time.\n"
+	.string "Absolutely not!$"
+
+SevenIsland_SevaultCanyon_Text_LexRematchIntro:
+	.string "LEX: My darling NYA, together\n"
+	.string "we will win for certain!$"
+
+SevenIsland_SevaultCanyon_Text_NyaRematchIntro:
+	.string "NYA: I won't drag down my mentor\n"
+	.string "LEX! We're going to win!$"

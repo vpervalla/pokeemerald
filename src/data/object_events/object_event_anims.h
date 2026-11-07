@@ -822,6 +822,12 @@ static const union AnimCmd *const sAnimTable_QuintyPlump[] = {
     [ANIM_STD_GO_FASTEST_EAST] = sAnim_QuintyPlumpGoFastestEast,
 };
 
+// FRLG: a trainer who wants a rematch raises a hand (only the Kanto trainers' pics have the frame)
+static const union AnimCmd sAnim_RaiseHand[] = {
+    ANIMCMD_FRAME(9, 0),
+    ANIMCMD_END,
+};
+
 static const union AnimCmd *const sAnimTable_Standard[] = {
     [ANIM_STD_FACE_SOUTH] = sAnim_FaceSouth,
     [ANIM_STD_FACE_NORTH] = sAnim_FaceNorth,
@@ -843,6 +849,7 @@ static const union AnimCmd *const sAnimTable_Standard[] = {
     [ANIM_STD_GO_FASTEST_NORTH] = sAnim_GoFastestNorth,
     [ANIM_STD_GO_FASTEST_WEST] = sAnim_GoFastestWest,
     [ANIM_STD_GO_FASTEST_EAST] = sAnim_GoFastestEast,
+    [ANIM_RAISE_HAND] = sAnim_RaiseHand,
 };
 
 static const union AnimCmd *const sAnimTable_HoOh[] = {
@@ -1097,8 +1104,30 @@ static const union AnimCmd *const sAnimTable_Nurse[] = {
     [ANIM_NURSE_BOW] = sAnim_NurseBow,
 };
 
+// FRLG's: Red and Leaf beep the VS SEEKER (frames 5-8 of their item sheets)
+static const union AnimCmd sAnim_VSSeeker[] = {
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_LOOP(0),
+    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(8, 4),
+    ANIMCMD_LOOP(6),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_END,
+};
+
 static const union AnimCmd *const sAnimTable_FieldMove[] = {
     [ANIM_FIELD_MOVE] = sAnim_FieldMove,
+    [ANIM_VS_SEEKER] = sAnim_FieldMove,
+};
+
+static const union AnimCmd *const sAnimTable_RedLeafFieldMove[] = {
+    [ANIM_FIELD_MOVE] = sAnim_FieldMove,
+    [ANIM_VS_SEEKER] = sAnim_VSSeeker,
 };
 
 static const union AnimCmd *const sAnimTable_BerryTree[] = {

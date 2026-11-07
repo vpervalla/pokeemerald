@@ -68,6 +68,9 @@
 #define FLDEFF_RAYQUAZA_SPOTLIGHT        64
 #define FLDEFF_DESTROY_DEOXYS_ROCK       65
 #define FLDEFF_MOVE_DEOXYS_ROCK          66
+// FRLG's VS SEEKER answers (src/vs_seeker.c)
+#define FLDEFF_X_ICON                    67
+#define FLDEFF_DOUBLE_EXCL_MARK_ICON     68
 
 #define FLDEFFOBJ_SHADOW_S              0
 #define FLDEFFOBJ_SHADOW_M              1
