@@ -8,8 +8,8 @@
 #   MegaIsland_Sanctum      the big cave where MEWTWO waits, in front of its east wall; after the
 #                           battle a passage opens there, behind it
 #   MegaIsland_LedgeRoom    past the passage: a ledge that can only be jumped down from the north,
-#                           and a ladder up to the island's cave (MegaIsland_Cave, whose ladder down
-#                           build_route.py leaves under a boulder until the passage has opened)
+#                           and a ladder up to the island's cave (MegaIsland_Cave): from there, the
+#                           room below the ledge is a dead end
 # The coordinates the map events and scripts use are the constants below. PREVIEW=out.png renders
 # the three maps side by side.
 import struct, os

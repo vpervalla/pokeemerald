@@ -193,12 +193,11 @@ with open(LD+'border.bin','wb') as f:
     f.write(struct.pack('<4H',*([WATER|0x3000]*4)))
 print('port written',PW,PH)
 
-# ---- the small cave: the Lost Cave's first room, its ladder down under a boulder (the scripts
-# uncover it once the passage behind MEWTWO has opened: the way back up from MegaIsland_LedgeRoom,
-# see build_caves.py) ----
+# ---- the small cave: the Lost Cave's first room as it is. Its ladder down leads to
+# MegaIsland_LedgeRoom, below the ledge: a dead end from here, and the way back up from MEWTWO's
+# sanctum (see build_caves.py) ----
 L={l['id']:l for l in json.load(open(REPO+'data/layouts/layouts.json'))['layouts'] if 'id' in l}['LAYOUT_FIVE_ISLAND_LOST_CAVE_ENTRANCE']
 d=[v for (v,) in struct.iter_unpack('<H',open(REPO+L['blockdata_filepath'],'rb').read())]
-d[5*11+5]=0x282|1<<10|3<<12                       # a boulder (solid) on the ladder
 LD=REPO+'data/layouts/MegaIsland_Cave/'
 os.makedirs(LD,exist_ok=True)
 open(LD+'map.bin','wb').write(b''.join(struct.pack('<H',v) for v in d))
