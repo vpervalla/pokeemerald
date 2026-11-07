@@ -4,6 +4,7 @@
 #include "random.h"
 #include "event_data.h"
 #include "fieldmap.h"
+#include "tilesets.h"
 #include "field_camera.h"
 #include "field_specials.h"
 #include "fldeff.h"
@@ -88,6 +89,7 @@ static void ClearPokeNews(void);
 static u8 GetTVGroupByShowId(u8);
 static u8 FindFirstActiveTVShowThatIsNotAMassOutbreak(void);
 static void SetTVMetatilesOnMap(int, int, u16);
+static u16 GetTVMetatileId(bool32);
 static u8 FindAnyPokeNewsOnTheAir(void);
 static void TakeGabbyAndTyOffTheAir(void);
 static bool8 BernoulliTrial(u16 ratio);
@@ -829,7 +831,7 @@ void UpdateTVScreensOnMap(int width, int height)
     switch (CheckForPlayersHouseNews())
     {
     case PLAYERS_HOUSE_TV_LATI:
-        SetTVMetatilesOnMap(width, height, METATILE_Building_TV_On);
+        SetTVMetatilesOnMap(width, height, GetTVMetatileId(TRUE));
         break;
     case PLAYERS_HOUSE_TV_MOVIE:
         // Don't flash TV for movie text in player's house
@@ -840,15 +842,26 @@ void UpdateTVScreensOnMap(int width, int height)
          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_LILYCOVE_CITY_COVE_LILY_MOTEL_1F))
         {
             // NPC in Lilycove Hotel is always watching TV
-            SetTVMetatilesOnMap(width, height, METATILE_Building_TV_On);
+            SetTVMetatilesOnMap(width, height, GetTVMetatileId(TRUE));
         }
         else if (FlagGet(FLAG_SYS_TV_START) && (FindAnyTVShowOnTheAir() != 0xFF || FindAnyPokeNewsOnTheAir() != 0xFF || IsGabbyAndTyShowOnTheAir()))
         {
             FlagClear(FLAG_SYS_TV_WATCH);
-            SetTVMetatilesOnMap(width, height, METATILE_Building_TV_On);
+            SetTVMetatilesOnMap(width, height, GetTVMetatileId(TRUE));
         }
         break;
     }
+}
+
+// The Kanto houses' TV (KantoBuilding) has its own metatiles: Emerald's IDs are a wood panel there.
+#define METATILE_KantoBuilding_TV_Off 0x035
+#define METATILE_KantoBuilding_TV_On  0x061
+
+static u16 GetTVMetatileId(bool32 screenOn)
+{
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_KantoBuilding)
+        return screenOn ? METATILE_KantoBuilding_TV_On : METATILE_KantoBuilding_TV_Off;
+    return screenOn ? METATILE_Building_TV_On : METATILE_Building_TV_Off;
 }
 
 static void SetTVMetatilesOnMap(int width, int height, u16 metatileId)
@@ -868,13 +881,13 @@ static void SetTVMetatilesOnMap(int width, int height, u16 metatileId)
 
 void TurnOffTVScreen(void)
 {
-    SetTVMetatilesOnMap(gBackupMapLayout.width, gBackupMapLayout.height, METATILE_Building_TV_Off);
+    SetTVMetatilesOnMap(gBackupMapLayout.width, gBackupMapLayout.height, GetTVMetatileId(FALSE));
     DrawWholeMapView();
 }
 
 void TurnOnTVScreen(void)
 {
-    SetTVMetatilesOnMap(gBackupMapLayout.width, gBackupMapLayout.height, METATILE_Building_TV_On);
+    SetTVMetatilesOnMap(gBackupMapLayout.width, gBackupMapLayout.height, GetTVMetatileId(TRUE));
     DrawWholeMapView();
 }
 
