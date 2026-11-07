@@ -137,22 +137,53 @@ def build_sanctum_tileset():
     glow=640+len(meta)
     meta.append(rock[:4]+tuple((640+first+i)|PAL<<12 for i in range(4))); attr.append(attr[ROCK-640])
     # The stone spire of the island's route (the Memorial Pillar's, on kanto_sevii_islands_45): its top
-    # layer, drawn in kanto_general's palettes, on the cave's floor; its tiles copied after the rock's.
+    # layer, recoloured from kanto_general's greys into the cave rock's browns (the rock's palette),
+    # on the cave's floor, and glowing as the rock does. Its tiles follow the rock's, one block, a
+    # metatile's four after another, so its animation is one copy.
     SEVII=REPO+'data/tilesets/secondary/kanto_sevii_islands_45/'
     stiles=render.load_tiles(SEVII)
     smeta=list(struct.iter_unpack('<8H',open(SEVII+'metatiles.bin','rb').read()))
     sattr=[a for (a,) in struct.iter_unpack('<H',open(SEVII+'metatile_attributes.bin','rb').read())]
-    copied={}
-    def copy(e):
-        t=e&0x3ff
-        if t<640: return e
-        if t not in copied: copied[t]=640+len(tiles); tiles.append(stiles[t-640])
-        return copied[t]|(e&0xfc00)
+    W,H=16*len(SPIRE[0]),16*len(SPIRE)
+    G=[[0]*W for _ in range(H)]
+    for j,row in enumerate(SPIRE):
+        for i,m in enumerate(row):
+            if m is None: continue
+            for q,e in enumerate(smeta[m-640][4:]):
+                if e&0x3ff<640: continue
+                t=stiles[(e&0x3ff)-640]; hf=e>>10&1; vf=e>>11&1
+                for y in range(8):
+                    for x in range(8): G[j*16+(q>>1)*8+y][i*16+(q&1)*8+x]=t[7-y if vf else y][7-x if hf else x]
+    BASE=H-12                       # from this row down, the shadow at its foot, on the floor
+    STONE={2:9,3:0xa,4:0xb,5:0xc,6:0xd,7:0xe}      # its greys, light to dark, to the rock's browns
+    SHADE={2:9,3:0xa,4:0xb,5:4,6:0xd,7:0xe}        # in the shadow, the floor's shade
+    G=[[(SHADE if y>=BASE else STONE)[v] if v else 0 for v in r] for y,r in enumerate(G)]
+    def light(g0,level,base):
+        # The rock's light, on any picture of the stone (rows from base down left as they are).
+        h,w=len(g0),len(g0[0]); g=[r[:] for r in g0]
+        solid=lambda x,y: 0<=x<w and 0<=y<h and g0[y][x]!=0
+        for y in range(min(base,h)):
+            for x in range(w):
+                if solid(x,y):
+                    if any(not solid(a,b) for a,b in near(x,y)): g[y][x]=(DARK,MID,MID)[level]
+                    elif g0[y][x]==9 and level: g[y][x]=(MID,BRIGHT)[level-1]
+                    elif g0[y][x]==0xa and level==2: g[y][x]=MID
+                elif level and any(solid(a,b) for a,b in near(x,y)):
+                    g[y][x]=DARK if level==1 else (BRIGHT if (x+y)%2 else MID)
+        return g
+    cells=[(i,j,m) for j,row in enumerate(SPIRE) for i,m in enumerate(row) if m]
+    def spire_frame(level):
+        # The spire's cells, one under the other, as its tiles are laid out.
+        g=light(G,level,BASE)
+        return [r[i*16:i*16+16] for i,j,m in cells for r in g[j*16:j*16+16]]
+    spire_frames=[spire_frame(l) for l in (0,1,2)]
+    spire_first=len(tiles)
     floor=meta[FLOOR-640][:4]
     spire={}
-    for m in sorted({m for row in SPIRE for m in row if m}):
+    for k,(i,j,m) in enumerate(cells):
+        tiles.extend(split(spire_frames[0][k*16:k*16+16]))
         spire[m]=640+len(meta)
-        meta.append(floor+tuple(copy(e) for e in smeta[m-640][4:])); attr.append(sattr[m-640])
+        meta.append(floor+tuple((640+spire_first+4*k+q)|PAL<<12 for q in range(4))); attr.append(sattr[m-640])
     os.makedirs(DST+'palettes',exist_ok=True); os.makedirs(DST+'anim/glow',exist_ok=True)
     src=Image.open(SRC+'tiles.png')
     im=Image.new('P',(128,(len(tiles)+15)//16*8),0); im.putpalette(src.getpalette())
@@ -165,11 +196,15 @@ def build_sanctum_tileset():
             f.write('JASC-PAL\n0100\n16\n'+''.join('%d %d %d\n'%c for c in pals[p]))
     open(DST+'metatiles.bin','wb').write(b''.join(struct.pack('<8H',*e) for e in meta))
     open(DST+'metatile_attributes.bin','wb').write(b''.join(struct.pack('<H',a) for a in attr))
-    for f,g in enumerate(frames):
-        fi=Image.new('P',(16,16)); fi.putpalette([v for c in pals[PAL] for v in c])
-        for y in range(16):
-            for x in range(16): fi.putpixel((x,y),g[y][x])
-        fi.save(DST+'anim/glow/%d.png'%f)
+    def save_frame(g,path):
+        fi=Image.new('P',(len(g[0]),len(g))); fi.putpalette([v for c in pals[PAL] for v in c])
+        for y,r in enumerate(g):
+            for x,v in enumerate(r): fi.putpixel((x,y),v)
+        fi.save(path)
+    os.makedirs(DST+'anim/spire',exist_ok=True)
+    for f,g in enumerate(frames): save_frame(g,DST+'anim/glow/%d.png'%f)
+    for f,g in enumerate(spire_frames): save_frame(g,DST+'anim/spire/%d.png'%f)
+    print('the spire: %d tiles from %d'%(4*len(cells),spire_first))
     print('kanto_mega_sanctum: %d tiles (the glowing rock\'s at %d), glowing rock metatile %#x'%(len(tiles),first,glow))
     return glow,pals,spire,len(tiles)
 # The spire as it stands on the route: its tip (walked behind), the stone (solid), and the shadows at

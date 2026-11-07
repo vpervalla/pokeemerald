@@ -1293,6 +1293,17 @@ static const u16 *const sTilesetAnims_KantoMegaSanctum_Glow[] = {
     sTilesetAnims_KantoMegaSanctum_Glow_Frame1
 };
 
+static const u16 sTilesetAnims_KantoMegaSanctum_Spire_Frame0[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/spire/0.png", ".4bpp");
+static const u16 sTilesetAnims_KantoMegaSanctum_Spire_Frame1[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/spire/1.png", ".4bpp");
+static const u16 sTilesetAnims_KantoMegaSanctum_Spire_Frame2[] = INCGFX_U16("data/tilesets/secondary/kanto_mega_sanctum/anim/spire/2.png", ".4bpp");
+
+static const u16 *const sTilesetAnims_KantoMegaSanctum_Spire[] = {
+    sTilesetAnims_KantoMegaSanctum_Spire_Frame0,
+    sTilesetAnims_KantoMegaSanctum_Spire_Frame1,
+    sTilesetAnims_KantoMegaSanctum_Spire_Frame2,
+    sTilesetAnims_KantoMegaSanctum_Spire_Frame1
+};
+
 static const u16 sTilesetAnims_KantoVermilionGym_MotorizedDoor_Frame0[] = INCGFX_U16("data/tilesets/secondary/kanto_vermilion_gym/anim/motorizeddoor/0.png", ".4bpp");
 static const u16 sTilesetAnims_KantoVermilionGym_MotorizedDoor_Frame1[] = INCGFX_U16("data/tilesets/secondary/kanto_vermilion_gym/anim/motorizeddoor/1.png", ".4bpp");
 
@@ -1398,11 +1409,12 @@ void InitTilesetAnim_KantoMtEmber(void)
     sSecondaryTilesetAnimCallback = TilesetAnim_KantoMtEmber;
 }
 
-// The glowing rock's four tiles, after kanto_cave's 256: dim, brighter, brightest, brighter, each
-// for 14 frames.
+// The glowing rock's four tiles, after kanto_cave's 256, and the glowing spire's 40 after them: dim,
+// brighter, brightest, brighter, each for 14 frames.
 static void QueueAnimTiles_KantoMegaSanctum_Glow(u16 timer)
 {
     AppendTilesetAnimToBuffer(sTilesetAnims_KantoMegaSanctum_Glow[timer % ARRAY_COUNT(sTilesetAnims_KantoMegaSanctum_Glow)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(KANTO_NUM_TILES_IN_PRIMARY + 256)), 4 * TILE_SIZE_4BPP);
+    AppendTilesetAnimToBuffer(sTilesetAnims_KantoMegaSanctum_Spire[timer % ARRAY_COUNT(sTilesetAnims_KantoMegaSanctum_Spire)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(KANTO_NUM_TILES_IN_PRIMARY + 260)), 40 * TILE_SIZE_4BPP);
 }
 
 static void TilesetAnim_KantoMegaSanctum(u16 timer)
