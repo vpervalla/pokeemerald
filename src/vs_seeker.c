@@ -339,8 +339,7 @@ static void Task_VsSeeker_PlayerAnim(u8 taskId)
             tTimer = 11;
             tBeeps++;
         }
-        // The other costumes' field move pose is shorter than Red's and Leaf's VS SEEKER frames:
-        // they keep it up until the third beep
+        // The pose lasts past the third beep; on the water (no pose) wait for the beeps
         if (tBeeps == 3 && (!ObjectEventIsMovementOverridden(playerObj) || ObjectEventClearHeldMovementIfFinished(playerObj)))
         {
             if (GetObjectEventGraphicsId(playerObj) != tSavedGfx)

@@ -315,7 +315,7 @@
 #define ANIM_RAISE_HAND (ANIM_STD_COUNT + 0)
 
 #define ANIM_FIELD_MOVE 0
-#define ANIM_VS_SEEKER  1 // Red and Leaf have FRLG's frames; the other costumes hold up an arm
+#define ANIM_VS_SEEKER  1 // the player holds up the VS SEEKER, whose screen blinks (every costume's field move pics)
 
 #define ANIM_STAY_STILL      0
 #define ANIM_REMOVE_OBSTACLE 1

@@ -1120,9 +1120,52 @@ static const union AnimCmd sAnim_VSSeeker[] = {
     ANIMCMD_END,
 };
 
+// Brendan and May (frames 5-7 of their field move sheets)
+static const union AnimCmd sAnim_VSSeekerBrendanMay[] = {
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_LOOP(0),
+    ANIMCMD_FRAME(7, 4),
+    ANIMCMD_FRAME(6, 4),
+    ANIMCMD_LOOP(6),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_END,
+};
+
+// Ethan and Kris (frames 9-11 of their item sheets)
+static const union AnimCmd sAnim_VSSeekerEthanKris[] = {
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_FRAME(10, 4),
+    ANIMCMD_LOOP(0),
+    ANIMCMD_FRAME(11, 4),
+    ANIMCMD_FRAME(10, 4),
+    ANIMCMD_LOOP(6),
+    ANIMCMD_FRAME(9, 4),
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_END,
+};
+
+// The rivals' field move pics have no VS SEEKER frames
 static const union AnimCmd *const sAnimTable_FieldMove[] = {
     [ANIM_FIELD_MOVE] = sAnim_FieldMove,
     [ANIM_VS_SEEKER] = sAnim_FieldMove,
+};
+
+static const union AnimCmd *const sAnimTable_BrendanMayFieldMove[] = {
+    [ANIM_FIELD_MOVE] = sAnim_FieldMove,
+    [ANIM_VS_SEEKER] = sAnim_VSSeekerBrendanMay,
+};
+
+static const union AnimCmd *const sAnimTable_EthanKrisFieldMove[] = {
+    [ANIM_FIELD_MOVE] = sAnim_FieldMove,
+    [ANIM_VS_SEEKER] = sAnim_VSSeekerEthanKris,
 };
 
 static const union AnimCmd *const sAnimTable_RedLeafFieldMove[] = {

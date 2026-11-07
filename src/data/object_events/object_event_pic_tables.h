@@ -94,6 +94,10 @@ static const struct SpriteFrameImage sPicTable_BrendanFieldMove[] = {
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 2),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 3),
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 4),
+    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 5),
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 6),
+    overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 7),
 };
 
 static const struct SpriteFrameImage sPicTable_QuintyPlump[] = {
@@ -1085,6 +1089,10 @@ static const struct SpriteFrameImage sPicTable_MayFieldMove[] = {
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 2),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 3),
     overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 4),
+    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 5),
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 6),
+    overworld_frame(gObjectEventPic_MayFieldMove, 4, 4, 7),
 };
 
 static const struct SpriteFrameImage sPicTable_Cameraman[] = {
@@ -2477,6 +2485,10 @@ static const struct SpriteFrameImage sPicTable_EthanPlayerFieldMove[] = {
     overworld_frame(gObjectEventPic_EthanItem, 2, 4, 6),
     overworld_frame(gObjectEventPic_EthanItem, 2, 4, 7),
     overworld_frame(gObjectEventPic_EthanItem, 2, 4, 8),
+    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 9),
+    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 10),
+    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 11),
 };
 
 static const struct SpriteFrameImage sPicTable_EthanPlayerFishing[] = {
@@ -2584,6 +2596,10 @@ static const struct SpriteFrameImage sPicTable_KrisPlayerFieldMove[] = {
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 6),
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 7),
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 8),
+    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
+    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 9),
+    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 10),
+    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 11),
 };
 
 static const struct SpriteFrameImage sPicTable_KrisPlayerFishing[] = {

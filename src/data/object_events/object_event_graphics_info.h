@@ -88,7 +88,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrendanFieldMove =
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_BrendanMayFieldMove,
     .images = sPicTable_BrendanFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
@@ -1779,7 +1779,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MayFieldMove = {
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_BrendanMayFieldMove,
     .images = sPicTable_MayFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
@@ -4971,7 +4971,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EthanPlayerFieldMo
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_EthanKrisFieldMove,
     .images = sPicTable_EthanPlayerFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
@@ -5085,7 +5085,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_KrisPlayerFieldMov
     .tracks = TRACKS_FOOT,
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
-    .anims = sAnimTable_FieldMove,
+    .anims = sAnimTable_EthanKrisFieldMove,
     .images = sPicTable_KrisPlayerFieldMove,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
