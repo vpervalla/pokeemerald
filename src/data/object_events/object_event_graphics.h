@@ -364,10 +364,10 @@ const u32 gObjectEventPic_LeafFish[] = INCGFX_U32("graphics/object_events/pics/p
 // Ethan and Kris as the player, for the Johto player costume
 const u16 gObjectEventPal_PlayerEthan[] = INCGFX_U16("graphics/object_events/palettes/player_ethan.pal", ".gbapal");
 const u16 gObjectEventPal_PlayerEthanReflection[] = INCGFX_U16("graphics/object_events/palettes/player_ethan_reflection.pal", ".gbapal");
-const u32 gObjectEventPic_EthanNormal[] = INCGFX_U32("graphics/object_events/pics/people/ethan/normal.png", ".4bpp", "-mwidth 2 -mheight 4");
-const u32 gObjectEventPic_EthanSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/ethan/surf_run.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_EthanNormal[] = INCGFX_U32("graphics/object_events/pics/people/ethan/normal.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_EthanSurfRun[] = INCGFX_U32("graphics/object_events/pics/people/ethan/surf_run.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u32 gObjectEventPic_EthanBike[] = INCGFX_U32("graphics/object_events/pics/people/ethan/bike.png", ".4bpp", "-mwidth 4 -mheight 4");
-const u32 gObjectEventPic_EthanItem[] = INCGFX_U32("graphics/object_events/pics/people/ethan/item.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_EthanItem[] = INCGFX_U32("graphics/object_events/pics/people/ethan/item.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u32 gObjectEventPic_EthanFish[] = INCGFX_U32("graphics/object_events/pics/people/ethan/fish.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u16 gObjectEventPal_PlayerKris[] = INCGFX_U16("graphics/object_events/palettes/player_kris.pal", ".gbapal");
 const u16 gObjectEventPal_PlayerKrisReflection[] = INCGFX_U16("graphics/object_events/palettes/player_kris_reflection.pal", ".gbapal");

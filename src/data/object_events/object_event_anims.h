@@ -1138,9 +1138,11 @@ static const union AnimCmd sAnim_VSSeekerBrendanMay[] = {
     ANIMCMD_END,
 };
 
-// Ethan and Kris (frames 9-11 of their item sheets)
-static const union AnimCmd sAnim_VSSeekerEthanKris[] = {
+// Ethan (frames 9-11 of his item sheet; Kris has FRLG's frames, as Red and Leaf)
+static const union AnimCmd sAnim_VSSeekerEthan[] = {
     ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(1, 4),
+    ANIMCMD_FRAME(2, 4),
     ANIMCMD_FRAME(9, 4),
     ANIMCMD_FRAME(10, 4),
     ANIMCMD_LOOP(0),
@@ -1148,6 +1150,8 @@ static const union AnimCmd sAnim_VSSeekerEthanKris[] = {
     ANIMCMD_FRAME(10, 4),
     ANIMCMD_LOOP(6),
     ANIMCMD_FRAME(9, 4),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(1, 4),
     ANIMCMD_FRAME(0, 4),
     ANIMCMD_END,
 };
@@ -1163,9 +1167,9 @@ static const union AnimCmd *const sAnimTable_BrendanMayFieldMove[] = {
     [ANIM_VS_SEEKER] = sAnim_VSSeekerBrendanMay,
 };
 
-static const union AnimCmd *const sAnimTable_EthanKrisFieldMove[] = {
+static const union AnimCmd *const sAnimTable_EthanFieldMove[] = {
     [ANIM_FIELD_MOVE] = sAnim_FieldMove,
-    [ANIM_VS_SEEKER] = sAnim_VSSeekerEthanKris,
+    [ANIM_VS_SEEKER] = sAnim_VSSeekerEthan,
 };
 
 static const union AnimCmd *const sAnimTable_RedLeafFieldMove[] = {

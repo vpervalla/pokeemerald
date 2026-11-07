@@ -2397,24 +2397,24 @@ static const struct SpriteFrameImage sPicTable_RubySapphireMay[] = {
 
 // Walking frames, then the running frames, both in Brendan's layout.
 static const struct SpriteFrameImage sPicTable_EthanPlayerNormal[] = {
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 2),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 3),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 4),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 5),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 6),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 7),
-    overworld_frame(gObjectEventPic_EthanNormal, 2, 4, 8),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 3),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 4),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 5),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 6),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 7),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 8),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 9),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 10),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 11),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 2),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 3),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 4),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 5),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 6),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 7),
+    overworld_frame(gObjectEventPic_EthanNormal, 4, 4, 8),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 3),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 4),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 5),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 6),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 7),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 8),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 9),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 10),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 11),
 };
 
 static const struct SpriteFrameImage sPicTable_EthanPlayerBike[] = {
@@ -2461,34 +2461,34 @@ static const struct SpriteFrameImage sPicTable_EthanPlayerAcroBike[] = {
 };
 
 static const struct SpriteFrameImage sPicTable_EthanPlayerSurfing[] = {
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 2),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 2),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 2),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanSurfRun, 2, 4, 2),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 2),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 2),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 2),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanSurfRun, 4, 4, 2),
 };
 
 static const struct SpriteFrameImage sPicTable_EthanPlayerFieldMove[] = {
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 0),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 1),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 2),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 3),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 4),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 5),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 6),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 7),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 8),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 0),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 1),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 2),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 3),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 4),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 5),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 6),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 7),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 8),
     // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 9),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 10),
-    overworld_frame(gObjectEventPic_EthanItem, 2, 4, 11),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 9),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 10),
+    overworld_frame(gObjectEventPic_EthanItem, 4, 4, 11),
 };
 
 static const struct SpriteFrameImage sPicTable_EthanPlayerFishing[] = {
@@ -2596,10 +2596,6 @@ static const struct SpriteFrameImage sPicTable_KrisPlayerFieldMove[] = {
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 6),
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 7),
     overworld_frame(gObjectEventPic_KrisItem, 2, 4, 8),
-    // The VS SEEKER held up (ANIM_VS_SEEKER), its screen off, then lit
-    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 9),
-    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 10),
-    overworld_frame(gObjectEventPic_KrisItem, 2, 4, 11),
 };
 
 static const struct SpriteFrameImage sPicTable_KrisPlayerFishing[] = {
