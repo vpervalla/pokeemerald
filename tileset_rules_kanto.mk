@@ -70,7 +70,7 @@ $(TILESETGFXDIR)/secondary/kanto_cave/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 256 -Wnum_tiles
 
 $(TILESETGFXDIR)/secondary/kanto_mega_sanctum/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 260 -Wnum_tiles
+	$(GFX) $< $@ -num_tiles 296 -Wnum_tiles
 
 $(TILESETGFXDIR)/secondary/kanto_bike_shop/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 60 -Wnum_tiles

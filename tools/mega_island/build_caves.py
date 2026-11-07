@@ -90,8 +90,8 @@ S=Room(17,13)
 SANCTUM_ENTRANCE=S.north_exit(4)             # (4,1)
 MEWTWO=(13,6)
 SANCTUM_EXIT=(14,6)                          # the passage that opens behind MEWTWO (see below)
-for j,r in enumerate(CIRCLE):                # the ring on the floor, before MEWTWO
-    for i,m in enumerate(r): S.floor(9+i,5+j,m)
+for j,r in enumerate(CIRCLE):                # the ring on the floor, before the spire
+    for i,m in enumerate(r): S.floor(9+i,6+j,m)
 # ---- the sanctum's tileset: kanto_cave and the glowing rock ----
 def build_sanctum_tileset():
     import render
@@ -136,6 +136,23 @@ def build_sanctum_tileset():
     first=len(tiles); tiles+=split(frames[0])
     glow=640+len(meta)
     meta.append(rock[:4]+tuple((640+first+i)|PAL<<12 for i in range(4))); attr.append(attr[ROCK-640])
+    # The stone spire of the island's route (the Memorial Pillar's, on kanto_sevii_islands_45): its top
+    # layer, drawn in kanto_general's palettes, on the cave's floor; its tiles copied after the rock's.
+    SEVII=REPO+'data/tilesets/secondary/kanto_sevii_islands_45/'
+    stiles=render.load_tiles(SEVII)
+    smeta=list(struct.iter_unpack('<8H',open(SEVII+'metatiles.bin','rb').read()))
+    sattr=[a for (a,) in struct.iter_unpack('<H',open(SEVII+'metatile_attributes.bin','rb').read())]
+    copied={}
+    def copy(e):
+        t=e&0x3ff
+        if t<640: return e
+        if t not in copied: copied[t]=640+len(tiles); tiles.append(stiles[t-640])
+        return copied[t]|(e&0xfc00)
+    floor=meta[FLOOR-640][:4]
+    spire={}
+    for m in sorted({m for row in SPIRE for m in row if m}):
+        spire[m]=640+len(meta)
+        meta.append(floor+tuple(copy(e) for e in smeta[m-640][4:])); attr.append(sattr[m-640])
     os.makedirs(DST+'palettes',exist_ok=True); os.makedirs(DST+'anim/glow',exist_ok=True)
     src=Image.open(SRC+'tiles.png')
     im=Image.new('P',(128,(len(tiles)+15)//16*8),0); im.putpalette(src.getpalette())
@@ -154,9 +171,19 @@ def build_sanctum_tileset():
             for x in range(16): fi.putpixel((x,y),g[y][x])
         fi.save(DST+'anim/glow/%d.png'%f)
     print('kanto_mega_sanctum: %d tiles (the glowing rock\'s at %d), glowing rock metatile %#x'%(len(tiles),first,glow))
-    return glow,pals
-GLOW_ROCK,SANCTUM_PALS=build_sanctum_tileset()
+    return glow,pals,spire,len(tiles)
+# The spire as it stands on the route: its tip (walked behind), the stone (solid), and the shadows at
+# its foot on either side.
+SPIRE=((None,0x2c0,0x2c1,None),(None,0x2c8,0x2c9,None),(None,0x2d0,0x2d1,None),(0x2c2,0x2d8,0x2d9,0x2ca))
+GLOW_ROCK,SANCTUM_PALS,SPIRE_METATILES,SANCTUM_TILES=build_sanctum_tileset()
 assert GLOW_ROCK==0x321
+SPIRE_AT=(8,2)                               # behind the ring, against the north wall
+for j,row in enumerate(SPIRE):
+    for i,m in enumerate(row):
+        if m is None: continue
+        x,y=SPIRE_AT[0]+i,SPIRE_AT[1]+j
+        if 0<j and 0<i<3: S.wall(x,y,SPIRE_METATILES[m]|3<<12)
+        else: S.floor(x,y,SPIRE_METATILES[m])
 for p in ((3,9),(7,3),(11,10),(14,3),(2,5),(13,9)): S.rock(*p,GLOW_ROCK)
 # The passage, closed and open: the floor cell in front of the east wall and the wall cell.
 SANCTUM_CLOSED=(FLOOR,0x290)
