@@ -259,8 +259,11 @@ them that he waits in the arena.
 
 ## The daily tournament
 
-Once MEWTWO has revealed itself (state 9 or more), the champions stay on the island and a new
-tournament is held each day (`FLAG_DAILY_APEX_TOURNAMENT`). The receptionist registers the player
+Once LEON and CYNTHIA have told the player about it, after MEWTWO (`FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT`,
+below), the champions stay on the island and a new tournament is held each day
+(`FLAG_DAILY_APEX_TOURNAMENT`). Until then the receptionist says MR. M. hasn't come back and the two went
+looking for the player, or, once the passage behind MEWTWO is open, that they wait by the route's cave.
+(A save where MEWTWO was caught in the route's cave, before the sanctum, keeps the tournament.) The receptionist registers the player
 (no night's sleep needed) and heals them between rounds. Its three rounds are against opponents
 drawn at random among the eight other champions, ALAIN included (`RandomizeTournamentOpponents`
 and `GetTournamentOpponent` in `src/field_specials.c`; `VAR_TOURNAMENT_ROUND` and
@@ -313,6 +316,18 @@ room down the ladder is a dead end; afterwards he's amazed to see the player com
 never saw them go down. (A save from
 before this change, with MEWTWO waiting in the island's cave, finds it in the sanctum and the arena's
 door open.)
+
+Coming out of the island's cave after that (the passage open, MEWTWO won or caught), the player is met by
+LEON and CYNTHIA, who come up the plateau's stairs (`MegaIsland_EventScript_ChampionsApproach`): they saw
+MR. M. lead the player through the arena's door and went after them, but it was locked for them, and
+they searched the island for another way in. The player tells them about MEWTWO; they realize MR. M. was
+MEWTWO all along, and what the tournament was for. Then they explain that the tournament goes on, a new
+one each day in the castle, ALAIN joining them, and its rules: lv 50 for everyone (the team back to
+normal after, no EXP.), no legendary POKéMON, three opponents drawn at random among the champions, healed
+between rounds, and a loss ends the day's tournament. They go back down the stairs, and the daily
+tournament opens. If the player comes onto the route any other way first, the two wait on the plateau
+and speaking to either starts the talk. LEON uses the special NPC palette slot and CYNTHIA its
+reflection's (`OBJ_EVENT_GFX_CHAMPION_CYNTHIA_2`), so both fit on the map.
 
 ## The castle tilesets
 

@@ -197,4 +197,11 @@
 #define OBJ_EVENT_GFX_SANCTUM_MEWTWO       (OBJ_EVENT_GFX_SANCTUM_MEWTWO_START + 0)
 #define NUM_SANCTUM_MEWTWO_OBJ_EVENT_GFX 1
 
+// Added for LEON and CYNTHIA meeting the player together on Mega Island's route (not generated): CYNTHIA
+// in the special NPC's reflection slot, so LEON (in the special NPC's) can be on the map with her.
+// See src/data/object_events/champion_pair_object_events.h.
+#define OBJ_EVENT_GFX_CHAMPION_PAIR_START (OBJ_EVENT_GFX_SANCTUM_MEWTWO_START + NUM_SANCTUM_MEWTWO_OBJ_EVENT_GFX)
+#define OBJ_EVENT_GFX_CHAMPION_CYNTHIA_2  (OBJ_EVENT_GFX_CHAMPION_PAIR_START + 0)
+#define NUM_CHAMPION_PAIR_OBJ_EVENT_GFX 1
+
 #endif // GUARD_CONSTANTS_EVENT_OBJECTS_KANTO_H
