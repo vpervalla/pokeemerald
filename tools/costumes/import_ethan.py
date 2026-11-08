@@ -94,8 +94,8 @@ def write_pal(path, colours):
 def vs_frame(idx, lit):
     """A field move frame (scaled) with FRLG's VS SEEKER in place of the POKé BALL held up.
 
-    The POKé BALL is right of the raised hand: the VS SEEKER takes its place, its bottom on the
-    POKé BALL's, so the hand (left of it) holds it as Red does. Only the POKé BALL's rows are
+    The POKé BALL is right of the raised hand: the VS SEEKER takes its place, two pixels to the
+    left and one lower, so it is in the hand. Only the POKé BALL's rows are
     cleared, and never the hand's skin."""
     from vs_seeker_frames import DEVICE_OFF, DEVICE_ON
     out = idx.copy()
@@ -106,11 +106,11 @@ def vs_frame(idx, lit):
         for x in range(x0, 32):
             if out[y, x] not in (10, 11):
                 out[y, x] = 0
-    top = y1 - 5
+    top, left = y1 - 4, x0 - 2       # a pixel lower and two to the left: in his hand
     for dy, row in enumerate(DEVICE_ON if lit else DEVICE_OFF):
         for dx, ch in enumerate(row):
             if ch != ".":
-                out[top + dy, x0 + dx] = DEVICE_COLOURS[ch]
+                out[top + dy, left + dx] = DEVICE_COLOURS[ch]
     return out
 
 
