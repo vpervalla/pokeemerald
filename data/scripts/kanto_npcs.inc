@@ -1701,6 +1701,7 @@ Kanto_EventScript_SeismicTossTaught::
 Kanto_EventScript_SetDefeatedEliteFourFlagsVars::
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
 	call Kanto_EventScript_ResetEliteFour
+	special KantoFanClub_UpdateGameClear  @ restored: SAFFRON's fan club opens (src/kanto_trainer_fan_club.c)
 	call Kanto_EventScript_ResetLegendaries
 	return
 

@@ -1837,3 +1837,7 @@ const u8 gFameCheckerOakName[] = _("OAK");
 const u8 gFameCheckerDaisyName[] = _("DAISY");
 const u8 gFameCheckerBillName[] = _("BILL");
 const u8 gFameCheckerMrFujiName[] = _("FUJI");
+
+// Kanto (FRLG): SAFFRON's POKéMON TRAINER FAN CLUB
+const u8 gText_KantoFanClub_LtSurge[] = _("LT. SURGE");
+const u8 gText_KantoFanClub_Koga[] = _("KOGA");

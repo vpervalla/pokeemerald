@@ -627,3 +627,9 @@ gSpecials::
 	def_special TakePokemonFromRoute5Daycare
 	def_special SetFlavorTextFlagFromSpecialVars
 	def_special UpdatePickStateFromSpecialVar8005
+	def_special KantoFanClub_UpdateGameClear
+	def_special KantoFanClub_TryGainNewFanFromCounter
+	def_special KantoFanClub_TryLoseFansFromPlayTime
+	def_special KantoFanClub_IsMemberFanOfPlayer
+	def_special KantoFanClub_GetNumFans
+	def_special KantoFanClub_BufferTrainerName

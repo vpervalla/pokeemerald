@@ -343,6 +343,9 @@
 #define VAR_TOTODILE_TIMES_FOUND                    (KANTO_VARS_START + 0x72)
 // The last REPEL the player used, offered again when its effect wears off (data/scripts/repel.inc)
 #define VAR_LAST_REPEL_USED                         (KANTO_VARS_START + 0x73)
+// SAFFRON's POKéMON TRAINER FAN CLUB, apart from LILYCOVE's (src/kanto_trainer_fan_club.c)
+#define VAR_KANTO_FANCLUB_FAN_COUNTER               (KANTO_VARS_START + 0x74)
+#define VAR_KANTO_FANCLUB_LOSE_FAN_TIMER            (KANTO_VARS_START + 0x75)
 
 #define SPECIAL_VARS_START            0x8000
 // special vars

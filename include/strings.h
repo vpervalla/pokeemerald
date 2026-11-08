@@ -3046,4 +3046,7 @@ extern const u8 gFameCheckerDaisyName[];
 extern const u8 gFameCheckerBillName[];
 extern const u8 gFameCheckerMrFujiName[];
 
+extern const u8 gText_KantoFanClub_LtSurge[];
+extern const u8 gText_KantoFanClub_Koga[];
+
 #endif // GUARD_STRINGS_H

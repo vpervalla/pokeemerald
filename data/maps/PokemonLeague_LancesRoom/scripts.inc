@@ -17,7 +17,7 @@ PokemonLeague_LancesRoom_EventScript_CloseEntry::
 
 PokemonLeague_LancesRoom_EventScript_DefeatedLance::
 	setvar VAR_0x8004, 0
-	special Script_TryGainNewFanFromCounter
+	special KantoFanClub_TryGainNewFanFromCounter  @ changed: SAFFRON's fan club, not LILYCOVE's (src/kanto_trainer_fan_club.c)
 	setflag FLAG_DEFEATED_LANCE
 	call Kanto_PokemonLeague_EventScript_OpenDoorLance
 	msgbox PokemonLeague_LancesRoom_Text_PostBattle
