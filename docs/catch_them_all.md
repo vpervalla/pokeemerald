@@ -256,9 +256,11 @@ their FRLG names, so porting again keeps the lines), or mapped to Emerald's equi
   records, the BERRY POWDER vendor (it now takes the powder), Cycling Road's forced bike, the
   POKéMON marked as seen by signs and binoculars (`SetSeenMon`), and screen shakes.
 
-Still missing (they don't affect which POKéMON can be caught): the Fan Club's rankings, the
-museum's fossil pictures, the S.S. ANNE departure cutscene, LORELEI's dolls, the help system,
-Trainer Tower and the e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and
+Restored since: SAFFRON's POKéMON TRAINER FAN CLUB, with its own fans
+(`src/kanto_trainer_fan_club.c`), the museum's fossil pictures, the S.S. ANNE departure cutscene,
+LORELEI's dolls, BILL's teleporter animations, the FAME CHECKER and the facts it unlocks, and the
+spinner tiles of VIRIDIAN GYM and the ROCKET HIDEOUT. Still missing (they don't affect which POKéMON
+can be caught): the help system, TEACHY TV, Trainer Tower and the e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and
 Hoenn" below).
 
 ## Johto and Hoenn
