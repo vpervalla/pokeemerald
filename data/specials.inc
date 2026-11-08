@@ -639,3 +639,4 @@ gSpecials::
 	def_special AnimateTeleporterHousing
 	def_special AnimateTeleporterCable
 	def_special CallTrainerTowerFunc
+	def_special LoopWingFlapSound

@@ -5250,3 +5250,26 @@ bool8 HasLearnedAllMovesFromCapeBrinkTutor(void)
         FlagSet(FLAG_TUTOR_HYDRO_CANNON);
     return FlagGet(FLAG_TUTOR_FRENZY_PLANT) && FlagGet(FLAG_TUTOR_BLAST_BURN) && FlagGet(FLAG_TUTOR_HYDRO_CANNON);
 }
+
+// FRLG: Ho-Oh's wing flaps at Navel Rock Summit.
+// VAR_0x8004 = number of flaps, VAR_0x8005 = frames between flaps
+static void Task_WingFlapSound(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    data[1]++;
+    if (data[1] == gSpecialVar_0x8005)
+    {
+        data[0]++;
+        data[1] = 0;
+        PlaySE(SE_M_WING_ATTACK);
+    }
+    if (data[0] == gSpecialVar_0x8004 - 1)
+        DestroyTask(taskId);
+}
+
+void LoopWingFlapSound(void)
+{
+    CreateTask(Task_WingFlapSound, 8);
+    PlaySE(SE_M_WING_ATTACK);
+}

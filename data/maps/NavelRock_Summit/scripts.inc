@@ -22,6 +22,7 @@ NavelRock_Summit_EventScript_HoOh::
 	special SpawnCameraObject
 	setvar VAR_0x8004, 3
 	setvar VAR_0x8005, 35
+	special LoopWingFlapSound
 	applymovement LOCALID_KANTO_NAVEL_ROCK_HO_OH, Kanto_Movement_HoOhAppear
 	applymovement LOCALID_CAMERA, Kanto_Movement_CameraPanUp
 	waitmovement 0
@@ -35,6 +36,7 @@ NavelRock_Summit_EventScript_HoOh::
 	delay 60
 	setvar VAR_0x8004, 3
 	setvar VAR_0x8005, 35
+	special LoopWingFlapSound
 	applymovement LOCALID_CAMERA, Kanto_Movement_CameraPanDown
 	applymovement LOCALID_KANTO_NAVEL_ROCK_HO_OH, Kanto_Movement_HoOhApproach
 	waitmovement 0
