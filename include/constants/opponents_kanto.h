@@ -539,6 +539,10 @@
 // The parties of the VS SEEKER's rematches (port_rematches.py) come right after them
 #include "constants/opponents_kanto_rematches.h"
 
-#define ALL_TRAINERS_COUNT (KANTO_REMATCH_TRAINERS_START + NUM_KANTO_REMATCH_TRAINERS)
+// Added for the daily tournament after MEWTWO (not generated): WALLY, come from HOENN. After the
+// VS SEEKER's rematches; his trainer flag is the first of their flags past them (GetTrainerFlagId).
+#define TRAINER_TOURNAMENT_WALLY                      (KANTO_REMATCH_TRAINERS_START + NUM_KANTO_REMATCH_TRAINERS)
+
+#define ALL_TRAINERS_COUNT (TRAINER_TOURNAMENT_WALLY + 1)
 
 #endif // GUARD_CONSTANTS_OPPONENTS_KANTO_H

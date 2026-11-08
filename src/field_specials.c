@@ -1552,9 +1552,9 @@ bool8 RemoveTournamentMegaStones(void)
 }
 
 // MR. M.'s tournament, replayed once a day after the first: three different opponents, one per
-// round, drawn at random among the eight other champions (TOURNAMENT_OPPONENT_* in
-// MegaIsland_Arena: 0 the rival, 1 LANCE, 2 STEVEN, 3 CYNTHIA, 4 ALDER, 5 DIANTHA, 6 LEON, 7 ALAIN).
-#define NUM_TOURNAMENT_OPPONENTS 8
+// round, drawn at random among the other trainers (TOURNAMENT_OPPONENT_* in MegaIsland_Arena:
+// 0 the rival, 1 LANCE, 2 STEVEN, 3 CYNTHIA, 4 ALDER, 5 DIANTHA, 6 LEON, 7 ALAIN, 8 WALLY). Four bits each.
+#define NUM_TOURNAMENT_OPPONENTS 9
 
 void RandomizeTournamentOpponents(void)
 {

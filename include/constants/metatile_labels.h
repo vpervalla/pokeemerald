@@ -790,6 +790,9 @@
 // The Mega Island castle's arena and the hidden way to MEWTWO (tools/mega_island/build_hidden_room.py, build_caves.py)
 #define METATILE_MegaArena_HiddenDoor          0x2C5
 #define METATILE_MegaArena_HiddenDoorTop       0x2C6
+#define METATILE_MegaArena_RedMat_Left         0x2BE  // the red mat with no warp (MR. M.'s, and the hidden room's way out once shut)
+#define METATILE_MegaArena_RedMat_Mid          0x296
+#define METATILE_MegaArena_RedMat_Right        0x2C0
 #define METATILE_KantoCave_WallEast            0x290
 #define METATILE_KantoCave_EastExit_Warp       0x308
 #define METATILE_KantoCave_EastExit            0x309

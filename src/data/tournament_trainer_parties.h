@@ -409,6 +409,53 @@ static const struct TrainerMonItemCustomMoves sParty_TournamentLeon[] = {
     },
 };
 
+// WALLY: Emerald's (and Omega Ruby and Alpha Sapphire's) team, with his GARDEVOIR, from the RALTS he
+// caught with the player, Mega Evolving. Gen 1-3 only, so no GALLADE.
+static const struct TrainerMonItemCustomMoves sParty_TournamentWally[] = {
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_ALTARIA,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_DRAGON_DANCE, MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_AERIAL_ACE},
+    },
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_DELCATTY,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_SING, MOVE_DOUBLE_EDGE, MOVE_FAINT_ATTACK, MOVE_ASSIST},
+    },
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_ROSELIA,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_MAGICAL_LEAF, MOVE_GIGA_DRAIN, MOVE_LEECH_SEED, MOVE_TOXIC},
+    },
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_MAGNETON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_THUNDERBOLT, MOVE_TRI_ATTACK, MOVE_THUNDER_WAVE, MOVE_METAL_SOUND},
+    },
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_FLYGON,
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_EARTHQUAKE, MOVE_DRAGON_CLAW, MOVE_ROCK_SLIDE, MOVE_FIRE_BLAST},
+    },
+    {
+        .iv = 255,
+        .lvl = 50,
+        .species = SPECIES_GARDEVOIR,
+        .heldItem = ITEM_GARDEVOIRITE,
+        .moves = {MOVE_PSYCHIC, MOVE_CALM_MIND, MOVE_THUNDERBOLT, MOVE_SHADOW_BALL},
+    },
+};
+
 // ALAIN: the Mega Evolution trainer of the anime, with Mega Charizard X. Gen 1-3 stand-ins for
 // the rest of his team: Absol for Weavile, Swellow for Unfezant, Scizor for Bisharp.
 static const struct TrainerMonItemCustomMoves sParty_Alain[] = {

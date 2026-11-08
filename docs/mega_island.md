@@ -22,7 +22,7 @@ All of them are in `gMapGroup_KantoSpecialArea`, after Birth Island.
 | `MAP_MEGA_ISLAND_CASTLE_2F` | `LAYOUT_MEGA_ISLAND_CASTLE_2F`, 26x9, `kanto_building` + `kanto_mega_hall` | The guest floor: a corridor with windows, plants and two Mewtwo statues, the mansion's stairs down to the hall at the west end and up to the arena at the east end, and the six guest rooms' doors (door mats) in the south wall. |
 | `MAP_MEGA_ISLAND_CASTLE_ROOM1`-`6` | `LAYOUT_MEGA_ISLAND_CASTLE_GUEST_ROOM` (shared), 11x9 | The six guest rooms, one map each (so each can hold its own guest) on the same layout: the mansion's walls and floor, a bed (from the S.S. Anne's cabins), a table with a chair, plants, and the way out (a red mat and a door mat) in the south wall. |
 | `MAP_MEGA_ISLAND_ARENA` | `LAYOUT_MEGA_ISLAND_ARENA`, 23x22, `kanto_building` + `kanto_mega_arena` | The arena, on the castle's top floor: a hall in the mansion's style with four windows. MR. M. stands on a red mat between two Mewtwo statues with their eyes lit, at the north end. The battlefield is Agatha's (the Elite Four's lilac floor with white lines and a Poké Ball in the middle), lengthened. Rows of chairs for the spectators down both sides, pillars in the corners, plants, and the way down to the guest floor (a red mat and a door mat) in the middle of the south wall. Behind MR. M.'s mat, a hidden door in the base of the north wall (11,2), there from state 9. Music `MUS_RG_TRAINER_TOWER`. |
-| `MAP_MEGA_ISLAND_HIDDEN_ROOM` | `LAYOUT_MEGA_ISLAND_HIDDEN_ROOM`, 11x9, `kanto_building` + `kanto_mega_arena` | Behind the arena's hidden door: a small room of the castle in the mansion's style, with two Mewtwo statues with their eyes lit, plants, the way back to the arena (a red mat and a door mat) in the middle of the south wall, and on the floor the small stairwell going down of FRLG's underground path entrances, entered from the east. Music `MUS_RG_POKE_MANSION`. |
+| `MAP_MEGA_ISLAND_HIDDEN_ROOM` | `LAYOUT_MEGA_ISLAND_HIDDEN_ROOM`, 11x9, `kanto_building` + `kanto_mega_arena` | Behind the arena's hidden door: a small room of the castle in the mansion's style, with two Mewtwo statues with their eyes lit, plants, the door back to the arena (a red mat and a door mat, shut behind the player) in the middle of the south wall, and on the floor the small stairwell going down of FRLG's underground path entrances, entered from the east. Music `MUS_RG_POKE_MANSION`. |
 | `MAP_MEGA_ISLAND_TUNNEL` | `LAYOUT_MEGA_ISLAND_TUNNEL`, 7x26, `kanto_general` + `kanto_cave` | A tunnel going south, from the ladder up at its north end to the opening in its south end. Music `MUS_RG_SEVII_DUNGEON`, as the two below. |
 | `MAP_MEGA_ISLAND_SANCTUM` | `LAYOUT_MEGA_ISLAND_SANCTUM`, 17x13, `kanto_general` + `kanto_mega_sanctum` (`kanto_cave` with a glowing rock) | The big cave where MEWTWO waits, in front of its east wall. Against the north wall stands the stone spire of the island's route (the Memorial Pillar's), in the cave rock's browns, before it a ring drawn on the floor. The spire and the rocks glow purple, a light that pulses (`InitTilesetAnim_KantoMegaSanctum`). In through the north door; after the battle, a passage opens in the east wall behind MEWTWO. |
 | `MAP_MEGA_ISLAND_LEDGE_ROOM` | `LAYOUT_MEGA_ISLAND_LEDGE_ROOM`, 11x11, the same | Past the passage, in from the west: a ledge across the room, which can only be jumped down from the north, and below it a ladder up to the island's cave on the route. |
@@ -209,7 +209,14 @@ player is told. (As it's given after the final, this only matters for an old sav
 Guest room 1 is the player's.
 
 Alain (`TRAINER_ALAIN`, class "PKMN TRAINER", trainer pic `TRAINER_PIC_ALAIN`, overworld
-`OBJ_EVENT_GFX_ALAIN`) is ready but not placed yet: his part in the story is still to be decided.
+`OBJ_EVENT_GFX_ALAIN`) fights in the daily tournament. Once LEON and CYNTHIA have met the player after
+MEWTWO, he stands on the castle grounds' lawn, right of the approach (24,21): he heard of MR. M.'s
+tournament too late to enter, and came with CHARIZARD to get stronger. On the lawn across the approach (15,21) stands
+WALLY, come from HOENN for the tournament, whom the champions let enter the daily ones: he fights
+there with his GARDEVOIR Mega Evolving (`TRAINER_TOURNAMENT_WALLY`: ALTARIA, DELCATTY, ROSELIA,
+MAGNETON, FLYGON, GARDEVOIR with GARDEVOIRITE, lv 50; Emerald's trainer pic and class)
+(`OBJ_EVENT_GFX_KANTO_WALLY`: Emerald's WALLY in his own palette, in the special NPC's reflection slot,
+ALAIN being in the special NPC's).
 His team: Swellow, Absol, Scizor, Tyranitar, Metagross and his ace, Charizard with CHARIZARDITE X
 (Swellow, Absol and Scizor stand in for his Unfezant, Weavile and Bisharp). The teams use only Gen 1-3 POKéMON, standing in for the ones
 those champions use in their own games (Salamence for Garchomp, for example).
@@ -259,10 +266,14 @@ them that he waits in the arena.
 
 ## The daily tournament
 
-Once MEWTWO has revealed itself (state 9 or more), the champions stay on the island and a new
-tournament is held each day (`FLAG_DAILY_APEX_TOURNAMENT`). The receptionist registers the player
+Once LEON and CYNTHIA have told the player about it, after MEWTWO (`FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT`,
+below), the champions stay on the island and a new tournament is held each day
+(`FLAG_DAILY_APEX_TOURNAMENT`). Until then the receptionist says MR. M. hasn't come back and the two went
+looking for the player, or, once the passage behind MEWTWO is open, that they went to search the route's
+cave (coming out of it, the player meets them).
+(A save where MEWTWO was caught in the route's cave, before the sanctum, keeps the tournament.) The receptionist registers the player
 (no night's sleep needed) and heals them between rounds. Its three rounds are against opponents
-drawn at random among the eight other champions, ALAIN included (`RandomizeTournamentOpponents`
+drawn at random among nine trainers: the seven other champions, ALAIN and WALLY (`RandomizeTournamentOpponents`
 and `GetTournamentOpponent` in `src/field_specials.c`; `VAR_TOURNAMENT_ROUND` and
 `VAR_TOURNAMENT_OPPONENTS`, which took two unused Hoenn vars). Each one has its own replay lines
 (the `Replay*` scripts at the end of `MegaIsland_Arena`). There is no MR. M. any more and no MEGA
@@ -313,6 +324,22 @@ room down the ladder is a dead end; afterwards he's amazed to see the player com
 never saw them go down. (A save from
 before this change, with MEWTWO waiting in the island's cave, finds it in the sanctum and the arena's
 door open.)
+
+Coming out of the island's cave after that (the passage open, MEWTWO won or caught), the player is met by
+LEON and CYNTHIA, who come up the plateau's stairs (`MegaIsland_EventScript_ChampionsApproach`): they saw
+MR. M. lead the player through the arena's door and went after them, but it was locked for them, and
+they searched the island for another way in. The player tells them about MEWTWO; they realize MR. M. was
+MEWTWO all along, and what the tournament was for. Then they say that the tournament goes on, a new one
+each day in the castle, and to register at the desk. They go back down the stairs, and the daily
+tournament opens. The receptionist gives its rules when asked, before registering: lv 50 for everyone
+(the team back to normal after, no EXP.), no legendary POKéMON, three rounds (quarterfinal, semifinal,
+final), restored between rounds, and a loss ends the day's tournament. (That its opponents are drawn at
+random stands in for the other champions' matches, so she doesn't say it.) The cave is the only way out after MEWTWO: the door behind MR. M. shuts behind the
+player too (in the hidden room, its way out has no warps, `METATILE_MegaArena_RedMat_*`; the player hears
+it shut, and it won't budge), and the tunnel, the sanctum, the ledge room and the island's cave allow
+no escaping (Escape Rope, Dig). From the arena, the door can still be taken, to go back to MEWTWO.
+LEON uses the special NPC palette slot and CYNTHIA its
+reflection's (`OBJ_EVENT_GFX_CHAMPION_CYNTHIA_2`), so both fit on the map.
 
 ## The castle tilesets
 

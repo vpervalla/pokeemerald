@@ -19,7 +19,36 @@
       "direction": "down"
     }
   ],
-  "object_events": [],
+  "object_events": [
+    {
+      "local_id": "LOCALID_CASTLE_ALAIN",
+      "graphics_id": "OBJ_EVENT_GFX_ALAIN",
+      "x": 24,
+      "y": 21,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MegaIsland_Castle_EventScript_Alain",
+      "flag": "FLAG_TEMP_1"
+    },
+    {
+      "local_id": "LOCALID_CASTLE_WALLY",
+      "graphics_id": "OBJ_EVENT_GFX_KANTO_WALLY",
+      "x": 15,
+      "y": 21,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MegaIsland_Castle_EventScript_Wally",
+      "flag": "FLAG_TEMP_2"
+    }
+  ],
   "warp_events": [
     {
       "x": 19,

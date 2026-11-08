@@ -122,9 +122,12 @@ statue(R,2,3,red=True); statue(R,8,3,red=True)
 plant(R,1,6); plant(R,9,6)
 exit_mat(R,4)
 grid=[[T.metatile(R.cell[y][x],R.beh[y][x]) for x in range(R.w)] for y in range(R.h)]
+# The way out shut: the red mat without its warps. The door behind MR. M. shuts behind the player
+# (MegaIsland_HiddenRoom's scripts put these in its place), so the way out after MEWTWO is the cave.
+SHUT_MAT=[T.metatile(R.cell[R.h-2][x],MB_NORMAL) for x in (4,5,6)]
 T.write(TS)
 tilesetgen.write_layout(REPO+'data/layouts/MegaIsland_HiddenRoom/',grid,R.coll,(BLACK|0xc00|0x3000,)*4)
-print('hidden door %#x, lintel %#x; hidden room %dx%d, stairs at %s, way out at (4-6,%d)'%(door,lintel,R.w,R.h,STAIRS,R.h-2))
+print('hidden door %#x, lintel %#x; hidden room %dx%d, stairs at %s, way out at (4-6,%d), shut: %s'%(door,lintel,R.w,R.h,STAIRS,R.h-2,[hex(m) for m in SHUT_MAT]))
 
 if os.environ.get('PREVIEW'):
     a=render.render_layout('MegaIsland_Arena',os.environ['PREVIEW']); arena=Image.open(os.environ['PREVIEW']).copy()

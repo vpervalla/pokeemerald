@@ -110,6 +110,18 @@
         .party = ITEM_CUSTOM_MOVES(sParty_Alain),
     },
 
+    // WALLY, come from HOENN, in the daily tournament after MEWTWO
+    [TRAINER_TOURNAMENT_WALLY] = {
+        .trainerClass = TRAINER_CLASS_RIVAL,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
+        .trainerPic = TRAINER_PIC_WALLY,
+        .trainerName = _("WALLY"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY,
+        .party = ITEM_CUSTOM_MOVES(sParty_TournamentWally),
+    },
+
     // MR. M.'s first tournament (the story): its three opponents at their story levels
     [TRAINER_TOURNAMENT_STORY_STEVEN] = {
         .trainerClass = TRAINER_CLASS_CHAMPION,

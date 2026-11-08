@@ -470,7 +470,7 @@ MegaIsland_Arena_Text_StoneToPC:
 	.string "{STR_VAR_2} was sent to your PC.$"
 
 @ Added: from VAR_MEGA_STORY_STATE 9 on, a new tournament is held each day (see MegaIsland_Castle_1F):
-@ three rounds against opponents drawn at random among the eight other champions, ALAIN included
+@ three rounds against opponents drawn at random among the eight other champions, ALAIN and WALLY included
 @ (RandomizeTournamentOpponents, GetTournamentOpponent), all at lv 85-90 (the story's tournament uses
 @ TRAINER_TOURNAMENT_STORY_* copies of STEVEN, CYNTHIA and LEON at lower levels). The rival (always
 @ with SQUIRTLE) and ALDER give their MEGA STONE the first time they're beaten. There is no MR. M. any more, nor any MEGA
@@ -491,6 +491,7 @@ MegaIsland_Arena_OnTransitionReplay:
 	call_if_eq VAR_RESULT, 5, MegaIsland_Arena_SetReplayOpponentDiantha
 	call_if_eq VAR_RESULT, 6, MegaIsland_Arena_SetReplayOpponentLeon
 	call_if_eq VAR_RESULT, 7, MegaIsland_Arena_SetReplayOpponentAlain
+	call_if_eq VAR_RESULT, 8, MegaIsland_Arena_SetReplayOpponentWally
 	end
 
 MegaIsland_Arena_SetReplayOpponentRival:
@@ -525,6 +526,11 @@ MegaIsland_Arena_SetReplayOpponentAlain:
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_ALAIN
 	return
 
+@ Emerald's WALLY in his own palette (in the special NPC's reflection slot)
+MegaIsland_Arena_SetReplayOpponentWally:
+	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_KANTO_WALLY
+	return
+
 MegaIsland_Arena_EventScript_ReplayMatch::
 	specialvar VAR_RESULT, IsTournamentPartyEligible
 	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Arena_EventScript_ReplayNotEligible
@@ -541,6 +547,7 @@ MegaIsland_Arena_EventScript_ReplayMatch::
 	case 5, MegaIsland_Arena_EventScript_ReplayDiantha
 	case 6, MegaIsland_Arena_EventScript_ReplayLeon
 	case 7, MegaIsland_Arena_EventScript_ReplayAlain
+	case 8, MegaIsland_Arena_EventScript_ReplayWally
 	end
 
 MegaIsland_Arena_EventScript_BufferReplaySemifinal::
@@ -647,6 +654,17 @@ MegaIsland_Arena_EventScript_ReplayAlain::
 	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
 	end
 
+MegaIsland_Arena_EventScript_ReplayWally::
+	bufferstring STR_VAR_1, MegaIsland_Arena_Text_ReplayWallyName
+	call MegaIsland_Arena_EventScript_ReplayRoundIntro
+	msgbox MegaIsland_Arena_Text_ReplayWallyIntro
+	closemessage
+	special RemoveCameraObject
+	special SetTournamentPartyLevel50
+	trainerbattle_earlyrival TRAINER_TOURNAMENT_WALLY, RIVAL_BATTLE_HEAL_AFTER, MegaIsland_Arena_Text_ReplayWallyDefeat, MegaIsland_Arena_Text_ReplayWallyVictory
+	goto MegaIsland_Arena_EventScript_ReplayAfterBattle
+	end
+
 MegaIsland_Arena_EventScript_ReplayAfterBattle::
 	special RestoreTournamentParty
 	goto_if_eq VAR_RESULT, TRUE, MegaIsland_Arena_EventScript_ReplayLost
@@ -660,6 +678,7 @@ MegaIsland_Arena_EventScript_ReplayAfterBattle::
 	call_if_eq VAR_RESULT, 5, MegaIsland_Arena_EventScript_ReplayAfterDiantha
 	call_if_eq VAR_RESULT, 6, MegaIsland_Arena_EventScript_ReplayAfterLeon
 	call_if_eq VAR_RESULT, 7, MegaIsland_Arena_EventScript_ReplayAfterAlain
+	call_if_eq VAR_RESULT, 8, MegaIsland_Arena_EventScript_ReplayAfterWally
 	closemessage
 	goto_if_eq VAR_TOURNAMENT_ROUND, 3, MegaIsland_Arena_EventScript_ReplayWon
 	addvar VAR_TOURNAMENT_ROUND, 1
@@ -732,6 +751,10 @@ MegaIsland_Arena_EventScript_ReplayAfterLeon::
 
 MegaIsland_Arena_EventScript_ReplayAfterAlain::
 	msgbox MegaIsland_Arena_Text_ReplayAlainAfter
+	return
+
+MegaIsland_Arena_EventScript_ReplayAfterWally::
+	msgbox MegaIsland_Arena_Text_ReplayWallyAfter
 	return
 
 MegaIsland_Arena_Text_ReplayRivalName:
@@ -885,6 +908,27 @@ MegaIsland_Arena_Text_ReplayAlainVictory:
 MegaIsland_Arena_Text_ReplayAlainAfter:
 	.string "ALAIN: My CHARIZARD and I will keep\n"
 	.string "training until we can beat you.$"
+
+MegaIsland_Arena_Text_ReplayWallyName:
+	.string "WALLY$"
+
+MegaIsland_Arena_Text_ReplayWallyIntro:
+	.string "WALLY: {PLAYER}! I never thought\n"
+	.string "I'd face you in a place like this.\p"
+	.string "GARDEVOIR and I are ready.\n"
+	.string "Here we come!$"
+
+MegaIsland_Arena_Text_ReplayWallyDefeat:
+	.string "We lost… But it felt amazing!$"
+
+MegaIsland_Arena_Text_ReplayWallyVictory:
+	.string "We… we won?\n"
+	.string "GARDEVOIR, we did it!$"
+
+MegaIsland_Arena_Text_ReplayWallyAfter:
+	.string "WALLY: You're still so far ahead of\n"
+	.string "me, {PLAYER}. That's why I'll keep\l"
+	.string "chasing you!$"
 
 MegaIsland_Arena_Text_ReplayQuarterfinal:
 	.string "Today's quarterfinal$"

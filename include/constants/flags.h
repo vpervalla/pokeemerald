@@ -2026,6 +2026,7 @@
 #define FLAG_ITEM_MEGA_ISLAND_CAVE_MAX_REVIVE       (KANTO_EXTRA_FLAGS_START + 0x1F2)
 #define FLAG_MET_MEWTWO_IN_SANCTUM                  (KANTO_EXTRA_FLAGS_START + 0x1EC) // MEWTWO has told its story
 #define FLAG_OPENED_MEWTWO_PASSAGE                  (KANTO_EXTRA_FLAGS_START + 0x1ED) // The way out behind MEWTWO, after the battle
+#define FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT         (KANTO_EXTRA_FLAGS_START + 0x1EE) // LEON and CYNTHIA, on the route after MEWTWO: the daily tournament opens
 
 // The lost BULBASAUR of Viridian Forest and its trainer in Vermilion City
 #define FLAG_DEFEATED_VIRIDIAN_BEEDRILL_1           (KANTO_EXTRA_FLAGS_START + 0x1F3)

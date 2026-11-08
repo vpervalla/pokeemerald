@@ -1083,6 +1083,8 @@ STATIC_ASSERT(KANTO_TRAINERS_START + NUM_KANTO_TRAINERS > KANTO_TRAINERS_GAP_STA
 // The parties of the Kanto trainers' rematches come right after the other Kanto trainers
 STATIC_ASSERT(KANTO_REMATCH_TRAINERS_START == KANTO_TRAINERS_START + NUM_KANTO_TRAINERS + KANTO_TRAINERS_GAP_SIZE, KantoRematchTrainersFollowTheKantoTrainers);
 STATIC_ASSERT(NUM_KANTO_REMATCH_TRAINERS <= KANTO_REMATCH_FLAGS_COUNT, KantoRematchTrainersHaveFlags);
+// TRAINER_TOURNAMENT_WALLY comes after the rematches, and takes the flag after theirs
+STATIC_ASSERT(TRAINER_TOURNAMENT_WALLY - KANTO_REMATCH_TRAINERS_START < KANTO_REMATCH_FLAGS_COUNT, TournamentWallyHasAFlag);
 
 // Kanto trainers come after Emerald's, whose flags fill the trainer flag range, so theirs are
 // kept apart (in SaveBlock1.kantoFlags; their rematch parties' in PokemonStorage.kantoRematchFlags).

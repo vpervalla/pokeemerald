@@ -5,7 +5,8 @@ MegaIsland_Castle_1F_MapScripts::
 @ rounds. VAR_MEGA_STORY_STATE: 2 invited, 3 registered (to sleep in guest room 1), 4 quarterfinal
 @ next, 5 semifinal next, 6 final next, 7 tournament won, 8 waking up from a lost match,
 @ 9 MEWTWO waiting in its sanctum (MegaIsland_Sanctum), 10 MEWTWO caught. The matches are in MegaIsland_Arena.
-@ From state 9 on, a new tournament is held each day (FLAG_DAILY_APEX_TOURNAMENT), against three
+@ Once LEON and CYNTHIA have told the player about it, after MEWTWO (FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT,
+@ see MegaIsland), a new tournament is held each day (FLAG_DAILY_APEX_TOURNAMENT), against three
 @ opponents drawn at random among the eight other champions (VAR_TOURNAMENT_ROUND and
 @ VAR_TOURNAMENT_OPPONENTS, see RandomizeTournamentOpponents).
 MegaIsland_Castle_1F_EventScript_Receptionist::
@@ -67,9 +68,18 @@ MegaIsland_Castle_1F_EventScript_ReceptionistChampion::
 	end
 
 MegaIsland_Castle_1F_EventScript_ReceptionistReplay::
+	goto_if_set FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT, MegaIsland_Castle_1F_EventScript_ReceptionistReplayOpen
+	@ A save from before the champions' talk where MEWTWO was already caught (in the route's cave,
+	@ before the sanctum): the tournament stays open.
+	goto_if_ne VAR_MEGA_STORY_STATE, 10, MegaIsland_Castle_1F_EventScript_ReceptionistNoTournament
+	goto_if_set FLAG_OPENED_MEWTWO_PASSAGE, MegaIsland_Castle_1F_EventScript_ReceptionistNoTournament
+	setflag FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT
+MegaIsland_Castle_1F_EventScript_ReceptionistReplayOpen::
 	goto_if_ne VAR_TOURNAMENT_ROUND, 0, MegaIsland_Castle_1F_EventScript_ReplayNextRound
 	goto_if_set FLAG_DAILY_APEX_TOURNAMENT, MegaIsland_Castle_1F_EventScript_ReplayTomorrow
-	msgbox MegaIsland_Castle_1F_Text_ReplayRules
+	msgbox MegaIsland_Castle_1F_Text_ReplayWelcome
+	msgbox MegaIsland_Castle_1F_Text_ReplayAskRules, MSGBOX_YESNO
+	call_if_eq VAR_RESULT, YES, MegaIsland_Castle_1F_EventScript_ReplayRules
 	specialvar VAR_RESULT, IsTournamentPartyEligible
 	goto_if_eq VAR_RESULT, FALSE, MegaIsland_Castle_1F_EventScript_ReplayNotEligible
 	msgbox MegaIsland_Castle_1F_Text_ReplayRegister, MSGBOX_YESNO
@@ -82,6 +92,30 @@ MegaIsland_Castle_1F_EventScript_ReceptionistReplay::
 	msgbox MegaIsland_Castle_1F_Text_ReplayGoToTheArena
 	release
 	end
+
+@ After the final, until LEON and CYNTHIA have talked to the player on the route
+MegaIsland_Castle_1F_EventScript_ReceptionistNoTournament::
+	goto_if_set FLAG_OPENED_MEWTWO_PASSAGE, MegaIsland_Castle_1F_EventScript_ReceptionistChampionsWait
+	msgbox MegaIsland_Castle_1F_Text_MrMGone
+	release
+	end
+
+MegaIsland_Castle_1F_EventScript_ReceptionistChampionsWait::
+	msgbox MegaIsland_Castle_1F_Text_ChampionsWait
+	release
+	end
+
+MegaIsland_Castle_1F_Text_MrMGone:
+	.string "MR. M. hasn't come back since he\n"
+	.string "left the arena with you.\p"
+	.string "LEON and CYNTHIA went looking for\n"
+	.string "you both. They seemed worried.$"
+
+MegaIsland_Castle_1F_Text_ChampionsWait:
+	.string "{PLAYER}! LEON and CYNTHIA have been\n"
+	.string "looking everywhere for you.\p"
+	.string "They went to search the little cave\n"
+	.string "on the island's road.$"
 
 MegaIsland_Castle_1F_EventScript_ReplayNextRound::
 	bufferstring STR_VAR_1, MegaIsland_Castle_1F_Text_Quarterfinal
@@ -101,12 +135,29 @@ MegaIsland_Castle_1F_EventScript_ReplayNotEligible::
 	release
 	end
 
+MegaIsland_Castle_1F_EventScript_ReplayRules::
+	msgbox MegaIsland_Castle_1F_Text_ReplayRules
+	return
+
+MegaIsland_Castle_1F_Text_ReplayAskRules:
+	.string "Would you like to hear the rules?$"
+
 MegaIsland_Castle_1F_Text_ReplayRules:
-	.string "Today's tournament has its own\n"
-	.string "rules.\p"
 	.string "Every POKéMON battles at level 50,\n"
-	.string "yours too, and legendary POKéMON\l"
-	.string "may not enter.$"
+	.string "yours and the champions' alike.\p"
+	.string "Your team goes back to normal after\n"
+	.string "each match, and earns no EXP.\l"
+	.string "from them.\p"
+	.string "Legendary POKéMON may not enter.\p"
+	.string "There are three rounds: the\n"
+	.string "quarterfinal, the semifinal and\l"
+	.string "the final.\p"
+	.string "Your POKéMON are restored between\n"
+	.string "rounds.\p"
+	.string "Lose once, and that day's\n"
+	.string "tournament is over for you.\p"
+	.string "Win all three, and come back\n"
+	.string "tomorrow for another!$"
 
 MegaIsland_Castle_1F_Text_ReplayNotEligible:
 	.string "I'm sorry, but there's a legendary\n"
@@ -180,13 +231,13 @@ MegaIsland_Castle_1F_Text_NotYet:
 	.string "Take your time. The tournament\n"
 	.string "will not begin without you.$"
 
-MegaIsland_Castle_1F_Text_ReplayRegister:
+MegaIsland_Castle_1F_Text_ReplayWelcome:
 	.string "Welcome back, {PLAYER}!\p"
 	.string "The champions have stayed on the\n"
 	.string "island, and a new tournament is\l"
-	.string "held here every day.\p"
-	.string "Your three opponents are drawn\n"
-	.string "by lot.\p"
+	.string "held here every day.$"
+
+MegaIsland_Castle_1F_Text_ReplayRegister:
 	.string "Shall I register you for today's\n"
 	.string "tournament?$"
 
