@@ -4326,7 +4326,8 @@ const struct Item gItems[] =
         .registrability = TRUE,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_Bike,
+        .secondaryId = MACH_BIKE, // Kanto's BICYCLE rides as the MACH BIKE
     },
 
     [ITEM_TOWN_MAP] =
