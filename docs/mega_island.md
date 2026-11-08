@@ -212,7 +212,9 @@ Alain (`TRAINER_ALAIN`, class "PKMN TRAINER", trainer pic `TRAINER_PIC_ALAIN`, o
 `OBJ_EVENT_GFX_ALAIN`) fights in the daily tournament. Once LEON and CYNTHIA have met the player after
 MEWTWO, he stands on the castle grounds' lawn, right of the approach (24,21): he heard of MR. M.'s
 tournament too late to enter, and came with CHARIZARD to get stronger. On the lawn across the approach (15,21) stands
-WALLY, come from HOENN to watch the tournament, who wants to Mega Evolve with GARDEVOIR someday
+WALLY, come from HOENN for the tournament, whom the champions let enter the daily ones: he fights
+there with his GARDEVOIR Mega Evolving (`TRAINER_TOURNAMENT_WALLY`: ALTARIA, DELCATTY, ROSELIA,
+MAGNETON, FLYGON, GARDEVOIR with GARDEVOIRITE, lv 50; Emerald's trainer pic and class)
 (`OBJ_EVENT_GFX_KANTO_WALLY`: Emerald's WALLY in his own palette, in the special NPC's reflection slot,
 ALAIN being in the special NPC's).
 His team: Swellow, Absol, Scizor, Tyranitar, Metagross and his ace, Charizard with CHARIZARDITE X
@@ -271,7 +273,7 @@ looking for the player, or, once the passage behind MEWTWO is open, that they we
 cave (coming out of it, the player meets them).
 (A save where MEWTWO was caught in the route's cave, before the sanctum, keeps the tournament.) The receptionist registers the player
 (no night's sleep needed) and heals them between rounds. Its three rounds are against opponents
-drawn at random among the eight other champions, ALAIN included (`RandomizeTournamentOpponents`
+drawn at random among nine trainers: the seven other champions, ALAIN and WALLY (`RandomizeTournamentOpponents`
 and `GetTournamentOpponent` in `src/field_specials.c`; `VAR_TOURNAMENT_ROUND` and
 `VAR_TOURNAMENT_OPPONENTS`, which took two unused Hoenn vars). Each one has its own replay lines
 (the `Replay*` scripts at the end of `MegaIsland_Arena`). There is no MR. M. any more and no MEGA

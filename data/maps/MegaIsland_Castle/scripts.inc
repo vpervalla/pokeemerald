@@ -2,7 +2,7 @@ MegaIsland_Castle_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, MegaIsland_Castle_OnTransition
 	.byte 0
 
-@ ALAIN, who came for the daily tournament, and WALLY, who came from HOENN to watch it, wait on the
+@ ALAIN and WALLY, who came for the daily tournament (WALLY from HOENN), wait on the
 @ lawns either side of the approach once LEON and CYNTHIA have told the player that the tournament goes
 @ on (FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT, see MegaIsland). ALAIN uses the special NPC palette slot and
 @ WALLY its reflection's (OBJ_EVENT_GFX_KANTO_WALLY, Emerald's WALLY in his own palette).
@@ -26,13 +26,12 @@ MegaIsland_Castle_Text_Wally:
 	.string "here!\p"
 	.string "Everyone in HOENN was talking\n"
 	.string "about this tournament, so I came\l"
-	.string "to watch.\p"
-	.string "All those Mega Evolutions…\n"
-	.string "GARDEVOIR and I want to try it\l"
-	.string "too, someday.\p"
-	.string "I'll keep training. Next time,\n"
-	.string "I want to be one of the trainers\l"
-	.string "out there!$"
+	.string "to see it.\p"
+	.string "And the champions said I could\n"
+	.string "enter the new ones!\p"
+	.string "GARDEVOIR and I have learned to\n"
+	.string "Mega Evolve. If we meet in the\l"
+	.string "arena, we won't hold back!$"
 
 MegaIsland_Castle_EventScript_Alain::
 	msgbox MegaIsland_Castle_Text_Alain, MSGBOX_NPC
