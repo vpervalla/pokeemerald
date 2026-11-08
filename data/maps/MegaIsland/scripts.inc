@@ -6,7 +6,7 @@ MegaIsland_MapScripts::
 @ After MEWTWO (the passage behind it open, FLAG_OPENED_MEWTWO_PASSAGE: won or caught), LEON and CYNTHIA
 @ meet the player on the plateau in front of the island's cave: they followed MR. M. and the player to
 @ the arena's hidden door, but it was locked for them. Told about MEWTWO, they explain that the
-@ tournament goes on, a new one each day, and its rules; the daily tournament opens
+@ tournament goes on, a new one each day (the receptionist gives its rules); the daily tournament opens
 @ (FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT, see MegaIsland_Castle_1F).
 @ Coming out of the cave (the cave mouth's warp, 3,14), the player sees them come up the plateau's
 @ stairs from below the screen. It's the only way out after MEWTWO: the arena's door shuts behind the
@@ -62,7 +62,6 @@ MegaIsland_EventScript_ChampionsTalk::
 	call_if_eq VAR_MEGA_STORY_STATE, 10, MegaIsland_EventScript_MewtwoCaught
 	call_if_ne VAR_MEGA_STORY_STATE, 10, MegaIsland_EventScript_MewtwoWaits
 	msgbox MegaIsland_Text_TournamentGoesOn
-	msgbox MegaIsland_Text_Rules
 	msgbox MegaIsland_Text_SeeYouThere
 	closemessage
 	setflag FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT
@@ -179,27 +178,7 @@ MegaIsland_Text_TournamentGoesOn:
 	.string "talking.\p"
 	.string "None of us wants to go home just yet.\p"
 	.string "So the tournament goes on! A new one\n"
-	.string "every day, here in the castle.\p"
-	.string "CYNTHIA: ALAIN has joined us too.\n"
-	.string "But the rules aren't MR. M.'s any\l"
-	.string "more. Listen carefully.$"
-
-MegaIsland_Text_Rules:
-	.string "CYNTHIA: Every POKéMON battles at\n"
-	.string "level 50, yours and ours alike.\p"
-	.string "Your team goes back to normal after\n"
-	.string "each match, and earns no EXP.\l"
-	.string "from them.\p"
-	.string "LEON: No legendary POKéMON!\n"
-	.string "Not even yours, champ.\p"
-	.string "CYNTHIA: You'll face three\n"
-	.string "opponents, drawn at random from\l"
-	.string "all of us, and you'll be healed\l"
-	.string "between rounds.\p"
-	.string "LEON: Lose once, and that day's\n"
-	.string "tournament is over for you.\p"
-	.string "Win all three, and come back\n"
-	.string "tomorrow for another!$"
+	.string "every day, here in the castle.$"
 
 MegaIsland_Text_SeeYouThere:
 	.string "CYNTHIA: Register at the desk in\n"

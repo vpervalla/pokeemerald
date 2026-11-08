@@ -322,11 +322,11 @@ Coming out of the island's cave after that (the passage open, MEWTWO won or caug
 LEON and CYNTHIA, who come up the plateau's stairs (`MegaIsland_EventScript_ChampionsApproach`): they saw
 MR. M. lead the player through the arena's door and went after them, but it was locked for them, and
 they searched the island for another way in. The player tells them about MEWTWO; they realize MR. M. was
-MEWTWO all along, and what the tournament was for. Then they explain that the tournament goes on, a new
-one each day in the castle, ALAIN joining them, and its rules: lv 50 for everyone (the team back to
-normal after, no EXP.), no legendary POKéMON, three opponents drawn at random among the champions, healed
-between rounds, and a loss ends the day's tournament. They go back down the stairs, and the daily
-tournament opens. The cave is the only way out after MEWTWO: the door behind MR. M. shuts behind the
+MEWTWO all along, and what the tournament was for. Then they say that the tournament goes on, a new one
+each day in the castle, and to register at the desk. They go back down the stairs, and the daily
+tournament opens. The receptionist gives its rules when asked, before registering: lv 50 for everyone
+(the team back to normal after, no EXP.), no legendary POKéMON, three opponents drawn at random among the
+champions (ALAIN too), restored between rounds, and a loss ends the day's tournament. The cave is the only way out after MEWTWO: the door behind MR. M. shuts behind the
 player too (in the hidden room, its way out has no warps, `METATILE_MegaArena_RedMat_*`; the player hears
 it shut, and it won't budge), and the tunnel, the sanctum, the ledge room and the island's cave allow
 no escaping (Escape Rope, Dig). From the arena, the door can still be taken, to go back to MEWTWO.
