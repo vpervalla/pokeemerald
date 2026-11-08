@@ -188,7 +188,9 @@ SHARED_SCRIPTS = {"EventScript_RockSmash", "EventScript_StrengthBoulder", "Event
                   "Common_EventScript_UnionRoomAttendant", "Common_EventScript_WirelessClubAttendant",
                   "Common_EventScript_DirectCornerAttendant", "CableClub_EventScript_MysteryGiftMan"}
 MOVEMENT_TYPES = {"MOVEMENT_TYPE_WANDER_AROUND_SLOWER": "MOVEMENT_TYPE_WANDER_AROUND"}
-TEXT_FIXES = [(r"\{FONT_(MALE|FEMALE|NORMAL)\}", ""), (r"\{LEFT_PAREN\}", "("), (r"\{RIGHT_PAREN\}", ")")]
+TEXT_FIXES = [(r"\{FONT_(MALE|FEMALE|NORMAL)\}", ""), (r"\{LEFT_PAREN\}", "("), (r"\{RIGHT_PAREN\}", ")"),
+              # FRLG's STDSTRING_*_POCKET strings end in "POCKET"; Emerald's (port_trainers.py renames them) don't
+              (r"in the \{STR_VAR_3\}\.\$", "in the {STR_VAR_3} POCKET.$")]
 
 
 def frlg_labels(frlg):

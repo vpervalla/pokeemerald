@@ -3240,7 +3240,7 @@ Kanto_Text_ProfileSaysSomethingAboutYou:
 
 Kanto_Text_PutItemAway:
 	.string "{PLAYER} put the {STR_VAR_2}\n"
-	.string "in the {STR_VAR_3}.$"
+	.string "in the {STR_VAR_3} POCKET.$"
 
 Kanto_Text_ReceivedItemFromLittleGirl:
     .string "{PLAYER} received a {STR_VAR_2}\n"
