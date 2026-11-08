@@ -635,3 +635,4 @@ gSpecials::
 	def_special KantoFanClub_BufferTrainerName
 	def_special OpenMuseumFossilPic
 	def_special CloseMuseumFossilPic
+	def_special UpdateLoreleiDollCollection

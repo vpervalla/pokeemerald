@@ -5049,6 +5049,26 @@ void SetSeenMon(void)
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(gSpecialVar_0x8004), FLAG_SET_SEEN);
 }
 
+// Kanto (FRLG): LORELEI's house on FOUR ISLAND gets a new doll every 25 entries in a Hall of Fame,
+// up to 200
+void UpdateLoreleiDollCollection(void)
+{
+    static const u16 sDollFlags[] = {
+        FLAG_HIDE_LORELEI_HOUSE_MEOWTH_DOLL,
+        FLAG_HIDE_LORELEI_HOUSE_CHANSEY_DOLL,
+        FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_F_DOLL,
+        FLAG_HIDE_LORELEI_HOUSE_JIGGLYPUFF_DOLL,
+        FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_M_DOLL,
+        FLAG_HIDE_LORELEIS_HOUSE_FEAROW_DOLL,
+        FLAG_HIDE_LORELEIS_HOUSE_PIDGEOT_DOLL,
+        FLAG_HIDE_LORELEIS_HOUSE_LAPRAS_DOLL,
+    };
+    u32 i, numHofClears = GetGameStat(GAME_STAT_ENTERED_HOF);
+
+    for (i = 0; i < ARRAY_COUNT(sDollFlags) && numHofClears >= 25 * (i + 1); i++)
+        FlagClear(sDollFlags[i]);
+}
+
 // Kanto (FRLG): CYCLING ROAD puts the player on the bike
 void ForcePlayerOntoBike(void)
 {

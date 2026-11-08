@@ -33,6 +33,7 @@ FourIsland_LoreleisHouse_EventScript_Lorelei3::
 	end
 
 FourIsland_LoreleisHouse_OnTransition::
+	special UpdateLoreleiDollCollection  @ restored: the port had dropped it, so no doll ever came
 	end
 
 FourIsland_LoreleisHouse_Text_IfAnythingWereToHappenToIsland:
