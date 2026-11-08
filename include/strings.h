@@ -3049,4 +3049,8 @@ extern const u8 gFameCheckerMrFujiName[];
 extern const u8 gText_KantoFanClub_LtSurge[];
 extern const u8 gText_KantoFanClub_Koga[];
 
+extern const u8 gText_KantoTowerTimeBoard[];
+extern const u8 gText_KantoTowerXMinYZSec[];
+extern const u8 *const gKantoTowerChallengeTypeTexts[4];
+
 #endif // GUARD_STRINGS_H

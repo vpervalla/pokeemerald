@@ -638,3 +638,4 @@ gSpecials::
 	def_special UpdateLoreleiDollCollection
 	def_special AnimateTeleporterHousing
 	def_special AnimateTeleporterCable
+	def_special CallTrainerTowerFunc

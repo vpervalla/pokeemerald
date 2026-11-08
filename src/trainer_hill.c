@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kanto_trainer_tower.h"
 #include "malloc.h"
 #include "battle.h"
 #include "battle_tower.h"
@@ -297,6 +298,9 @@ u8 GetTrainerHillOpponentClass(u16 trainerId)
 {
     u8 id = trainerId - 1;
 
+    if (KantoTower_InBattle())  // Kanto (FRLG) TRAINER TOWER, see src/kanto_trainer_tower.c
+        return KantoTower_GetOpponentClass();
+
     return gFacilityClassToTrainerClass[sFloorTrainers->facilityClass[id]];
 }
 
@@ -305,6 +309,11 @@ void GetTrainerHillTrainerName(u8 *dst, u16 trainerId)
     s32 i;
     u8 id = trainerId - 1;
 
+    if (KantoTower_InBattle())
+    {
+        KantoTower_GetOpponentName(dst);
+        return;
+    }
     for (i = 0; i < TRAINER_NAME_LENGTH + 1; i++)
         dst[i] = sFloorTrainers->name[id][i];
 }
@@ -313,6 +322,8 @@ u8 GetTrainerHillTrainerFrontSpriteId(u16 trainerId)
 {
     u8 id, facilityClass;
 
+    if (KantoTower_InBattle())
+        return KantoTower_GetFrontPic();
     SetUpDataStruct();
     id = trainerId - 1;
     facilityClass = sHillData->floors[sHillData->floorId].trainers[id].facilityClass;
@@ -325,6 +336,11 @@ void InitTrainerHillBattleStruct(void)
 {
     s32 i, j;
 
+    if (KantoTower_InBattle())
+    {
+        KantoTower_InitBattle();
+        return;
+    }
     SetUpDataStruct();
     sFloorTrainers = AllocZeroed(sizeof(*sFloorTrainers));
 
@@ -370,6 +386,11 @@ void CopyTrainerHillTrainerText(u8 which, u16 localId)
 {
     u8 id, floorId;
 
+    if (KantoTower_InBattle())
+    {
+        KantoTower_GetBattleText(gStringVar4, which == TRAINER_HILL_TEXT_PLAYER_WON);
+        return;
+    }
     SetUpDataStruct();
     floorId = GetFloorId();
     id = localId - 1;

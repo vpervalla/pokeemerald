@@ -1841,3 +1841,17 @@ const u8 gFameCheckerMrFujiName[] = _("FUJI");
 // Kanto (FRLG): SAFFRON's POKéMON TRAINER FAN CLUB
 const u8 gText_KantoFanClub_LtSurge[] = _("LT. SURGE");
 const u8 gText_KantoFanClub_Koga[] = _("KOGA");
+
+// Kanto (FRLG): TRAINER TOWER's time board
+const u8 gText_KantoTowerTimeBoard[] = _("TIME BOARD");
+const u8 gText_KantoTowerXMinYZSec[] = _("{STR_VAR_1}MIN. {STR_VAR_2}.{STR_VAR_3}SEC.");
+static const u8 sText_KantoTowerSingle[] = _("SINGLE");
+static const u8 sText_KantoTowerDouble[] = _("DOUBLE");
+static const u8 sText_KantoTowerKnockout[] = _("KNOCKOUT");
+static const u8 sText_KantoTowerMixed[] = _("MIXED");
+const u8 *const gKantoTowerChallengeTypeTexts[4] = {
+    sText_KantoTowerSingle,
+    sText_KantoTowerDouble,
+    sText_KantoTowerKnockout,
+    sText_KantoTowerMixed,
+};

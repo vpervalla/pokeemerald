@@ -506,6 +506,21 @@ struct RankingHall2P
     //u8 padding;
 };
 
+// Kanto (FRLG): TRAINER TOWER (src/kanto_trainer_tower.c). FRLG kept a timer and record per challenge;
+// one timer is enough for the challenge under way. A best time of 0 means none yet.
+struct KantoTrainerTowerSave
+{
+    u32 timer;
+    u32 bestTimes[4]; // NUM_TOWER_CHALLENGE_TYPES
+    u8 challengeId;
+    u8 floorsCleared;
+    u8 receivedPrizes; // one bit per challenge
+    u8 spokeToOwner:1;
+    u8 checkedFinalTime:1;
+    u8 hasLost:1;
+    u8 unused:5;
+};
+
 // Kanto (FRLG): what the FAME CHECKER shows of each person (FAMECHECKER_* in constants/fame_checker.h)
 struct FameCheckerSaveData
 {

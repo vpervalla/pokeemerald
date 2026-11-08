@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kanto_trainer_tower.h"
 #include "malloc.h"
 #include "apprentice.h"
 #include "battle.h"
@@ -6489,6 +6490,9 @@ u16 GetBattleBGM(void)
     {
         u8 trainerClass;
 
+        // Kanto (FRLG): TRAINER TOWER's battles (run as Trainer Hill's), to FRLG's trainer battle music
+        if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL) && KantoTower_InBattle())
+            return MUS_RG_VS_TRAINER;
         if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
             trainerClass = GetFrontierOpponentClass(gTrainerBattleOpponent_A);
         else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
