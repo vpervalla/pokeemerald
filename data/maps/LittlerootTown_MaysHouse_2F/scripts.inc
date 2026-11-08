@@ -381,3 +381,8 @@ RivalsHouse_2F_Text_BrendanWhereShouldIGoNext:
 	.string "Hey, {PLAYER}, if I see you while I'm out\n"
 	.string "catching POKéMON, I can pitch you a\l"
 	.string "battle if you'd like.$"
+
+@ added: the guest room's bed, see HoennStory_EventScript_GuestRoomBed
+LittlerootTown_MaysHouse_2F_EventScript_Bed::
+	setvar VAR_0x8004, FEMALE
+	goto HoennStory_EventScript_GuestRoomBed

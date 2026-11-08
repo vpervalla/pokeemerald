@@ -616,3 +616,30 @@ HoennStory_Text_StevenRemembers:
 	.string "and won its LEAGUE…\p"
 	.string "METAGROSS and I won't hold back.\n"
 	.string "Show us that power again!$"
+
+@ The bed in the LITTLEROOT guest room (docs/hoenn_plan.md, D6): the house of the player's gender is
+@ the one BIRCH lends them, and its bed heals the party. VAR_0x8004 is the gender whose house it is.
+HoennStory_EventScript_GuestRoomBed::
+	lockall
+	checkplayergender
+	goto_if_ne VAR_RESULT, VAR_0x8004, HoennStory_EventScript_GuestRoomBedEnd
+	msgbox HoennStory_Text_GuestRoomBedRest, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, HoennStory_EventScript_GuestRoomBedEnd
+	closemessage
+	fadescreen FADE_TO_BLACK
+	playfanfare MUS_HEAL
+	waitfanfare
+	special HealPlayerParty
+	fadescreen FADE_FROM_BLACK
+	msgbox HoennStory_Text_GuestRoomBedRested
+HoennStory_EventScript_GuestRoomBedEnd::
+	releaseall
+	end
+
+HoennStory_Text_GuestRoomBedRest:
+	.string "A comfy-looking bed.\n"
+	.string "Take a rest?$"
+
+HoennStory_Text_GuestRoomBedRested:
+	.string "{PLAYER} took a good rest.\p"
+	.string "Your POKéMON are fully healed!$"

@@ -102,8 +102,8 @@ right since the fix below.
   `VAR_LITTLEROOT_TOWN_STATE` to 4, past MOM's RUNNING SHOES. The rivals' Route 103 greeting
   knows the player is the KANTO CHAMPION.
 - **Test Area**: the ride to SLATEPORT first sets state 3, so BIRCH's welcome plays.
-- Not done: a bed that heals in the guest room (D6); NORMAN is still the player's father in
-  Emerald's text.
+- The guest room's bed heals the party (D6, `HoennStory_EventScript_GuestRoomBed`): in the house of
+  the player's gender only, after a YES. Not done: NORMAN is still the player's father in Emerald's text.
 
 Phase 4 was implemented, and **undone** in phase 7 (D5 changed: Hoenn keeps Emerald's levels, since the
 player plays it with a new team). What it did: Hoenn's levels, by

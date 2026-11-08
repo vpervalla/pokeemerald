@@ -287,3 +287,8 @@ PlayersHouse_2F_Text_ItsAGameCube:
 	.string "It's a Nintendo GameCube.\p"
 	.string "A Game Boy Advance is connected to\n"
 	.string "serve as the Controller.$"
+
+@ added: the guest room's bed, see HoennStory_EventScript_GuestRoomBed
+LittlerootTown_BrendansHouse_2F_EventScript_Bed::
+	setvar VAR_0x8004, MALE
+	goto HoennStory_EventScript_GuestRoomBed
