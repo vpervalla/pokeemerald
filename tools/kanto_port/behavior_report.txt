@@ -8,8 +8,6 @@ MB_JUMP_SOUTH + land encounters -> MB_JUMP_SOUTH (land encounters LOST): 42 meta
     secondary/cave (6), secondary/cerulean_cave (6), secondary/digletts_cave (6), secondary/mt_ember (6), secondary/navel_rock (6), secondary/rock_tunnel (6), secondary/seafoam_islands (6)
 MB_CAVE_DOOR -> MB_NON_ANIMATED_DOOR: 39 metatiles
     primary/building (3), primary/general (2), secondary/burgled_house (1), secondary/cave (1), secondary/cerulean_cave (1), secondary/cerulean_city (1), secondary/cinnabar_island (1), secondary/condominiums (2), secondary/digletts_cave (1), secondary/fan_club_daycare (1), secondary/game_corner (1), secondary/generic_building_2 (2), secondary/hoenn_building (3), secondary/island_harbor (1), secondary/lab (1), secondary/lavender_town (2), secondary/mt_ember (1), secondary/navel_rock (1), secondary/pewter_city (1), secondary/pokemon_center (1), secondary/pokemon_league (1), secondary/rock_tunnel (1), secondary/safari_zone_building (1), secondary/saffron_city (1), secondary/seafoam_islands (1), secondary/sevii_islands_123 (1), secondary/sevii_islands_67 (5)
-MB_CYCLING_ROAD_PULL_DOWN -> MB_NORMAL (no Emerald equivalent): 38 metatiles
-    secondary/celadon_city (38)
 MB_WARP_DOOR -> MB_ANIMATED_DOOR: 36 metatiles
     primary/general (3), secondary/celadon_city (1), secondary/cerulean_city (2), secondary/cinnabar_island (1), secondary/department_store (1), secondary/fuchsia_city (2), secondary/lavender_town (1), secondary/pallet_town (2), secondary/pewter_city (1), secondary/pokemon_center (1), secondary/saffron_city (2), secondary/sea_cottage (3), secondary/sevii_islands_123 (3), secondary/sevii_islands_45 (3), secondary/sevii_islands_67 (2), secondary/silph_co (2), secondary/ss_anne (1), secondary/trainer_tower (2), secondary/vermilion_city (1), secondary/viridian_city (2)
 MB_SIGNPOST -> MB_NORMAL (no Emerald equivalent): 32 metatiles
@@ -132,8 +130,6 @@ MB_SPIN_DOWN -> MB_NORMAL (no Emerald equivalent): 2 metatiles
     secondary/silph_co (1), secondary/viridian_gym (1)
 MB_TRAINER_TOWER_MONITOR -> MB_NORMAL (no Emerald equivalent): 2 metatiles
     secondary/silph_co (1), secondary/trainer_tower (1)
-MB_CYCLING_ROAD_PULL_DOWN_GRASS + land encounters -> MB_TALL_GRASS: 1 metatiles
-    secondary/celadon_city (1)
 MB_UNION_ROOM_WARP -> MB_NORMAL (no Emerald equivalent): 1 metatiles
     secondary/hall_of_fame (1)
 unknown 0xC0 -> MB_NORMAL (no Emerald equivalent): 1 metatiles

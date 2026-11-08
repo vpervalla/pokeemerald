@@ -776,6 +776,65 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
     }
 }
 
+// POKé FLUTE (Kanto, as in FRLG): wakes every sleeping POKéMON in the party, from the BAG, the
+// SELECT button or in battle. Its tune plays first; in battle it takes the turn only if it woke one.
+#define tPokeFluteWokeMon data[4]
+
+static bool8 PokeFlute_WakeParty(void)
+{
+    u8 i;
+    bool8 wokeMon = FALSE;
+
+    for (i = 0; i < CalculatePlayerPartyCount(); i++)
+    {
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+         && !ExecuteTableBasedItemEffect(&gPlayerParty[i], ITEM_AWAKENING, i, 0))
+            wokeMon = TRUE;
+    }
+    return wokeMon;
+}
+
+static void Task_PokeFlute_WaitForTune(u8 taskId)
+{
+    const u8 *str;
+
+    if (!WaitFanfare(FALSE))
+        return;
+    str = gTasks[taskId].tPokeFluteWokeMon ? gText_PokeFluteWokeMons : gText_PokeFluteCatchyTune;
+    if (gMain.inBattle)
+        DisplayItemMessage(taskId, FONT_NORMAL, str, Task_FadeAndCloseBagMenu);
+    else if (!gTasks[taskId].tUsingRegisteredKeyItem)
+        DisplayItemMessage(taskId, FONT_NORMAL, str, CloseItemMessage);
+    else
+        DisplayItemMessageOnField(taskId, str, Task_CloseCantUseKeyItemMessage);
+}
+
+static void Task_PokeFlute_PlayTune(u8 taskId)
+{
+    PlayFanfare(MUS_RG_POKE_FLUTE);
+    gTasks[taskId].func = Task_PokeFlute_WaitForTune;
+}
+
+void ItemUseOutOfBattle_PokeFlute(u8 taskId)
+{
+    gTasks[taskId].tPokeFluteWokeMon = PokeFlute_WakeParty();
+    if (!gTasks[taskId].tUsingRegisteredKeyItem)
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_PlayedPokeFlute, Task_PokeFlute_PlayTune);
+    else
+        DisplayItemMessageOnField(taskId, gText_PlayedPokeFlute, Task_PokeFlute_PlayTune);
+}
+
+void ItemUseInBattle_PokeFlute(u8 taskId)
+{
+    gTasks[taskId].tPokeFluteWokeMon = PokeFlute_WakeParty();
+    if (gTasks[taskId].tPokeFluteWokeMon)
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_PlayedPokeFlute, Task_PokeFlute_PlayTune);
+    else
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_WontHaveEffect, CloseItemMessage);
+}
+
+#undef tPokeFluteWokeMon
+
 void ItemUseOutOfBattle_Berry(u8 taskId)
 {
     if (IsPlayerFacingEmptyBerryTreePatch() == TRUE)

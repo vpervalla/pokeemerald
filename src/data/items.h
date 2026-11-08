@@ -4203,9 +4203,12 @@ const struct Item gItems[] =
         .price = 0,
         .description = sPokeFluteDesc,
         .importance = 1,
+        .registrability = TRUE,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_PokeFlute,
+        .battleUsage = ITEM_B_USE_OTHER,
+        .battleUseFunc = ItemUseInBattle_PokeFlute,
     },
 
     [ITEM_SECRET_KEY] =

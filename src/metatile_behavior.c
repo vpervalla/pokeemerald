@@ -10,6 +10,7 @@ static const u8 sTileBitAttributes[NUM_METATILE_BEHAVIORS] =
 {
     [MB_NORMAL]                          = TILE_FLAG_UNUSED,
     [MB_TALL_GRASS]                      = TILE_FLAG_UNUSED | TILE_FLAG_HAS_ENCOUNTERS,
+    [MB_CYCLING_ROAD_PULL_DOWN_GRASS]    = TILE_FLAG_UNUSED | TILE_FLAG_HAS_ENCOUNTERS,
     [MB_LONG_GRASS]                      = TILE_FLAG_UNUSED | TILE_FLAG_HAS_ENCOUNTERS,
     [MB_UNUSED_05]                       = TILE_FLAG_HAS_ENCOUNTERS,
     [MB_DEEP_SAND]                       = TILE_FLAG_UNUSED | TILE_FLAG_HAS_ENCOUNTERS,
@@ -174,7 +175,7 @@ bool8 MetatileBehavior_IsJumpSouth(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsPokeGrass(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_TALL_GRASS || metatileBehavior == MB_LONG_GRASS)
+    if (metatileBehavior == MB_TALL_GRASS || metatileBehavior == MB_LONG_GRASS || metatileBehavior == MB_CYCLING_ROAD_PULL_DOWN_GRASS)
         return TRUE;
     else
         return FALSE;
@@ -728,7 +729,7 @@ bool8 MetatileBehavior_IsPuddle(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsTallGrass(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_TALL_GRASS)
+    if (metatileBehavior == MB_TALL_GRASS || metatileBehavior == MB_CYCLING_ROAD_PULL_DOWN_GRASS)
         return TRUE;
     else
         return FALSE;
@@ -1396,6 +1397,15 @@ bool8 MetatileBehavior_IsLongGrassSouthEdge(u8 metatileBehavior)
 bool8 MetatileBehavior_IsTrainerHillTimer(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_TRAINER_HILL_TIMER)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+// Kanto (FRLG): CYCLING ROAD's slope, see TryMovePlayerOnCyclingRoadSlope in src/bike.c
+bool8 MetatileBehavior_IsCyclingRoadPullDownTile(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_CYCLING_ROAD_PULL_DOWN || metatileBehavior == MB_CYCLING_ROAD_PULL_DOWN_GRASS)
         return TRUE;
     else
         return FALSE;

@@ -148,4 +148,6 @@ bool8 MetatileBehavior_IsLongGrass_Duplicate(u8 metatileBehavior);
 bool8 MetatileBehavior_IsLongGrassSouthEdge(u8 metatileBehavior);
 bool8 MetatileBehavior_IsTrainerHillTimer(u8 metatileBehavior);
 
+bool8 MetatileBehavior_IsCyclingRoadPullDownTile(u8 metatileBehavior);
+
 #endif // GUARD_METATILE_BEHAVIOR_H

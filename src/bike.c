@@ -124,8 +124,67 @@ static const struct BikeHistoryInputInfo sAcroBikeTricksList[] =
 };
 
 // code
+
+// Kanto (FRLG): CYCLING ROAD's slope pulls the bike south, fast, unless the player rides another
+// way (slowly) or holds B to brake. Returns FALSE when the bike moves as usual.
+static bool8 TryMovePlayerOnCyclingRoadSlope(u8 direction, u16 heldKeys)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    u8 collision;
+
+    if (!MetatileBehavior_IsCyclingRoadPullDownTile(playerObjEvent->currentMetatileBehavior))
+        return FALSE;
+    // The ACRO BIKE's tricks keep their own movement
+    if ((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE) && gPlayerAvatar.acroBikeState != ACRO_STATE_NORMAL)
+        return FALSE;
+
+    if (!(heldKeys & B_BUTTON) && (direction == DIR_NONE || direction == DIR_SOUTH))
+    {
+        // Downhill, at the MACH BIKE's top speed
+        collision = GetBikeCollision(DIR_SOUTH);
+        if (collision == COLLISION_NONE)
+        {
+            gPlayerAvatar.runningState = MOVING;
+            PlayerWalkFaster(DIR_SOUTH);
+            Bike_UpdateBikeCounterSpeed(2);
+        }
+        else if (collision == COLLISION_LEDGE_JUMP)
+        {
+            gPlayerAvatar.runningState = MOVING;
+            Bike_SetBikeStill();
+            PlayerJumpLedge(DIR_SOUTH);
+        }
+        else
+        {
+            gPlayerAvatar.runningState = NOT_MOVING;
+            Bike_SetBikeStill();
+            PlayerFaceDirection(DIR_SOUTH);
+        }
+        return TRUE;
+    }
+
+    Bike_SetBikeStill();
+    if (direction == DIR_NONE)
+        return FALSE; // braking: the bike stands still
+
+    // Uphill or across, at walking pace
+    gPlayerAvatar.runningState = MOVING;
+    collision = GetBikeCollision(direction);
+    if (collision == COLLISION_NONE)
+        PlayerWalkNormal(direction);
+    else if (collision == COLLISION_LEDGE_JUMP)
+        PlayerJumpLedge(direction);
+    else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
+        PlayerOnBikeCollide(direction);
+    else
+        PlayerFaceDirection(direction);
+    return TRUE;
+}
+
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 {
+    if (TryMovePlayerOnCyclingRoadSlope(direction, heldKeys))
+        return;
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
         MovePlayerOnMachBike(direction, newKeys, heldKeys);
     else

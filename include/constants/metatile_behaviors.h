@@ -217,8 +217,8 @@ enum {
     MB_ISOLATED_HORIZONTAL_RAIL,
     MB_VERTICAL_RAIL,
     MB_HORIZONTAL_RAIL,
-    MB_UNUSED_D7,
-    MB_UNUSED_D8,
+    MB_CYCLING_ROAD_PULL_DOWN,       // Kanto (FRLG): CYCLING ROAD pulls bikes south
+    MB_CYCLING_ROAD_PULL_DOWN_GRASS, // the same, in tall grass
     MB_UNUSED_D9,
     MB_UNUSED_DA,
     MB_UNUSED_DB,
