@@ -177,8 +177,9 @@ Phase 6 is implemented: Primal Reversion in battle, and Acts 2 and 3.
   lost their primal forms. `tools/hoenn/legend_palettes.py` makes the palettes.
 - RAYQUAZA coming down (scenes 3 and 4) is black and gold too: scene 3's sprite uses scene 5's MEGA
   palette, and scene 4's close-up moved to BG palette 4 (Emerald's shared palette 0's greens with the
-  background). Not done: it isn't MEGA RAYQUAZA's shape anywhere (that needs new pictures). The
-  ORBS don't glow with the Primal colors in Seafloor Cavern (Emerald's `DoOrbEffect`).
+  background). The ORBS glow with the Primal colors (`DoOrbEffect`): the glow pulses, with the screen's
+  shaking, between PRIMAL GROUDON's deep red and gold or PRIMAL KYOGRE's navy and cyan. Not done: it
+  isn't MEGA RAYQUAZA's shape anywhere (that needs new pictures).
 
 Checked in an emulator with test builds: the Sootopolis clash (cutscene and overworld) and RAYQUAZA's
 arrival, from the POKéMON CENTER, and BIRCH taking the PRIMAL NOTES. The new lines were measured

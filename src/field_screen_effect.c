@@ -1079,16 +1079,20 @@ void DoSpinExitWarp(void)
     CreateTask(Task_SpinExitWarp, 10);
 }
 
-static void LoadOrbEffectPalette(bool8 blueOrb)
+// Hoenn chapter (docs/hoenn_plan.md, Act 3): the ORBS glow with the Primal colors, pulsing (with the
+// screen's shaking) between the Primal's body and the glow of its markings: PRIMAL GROUDON's deep red
+// and gold for the RED ORB, PRIMAL KYOGRE's navy and cyan for the BLUE ORB (Emerald: plain red or blue)
+static const u16 sOrbGlowColors[2][2] = {
+    [FALSE] = {RGB(22, 2, 4), RGB(31, 26, 13)},  // RED ORB
+    [TRUE]  = {RGB(5, 5, 18), RGB(12, 27, 31)},  // BLUE ORB
+};
+
+static void LoadOrbEffectPalette(bool8 blueOrb, bool8 markings)
 {
     int i;
     u16 color[1];
 
-    if (!blueOrb)
-        color[0] = RGB_RED;
-    else
-        color[0] = RGB_BLUE;
-
+    color[0] = sOrbGlowColors[blueOrb != FALSE][markings != FALSE];
     for (i = 0; i < 16; i++)
         LoadPalette(color, BG_PLTT_ID(15) + i, PLTT_SIZEOF(1));
 }
@@ -1154,7 +1158,7 @@ static void Task_OrbEffect(u8 taskId)
         break;
     case 1:
         BgDmaFill(0, PIXEL_FILL(1), 0, 1);
-        LoadOrbEffectPalette(tBlueOrb);
+        LoadOrbEffectPalette(tBlueOrb, FALSE);
         StartUpdateOrbFlashEffect(tCenterX, tCenterY, 1, 160, 1, 2);
         tState = 2;
         break;
@@ -1183,6 +1187,7 @@ static void Task_OrbEffect(u8 taskId)
             else
                 panning = -4;
             SetCameraPanning(0, panning);
+            LoadOrbEffectPalette(tBlueOrb, tShakeDir);
         }
         break;
     case 6:
