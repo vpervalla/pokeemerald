@@ -53,10 +53,12 @@ ThreeIsland_BondBridge_EventScript_Meg::
 	end
 
 ThreeIsland_BondBridge_EventScript_AlexisRematch::
+	trainerbattle_rematch TRAINER_KANTO_TUBER_ALEXIS, ThreeIsland_BondBridge_Text_AlexisRematchIntro, ThreeIsland_BondBridge_Text_AlexisDefeat
 	msgbox ThreeIsland_BondBridge_Text_AlexisPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ThreeIsland_BondBridge_EventScript_AmiraRematch::
+	trainerbattle_rematch TRAINER_KANTO_TUBER_AMIRA, ThreeIsland_BondBridge_Text_AmiraRematchIntro, ThreeIsland_BondBridge_Text_AmiraDefeat
 	msgbox ThreeIsland_BondBridge_Text_AmiraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -69,22 +71,27 @@ ThreeIsland_BondBridge_EventScript_BondBridgeSign::
 	end
 
 ThreeIsland_BondBridge_EventScript_JoyRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_JOY_MEG, ThreeIsland_BondBridge_Text_JoyRematchIntro, ThreeIsland_BondBridge_Text_JoyDefeat, ThreeIsland_BondBridge_Text_JoyNotEnoughMons
 	msgbox ThreeIsland_BondBridge_Text_JoyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ThreeIsland_BondBridge_EventScript_MegRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_JOY_MEG, ThreeIsland_BondBridge_Text_MegRematchIntro, ThreeIsland_BondBridge_Text_MegDefeat, ThreeIsland_BondBridge_Text_MegNotEnoughMons
 	msgbox ThreeIsland_BondBridge_Text_MegPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ThreeIsland_BondBridge_EventScript_NikkiRematch::
+	trainerbattle_rematch TRAINER_KANTO_AROMA_LADY_NIKKI, ThreeIsland_BondBridge_Text_NikkiRematchIntro, ThreeIsland_BondBridge_Text_NikkiDefeat
 	msgbox ThreeIsland_BondBridge_Text_NikkiPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ThreeIsland_BondBridge_EventScript_TishaRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_TISHA, ThreeIsland_BondBridge_Text_TishaRematchIntro, ThreeIsland_BondBridge_Text_TishaDefeat
 	msgbox ThreeIsland_BondBridge_Text_TishaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 ThreeIsland_BondBridge_EventScript_VioletRematch::
+	trainerbattle_rematch TRAINER_KANTO_AROMA_LADY_VIOLET, ThreeIsland_BondBridge_Text_VioletRematchIntro, ThreeIsland_BondBridge_Text_VioletDefeat
 	msgbox ThreeIsland_BondBridge_Text_VioletPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -190,3 +197,29 @@ ThreeIsland_BondBridge_Text_VioletPostBattle:
     .string "eventually reach BERRY FOREST.$"
 
 @ END KANTO NPCS
+
+ThreeIsland_BondBridge_Text_NikkiRematchIntro:
+	.string "Are we to battle again?$"
+
+ThreeIsland_BondBridge_Text_VioletRematchIntro:
+	.string "From where have you come, and\n"
+	.string "where are you bound?$"
+
+ThreeIsland_BondBridge_Text_AmiraRematchIntro:
+	.string "I want to swim without my float\n"
+	.string "ring soon.$"
+
+ThreeIsland_BondBridge_Text_AlexisRematchIntro:
+	.string "Yay, yay!\n"
+	.string "POKéMON!$"
+
+ThreeIsland_BondBridge_Text_TishaRematchIntro:
+	.string "Oh, no, didn't I tell you already?\n"
+	.string "Please, stay away from me!$"
+
+ThreeIsland_BondBridge_Text_JoyRematchIntro:
+	.string "JOY: We've gotten stronger!\n"
+	.string "Lots and lots!$"
+
+ThreeIsland_BondBridge_Text_MegRematchIntro:
+	.string "MEG: You can't beat us today!$"

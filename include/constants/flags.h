@@ -1651,6 +1651,10 @@
 // More story flags, in PokemonStorage.kantoExtraFlags
 #define KANTO_EXTRA_FLAGS_START     (KANTO_TRAINER_FLAGS_START + KANTO_TRAINER_FLAGS_COUNT)
 #define KANTO_EXTRA_FLAGS_COUNT     512
+// The flags of the Kanto trainers' rematch parties (TRAINER_KANTO_*_2 and so on, see
+// KANTO_REMATCH_TRAINERS_START and GetTrainerFlagId), in PokemonStorage.kantoRematchFlags
+#define KANTO_REMATCH_FLAGS_START   (KANTO_EXTRA_FLAGS_START + KANTO_EXTRA_FLAGS_COUNT)
+#define KANTO_REMATCH_FLAGS_COUNT   160
 
 // BEGIN KANTO STORY FLAGS: allocated by tools/kanto_port/port_npcs.py
 #define FLAG_DEFEATED_LEADER_GIOVANNI               (KANTO_FLAGS_START + 0x00)

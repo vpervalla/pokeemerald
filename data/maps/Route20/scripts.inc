@@ -75,6 +75,7 @@ Route20_EventScript_Tiffany::
 	end
 
 Route20_EventScript_BarryRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_BARRY, Route20_Text_BarryRematchIntro, Route20_Text_BarryDefeat
 	msgbox Route20_Text_BarryPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -86,26 +87,32 @@ Route20_EventScript_Camper::
 	end
 
 Route20_EventScript_DarrinRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_DARRIN, Route20_Text_DarrinRematchIntro, Route20_Text_DarrinDefeat
 	msgbox Route20_Text_DarrinPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_DeanRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_DEAN, Route20_Text_DeanRematchIntro, Route20_Text_DeanDefeat
 	msgbox Route20_Text_DeanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_IreneRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_IRENE, Route20_Text_IreneRematchIntro, Route20_Text_IreneDefeat
 	msgbox Route20_Text_IrenePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_MelissaRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_MELISSA, Route20_Text_MelissaRematchIntro, Route20_Text_MelissaDefeat
 	msgbox Route20_Text_MelissaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_MissyRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_MISSY, Route20_Text_MissyRematchIntro, Route20_Text_MissyDefeat
 	msgbox Route20_Text_MissyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_NoraRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_NORA, Route20_Text_NoraRematchIntro, Route20_Text_NoraDefeat
 	msgbox Route20_Text_NoraPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -130,6 +137,7 @@ Route20_EventScript_ResetSeafoamBouldersForB4F::
 	return
 
 Route20_EventScript_RogerRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_ROGER, Route20_Text_RogerRematchIntro, Route20_Text_RogerDefeat
 	msgbox Route20_Text_RogerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -138,10 +146,12 @@ Route20_EventScript_SeafoamIslandsSign::
 	end
 
 Route20_EventScript_ShirleyRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_SHIRLEY, Route20_Text_ShirleyRematchIntro, Route20_Text_ShirleyDefeat
 	msgbox Route20_Text_ShirleyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route20_EventScript_TiffanyRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_TIFFANY, Route20_Text_TiffanyRematchIntro, Route20_Text_TiffanyDefeat
 	msgbox Route20_Text_TiffanyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -272,3 +282,43 @@ Route20_Text_TiffanyPostBattle:
     .string "Want to float with me?$"
 
 @ END KANTO NPCS
+
+Route20_Text_BarryRematchIntro:
+	.string "The water is shallow here.\n"
+	.string "There are many people swimming.$"
+
+Route20_Text_DeanRematchIntro:
+	.string "Check out my physique!\p"
+	.string "It's even more buff than ever\n"
+	.string "before!$"
+
+Route20_Text_DarrinRematchIntro:
+	.string "Why are you riding a POKéMON?\n"
+	.string "Haven't you learned to swim yet?$"
+
+Route20_Text_TiffanyRematchIntro:
+	.string "I love floating with the fishes\n"
+	.string "here among the waves.$"
+
+Route20_Text_NoraRematchIntro:
+	.string "My boyfriend gave me big pearls.\n"
+	.string "And, they've grown bigger!$"
+
+Route20_Text_MelissaRematchIntro:
+	.string "CINNABAR, in the west, has a LAB\n"
+	.string "for POKéMON.\p"
+	.string "My daddy works there.$"
+
+Route20_Text_ShirleyRematchIntro:
+	.string "Are you jealous that I'm\n"
+	.string "vacationing on SEAFOAM?$"
+
+Route20_Text_RogerRematchIntro:
+	.string "I rode my bird POKéMON here.$"
+
+Route20_Text_MissyRematchIntro:
+	.string "I swam here from CINNABAR ISLAND.\n"
+	.string "It wasn't easy, like I said.$"
+
+Route20_Text_IreneRematchIntro:
+	.string "Were you on vacation, too?$"

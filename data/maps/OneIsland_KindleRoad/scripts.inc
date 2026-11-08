@@ -107,14 +107,17 @@ OneIsland_KindleRoad_EventScript_ItemCarbos::
 	end
 
 OneIsland_KindleRoad_EventScript_AbigailRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_ABIGAIL, OneIsland_KindleRoad_Text_AbigailRematchIntro, OneIsland_KindleRoad_Text_AbigailDefeat
 	msgbox OneIsland_KindleRoad_Text_AbigailPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_BryceRematch::
+	trainerbattle_rematch TRAINER_KANTO_CAMPER_BRYCE, OneIsland_KindleRoad_Text_BryceRematchIntro, OneIsland_KindleRoad_Text_BryceDefeat
 	msgbox OneIsland_KindleRoad_Text_BrycePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_ClaireRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_CLAIRE, OneIsland_KindleRoad_Text_ClaireRematchIntro, OneIsland_KindleRoad_Text_ClaireDefeat
 	msgbox OneIsland_KindleRoad_Text_ClairePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -123,26 +126,32 @@ OneIsland_KindleRoad_EventScript_EmberSpaSign::
 	end
 
 OneIsland_KindleRoad_EventScript_FinnRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_FINN, OneIsland_KindleRoad_Text_FinnRematchIntro, OneIsland_KindleRoad_Text_FinnDefeat
 	msgbox OneIsland_KindleRoad_Text_FinnPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_GarrettRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_GARRETT, OneIsland_KindleRoad_Text_GarrettRematchIntro, OneIsland_KindleRoad_Text_GarrettDefeat
 	msgbox OneIsland_KindleRoad_Text_GarrettPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_HughRematch::
+	trainerbattle_rematch TRAINER_KANTO_BLACK_BELT_HUGH, OneIsland_KindleRoad_Text_HughRematchIntro, OneIsland_KindleRoad_Text_HughDefeat
 	msgbox OneIsland_KindleRoad_Text_HughPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_KiaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_CRUSH_KIN_MIK_KIA, OneIsland_KindleRoad_Text_KiaRematchIntro, OneIsland_KindleRoad_Text_KiaDefeat, OneIsland_KindleRoad_Text_KiaNotEnoughMons
 	msgbox OneIsland_KindleRoad_Text_KiaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_MariaRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_MARIA, OneIsland_KindleRoad_Text_MariaRematchIntro, OneIsland_KindleRoad_Text_MariaDefeat
 	msgbox OneIsland_KindleRoad_Text_MariaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_MikRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_CRUSH_KIN_MIK_KIA, OneIsland_KindleRoad_Text_MikRematchIntro, OneIsland_KindleRoad_Text_MikDefeat, OneIsland_KindleRoad_Text_MikNotEnoughMons
 	msgbox OneIsland_KindleRoad_Text_MikPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -151,18 +160,22 @@ OneIsland_KindleRoad_EventScript_RouteSign::
 	end
 
 OneIsland_KindleRoad_EventScript_SharonRematch::
+	trainerbattle_rematch TRAINER_KANTO_CRUSH_GIRL_SHARON, OneIsland_KindleRoad_Text_SharonRematchIntro, OneIsland_KindleRoad_Text_SharonDefeat
 	msgbox OneIsland_KindleRoad_Text_SharonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_SheaRematch::
+	trainerbattle_rematch TRAINER_KANTO_BLACK_BELT_SHEA, OneIsland_KindleRoad_Text_SheaRematchIntro, OneIsland_KindleRoad_Text_SheaDefeat
 	msgbox OneIsland_KindleRoad_Text_SheaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_TanyaRematch::
+	trainerbattle_rematch TRAINER_KANTO_CRUSH_GIRL_TANYA, OneIsland_KindleRoad_Text_TanyaRematchIntro, OneIsland_KindleRoad_Text_TanyaDefeat
 	msgbox OneIsland_KindleRoad_Text_TanyaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 OneIsland_KindleRoad_EventScript_TommyRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_TOMMY, OneIsland_KindleRoad_Text_TommyRematchIntro, OneIsland_KindleRoad_Text_TommyDefeat
 	msgbox OneIsland_KindleRoad_Text_TommyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -331,3 +344,57 @@ OneIsland_KindleRoad_Text_TommyPostBattle:
     .string "got away from me, too!$"
 
 @ END KANTO NPCS
+
+OneIsland_KindleRoad_Text_MariaRematchIntro:
+	.string "The weather's gorgeous!\n"
+	.string "I'll try not to spoil it.$"
+
+OneIsland_KindleRoad_Text_AbigailRematchIntro:
+	.string "My sunburn is starting to hurt…$"
+
+OneIsland_KindleRoad_Text_FinnRematchIntro:
+	.string "The fire bird's mountain casts\n"
+	.string "a huge shadow…$"
+
+OneIsland_KindleRoad_Text_GarrettRematchIntro:
+	.string "I have this strong feeling that\n"
+	.string "I can win this time!$"
+
+OneIsland_KindleRoad_Text_TommyRematchIntro:
+	.string "Wait! Wait a second!\n"
+	.string "I'm sure I've hooked a big one!$"
+
+OneIsland_KindleRoad_Text_SharonRematchIntro:
+	.string "You'll help me out with my\n"
+	.string "training again?$"
+
+OneIsland_KindleRoad_Text_TanyaRematchIntro:
+	.string "We haven't missed a single day of\n"
+	.string "training yet!$"
+
+OneIsland_KindleRoad_Text_SheaRematchIntro:
+	.string "Every morning, before breakfast,\n"
+	.string "I swim around this island…\l"
+	.string "Three times!$"
+
+OneIsland_KindleRoad_Text_HughRematchIntro:
+	.string "Dress appropriately for battle!\n"
+	.string "Lose that frivolous outfit, I said!$"
+
+OneIsland_KindleRoad_Text_BryceRematchIntro:
+	.string "You know, everything tastes great\n"
+	.string "when you're out in the wild.$"
+
+OneIsland_KindleRoad_Text_ClaireRematchIntro:
+	.string "I ate too much again, so will you\n"
+	.string "battle us for some exercise?$"
+
+OneIsland_KindleRoad_Text_KiaRematchIntro:
+	.string "KIA: My big brother and I make\n"
+	.string "an awesome combination!\p"
+	.string "We won't lose this time!$"
+
+OneIsland_KindleRoad_Text_MikRematchIntro:
+	.string "MIK: Together with KIA, we're\n"
+	.string "afraid of nothing!\p"
+	.string "We'll prove it to you this time!$"

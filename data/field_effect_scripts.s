@@ -72,6 +72,8 @@ gFieldEffectScriptPointers::
 	.4byte gFieldEffectScript_RayquazaSpotlight         @ FLDEFF_RAYQUAZA_SPOTLIGHT
 	.4byte gFieldEffectScript_DestroyDeoxysRock         @ FLDEFF_DESTROY_DEOXYS_ROCK
 	.4byte gFieldEffectScript_MoveDeoxysRock            @ FLDEFF_MOVE_DEOXYS_ROCK
+	.4byte gFieldEffectScript_XIcon                     @ FLDEFF_X_ICON
+	.4byte gFieldEffectScript_DoubleExclMarkIcon        @ FLDEFF_DOUBLE_EXCL_MARK_ICON
 
 gFieldEffectScript_ExclamationMarkIcon1::
 	field_eff_loadfadedpal_callnative gSpritePalette_PlayerFieldEffects, FldEff_ExclamationMarkIcon
@@ -257,6 +259,14 @@ gFieldEffectScript_UseDive::
 gFieldEffectScript_PokeballTrail::
 	field_eff_loadpal gSpritePalette_Pokeball
 	field_eff_callnative FldEff_PokeballTrail
+	field_eff_end
+
+gFieldEffectScript_XIcon::
+	field_eff_loadfadedpal_callnative gSpritePalette_PlayerFieldEffects, FldEff_XIcon
+	field_eff_end
+
+gFieldEffectScript_DoubleExclMarkIcon::
+	field_eff_loadfadedpal_callnative gSpritePalette_PlayerFieldEffects, FldEff_DoubleExclMarkIcon
 	field_eff_end
 
 gFieldEffectScript_HeartIcon::

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_setup.h"
+#include "vs_seeker.h"
 #include "battle_transition.h"
 #include "main.h"
 #include "task.h"
@@ -1079,12 +1080,21 @@ static u8 TrainerBattleLoadArg8(const u8 *ptr)
 STATIC_ASSERT(KANTO_TRAINERS_GAP_START == TRAINER_FRONTIER_BRAIN
            && KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE == TRAINER_SECRET_BASE + 1, KantoTrainersSkipTheSpecialIds);
 STATIC_ASSERT(KANTO_TRAINERS_START + NUM_KANTO_TRAINERS > KANTO_TRAINERS_GAP_START, KantoTrainersReachTheGap);
+// The parties of the Kanto trainers' rematches come right after the other Kanto trainers
+STATIC_ASSERT(KANTO_REMATCH_TRAINERS_START == KANTO_TRAINERS_START + NUM_KANTO_TRAINERS + KANTO_TRAINERS_GAP_SIZE, KantoRematchTrainersFollowTheKantoTrainers);
+STATIC_ASSERT(NUM_KANTO_REMATCH_TRAINERS <= KANTO_REMATCH_FLAGS_COUNT, KantoRematchTrainersHaveFlags);
+// TRAINER_TOURNAMENT_WALLY comes after the rematches, and takes the flag after theirs
+STATIC_ASSERT(TRAINER_TOURNAMENT_WALLY - KANTO_REMATCH_TRAINERS_START < KANTO_REMATCH_FLAGS_COUNT, TournamentWallyHasAFlag);
 
 // Kanto trainers come after Emerald's, whose flags fill the trainer flag range, so theirs are
-// kept apart (in SaveBlock1.kantoFlags). Their flags are in a row, without the ids' gap, so
+// kept apart (in SaveBlock1.kantoFlags; their rematch parties' in PokemonStorage.kantoRematchFlags).
+// Their flags are in a row, without the ids' gap, so
 // saves made before the gap keep every trainer's flag.
 static u16 GetTrainerFlagId(u16 trainerId)
 {
+    // The rematch parties' flags are apart, in PokemonStorage.kantoRematchFlags
+    if (trainerId >= KANTO_REMATCH_TRAINERS_START)
+        return KANTO_REMATCH_FLAGS_START + trainerId - KANTO_REMATCH_TRAINERS_START;
     if (trainerId >= KANTO_TRAINERS_GAP_START + KANTO_TRAINERS_GAP_SIZE)
         trainerId -= KANTO_TRAINERS_GAP_SIZE;
     if (trainerId >= KANTO_TRAINERS_START)
@@ -1475,6 +1485,7 @@ static void CB2_EndTrainerBattle(void)
         {
             RegisterTrainerInMatchCall();
             SetBattledTrainersFlags();
+            ClearRematchStateByTrainerId();
         }
     }
 }
@@ -1495,6 +1506,7 @@ static void CB2_EndRematchBattle(void)
         RegisterTrainerInMatchCall();
         SetBattledTrainersFlags();
         HandleRematchVarsOnBattleEnd();
+        ClearRematchStateByTrainerId();
     }
 }
 
@@ -1987,6 +1999,9 @@ bool32 IsRematchTrainerIn(u16 mapGroup, u16 mapNum)
 
 static u16 GetRematchTrainerId(u16 trainerId)
 {
+    // The Kanto trainers' rematches are the VS SEEKER's (src/vs_seeker.c)
+    if (IsVsSeekerTrainer(trainerId))
+        return VsSeeker_GetRematchTrainerId(trainerId);
     return GetRematchTrainerIdFromTable(gRematchTable, trainerId);
 }
 
@@ -1997,6 +2012,8 @@ u16 GetLastBeatenRematchTrainerId(u16 trainerId)
 
 bool8 ShouldTryRematchBattle(void)
 {
+    if (IsVsSeekerTrainer(gTrainerBattleOpponent_A))
+        return VsSeeker_ShouldTryRematchBattle(gTrainerBattleOpponent_A);
     if (IsFirstTrainerIdReadyForRematch(gRematchTable, gTrainerBattleOpponent_A))
         return TRUE;
 
@@ -2005,11 +2022,19 @@ bool8 ShouldTryRematchBattle(void)
 
 bool8 IsTrainerReadyForRematch(void)
 {
+    if (IsVsSeekerTrainer(gTrainerBattleOpponent_A))
+        return VsSeeker_IsTrainerReadyForRematch(gTrainerBattleOpponent_A);
     return IsTrainerReadyForRematch_(gRematchTable, gTrainerBattleOpponent_A);
 }
 
 static void HandleRematchVarsOnBattleEnd(void)
 {
+    if (IsVsSeekerTrainer(gTrainerBattleOpponent_A))
+    {
+        VsSeeker_ClearRematchStateOfLastTalked();
+        SetBattledTrainersFlags();
+        return;
+    }
     ClearTrainerWantRematchState(gRematchTable, gTrainerBattleOpponent_A);
     SetBattledTrainersFlags();
 }

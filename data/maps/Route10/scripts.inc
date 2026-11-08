@@ -46,22 +46,27 @@ Route10_EventScript_Heidi::
 	end
 
 Route10_EventScript_CarolRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_CAROL, Route10_Text_CarolRematchIntro, Route10_Text_CarolDefeat
 	msgbox Route10_Text_CarolPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route10_EventScript_ClarkRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_CLARK, Route10_Text_ClarkRematchIntro, Route10_Text_ClarkDefeat
 	msgbox Route10_Text_ClarkPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route10_EventScript_HeidiRematch::
+	trainerbattle_rematch TRAINER_KANTO_PICNICKER_HEIDI, Route10_Text_HeidiRematchIntro, Route10_Text_HeidiDefeat
 	msgbox Route10_Text_HeidiPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route10_EventScript_HermanRematch::
+	trainerbattle_rematch TRAINER_KANTO_POKEMANIAC_HERMAN, Route10_Text_HermanRematchIntro, Route10_Text_HermanDefeat
 	msgbox Route10_Text_HermanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route10_EventScript_MarkRematch::
+	trainerbattle_rematch TRAINER_KANTO_POKEMANIAC_MARK, Route10_Text_MarkRematchIntro, Route10_Text_MarkDefeat
 	msgbox Route10_Text_MarkPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -78,6 +83,7 @@ Route10_EventScript_SouthRockTunnelSign::
 	end
 
 Route10_EventScript_TrentRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_TRENT, Route10_Text_TrentRematchIntro, Route10_Text_TrentDefeat
 	msgbox Route10_Text_TrentPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -168,3 +174,29 @@ Route10_Text_TrentPostBattle:
     .string "I feel bloated on mountain air!$"
 
 @ END KANTO NPCS
+
+Route10_Text_HeidiRematchIntro:
+	.string "I went out to a POKéMON GYM again.\p"
+	.string "…But I lost as usual.$"
+
+Route10_Text_CarolRematchIntro:
+	.string "My head is starting to spin.\n"
+	.string "I've been hiking for too long…$"
+
+Route10_Text_MarkRematchIntro:
+	.string "Wow, you came here again?\n"
+	.string "Maybe you're a POKéMANIAC, too?\l"
+	.string "Want to see my collection?$"
+
+Route10_Text_HermanRematchIntro:
+	.string "Hi, kid!\n"
+	.string "Did I show you my POKéMON?$"
+
+Route10_Text_ClarkRematchIntro:
+	.string "Ha-hahah-ah-ha!\n"
+	.string "I can't stop sneezing!$"
+
+Route10_Text_TrentRematchIntro:
+	.string "Ah!\n"
+	.string "This mountain air is delicious!\l"
+	.string "It's so good, I can't leave!$"

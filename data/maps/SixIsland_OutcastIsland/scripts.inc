@@ -48,22 +48,27 @@ SixIsland_OutcastIsland_EventScript_ItemPPUp::
 	end
 
 SixIsland_OutcastIsland_EventScript_AvaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_AVA_GEB, SixIsland_OutcastIsland_Text_AvaRematchIntro, SixIsland_OutcastIsland_Text_AvaDefeat, SixIsland_OutcastIsland_Text_AvaNotEnoughMons
 	msgbox SixIsland_OutcastIsland_Text_AvaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_OutcastIsland_EventScript_GebRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_AVA_GEB, SixIsland_OutcastIsland_Text_GebRematchIntro, SixIsland_OutcastIsland_Text_GebDefeat, SixIsland_OutcastIsland_Text_GebNotEnoughMons
 	msgbox SixIsland_OutcastIsland_Text_GebPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_OutcastIsland_EventScript_MymoRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_MYMO, SixIsland_OutcastIsland_Text_MymoRematchIntro, SixIsland_OutcastIsland_Text_MymoDefeat
 	msgbox SixIsland_OutcastIsland_Text_MymoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_OutcastIsland_EventScript_NicoleRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_NICOLE, SixIsland_OutcastIsland_Text_NicoleRematchIntro, SixIsland_OutcastIsland_Text_NicoleDefeat
 	msgbox SixIsland_OutcastIsland_Text_NicolePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_OutcastIsland_EventScript_TylorRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_TYLOR, SixIsland_OutcastIsland_Text_TylorRematchIntro, SixIsland_OutcastIsland_Text_TylorDefeat
 	msgbox SixIsland_OutcastIsland_Text_TylorPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -154,3 +159,24 @@ SixIsland_OutcastIsland_Text_TylorPostBattle:
     .string "catching something, though.$"
 
 @ END KANTO NPCS
+
+SixIsland_OutcastIsland_Text_TylorRematchIntro:
+	.string "I'm still having no luck at all.\n"
+	.string "A battle'd be a change of pace!$"
+
+SixIsland_OutcastIsland_Text_MymoRematchIntro:
+	.string "Gasp… Gasp…\p"
+	.string "I swam here from SIX ISLAND's port\n"
+	.string "in one go again.$"
+
+SixIsland_OutcastIsland_Text_NicoleRematchIntro:
+	.string "You always come along while I'm\n"
+	.string "swimming.$"
+
+SixIsland_OutcastIsland_Text_AvaRematchIntro:
+	.string "AVA: Let's have another\n"
+	.string "two-on-two marine battle today!$"
+
+SixIsland_OutcastIsland_Text_GebRematchIntro:
+	.string "GEB: My big sister and I are way\n"
+	.string "tougher than before!$"

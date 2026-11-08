@@ -13,6 +13,7 @@
 #include "faraway_island.h"
 #include "field_camera.h"
 #include "field_effect.h"
+#include "trig.h"
 #include "field_effect_helpers.h"
 #include "field_player_avatar.h"
 #include "graphics.h"
@@ -308,6 +309,9 @@ static void (*const sMovementTypeCallbacks[])(struct Sprite *) =
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_UP] = MovementType_WalkSlowlyInPlace,
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_LEFT] = MovementType_WalkSlowlyInPlace,
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_RIGHT] = MovementType_WalkSlowlyInPlace,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_STOP] = MovementType_RaiseHandAndStop,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_JUMP] = MovementType_RaiseHandAndJump,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_SWIM] = MovementType_RaiseHandAndSwim,
 };
 
 static const bool8 sMovementTypeHasRange[NUM_MOVEMENT_TYPES] = {
@@ -436,6 +440,9 @@ const u8 gInitialMovementTypeFacingDirections[] = {
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_UP] = DIR_NORTH,
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_LEFT] = DIR_WEST,
     [MOVEMENT_TYPE_WALK_SLOWLY_IN_PLACE_RIGHT] = DIR_EAST,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_STOP] = DIR_SOUTH,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_JUMP] = DIR_SOUTH,
+    [MOVEMENT_TYPE_RAISE_HAND_AND_SWIM] = DIR_SOUTH,
 };
 
 #define OBJ_EVENT_PAL_TAG_BRENDAN                 0x1100
@@ -480,6 +487,10 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION 0x1127
 #define OBJ_EVENT_PAL_TAG_PLAYER_KRIS             0x1128
 #define OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION  0x1129
+// Brendan's and May's palettes with FRLG's VS SEEKER blues (tools/costumes/vs_seeker_frames.py)
+#define OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER       0x112A
+#define OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER           0x112B
+#define OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER  0x112C
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -541,6 +552,9 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_PlayerEthanReflection, OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_REFLECTION},
     {gObjectEventPal_PlayerKris,            OBJ_EVENT_PAL_TAG_PLAYER_KRIS},
     {gObjectEventPal_PlayerKrisReflection,  OBJ_EVENT_PAL_TAG_PLAYER_KRIS_REFLECTION},
+    {gObjectEventPal_BrendanVsSeeker,       OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER},
+    {gObjectEventPal_MayVsSeeker,           OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER},
+    {gObjectEventPal_PlayerEthanVsSeeker,   OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER},
     KANTO_OBJECT_EVENT_SPRITE_PALETTES
     CHAMPION_OBJECT_EVENT_SPRITE_PALETTES
     STORY_MON_OBJECT_EVENT_SPRITE_PALETTES
@@ -603,6 +617,9 @@ static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_PLAYER_RED_LEAF,   sReflectionPaletteTags_PlayerRedLeaf},
     {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN,      sReflectionPaletteTags_PlayerEthan},
     {OBJ_EVENT_PAL_TAG_PLAYER_KRIS,       sReflectionPaletteTags_PlayerKris},
+    {OBJ_EVENT_PAL_TAG_BRENDAN_VS_SEEKER, sReflectionPaletteTags_Brendan},
+    {OBJ_EVENT_PAL_TAG_MAY_VS_SEEKER,     sReflectionPaletteTags_May},
+    {OBJ_EVENT_PAL_TAG_PLAYER_ETHAN_VS_SEEKER, sReflectionPaletteTags_PlayerEthan},
     {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
     {OBJ_EVENT_PAL_TAG_NONE,              NULL},
 };
@@ -2009,6 +2026,18 @@ static void SetBerryTreeGraphics(struct ObjectEvent *objectEvent, struct Sprite 
 // Red or Leaf, they are drawn with the FRLG sprites instead of Brendan's and May's.
 // FRLG has no sprites for diving, watering berries or decorating, so those keep
 // Brendan's and May's.
+// The player holding up the VS SEEKER (src/vs_seeker.c), in the costume and gender played
+static const struct ObjectEventGraphicsInfo *GetPlayerVsSeekerGraphicsInfo(void)
+{
+    bool32 female = (gSaveBlock2Ptr->playerGender == FEMALE);
+
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_FRLG)
+        return female ? &gObjectEventGraphicsInfo_LeafPlayerFieldMove : &gObjectEventGraphicsInfo_RedPlayerFieldMove;
+    if (gSaveBlock2Ptr->playerCostume == PLAYER_COSTUME_JOHTO)
+        return female ? &gObjectEventGraphicsInfo_KrisPlayerFieldMove : &gObjectEventGraphicsInfo_EthanVsSeeker;
+    return female ? &gObjectEventGraphicsInfo_MayVsSeeker : &gObjectEventGraphicsInfo_BrendanVsSeeker;
+}
+
 static const struct ObjectEventGraphicsInfo *GetFRLGPlayerGraphicsInfo(u16 graphicsId)
 {
     switch (graphicsId)
@@ -2082,6 +2111,8 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
         return sMansionRaiderObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_MANSION_RAIDER_START];
     if (graphicsId >= OBJ_EVENT_GFX_SANCTUM_MEWTWO_START && graphicsId < OBJ_EVENT_GFX_SANCTUM_MEWTWO_START + NUM_SANCTUM_MEWTWO_OBJ_EVENT_GFX)
         return sSanctumMewtwoObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_SANCTUM_MEWTWO_START];
+    if (graphicsId == OBJ_EVENT_GFX_PLAYER_VS_SEEKER)
+        return GetPlayerVsSeekerGraphicsInfo();
     if (graphicsId >= OBJ_EVENT_GFX_CHAMPION_PAIR_START && graphicsId < OBJ_EVENT_GFX_CHAMPION_PAIR_START + NUM_CHAMPION_PAIR_OBJ_EVENT_GFX)
         return sChampionPairObjectEventGraphicsInfoPointers[graphicsId - OBJ_EVENT_GFX_CHAMPION_PAIR_START];
 
@@ -4604,6 +4635,58 @@ bool8 MovementType_WalkSlowlyInPlace_Step0(struct ObjectEvent *objectEvent, stru
     return TRUE;
 }
 
+// FRLG: the VS SEEKER's trainers who want a rematch (src/vs_seeker.c)
+movement_type_def(MovementType_RaiseHandAndStop, gMovementTypeFuncs_RaiseHandAndStop)
+movement_type_def(MovementType_RaiseHandAndJump, gMovementTypeFuncs_RaiseHandAndJump)
+movement_type_def(MovementType_RaiseHandAndSwim, gMovementTypeFuncs_RaiseHandAndSwim)
+
+bool8 MovementType_RaiseHandAndStop_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ClearObjectEventMovement(objectEvent, sprite);
+    ObjectEventSetSingleMovement(objectEvent, sprite, MOVEMENT_ACTION_RAISE_HAND_AND_STOP);
+    sprite->sTypeFuncId = 1;
+    return TRUE;
+}
+
+bool8 MovementType_RaiseHandAndStop_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    if (ObjectEventExecSingleMovementAction(objectEvent, sprite))
+    {
+        sprite->sTypeFuncId = 2;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 MovementType_RaiseHandAndStop_Step2(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    objectEvent->singleMovementActive = FALSE;
+    return FALSE;
+}
+
+bool8 MovementType_RaiseHandAndJump_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ClearObjectEventMovement(objectEvent, sprite);
+    ObjectEventSetSingleMovement(objectEvent, sprite, MOVEMENT_ACTION_RAISE_HAND_AND_JUMP);
+    sprite->sTypeFuncId = 1;
+    return FALSE;
+}
+
+bool8 MovementType_RaiseHandAndSwim_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ClearObjectEventMovement(objectEvent, sprite);
+    ObjectEventSetSingleMovement(objectEvent, sprite, MOVEMENT_ACTION_RAISE_HAND_AND_SWIM);
+    sprite->sTypeFuncId = 1;
+    return FALSE;
+}
+
+bool8 MovementType_RaiseHandAndMove_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    if (ObjectEventExecSingleMovementAction(objectEvent, sprite))
+        sprite->sTypeFuncId = 0;
+    return FALSE;
+}
+
 movement_type_def(MovementType_JogInPlace, gMovementTypeFuncs_JogInPlace)
 
 bool8 MovementType_JogInPlace_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
@@ -6655,6 +6738,94 @@ bool8 MovementAction_EmoteHeart_Step0(struct ObjectEvent *objectEvent, struct Sp
     FieldEffectStart(FLDEFF_HEART_ICON);
     sprite->sActionFuncId = 1;
     return TRUE;
+}
+
+// FRLG: the VS SEEKER's answers
+bool8 MovementAction_EmoteX_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+    FieldEffectStart(FLDEFF_X_ICON);
+    sprite->sActionFuncId = 1;
+    return TRUE;
+}
+
+bool8 MovementAction_EmoteDoubleExclamationMark_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+    FieldEffectStart(FLDEFF_DOUBLE_EXCL_MARK_ICON);
+    sprite->sActionFuncId = 1;
+    return TRUE;
+}
+
+// sprite->data[4-7] are the raise-hand actions' own (FRLG's)
+bool8 MovementAction_RaiseHand_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    StartSpriteAnim(sprite, ANIM_RAISE_HAND);
+    sprite->animPaused = FALSE;
+    objectEvent->disableAnim = FALSE;
+    sprite->sActionFuncId = 1;
+    sprite->data[4] = 0;
+    sprite->data[5] = 0;
+    sprite->data[6] = 0;
+    sprite->data[7] = 0;
+    return FALSE;
+}
+
+bool8 MovementAction_RaiseHandAndStop_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    return sprite->animEnded;
+}
+
+// Hops twice with the hand down, then holds the hand up for a while
+bool8 MovementAction_RaiseHandAndJump_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    switch (sprite->data[7])
+    {
+    case 0:
+        if ((sprite->data[6] += 10) > 127)
+        {
+            sprite->data[6] = 0;
+            sprite->data[5]++;
+            sprite->data[7] = sprite->data[5];
+            StartSpriteAnim(sprite, ANIM_STD_FACE_SOUTH);
+            sprite->animPaused = FALSE;
+            objectEvent->disableAnim = FALSE;
+        }
+        sprite->y2 = -(3 * gSineTable[sprite->data[6]] >> 7);
+        objectEvent->singleMovementActive = sprite->y2 != 0;
+        return FALSE;
+    case 1:
+        if (++sprite->data[4] > 16)
+        {
+            sprite->data[4] = 0;
+            StartSpriteAnim(sprite, ANIM_RAISE_HAND);
+            sprite->animPaused = FALSE;
+            objectEvent->disableAnim = FALSE;
+            sprite->data[7] = 0;
+        }
+        else
+        {
+            objectEvent->singleMovementActive = FALSE;
+        }
+        return FALSE;
+    case 2:
+        objectEvent->singleMovementActive = FALSE;
+        if (++sprite->data[4] > 80)
+        {
+            sprite->data[4] = 0;
+            return TRUE;
+        }
+        return FALSE;
+    }
+    return FALSE;
+}
+
+// Bobs from side to side in the water
+bool8 MovementAction_RaiseHandAndSwim_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    sprite->data[7] = (sprite->data[7] + 4) & 0xFF;
+    sprite->x2 = gSineTable[sprite->data[7]] >> 7;
+    return sprite->data[7] == 0;
 }
 
 bool8 MovementAction_RevealTrainer_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)

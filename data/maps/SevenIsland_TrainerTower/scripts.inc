@@ -21,10 +21,12 @@ SevenIsland_TrainerTower_EventScript_Rodette::
 	end
 
 SevenIsland_TrainerTower_EventScript_DarioRematch::
+	trainerbattle_rematch TRAINER_KANTO_PSYCHIC_DARIO, SevenIsland_TrainerTower_Text_DarioRematchIntro, SevenIsland_TrainerTower_Text_DarioDefeat
 	msgbox SevenIsland_TrainerTower_Text_DarioPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_TrainerTower_EventScript_RodetteRematch::
+	trainerbattle_rematch TRAINER_KANTO_PSYCHIC_RODETTE, SevenIsland_TrainerTower_Text_RodetteRematchIntro, SevenIsland_TrainerTower_Text_RodetteDefeat
 	msgbox SevenIsland_TrainerTower_Text_RodettePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -75,3 +77,10 @@ SevenIsland_TrainerTower_Text_TrainerTowerSign:
     .string "Rise to the Challenge, TRAINERS!$"
 
 @ END KANTO NPCS
+
+SevenIsland_TrainerTower_Text_DarioRematchIntro:
+	.string "I sensed your approach.$"
+
+SevenIsland_TrainerTower_Text_RodetteRematchIntro:
+	.string "Somewhere on this island, peculiar\n"
+	.string "POKéMON are sleeping.$"

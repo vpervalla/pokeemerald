@@ -22,6 +22,7 @@ Route4_EventScript_Boy::
 	end
 
 Route4_EventScript_CrissyRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_CRISSY, Route4_Text_CrissyRematchIntro, Route4_Text_CrissyDefeat
 	msgbox Route4_Text_CrissyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -102,3 +103,7 @@ Route4_Text_TrippedOverGeodude:
     .string "POKéMON, GEODUDE!$"
 
 @ END KANTO NPCS
+
+Route4_Text_CrissyRematchIntro:
+	.string "I always catch mushroom POKéMON\n"
+	.string "on MT. MOON.$"

@@ -88,46 +88,57 @@ Route19_EventScript_Luc::
 	end
 
 Route19_EventScript_AliceRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_ALICE, Route19_Text_AliceRematchIntro, Route19_Text_AliceDefeat
 	msgbox Route19_Text_AlicePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_AnyaRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_ANYA, Route19_Text_AnyaRematchIntro, Route19_Text_AnyaDefeat
 	msgbox Route19_Text_AnyaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_AxleRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_AXLE, Route19_Text_AxleRematchIntro, Route19_Text_AxleDefeat
 	msgbox Route19_Text_AxlePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_ConnieRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_CONNIE, Route19_Text_ConnieRematchIntro, Route19_Text_ConnieDefeat
 	msgbox Route19_Text_ConniePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_DavidRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_DAVID, Route19_Text_DavidRematchIntro, Route19_Text_DavidDefeat
 	msgbox Route19_Text_DavidPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_DouglasRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_DOUGLAS, Route19_Text_DouglasRematchIntro, Route19_Text_DouglasDefeat
 	msgbox Route19_Text_DouglasPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_LiaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_LIA_LUC, Route19_Text_LiaRematchIntro, Route19_Text_LiaDefeat, Route19_Text_LiaNotEnoughMons
 	msgbox Route19_Text_LiaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_LucRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_SIS_AND_BRO_LIA_LUC, Route19_Text_LucRematchIntro, Route19_Text_LucDefeat, Route19_Text_LucNotEnoughMons
 	msgbox Route19_Text_LucPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_MatthewRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_MATTHEW, Route19_Text_MatthewRematchIntro, Route19_Text_MatthewDefeat
 	msgbox Route19_Text_MatthewPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_ReeceRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_REECE, Route19_Text_ReeceRematchIntro, Route19_Text_ReeceDefeat
 	msgbox Route19_Text_ReecePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route19_EventScript_RichardRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_RICHARD, Route19_Text_RichardRematchIntro, Route19_Text_RichardDefeat
 	msgbox Route19_Text_RichardPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -136,6 +147,7 @@ Route19_EventScript_RouteSign::
 	end
 
 Route19_EventScript_TonyRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_TONY, Route19_Text_TonyRematchIntro, Route19_Text_TonyDefeat
 	msgbox Route19_Text_TonyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -295,3 +307,58 @@ Route19_Text_TonyPostBattle:
     .string "the bad thing that happened!$"
 
 @ END KANTO NPCS
+
+Route19_Text_RichardRematchIntro:
+	.string "I'm almost warmed up to go\n"
+	.string "out for a swim.$"
+
+Route19_Text_ReeceRematchIntro:
+	.string "Wait! Slow down!\n"
+	.string "What if you have a heart attack?$"
+
+Route19_Text_MatthewRematchIntro:
+	.string "I love swimming!\n"
+	.string "I guess you're the surfing type.$"
+
+Route19_Text_DouglasRematchIntro:
+	.string "What's beyond the horizon?\n"
+	.string "Have you seen?$"
+
+Route19_Text_DavidRematchIntro:
+	.string "I tried diving for POKéMON again,\n"
+	.string "but it was a no-go like before.$"
+
+Route19_Text_TonyRematchIntro:
+	.string "I look at the sea to forget all\n"
+	.string "the bad things that happened.\p"
+	.string "…Like losing to you the last time!$"
+
+Route19_Text_AxleRematchIntro:
+	.string "These waters are treacherous!\n"
+	.string "You shouldn't come back here!$"
+
+Route19_Text_AnyaRematchIntro:
+	.string "You always get to ride your\n"
+	.string "POKéMON…\p"
+	.string "It looks so relaxing.\n"
+	.string "Can I have it if I win?$"
+
+Route19_Text_AliceRematchIntro:
+	.string "Swimming's great!\n"
+	.string "Sunburns aren't!$"
+
+Route19_Text_ConnieRematchIntro:
+	.string "I swam here with my friends…\n"
+	.string "I'm tired…\l"
+	.string "Must we really battle again?$"
+
+Route19_Text_LiaRematchIntro:
+	.string "LIA: You know my brother just\n"
+	.string "became a TRAINER, right?\p"
+	.string "I want to make him better, so I\n"
+	.string "need your help again.$"
+
+Route19_Text_LucRematchIntro:
+	.string "LUC: My big sis taught me all\n"
+	.string "about POKéMON.\p"
+	.string "I wonder if I'm better?$"

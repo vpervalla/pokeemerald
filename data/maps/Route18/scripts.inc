@@ -31,10 +31,12 @@ Route18_EventScript_CyclingRoadSign::
 	end
 
 Route18_EventScript_JacobRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_JACOB, Route18_Text_JacobRematchIntro, Route18_Text_JacobDefeat
 	msgbox Route18_Text_JacobPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route18_EventScript_RamiroRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_RAMIRO, Route18_Text_RamiroRematchIntro, Route18_Text_RamiroDefeat
 	msgbox Route18_Text_RamiroPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -43,6 +45,7 @@ Route18_EventScript_RouteSign::
 	end
 
 Route18_EventScript_WiltonRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_WILTON, Route18_Text_WiltonRematchIntro, Route18_Text_WiltonDefeat
 	msgbox Route18_Text_WiltonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -103,3 +106,17 @@ Route18_Text_WiltonPostBattle:
     .string "I wish I had a BIKE!$"
 
 @ END KANTO NPCS
+
+Route18_Text_WiltonRematchIntro:
+	.string "I've been checking every grassy\n"
+	.string "area for new POKéMON.\p"
+	.string "But it's not always easy…$"
+
+Route18_Text_RamiroRematchIntro:
+	.string "Koorukukukoo!\n"
+	.string "Is my birdcall getting better?$"
+
+Route18_Text_JacobRematchIntro:
+	.string "I warned you before, this is my\n"
+	.string "turf!\p"
+	.string "I don't want you coming around.$"

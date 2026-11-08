@@ -11,6 +11,7 @@ SixIsland_GreenPath_EventScript_Jaclyn::
 	end
 
 SixIsland_GreenPath_EventScript_JaclynRematch::
+	trainerbattle_rematch TRAINER_KANTO_PSYCHIC_JACLYN, SixIsland_GreenPath_Text_JaclynRematchIntro, SixIsland_GreenPath_Text_JaclynDefeat
 	msgbox SixIsland_GreenPath_Text_JaclynPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -44,3 +45,8 @@ SixIsland_GreenPath_Text_RightRouteSign:
     .string "Think Green, Keep Nature Clean!$"
 
 @ END KANTO NPCS
+
+SixIsland_GreenPath_Text_JaclynRematchIntro:
+	.string "…Huh?\p"
+	.string "I envision my house, but TELEPORT\n"
+	.string "always brings me here!$"

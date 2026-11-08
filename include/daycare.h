@@ -30,5 +30,10 @@ void SetDaycareCompatibilityString(void);
 bool8 NameHasGenderSymbol(const u8 *name, u8 genderRatio);
 void ShowDaycareLevelMenu(void);
 void ChooseSendDaycareMon(void);
+void PutMonInRoute5Daycare(void);
+void GetCostToWithdrawRoute5DaycareMon(void);
+bool8 IsThereMonInRoute5Daycare(void);
+u8 GetNumLevelsGainedForRoute5DaycareMon(void);
+u16 TakePokemonFromRoute5Daycare(void);
 
 #endif // GUARD_DAYCARE_H

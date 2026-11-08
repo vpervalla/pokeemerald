@@ -86,18 +86,22 @@ Route11_EventScript_ItemAwakening::
 	end
 
 Route11_EventScript_BernieRematch::
+	trainerbattle_rematch TRAINER_KANTO_ENGINEER_BERNIE, Route11_Text_BernieRematchIntro, Route11_Text_BernieDefeat
 	msgbox Route11_Text_BerniePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_BraxtonRematch::
+	trainerbattle_rematch TRAINER_KANTO_ENGINEER_BRAXTON, Route11_Text_BraxtonRematchIntro, Route11_Text_BraxtonDefeat
 	msgbox Route11_Text_BraxtonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_DarianRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_DARIAN, Route11_Text_DarianRematchIntro, Route11_Text_DarianDefeat
 	msgbox Route11_Text_DarianPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_DaveRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_DAVE, Route11_Text_DaveRematchIntro, Route11_Text_DaveDefeat
 	msgbox Route11_Text_DavePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -106,26 +110,32 @@ Route11_EventScript_DiglettsCaveSign::
 	end
 
 Route11_EventScript_DillonRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_DILLON, Route11_Text_DillonRematchIntro, Route11_Text_DillonDefeat
 	msgbox Route11_Text_DillonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_DirkRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_DIRK, Route11_Text_DirkRematchIntro, Route11_Text_DirkDefeat
 	msgbox Route11_Text_DirkPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_EddieRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_EDDIE, Route11_Text_EddieRematchIntro, Route11_Text_EddieDefeat
 	msgbox Route11_Text_EddiePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_HugoRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_HUGO, Route11_Text_HugoRematchIntro, Route11_Text_HugoDefeat
 	msgbox Route11_Text_HugoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_JasperRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_JASPER, Route11_Text_JasperRematchIntro, Route11_Text_JasperDefeat
 	msgbox Route11_Text_JasperPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route11_EventScript_YasuRematch::
+	trainerbattle_rematch TRAINER_KANTO_YOUNGSTER_YASU, Route11_Text_YasuRematchIntro, Route11_Text_YasuDefeat
 	msgbox Route11_Text_YasuPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -243,3 +253,47 @@ Route11_Text_YasuPostBattle:
     .string "catch it.$"
 
 @ END KANTO NPCS
+
+Route11_Text_EddieRematchIntro:
+	.string "You know, right?\n"
+	.string "Let's go, but don't cheat!$"
+
+Route11_Text_DillonRematchIntro:
+	.string "I became a TRAINER a while ago.\n"
+	.string "But, I think I can win.$"
+
+Route11_Text_YasuRematchIntro:
+	.string "I'm the best in my class.\n"
+	.string "I train every morning and night!$"
+
+Route11_Text_DaveRematchIntro:
+	.string "I raised my POKéMON carefully.\n"
+	.string "They should be ready by now.\l"
+	.string "This time, they should win, too.$"
+
+Route11_Text_BraxtonRematchIntro:
+	.string "Hi, there!\p"
+	.string "But be careful!\n"
+	.string "I'm still laying down some cables!$"
+
+Route11_Text_BernieRematchIntro:
+	.string "Keep your eyes out for live wires!$"
+
+Route11_Text_HugoRematchIntro:
+	.string "Win, lose, or draw!\n"
+	.string "Now for our rematch!$"
+
+Route11_Text_JasperRematchIntro:
+	.string "Competing is the ultimate thrill.\n"
+	.string "I still can't get enough!$"
+
+Route11_Text_DirkRematchIntro:
+	.string "Fwahaha!\n"
+	.string "I have never lost!\p"
+	.string "…And if I did, I've forgotten all\n"
+	.string "about it!$"
+
+Route11_Text_DarianRematchIntro:
+	.string "I have never won before…\p"
+	.string "Perhaps I am destined to remain\n"
+	.string "that way…$"

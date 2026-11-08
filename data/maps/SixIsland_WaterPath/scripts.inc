@@ -61,14 +61,17 @@ SixIsland_WaterPath_EventScript_ItemDragonScale::
 	end
 
 SixIsland_WaterPath_EventScript_DeniseRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_FEMALE_DENISE, SixIsland_WaterPath_Text_DeniseRematchIntro, SixIsland_WaterPath_Text_DeniseDefeat
 	msgbox SixIsland_WaterPath_Text_DenisePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_WaterPath_EventScript_EarlRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_EARL, SixIsland_WaterPath_Text_EarlRematchIntro, SixIsland_WaterPath_Text_EarlDefeat
 	msgbox SixIsland_WaterPath_Text_EarlPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_WaterPath_EventScript_EdwardRematch::
+	trainerbattle_rematch TRAINER_KANTO_JUGGLER_EDWARD, SixIsland_WaterPath_Text_EdwardRematchIntro, SixIsland_WaterPath_Text_EdwardDefeat
 	msgbox SixIsland_WaterPath_Text_EdwardPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -77,14 +80,17 @@ SixIsland_WaterPath_EventScript_HornWantedSign::
 	end
 
 SixIsland_WaterPath_EventScript_MiaRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_MIU_MIA, SixIsland_WaterPath_Text_MiaRematchIntro, SixIsland_WaterPath_Text_MiaDefeat, SixIsland_WaterPath_Text_MiaNotEnoughMons
 	msgbox SixIsland_WaterPath_Text_MiaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_WaterPath_EventScript_MiuRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_MIU_MIA, SixIsland_WaterPath_Text_MiuRematchIntro, SixIsland_WaterPath_Text_MiuDefeat, SixIsland_WaterPath_Text_MiuNotEnoughMons
 	msgbox SixIsland_WaterPath_Text_MiuPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_WaterPath_EventScript_RoseRematch::
+	trainerbattle_rematch TRAINER_KANTO_AROMA_LADY_ROSE, SixIsland_WaterPath_Text_RoseRematchIntro, SixIsland_WaterPath_Text_RoseDefeat
 	msgbox SixIsland_WaterPath_Text_RosePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -93,6 +99,7 @@ SixIsland_WaterPath_EventScript_RouteSign::
 	end
 
 SixIsland_WaterPath_EventScript_SamirRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_SAMIR, SixIsland_WaterPath_Text_SamirRematchIntro, SixIsland_WaterPath_Text_SamirDefeat
 	msgbox SixIsland_WaterPath_Text_SamirPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -199,3 +206,33 @@ SixIsland_WaterPath_Text_WantedUltimateHorn:
     .string "The Ultimate Horn!$"
 
 @ END KANTO NPCS
+
+SixIsland_WaterPath_Text_RoseRematchIntro:
+	.string "Oh, hello.\n"
+	.string "A pleasant breeze is blowing again.$"
+
+SixIsland_WaterPath_Text_EdwardRematchIntro:
+	.string "Hehehe, I'm practicing in secret\n"
+	.string "again.$"
+
+SixIsland_WaterPath_Text_SamirRematchIntro:
+	.string "What, you're sick of seeing\n"
+	.string "SWIMMERS like me?\p"
+	.string "Aww, don't be hatin'!\n"
+	.string "Battle with me again.$"
+
+SixIsland_WaterPath_Text_DeniseRematchIntro:
+	.string "Sigh…\n"
+	.string "My boyfriend's busy again…$"
+
+SixIsland_WaterPath_Text_MiuRematchIntro:
+	.string "MIU: Hello, POKéMON!\n"
+	.string "It's time to play again!$"
+
+SixIsland_WaterPath_Text_MiaRematchIntro:
+	.string "MIA: Hello, POKéMON!\n"
+	.string "It's time to battle again!$"
+
+SixIsland_WaterPath_Text_EarlRematchIntro:
+	.string "Come on, tell me, where are the\n"
+	.string "mountains around these parts?$"

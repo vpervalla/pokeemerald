@@ -32,18 +32,22 @@ SevenIsland_TanobyRuins_EventScript_Clifford::
 	end
 
 SevenIsland_TanobyRuins_EventScript_BenjaminRematch::
+	trainerbattle_rematch TRAINER_KANTO_RUIN_MANIAC_BENJAMIN, SevenIsland_TanobyRuins_Text_BenjaminRematchIntro, SevenIsland_TanobyRuins_Text_BenjaminDefeat
 	msgbox SevenIsland_TanobyRuins_Text_BenjaminPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_TanobyRuins_EventScript_BrandonRematch::
+	trainerbattle_rematch TRAINER_KANTO_RUIN_MANIAC_BRANDON, SevenIsland_TanobyRuins_Text_BrandonRematchIntro, SevenIsland_TanobyRuins_Text_BrandonDefeat
 	msgbox SevenIsland_TanobyRuins_Text_BrandonPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_TanobyRuins_EventScript_CliffordRematch::
+	trainerbattle_rematch TRAINER_KANTO_GENTLEMAN_CLIFFORD, SevenIsland_TanobyRuins_Text_CliffordRematchIntro, SevenIsland_TanobyRuins_Text_CliffordDefeat
 	msgbox SevenIsland_TanobyRuins_Text_CliffordPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SevenIsland_TanobyRuins_EventScript_EdnaRematch::
+	trainerbattle_rematch TRAINER_KANTO_PAINTER_EDNA, SevenIsland_TanobyRuins_Text_EdnaRematchIntro, SevenIsland_TanobyRuins_Text_EdnaDefeat
 	msgbox SevenIsland_TanobyRuins_Text_EdnaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -101,3 +105,19 @@ SevenIsland_TanobyRuins_Text_EdnaPostBattle:
     .string "So CLIFFORD brought me here.$"
 
 @ END KANTO NPCS
+
+SevenIsland_TanobyRuins_Text_BrandonRematchIntro:
+	.string "Have you discovered anything about\n"
+	.string "this stone chamber?$"
+
+SevenIsland_TanobyRuins_Text_BenjaminRematchIntro:
+	.string "A mystic POKéMON is said to sleep\n"
+	.string "inside here.$"
+
+SevenIsland_TanobyRuins_Text_EdnaRematchIntro:
+	.string "My teacher is showing me how to\n"
+	.string "paint some more.$"
+
+SevenIsland_TanobyRuins_Text_CliffordRematchIntro:
+	.string "Today, in addition to our lesson,\n"
+	.string "we came to see the chamber again.$"

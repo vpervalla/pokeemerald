@@ -52,6 +52,7 @@ SixIsland_RuinValley_EventScript_ItemSunStone::
 	end
 
 SixIsland_RuinValley_EventScript_DarylRematch::
+	trainerbattle_rematch TRAINER_KANTO_HIKER_DARYL, SixIsland_RuinValley_Text_DarylRematchIntro, SixIsland_RuinValley_Text_DarylDefeat
 	msgbox SixIsland_RuinValley_Text_DarylPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -72,10 +73,12 @@ SixIsland_RuinValley_EventScript_DottedHoleDoorOpen::
 	end
 
 SixIsland_RuinValley_EventScript_FosterRematch::
+	trainerbattle_rematch TRAINER_KANTO_RUIN_MANIAC_FOSTER, SixIsland_RuinValley_Text_FosterRematchIntro, SixIsland_RuinValley_Text_FosterDefeat
 	msgbox SixIsland_RuinValley_Text_FosterPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SixIsland_RuinValley_EventScript_HectorRematch::
+	trainerbattle_rematch TRAINER_KANTO_POKEMANIAC_HECTOR, SixIsland_RuinValley_Text_HectorRematchIntro, SixIsland_RuinValley_Text_HectorDefeat
 	msgbox SixIsland_RuinValley_Text_HectorPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -85,6 +88,7 @@ SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor::
 	end
 
 SixIsland_RuinValley_EventScript_LarryRematch::
+	trainerbattle_rematch TRAINER_KANTO_RUIN_MANIAC_LARRY, SixIsland_RuinValley_Text_LarryRematchIntro, SixIsland_RuinValley_Text_LarryDefeat
 	msgbox SixIsland_RuinValley_Text_LarryPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -104,6 +108,7 @@ SixIsland_RuinValley_EventScript_Scientist::
 	end
 
 SixIsland_RuinValley_EventScript_StanlyRematch::
+	trainerbattle_rematch TRAINER_KANTO_RUIN_MANIAC_STANLY, SixIsland_RuinValley_Text_StanlyRematchIntro, SixIsland_RuinValley_Text_StanlyDefeat
 	msgbox SixIsland_RuinValley_Text_StanlyPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -200,3 +205,24 @@ SixIsland_RuinValley_Text_StanlyPostBattle:
     .string "mysteries of our world once a day.$"
 
 @ END KANTO NPCS
+
+SixIsland_RuinValley_Text_StanlyRematchIntro:
+	.string "There appear to be many secrets\n"
+	.string "still unsolved in this world.$"
+
+SixIsland_RuinValley_Text_FosterRematchIntro:
+	.string "Hi, didn't we meet before?\n"
+	.string "What compelled you to come back?$"
+
+SixIsland_RuinValley_Text_LarryRematchIntro:
+	.string "It's been said that there are\n"
+	.string "mysterious stones on this island.\p"
+	.string "Have you discovered anything since\n"
+	.string "we last met?$"
+
+SixIsland_RuinValley_Text_DarylRematchIntro:
+	.string "A rematch with you, so high up!$"
+
+SixIsland_RuinValley_Text_HectorRematchIntro:
+	.string "I'm pretty familiar with the land\n"
+	.string "around these parts.$"

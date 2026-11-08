@@ -40,10 +40,12 @@ FiveIsland_MemorialPillar_EventScript_AskPlaceLemonade::
 	end
 
 FiveIsland_MemorialPillar_EventScript_ChazRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_CHAZ, FiveIsland_MemorialPillar_Text_ChazRematchIntro, FiveIsland_MemorialPillar_Text_ChazDefeat
 	msgbox FiveIsland_MemorialPillar_Text_ChazPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 FiveIsland_MemorialPillar_EventScript_HaroldRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_HAROLD, FiveIsland_MemorialPillar_Text_HaroldRematchIntro, FiveIsland_MemorialPillar_Text_HaroldDefeat
 	msgbox FiveIsland_MemorialPillar_Text_HaroldPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -79,6 +81,7 @@ FiveIsland_MemorialPillar_EventScript_MemorialMan::
 	end
 
 FiveIsland_MemorialPillar_EventScript_MiloRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIRD_KEEPER_MILO, FiveIsland_MemorialPillar_Text_MiloRematchIntro, FiveIsland_MemorialPillar_Text_MiloDefeat
 	msgbox FiveIsland_MemorialPillar_Text_MiloPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -219,3 +222,21 @@ FiveIsland_MemorialPillar_Text_YourMonsLookHealthy:
     .string "Your POKéMON look healthy…$"
 
 @ END KANTO NPCS
+
+FiveIsland_MemorialPillar_Text_MiloRematchIntro:
+	.string "I'm the eldest of the BIRD\n"
+	.string "BROTHERS. Remember me?\p"
+	.string "That's right, I'm the one who loves\n"
+	.string "birds for their beaks!$"
+
+FiveIsland_MemorialPillar_Text_ChazRematchIntro:
+	.string "I'm the middle kid of the BIRD\n"
+	.string "BROTHERS.\p"
+	.string "I'm the one that loves wings.\n"
+	.string "Let's battle again!$"
+
+FiveIsland_MemorialPillar_Text_HaroldRematchIntro:
+	.string "I'm the youngest of the BIRD\n"
+	.string "BROTHERS.\p"
+	.string "I love birds for their down.\n"
+	.string "I didn't think I'd see you again!$"

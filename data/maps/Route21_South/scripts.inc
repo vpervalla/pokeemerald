@@ -39,22 +39,27 @@ Route21_South_EventScript_Roland::
 	end
 
 Route21_South_EventScript_ClaudeRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_CLAUDE, Route21_South_Text_ClaudeRematchIntro, Route21_South_Text_ClaudeDefeat
 	msgbox Route21_South_Text_ClaudePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_South_EventScript_JackRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_JACK, Route21_South_Text_JackRematchIntro, Route21_South_Text_JackDefeat
 	msgbox Route21_South_Text_JackPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_South_EventScript_JeromeRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_JEROME, Route21_South_Text_JeromeRematchIntro, Route21_South_Text_JeromeDefeat
 	msgbox Route21_South_Text_JeromePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_South_EventScript_NolanRematch::
+	trainerbattle_rematch TRAINER_KANTO_FISHERMAN_NOLAN, Route21_South_Text_NolanRematchIntro, Route21_South_Text_NolanDefeat
 	msgbox Route21_South_Text_NolanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route21_South_EventScript_RolandRematch::
+	trainerbattle_rematch TRAINER_KANTO_SWIMMER_MALE_ROLAND, Route21_South_Text_RolandRematchIntro, Route21_South_Text_RolandDefeat
 	msgbox Route21_South_Text_RolandPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -113,3 +118,22 @@ Route21_South_Text_RolandPostBattle:
 	.string "I'm sunburnt to a crisp!$"
 
 @ END KANTO NPCS
+
+Route21_South_Text_ClaudeRematchIntro:
+	.string "Hey, cut it out already.\n"
+	.string "You always scare away the fish!$"
+
+Route21_South_Text_NolanRematchIntro:
+	.string "Keep me company till I get a hit.$"
+
+Route21_South_Text_JackRematchIntro:
+	.string "I caught my POKéMON at sea.\n"
+	.string "And that's where I train them.$"
+
+Route21_South_Text_JeromeRematchIntro:
+	.string "Right now, I'm in another triathlon\n"
+	.string "meet!$"
+
+Route21_South_Text_RolandRematchIntro:
+	.string "Ahh!\n"
+	.string "Feel the sun and the wind!$"

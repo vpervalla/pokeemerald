@@ -11,6 +11,7 @@ FiveIsland_WaterLabyrinth_EventScript_Alize::
 	end
 
 FiveIsland_WaterLabyrinth_EventScript_AlizeRematch::
+	trainerbattle_rematch TRAINER_KANTO_PKMN_BREEDER_ALIZE, FiveIsland_WaterLabyrinth_Text_AlizeRematchIntro, FiveIsland_WaterLabyrinth_Text_AlizeDefeat
 	msgbox FiveIsland_WaterLabyrinth_Text_AlizePostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -131,3 +132,8 @@ FiveIsland_WaterLabyrinth_Text_ReceivedEggFromMan:
     .string "from the man!$"
 
 @ END KANTO NPCS
+
+FiveIsland_WaterLabyrinth_Text_AlizeRematchIntro:
+	.string "Oh, hello!\p"
+	.string "Are you raising your POKéMON in a\n"
+	.string "good environment?$"

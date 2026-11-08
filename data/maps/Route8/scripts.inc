@@ -95,54 +95,67 @@ Route8_EventScript_Jaren::
 	end
 
 Route8_EventScript_AidanRematch::
+	trainerbattle_rematch TRAINER_KANTO_SUPER_NERD_AIDAN, Route8_Text_AidanRematchIntro, Route8_Text_AidanDefeat
 	msgbox Route8_Text_AidanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_AndreaRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_ANDREA, Route8_Text_AndreaRematchIntro, Route8_Text_AndreaDefeat
 	msgbox Route8_Text_AndreaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_AnneRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_ELI_ANNE, Route8_Text_AnneRematchIntro, Route8_Text_AnneDefeat, Route8_Text_AnneNotEnoughMons
 	msgbox Route8_Text_AnnePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_EliRematch::
+	trainerbattle_rematch_double TRAINER_KANTO_TWINS_ELI_ANNE, Route8_Text_EliRematchIntro, Route8_Text_EliDefeat, Route8_Text_EliNotEnoughMons
 	msgbox Route8_Text_EliPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_GlennRematch::
+	trainerbattle_rematch TRAINER_KANTO_SUPER_NERD_GLENN, Route8_Text_GlennRematchIntro, Route8_Text_GlennDefeat
 	msgbox Route8_Text_GlennPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_JarenRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_JAREN, Route8_Text_JarenRematchIntro, Route8_Text_JarenDefeat
 	msgbox Route8_Text_JarenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_JuliaRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_JULIA, Route8_Text_JuliaRematchIntro, Route8_Text_JuliaDefeat
 	msgbox Route8_Text_JuliaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_LeslieRematch::
+	trainerbattle_rematch TRAINER_KANTO_SUPER_NERD_LESLIE, Route8_Text_LeslieRematchIntro, Route8_Text_LeslieDefeat
 	msgbox Route8_Text_LesliePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_MeganRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_MEGAN, Route8_Text_MeganRematchIntro, Route8_Text_MeganDefeat
 	msgbox Route8_Text_MeganPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_PaigeRematch::
+	trainerbattle_rematch TRAINER_KANTO_LASS_PAIGE, Route8_Text_PaigeRematchIntro, Route8_Text_PaigeDefeat
 	msgbox Route8_Text_PaigePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_RicardoRematch::
+	trainerbattle_rematch TRAINER_KANTO_BIKER_RICARDO, Route8_Text_RicardoRematchIntro, Route8_Text_RicardoDefeat
 	msgbox Route8_Text_RicardoPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_RichRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_RICH, Route8_Text_RichRematchIntro, Route8_Text_RichDefeat
 	msgbox Route8_Text_RichPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route8_EventScript_StanRematch::
+	trainerbattle_rematch TRAINER_KANTO_GAMER_STAN, Route8_Text_StanRematchIntro, Route8_Text_StanDefeat
 	msgbox Route8_Text_StanPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -314,3 +327,55 @@ Route8_Text_UndergroundPathSign:
     .string "CELADON CITY - LAVENDER TOWN$"
 
 @ END KANTO NPCS
+
+Route8_Text_PaigeRematchIntro:
+	.string "I've collected many NIDORAN.\n"
+	.string "I don't want them to evolve, but…$"
+
+Route8_Text_AndreaRematchIntro:
+	.string "MEOWTH and PERSIAN are so cute,\n"
+	.string "meow, meow, meow!$"
+
+Route8_Text_MeganRematchIntro:
+	.string "We may look silly standing here\n"
+	.string "like this, but I can still battle.$"
+
+Route8_Text_JuliaRematchIntro:
+	.string "What's a cute, round, and fluffy\n"
+	.string "POKéMON?\p"
+	.string "You already know, don't you?$"
+
+Route8_Text_AidanRematchIntro:
+	.string "You are good at POKéMON, but how\n"
+	.string "is your chemistry grade?$"
+
+Route8_Text_GlennRematchIntro:
+	.string "You need strategy to win at\n"
+	.string "battling.\p"
+	.string "Are you following my advice?$"
+
+Route8_Text_LeslieRematchIntro:
+	.string "School is fun, but I still think\n"
+	.string "POKéMON are fun, too.$"
+
+Route8_Text_StanRematchIntro:
+	.string "All right!\n"
+	.string "Let's play another game!$"
+
+Route8_Text_RichRematchIntro:
+	.string "I'm a rambling, gaming dude!\n"
+	.string "I'm on a winning streak!$"
+
+Route8_Text_EliRematchIntro:
+	.string "ELI: Our twin power became even\n"
+	.string "better!$"
+
+Route8_Text_AnneRematchIntro:
+	.string "ANNE: Our twin power powered up!$"
+
+Route8_Text_RicardoRematchIntro:
+	.string "My bike's still acting up, man.$"
+
+Route8_Text_JarenRematchIntro:
+	.string "Okay, kid!\n"
+	.string "Don't expect mercy this time!$"
