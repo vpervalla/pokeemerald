@@ -19,4 +19,7 @@ int ScriptMenu_AdjustLeftCoordFromWidth(int left, int width);
 bool16 ScriptMenu_CreatePCMultichoice(void);
 void ScriptMenu_DisplayPCStartupPrompt(void);
 
+bool8 OpenMuseumFossilPic(void);
+bool8 CloseMuseumFossilPic(void);
+
 #endif //GUARD_SCRIPT_MENU_H

@@ -860,3 +860,107 @@ u16 GetSelectedSeagallopDestination(void)
             return gSpecialVar_Result;
     }
 }
+
+// ---------------------------------------------------------------------------------------------
+// Kanto (FRLG): PEWTER MUSEUM's fossil pictures, from pret/pokefirered (src/script_menu.c). The
+// scripts set VAR_0x8004 to the species (KABUTOPS or AERODACTYL) and VAR_0x8005/VAR_0x8006 to the
+// box's position in tiles, open the picture before the text and close it after. Its palette loads
+// by tag (FRLG used OBJ palette 13).
+#define GFXTAG_FOSSIL 7000
+
+static const u32 sMuseumAerodactylTiles[] = INCGFX_U32("graphics/script_menu/aerodactyl_fossil.png", ".4bpp");
+static const u16 sMuseumAerodactylPalette[] = INCGFX_U16("graphics/script_menu/aerodactyl_fossil.png", ".gbapal");
+static const u32 sMuseumKabutopsTiles[] = INCGFX_U32("graphics/script_menu/kabutops_fossil.png", ".4bpp");
+static const u16 sMuseumKabutopsPalette[] = INCGFX_U16("graphics/script_menu/kabutops_fossil.png", ".gbapal");
+
+static const struct OamData sMuseumFossilOamData = {
+    .shape = SPRITE_SHAPE(64x64),
+    .size = SPRITE_SIZE(64x64),
+    .priority = 0,
+};
+
+static const struct SpriteTemplate sMuseumFossilSpriteTemplate = {
+    .tileTag = GFXTAG_FOSSIL,
+    .paletteTag = GFXTAG_FOSSIL,
+    .oam = &sMuseumFossilOamData,
+    .anims = gDummySpriteAnimTable,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+#define tState    data[0]
+#define tSpriteId data[1]
+#define tWindowId data[2]
+
+static void Task_MuseumFossilPic(u8 taskId)
+{
+    struct Task *task = &gTasks[taskId];
+
+    switch (task->tState)
+    {
+    case 0:
+        task->tState++;
+        break;
+    case 1:
+        // Waits for CloseMuseumFossilPic
+        break;
+    case 2:
+        DestroySprite(&gSprites[task->tSpriteId]);
+        FreeSpriteTilesByTag(GFXTAG_FOSSIL);
+        FreeSpritePaletteByTag(GFXTAG_FOSSIL);
+        task->tState++;
+        break;
+    case 3:
+        ClearToTransparentAndRemoveWindow(task->tWindowId);
+        DestroyTask(taskId);
+        break;
+    }
+}
+
+bool8 OpenMuseumFossilPic(void)
+{
+    struct SpriteSheet sheet;
+    struct SpritePalette palette;
+    u8 taskId, spriteId;
+
+    if (FindTaskIdByFunc(Task_MuseumFossilPic) != TASK_NONE)
+        return FALSE;
+    if (gSpecialVar_0x8004 == SPECIES_KABUTOPS)
+    {
+        sheet = (struct SpriteSheet){sMuseumKabutopsTiles, sizeof(sMuseumKabutopsTiles), GFXTAG_FOSSIL};
+        palette = (struct SpritePalette){sMuseumKabutopsPalette, GFXTAG_FOSSIL};
+    }
+    else if (gSpecialVar_0x8004 == SPECIES_AERODACTYL)
+    {
+        sheet = (struct SpriteSheet){sMuseumAerodactylTiles, sizeof(sMuseumAerodactylTiles), GFXTAG_FOSSIL};
+        palette = (struct SpritePalette){sMuseumAerodactylPalette, GFXTAG_FOSSIL};
+    }
+    else
+    {
+        return FALSE;
+    }
+    LoadSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    spriteId = CreateSprite(&sMuseumFossilSpriteTemplate, gSpecialVar_0x8005 * 8 + 40, gSpecialVar_0x8006 * 8 + 40, 0);
+    taskId = CreateTask(Task_MuseumFossilPic, 80);
+    gTasks[taskId].tWindowId = CreateWindowFromRect(gSpecialVar_0x8005, gSpecialVar_0x8006, 8, 8);
+    gTasks[taskId].tState = 0;
+    gTasks[taskId].tSpriteId = spriteId;
+    SetStandardWindowBorderStyle(gTasks[taskId].tWindowId, TRUE);
+    ScheduleBgCopyTilemapToVram(0);
+    return TRUE;
+}
+
+bool8 CloseMuseumFossilPic(void)
+{
+    u8 taskId = FindTaskIdByFunc(Task_MuseumFossilPic);
+
+    if (taskId == TASK_NONE)
+        return FALSE;
+    gTasks[taskId].tState++;
+    return TRUE;
+}
+
+#undef tState
+#undef tSpriteId
+#undef tWindowId

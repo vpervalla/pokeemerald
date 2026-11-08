@@ -9,7 +9,9 @@ PewterCity_Museum_1F_EventScript_AerodactylFossil::
 	setvar VAR_0x8004, SPECIES_AERODACTYL
 	setvar VAR_0x8005, 10
 	setvar VAR_0x8006, 3
+	special OpenMuseumFossilPic  @ restored: the port had dropped the fossil's picture
 	msgbox PewterCity_Museum_1F_Text_AerodactylFossil
+	special CloseMuseumFossilPic
 	releaseall
 	end
 
@@ -73,7 +75,9 @@ PewterCity_Museum_1F_EventScript_KabutopsFossil::
 	setvar VAR_0x8004, SPECIES_KABUTOPS
 	setvar VAR_0x8005, 10
 	setvar VAR_0x8006, 3
+	special OpenMuseumFossilPic  @ restored: the port had dropped the fossil's picture
 	msgbox PewterCity_Museum_1F_Text_KabutopsFossil
+	special CloseMuseumFossilPic
 	releaseall
 	end
 

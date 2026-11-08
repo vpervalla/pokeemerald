@@ -633,3 +633,5 @@ gSpecials::
 	def_special KantoFanClub_IsMemberFanOfPlayer
 	def_special KantoFanClub_GetNumFans
 	def_special KantoFanClub_BufferTrainerName
+	def_special OpenMuseumFossilPic
+	def_special CloseMuseumFossilPic
