@@ -933,9 +933,11 @@ static const struct CompressedSpriteSheet sSpriteSheet_Descends_RayquazaTail =
     gRaySceneDescends_RayquazaTail_Gfx, 0x200, TAG_DESCENDS_RAYQUAZA_TAIL
 };
 
+// Hoenn chapter (docs/hoenn_plan.md, Act 3): RAYQUAZA comes down MEGA EVOLVED, black and gold, so the
+// "Chases away" palette, whose layout is the same as the "Takes flight" one Emerald re-used here
 static const struct CompressedSpritePalette sSpritePal_Descends_Rayquaza =
 {
-    gRaySceneTakesFlight_Rayquaza_Pal, TAG_DESCENDS_RAYQUAZA // "Takes flight" palette re-used here
+    gRaySceneChasesAway_Rayquaza_Pal, TAG_DESCENDS_RAYQUAZA
 };
 
 static const struct SpriteTemplate sSpriteTemplate_Descends_Rayquaza =
@@ -2489,6 +2491,9 @@ static void LoadChargesSceneGfx(void)
     LZDecompressWram(gRaySceneCharges_Streaks_Tilemap, sRayScene->tilemapBuffers[2]);
     LZDecompressWram(gRaySceneCharges_Bg_Tilemap, sRayScene->tilemapBuffers[3]);
     LoadCompressedPalette(gRaySceneCharges_Bg_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
+    // Hoenn chapter: MEGA RAYQUAZA's colors. Its tiles (scene_4/rayquaza.bin) use palette 4 here,
+    // since the background's tiles share palette 0's greens with it in Emerald
+    LoadCompressedPalette(gRaySceneChasesAway_Rayquaza_Pal, BG_PLTT_ID(4), PLTT_SIZE_4BPP);
 }
 
 #define tState          data[0]

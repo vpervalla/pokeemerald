@@ -175,8 +175,9 @@ Phase 6 is implemented: Primal Reversion in battle, and Acts 2 and 3.
   here) shows KYOGRE and GROUDON with their Primal palettes. RAYQUAZA takes flight from Sky Pillar
   green, and comes down to chase them away black and gold. Then a line says it Mega Evolved and the two
   lost their primal forms. `tools/hoenn/legend_palettes.py` makes the palettes.
-- Not done: the cutscene's close-ups of RAYQUAZA coming down (scenes 3 and 4) share their palettes with
-  the background, so RAYQUAZA is still green there, and it isn't MEGA RAYQUAZA's shape anywhere. The
+- RAYQUAZA coming down (scenes 3 and 4) is black and gold too: scene 3's sprite uses scene 5's MEGA
+  palette, and scene 4's close-up moved to BG palette 4 (Emerald's shared palette 0's greens with the
+  background). Not done: it isn't MEGA RAYQUAZA's shape anywhere (that needs new pictures). The
   ORBS don't glow with the Primal colors in Seafloor Cavern (Emerald's `DoOrbEffect`).
 
 Checked in an emulator with test builds: the Sootopolis clash (cutscene and overworld) and RAYQUAZA's
