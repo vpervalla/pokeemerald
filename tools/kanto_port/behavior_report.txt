@@ -92,8 +92,6 @@ MB_FOOD_SMELLS_TASTY -> MB_NORMAL (no Emerald equivalent): 4 metatiles
     secondary/restaurant_hotel (2), secondary/ss_anne (2)
 MB_TRASH_BIN -> MB_TRASH_CAN: 4 metatiles
     secondary/sevii_islands_123 (2), secondary/ss_anne (2)
-MB_SPIN_RIGHT -> MB_NORMAL (no Emerald equivalent): 4 metatiles
-    secondary/silph_co (1), secondary/viridian_gym (3)
 MB_POKEMART_SIGN -> MB_NORMAL (no Emerald equivalent): 3 metatiles
     primary/general (2), secondary/saffron_city (1)
 MB_POKEMON_CENTER_SIGN -> MB_NORMAL (no Emerald equivalent): 3 metatiles
@@ -104,8 +102,6 @@ MB_INDIGO_PLATEAU_SIGN_2 -> MB_NORMAL (no Emerald equivalent): 3 metatiles
     secondary/indigo_plateau (2), secondary/pokemon_center (1)
 MB_FALL_WARP + land encounters -> MB_CRACKED_FLOOR_HOLE (land encounters LOST): 3 metatiles
     secondary/pokemon_mansion (3)
-MB_STOP_SPINNING -> MB_NORMAL (no Emerald equivalent): 3 metatiles
-    secondary/silph_co (1), secondary/viridian_gym (2)
 MB_FOOD -> MB_NORMAL (no Emerald equivalent): 2 metatiles
     primary/building (2)
 MB_WEST_ARROW_WARP + land encounters -> MB_WEST_ARROW_WARP (land encounters LOST): 2 metatiles
@@ -122,12 +118,6 @@ MB_REGULAR_WARP -> MB_AQUA_HIDEOUT_WARP: 2 metatiles
     secondary/saffron_gym (1), secondary/silph_co (1)
 MB_PUDDLE + land encounters -> MB_PUDDLE (land encounters LOST): 2 metatiles
     secondary/seafoam_islands (2)
-MB_SPIN_UP -> MB_NORMAL (no Emerald equivalent): 2 metatiles
-    secondary/silph_co (1), secondary/viridian_gym (1)
-MB_SPIN_LEFT -> MB_NORMAL (no Emerald equivalent): 2 metatiles
-    secondary/silph_co (1), secondary/viridian_gym (1)
-MB_SPIN_DOWN -> MB_NORMAL (no Emerald equivalent): 2 metatiles
-    secondary/silph_co (1), secondary/viridian_gym (1)
 MB_TRAINER_TOWER_MONITOR -> MB_NORMAL (no Emerald equivalent): 2 metatiles
     secondary/silph_co (1), secondary/trainer_tower (1)
 MB_UNION_ROOM_WARP -> MB_NORMAL (no Emerald equivalent): 1 metatiles

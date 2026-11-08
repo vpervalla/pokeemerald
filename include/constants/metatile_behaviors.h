@@ -219,11 +219,11 @@ enum {
     MB_HORIZONTAL_RAIL,
     MB_CYCLING_ROAD_PULL_DOWN,       // Kanto (FRLG): CYCLING ROAD pulls bikes south
     MB_CYCLING_ROAD_PULL_DOWN_GRASS, // the same, in tall grass
-    MB_UNUSED_D9,
-    MB_UNUSED_DA,
-    MB_UNUSED_DB,
-    MB_UNUSED_DC,
-    MB_UNUSED_DD,
+    MB_SPIN_RIGHT,    // Kanto (FRLG): the spinner tiles of VIRIDIAN GYM and the ROCKET HIDEOUT,
+    MB_SPIN_LEFT,     // which send the player spinning that way until a MB_STOP_SPINNING tile
+    MB_SPIN_UP,       // or a wall
+    MB_SPIN_DOWN,
+    MB_STOP_SPINNING,
     MB_UNUSED_DE,
     MB_UNUSED_DF,
     MB_PICTURE_BOOK_SHELF,

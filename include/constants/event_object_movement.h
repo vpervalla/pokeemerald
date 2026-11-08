@@ -252,6 +252,11 @@
 #define MOVEMENT_ACTION_RAISE_HAND_AND_STOP             0xA0
 #define MOVEMENT_ACTION_RAISE_HAND_AND_JUMP             0xA1
 #define MOVEMENT_ACTION_RAISE_HAND_AND_SWIM             0xA2
+// Kanto (FRLG): spinning across the spinner tiles
+#define MOVEMENT_ACTION_SPIN_DOWN                       0xA3
+#define MOVEMENT_ACTION_SPIN_UP                         0xA4
+#define MOVEMENT_ACTION_SPIN_LEFT                       0xA5
+#define MOVEMENT_ACTION_SPIN_RIGHT                      0xA6
 
 #define MOVEMENT_ACTION_STEP_END 0xFE
 #define MOVEMENT_ACTION_NONE     0xFF

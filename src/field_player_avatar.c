@@ -30,7 +30,7 @@
 #include "constants/songs.h"
 #include "constants/trainer_types.h"
 
-#define NUM_FORCED_MOVEMENTS 18
+#define NUM_FORCED_MOVEMENTS 22
 #define NUM_ACRO_BIKE_COLLISIONS 5
 
 static EWRAM_DATA u8 sSpinStartFacingDir = 0;
@@ -63,6 +63,16 @@ static bool8 ForcedMovement_SlideEast(void);
 static bool8 ForcedMovement_MatJump(void);
 static bool8 ForcedMovement_MatSpin(void);
 static bool8 ForcedMovement_MuddySlope(void);
+static bool8 ForcedMovement_SpinRight(void);
+static bool8 ForcedMovement_SpinLeft(void);
+static bool8 ForcedMovement_SpinUp(void);
+static bool8 ForcedMovement_SpinDown(void);
+static bool8 TryUpdatePlayerSpinDirection(void);
+static void PlayerApplyTileForcedMovement(u8 metatileBehavior);
+static bool8 DoForcedMovement(u8 direction, void (*moveFunc)(u8));
+
+// Kanto (FRLG): the spinner tile that set the player spinning, see TryUpdatePlayerSpinDirection
+static EWRAM_DATA u8 sLastSpinTile = 0;
 
 static void MovePlayerNotOnBike(u8, u16);
 static u8 CheckMovementInputNotOnBike(u8);
@@ -161,6 +171,10 @@ static bool8 (*const sForcedMovementTestFuncs[NUM_FORCED_MOVEMENTS])(u8) =
     MetatileBehavior_IsSecretBaseJumpMat,
     MetatileBehavior_IsSecretBaseSpinMat,
     MetatileBehavior_IsMuddySlope,
+    MetatileBehavior_IsSpinRight,
+    MetatileBehavior_IsSpinLeft,
+    MetatileBehavior_IsSpinUp,
+    MetatileBehavior_IsSpinDown,
 };
 
 // + 1 for ForcedMovement_None, which is excluded above
@@ -185,6 +199,10 @@ static bool8 (*const sForcedMovementFuncs[NUM_FORCED_MOVEMENTS + 1])(void) =
     ForcedMovement_MatJump,
     ForcedMovement_MatSpin,
     ForcedMovement_MuddySlope,
+    ForcedMovement_SpinRight,
+    ForcedMovement_SpinLeft,
+    ForcedMovement_SpinUp,
+    ForcedMovement_SpinDown,
 };
 
 static void (*const sPlayerNotOnBikeFuncs[])(u8, u16) =
@@ -334,7 +352,7 @@ void PlayerStep(u8 direction, u16 newKeys, u16 heldKeys)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
     HideShowWarpArrow(playerObjEvent);
-    if (gPlayerAvatar.preventStep == FALSE)
+    if (gPlayerAvatar.preventStep == FALSE && !TryUpdatePlayerSpinDirection())
     {
         Bike_TryAcroBikeHistoryUpdate(newKeys, heldKeys);
         if (TryInterruptObjectEventSpecialAnim(playerObjEvent, direction) == 0)
@@ -420,10 +438,84 @@ static u8 GetForcedMovementByMetatileBehavior(void)
         for (i = 0; i < NUM_FORCED_MOVEMENTS; i++)
         {
             if (sForcedMovementTestFuncs[i](metatileBehavior))
+            {
+                sLastSpinTile = metatileBehavior;
                 return i + 1;
+            }
         }
     }
     return 0;
+}
+
+// Kanto (FRLG): once a spinner tile sets the player spinning, they keep spinning the same way across
+// ordinary tiles, turn on the next spinner tile, and stop on a MB_STOP_SPINNING tile or at a wall
+// (DoForcedMovement then clears PLAYER_AVATAR_FLAG_FORCED_MOVE).
+static bool8 TryUpdatePlayerSpinDirection(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) || !MetatileBehavior_IsSpinTile(sLastSpinTile))
+        return FALSE;
+    if (playerObjEvent->heldMovementFinished)
+    {
+        if (MetatileBehavior_IsStopSpinning(playerObjEvent->currentMetatileBehavior))
+        {
+            sLastSpinTile = 0;
+            return FALSE;
+        }
+        if (MetatileBehavior_IsSpinTile(playerObjEvent->currentMetatileBehavior))
+            sLastSpinTile = playerObjEvent->currentMetatileBehavior;
+        ObjectEventClearHeldMovement(playerObjEvent);
+        PlayerApplyTileForcedMovement(sLastSpinTile);
+    }
+    return TRUE;
+}
+
+static void PlayerApplyTileForcedMovement(u8 metatileBehavior)
+{
+    if (MetatileBehavior_IsSpinRight(metatileBehavior))
+        ForcedMovement_SpinRight();
+    else if (MetatileBehavior_IsSpinLeft(metatileBehavior))
+        ForcedMovement_SpinLeft();
+    else if (MetatileBehavior_IsSpinUp(metatileBehavior))
+        ForcedMovement_SpinUp();
+    else if (MetatileBehavior_IsSpinDown(metatileBehavior))
+        ForcedMovement_SpinDown();
+}
+
+static void PlayerGoSpin(u8 direction)
+{
+    static const u8 sSpinMovementActions[] = {
+        [DIR_SOUTH] = MOVEMENT_ACTION_SPIN_DOWN,
+        [DIR_NORTH] = MOVEMENT_ACTION_SPIN_UP,
+        [DIR_WEST]  = MOVEMENT_ACTION_SPIN_LEFT,
+        [DIR_EAST]  = MOVEMENT_ACTION_SPIN_RIGHT,
+    };
+    PlayerSetAnimId(sSpinMovementActions[direction], COPY_MOVE_WALK);
+}
+
+static bool8 ForcedMovement_SpinRight(void)
+{
+    PlaySE(SE_M_RAZOR_WIND2);
+    return DoForcedMovement(DIR_EAST, PlayerGoSpin);
+}
+
+static bool8 ForcedMovement_SpinLeft(void)
+{
+    PlaySE(SE_M_RAZOR_WIND2);
+    return DoForcedMovement(DIR_WEST, PlayerGoSpin);
+}
+
+static bool8 ForcedMovement_SpinUp(void)
+{
+    PlaySE(SE_M_RAZOR_WIND2);
+    return DoForcedMovement(DIR_NORTH, PlayerGoSpin);
+}
+
+static bool8 ForcedMovement_SpinDown(void)
+{
+    PlaySE(SE_M_RAZOR_WIND2);
+    return DoForcedMovement(DIR_SOUTH, PlayerGoSpin);
 }
 
 static bool8 ForcedMovement_None(void)

@@ -6821,6 +6821,53 @@ bool8 MovementAction_RaiseHandAndJump_Step1(struct ObjectEvent *objectEvent, str
 }
 
 // Bobs from side to side in the water
+// Kanto (FRLG): a step across the spinner tiles, at running speed, the object turning on itself
+// (south, east, north, west) every two frames. FRLG has spin animations for that; here the facing
+// animations make the turns. sprite->data[3] is the direction, data[5] the step's timer.
+static const u8 sSpinFacings[] = {DIR_SOUTH, DIR_EAST, DIR_NORTH, DIR_WEST};
+
+static void SetSpinFacing(struct Sprite *sprite)
+{
+    u8 start;
+
+    switch (sprite->data[3])
+    {
+    case DIR_NORTH: start = 2; break;
+    case DIR_WEST:  start = 1; break; // FRLG's spins start a quarter-turn on
+    case DIR_EAST:  start = 3; break;
+    default:        start = 0; break;
+    }
+    StartSpriteAnimIfDifferent(sprite, GetFaceDirectionAnimNum(sSpinFacings[(start + sprite->data[5] / 2) % ARRAY_COUNT(sSpinFacings)]));
+}
+
+bool8 MovementAction_Spin_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    u8 direction;
+
+    switch (objectEvent->movementActionId)
+    {
+    case MOVEMENT_ACTION_SPIN_UP:    direction = DIR_NORTH; break;
+    case MOVEMENT_ACTION_SPIN_LEFT:  direction = DIR_WEST;  break;
+    case MOVEMENT_ACTION_SPIN_RIGHT: direction = DIR_EAST;  break;
+    default:                         direction = DIR_SOUTH; break;
+    }
+    InitNpcForMovement(objectEvent, sprite, direction, MOVE_SPEED_FAST_1);
+    SetSpinFacing(sprite);
+    sprite->sActionFuncId++;
+    return MovementAction_Spin_Step1(objectEvent, sprite);
+}
+
+bool8 MovementAction_Spin_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    if (UpdateMovementNormal(objectEvent, sprite))
+    {
+        sprite->sActionFuncId = 2;
+        return TRUE;
+    }
+    SetSpinFacing(sprite);
+    return FALSE;
+}
+
 bool8 MovementAction_RaiseHandAndSwim_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     sprite->data[7] = (sprite->data[7] + 4) & 0xFF;

@@ -345,7 +345,8 @@ bool8 MetatileBehavior_IsForcedMovementTile(u8 metatileBehavior)
      || metatileBehavior == MB_WATERFALL
      || metatileBehavior == MB_ICE
      || metatileBehavior == MB_SECRET_BASE_JUMP_MAT
-     || metatileBehavior == MB_SECRET_BASE_SPIN_MAT)
+     || metatileBehavior == MB_SECRET_BASE_SPIN_MAT
+     || (metatileBehavior >= MB_SPIN_RIGHT && metatileBehavior <= MB_SPIN_DOWN))
         return TRUE;
     else
         return FALSE;
@@ -1409,4 +1410,35 @@ bool8 MetatileBehavior_IsCyclingRoadPullDownTile(u8 metatileBehavior)
         return TRUE;
     else
         return FALSE;
+}
+
+// Kanto (FRLG): the spinner tiles, see TryUpdatePlayerSpinDirection in src/field_player_avatar.c
+bool8 MetatileBehavior_IsSpinRight(u8 metatileBehavior)
+{
+    return metatileBehavior == MB_SPIN_RIGHT;
+}
+
+bool8 MetatileBehavior_IsSpinLeft(u8 metatileBehavior)
+{
+    return metatileBehavior == MB_SPIN_LEFT;
+}
+
+bool8 MetatileBehavior_IsSpinUp(u8 metatileBehavior)
+{
+    return metatileBehavior == MB_SPIN_UP;
+}
+
+bool8 MetatileBehavior_IsSpinDown(u8 metatileBehavior)
+{
+    return metatileBehavior == MB_SPIN_DOWN;
+}
+
+bool8 MetatileBehavior_IsSpinTile(u8 metatileBehavior)
+{
+    return metatileBehavior >= MB_SPIN_RIGHT && metatileBehavior <= MB_SPIN_DOWN;
+}
+
+bool8 MetatileBehavior_IsStopSpinning(u8 metatileBehavior)
+{
+    return metatileBehavior == MB_STOP_SPINNING;
 }
