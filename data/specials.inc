@@ -636,3 +636,5 @@ gSpecials::
 	def_special OpenMuseumFossilPic
 	def_special CloseMuseumFossilPic
 	def_special UpdateLoreleiDollCollection
+	def_special AnimateTeleporterHousing
+	def_special AnimateTeleporterCable

@@ -5049,6 +5049,106 @@ void SetSeenMon(void)
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(gSpecialVar_0x8004), FLAG_SET_SEEN);
 }
 
+// Kanto (FRLG): BILL's teleporter in the SEA COTTAGE, from pret/pokefirered (special_field_anim.c).
+// AnimateTeleporterHousing blinks a teleporter's light and door (VAR_0x8004 0: the right one,
+// 1: the left one), AnimateTeleporterCable sends a ball along the cable between them. Both are
+// placed from the player's position in the scene.
+#define tTimer data[0]
+#define tState data[1]
+#define tX     data[2]
+#define tY     data[3]
+
+static void Task_DrawTeleporterHousing(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (tTimer == 0)
+    {
+        if ((tState & 1) == 0)
+        {
+            MapGridSetMetatileIdAt(tX, tY, METATILE_SeaCottage_Teleporter_Light_Yellow | MAPGRID_COLLISION_MASK);
+            MapGridSetMetatileIdAt(tX, tY + 2, METATILE_SeaCottage_Teleporter_Door_HalfGlowing | MAPGRID_COLLISION_MASK);
+        }
+        else
+        {
+            MapGridSetMetatileIdAt(tX, tY, METATILE_SeaCottage_Teleporter_Light_Red | MAPGRID_COLLISION_MASK);
+            MapGridSetMetatileIdAt(tX, tY + 2, METATILE_SeaCottage_Teleporter_Door_FullGlowing | MAPGRID_COLLISION_MASK);
+        }
+        CurrentMapDrawMetatileAt(tX, tY);
+        CurrentMapDrawMetatileAt(tX, tY + 2);
+    }
+    if (++tTimer != 16)
+        return;
+    tTimer = 0;
+    if (++tState != 13)
+        return;
+    MapGridSetMetatileIdAt(tX, tY, METATILE_SeaCottage_Teleporter_Light_Green | MAPGRID_COLLISION_MASK);
+    MapGridSetMetatileIdAt(tX, tY + 2, METATILE_SeaCottage_Teleporter_Door | MAPGRID_COLLISION_MASK);
+    CurrentMapDrawMetatileAt(tX, tY);
+    CurrentMapDrawMetatileAt(tX, tY + 2);
+    DestroyTask(taskId);
+}
+
+void AnimateTeleporterHousing(void)
+{
+    u8 taskId = CreateTask(Task_DrawTeleporterHousing, 0);
+    s16 *data = gTasks[taskId].data;
+
+    tTimer = 0;
+    tState = 0;
+    PlayerGetDestCoords(&tX, &tY);
+    tX += (gSpecialVar_0x8004 == 0) ? 6 : -1;
+    tY -= 5;
+}
+
+static void Task_DrawTeleporterCable(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (tTimer == 0)
+    {
+        if (tState != 0)
+        {
+            MapGridSetMetatileIdAt(tX, tY, METATILE_SeaCottage_Teleporter_Cable_Top | MAPGRID_COLLISION_MASK);
+            MapGridSetMetatileIdAt(tX, tY + 1, METATILE_SeaCottage_Teleporter_Cable_Bottom | MAPGRID_COLLISION_MASK);
+            CurrentMapDrawMetatileAt(tX, tY);
+            CurrentMapDrawMetatileAt(tX, tY + 1);
+            if (tState == 4)
+            {
+                DestroyTask(taskId);
+                return;
+            }
+            tX--;
+        }
+        MapGridSetMetatileIdAt(tX, tY, METATILE_SeaCottage_Teleporter_CableBall_Top | MAPGRID_COLLISION_MASK);
+        MapGridSetMetatileIdAt(tX, tY + 1, METATILE_SeaCottage_Teleporter_CableBall_Bottom | MAPGRID_COLLISION_MASK);
+        CurrentMapDrawMetatileAt(tX, tY);
+        CurrentMapDrawMetatileAt(tX, tY + 1);
+    }
+    if (++tTimer == 4)
+    {
+        tTimer = 0;
+        tState++;
+    }
+}
+
+void AnimateTeleporterCable(void)
+{
+    u8 taskId = CreateTask(Task_DrawTeleporterCable, 0);
+    s16 *data = gTasks[taskId].data;
+
+    tTimer = 0;
+    tState = 0;
+    PlayerGetDestCoords(&tX, &tY);
+    tX += 4;
+    tY -= 5;
+}
+
+#undef tTimer
+#undef tState
+#undef tX
+#undef tY
+
 // Kanto (FRLG): LORELEI's house on FOUR ISLAND gets a new doll every 25 entries in a Hall of Fame,
 // up to 200
 void UpdateLoreleiDollCollection(void)

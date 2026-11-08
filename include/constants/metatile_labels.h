@@ -799,4 +799,16 @@
 
 #include "constants/metatile_labels_kanto.h"
 
+// gTileset_KantoSeaCottage (Kanto, FRLG's numbering: secondary metatiles from 0x280)
+#define METATILE_SeaCottage_Teleporter_CableBall_Bottom  0x2BA
+#define METATILE_SeaCottage_Teleporter_CableBall_Top     0x2B9
+#define METATILE_SeaCottage_Teleporter_Cable_Bottom      0x2B4
+#define METATILE_SeaCottage_Teleporter_Cable_Top         0x285
+#define METATILE_SeaCottage_Teleporter_Door              0x296
+#define METATILE_SeaCottage_Teleporter_Door_FullGlowing  0x2B8
+#define METATILE_SeaCottage_Teleporter_Door_HalfGlowing  0x2B7
+#define METATILE_SeaCottage_Teleporter_Light_Green       0x28A
+#define METATILE_SeaCottage_Teleporter_Light_Red         0x2B6
+#define METATILE_SeaCottage_Teleporter_Light_Yellow      0x2B5
+
 #endif // GUARD_METATILE_LABELS_H

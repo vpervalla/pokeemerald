@@ -162,6 +162,7 @@ Route25_SeaCottage_EventScript_RunCellSeparator::
 	playse SE_PIN
 	waitse
 	setvar VAR_0x8004, 0
+	special AnimateTeleporterHousing  @ restored: the port had dropped the teleporter's animations
 	delay 10
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
@@ -171,7 +172,9 @@ Route25_SeaCottage_EventScript_RunCellSeparator::
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
 	setvar VAR_0x8004, 1
+	special AnimateTeleporterHousing
 	playse SE_WARP_IN
+	special AnimateTeleporterCable
 	waitse
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
 	call Route25_SeaCottage_EventScript_PlayTeleporterBeepSE
