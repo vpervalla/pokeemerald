@@ -209,7 +209,9 @@ player is told. (As it's given after the final, this only matters for an old sav
 Guest room 1 is the player's.
 
 Alain (`TRAINER_ALAIN`, class "PKMN TRAINER", trainer pic `TRAINER_PIC_ALAIN`, overworld
-`OBJ_EVENT_GFX_ALAIN`) is ready but not placed yet: his part in the story is still to be decided.
+`OBJ_EVENT_GFX_ALAIN`) fights in the daily tournament. Once LEON and CYNTHIA have met the player after
+MEWTWO, he stands on the castle grounds' lawn, right of the approach (24,21): he heard of MR. M.'s
+tournament too late to enter, and came with CHARIZARD to get stronger.
 His team: Swellow, Absol, Scizor, Tyranitar, Metagross and his ace, Charizard with CHARIZARDITE X
 (Swellow, Absol and Scizor stand in for his Unfezant, Weavile and Bisharp). The teams use only Gen 1-3 POKéMON, standing in for the ones
 those champions use in their own games (Salamence for Garchomp, for example).
