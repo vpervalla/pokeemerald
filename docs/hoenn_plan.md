@@ -103,7 +103,9 @@ right since the fix below.
   knows the player is the KANTO CHAMPION.
 - **Test Area**: the ride to SLATEPORT first sets state 3, so BIRCH's welcome plays.
 - The guest room's bed heals the party (D6, `HoennStory_EventScript_GuestRoomBed`): in the house of
-  the player's gender only, after a YES. Not done: NORMAN is still the player's father in Emerald's text.
+  the player's gender only, after a YES. NORMAN isn't the player's father: his lines, the POKéNAV calls, BIRCH's in the
+  Champion's room and the TVs (always MOM) say so; Emerald's lines that still call him that are
+  only in the scenes the chapter skips (the truck, MOM at home, the Route 101 rescue).
 
 Phase 4 was implemented, and **undone** in phase 7 (D5 changed: Hoenn keeps Emerald's levels, since the
 player plays it with a new team). What it did: Hoenn's levels, by
