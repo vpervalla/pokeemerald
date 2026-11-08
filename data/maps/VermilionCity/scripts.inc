@@ -116,6 +116,7 @@ VermilionCity_EventScript_FerrySailor::
 
 VermilionCity_EventScript_GymSign::
 	lockall
+	famechecker FAMECHECKER_LTSURGE, 0
 	msgbox VermilionCity_Text_GymSign
 	releaseall
 	end

@@ -15,6 +15,7 @@ SaffronCity_EventScript_CitySign::
 SaffronCity_EventScript_CrushGirl::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LANCE, 2
 	msgbox SaffronCity_Text_HowCanClubNotRecognizeLance
 	release
 	end
@@ -39,6 +40,7 @@ SaffronCity_EventScript_DoorGuardGrunt::
 
 SaffronCity_EventScript_GymSign::
 	lockall
+	famechecker FAMECHECKER_SABRINA, 0
 	msgbox SaffronCity_Text_GymSign
 	releaseall
 	end

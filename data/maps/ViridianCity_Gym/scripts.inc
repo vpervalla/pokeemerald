@@ -41,6 +41,7 @@ ViridianCity_Gym_EventScript_Samuel::
 
 ViridianCity_Gym_EventScript_Giovanni::
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Giovanni  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
 	msgbox ViridianCity_Gym_Text_GiovanniPostBattle
@@ -58,6 +59,7 @@ ViridianCity_Gym_EventScript_Warren::
 	end
 
 ViridianCity_Gym_EventScript_DefeatedGiovanni::
+	famechecker FAMECHECKER_GIOVANNI, 3
 	setflag FLAG_HIDE_MISC_KANTO_ROCKETS
 	setflag FLAG_DEFEATED_LEADER_GIOVANNI
 	setflag FLAG_BADGE08_GET
@@ -84,6 +86,7 @@ ViridianCity_Gym_EventScript_GymGuy::
 	end
 
 ViridianCity_Gym_EventScript_GymGuyPostVictory::
+	famechecker FAMECHECKER_GIOVANNI, 4
 	msgbox ViridianCity_Gym_Text_GymGuyPostVictory
 	release
 	end

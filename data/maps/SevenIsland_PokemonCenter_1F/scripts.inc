@@ -24,6 +24,7 @@ SevenIsland_PokemonCenter_1F_EventScript_OldMan::
 SevenIsland_PokemonCenter_1F_EventScript_PokemonJournal::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_AGATHA, 3
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureAgatha
 	release
 	end

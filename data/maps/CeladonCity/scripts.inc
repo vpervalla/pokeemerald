@@ -37,6 +37,7 @@ CeladonCity_EventScript_GameCornerSign::
 
 CeladonCity_EventScript_GymSign::
 	lockall
+	famechecker FAMECHECKER_ERIKA, 0
 	msgbox CeladonCity_Text_GymSign
 	releaseall
 	end

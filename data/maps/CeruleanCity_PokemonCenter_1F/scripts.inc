@@ -28,6 +28,7 @@ CeruleanCity_PokemonCenter_1F_EventScript_Lass::
 CeruleanCity_PokemonCenter_1F_EventScript_PokemonJournalMisty::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MISTY, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureMisty
 	release
 	end
@@ -43,6 +44,7 @@ CeruleanCity_PokemonCenter_1F_EventScript_Rocker::
 CeruleanCity_PokemonCenter_1F_EventScript_Youngster::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BILL, 1
 	msgbox CeruleanCity_PokemonCenter_1F_Text_BillCollectsRareMons
 	release
 	end

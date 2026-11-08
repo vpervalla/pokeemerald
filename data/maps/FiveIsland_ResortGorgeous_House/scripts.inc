@@ -21,6 +21,7 @@ FiveIsland_ResortGorgeous_House_EventScript_JustFulfilledRequest::
 
 FiveIsland_ResortGorgeous_House_EventScript_PokemonJournal::
 	lockall
+	famechecker FAMECHECKER_BLAINE, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureBlaine
 	releaseall
 	end

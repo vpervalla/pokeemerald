@@ -26,6 +26,7 @@ CinnabarIsland_Gym_EventScript_Ramon::
 
 CinnabarIsland_Gym_EventScript_Derek::
 	trainerbattle_single TRAINER_KANTO_SUPER_NERD_DEREK, CinnabarIsland_Gym_Text_DerekIntro, CinnabarIsland_Gym_Text_DerekDefeat, CinnabarIsland_Gym_EventScript_DefeatedDerek
+	famechecker FAMECHECKER_BLAINE, 2
 	msgbox CinnabarIsland_Gym_Text_DerekPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -42,6 +43,7 @@ CinnabarIsland_Gym_EventScript_Zac::
 CinnabarIsland_Gym_EventScript_Blaine::
 	goto_if_eq VAR_HOENN_STORY_STATE, 2, CinnabarIsland_Gym_EventScript_BlaineMansionRaid  @ added: the way to Hoenn, see data/scripts/hoenn_story.inc
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Blaine  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_BLAINE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
 	goto_if_unset FLAG_RECEIVED_MEGA_RING, CinnabarIsland_Gym_EventScript_GiveMegaRing  @ added: Mega Evolution story
@@ -124,6 +126,8 @@ CinnabarIsland_Gym_EventScript_BattleZac::
 
 CinnabarIsland_Gym_EventScript_BlaineFujiPhoto::
 	lockall
+	famechecker FAMECHECKER_MRFUJI, 4
+	famechecker FAMECHECKER_BLAINE, 4
 	msgbox CinnabarIsland_Gym_Text_PhotoOfBlaineAndFuji
 	releaseall
 	end
@@ -140,6 +144,7 @@ CinnabarIsland_Gym_EventScript_DefeatedAvery::
 	end
 
 CinnabarIsland_Gym_EventScript_DefeatedBlaine::
+	famechecker FAMECHECKER_BLAINE, 1
 	setflag FLAG_DEFEATED_BLAINE
 	setflag FLAG_BADGE07_GET
 	setrespawn HEAL_LOCATION_CINNABAR_ISLAND

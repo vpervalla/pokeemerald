@@ -15,6 +15,7 @@
 #include "event_object_lock.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
+#include "fame_checker.h"
 #include "fieldmap.h"
 #include "field_effect.h"
 #include "field_player_avatar.h"
@@ -650,6 +651,32 @@ static void Task_OpenRegisteredPokeblockCase(u8 taskId)
         CleanupOverworldWindowsAndTilemaps();
         OpenPokeblockCase(PBLOCK_CASE_FIELD, CB2_ReturnToField);
         DestroyTask(taskId);
+    }
+}
+
+// Kanto (FRLG): the FAME CHECKER, from the BAG or the SELECT button
+static void Task_OpenRegisteredFameChecker(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        CB2_OpenFameCheckerFromField();
+        DestroyTask(taskId);
+    }
+}
+
+void ItemUseOutOfBattle_FameChecker(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenFameCheckerFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredFameChecker;
     }
 }
 

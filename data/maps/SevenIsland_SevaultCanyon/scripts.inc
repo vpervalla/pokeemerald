@@ -74,6 +74,7 @@ SevenIsland_SevaultCanyon_EventScript_ItemNugget::
 SevenIsland_SevaultCanyon_EventScript_BlackBelt::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BRUNO, 5
 	msgbox SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly
 	release
 	end

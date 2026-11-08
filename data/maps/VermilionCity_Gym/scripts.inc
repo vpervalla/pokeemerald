@@ -7,6 +7,7 @@ VermilionCity_Gym_MapScripts::
 
 VermilionCity_Gym_EventScript_LtSurge::
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_LtSurge  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_LTSURGE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_LT_SURGE, VermilionCity_Gym_Text_LtSurgeIntro, VermilionCity_Gym_Text_LtSurgeDefeat, VermilionCity_Gym_EventScript_DefeatedLtSurge, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM34_FROM_SURGE, VermilionCity_Gym_EventScript_GiveTM34
 	msgbox VermilionCity_Gym_Text_LtSurgePostBattle
@@ -21,15 +22,18 @@ VermilionCity_Gym_EventScript_Baily::
 
 VermilionCity_Gym_EventScript_Dwayne::
 	trainerbattle_single TRAINER_KANTO_SAILOR_DWAYNE, VermilionCity_Gym_Text_DwayneIntro, VermilionCity_Gym_Text_DwayneDefeat
+	famechecker FAMECHECKER_LTSURGE, 4
 	msgbox VermilionCity_Gym_Text_DwaynePostBattle, MSGBOX_AUTOCLOSE
 	end
 
 VermilionCity_Gym_EventScript_Tucker::
 	trainerbattle_single TRAINER_KANTO_GENTLEMAN_TUCKER, VermilionCity_Gym_Text_TuckerIntro, VermilionCity_Gym_Text_TuckerDefeat, VermilionCity_Gym_EventScript_DefeatedTucker
+	famechecker FAMECHECKER_LTSURGE, 3
 	msgbox VermilionCity_Gym_Text_TuckerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 VermilionCity_Gym_EventScript_DefeatedLtSurge::
+	famechecker FAMECHECKER_LTSURGE, 1
 	call_if_unset FLAG_GOT_HM05, VermilionCity_Gym_EventScript_ShowOaksAide
 	clearflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_DEFEATED_LT_SURGE
@@ -38,6 +42,7 @@ VermilionCity_Gym_EventScript_DefeatedLtSurge::
 	end
 
 VermilionCity_Gym_EventScript_DefeatedTucker::
+	famechecker FAMECHECKER_LTSURGE, 2
 	release
 	end
 

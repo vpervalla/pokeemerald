@@ -39,6 +39,7 @@ SilphCo_8F_EventScript_Scientist::
 	lock
 	faceplayer
 	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_8F_EventScript_ScientistRocketsGone
+	famechecker FAMECHECKER_GIOVANNI, 2
 	msgbox SilphCo_8F_Text_ToRocketBossMonsAreTools
 	release
 	end

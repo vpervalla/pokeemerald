@@ -11,6 +11,7 @@ TwoIsland_EventScript_ItemRevive::
 TwoIsland_EventScript_Beauty::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BRUNO, 4
 	msgbox TwoIsland_Text_BrunoCameToIslandWhileBack
 	release
 	end

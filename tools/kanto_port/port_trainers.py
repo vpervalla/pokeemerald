@@ -34,7 +34,7 @@ PICS = "src/data/trainer_graphics/kanto_trainer_pics.h"
 PIC_DIR = "graphics/trainers/kanto"
 
 # FRLG script commands with no Emerald equivalent that can simply be left out
-DROPPED_COMMANDS = {"famechecker", "set_gym_trainers", "textcolor", "goto_if_questlog", "signmsg", "normalmsg",
+DROPPED_COMMANDS = {"set_gym_trainers", "textcolor", "goto_if_questlog", "signmsg", "normalmsg",
                     "trainerbattle_rematch", "trainerbattle_rematch_double"}
 ALWAYS_DEFINED = {"TRUE", "FALSE", "YES", "NO", "NO_MUSIC"}
 # FRLG constants Emerald has under another name

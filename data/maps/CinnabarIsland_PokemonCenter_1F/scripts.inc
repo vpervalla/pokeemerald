@@ -70,6 +70,7 @@ CinnabarIsland_PokemonCenter_1F_EventScript_NotReadyToSail::
 CinnabarIsland_PokemonCenter_1F_EventScript_PokemonJournalMrFuji::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MRFUJI, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureMrFuji
 	release
 	end

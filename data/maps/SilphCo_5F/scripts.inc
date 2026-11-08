@@ -79,6 +79,7 @@ SilphCo_5F_EventScript_PokemonReport3::
 SilphCo_5F_EventScript_Scientist::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_GIOVANNI, 1
 	msgbox SilphCo_5F_Text_RocketBossLookingForStrongMons
 	release
 	end

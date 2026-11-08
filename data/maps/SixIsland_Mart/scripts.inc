@@ -31,6 +31,7 @@ SixIsland_Mart_Items:
 SixIsland_Mart_EventScript_OldWoman::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_AGATHA, 5
 	msgbox SixIsland_Mart_Text_AgathaOldestEverEliteFourMember
 	release
 	end

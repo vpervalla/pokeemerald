@@ -1,4 +1,5 @@
 #include "global.h"
+#include "fame_checker.h"
 #include "new_game.h"
 #include "random.h"
 #include "pokemon.h"
@@ -208,6 +209,7 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+    ResetFameChecker();
 }
 
 static void ResetMiniGamesRecords(void)

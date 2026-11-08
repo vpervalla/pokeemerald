@@ -98,6 +98,7 @@ PalletTown_EventScript_OakRatingScene::
 	end
 
 PalletTown_EventScript_OakTrigger::
+	famechecker FAMECHECKER_OAK, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	delay 30
 	playbgm MUS_RG_OAK, 0
 	message PalletTown_Text_OakDontGoOut
@@ -150,6 +151,7 @@ PalletTown_EventScript_OakTriggerRight::
 
 PalletTown_EventScript_OaksLabSign::
 	lockall
+	famechecker FAMECHECKER_OAK, 0
 	msgbox PalletTown_Text_OakPokemonResearchLab
 	releaseall
 	end

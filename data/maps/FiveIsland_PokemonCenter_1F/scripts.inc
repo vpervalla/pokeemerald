@@ -28,6 +28,7 @@ FiveIsland_PokemonCenter_1F_EventScript_CooltrainerF::
 FiveIsland_PokemonCenter_1F_EventScript_PokemonJournal::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LORELEI, 3
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureLorelei
 	release
 	end

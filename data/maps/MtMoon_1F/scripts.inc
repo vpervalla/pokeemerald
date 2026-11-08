@@ -66,6 +66,7 @@ MtMoon_1F_EventScript_ItemMoonStone::
 MtMoon_1F_EventScript_BaldingMan::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BROCK, 4
 	msgbox MtMoon_1F_Text_BrockHelpsExcavateFossils
 	release
 	end

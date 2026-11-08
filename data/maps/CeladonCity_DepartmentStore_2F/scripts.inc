@@ -63,6 +63,7 @@ CeladonCity_DepartmentStore_2F_EventScript_Lass::
 CeladonCity_DepartmentStore_2F_EventScript_Woman::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LANCE, 3
 	msgbox CeladonCity_DepartmentStore_2F_Text_LanceComesToBuyCapes
 	release
 	end

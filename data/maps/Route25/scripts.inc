@@ -73,6 +73,7 @@ Route25_EventScript_ItemTM43::
 Route25_EventScript_Beauty::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MISTY, 4
 	msgbox Route25_Text_MistyHighHopesAboutThisPlace
 	release
 	end

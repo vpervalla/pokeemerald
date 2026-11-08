@@ -35,6 +35,7 @@ FourIsland_Mart_EventScript_Camper::
 FourIsland_Mart_EventScript_OldMan::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LORELEI, 2
 	msgbox FourIsland_Mart_Text_LoreleiGrewUpOnThisIsland
 	release
 	end

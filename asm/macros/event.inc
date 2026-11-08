@@ -2059,3 +2059,11 @@
 	setvar VAR_0x8004, \opponent
 	call Common_EventScript_CardDuel
 	.endm
+
+	@ Kanto (FRLG): unlocks one of the FAME CHECKER's facts about a person (FAMECHECKER_*), or, with
+	@ UpdatePickStateFromSpecialVar8005, sets how the person is drawn (FCPICKSTATE_*). See src/fame_checker.c.
+	.macro famechecker person:req, index:req, function=SetFlavorTextFlagFromSpecialVars
+	setvar VAR_0x8004, \person
+	setvar VAR_0x8005, \index
+	special \function
+	.endm

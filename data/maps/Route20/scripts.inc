@@ -82,6 +82,7 @@ Route20_EventScript_BarryRematch::
 Route20_EventScript_Camper::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MISTY, 3
 	msgbox Route20_Text_MistyTrainsHere
 	release
 	end

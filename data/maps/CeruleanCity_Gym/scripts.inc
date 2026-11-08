@@ -5,6 +5,7 @@ CeruleanCity_Gym_MapScripts::
 
 CeruleanCity_Gym_EventScript_Luis::
 	trainerbattle_single TRAINER_KANTO_SWIMMER_MALE_LUIS, CeruleanCity_Gym_Text_LuisIntro, CeruleanCity_Gym_Text_LuisDefeat
+	famechecker FAMECHECKER_MISTY, 2
 	msgbox CeruleanCity_Gym_Text_LuisPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -15,6 +16,7 @@ CeruleanCity_Gym_EventScript_Diana::
 
 CeruleanCity_Gym_EventScript_Misty::
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Misty  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_MISTY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
@@ -58,6 +60,7 @@ CeruleanCity_Gym_EventScript_GymStatuePostVictory::
 	end
 
 CeruleanCity_Gym_EventScript_MistyDefeated::
+	famechecker FAMECHECKER_MISTY, 1
 	setflag FLAG_DEFEATED_MISTY
 	setflag FLAG_BADGE02_GET
 	setrespawn HEAL_LOCATION_CERULEAN_CITY

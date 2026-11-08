@@ -40,6 +40,8 @@ IndigoPlateau_PokemonCenter_1F_Items:
 IndigoPlateau_PokemonCenter_1F_EventScript_BlackBelt::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_AGATHA, 2
+	famechecker FAMECHECKER_AGATHA, 1
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_AgathaWhuppedUs
 	call_if_set FLAG_SYS_GAME_CLEAR, CardGame_EventScript_IndigoVeteran  @ added: card game, see data/scripts/card_duel.inc
 	release
@@ -48,6 +50,7 @@ IndigoPlateau_PokemonCenter_1F_EventScript_BlackBelt::
 IndigoPlateau_PokemonCenter_1F_EventScript_CooltrainerM::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LANCE, 5
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_LancesCousinGymLeaderFarAway
 	release
 	end
@@ -103,6 +106,7 @@ IndigoPlateau_PokemonCenter_1F_EventScript_GymGuy::
 IndigoPlateau_PokemonCenter_1F_EventScript_PokemonJournal::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LANCE, 4
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureLance
 	release
 	end

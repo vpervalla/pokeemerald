@@ -58,6 +58,8 @@ ViridianCity_School_EventScript_Notebook::
 ViridianCity_School_EventScript_PokemonJournal::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_DAISY, 3
+	famechecker FAMECHECKER_OAK, 3
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureProfOak
 	release
 	end

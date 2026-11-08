@@ -129,6 +129,7 @@ PewterCity_Museum_1F_EventScript_PlayerApproachCounterRight::
 
 PewterCity_Museum_1F_EventScript_PokemonJournalBrock::
 	lockall
+	famechecker FAMECHECKER_BROCK, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureBrock
 	releaseall
 	end

@@ -39,6 +39,7 @@ FuchsiaCity_WardensHouse_EventScript_GiveGoldTeeth::
 FuchsiaCity_WardensHouse_EventScript_PokemonJournalKoga::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_KOGA, 4
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureKoga
 	release
 	end

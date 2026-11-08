@@ -24,6 +24,7 @@ SaffronCity_PokemonCenter_1F_EventScript_Gentleman::
 SaffronCity_PokemonCenter_1F_EventScript_PokemonJournalSabrina::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_SABRINA, 4
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureSabrina
 	release
 	end

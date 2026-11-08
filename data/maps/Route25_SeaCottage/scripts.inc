@@ -47,6 +47,7 @@ Route25_SeaCottage_EventScript_BillAskForHelpMale::
 	end
 
 Route25_SeaCottage_EventScript_BillGiveSSTicket::
+	famechecker FAMECHECKER_BILL, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_BillThanksMale
 	call_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_BillThanksFemale

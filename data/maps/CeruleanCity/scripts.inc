@@ -83,6 +83,7 @@ CeruleanCity_EventScript_GruntTriggerTop::
 
 CeruleanCity_EventScript_GymSign::
 	lockall
+	famechecker FAMECHECKER_MISTY, 0
 	msgbox CeruleanCity_Text_GymSign
 	releaseall
 	end
@@ -145,6 +146,7 @@ CeruleanCity_EventScript_Rival::
 	call_if_eq VAR_STARTER_MON, 2, CeruleanCity_EventScript_RivalSquirtle
 	call_if_eq VAR_STARTER_MON, 1, CeruleanCity_EventScript_RivalBulbasaur
 	call_if_eq VAR_STARTER_MON, 0, CeruleanCity_EventScript_RivalCharmander
+	famechecker FAMECHECKER_BILL, 0
 	msgbox CeruleanCity_Text_RivalPostBattle
 	closemessage
 	playbgm MUS_RG_RIVAL_EXIT, 0

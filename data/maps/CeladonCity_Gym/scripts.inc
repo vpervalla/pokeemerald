@@ -20,6 +20,7 @@ CeladonCity_Gym_EventScript_Tina::
 
 CeladonCity_Gym_EventScript_Tamia::
 	trainerbattle_single TRAINER_KANTO_BEAUTY_TAMIA, CeladonCity_Gym_Text_TamiaIntro, CeladonCity_Gym_Text_TamiaDefeat
+	famechecker FAMECHECKER_ERIKA, 3
 	msgbox CeladonCity_Gym_Text_TamiaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -30,13 +31,16 @@ CeladonCity_Gym_EventScript_Lori::
 
 CeladonCity_Gym_EventScript_Lisa::
 	trainerbattle_single TRAINER_KANTO_LASS_LISA, CeladonCity_Gym_Text_LisaIntro, CeladonCity_Gym_Text_LisaDefeat
+	famechecker FAMECHECKER_ERIKA, 2
 	msgbox CeladonCity_Gym_Text_LisaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 CeladonCity_Gym_EventScript_Erika::
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Erika  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_ERIKA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
+	famechecker FAMECHECKER_ERIKA, 4
 	msgbox CeladonCity_Gym_Text_ErikaPostBattle
 	cardduel CARD_OPPONENT_ERIKA  @ added: card game, see data/scripts/card_duel.inc
 	release
@@ -48,6 +52,7 @@ CeladonCity_Gym_EventScript_Mary::
 	end
 
 CeladonCity_Gym_EventScript_DefeatedErika::
+	famechecker FAMECHECKER_ERIKA, 1
 	clearflag FLAG_HIDE_FAME_CHECKER_ERIKA_JOURNALS
 	setflag FLAG_DEFEATED_ERIKA
 	setflag FLAG_BADGE04_GET

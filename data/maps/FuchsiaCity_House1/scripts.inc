@@ -10,6 +10,7 @@ FuchsiaCity_House1_EventScript_LittleBoy::
 FuchsiaCity_House1_EventScript_OldMan::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BILL, 2
 	msgbox FuchsiaCity_House1_Text_BillIsMyGrandson
 	cardduel CARD_OPPONENT_FUCHSIA_OLD_MAN  @ added: card game, see data/scripts/card_duel.inc
 	release

@@ -19,6 +19,7 @@ OneIsland_KindleRoad_EmberSpa_EventScript_BaldingMan2::
 OneIsland_KindleRoad_EmberSpa_EventScript_BlackBelt::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BRUNO, 3
 	msgbox OneIsland_KindleRoad_EmberSpa_Text_BrunoVisitsSpaOnOccasion
 	release
 	end

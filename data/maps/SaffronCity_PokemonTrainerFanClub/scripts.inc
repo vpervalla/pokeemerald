@@ -111,6 +111,7 @@ SaffronCity_PokemonTrainerFanClub_EventScript_MoveMember8ToFarTable::
 SaffronCity_PokemonTrainerFanClub_EventScript_PokemonJournalBruno::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BRUNO, 2
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureBruno
 	release
 	end

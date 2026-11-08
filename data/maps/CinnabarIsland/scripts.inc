@@ -136,6 +136,7 @@ CinnabarIsland_EventScript_GymDoorLocked::
 
 CinnabarIsland_EventScript_GymSign::
 	lockall
+	famechecker FAMECHECKER_BLAINE, 0
 	msgbox CinnabarIsland_Text_GymSign
 	releaseall
 	end
@@ -217,6 +218,7 @@ CinnabarIsland_EventScript_UnlockGym::
 CinnabarIsland_EventScript_Woman::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_BLAINE, 3
 	msgbox CinnabarIsland_Text_BlaineLivedHereSinceBeforeLab
 	release
 	end

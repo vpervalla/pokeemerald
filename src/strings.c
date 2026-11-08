@@ -1825,3 +1825,15 @@ const u8 gText_Answer[] = _("ANSWER");
 const u8 gText_PokeBalls[] = _("POKé BALLS");
 const u8 gText_Berry[] = _("BERRY");
 const u8 gText_Berries[] = _("BERRIES");
+
+// Kanto (FRLG): the FAME CHECKER
+const u8 gFameCheckerText_Cancel[] = _("CANCEL");
+const u8 gFameCheckerText_FameCheckerWillBeClosed[] = _("The FAME CHECKER will be closed.");
+const u8 gFameCheckerText_ClearTextbox[] = _("\n                              ");
+const u8 gFameCheckerText_MainScreenUI[] = _("{START_BUTTON}PICK {DPAD_UPDOWN}SELECT {A_BUTTON}OK");
+const u8 gFameCheckerText_PickScreenUI[] = _("{START_BUTTON}PICK {DPAD_UPDOWN}SELECT {B_BUTTON}CANCEL");
+const u8 gFameCheckerText_FlavorTextUI[] = _("{DPAD_NONE}PICK {A_BUTTON}READ {B_BUTTON}CANCEL");
+const u8 gFameCheckerOakName[] = _("OAK");
+const u8 gFameCheckerDaisyName[] = _("DAISY");
+const u8 gFameCheckerBillName[] = _("BILL");
+const u8 gFameCheckerMrFujiName[] = _("FUJI");

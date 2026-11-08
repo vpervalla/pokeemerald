@@ -2746,6 +2746,7 @@ Kanto_SafariZone_East_Text_TiredFromAllTheFun:
 Kanto_SafariZone_North_RestHouse_EventScript_BaldingMan::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_KOGA, 5
 	msgbox Kanto_SafariZone_West_Text_KogaPatrolsSafariEverySoOften
 	release
 	end

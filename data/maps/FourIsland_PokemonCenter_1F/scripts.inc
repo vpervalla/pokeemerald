@@ -27,6 +27,7 @@ FourIsland_PokemonCenter_1F_EventScript_Man::
 
 FourIsland_PokemonCenter_1F_EventScript_PokemonJournal::
 	lockall
+	famechecker FAMECHECKER_DAISY, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureDaisyOak
 	releaseall
 	end

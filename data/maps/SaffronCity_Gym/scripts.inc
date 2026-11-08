@@ -35,6 +35,7 @@ SaffronCity_Gym_EventScript_Tasha::
 
 SaffronCity_Gym_EventScript_Sabrina::
 	goto_if_set FLAG_HOENN_KANTO_LINK, GymRematch_EventScript_Sabrina  @ added: rematch once back from Hoenn, see data/scripts/gym_rematches.inc
+	famechecker FAMECHECKER_SABRINA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_KANTO_LEADER_SABRINA, SaffronCity_Gym_Text_SabrinaIntro, SaffronCity_Gym_Text_SabrinaDefeat, SaffronCity_Gym_EventScript_DefeatedSabrina, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM04_FROM_SABRINA, SaffronCity_Gym_EventScript_GiveTM04
 	msgbox SaffronCity_Gym_Text_ExplainTM04
@@ -44,10 +45,13 @@ SaffronCity_Gym_EventScript_Sabrina::
 
 SaffronCity_Gym_EventScript_Tyron::
 	trainerbattle_single TRAINER_KANTO_PSYCHIC_TYRON, SaffronCity_Gym_Text_TyronIntro, SaffronCity_Gym_Text_TyronDefeat
+	famechecker FAMECHECKER_SABRINA, 5
 	msgbox SaffronCity_Gym_Text_TyronPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 SaffronCity_Gym_EventScript_DefeatedSabrina::
+	famechecker FAMECHECKER_SABRINA, 3
+	famechecker FAMECHECKER_SABRINA, 2
 	clearflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setflag FLAG_DEFEATED_SABRINA
 	setflag FLAG_BADGE06_GET

@@ -31,6 +31,7 @@ PokemonTower_7F_EventScript_DefeatedGrunt1::
 	end
 
 PokemonTower_7F_EventScript_DefeatedGrunt2::
+	famechecker FAMECHECKER_MRFUJI, 1
 	msgbox PokemonTower_7F_Text_Grunt2PostBattle
 	closemessage
 	getplayerxy VAR_0x8004, VAR_0x8005
@@ -99,6 +100,7 @@ PokemonTower_7F_EventScript_Grunt3ExitRight::
 PokemonTower_7F_EventScript_MrFuji::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MRFUJI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	setflag FLAG_HIDE_TOWER_FUJI
 	clearflag FLAG_HIDE_POKEHOUSE_FUJI
 	setflag FLAG_RESCUED_MR_FUJI

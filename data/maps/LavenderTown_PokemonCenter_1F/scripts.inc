@@ -16,6 +16,7 @@ LavenderTown_PokemonCenter_1F_EventScript_Nurse::
 LavenderTown_PokemonCenter_1F_EventScript_BaldingMan::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_MRFUJI, 3
 	msgbox LavenderTown_PokemonCenter_1F_Text_HearMrFujiNotFromAroundHere
 	release
 	end

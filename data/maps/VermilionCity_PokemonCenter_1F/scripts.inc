@@ -28,6 +28,7 @@ VermilionCity_PokemonCenter_1F_EventScript_Man::
 
 VermilionCity_PokemonCenter_1F_EventScript_PokemonJournalLtSurge::
 	lockall
+	famechecker FAMECHECKER_LTSURGE, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureLtSurge
 	releaseall
 	end

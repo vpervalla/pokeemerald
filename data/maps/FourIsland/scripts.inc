@@ -85,6 +85,7 @@ FourIsland_EventScript_IslandSign::
 FourIsland_EventScript_LittleGirl::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_LORELEI, 4
 	msgbox FourIsland_Text_LoreleiHasLotsOfStuffedDolls
 	release
 	end
@@ -102,6 +103,7 @@ FourIsland_EventScript_OldWoman::
 	end
 
 FourIsland_EventScript_OldWomanLoreleiLeft::
+	famechecker FAMECHECKER_LORELEI, 5
 	msgbox FourIsland_Text_LoreleiMetLaprasAsChild
 	release
 	end

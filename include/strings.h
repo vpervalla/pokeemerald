@@ -3034,4 +3034,16 @@ extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_TellHimTheWords[];
 
+// Kanto (FRLG): the FAME CHECKER
+extern const u8 gFameCheckerText_Cancel[];
+extern const u8 gFameCheckerText_FameCheckerWillBeClosed[];
+extern const u8 gFameCheckerText_ClearTextbox[];
+extern const u8 gFameCheckerText_MainScreenUI[];
+extern const u8 gFameCheckerText_PickScreenUI[];
+extern const u8 gFameCheckerText_FlavorTextUI[];
+extern const u8 gFameCheckerOakName[];
+extern const u8 gFameCheckerDaisyName[];
+extern const u8 gFameCheckerBillName[];
+extern const u8 gFameCheckerMrFujiName[];
+
 #endif // GUARD_STRINGS_H

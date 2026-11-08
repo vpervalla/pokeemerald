@@ -10,6 +10,7 @@ CeladonCity_Condominiums_2F_EventScript_MeetingRoomSign::
 CeladonCity_Condominiums_2F_EventScript_PokemonJournalErika::
 	lock
 	faceplayer
+	famechecker FAMECHECKER_ERIKA, 5
 	msgbox Kanto_PokemonJournal_Text_SpecialFeatureErika
 	release
 	end

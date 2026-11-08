@@ -16,6 +16,7 @@
 #include "constants/pokemon.h"
 #include "constants/easy_chat.h"
 #include "constants/trainer_hill.h"
+#include "constants/fame_checker.h"
 
 // Prevent cross-jump optimization.
 #define BLOCK_CROSS_JUMP asm("");
@@ -505,6 +506,14 @@ struct RankingHall2P
     //u8 padding;
 };
 
+// Kanto (FRLG): what the FAME CHECKER shows of each person (FAMECHECKER_* in constants/fame_checker.h)
+struct FameCheckerSaveData
+{
+    u16 pickState:2;        // FCPICKSTATE_*
+    u16 flavorTextFlags:12; // the facts unlocked, one bit each (6 are used)
+    u16 unused:2;
+};
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -541,7 +550,8 @@ struct SaveBlock2
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
     /*0xF2C*/ u8 rivalName[PLAYER_NAME_LENGTH + 1]; // Named in Prof. Oak's new game speech
-}; // sizeof=0xF34
+    /*0xF34*/ struct FameCheckerSaveData fameChecker[NUM_FAMECHECKER_PERSONS]; // Kanto (FRLG), see src/fame_checker.c
+}; // sizeof=0xF54
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 
