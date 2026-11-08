@@ -75,29 +75,29 @@ enum {
     MB_SLIDE_NORTH,
     MB_SLIDE_SOUTH,
     MB_TRICK_HOUSE_PUZZLE_8_FLOOR,
-    MB_UNUSED_49,
-    MB_UNUSED_4A,
-    MB_UNUSED_4B,
-    MB_UNUSED_4C,
-    MB_UNUSED_4D,
-    MB_UNUSED_4E,
-    MB_UNUSED_4F,
+    MB_KANTO_POWER_PLANT_MACHINE,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_PAINTING,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_KITCHEN,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_COMPUTER,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_BLINKING_LIGHTS,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_BURGLARY,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_CABINET,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
     MB_EASTWARD_CURRENT,
     MB_WESTWARD_CURRENT,
     MB_NORTHWARD_CURRENT,
     MB_SOUTHWARD_CURRENT,
-    MB_UNUSED_54,
-    MB_UNUSED_55,
-    MB_UNUSED_56,
-    MB_UNUSED_57,
-    MB_UNUSED_58,
-    MB_UNUSED_59,
-    MB_UNUSED_5A,
-    MB_UNUSED_5B,
-    MB_UNUSED_5C,
-    MB_UNUSED_5D,
-    MB_UNUSED_5E,
-    MB_UNUSED_5F,
+    MB_KANTO_NEATLY_LINED_UP_TOOLS,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_DRESSER,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_CUP,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_TELEPHONE,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_FOOD_SMELLS_TASTY,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_FOOD,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_POKEMART_SIGN,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_POKEMON_CENTER_SIGN,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_INDIGO_PLATEAU_SIGN_1,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_INDIGO_PLATEAU_SIGN_2,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_TRAINER_TOWER_MONITOR,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
+    MB_KANTO_ADVERTISING_POSTER,  // Kanto (FRLG), see sKantoFlavorScripts in src/field_control_avatar.c
     MB_NON_ANIMATED_DOOR,
     MB_LADDER,
     MB_EAST_ARROW_WARP,

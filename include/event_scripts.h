@@ -953,4 +953,25 @@ extern const u8 PokemonJournal_Text_SpecialFeatureProfOak[];
 extern const u8 PokemonJournal_Text_SpecialFeatureDaisyOak[];
 extern const u8 PokemonJournal_Text_SpecialFeatureMrFuji[];
 
+// Kanto (FRLG): data/scripts/kanto_flavor_text.inc
+extern const u8 Kanto_EventScript_FlavorPowerPlantMachine[];
+extern const u8 Kanto_EventScript_FlavorPainting[];
+extern const u8 Kanto_EventScript_FlavorKitchen[];
+extern const u8 Kanto_EventScript_FlavorComputer[];
+extern const u8 Kanto_EventScript_FlavorBlinkingLights[];
+extern const u8 Kanto_EventScript_FlavorBurglary[];
+extern const u8 Kanto_EventScript_FlavorCabinet[];
+extern const u8 Kanto_EventScript_FlavorNeatlyLinedUpTools[];
+extern const u8 Kanto_EventScript_FlavorDresser[];
+extern const u8 Kanto_EventScript_FlavorCup[];
+extern const u8 Kanto_EventScript_FlavorTelephone[];
+extern const u8 Kanto_EventScript_FlavorTastyFood[];
+extern const u8 Kanto_EventScript_FlavorFood[];
+extern const u8 Kanto_EventScript_FlavorPokemartSign[];
+extern const u8 Kanto_EventScript_FlavorPokecenterSign[];
+extern const u8 Kanto_EventScript_FlavorIndigoUltimateGoal[];
+extern const u8 Kanto_EventScript_FlavorIndigoHighestAuthority[];
+extern const u8 Kanto_EventScript_FlavorAdvertisingPoster[];
+extern const u8 Kanto_TrainerTower_EventScript_ShowTime[];
+
 #endif // GUARD_EVENT_SCRIPTS_H

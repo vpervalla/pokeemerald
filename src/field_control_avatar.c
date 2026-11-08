@@ -19,6 +19,7 @@
 #include "link.h"
 #include "match_call.h"
 #include "metatile_behavior.h"
+#include "constants/metatile_behaviors.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "pokemon.h"
@@ -367,9 +368,57 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
     return bgEvent->bgUnion.script;
 }
 
+// Kanto (FRLG): the furniture and signs that have a line when the player faces them and presses A
+// (FRLG's GetInteractedMetatileScript). The POKéMON CENTER and MART signs only face north.
+static const struct {
+    u8 behavior;
+    bool8 northOnly;
+    const u8 *script;
+} sKantoFlavorScripts[] = {
+    {MB_KANTO_POWER_PLANT_MACHINE, FALSE, Kanto_EventScript_FlavorPowerPlantMachine},
+    {MB_KANTO_PAINTING, FALSE, Kanto_EventScript_FlavorPainting},
+    {MB_KANTO_KITCHEN, FALSE, Kanto_EventScript_FlavorKitchen},
+    {MB_KANTO_COMPUTER, FALSE, Kanto_EventScript_FlavorComputer},
+    {MB_KANTO_BLINKING_LIGHTS, FALSE, Kanto_EventScript_FlavorBlinkingLights},
+    {MB_KANTO_BURGLARY, FALSE, Kanto_EventScript_FlavorBurglary},
+    {MB_KANTO_CABINET, FALSE, Kanto_EventScript_FlavorCabinet},
+    {MB_KANTO_NEATLY_LINED_UP_TOOLS, FALSE, Kanto_EventScript_FlavorNeatlyLinedUpTools},
+    {MB_KANTO_DRESSER, FALSE, Kanto_EventScript_FlavorDresser},
+    {MB_KANTO_CUP, FALSE, Kanto_EventScript_FlavorCup},
+    {MB_KANTO_TELEPHONE, FALSE, Kanto_EventScript_FlavorTelephone},
+    {MB_KANTO_FOOD_SMELLS_TASTY, FALSE, Kanto_EventScript_FlavorTastyFood},
+    {MB_KANTO_FOOD, FALSE, Kanto_EventScript_FlavorFood},
+    {MB_KANTO_POKEMART_SIGN, TRUE, Kanto_EventScript_FlavorPokemartSign},
+    {MB_KANTO_POKEMON_CENTER_SIGN, TRUE, Kanto_EventScript_FlavorPokecenterSign},
+    {MB_KANTO_INDIGO_PLATEAU_SIGN_1, FALSE, Kanto_EventScript_FlavorIndigoUltimateGoal},
+    {MB_KANTO_INDIGO_PLATEAU_SIGN_2, FALSE, Kanto_EventScript_FlavorIndigoHighestAuthority},
+    {MB_KANTO_TRAINER_TOWER_MONITOR, FALSE, Kanto_TrainerTower_EventScript_ShowTime},
+    {MB_KANTO_ADVERTISING_POSTER, FALSE, Kanto_EventScript_FlavorAdvertisingPoster},
+};
+
+static const u8 *GetKantoFlavorScript(u8 metatileBehavior, u8 direction)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sKantoFlavorScripts); i++)
+    {
+        if (sKantoFlavorScripts[i].behavior == metatileBehavior)
+        {
+            if (sKantoFlavorScripts[i].northOnly && direction != DIR_NORTH)
+                return NULL;
+            return sKantoFlavorScripts[i].script;
+        }
+    }
+    return NULL;
+}
+
 static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 metatileBehavior, u8 direction)
 {
     s8 elevation;
+    const u8 *kantoScript;
+
+    if ((kantoScript = GetKantoFlavorScript(metatileBehavior, direction)) != NULL)
+        return kantoScript;
 
     if (MetatileBehavior_IsPlayerFacingTVScreen(metatileBehavior, direction) == TRUE)
         return EventScript_TV;

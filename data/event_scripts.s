@@ -1515,3 +1515,4 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
 	.include "data/text/fame_checker.inc"
+	.include "data/scripts/kanto_flavor_text.inc"
