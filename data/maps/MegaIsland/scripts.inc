@@ -9,25 +9,21 @@ MegaIsland_MapScripts::
 @ tournament goes on, a new one each day, and its rules; the daily tournament opens
 @ (FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT, see MegaIsland_Castle_1F).
 @ Coming out of the cave (the cave mouth's warp, 3,14), the player sees them come up the plateau's
-@ stairs from below the screen; coming onto the route any other way, the player finds them waiting
-@ there, and speaking to either of them starts the talk. LEON uses the special NPC palette slot and
-@ CYNTHIA its reflection's (OBJ_EVENT_GFX_CHAMPION_CYNTHIA_2), so both fit on the map.
+@ stairs from below the screen. It's the only way out after MEWTWO: the arena's door shuts behind the
+@ player too (MegaIsland_HiddenRoom), and there's no escaping from the caves. LEON uses the special NPC
+@ palette slot and CYNTHIA its reflection's (OBJ_EVENT_GFX_CHAMPION_CYNTHIA_2), so both fit on the map.
 MegaIsland_OnTransition:
 	setflag FLAG_TEMP_1
 	setflag FLAG_TEMP_2
 	setvar VAR_TEMP_1, 0
 	goto_if_unset FLAG_OPENED_MEWTWO_PASSAGE, MegaIsland_OnTransitionEnd
 	goto_if_set FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT, MegaIsland_OnTransitionEnd
-	clearflag FLAG_TEMP_1
-	clearflag FLAG_TEMP_2
 	getplayerxy VAR_0x8004, VAR_0x8005
 	goto_if_ne VAR_0x8004, 3, MegaIsland_OnTransitionEnd
 	goto_if_ne VAR_0x8005, 14, MegaIsland_OnTransitionEnd
-	@ Out of the cave: they start below the screen
-	setobjectxyperm LOCALID_ROUTE_LEON, 3, 21
-	setobjectxyperm LOCALID_ROUTE_CYNTHIA, 4, 22
-	setobjectmovementtype LOCALID_ROUTE_LEON, MOVEMENT_TYPE_FACE_UP
-	setobjectmovementtype LOCALID_ROUTE_CYNTHIA, MOVEMENT_TYPE_FACE_UP
+	@ Out of the cave: they start below the screen, at (3,21) and (4,22)
+	clearflag FLAG_TEMP_1
+	clearflag FLAG_TEMP_2
 	setvar VAR_TEMP_1, 1
 MegaIsland_OnTransitionEnd:
 	end
@@ -57,38 +53,9 @@ MegaIsland_EventScript_ChampionsApproach::
 	releaseall
 	end
 
-@ Found waiting on the plateau
-MegaIsland_EventScript_Champions::
-	lockall
-	applymovement LOCALID_ROUTE_LEON, Common_Movement_FacePlayer
-	applymovement LOCALID_ROUTE_CYNTHIA, Common_Movement_FacePlayer
-	waitmovement 0
-	msgbox MegaIsland_Text_LeonFound
-	call MegaIsland_EventScript_ChampionsTalk
-	@ They leave down the stairs if the player isn't in the way, else the screen fades as they go.
-	getplayerxy VAR_0x8004, VAR_0x8005
-	goto_if_ne VAR_0x8004, 3, MegaIsland_EventScript_ChampionsWalkAway
-	goto_if_lt VAR_0x8005, 16, MegaIsland_EventScript_ChampionsWalkAway
-	fadescreen FADE_TO_BLACK
-	removeobject LOCALID_ROUTE_LEON
-	removeobject LOCALID_ROUTE_CYNTHIA
-	fadescreen FADE_FROM_BLACK
-	releaseall
-	end
-
-MegaIsland_EventScript_ChampionsWalkAway::
-	applymovement LOCALID_ROUTE_LEON, MegaIsland_Movement_LeonLeave
-	applymovement LOCALID_ROUTE_CYNTHIA, MegaIsland_Movement_CynthiaLeave
-	waitmovement 0
-	removeobject LOCALID_ROUTE_LEON
-	removeobject LOCALID_ROUTE_CYNTHIA
-	releaseall
-	end
-
 @ The talk itself: the locked door, MEWTWO, and the tournament that goes on.
 MegaIsland_EventScript_ChampionsTalk::
 	msgbox MegaIsland_Text_LockedDoor
-	call_if_eq VAR_TEMP_1, 2, MegaIsland_EventScript_OutOfTheCave
 	msgbox MegaIsland_Text_WhatHappened
 	msgbox MegaIsland_Text_PlayerExplains
 	msgbox MegaIsland_Text_TheyRealize
@@ -99,10 +66,6 @@ MegaIsland_EventScript_ChampionsTalk::
 	msgbox MegaIsland_Text_SeeYouThere
 	closemessage
 	setflag FLAG_CHAMPIONS_EXPLAINED_TOURNAMENT
-	return
-
-MegaIsland_EventScript_OutOfTheCave::
-	msgbox MegaIsland_Text_OutOfTheCave
 	return
 
 MegaIsland_EventScript_MewtwoCaught::
@@ -167,10 +130,6 @@ MegaIsland_Movement_CynthiaLeave:
 MegaIsland_Text_LeonCalls:
 	.string "LEON: There you are, {PLAYER}!$"
 
-MegaIsland_Text_LeonFound:
-	.string "LEON: {PLAYER}! There you are!\n"
-	.string "We've been looking all over!$"
-
 MegaIsland_Text_LockedDoor:
 	.string "LEON: We saw MR. M. lead you through\n"
 	.string "that door behind his dais, so we\l"
@@ -180,9 +139,7 @@ MegaIsland_Text_LockedDoor:
 	.string "as if something held it shut.\p"
 	.string "LEON: We searched the whole island\n"
 	.string "for another way in!\p"
-	.string "…I only got lost twice.$"
-
-MegaIsland_Text_OutOfTheCave:
+	.string "…I only got lost twice.\p"
 	.string "CYNTHIA: And then you walk out of\n"
 	.string "this little cave.$"
 

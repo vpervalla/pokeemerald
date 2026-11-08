@@ -112,8 +112,8 @@ MegaIsland_Castle_1F_Text_MrMGone:
 MegaIsland_Castle_1F_Text_ChampionsWait:
 	.string "{PLAYER}! LEON and CYNTHIA have been\n"
 	.string "looking everywhere for you.\p"
-	.string "They said they'd wait by the little\n"
-	.string "cave on the island's road.$"
+	.string "They went to search the little cave\n"
+	.string "on the island's road.$"
 
 MegaIsland_Castle_1F_EventScript_ReplayNextRound::
 	bufferstring STR_VAR_1, MegaIsland_Castle_1F_Text_Quarterfinal
