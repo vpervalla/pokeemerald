@@ -894,6 +894,11 @@ static const struct MenuAction MultichoiceList_KantoHofEggsQuit[] = {{gText_Hall
 static const struct MenuAction MultichoiceList_KantoHofVictoriesQuit[] = {{gText_HallOfFame}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
 static const struct MenuAction MultichoiceList_KantoEggsVictoriesQuit[] = {{sText_Kanto_Eggs}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
 static const struct MenuAction MultichoiceList_KantoHofEggsVictoriesQuit[] = {{gText_HallOfFame}, {sText_Kanto_Eggs}, {sText_Kanto_Victories}, {sText_Kanto_Quit}};
+static const u8 sText_Kanto_Single[] = _("SINGLE");
+static const u8 sText_Kanto_Double[] = _("DOUBLE");
+static const u8 sText_Kanto_Knockout[] = _("KNOCKOUT");
+static const u8 sText_Kanto_Mixed[] = _("MIXED");
+static const struct MenuAction MultichoiceList_KantoTrainerTowerMode[] = {{sText_Kanto_Single}, {sText_Kanto_Double}, {sText_Kanto_Knockout}, {sText_Kanto_Mixed}, {sText_Kanto_Exit}};
 
 // Seagallop destinations, see DrawSeagallopDestinationMenu
 static const u8 *const sSeagallopDestinationNames[] = {
@@ -1061,6 +1066,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_KANTO_HOF_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoHofVictoriesQuit),
     [MULTI_KANTO_EGGS_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoEggsVictoriesQuit),
     [MULTI_KANTO_HOF_EGGS_VICTORIES_QUIT] = MULTICHOICE(MultichoiceList_KantoHofEggsVictoriesQuit),
+    [MULTI_KANTO_TRAINER_TOWER_MODE] = MULTICHOICE(MultichoiceList_KantoTrainerTowerMode),
 };
 
 const u8 *const gStdStrings[] =

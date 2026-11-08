@@ -3517,131 +3517,292 @@ Kanto_Trade_Text_WhatThatsNoMon:
 	.string "What?\n"
 	.string "That's no {STR_VAR_1}!$"
 
-Kanto_TrainerTower_EventScript_DoPostBattleText::
+@ Kanto (FRLG): TRAINER TOWER's floors and roof, from pret/pokefirered (data/scripts/trainer_tower.inc),
+@ restored by hand: the port had dropped its ttower_* functions (src/kanto_trainer_tower.c).
+
+.equ KTT_HIDE_TRAINER_DOUBLES1, FLAG_TEMP_2
+.equ KTT_HIDE_TRAINER_SINGLES,  FLAG_TEMP_3
+.equ KTT_HIDE_TRAINER_KNOCKOUT, FLAG_TEMP_4
+.equ KTT_HIDE_TRAINER_DOUBLES2, FLAG_TEMP_5
+.equ KTT_HIDE_OWNER,            FLAG_TEMP_6
+
+.equ KTT_DISABLE_SINGLES_TRIGGER,  VAR_TEMP_E
+.equ KTT_DISABLE_DOUBLES_TRIGGER,  VAR_TEMP_F
+
+
+@@ Map scripts
+
+Kanto_TrainerTower_OnResume::
+	setvar VAR_TEMP_2, 0
+	ttower_resumetimer
+	end
+
+Kanto_TrainerTower_OnTransition::
+	ttower_initfloor
+	switch VAR_RESULT
+	case CHALLENGE_TYPE_SINGLE, Kanto_TrainerTower_EventScript_SetObjectsSingles
+	case CHALLENGE_TYPE_DOUBLE, Kanto_TrainerTower_EventScript_SetObjectsDoubles
+	case CHALLENGE_TYPE_KNOCKOUT, Kanto_TrainerTower_EventScript_SetObjectsKnockout
+	setflag KTT_HIDE_TRAINER_DOUBLES1
+	setflag KTT_HIDE_TRAINER_SINGLES
+	setflag KTT_HIDE_TRAINER_KNOCKOUT
+	setflag KTT_HIDE_TRAINER_DOUBLES2
+	setvar KTT_DISABLE_SINGLES_TRIGGER, TRUE
+	setvar KTT_DISABLE_DOUBLES_TRIGGER, TRUE
+	end
+
+Kanto_TrainerTower_EventScript_SetObjectsSingles::
+	setflag KTT_HIDE_TRAINER_DOUBLES1
+	setflag KTT_HIDE_TRAINER_KNOCKOUT
+	setflag KTT_HIDE_TRAINER_DOUBLES2
+	setvar KTT_DISABLE_DOUBLES_TRIGGER, TRUE
+	setobjectxyperm       LOCALID_TOWER_TRAINER_SINGLES, 15, 13
+	setobjectmovementtype LOCALID_TOWER_TRAINER_SINGLES, MOVEMENT_TYPE_FACE_LEFT
+	goto Kanto_TrainerTower_EventScript_HideOwner
+
+Kanto_TrainerTower_EventScript_SetObjectsDoubles::
+	setflag KTT_HIDE_TRAINER_SINGLES
+	setflag KTT_HIDE_TRAINER_KNOCKOUT
+	setvar KTT_DISABLE_SINGLES_TRIGGER, TRUE
+	ttower_isfloorcleared
+	goto_if_eq VAR_RESULT, TRUE, Kanto_TrainerTower_EventScript_SetObjectsDoublesAlreadyBeaten
+	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES1, 10, 12
+	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES1, MOVEMENT_TYPE_FACE_LEFT
+	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES2, 10, 13
+	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES2, MOVEMENT_TYPE_FACE_LEFT
+	goto Kanto_TrainerTower_EventScript_HideOwner
+
+Kanto_TrainerTower_EventScript_SetObjectsDoublesAlreadyBeaten::
+	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES1, 10, 12
+	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES1, MOVEMENT_TYPE_FACE_DOWN
+	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES2, 11, 12
+	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES2, MOVEMENT_TYPE_FACE_DOWN
+	goto Kanto_TrainerTower_EventScript_HideOwner
+
+@ Knockout challenge re-uses trainer objects
+Kanto_TrainerTower_EventScript_SetObjectsKnockout::
+	setflag KTT_HIDE_TRAINER_DOUBLES2
+	setvar KTT_DISABLE_DOUBLES_TRIGGER, TRUE
+	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES1, 10, 10
+	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES1, MOVEMENT_TYPE_FACE_DOWN
+	setobjectxyperm       LOCALID_TOWER_TRAINER_SINGLES, 14, 13
+	setobjectmovementtype LOCALID_TOWER_TRAINER_SINGLES, MOVEMENT_TYPE_FACE_LEFT
+	setobjectxyperm       LOCALID_TOWER_TRAINER_KNOCKOUT, 10, 16
+	setobjectmovementtype LOCALID_TOWER_TRAINER_KNOCKOUT, MOVEMENT_TYPE_FACE_UP
+Kanto_TrainerTower_EventScript_HideOwner:
+	setflag KTT_HIDE_OWNER
+	end
+
+Kanto_TrainerTower_OnFrame::
+	map_script_2 VAR_TEMP_2, 0, Kanto_TrainerTower_EventScript_EnterFloor
+	.2byte 0
+
+Kanto_TrainerTower_EventScript_EnterFloor::
+	setvar VAR_TEMP_2, 1
+	ttower_isfloorcleared
+	goto_if_eq VAR_RESULT, FALSE, Kanto_TrainerTower_EventScript_EndEnterFloor
+	setvar KTT_DISABLE_SINGLES_TRIGGER, TRUE
+	setvar KTT_DISABLE_DOUBLES_TRIGGER, TRUE
+Kanto_TrainerTower_EventScript_EndEnterFloor:
+	ttower_shouldexit
+	goto_if_eq VAR_RESULT, TRUE, Kanto_TrainerTower_EventScript_WarpToLobby
+	end
+
+@ Never reached
+Kanto_TrainerTower_EventScript_WarpToLobby::
+	warp MAP_TRAINER_TOWER_LOBBY, 9, 7
+	waitstate
+
+
+@@ Battle scripts
+
+Kanto_TrainerTower_EventScript_TriggerBattle::
+	ttower_getchallengetype
+	switch VAR_RESULT
+	case CHALLENGE_TYPE_SINGLE, Kanto_TrainerTower_EventScript_DoSingleBattle
+	case CHALLENGE_TYPE_DOUBLE, Kanto_TrainerTower_EventScript_DoDoubleBattle
+	case CHALLENGE_TYPE_KNOCKOUT, Kanto_TrainerTower_EventScript_DoKnockoutBattle
+
+Kanto_TrainerTower_EventScript_DoSingleBattle:
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Common_Movement_Delay48
+	waitmovement 0
+	setvar KTT_DISABLE_SINGLES_TRIGGER, TRUE
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Kanto_TrainerTower_Movement_SingleTrainerApproach
+	waitmovement 0
+	ttower_getspeech TRAINER_TOWER_TEXT_INTRO, 0
+	msgbox gStringVar4
+	closemessage
+	goto Kanto_TrainerTower_EventScript_DoBattle
+
+Kanto_TrainerTower_EventScript_DoDoubleBattle::
+	ttower_getspeech TRAINER_TOWER_TEXT_INTRO, VAR_TEMP_3
+	msgbox gStringVar4
+	setvar VAR_0x8004, TRAINER_TOWER_FUNC_GET_SPEECH
+	setvar VAR_0x8005, TRAINER_TOWER_TEXT_INTRO
+	addvar VAR_TEMP_3, 1
+	goto_if_eq VAR_TEMP_3, 1, Kanto_TrainerTower_EventScript_DoSecondTrainerIntro
+	setvar VAR_TEMP_3, 0
+Kanto_TrainerTower_EventScript_DoSecondTrainerIntro:
+	copyvar VAR_0x8006, VAR_TEMP_3
+	special CallTrainerTowerFunc
+	msgbox gStringVar4
+	closemessage
+	goto Kanto_TrainerTower_EventScript_DoBattle
+
+Kanto_TrainerTower_EventScript_DoKnockoutBattle::
+	switch VAR_TEMP_1
+	case 0, Kanto_TrainerTower_EventScript_DoKnockoutBattle1
+	case 1, Kanto_TrainerTower_EventScript_DoKnockoutBattle2
+	case 2, Kanto_TrainerTower_EventScript_DoKnockoutBattle3
+
+Kanto_TrainerTower_EventScript_DoKnockoutBattle1:
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_KNOCKOUT, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_KNOCKOUT, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_KNOCKOUT, Kanto_TrainerTower_Movement_BottomKnockoutTrainerApproach
+	waitmovement 0
+	goto Kanto_TrainerTower_EventScript_DoKnockoutBattleIntro
+
+Kanto_TrainerTower_EventScript_DoKnockoutBattle2::
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_TrainerTower_Movement_TopKnockoutTrainerApproach
+	waitmovement 0
+	goto Kanto_TrainerTower_EventScript_DoKnockoutBattleIntro
+
+Kanto_TrainerTower_EventScript_DoKnockoutBattle3::
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Kanto_TrainerTower_Movement_RightKnockoutTrainerApproach
+	waitmovement 0
+Kanto_TrainerTower_EventScript_DoKnockoutBattleIntro:
+	ttower_getspeech TRAINER_TOWER_TEXT_INTRO, VAR_TEMP_1
+	msgbox gStringVar4
+	closemessage
+Kanto_TrainerTower_EventScript_DoBattle:
+	ttower_dobattle
+	waitstate
+	switch VAR_RESULT
+	case B_OUTCOME_WON, Kanto_TrainerTower_EventScript_WonBattle
+	case B_OUTCOME_LOST, Kanto_TrainerTower_EventScript_WarpToLobbyLost
+	case B_OUTCOME_DREW, Kanto_TrainerTower_EventScript_WarpToLobbyLost
+Kanto_TrainerTower_EventScript_WonBattle:
+	ttower_getchallengetype
+	switch VAR_RESULT
+	case CHALLENGE_TYPE_SINGLE, Kanto_TrainerTower_EventScript_SetFloorCleared
+	case CHALLENGE_TYPE_DOUBLE, Kanto_TrainerTower_EventScript_MoveDoublesTrainers
+	case CHALLENGE_TYPE_KNOCKOUT, Kanto_TrainerTower_EventScript_CheckNextKnockoutBattle
+
+Kanto_TrainerTower_EventScript_CheckNextKnockoutBattle:
+	switch VAR_TEMP_1
+	case 0, Kanto_TrainerTower_EventScript_DoSecondKnockoutBattle
+	case 1, Kanto_TrainerTower_EventScript_DoThirdKnockoutBattle
+	case 2, Kanto_TrainerTower_EventScript_MoveLastKnockoutTrainer
+
+Kanto_TrainerTower_EventScript_DoSecondKnockoutBattle:
+	addvar VAR_TEMP_1, 1
+	goto Kanto_TrainerTower_EventScript_DoKnockoutBattle
+
+Kanto_TrainerTower_EventScript_DoThirdKnockoutBattle::
+	addvar VAR_TEMP_1, 1
+	goto Kanto_TrainerTower_EventScript_DoKnockoutBattle
+
+Kanto_TrainerTower_EventScript_MoveDoublesTrainers::
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Kanto_TrainerTower_Movement_DoublesTrainer2OutOfWay
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_TrainerTower_Movement_DoublesTrainer1FaceDown
+	goto Kanto_TrainerTower_EventScript_SetFloorCleared
+
+Kanto_TrainerTower_EventScript_MoveLastKnockoutTrainer::
+	applymovement LOCALID_TOWER_TRAINER_SINGLES, Kanto_TrainerTower_Movement_LastKnockoutTrainerOutOfWay
+Kanto_TrainerTower_EventScript_SetFloorCleared:
+	ttower_clearedfloor
+	end
+
+Kanto_TrainerTower_EventScript_WarpToLobbyLost::
+	special HealPlayerParty
+	ttower_setlost
+	warp MAP_TRAINER_TOWER_LOBBY, 9, 7
+	waitstate
+
+
+@@ Speaking to trainers after battle
+
+Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1::
+	ttower_getchallengetype
+	switch VAR_RESULT
+	case CHALLENGE_TYPE_SINGLE, Kanto_TrainerTower_EventScript_DoublesTrainer1PostBattle
+	case CHALLENGE_TYPE_DOUBLE, Kanto_TrainerTower_EventScript_DoublesTrainer1PostBattle
+	case CHALLENGE_TYPE_KNOCKOUT, Kanto_TrainerTower_EventScript_KnockoutTrainer2PostBattle
+Kanto_TrainerTower_EventScript_DoublesTrainer1PostBattle:
+	setvar VAR_0x8006, 0
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_KnockoutTrainer2PostBattle::
+	setvar VAR_0x8006, 1
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer::
+	ttower_getchallengetype
+	switch VAR_RESULT
+	case CHALLENGE_TYPE_SINGLE, Kanto_TrainerTower_EventScript_SinglesTrainerPostBattle
+	case CHALLENGE_TYPE_DOUBLE, Kanto_TrainerTower_EventScript_SinglesTrainerPostBattle
+	case CHALLENGE_TYPE_KNOCKOUT, Kanto_TrainerTower_EventScript_KnockoutTrainer3PostBattle
+Kanto_TrainerTower_EventScript_SinglesTrainerPostBattle:
+	setvar VAR_0x8006, 0
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_KnockoutTrainer3PostBattle::
+	setvar VAR_0x8006, 2
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer::
+	setvar VAR_0x8006, 0
+	goto Kanto_TrainerTower_EventScript_DoPostBattleText
+
+Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2::
+	setvar VAR_0x8006, 1
+Kanto_TrainerTower_EventScript_DoPostBattleText:
+	ttower_getspeech TRAINER_TOWER_TEXT_AFTER
 	lock
 	faceplayer
 	msgbox gStringVar4
 	release
 	return
 
-Kanto_TrainerTower_EventScript_DoubleBattleTriggerBottom::
-	setvar VAR_TEMP_3, 1
-	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Kanto_Common_Movement_ExclamationMark
-	waitmovement 0
-	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Kanto_Common_Movement_Delay48
-	end
 
-Kanto_TrainerTower_EventScript_DoubleBattleTriggerTop::
-	setvar VAR_TEMP_3, 0
-	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_Common_Movement_ExclamationMark
-	waitmovement 0
-	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Kanto_Common_Movement_Delay48
-	goto Kanto_TrainerTower_EventScript_TriggerDoubleBattle
+@@ Speaking to owner
 
-Kanto_TrainerTower_EventScript_DoublesTrainer1::
-	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1
-	end
-
-Kanto_TrainerTower_EventScript_DoublesTrainer2::
-	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2
-	end
-
-Kanto_TrainerTower_EventScript_EnterFloor::
-	setvar VAR_TEMP_2, 1
-	end
-
-Kanto_TrainerTower_EventScript_KnockoutTrainer::
-	call Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer
-	end
-
-Kanto_TrainerTower_EventScript_Owner::
-	call Kanto_TrainerTower_EventScript_SpeakToOwner
-	end
-
-Kanto_TrainerTower_EventScript_SingleBattleTrigger::
-	goto Kanto_TrainerTower_EventScript_TriggerBattle
-
-Kanto_TrainerTower_EventScript_SinglesTrainer::
-	call Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer
-	end
-
-Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1::
-	end
-
-Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2::
-	setvar VAR_0x8006, 1
-	end
-
-Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer::
-	setvar VAR_0x8006, 0
-	goto Kanto_TrainerTower_EventScript_DoPostBattleText
-
-@ FRLG's TRAINER TOWER challenge (its ttower_* commands: the owner's state, prize and record time)
-@ isn't ported, so the owner only has a word for the player. Its cases were left to a stale
-@ VAR_0x8000 and could end with the player still locked.
 Kanto_TrainerTower_EventScript_SpeakToOwner::
 	lock
 	faceplayer
-	msgbox Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime
-	release
-	end
-
-Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer::
-	end
-
-Kanto_TrainerTower_EventScript_TriggerBattle::
-	end
-
-Kanto_TrainerTower_EventScript_TriggerDoubleBattle::
-	waitmovement 0
-	goto Kanto_TrainerTower_EventScript_TriggerBattle
-
-Kanto_TrainerTower_OnFrame:
-	map_script_2 VAR_TEMP_2, 0, Kanto_TrainerTower_EventScript_EnterFloor
-	.2byte 0
-
-Kanto_TrainerTower_OnResume::
-	setvar VAR_TEMP_2, 0
-	end
-
-Kanto_TrainerTower_OnTransition::
-	end
-
-Kanto_TrainerTower_Roof_EventScript_Arrived::
-	msgbox Kanto_TrainerTower_Roof_Text_ImOwnerBattledPerfectly
-	end
-
-Kanto_TrainerTower_Roof_EventScript_CheckFinalTime::
-	case 0, Kanto_TrainerTower_Roof_EventScript_NewRecord
-	case 1, Kanto_TrainerTower_Roof_EventScript_NoNewRecord
+	ttower_getownerstate
+	switch VAR_RESULT
+	case 0, Kanto_TrainerTower_Roof_EventScript_Arrived
+	case 1, Kanto_TrainerTower_Roof_EventScript_GivePrize
 	case 2, Kanto_TrainerTower_Roof_EventScript_OwnerEnd
-	end
 
-Kanto_TrainerTower_Roof_EventScript_GivePrize::
+Kanto_TrainerTower_Roof_EventScript_Arrived:
+	msgbox Kanto_TrainerTower_Roof_Text_ImOwnerBattledPerfectly
+Kanto_TrainerTower_Roof_EventScript_GivePrize:
+	ttower_giveprize
+	switch VAR_RESULT
 	case 0, Kanto_TrainerTower_Roof_EventScript_ReceivePrize
 	case 1, Kanto_TrainerTower_Roof_EventScript_NoRoomForPrize
 	case 2, Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
-	end
 
-Kanto_TrainerTower_Roof_EventScript_NewRecord::
-	msgbox Kanto_TrainerTower_Roof_Text_DoneItInRecordTime
-	goto Kanto_TrainerTower_Roof_EventScript_OwnerEnd
-
-Kanto_TrainerTower_Roof_EventScript_NoNewRecord::
-	msgbox Kanto_TrainerTower_Roof_Text_TookSweetTimeGettingHere
-	end
-
-Kanto_TrainerTower_Roof_EventScript_NoRoomForPrize::
-	msgbox Kanto_TrainerTower_Roof_Text_ThisIsForYou
-	msgbox Kanto_Text_BagIsFull
-	goto Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
-
-Kanto_TrainerTower_Roof_EventScript_OwnerEnd::
-	msgbox Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime
-	release
-	return
-
-Kanto_TrainerTower_Roof_EventScript_ReceivePrize::
+Kanto_TrainerTower_Roof_EventScript_ReceivePrize:
 	msgbox Kanto_TrainerTower_Roof_Text_ThisIsForYou
 	playfanfare MUS_LEVEL_UP
 	message Kanto_Text_ObtainedTheX
@@ -3651,6 +3812,126 @@ Kanto_TrainerTower_Roof_EventScript_ReceivePrize::
 	msgbox Kanto_Text_PutItemAway
 	call Kanto_EventScript_RestorePrevTextColor
 	goto Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
+
+Kanto_TrainerTower_Roof_EventScript_NoRoomForPrize::
+	msgbox Kanto_TrainerTower_Roof_Text_ThisIsForYou
+	msgbox Kanto_Text_BagIsFull
+	goto Kanto_TrainerTower_Roof_EventScript_CheckFinalTime
+
+Kanto_TrainerTower_Roof_EventScript_CheckFinalTime::
+	ttower_checkfinaltime
+	switch VAR_RESULT
+	case 0, Kanto_TrainerTower_Roof_EventScript_NewRecord
+	case 1, Kanto_TrainerTower_Roof_EventScript_NoNewRecord
+	case 2, Kanto_TrainerTower_Roof_EventScript_OwnerEnd
+
+Kanto_TrainerTower_Roof_EventScript_NewRecord:
+	msgbox Kanto_TrainerTower_Roof_Text_DoneItInRecordTime
+	goto Kanto_TrainerTower_Roof_EventScript_OwnerEnd
+
+Kanto_TrainerTower_Roof_EventScript_NoNewRecord::
+	msgbox Kanto_TrainerTower_Roof_Text_TookSweetTimeGettingHere
+Kanto_TrainerTower_Roof_EventScript_OwnerEnd:
+	msgbox Kanto_TrainerTower_Roof_Text_IdLikeToSeeBetterTime
+	release
+	return
+
+Kanto_TrainerTower_EventScript_ShowTime::
+	lockall
+	ttower_gettime
+	msgbox TrainerTower_Text_XMinYZSec
+	releaseall
+	end
+
+
+@@ Battle triggers
+
+Kanto_TrainerTower_EventScript_SingleBattleTrigger::
+	goto Kanto_TrainerTower_EventScript_TriggerBattle
+
+Kanto_TrainerTower_EventScript_DoubleBattleTriggerTop::
+	setvar VAR_TEMP_3, 0
+	ttower_checkdoubles
+	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, Kanto_TrainerTower_EventScript_IneligibleForDoubleBattle
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Common_Movement_Delay48
+	goto Kanto_TrainerTower_EventScript_TriggerDoubleBattle
+
+Kanto_TrainerTower_EventScript_DoubleBattleTriggerBottom::
+	setvar VAR_TEMP_3, 1
+	ttower_checkdoubles
+	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, Kanto_TrainerTower_EventScript_IneligibleForDoubleBattle
+	ttower_encountermusic
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Common_Movement_Delay48
+Kanto_TrainerTower_EventScript_TriggerDoubleBattle:
+	waitmovement 0
+	setvar KTT_DISABLE_DOUBLES_TRIGGER, TRUE
+	goto Kanto_TrainerTower_EventScript_TriggerBattle
+
+Kanto_TrainerTower_EventScript_IneligibleForDoubleBattle::
+	lockall
+	playse SE_DING_DONG
+	msgbox TrainerTower_Lobby_Text_NeedTwoMonsForDouble
+	closemessage
+	applymovement LOCALID_PLAYER, Kanto_TrainerTower_Movement_PushPlayerBack
+	waitmovement 0
+	releaseall
+	end
+
+Kanto_TrainerTower_Movement_SingleTrainerApproach:
+	walk_left
+Kanto_TrainerTower_Movement_RightKnockoutTrainerApproach::
+	walk_left
+	walk_left
+Kanto_TrainerTower_Movement_PushPlayerBack:
+	walk_left
+	step_end
+
+Kanto_TrainerTower_Movement_BottomKnockoutTrainerApproach::
+	walk_up
+	walk_up
+	step_end
+
+Kanto_TrainerTower_Movement_TopKnockoutTrainerApproach::
+	walk_down
+	walk_down
+	step_end
+
+Kanto_TrainerTower_Movement_DoublesTrainer2OutOfWay::
+	walk_right
+Kanto_TrainerTower_Movement_LastKnockoutTrainerOutOfWay:
+	walk_up
+	face_down
+	step_end
+
+Kanto_TrainerTower_Movement_DoublesTrainer1FaceDown::
+	face_down
+	step_end
+
+@ All the floors and the roof share these scripts for their objects (FRLG kept them in TrainerTower_1F)
+Kanto_TrainerTower_EventScript_DoublesTrainer1::
+	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer1
+	end
+
+Kanto_TrainerTower_EventScript_SinglesTrainer::
+	call Kanto_TrainerTower_EventScript_SpeakToSinglesTrainer
+	end
+
+Kanto_TrainerTower_EventScript_KnockoutTrainer::
+	call Kanto_TrainerTower_EventScript_SpeakToKnockoutTrainer
+	end
+
+Kanto_TrainerTower_EventScript_DoublesTrainer2::
+	call Kanto_TrainerTower_EventScript_SpeakToDoublesTrainer2
+	end
+
+Kanto_TrainerTower_EventScript_Owner::
+	call Kanto_TrainerTower_EventScript_SpeakToOwner
+	end
 
 Kanto_TrainerTower_Roof_Text_DoneItInRecordTime:
     .string "Oh!\n"

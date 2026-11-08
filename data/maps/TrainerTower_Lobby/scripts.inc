@@ -62,6 +62,7 @@ TrainerTower_Lobby_EventScript_BeginChallenge::
 	setvar VAR_MAP_SCENE_TRAINER_TOWER, 1
 	special HealPlayerParty
 	msgbox TrainerTower_Lobby_Text_StartClockGetSetGo
+	ttower_startchallenge  @ restored: the port had dropped TRAINER TOWER's functions (src/kanto_trainer_tower.c)
 	releaseall
 	end
 
@@ -71,6 +72,8 @@ TrainerTower_Lobby_EventScript_ChallengeInfo::
 	end
 
 TrainerTower_Lobby_EventScript_ChooseChallenge::
+	multichoice 13, 3, MULTI_KANTO_TRAINER_TOWER_MODE, FALSE  @ restored
+	switch VAR_RESULT
 	case 0, TrainerTower_Lobby_EventScript_BeginChallenge
 	case 1, TrainerTower_Lobby_EventScript_BeginChallenge
 	case 2, TrainerTower_Lobby_EventScript_BeginChallenge
@@ -93,15 +96,15 @@ TrainerTower_Lobby_EventScript_DeclineChallenge::
 
 TrainerTower_Lobby_EventScript_Enter::
 	setvar VAR_TEMP_0, 1
-	@ FRLG checked the challenge's status here (ttower_getchallengestatus, not ported): the case was
-	@ left to a stale VAR_0x8000, and could start the lost challenge's scene on entering
+	ttower_getchallengestatus  @ restored
+	goto_if_eq VAR_RESULT, TT_STATUS_LOST, TrainerTower_Lobby_EventScript_LostChallenge
 	end
 
 TrainerTower_Lobby_EventScript_EntryTrigger::
 	lockall
 	applymovement LOCALID_PLAYER, TrainerTower_Lobby_Movement_FaceReceptionist
 	msgbox TrainerTower_Lobby_Text_WelcomeToTrainerTower
-	msgbox TrainerTower_Lobby_Text_TrainersUpToFloorNum
+	msgbox TrainerTower_Lobby_Text_TrainersUpEighthFloor  @ restored: the built-in floors go up to the eighth (ttower_getnumfloors)
 	goto TrainerTower_Lobby_EventScript_AskEnterChallenge
 
 TrainerTower_Lobby_EventScript_ExitChallenge::
@@ -110,6 +113,7 @@ TrainerTower_Lobby_EventScript_ExitChallenge::
 	waitmovement 0
 	setvar VAR_MAP_SCENE_TRAINER_TOWER, 0
 	release
+	end
 
 TrainerTower_Lobby_EventScript_ExitElevator::
 	lockall
@@ -133,17 +137,22 @@ TrainerTower_Lobby_EventScript_LostChallenge::
 TrainerTower_Lobby_EventScript_Receptionist::
 	lock
 	faceplayer
+	ttower_getbeatchallenge  @ restored
+	goto_if_eq VAR_RESULT, TRUE, TrainerTower_Lobby_EventScript_ThanksForCompeting
 	msgbox TrainerTower_Lobby_Text_GiveItYourBest
 	goto TrainerTower_Lobby_EventScript_ReceptionistEnd
 
+TrainerTower_Lobby_EventScript_ThanksForCompeting::
+	msgbox TrainerTower_Lobby_Text_ThanksForCompeting
 TrainerTower_Lobby_EventScript_ReceptionistEnd::
 	release
 	end
 
 TrainerTower_Lobby_EventScript_ShowRecords::
 	lockall
-	fadescreen FADE_TO_BLACK
-	special ShowTrainerHillRecords
+	ttower_showresults  @ changed: TRAINER TOWER's time board (FRLG opened its battle records screen)
+	waitbuttonpress
+	ttower_closeresults
 	releaseall
 	end
 
@@ -171,9 +180,7 @@ TrainerTower_Lobby_OnLoad::
 
 TrainerTower_Lobby_OnResume::
 	setvar VAR_TEMP_2, 0
-	setvar VAR_TEMP_0, 0
-	setobjectxy LOCALID_PLAYER, 9, 7
-	applymovement LOCALID_PLAYER, TrainerTower_Lobby_Movement_FaceReceptionist
+	ttower_resumetimer  @ restored (the rest of FRLG's script only ran when ttower_shouldexit was TRUE, never)
 	end
 
 TrainerTower_Lobby_OnReturnToField::
@@ -251,5 +258,20 @@ TrainerTower_Lobby_Text_WonderWhatKindsOfTrainers:
     .string "I wonder what kinds of TRAINERS\n"
     .string "are waiting for me?\p"
     .string "It's nerve-racking!$"
+
+TrainerTower_Lobby_Text_TrainersUpEighthFloor::
+    .string "TRAINERS are awaiting your\n"
+    .string "challenge up to the eighth floor.$"
+
+TrainerTower_Lobby_Text_ThanksForCompeting::
+    .string "Thank you for competing!$"
+
+TrainerTower_Lobby_Text_NeedTwoMonsForDouble::
+    .string "This is a two-on-two battle.\p"
+    .string "You may not battle unless you have\n"
+    .string "at least two POKéMON.$"
+
+TrainerTower_Text_XMinYZSec::
+    .string "{STR_VAR_1} min. {STR_VAR_2}.{STR_VAR_3} sec.$"
 
 @ END KANTO NPCS

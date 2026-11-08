@@ -29,7 +29,7 @@
     },
     {
       "local_id": "LOCALID_TOWER_TRAINER_DOUBLES1",
-      "graphics_id": "OBJ_EVENT_GFX_KANTO_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_VAR_0",
       "x": 11,
       "y": 10,
       "elevation": 3,
@@ -43,7 +43,7 @@
     },
     {
       "local_id": "LOCALID_TOWER_TRAINER_SINGLES",
-      "graphics_id": "OBJ_EVENT_GFX_KANTO_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_VAR_1",
       "x": 15,
       "y": 13,
       "elevation": 3,
@@ -57,7 +57,7 @@
     },
     {
       "local_id": "LOCALID_TOWER_TRAINER_KNOCKOUT",
-      "graphics_id": "OBJ_EVENT_GFX_KANTO_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_VAR_2",
       "x": 10,
       "y": 16,
       "elevation": 3,
@@ -71,7 +71,7 @@
     },
     {
       "local_id": "LOCALID_TOWER_TRAINER_DOUBLES2",
-      "graphics_id": "OBJ_EVENT_GFX_KANTO_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_VAR_3",
       "x": 10,
       "y": 10,
       "elevation": 3,

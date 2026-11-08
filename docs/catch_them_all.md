@@ -259,8 +259,10 @@ their FRLG names, so porting again keeps the lines), or mapped to Emerald's equi
 Restored since: SAFFRON's POKéMON TRAINER FAN CLUB, with its own fans
 (`src/kanto_trainer_fan_club.c`), the museum's fossil pictures, the S.S. ANNE departure cutscene,
 LORELEI's dolls, BILL's teleporter animations, the FAME CHECKER and the facts it unlocks, and the
-spinner tiles of VIRIDIAN GYM and the ROCKET HIDEOUT. Still missing (they don't affect which POKéMON
-can be caught): the help system, TEACHY TV, Trainer Tower and the e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and
+spinner tiles of VIRIDIAN GYM and the ROCKET HIDEOUT, and TRAINER TOWER with FRLG's built-in floors
+(`src/kanto_trainer_tower.c`; its battles run as Trainer Hill's). Still missing (they don't affect
+which POKéMON can be caught): the help system, TEACHY TV, the e-Reader's TRAINER TOWER floors and the
+e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and
 Hoenn" below).
 
 ## Johto and Hoenn

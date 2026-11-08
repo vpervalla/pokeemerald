@@ -167,6 +167,7 @@
 #define MULTI_KANTO_HOF_VICTORIES_QUIT                     155
 #define MULTI_KANTO_EGGS_VICTORIES_QUIT                    156
 #define MULTI_KANTO_HOF_EGGS_VICTORIES_QUIT                157
+#define MULTI_KANTO_TRAINER_TOWER_MODE                     158 // TRAINER TOWER's challenges (src/kanto_trainer_tower.c)
 
 // Lilycove SS Tidal Multichoice Selections
 #define SSTIDAL_SELECTION_SLATEPORT        0

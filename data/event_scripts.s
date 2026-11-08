@@ -24,6 +24,7 @@
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
 #include "constants/fame_checker.h"
+#include "constants/kanto_trainer_tower.h"
 #include "constants/field_effects.h"
 #include "constants/field_poison.h"
 #include "constants/field_specials.h"
