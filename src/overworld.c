@@ -194,6 +194,9 @@ COMMON_DATA u8 gLocalLinkPlayerId = 0; // This is our player id in a multiplayer
 COMMON_DATA u8 gFieldLinkPlayerCount = 0;
 
 EWRAM_DATA static u8 sObjectEventLoadFlag = 0;
+// Kanto (FRLG's gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_KEEP): leave the music a map script
+// started, for the scene outside INDIGO PLATEAU after Kanto's Hall of Fame (see WarpToRollCredits)
+EWRAM_DATA bool8 gKeepMapMusicOnLoad = FALSE;
 EWRAM_DATA struct WarpData gLastUsedWarp = {0};
 EWRAM_DATA static struct WarpData sWarpDestination = {0};  // new warp position
 EWRAM_DATA static struct WarpData sFixedDiveWarp = {0};
@@ -1155,7 +1158,11 @@ void Overworld_ResetMapMusic(void)
 
 void Overworld_PlaySpecialMapMusic(void)
 {
-    u16 music = GetCurrLocationDefaultMusic();
+    u16 music;
+
+    if (gKeepMapMusicOnLoad)
+        return;
+    music = GetCurrLocationDefaultMusic();
 
     if (music != MUS_ABNORMAL_WEATHER && music != MUS_NONE)
     {

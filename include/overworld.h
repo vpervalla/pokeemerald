@@ -105,6 +105,7 @@ u16 GetLocationMusic(struct WarpData *warp);
 u16 GetCurrLocationDefaultMusic(void);
 u16 GetWarpDestinationMusic(void);
 void Overworld_ResetMapMusic(void);
+extern bool8 gKeepMapMusicOnLoad;
 void Overworld_PlaySpecialMapMusic(void);
 void Overworld_SetSavedMusic(u16 songNum);
 void Overworld_ClearSavedMusic(void);

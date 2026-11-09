@@ -260,7 +260,7 @@ Restored since: SAFFRON's POKéMON TRAINER FAN CLUB, with its own fans
 (`src/kanto_trainer_fan_club.c`), the museum's fossil pictures, the S.S. ANNE departure cutscene,
 LORELEI's dolls, BILL's teleporter animations, the FAME CHECKER and the facts it unlocks, and the
 spinner tiles of VIRIDIAN GYM and the ROCKET HIDEOUT, the furniture and signs that have a line when
-faced (`sKantoFlavorScripts` in `src/field_control_avatar.c`), HO-OH's wing flaps at NAVEL ROCK, FOUR ISLAND's STICKER MAN, and TRAINER TOWER with FRLG's built-in floors
+faced (`sKantoFlavorScripts` in `src/field_control_avatar.c`), HO-OH's wing flaps at NAVEL ROCK, FOUR ISLAND's STICKER MAN, the walk out of INDIGO PLATEAU before Kanto's credits (to FRLG's credits song), and TRAINER TOWER with FRLG's built-in floors
 (`src/kanto_trainer_tower.c`; its battles run as Trainer Hill's). Still missing (they don't affect
 which POKéMON can be caught): the help system, TEACHY TV, the e-Reader's TRAINER TOWER floors and the
 e-Reader trainer. The Birth Island DEOXYS puzzle is back (see "Johto and

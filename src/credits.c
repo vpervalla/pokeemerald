@@ -447,7 +447,10 @@ void CB2_StartCreditsSequence(void)
     BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     EnableInterrupts(INTR_FLAG_VBLANK);
     SetVBlankCallback(VBlankCB_Credits);
-    m4aSongNumStart(MUS_CREDITS);
+    // Kanto port: after Kanto's Hall of Fame, FRLG's credits song started with the scene outside
+    // INDIGO PLATEAU (IndigoPlateau_Exterior_EventScript_Credits) and runs on through the credits
+    if (GetCurrentMapMusic() != MUS_RG_CREDITS)
+        m4aSongNumStart(MUS_CREDITS);
     SetMainCallback2(CB2_Credits);
     sUsedSpeedUp = FALSE;
     sCreditsData = AllocZeroed(sizeof(struct CreditsData));

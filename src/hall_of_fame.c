@@ -34,6 +34,9 @@
 #include "data.h"
 #include "confetti_util.h"
 #include "constants/rgb.h"
+#include "region_map.h"
+#include "field_player_avatar.h"
+#include "constants/maps.h"
 
 #define HALL_OF_FAME_MAX_TEAMS 50
 #define TAG_CONFETTI 1001
@@ -90,6 +93,7 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId);
 static void Task_Hof_ExitOnKeyPressed(u8 taskId);
 static void Task_Hof_HandlePaletteOnExit(u8 taskId);
 static void Task_Hof_HandleExit(u8 taskId);
+static void WarpToRollCredits(void);
 static void Task_HofPC_CopySaveData(u8 taskId);
 static void Task_HofPC_PrintDataIsCorrupted(u8 taskId);
 static void Task_HofPC_DrawSpritesPrintText(u8 taskId);
@@ -774,8 +778,25 @@ static void Task_Hof_HandleExit(u8 taskId)
         TRY_FREE_AND_SET_NULL(sHofGfxPtr);
         TRY_FREE_AND_SET_NULL(sHofMonPtr);
 
-        StartCredits();
+        // Kanto (FRLG): the player first walks out of the League with the rival and PROF. OAK
+        // (IndigoPlateau_Exterior_EventScript_Credits, which rolls the credits with DoCredits)
+        if (GetPlayerRegion() == REGION_KANTO)
+            WarpToRollCredits();
+        else
+            StartCredits();
     }
+}
+
+// FRLG's SetWarpsToRollCredits
+static void WarpToRollCredits(void)
+{
+    VarSet(VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 1);
+    FlagSet(FLAG_HIDE_MAP_NAME_POPUP);
+    gKeepMapMusicOnLoad = TRUE; // the scene's map script plays MUS_RG_CREDITS
+    SetWarpDestination(MAP_GROUP(MAP_INDIGO_PLATEAU_EXTERIOR), MAP_NUM(MAP_INDIGO_PLATEAU_EXTERIOR), WARP_ID_NONE, 11, 6);
+    WarpIntoMap();
+    ResetInitialPlayerAvatarState();
+    SetMainCallback2(CB2_LoadMap);
 }
 
 static void StartCredits(void)

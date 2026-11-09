@@ -641,3 +641,4 @@ gSpecials::
 	def_special CallTrainerTowerFunc
 	def_special LoopWingFlapSound
 	def_special StickerManGetBragFlags
+	def_special DoCredits

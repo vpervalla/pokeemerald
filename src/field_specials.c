@@ -14,6 +14,7 @@
 #include "field_message_box.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
+#include "credits.h"
 #include "field_specials.h"
 #include "new_game.h"
 #include "field_weather.h"
@@ -5292,4 +5293,12 @@ u16 StickerManGetBragFlags(void)
     if (gSpecialVar_0x8006 != 0)
         result |= 1 << 2;
     return result;
+}
+
+// FRLG: the end of the scene outside INDIGO PLATEAU after Kanto's Hall of Fame
+// (IndigoPlateau_Exterior_EventScript_Credits); the script waits with waitstate.
+void DoCredits(void)
+{
+    gKeepMapMusicOnLoad = FALSE;
+    SetMainCallback2(CB2_StartCreditsSequence);
 }
