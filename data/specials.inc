@@ -640,3 +640,4 @@ gSpecials::
 	def_special AnimateTeleporterCable
 	def_special CallTrainerTowerFunc
 	def_special LoopWingFlapSound
+	def_special StickerManGetBragFlags

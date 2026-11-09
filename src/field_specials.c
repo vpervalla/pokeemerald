@@ -5273,3 +5273,23 @@ void LoopWingFlapSound(void)
     CreateTask(Task_WingFlapSound, 8);
     PlaySE(SE_M_WING_ATTACK);
 }
+
+// FRLG: what the STICKER MAN on FOUR ISLAND can be told about. Returns one bit each for
+// Hall of Fame entries, hatched Eggs and link battle wins; VAR_0x8004-6 get the counts.
+u16 StickerManGetBragFlags(void)
+{
+    u16 result = 0;
+    u32 numEggs;
+
+    gSpecialVar_0x8004 = GetGameStat(GAME_STAT_ENTERED_HOF);
+    numEggs = GetGameStat(GAME_STAT_HATCHED_EGGS);
+    gSpecialVar_0x8006 = GetGameStat(GAME_STAT_LINK_BATTLE_WINS);
+    gSpecialVar_0x8005 = numEggs > 0xFFFF ? 0xFFFF : numEggs;
+    if (gSpecialVar_0x8004 != 0)
+        result |= 1 << 0;
+    if (gSpecialVar_0x8005 != 0)
+        result |= 1 << 1;
+    if (gSpecialVar_0x8006 != 0)
+        result |= 1 << 2;
+    return result;
+}
