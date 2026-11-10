@@ -595,3 +595,52 @@
 	.macro create_surf_wave priority=2, palette:req
 	createvisualtask AnimTask_CreateSurfWave, \priority, \palette
 	.endm
+
+	@ The Mega Evolution animation, around the shell of one's choice (the purple sphere, or a
+	@ Primal Reversion's): the shell grows over the attacker, the Pokémon changes inside it,
+	@ cracks spread across it and it bursts. The delays follow sAnim_MegaSphere.
+	@ glow_color makes the shell pulse with that color until it bursts.
+	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, glow_color
+	loadspritegfx \shell_tag
+	loadspritegfx \shards_tag
+	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
+	waitforvisualfinish
+	@ The shell grows over the Pokémon: it has hidden it after 32 frames. The player's
+	@ reaches the foe's healthbox, and passes in front of it
+	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, TRUE
+	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
+	createsprite \shell_template, ANIM_ATTACKER, 2
+	.ifnb \glow_color
+	blend_color_cyclebytag tag=\shell_tag, delay=2, num_blends=3, initial_blend_y=0, target_blend_y=7, color=\glow_color
+	.endif
+	delay 40
+	@ Out of sight inside it, the Pokémon takes its new form
+	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
+	delay 10
+	@ Cracks spread across the shell, in three steps
+	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
+	waitforvisualfinish
+	@ It bursts: its shards fly off, and the new form stands in a flash of light
+	playsewithpan SE_M_EXPLOSION, SOUND_PAN_ATTACKER
+	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
+	createsprite \shard_template, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
+	createsprite \shard_template, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22
+	createsprite \shard_template, ANIM_ATTACKER, 2, 10, 17, 0x160, 0x200, 2, 20
+	createsprite \shard_template, ANIM_ATTACKER, 2, 0, 20, 0x30, 0x240, 3, 20
+	createsprite \shard_template, ANIM_ATTACKER, 2, -10, 17, -0x160, 0x200, 0, 20
+	createsprite \shard_template, ANIM_ATTACKER, 2, -17, 10, -0x260, 0x120, 1, 22
+	createsprite \shard_template, ANIM_ATTACKER, 2, -20, 0, -0x2C0, -0x40, 2, 24
+	createsprite \shard_template, ANIM_ATTACKER, 2, -17, -10, -0x260, -0x1C0, 3, 26
+	createsprite \shard_template, ANIM_ATTACKER, 2, -10, -17, -0x160, -0x2C0, 0, 28
+	createsprite \shard_template, ANIM_ATTACKER, 2, 0, -20, -0x30, -0x320, 1, 28
+	createsprite \shard_template, ANIM_ATTACKER, 2, 10, -17, 0x160, -0x2C0, 2, 28
+	createsprite \shard_template, ANIM_ATTACKER, 2, 17, -10, 0x260, -0x1C0, 3, 26
+	waitforvisualfinish
+	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, FALSE
+	unloadspritegfx \shell_tag
+	unloadspritegfx \shards_tag
+	.endm

@@ -225,9 +225,14 @@ What exists now:
 - The animation (`General_MegaEvolution` in `data/battle_anim_scripts.s`, its sprites in
   `src/battle_anim_effects_3.c`): a purple sphere grows over the Pokémon until it hides it,
   the sprite changes inside it, yellow cracks spread across the sphere in three steps, and
-  it bursts into shards, with the Mega Evolution standing in a flash of light. Primal
-  Reversion plays it too. `tools/mega_evolutions/gen_anim_gfx.py` draws the sphere and
-  the shards (`graphics/battle_anims/sprites/mega_sphere.png`, `mega_shards.png`).
+  it bursts into shards, with the Mega Evolution standing in a flash of light. The whole
+  sequence is the macro `mega_evolution_shell` (`asm/macros/battle_anim_script.inc`), which
+  takes the shell's and the shards' sprites. `tools/mega_evolutions/gen_anim_gfx.py` draws
+  them (`graphics/battle_anims/sprites/mega_sphere.png`, `mega_shards.png`).
+- Primal Reversion plays the same animation with a shell of its own
+  (`AnimTask_GetPrimalReversion` tells the script whose). KYOGRE's is a glowing blue rock
+  with cyan cracks (`primal_kyogre_rock.png`, `primal_kyogre_shards.png`). GROUDON's is
+  still the purple sphere.
 - Sprite reloads (the bag, the party menu, a substitute fading) keep the Mega sprite.
 
 Tested in mGBA with a throwaway boot-to-battle hook:

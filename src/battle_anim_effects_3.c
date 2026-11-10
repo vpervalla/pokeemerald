@@ -22,6 +22,7 @@
 #include "constants/battle_anim.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 #include "constants/weather.h"
 
 extern const struct SpriteTemplate gThoughtBubbleSpriteTemplate;
@@ -2473,6 +2474,62 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimMegaShard,
 };
+
+// Primal Reversion plays the same animation with a shell of its own. KYOGRE's is a glowing
+// blue rock with cyan cracks: it is rougher than the sphere, so it grows to 1.75 times its
+// size (112 pixels across) to cover the Pokémon's whole sprite.
+static const union AffineAnimCmd sAffineAnim_PrimalRock[] =
+{
+    AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
+    AFFINEANIMCMD_FRAME(0xD, 0xD, 0, 32),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd *const sAffineAnims_PrimalRock[] =
+{
+    sAffineAnim_PrimalRock,
+};
+
+const struct SpriteTemplate gPrimalKyogreRockSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PRIMAL_KYOGRE_ROCK,
+    .paletteTag = ANIM_TAG_PRIMAL_KYOGRE_ROCK,
+    .oam = &gOamData_AffineDouble_ObjNormal_64x64,
+    .anims = sAnims_MegaSphere,
+    .images = NULL,
+    .affineAnims = sAffineAnims_PrimalRock,
+    .callback = AnimMegaSphere,
+};
+
+const struct SpriteTemplate gPrimalKyogreShardSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PRIMAL_KYOGRE_SHARDS,
+    .paletteTag = ANIM_TAG_PRIMAL_KYOGRE_SHARDS,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sAnims_MegaShard,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMegaShard,
+};
+
+// Returns which Primal Reversion the attacker has just gone through (PRIMAL_REVERSION_*).
+// By the time the animation plays, the attacker's battle data is already its new form's.
+void AnimTask_GetPrimalReversion(u8 taskId)
+{
+    switch (gBattleMons[gBattleAnimAttacker].species)
+    {
+    case SPECIES_KYOGRE_PRIMAL:
+        gBattleAnimArgs[ARG_RET_ID] = PRIMAL_REVERSION_KYOGRE;
+        break;
+    case SPECIES_GROUDON_PRIMAL:
+        gBattleAnimArgs[ARG_RET_ID] = PRIMAL_REVERSION_GROUDON;
+        break;
+    default:
+        gBattleAnimArgs[ARG_RET_ID] = PRIMAL_REVERSION_NONE;
+        break;
+    }
+    DestroyAnimVisualTask(taskId);
+}
 
 // The middle of the attacker's sprite, wherever it stands right now. The sprite takes the
 // attacker's priority too, which keeps it behind the message box on the player's side.

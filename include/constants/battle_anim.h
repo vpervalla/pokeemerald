@@ -298,6 +298,8 @@
 #define ANIM_TAG_BLUE_RING_2                (ANIM_SPRITES_START + 288)
 #define ANIM_TAG_MEGA_SPHERE                (ANIM_SPRITES_START + 289)
 #define ANIM_TAG_MEGA_SHARDS                (ANIM_SPRITES_START + 290)
+#define ANIM_TAG_PRIMAL_KYOGRE_ROCK         (ANIM_SPRITES_START + 291)
+#define ANIM_TAG_PRIMAL_KYOGRE_SHARDS       (ANIM_SPRITES_START + 292)
 
 // battlers
 #define ANIM_ATTACKER         0
@@ -386,6 +388,11 @@
 #define TRANSFORM_MON_TRANSFORM         0
 #define TRANSFORM_MON_CASTFORM          1
 #define TRANSFORM_MON_MEGA_EVOLUTION    2
+
+// What AnimTask_GetPrimalReversion returns: whose Primal Reversion B_ANIM_MEGA_EVOLUTION is playing for
+#define PRIMAL_REVERSION_NONE           0 // A Mega Evolution
+#define PRIMAL_REVERSION_KYOGRE         1
+#define PRIMAL_REVERSION_GROUDON        2
 
 // special animations table (gBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

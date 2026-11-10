@@ -552,6 +552,12 @@ const u32 gBattleAnimSpriteGfx_MegaSphere[] = INCGFX_U32("graphics/battle_anims/
 const u32 gBattleAnimSpritePal_MegaSphere[] = INCGFX_U32("graphics/battle_anims/sprites/mega_sphere.png", ".gbapal.lz");
 const u32 gBattleAnimSpriteGfx_MegaShards[] = INCGFX_U32("graphics/battle_anims/sprites/mega_shards.png", ".4bpp.lz");
 const u32 gBattleAnimSpritePal_MegaShards[] = INCGFX_U32("graphics/battle_anims/sprites/mega_shards.png", ".gbapal.lz");
+
+// Primal Reversion's animation (drawn by the same tool)
+const u32 gBattleAnimSpriteGfx_PrimalKyogreRock[] = INCGFX_U32("graphics/battle_anims/sprites/primal_kyogre_rock.png", ".4bpp.lz");
+const u32 gBattleAnimSpritePal_PrimalKyogreRock[] = INCGFX_U32("graphics/battle_anims/sprites/primal_kyogre_rock.png", ".gbapal.lz");
+const u32 gBattleAnimSpriteGfx_PrimalKyogreShards[] = INCGFX_U32("graphics/battle_anims/sprites/primal_kyogre_shards.png", ".4bpp.lz");
+const u32 gBattleAnimSpritePal_PrimalKyogreShards[] = INCGFX_U32("graphics/battle_anims/sprites/primal_kyogre_shards.png", ".gbapal.lz");
 const u32 gBattleAnimSpritePal_PurpleRing[] = INCGFX_U32("graphics/battle_anims/sprites/purple_ring.pal", ".gbapal.lz");
 const u32 gBattleAnimSpritePal_BlueRing[] = INCGFX_U32("graphics/battle_anims/sprites/blue_ring.pal", ".gbapal.lz");
 

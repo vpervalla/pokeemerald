@@ -5038,6 +5038,10 @@ extern const u32 gBattleAnimSpriteGfx_MegaSphere[];
 extern const u32 gBattleAnimSpritePal_MegaSphere[];
 extern const u32 gBattleAnimSpriteGfx_MegaShards[];
 extern const u32 gBattleAnimSpritePal_MegaShards[];
+extern const u32 gBattleAnimSpriteGfx_PrimalKyogreRock[];
+extern const u32 gBattleAnimSpritePal_PrimalKyogreRock[];
+extern const u32 gBattleAnimSpriteGfx_PrimalKyogreShards[];
+extern const u32 gBattleAnimSpritePal_PrimalKyogreShards[];
 
 extern const u32 gBattleAnimBgImage_Dark[];
 extern const u32 gBattleAnimBgImage_Ghost[];
