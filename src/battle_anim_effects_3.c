@@ -120,6 +120,10 @@ static void AnimTask_OdorSleuthMovementWaitFinish(u8);
 static void MoveOdorSleuthClone(struct Sprite *);
 static void AnimTask_TeeterDanceMovement_Step(u8);
 static void AnimTask_SlackOffSquish_Step(u8);
+static void AnimMegaSphere(struct Sprite *);
+static void AnimMegaSphere_Step(struct Sprite *);
+static void AnimMegaShard(struct Sprite *);
+static void AnimMegaShard_Step(struct Sprite *);
 
 const union AnimCmd gScratchAnimCmds[] =
 {
@@ -2380,6 +2384,183 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
     HandleMegaEvolutionGfxChange(gBattleAnimAttacker);
     DestroyAnimVisualTask(taskId);
 }
+
+// The Mega Evolution animation (General_MegaEvolution): a purple sphere grows over the
+// attacker until it hides it, yellow cracks spread across it, and it bursts into shards.
+// The script changes the Pokémon's sprite while the sphere hides it, and times its sounds
+// and the burst on the durations below.
+#define MEGA_SPHERE_FRAME(n) ((n) * 64) // 64x64 frames
+
+static const union AnimCmd sAnim_MegaSphere[] =
+{
+    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(0), 50), // Whole: it has grown after 32 frames
+    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(1), 14), // The cracks spread
+    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(2), 14),
+    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(3), 20),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnims_MegaSphere[] =
+{
+    sAnim_MegaSphere,
+};
+
+// From an eighth of its size to one and a half times: 96 pixels across, which covers a
+// whole 64x64 Pokémon sprite, corners included.
+static const union AffineAnimCmd sAffineAnim_MegaSphere[] =
+{
+    AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
+    AFFINEANIMCMD_FRAME(0xB, 0xB, 0, 32),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd *const sAffineAnims_MegaSphere[] =
+{
+    sAffineAnim_MegaSphere,
+};
+
+const struct SpriteTemplate gMegaSphereSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_MEGA_SPHERE,
+    .paletteTag = ANIM_TAG_MEGA_SPHERE,
+    .oam = &gOamData_AffineDouble_ObjNormal_64x64,
+    .anims = sAnims_MegaSphere,
+    .images = NULL,
+    .affineAnims = sAffineAnims_MegaSphere,
+    .callback = AnimMegaSphere,
+};
+
+static const union AnimCmd sAnim_MegaShard0[] =
+{
+    ANIMCMD_FRAME(0, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_MegaShard1[] =
+{
+    ANIMCMD_FRAME(4, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_MegaShard2[] =
+{
+    ANIMCMD_FRAME(8, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_MegaShard3[] =
+{
+    ANIMCMD_FRAME(12, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnims_MegaShard[] =
+{
+    sAnim_MegaShard0,
+    sAnim_MegaShard1,
+    sAnim_MegaShard2,
+    sAnim_MegaShard3,
+};
+
+const struct SpriteTemplate gMegaShardSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_MEGA_SHARDS,
+    .paletteTag = ANIM_TAG_MEGA_SHARDS,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sAnims_MegaShard,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMegaShard,
+};
+
+// The middle of the attacker's sprite, wherever it stands right now. The sprite takes the
+// attacker's priority too, which keeps it behind the message box on the player's side.
+static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
+{
+    struct Sprite *monSprite = &gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)];
+
+    sprite->x = monSprite->x + monSprite->x2;
+    sprite->y = monSprite->y + monSprite->y2;
+    sprite->oam.priority = monSprite->oam.priority;
+}
+
+#define sShakeTimer data[0]
+
+// No args
+static void AnimMegaSphere(struct Sprite *sprite)
+{
+    SetSpritePosToAttackerSprite(sprite);
+    sprite->sShakeTimer = 0;
+    sprite->callback = AnimMegaSphere_Step;
+}
+
+static void AnimMegaSphere_Step(struct Sprite *sprite)
+{
+    // It trembles as it cracks, harder once the cracks have reached its edge
+    if (sprite->animCmdIndex != 0)
+    {
+        s16 shake = (sprite->animCmdIndex >= 3) ? 2 : 1;
+
+        sprite->x2 = (++sprite->sShakeTimer & 2) ? shake : -shake;
+    }
+
+    if (sprite->animEnded)
+        DestroySpriteAndMatrix(sprite);
+}
+
+#undef sShakeTimer
+
+#define sTimer  data[0]
+#define sSpeedX data[1]
+#define sSpeedY data[2]
+#define sPosX   data[3]
+#define sPosY   data[4]
+
+#define MEGA_SHARD_GRAVITY       16
+#define MEGA_SHARD_FLICKER_TIME  8
+
+// A piece of the sphere's shell, thrown from the attacker and falling as it goes. Its
+// speeds are in 1/256ths of a pixel per frame.
+// arg 0: initial x offset from the attacker's sprite
+// arg 1: initial y offset
+// arg 2: x speed
+// arg 3: y speed
+// arg 4: which piece (0-3)
+// arg 5: duration
+static void AnimMegaShard(struct Sprite *sprite)
+{
+    SetSpritePosToAttackerSprite(sprite);
+    sprite->x += gBattleAnimArgs[0];
+    sprite->y += gBattleAnimArgs[1];
+    sprite->sSpeedX = gBattleAnimArgs[2];
+    sprite->sSpeedY = gBattleAnimArgs[3];
+    StartSpriteAnim(sprite, gBattleAnimArgs[4]);
+    sprite->sTimer = gBattleAnimArgs[5];
+    sprite->sPosX = 0;
+    sprite->sPosY = 0;
+    sprite->callback = AnimMegaShard_Step;
+}
+
+static void AnimMegaShard_Step(struct Sprite *sprite)
+{
+    sprite->sPosX += sprite->sSpeedX;
+    sprite->sPosY += sprite->sSpeedY;
+    sprite->sSpeedY += MEGA_SHARD_GRAVITY;
+    sprite->x2 = sprite->sPosX >> 8;
+    sprite->y2 = sprite->sPosY >> 8;
+
+    if (sprite->sTimer <= MEGA_SHARD_FLICKER_TIME)
+        sprite->invisible ^= 1;
+
+    if (--sprite->sTimer <= 0)
+        DestroyAnimSprite(sprite);
+}
+
+#undef sTimer
+#undef sSpeedX
+#undef sSpeedY
+#undef sPosX
+#undef sPosY
 
 void AnimTask_MorningSunLightBeam(u8 taskId)
 {

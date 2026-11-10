@@ -10877,23 +10877,42 @@ General_StrongWinds:
 General_MegaEvolution:
 	createvisualtask AnimTask_IsMonInvisible, 2
 	jumpreteq TRUE, MegaEvolutionSkipAnim
-	loadspritegfx ANIM_TAG_SPARKLE_2
+	loadspritegfx ANIM_TAG_MEGA_SPHERE
+	loadspritegfx ANIM_TAG_MEGA_SHARDS
 	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
 	waitforvisualfinish
-	playsewithpan SE_M_MEGA_KICK, SOUND_PAN_ATTACKER
-	call GrantingStarsEffect
-	call GrantingStarsEffect
-	waitforvisualfinish
-	monbg ANIM_ATTACKER
+	@ A purple sphere grows over the Pokémon: it has hidden it after 32 frames
 	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
-	waitplaysewithpan SE_M_MINIMIZE, SOUND_PAN_ATTACKER, 48
-	createvisualtask AnimTask_TransformMon, 2, TRANSFORM_MON_MEGA_EVOLUTION
+	createsprite gMegaSphereSpriteTemplate, ANIM_ATTACKER, 2
+	delay 40
+	@ Out of sight inside it, the Pokémon becomes its Mega Evolution
+	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
+	delay 10
+	@ Yellow cracks spread across the sphere, in three steps (sAnim_MegaSphere)
+	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
+	delay 14
+	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
 	waitforvisualfinish
-	clearmonbg ANIM_ATTACKER
-	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
-	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=10, target_blend_y=0, color=RGB_BLACK
+	@ It bursts: its shards fly off, and the Mega Evolution stands in a flash of light
+	playsewithpan SE_M_EXPLOSION, SOUND_PAN_ATTACKER
+	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 10, 17, 0x160, 0x200, 2, 20
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 0, 20, 0x30, 0x240, 3, 20
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, -10, 17, -0x160, 0x200, 0, 20
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, -17, 10, -0x260, 0x120, 1, 22
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, -20, 0, -0x2C0, -0x40, 2, 24
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, -17, -10, -0x260, -0x1C0, 3, 26
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, -10, -17, -0x160, -0x2C0, 0, 28
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 0, -20, -0x30, -0x320, 1, 28
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 10, -17, 0x160, -0x2C0, 2, 28
+	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 17, -10, 0x260, -0x1C0, 3, 26
 	waitforvisualfinish
-	unloadspritegfx ANIM_TAG_SPARKLE_2
+	unloadspritegfx ANIM_TAG_MEGA_SPHERE
+	unloadspritegfx ANIM_TAG_MEGA_SHARDS
 	end
 MegaEvolutionSkipAnim:
 	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
