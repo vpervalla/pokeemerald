@@ -231,8 +231,8 @@ What exists now:
   them (`graphics/battle_anims/sprites/mega_sphere.png`, `mega_shards.png`).
 - Primal Reversion plays the same animation with a shell of its own
   (`AnimTask_GetPrimalReversion` tells the script whose). KYOGRE's is a glowing blue rock
-  with cyan cracks (`primal_kyogre_rock.png`, `primal_kyogre_shards.png`). GROUDON's is
-  still the purple sphere.
+  with cyan cracks (`primal_kyogre_rock.png`, `primal_kyogre_shards.png`), GROUDON's a
+  glowing red rock with orange cracks (`primal_groudon_rock.png`, `primal_groudon_shards.png`).
 - Sprite reloads (the bag, the party menu, a substitute fading) keep the Mega sprite.
 
 Tested in mGBA with a throwaway boot-to-battle hook:

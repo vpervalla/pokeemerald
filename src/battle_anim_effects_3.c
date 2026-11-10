@@ -2475,9 +2475,10 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
     .callback = AnimMegaShard,
 };
 
-// Primal Reversion plays the same animation with a shell of its own. KYOGRE's is a glowing
-// blue rock with cyan cracks: it is rougher than the sphere, so it grows to 1.75 times its
-// size (112 pixels across) to cover the Pokémon's whole sprite.
+// Primal Reversion plays the same animation with a shell of its own: a glowing rock, blue
+// with cyan cracks for KYOGRE, red with orange cracks for GROUDON. It is rougher than the
+// sphere, so it grows to 1.75 times its size (112 pixels across) to cover the Pokémon's
+// whole sprite.
 static const union AffineAnimCmd sAffineAnim_PrimalRock[] =
 {
     AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
@@ -2505,6 +2506,28 @@ const struct SpriteTemplate gPrimalKyogreShardSpriteTemplate =
 {
     .tileTag = ANIM_TAG_PRIMAL_KYOGRE_SHARDS,
     .paletteTag = ANIM_TAG_PRIMAL_KYOGRE_SHARDS,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sAnims_MegaShard,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMegaShard,
+};
+
+const struct SpriteTemplate gPrimalGroudonRockSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PRIMAL_GROUDON_ROCK,
+    .paletteTag = ANIM_TAG_PRIMAL_GROUDON_ROCK,
+    .oam = &gOamData_AffineDouble_ObjNormal_64x64,
+    .anims = sAnims_MegaSphere,
+    .images = NULL,
+    .affineAnims = sAffineAnims_PrimalRock,
+    .callback = AnimMegaSphere,
+};
+
+const struct SpriteTemplate gPrimalGroudonShardSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_PRIMAL_GROUDON_SHARDS,
+    .paletteTag = ANIM_TAG_PRIMAL_GROUDON_SHARDS,
     .oam = &gOamData_AffineOff_ObjNormal_16x16,
     .anims = sAnims_MegaShard,
     .images = NULL,

@@ -5042,6 +5042,10 @@ extern const u32 gBattleAnimSpriteGfx_PrimalKyogreRock[];
 extern const u32 gBattleAnimSpritePal_PrimalKyogreRock[];
 extern const u32 gBattleAnimSpriteGfx_PrimalKyogreShards[];
 extern const u32 gBattleAnimSpritePal_PrimalKyogreShards[];
+extern const u32 gBattleAnimSpriteGfx_PrimalGroudonRock[];
+extern const u32 gBattleAnimSpritePal_PrimalGroudonRock[];
+extern const u32 gBattleAnimSpriteGfx_PrimalGroudonShards[];
+extern const u32 gBattleAnimSpritePal_PrimalGroudonShards[];
 
 extern const u32 gBattleAnimBgImage_Dark[];
 extern const u32 gBattleAnimBgImage_Ghost[];

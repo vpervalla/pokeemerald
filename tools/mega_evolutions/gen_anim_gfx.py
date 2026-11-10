@@ -10,6 +10,9 @@ and Primal Reversion's, which have the same layout and the same palette indices:
   graphics/battle_anims/sprites/primal_kyogre_rock.png    64x256: the blue rock around KYOGRE,
                                                           whole and as its cyan cracks spread
   graphics/battle_anims/sprites/primal_kyogre_shards.png  16x64: four pieces of it
+  graphics/battle_anims/sprites/primal_groudon_rock.png   64x256: the red rock around GROUDON,
+                                                          with orange cracks
+  graphics/battle_anims/sprites/primal_groudon_shards.png 16x64: four pieces of it
 
 Run from the repository's root: python3 tools/mega_evolutions/gen_anim_gfx.py
 """
@@ -55,6 +58,25 @@ PALETTE_KYOGRE = [
     (0, 176, 208),    # 11 crack
     (64, 240, 248),   # 12 crack
     (208, 255, 255),  # 13 crack core
+    (248, 248, 248),  # 14 white
+    (0, 0, 0),        # 15 unused
+]
+# GROUDON's rock: deep reds, with orange cracks
+PALETTE_GROUDON = [
+    (0, 168, 144),    # 0 transparent
+    (56, 8, 8),       # 1 outline
+    (96, 16, 16),     # 2 reds, dark to light
+    (128, 24, 16),    # 3
+    (160, 32, 24),    # 4
+    (192, 48, 32),    # 5
+    (216, 72, 40),    # 6
+    (232, 104, 56),   # 7
+    (248, 144, 80),   # 8
+    (248, 208, 152),  # 9 glowing rim
+    (120, 40, 0),     # 10 crack edge
+    (232, 112, 0),    # 11 crack
+    (248, 168, 16),   # 12 crack
+    (248, 232, 120),  # 13 crack core
     (248, 248, 248),  # 14 white
     (0, 0, 0),        # 15 unused
 ]
@@ -354,6 +376,21 @@ def main():
         draw_shard([(6, 1), (14, 9), (9, 14), (2, 12)], lambda x, y: x < 7),
         draw_shard([(2, 6), (8, 2), (13, 7), (10, 13), (4, 12)], lambda x, y: y < 6),
     ], 16, PALETTE_KYOGRE)
+
+    rock = draw_rock(random.Random(0x47524F55))
+    cracks = make_spread_cracks(0x47524F55)
+    save("primal_groudon_rock", [
+        rock,
+        draw_cracks(rock, cracks, 0.35, False),
+        draw_cracks(rock, cracks, 0.70, False),
+        draw_cracks(rock, cracks, 1.00, True),
+    ], SIZE, PALETTE_GROUDON)
+    save("primal_groudon_shards", [
+        draw_shard([(2, 2), (11, 1), (14, 8), (9, 14), (3, 11)], lambda x, y: y > x + 1),
+        draw_shard([(6, 1), (14, 5), (12, 13), (4, 14), (1, 7)], lambda x, y: x + y > 18),
+        draw_shard([(8, 1), (14, 10), (7, 14), (2, 9)], lambda x, y: x < 6),
+        draw_shard([(1, 5), (7, 2), (14, 6), (11, 13), (5, 13)], lambda x, y: y < 6),
+    ], 16, PALETTE_GROUDON)
 
 
 if __name__ == "__main__":

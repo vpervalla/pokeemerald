@@ -10879,11 +10879,16 @@ General_MegaEvolution:
 	jumpreteq TRUE, MegaEvolutionSkipAnim
 	createvisualtask AnimTask_GetPrimalReversion, 2
 	jumpreteq PRIMAL_REVERSION_KYOGRE, PrimalReversionKyogre
+	jumpreteq PRIMAL_REVERSION_GROUDON, PrimalReversionGroudon
 	mega_evolution_shell ANIM_TAG_MEGA_SPHERE, ANIM_TAG_MEGA_SHARDS, gMegaSphereSpriteTemplate, gMegaShardSpriteTemplate
 	end
 @ A glowing blue rock, with cyan cracks
 PrimalReversionKyogre:
 	mega_evolution_shell ANIM_TAG_PRIMAL_KYOGRE_ROCK, ANIM_TAG_PRIMAL_KYOGRE_SHARDS, gPrimalKyogreRockSpriteTemplate, gPrimalKyogreShardSpriteTemplate, glow_color=RGB(18, 31, 31)
+	end
+@ A glowing red rock, with orange cracks
+PrimalReversionGroudon:
+	mega_evolution_shell ANIM_TAG_PRIMAL_GROUDON_ROCK, ANIM_TAG_PRIMAL_GROUDON_SHARDS, gPrimalGroudonRockSpriteTemplate, gPrimalGroudonShardSpriteTemplate, glow_color=RGB(31, 26, 12)
 	end
 MegaEvolutionSkipAnim:
 	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
