@@ -2,6 +2,7 @@
 #include "malloc.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_interface.h"
 #include "bg.h"
 #include "contest.h"
 #include "data.h"
@@ -2475,6 +2476,8 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
 
 // The middle of the attacker's sprite, wherever it stands right now. The sprite takes the
 // attacker's priority too, which keeps it behind the message box on the player's side.
+// There, it also goes in front of the foes' healthboxes, which the sphere reaches
+// (AnimTask_MegaEvolutionSetFoeHealthboxes has put them behind).
 static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
 {
     struct Sprite *monSprite = &gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)];
@@ -2482,6 +2485,28 @@ static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
     sprite->x = monSprite->x + monSprite->x2;
     sprite->y = monSprite->y + monSprite->y2;
     sprite->oam.priority = monSprite->oam.priority;
+    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
+        sprite->subpriority = HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 1;
+}
+
+// For a Mega Evolution on the player's side: puts the foes' healthboxes behind the sphere
+// and its shards, or back in front once they are gone. The player's own healthboxes stay
+// in front of the sphere.
+// arg 0: TRUE to put them behind, FALSE to put them back
+void AnimTask_MegaEvolutionSetFoeHealthboxes(u8 taskId)
+{
+    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
+    {
+        u8 battler;
+        u8 monPriority = gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)].oam.priority;
+
+        for (battler = 0; battler < gBattlersCount; battler++)
+        {
+            if (GetBattlerSide(battler) != B_SIDE_PLAYER)
+                SetHealthboxBehindAnimSprites(battler, gBattleAnimArgs[0], monPriority);
+        }
+    }
+    DestroyAnimVisualTask(taskId);
 }
 
 #define sShakeTimer data[0]

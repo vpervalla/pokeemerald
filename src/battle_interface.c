@@ -1069,6 +1069,25 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority)
     }
 }
 
+// Puts battler's healthbox behind the battle animation sprites that take a Pokémon's
+// priority (monPriority) and stand in front of every Pokémon, or back where it belongs.
+// Its own Pokémon stays behind it either way.
+void SetHealthboxBehindAnimSprites(u8 battler, bool8 behind, u8 monPriority)
+{
+    u8 healthboxLeftSpriteId = gHealthboxSpriteIds[battler];
+    u8 healthboxRightSpriteId = gSprites[healthboxLeftSpriteId].oam.affineParam;
+    u8 healthbarSpriteId = gSprites[healthboxLeftSpriteId].hMain_HealthBarSpriteId;
+    u8 priority = behind ? monPriority : 1;
+    u8 subpriority = behind ? HEALTHBOX_BEHIND_ANIM_SUBPRIORITY : 0;
+
+    gSprites[healthboxLeftSpriteId].oam.priority = priority;
+    gSprites[healthboxRightSpriteId].oam.priority = priority;
+    gSprites[healthbarSpriteId].oam.priority = priority;
+    gSprites[healthboxLeftSpriteId].subpriority = subpriority + 1;
+    gSprites[healthboxRightSpriteId].subpriority = subpriority + 1;
+    gSprites[healthbarSpriteId].subpriority = subpriority;
+}
+
 void InitBattlerHealthboxCoords(u8 battler)
 {
     s16 x = 0, y = 0;

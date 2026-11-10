@@ -10881,7 +10881,9 @@ General_MegaEvolution:
 	loadspritegfx ANIM_TAG_MEGA_SHARDS
 	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
 	waitforvisualfinish
-	@ A purple sphere grows over the Pokémon: it has hidden it after 32 frames
+	@ A purple sphere grows over the Pokémon: it has hidden it after 32 frames. The player's
+	@ reaches the foe's healthbox, and passes in front of it
+	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, TRUE
 	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
 	createsprite gMegaSphereSpriteTemplate, ANIM_ATTACKER, 2
 	delay 40
@@ -10911,6 +10913,7 @@ General_MegaEvolution:
 	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 10, -17, 0x160, -0x2C0, 2, 28
 	createsprite gMegaShardSpriteTemplate, ANIM_ATTACKER, 2, 17, -10, 0x260, -0x1C0, 3, 26
 	waitforvisualfinish
+	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, FALSE
 	unloadspritegfx ANIM_TAG_MEGA_SPHERE
 	unloadspritegfx ANIM_TAG_MEGA_SHARDS
 	end
