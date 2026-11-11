@@ -634,15 +634,23 @@
 	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
 	delay 14
 	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
-	.else
-	delay 20
-	@ Its faces part, and let the Pokémon show between them
-	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
-	.endif
 	waitforvisualfinish
-	@ It is gone: its pieces fly off, and the new form stands in a flash of light
+	@ It shatters: its pieces fly off, and the new form stands in a flash of light
 	playsewithpan \burst_se, SOUND_PAN_ATTACKER
 	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
+	.else
+	@ (Each delay and each new sprite or task costs the script a frame more than the
+	@ shell's own count: the delays below are that much shorter.)
+	delay 17
+	@ Its faces part in a flash of light, and let the Pokémon show between them. The flash
+	@ outlasts the shell, so the script counts the 16 frames the faces take to part
+	@ instead of waiting
+	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
+	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
+	delay 12
+	@ It is gone: its faces fly off, and the light fades around the new form
+	playsewithpan \burst_se, SOUND_PAN_ATTACKER
+	.endif
 	createsprite \shard_template, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
 	createsprite \shard_template, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22
 	createsprite \shard_template, ANIM_ATTACKER, 2, 10, 17, 0x160, 0x200, 2, 20
