@@ -2397,9 +2397,10 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
 // apart. The script times its sounds and the burst on the durations below.
 #define MEGA_SHELL_FRAME(n) ((n) * 64) // 64x64 frames
 
-// The shell's subpriority on the player's side, where it stands in front of the foes'
-// healthboxes. It leaves one under it for the lights that pass in front of the shell.
-#define MEGA_SHELL_PLAYER_SUBPRIORITY (HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 2)
+// The shell's subpriority: in front of every Pokémon (its partner's included) and, on the
+// player's side, of the foes' healthboxes. It leaves one under it for the lights that pass
+// in front of the shell.
+#define MEGA_SHELL_SUBPRIORITY (HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 2)
 
 // A Mega Evolution's shell is a golden rhombic triacontahedron. Its faces come in from all
 // around the Pokémon and close over it, and draw apart again as it goes: the script then
@@ -2452,16 +2453,22 @@ const struct SpriteTemplate gMegaPolyhedronSpriteTemplate =
     .callback = AnimMegaPolyhedron,
 };
 
-// A Primal Reversion's shell is a rock: cracks spread across it, and it trembles more with
-// each one, before it shatters.
+// A Primal Reversion's shell is a rock. Its pieces close in on the Pokémon like the
+// polyhedron's faces; then cracks spread across it, and it trembles more with each one,
+// before it shatters.
 static const union AnimCmd sAnim_PrimalRock[] =
 {
-    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 50), // Whole: it has grown after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(5), 16), // Its pieces close in: they have met after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(4), 16),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 18), // Whole (PRIMAL_ROCK_CMD_WHOLE)
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 14), // The cracks spread
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 14),
-    ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 20),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 20), // They have reached its edge (PRIMAL_ROCK_CMD_LAST_CRACKS)
     ANIMCMD_END,
 };
+
+#define PRIMAL_ROCK_CMD_WHOLE       2
+#define PRIMAL_ROCK_CMD_LAST_CRACKS 5
 
 static const union AnimCmd *const sAnims_PrimalRock[] =
 {
@@ -2511,12 +2518,14 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
     .callback = AnimMegaShard,
 };
 
-// The rocks: blue with cyan cracks for KYOGRE, red with orange cracks for GROUDON. They
-// grow to 1.3 times their size (84 pixels across), like the polyhedron.
+// The rocks: blue with cyan cracks for KYOGRE, red with orange cracks for GROUDON. Their
+// pieces start twice as far apart as they are drawn and close in to 1.3 times the rock's
+// size (84 pixels across), like the polyhedron's faces.
 static const union AffineAnimCmd sAffineAnim_PrimalRock[] =
 {
-    AFFINEANIMCMD_FRAME(0x30, 0x30, 0, 0),
-    AFFINEANIMCMD_FRAME(0x9, 0x9, 0, 32),
+    AFFINEANIMCMD_FRAME(0x200, 0x200, 0, 0),
+    AFFINEANIMCMD_FRAME(-0x6, -0x6, 0, 16),
+    AFFINEANIMCMD_FRAME(-0x5, -0x5, 0, 16),
     AFFINEANIMCMD_END,
 };
 
@@ -2589,9 +2598,10 @@ void AnimTask_GetPrimalReversion(u8 taskId)
 }
 
 // The middle of the attacker's sprite, wherever it stands right now. The sprite takes the
-// attacker's priority too, which keeps it behind the message box on the player's side.
-// There, it also goes in front of the foes' healthboxes, which the shell reaches
-// (AnimTask_MegaEvolutionSetFoeHealthboxes has put them behind).
+// attacker's priority too, which keeps it behind the message box on the player's side,
+// and goes in front of every Pokémon. On the player's side, that is in front of the foes'
+// healthboxes too, which the shell reaches (AnimTask_MegaEvolutionSetFoeHealthboxes has put
+// them behind).
 static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
 {
     struct Sprite *monSprite = &gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)];
@@ -2599,8 +2609,7 @@ static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
     sprite->x = monSprite->x + monSprite->x2;
     sprite->y = monSprite->y + monSprite->y2;
     sprite->oam.priority = monSprite->oam.priority;
-    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
-        sprite->subpriority = MEGA_SHELL_PLAYER_SUBPRIORITY;
+    sprite->subpriority = MEGA_SHELL_SUBPRIORITY;
 }
 
 // For a Mega Evolution on the player's side: puts the foes' healthboxes behind the shell
@@ -2663,12 +2672,18 @@ static void AnimPrimalRock(struct Sprite *sprite)
     sprite->callback = AnimPrimalRock_Step;
 }
 
+// The Pokémon is hidden from the moment the rock has closed over it, and is back (in its
+// new form) the moment the rock shatters.
 static void AnimPrimalRock_Step(struct Sprite *sprite)
 {
+    struct Sprite *monSprite = &gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)];
+
+    monSprite->invisible = (sprite->animCmdIndex >= PRIMAL_ROCK_CMD_WHOLE && !sprite->animEnded);
+
     // It trembles as it cracks, harder once the cracks have reached its edge
-    if (sprite->animCmdIndex != 0)
+    if (sprite->animCmdIndex > PRIMAL_ROCK_CMD_WHOLE)
     {
-        s16 shake = (sprite->animCmdIndex >= 3) ? 2 : 1;
+        s16 shake = (sprite->animCmdIndex >= PRIMAL_ROCK_CMD_LAST_CRACKS) ? 2 : 1;
 
         sprite->x2 = (++sprite->sShakeTimer & 2) ? shake : -shake;
     }
@@ -2769,26 +2784,15 @@ static const struct SpriteTemplate sMegaSpiralLightSpriteTemplate =
 
 #define tTimer            data[0]
 #define tActiveLights     data[1]
-#define tShellSubpriority data[2]
 
 #define sTaskId           data[0]
 #define sAngle            data[1]
 #define sTimer            data[2]
-#define sShellSubpriority data[3]
 
 // No args. Ends once its last light has reached the top.
 void AnimTask_MegaEvolutionLightSpiral(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-
-    if (tTimer == 0)
-    {
-        // What the script's createsprite gives the shell (SetSpritePosToAttackerSprite)
-        if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
-            tShellSubpriority = MEGA_SHELL_PLAYER_SUBPRIORITY;
-        else
-            tShellSubpriority = GetBattlerSpriteSubpriority(gBattleAnimAttacker) - 2;
-    }
 
     if (tTimer < MEGA_SPIRAL_EMIT_TIME && tTimer % MEGA_SPIRAL_EMIT_INTERVAL == 0)
     {
@@ -2796,7 +2800,7 @@ void AnimTask_MegaEvolutionLightSpiral(u8 taskId)
 
         for (strand = 0; strand < 2; strand++)
         {
-            u8 spriteId = CreateSprite(&sMegaSpiralLightSpriteTemplate, 0, 0, tShellSubpriority);
+            u8 spriteId = CreateSprite(&sMegaSpiralLightSpriteTemplate, 0, 0, MEGA_SHELL_SUBPRIORITY);
 
             if (spriteId != MAX_SPRITES)
             {
@@ -2806,7 +2810,6 @@ void AnimTask_MegaEvolutionLightSpiral(u8 taskId)
                 sprite->sTaskId = taskId;
                 sprite->sAngle = strand * 128;
                 sprite->sTimer = 0;
-                sprite->sShellSubpriority = tShellSubpriority;
                 sprite->callback(sprite);
                 tActiveLights++;
             }
@@ -2832,9 +2835,9 @@ static void SpriteCB_MegaSpiralLight(struct Sprite *sprite)
                + Cos(sprite->sAngle, MEGA_SPIRAL_TILT);
     // The near half of its circle passes in front of the shell, the far half behind it
     if (Cos(sprite->sAngle, 16) >= 0)
-        sprite->subpriority = sprite->sShellSubpriority - 1;
+        sprite->subpriority = MEGA_SHELL_SUBPRIORITY - 1;
     else
-        sprite->subpriority = sprite->sShellSubpriority + 1;
+        sprite->subpriority = MEGA_SHELL_SUBPRIORITY + 1;
 
     sprite->sAngle = (sprite->sAngle + MEGA_SPIRAL_TURN_SPEED) & 0xFF;
     sprite->sTimer++;
@@ -2842,11 +2845,9 @@ static void SpriteCB_MegaSpiralLight(struct Sprite *sprite)
 
 #undef tTimer
 #undef tActiveLights
-#undef tShellSubpriority
 #undef sTaskId
 #undef sAngle
 #undef sTimer
-#undef sShellSubpriority
 
 void AnimTask_MorningSunLightBeam(u8 taskId)
 {

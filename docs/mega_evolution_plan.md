@@ -232,11 +232,12 @@ What exists now:
   (`asm/macros/battle_anim_script.inc`), which takes the shell's and the pieces' sprites.
   `tools/mega_evolutions/gen_anim_gfx.py` renders the polyhedron and draws the rest
   (`graphics/battle_anims/sprites/mega_polyhedron.png`, `mega_shards.png`, `mega_light.png`).
-  The shells are 84 pixels across. The Pokémon's sprite is hidden while the polyhedron is
-  closed over it; past a Primal rock, the corners of the largest sprites show.
+  The shells are 84 pixels across. The Pokémon's sprite is hidden while the shell is closed
+  over it.
 - Primal Reversion plays the same sequence with a rock for a shell
-  (`AnimTask_GetPrimalReversion` tells the script whose), which cracks in three steps and
-  shatters instead. KYOGRE's is a glowing blue rock with cyan cracks
+  (`AnimTask_GetPrimalReversion` tells the script whose): its pieces close in the same
+  way, but it then cracks in three steps and shatters, which is when the Pokémon shows
+  again. KYOGRE's is a glowing blue rock with cyan cracks
   (`primal_kyogre_rock.png`, `primal_kyogre_shards.png`), GROUDON's a glowing red rock
   with orange cracks (`primal_groudon_rock.png`, `primal_groudon_shards.png`).
 - Sprite reloads (the bag, the party menu, a substitute fading) keep the Mega sprite.

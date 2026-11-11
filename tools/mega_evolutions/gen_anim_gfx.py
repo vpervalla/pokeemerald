@@ -9,10 +9,11 @@
 
 and Primal Reversion's, which have the same layout and the same palette indices:
 
-  graphics/battle_anims/sprites/primal_kyogre_rock.png    64x256: the blue rock around KYOGRE,
-                                                          whole and as its cyan cracks spread
+  graphics/battle_anims/sprites/primal_kyogre_rock.png    64x384: the blue rock around KYOGRE,
+                                                          whole, as its cyan cracks spread,
+                                                          and in pieces (twice) for it to form
   graphics/battle_anims/sprites/primal_kyogre_shards.png  16x64: four pieces of it
-  graphics/battle_anims/sprites/primal_groudon_rock.png   64x256: the red rock around GROUDON,
+  graphics/battle_anims/sprites/primal_groudon_rock.png   64x384: the red rock around GROUDON,
                                                           with orange cracks
   graphics/battle_anims/sprites/primal_groudon_shards.png 16x64: four pieces of it
 
@@ -297,6 +298,38 @@ def draw_rock(rng):
             p = (x + dx, y + dy)
             if at(*p) >= 0 and p not in edge:
                 px[p[1]][p[0]] = HIGHLIGHT
+    return px, facet, shades
+
+
+def draw_rock_apart(facet, shades, shrink, spread):
+    """The rock's facets as loose pieces: each shrunk towards its own middle by `shrink`
+    and pushed `spread` times further from the rock's."""
+    centre = (SIZE - 1) / 2
+    owner = [[-1] * SIZE for _ in range(SIZE)]
+    for f in range(len(shades)):
+        cells = [(x, y) for y in range(SIZE) for x in range(SIZE) if facet[y][x] == f]
+        if not cells:
+            continue
+        mx = sum(x for x, y in cells) / len(cells)
+        my = sum(y for x, y in cells) / len(cells)
+        nx, ny = centre + (mx - centre) * spread, centre + (my - centre) * spread
+        for y in range(SIZE):
+            for x in range(SIZE):
+                sx, sy = int(round(mx + (x - nx) / shrink)), int(round(my + (y - ny) / shrink))
+                if 0 <= sx < SIZE and 0 <= sy < SIZE and facet[sy][sx] == f:
+                    owner[y][x] = f
+
+    def at(x, y):
+        return owner[y][x] if 0 <= x < SIZE and 0 <= y < SIZE else -1
+
+    px = [[0] * SIZE for _ in range(SIZE)]
+    for y in range(SIZE):
+        for x in range(SIZE):
+            f = owner[y][x]
+            if f < 0:
+                continue
+            loose = any(at(x + dx, y + dy) != f for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+            px[y][x] = OUTLINE if loose else shades[f]
     return px
 
 
@@ -466,13 +499,15 @@ def main():
 
     save("mega_light", [draw_light(4.2), draw_light(3.0), draw_light(1.8)], 16)
 
-    rock = draw_rock(random.Random(0x4B594F47))
+    rock, facet, shades = draw_rock(random.Random(0x4B594F47))
     cracks = make_spread_cracks(0x4B594F47)
     save("primal_kyogre_rock", [
         rock,
         draw_cracks(rock, cracks, 0.35, False),
         draw_cracks(rock, cracks, 0.70, False),
         draw_cracks(rock, cracks, 1.00, True),
+        draw_rock_apart(facet, shades, 0.80, 1.02),
+        draw_rock_apart(facet, shades, 0.58, 1.10),
     ], SIZE, PALETTE_KYOGRE)
     save("primal_kyogre_shards", [
         draw_shard([(1, 4), (9, 1), (14, 6), (12, 13), (4, 14)], lambda x, y: y > x + 2),
@@ -481,13 +516,15 @@ def main():
         draw_shard([(2, 6), (8, 2), (13, 7), (10, 13), (4, 12)], lambda x, y: y < 6),
     ], 16, PALETTE_KYOGRE)
 
-    rock = draw_rock(random.Random(0x47524F55))
+    rock, facet, shades = draw_rock(random.Random(0x47524F55))
     cracks = make_spread_cracks(0x47524F55)
     save("primal_groudon_rock", [
         rock,
         draw_cracks(rock, cracks, 0.35, False),
         draw_cracks(rock, cracks, 0.70, False),
         draw_cracks(rock, cracks, 1.00, True),
+        draw_rock_apart(facet, shades, 0.80, 1.02),
+        draw_rock_apart(facet, shades, 0.58, 1.10),
     ], SIZE, PALETTE_GROUDON)
     save("primal_groudon_shards", [
         draw_shard([(2, 2), (11, 1), (14, 8), (9, 14), (3, 11)], lambda x, y: y > x + 1),
