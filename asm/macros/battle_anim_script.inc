@@ -602,9 +602,13 @@
 	@ cracks: TRUE for a Primal Reversion's rock, which cracks in three steps before it
 	@   shatters (the delays follow sAnim_PrimalRock); FALSE for the Mega Evolution's
 	@   polyhedron, whose faces part instead (sAnim_MegaPolyhedron).
-	@ spiral: TRUE for a spiral of lights to rise around the shell as it grows.
-	@ glow_color makes the shell pulse with that color as it grows.
-	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, spiral:req, burst_se:req, glow_color
+	@ spiral: TRUE for a spiral of lights to rise around the shell as it forms.
+	@ form_se plays as the shell's pieces come in, close_se as they meet, and burst_se
+	@   (with burst_se2 over it, if given) as they fly off, along with the Pokémon's cry.
+	@ glow_color makes the shell pulse with that color as it forms.
+	@ (Each delay and each new sprite costs the script a frame more than the shell's own
+	@ count: the delays below are that much shorter than sAnim_*'s durations.)
+	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, spiral:req, form_se:req, close_se:req, burst_se:req, burst_se2, glow_color
 	loadspritegfx \shell_tag
 	loadspritegfx \shards_tag
 	.if \spiral
@@ -615,7 +619,7 @@
 	@ The shell forms over the Pokémon: it has hidden it after 32 frames. The player's
 	@ reaches the foe's healthbox, and passes in front of it
 	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, TRUE
-	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
+	playsewithpan \form_se, SOUND_PAN_ATTACKER
 	createsprite \shell_template, ANIM_ATTACKER, 2
 	.if \spiral
 	createvisualtask AnimTask_MegaEvolutionLightSpiral, 2
@@ -623,24 +627,24 @@
 	.ifnb \glow_color
 	blend_color_cyclebytag tag=\shell_tag, delay=2, num_blends=3, initial_blend_y=0, target_blend_y=7, color=\glow_color
 	.endif
-	delay 40
+	delay 30
+	@ Its pieces meet
+	playsewithpan \close_se, SOUND_PAN_ATTACKER
+	delay 8
 	@ Out of sight inside it, the Pokémon takes its new form
 	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
 	.if \cracks
-	delay 10
+	delay 7
 	@ Cracks spread across the shell, in three steps
 	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
-	delay 14
+	delay 13
 	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
-	delay 14
+	delay 13
 	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
 	waitforvisualfinish
 	@ It shatters: its pieces fly off, and the new form stands in a flash of light
-	playsewithpan \burst_se, SOUND_PAN_ATTACKER
 	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
 	.else
-	@ (Each delay and each new sprite or task costs the script a frame more than the
-	@ shell's own count: the delays below are that much shorter.)
 	delay 17
 	@ Its faces part in a flash of light, and let the Pokémon show between them. The flash
 	@ outlasts the shell, so the script counts the 16 frames the faces take to part
@@ -649,8 +653,12 @@
 	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
 	delay 12
 	@ It is gone: its faces fly off, and the light fades around the new form
-	playsewithpan \burst_se, SOUND_PAN_ATTACKER
 	.endif
+	playsewithpan \burst_se, SOUND_PAN_ATTACKER
+	.ifnb \burst_se2
+	playsewithpan \burst_se2, SOUND_PAN_ATTACKER
+	.endif
+	createvisualtask AnimTask_MegaEvolutionCry, 2
 	createsprite \shard_template, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
 	createsprite \shard_template, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22
 	createsprite \shard_template, ANIM_ATTACKER, 2, 10, 17, 0x160, 0x200, 2, 20

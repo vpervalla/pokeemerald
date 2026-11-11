@@ -22,6 +22,7 @@
 #include "constants/battle_anim.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/sound.h"
 #include "constants/species.h"
 #include "constants/weather.h"
 
@@ -2594,6 +2595,18 @@ void AnimTask_GetPrimalReversion(u8 taskId)
         gBattleAnimArgs[ARG_RET_ID] = PRIMAL_REVERSION_NONE;
         break;
     }
+    DestroyAnimVisualTask(taskId);
+}
+
+// The attacker's cry, as it shows again in its new form. Mega Evolutions and primal forms
+// have their base species' cry, which is the species of the party Pokémon.
+void AnimTask_MegaEvolutionCry(u8 taskId)
+{
+    struct Pokemon *party = (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER) ? gPlayerParty : gEnemyParty;
+    u16 species = GetMonData(&party[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
+
+    if (species != SPECIES_NONE)
+        PlayCry_ByMode(species, BattleAnimAdjustPanning(SOUND_PAN_ATTACKER), CRY_MODE_NORMAL);
     DestroyAnimVisualTask(taskId);
 }
 
