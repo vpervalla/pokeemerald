@@ -562,6 +562,8 @@ const u32 gBattleAnimSpriteGfx_PrimalGroudonRock[] = INCGFX_U32("graphics/battle
 const u32 gBattleAnimSpritePal_PrimalGroudonRock[] = INCGFX_U32("graphics/battle_anims/sprites/primal_groudon_rock.png", ".gbapal.lz");
 const u32 gBattleAnimSpriteGfx_PrimalGroudonShards[] = INCGFX_U32("graphics/battle_anims/sprites/primal_groudon_shards.png", ".4bpp.lz");
 const u32 gBattleAnimSpritePal_PrimalGroudonShards[] = INCGFX_U32("graphics/battle_anims/sprites/primal_groudon_shards.png", ".gbapal.lz");
+const u32 gBattleAnimSpriteGfx_MegaLight[] = INCGFX_U32("graphics/battle_anims/sprites/mega_light.png", ".4bpp.lz");
+const u32 gBattleAnimSpritePal_MegaLight[] = INCGFX_U32("graphics/battle_anims/sprites/mega_light.png", ".gbapal.lz");
 const u32 gBattleAnimSpritePal_PurpleRing[] = INCGFX_U32("graphics/battle_anims/sprites/purple_ring.pal", ".gbapal.lz");
 const u32 gBattleAnimSpritePal_BlueRing[] = INCGFX_U32("graphics/battle_anims/sprites/blue_ring.pal", ".gbapal.lz");
 

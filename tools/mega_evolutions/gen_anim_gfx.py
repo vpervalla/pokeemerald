@@ -4,6 +4,8 @@
   graphics/battle_anims/sprites/mega_polyhedron.png  64x256: the golden rhombic triacontahedron,
                                                      whole and as its faces come apart
   graphics/battle_anims/sprites/mega_shards.png      16x64: four of its faces
+  graphics/battle_anims/sprites/mega_light.png       16x48: a light of the spiral that rises
+                                                     around it, at three sizes
 
 and Primal Reversion's, which have the same layout and the same palette indices:
 
@@ -205,17 +207,30 @@ def draw_polyhedron(faces, shrink, spread):
     return px
 
 
-def silhouette_radius(px):
-    """How far from the middle the nearest transparent pixel is."""
-    centre = (SIZE - 1) / 2
-    return min(math.hypot(x - centre, y - centre) for y in range(-1, SIZE + 1) for x in range(-1, SIZE + 1)
-               if not (0 <= x < SIZE and 0 <= y < SIZE) or px[y][x] == 0)
+def draw_light(radius):
+    """A glowing light: white at its heart, gold at its rim, with four short rays."""
+    px = [[0] * 16 for _ in range(16)]
+    centre = 7.5
+    for y in range(16):
+        for x in range(16):
+            d = math.hypot(x - centre, y - centre)
+            on_ray = (abs(x - centre) < 1 or abs(y - centre) < 1) and d <= radius + 2.5
+            if d <= radius * 0.45:
+                px[y][x] = 14
+            elif d <= radius * 0.75:
+                px[y][x] = HIGHLIGHT
+            elif d <= radius:
+                px[y][x] = 7
+            elif on_ray:
+                px[y][x] = 8 if d <= radius + 1.5 else 6
+            elif d <= radius + 0.8:
+                px[y][x] = 5
+    return px
 
 
 def draw_rock(rng):
     """A boulder: a rough outline cut into flat facets, lit from the upper left, with a
-    glowing rim. No point of its outline is closer than 26 pixels to the middle, so that at
-    1.75 times its size (AnimCmds_PrimalRock) it covers a whole 64x64 Pokemon sprite."""
+    glowing rim."""
     centre = (SIZE - 1) / 2
     count = 12
     outline = []
@@ -435,8 +450,6 @@ def save(name, frames, width, palette=PALETTE):
 def main():
     faces = polyhedron_faces()
     whole = draw_polyhedron(faces, 1, 1)
-    # At 1.75 times its size (sAffineAnim_MegaPolyhedron), it has to cover a 64x64 sprite
-    assert silhouette_radius(whole) * 1.75 >= 32 * math.sqrt(2), silhouette_radius(whole)
     save("mega_polyhedron", [
         whole,
         draw_polyhedron(faces, 0.88, 1.00),
@@ -450,6 +463,8 @@ def main():
         draw_shard([(3, 2), (13, 5), (13, 14), (3, 11)], lambda x, y: x < 5),
         draw_shard([(13, 2), (13, 11), (3, 14), (3, 5)], lambda x, y: y < x - 6),
     ], 16)
+
+    save("mega_light", [draw_light(4.2), draw_light(3.0), draw_light(1.8)], 16)
 
     rock = draw_rock(random.Random(0x4B594F47))
     cracks = make_spread_cracks(0x4B594F47)

@@ -128,6 +128,7 @@ static void AnimPrimalRock(struct Sprite *);
 static void AnimPrimalRock_Step(struct Sprite *);
 static void AnimMegaShard(struct Sprite *);
 static void AnimMegaShard_Step(struct Sprite *);
+static void SpriteCB_MegaSpiralLight(struct Sprite *);
 
 const union AnimCmd gScratchAnimCmds[] =
 {
@@ -2394,6 +2395,10 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
 // apart. The script times its sounds and the burst on the durations below.
 #define MEGA_SHELL_FRAME(n) ((n) * 64) // 64x64 frames
 
+// The shell's subpriority on the player's side, where it stands in front of the foes'
+// healthboxes. It leaves one under it for the lights that pass in front of the shell.
+#define MEGA_SHELL_PLAYER_SUBPRIORITY (HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 2)
+
 // A Mega Evolution's shell is a golden rhombic triacontahedron. Its faces draw apart as it
 // goes, and the script then throws a few of them around.
 static const union AnimCmd sAnim_MegaPolyhedron[] =
@@ -2410,14 +2415,15 @@ static const union AnimCmd *const sAnims_MegaPolyhedron[] =
     sAnim_MegaPolyhedron,
 };
 
-// From an eighth of its size to 1.75 times (112 pixels across), which covers a whole 64x64
-// Pokémon sprite, corners included. It swells to twice its size as its faces part.
+// From under a fifth of its size to 1.3 times (84 pixels across), which hides the Pokémon
+// but for the corners of the largest sprites. It swells to one and a half times its size as
+// its faces part.
 static const union AffineAnimCmd sAffineAnim_MegaPolyhedron[] =
 {
-    AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
-    AFFINEANIMCMD_FRAME(0xD, 0xD, 0, 32),
+    AFFINEANIMCMD_FRAME(0x30, 0x30, 0, 0),
+    AFFINEANIMCMD_FRAME(0x9, 0x9, 0, 32),
     AFFINEANIMCMD_FRAME(0, 0, 0, 28),
-    AFFINEANIMCMD_FRAME(0x4, 0x4, 0, 16),
+    AFFINEANIMCMD_FRAME(0x3, 0x3, 0, 16),
     AFFINEANIMCMD_END,
 };
 
@@ -2497,11 +2503,11 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
 };
 
 // The rocks: blue with cyan cracks for KYOGRE, red with orange cracks for GROUDON. They
-// grow to 1.75 times their size (112 pixels across), which covers the Pokémon's whole sprite.
+// grow to 1.3 times their size (84 pixels across), like the polyhedron.
 static const union AffineAnimCmd sAffineAnim_PrimalRock[] =
 {
-    AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
-    AFFINEANIMCMD_FRAME(0xD, 0xD, 0, 32),
+    AFFINEANIMCMD_FRAME(0x30, 0x30, 0, 0),
+    AFFINEANIMCMD_FRAME(0x9, 0x9, 0, 32),
     AFFINEANIMCMD_END,
 };
 
@@ -2585,7 +2591,7 @@ static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
     sprite->y = monSprite->y + monSprite->y2;
     sprite->oam.priority = monSprite->oam.priority;
     if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
-        sprite->subpriority = HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 1;
+        sprite->subpriority = MEGA_SHELL_PLAYER_SUBPRIORITY;
 }
 
 // For a Mega Evolution on the player's side: puts the foes' healthboxes behind the shell
@@ -2697,6 +2703,124 @@ static void AnimMegaShard_Step(struct Sprite *sprite)
 #undef sSpeedY
 #undef sPosX
 #undef sPosY
+
+// The spiral of lights that rises around the Mega Evolution's polyhedron: two strands, on
+// opposite sides of it. Each light circles the polyhedron as it climbs, in front of it for
+// half a turn and behind it for the other half.
+#define MEGA_SPIRAL_EMIT_TIME     36  // Frames during which lights set off
+#define MEGA_SPIRAL_EMIT_INTERVAL 4
+#define MEGA_SPIRAL_LIGHT_TIME    36  // Frames a light takes to reach the top
+#define MEGA_SPIRAL_TURN_SPEED    9   // 256 is a full turn
+#define MEGA_SPIRAL_RADIUS        46
+#define MEGA_SPIRAL_TILT          5   // The circle is seen from a little above
+#define MEGA_SPIRAL_BOTTOM        40  // From the middle of the Pokémon's sprite
+#define MEGA_SPIRAL_HEIGHT        88
+
+static const union AnimCmd sAnim_MegaSpiralLight[] =
+{
+    ANIMCMD_FRAME(0, 3),
+    ANIMCMD_FRAME(4, 3),
+    ANIMCMD_FRAME(8, 3),
+    ANIMCMD_FRAME(4, 3),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sAnims_MegaSpiralLight[] =
+{
+    sAnim_MegaSpiralLight,
+};
+
+static const struct SpriteTemplate sMegaSpiralLightSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_MEGA_LIGHT,
+    .paletteTag = ANIM_TAG_MEGA_LIGHT,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sAnims_MegaSpiralLight,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_MegaSpiralLight,
+};
+
+#define tTimer            data[0]
+#define tActiveLights     data[1]
+#define tShellSubpriority data[2]
+
+#define sTaskId           data[0]
+#define sAngle            data[1]
+#define sTimer            data[2]
+#define sShellSubpriority data[3]
+
+// No args. Ends once its last light has reached the top.
+void AnimTask_MegaEvolutionLightSpiral(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (tTimer == 0)
+    {
+        // What the script's createsprite gives the shell (SetSpritePosToAttackerSprite)
+        if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
+            tShellSubpriority = MEGA_SHELL_PLAYER_SUBPRIORITY;
+        else
+            tShellSubpriority = GetBattlerSpriteSubpriority(gBattleAnimAttacker) - 2;
+    }
+
+    if (tTimer < MEGA_SPIRAL_EMIT_TIME && tTimer % MEGA_SPIRAL_EMIT_INTERVAL == 0)
+    {
+        u8 strand;
+
+        for (strand = 0; strand < 2; strand++)
+        {
+            u8 spriteId = CreateSprite(&sMegaSpiralLightSpriteTemplate, 0, 0, tShellSubpriority);
+
+            if (spriteId != MAX_SPRITES)
+            {
+                struct Sprite *sprite = &gSprites[spriteId];
+
+                SetSpritePosToAttackerSprite(sprite);
+                sprite->sTaskId = taskId;
+                sprite->sAngle = strand * 128;
+                sprite->sTimer = 0;
+                sprite->sShellSubpriority = tShellSubpriority;
+                sprite->callback(sprite);
+                tActiveLights++;
+            }
+        }
+    }
+
+    tTimer++;
+    if (tTimer >= MEGA_SPIRAL_EMIT_TIME && tActiveLights == 0)
+        DestroyAnimVisualTask(taskId);
+}
+
+static void SpriteCB_MegaSpiralLight(struct Sprite *sprite)
+{
+    if (sprite->sTimer >= MEGA_SPIRAL_LIGHT_TIME)
+    {
+        gTasks[sprite->sTaskId].tActiveLights--;
+        DestroySprite(sprite);
+        return;
+    }
+
+    sprite->x2 = Sin(sprite->sAngle, MEGA_SPIRAL_RADIUS);
+    sprite->y2 = MEGA_SPIRAL_BOTTOM - sprite->sTimer * MEGA_SPIRAL_HEIGHT / MEGA_SPIRAL_LIGHT_TIME
+               + Cos(sprite->sAngle, MEGA_SPIRAL_TILT);
+    // The near half of its circle passes in front of the shell, the far half behind it
+    if (Cos(sprite->sAngle, 16) >= 0)
+        sprite->subpriority = sprite->sShellSubpriority - 1;
+    else
+        sprite->subpriority = sprite->sShellSubpriority + 1;
+
+    sprite->sAngle = (sprite->sAngle + MEGA_SPIRAL_TURN_SPEED) & 0xFF;
+    sprite->sTimer++;
+}
+
+#undef tTimer
+#undef tActiveLights
+#undef tShellSubpriority
+#undef sTaskId
+#undef sAngle
+#undef sTimer
+#undef sShellSubpriority
 
 void AnimTask_MorningSunLightBeam(u8 taskId)
 {

@@ -224,12 +224,15 @@ What exists now:
   `B_ANIM_MEGA_EVOLUTION` and then runs switch-in abilities.
 - The animation (`General_MegaEvolution` in `data/battle_anim_scripts.s`, its sprites in
   `src/battle_anim_effects_3.c`): a golden rhombic triacontahedron grows over the Pokémon
-  until it hides it, the sprite changes inside it, and the polyhedron's faces draw apart,
+  until it hides it, while two strands of lights spiral up around it
+  (`AnimTask_MegaEvolutionLightSpiral`); the sprite changes inside it, and the polyhedron's
+  faces draw apart,
   showing the Mega Evolution between them, before they scatter and leave it standing in a
   flash of light. The whole sequence is the macro `mega_evolution_shell`
   (`asm/macros/battle_anim_script.inc`), which takes the shell's and the pieces' sprites.
   `tools/mega_evolutions/gen_anim_gfx.py` renders the polyhedron and draws the rest
-  (`graphics/battle_anims/sprites/mega_polyhedron.png`, `mega_shards.png`).
+  (`graphics/battle_anims/sprites/mega_polyhedron.png`, `mega_shards.png`, `mega_light.png`).
+  The shells grow to 84 pixels across: the corners of the largest sprites show past them.
 - Primal Reversion plays the same sequence with a rock for a shell
   (`AnimTask_GetPrimalReversion` tells the script whose), which cracks in three steps and
   shatters instead. KYOGRE's is a glowing blue rock with cyan cracks

@@ -602,10 +602,14 @@
 	@ cracks: TRUE for a Primal Reversion's rock, which cracks in three steps before it
 	@   shatters (the delays follow sAnim_PrimalRock); FALSE for the Mega Evolution's
 	@   polyhedron, whose faces part instead (sAnim_MegaPolyhedron).
+	@ spiral: TRUE for a spiral of lights to rise around the shell as it grows.
 	@ glow_color makes the shell pulse with that color as it grows.
-	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, burst_se:req, glow_color
+	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, spiral:req, burst_se:req, glow_color
 	loadspritegfx \shell_tag
 	loadspritegfx \shards_tag
+	.if \spiral
+	loadspritegfx ANIM_TAG_MEGA_LIGHT
+	.endif
 	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
 	waitforvisualfinish
 	@ The shell grows over the Pokémon: it has hidden it after 32 frames. The player's
@@ -613,6 +617,9 @@
 	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, TRUE
 	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
 	createsprite \shell_template, ANIM_ATTACKER, 2
+	.if \spiral
+	createvisualtask AnimTask_MegaEvolutionLightSpiral, 2
+	.endif
 	.ifnb \glow_color
 	blend_color_cyclebytag tag=\shell_tag, delay=2, num_blends=3, initial_blend_y=0, target_blend_y=7, color=\glow_color
 	.endif
@@ -652,4 +659,7 @@
 	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, FALSE
 	unloadspritegfx \shell_tag
 	unloadspritegfx \shards_tag
+	.if \spiral
+	unloadspritegfx ANIM_TAG_MEGA_LIGHT
+	.endif
 	.endm

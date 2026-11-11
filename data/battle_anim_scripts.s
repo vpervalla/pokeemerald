@@ -10880,16 +10880,16 @@ General_MegaEvolution:
 	createvisualtask AnimTask_GetPrimalReversion, 2
 	jumpreteq PRIMAL_REVERSION_KYOGRE, PrimalReversionKyogre
 	jumpreteq PRIMAL_REVERSION_GROUDON, PrimalReversionGroudon
-	@ A golden polyhedron, whose faces part
-	mega_evolution_shell ANIM_TAG_MEGA_POLYHEDRON, ANIM_TAG_MEGA_SHARDS, gMegaPolyhedronSpriteTemplate, gMegaShardSpriteTemplate, cracks=FALSE, burst_se=SE_ICE_BREAK, glow_color=RGB(31, 31, 22)
+	@ A golden polyhedron, whose faces part, with a spiral of lights rising around it
+	mega_evolution_shell ANIM_TAG_MEGA_POLYHEDRON, ANIM_TAG_MEGA_SHARDS, gMegaPolyhedronSpriteTemplate, gMegaShardSpriteTemplate, cracks=FALSE, spiral=TRUE, burst_se=SE_ICE_BREAK, glow_color=RGB(31, 31, 22)
 	end
 @ A glowing blue rock, with cyan cracks
 PrimalReversionKyogre:
-	mega_evolution_shell ANIM_TAG_PRIMAL_KYOGRE_ROCK, ANIM_TAG_PRIMAL_KYOGRE_SHARDS, gPrimalKyogreRockSpriteTemplate, gPrimalKyogreShardSpriteTemplate, cracks=TRUE, burst_se=SE_M_EXPLOSION, glow_color=RGB(18, 31, 31)
+	mega_evolution_shell ANIM_TAG_PRIMAL_KYOGRE_ROCK, ANIM_TAG_PRIMAL_KYOGRE_SHARDS, gPrimalKyogreRockSpriteTemplate, gPrimalKyogreShardSpriteTemplate, cracks=TRUE, spiral=FALSE, burst_se=SE_M_EXPLOSION, glow_color=RGB(18, 31, 31)
 	end
 @ A glowing red rock, with orange cracks
 PrimalReversionGroudon:
-	mega_evolution_shell ANIM_TAG_PRIMAL_GROUDON_ROCK, ANIM_TAG_PRIMAL_GROUDON_SHARDS, gPrimalGroudonRockSpriteTemplate, gPrimalGroudonShardSpriteTemplate, cracks=TRUE, burst_se=SE_M_EXPLOSION, glow_color=RGB(31, 26, 12)
+	mega_evolution_shell ANIM_TAG_PRIMAL_GROUDON_ROCK, ANIM_TAG_PRIMAL_GROUDON_SHARDS, gPrimalGroudonRockSpriteTemplate, gPrimalGroudonShardSpriteTemplate, cracks=TRUE, spiral=FALSE, burst_se=SE_M_EXPLOSION, glow_color=RGB(31, 26, 12)
 	end
 MegaEvolutionSkipAnim:
 	createvisualtask AnimTask_MegaEvolutionGfxChange, 2

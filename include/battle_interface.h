@@ -79,8 +79,8 @@ void DummyBattleInterfaceFunc(u8 healthboxSpriteId, bool8 isDoubleBattleBattlerO
 void UpdateOamPriorityInAllHealthboxes(u8 priority);
 
 // The healthbar's subpriority while its healthbox is behind an animation's sprites: those
-// sprites take a subpriority under it.
-#define HEALTHBOX_BEHIND_ANIM_SUBPRIORITY 1
+// sprites take the subpriorities under it.
+#define HEALTHBOX_BEHIND_ANIM_SUBPRIORITY 3
 void SetHealthboxBehindAnimSprites(u8 battler, bool8 behind, u8 monPriority);
 void InitBattlerHealthboxCoords(u8 battler);
 void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent);
