@@ -548,8 +548,8 @@ const u32 gBattleAnimSpritePal_GoldRing[] = INCGFX_U32("graphics/battle_anims/sp
 const u32 gBattleAnimSpritePal_BlueRing2[] = INCGFX_U32("graphics/battle_anims/sprites/blue_ring_2.pal", ".gbapal.lz");
 
 // The Mega Evolution animation (tools/mega_evolutions/gen_anim_gfx.py draws both)
-const u32 gBattleAnimSpriteGfx_MegaSphere[] = INCGFX_U32("graphics/battle_anims/sprites/mega_sphere.png", ".4bpp.lz");
-const u32 gBattleAnimSpritePal_MegaSphere[] = INCGFX_U32("graphics/battle_anims/sprites/mega_sphere.png", ".gbapal.lz");
+const u32 gBattleAnimSpriteGfx_MegaPolyhedron[] = INCGFX_U32("graphics/battle_anims/sprites/mega_polyhedron.png", ".4bpp.lz");
+const u32 gBattleAnimSpritePal_MegaPolyhedron[] = INCGFX_U32("graphics/battle_anims/sprites/mega_polyhedron.png", ".gbapal.lz");
 const u32 gBattleAnimSpriteGfx_MegaShards[] = INCGFX_U32("graphics/battle_anims/sprites/mega_shards.png", ".4bpp.lz");
 const u32 gBattleAnimSpritePal_MegaShards[] = INCGFX_U32("graphics/battle_anims/sprites/mega_shards.png", ".gbapal.lz");
 

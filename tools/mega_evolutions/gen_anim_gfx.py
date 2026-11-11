@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Draws the Mega Evolution battle animation's sprites.
 
-  graphics/battle_anims/sprites/mega_sphere.png  64x256: the purple sphere, whole and at
-                                                 three stages of its yellow cracks
-  graphics/battle_anims/sprites/mega_shards.png  16x64: four pieces of its shell
+  graphics/battle_anims/sprites/mega_polyhedron.png  64x256: the golden rhombic triacontahedron,
+                                                     whole and as its faces come apart
+  graphics/battle_anims/sprites/mega_shards.png      16x64: four of its faces
 
 and Primal Reversion's, which have the same layout and the same palette indices:
 
@@ -23,25 +23,27 @@ from PIL import Image
 
 OUT_DIR = "graphics/battle_anims/sprites"
 
-# Index 0 is transparent.
+# Index 0 is transparent. Every palette has the same layout.
+# The Mega Evolution's polyhedron: gold
 PALETTE = [
     (0, 168, 144),    # 0 transparent
-    (32, 8, 56),      # 1 outline
-    (56, 16, 96),     # 2 purples, dark to light
-    (80, 24, 128),    # 3
-    (104, 40, 160),   # 4
-    (128, 56, 184),   # 5
-    (152, 80, 208),   # 6
-    (176, 112, 224),  # 7
-    (208, 160, 240),  # 8
-    (240, 216, 248),  # 9 highlight
-    (144, 88, 0),     # 10 crack edge
-    (232, 160, 0),    # 11 crack
-    (248, 216, 32),   # 12 crack
-    (248, 248, 136),  # 13 crack core
+    (88, 48, 0),      # 1 outline
+    (136, 80, 0),     # 2 golds, dark to light
+    (168, 104, 8),    # 3
+    (200, 136, 16),   # 4
+    (224, 168, 24),   # 5
+    (240, 196, 48),   # 6
+    (248, 220, 88),   # 7
+    (248, 236, 136),  # 8
+    (255, 250, 208),  # 9 highlight
+    (120, 64, 0),     # 10 (the rocks' cracks: unused here)
+    (232, 160, 0),    # 11
+    (255, 244, 168),  # 12 a shard's lit edge
+    (255, 252, 224),  # 13
     (248, 248, 248),  # 14 white
     (0, 0, 0),        # 15 unused
 ]
+
 # KYOGRE's rock: deep blues, with cyan cracks
 PALETTE_KYOGRE = [
     (0, 168, 144),    # 0 transparent
@@ -96,33 +98,118 @@ def new_image(width, height, palette):
     return img
 
 
-def draw_sphere():
-    """The whole sphere: lit from the upper left, dithered between its shades."""
-    px = [[0] * SIZE for _ in range(SIZE)]
-    centre = (SIZE - 1) / 2
+PHI = (1 + math.sqrt(5)) / 2
+
+
+def triacontahedron_faces():
+    """The rhombic triacontahedron's 30 faces, each a list of its 4 corners in order."""
+    vertices = []
+    for a in (-1, 1):
+        for b in (-1, 1):
+            for c in (-1, 1):
+                vertices.append((a, b, c))
+            # The other dodecahedron corners, and the icosahedron's
+            for x, y, z in ((0, a / PHI, b * PHI), (a, 0, b * PHI)):
+                vertices.extend(((x, y, z), (y, z, x), (z, x, y)))
+    vertices = sorted(set(vertices))
+    icosa = [v for v in vertices if abs(sum(c * c for c in v) - (1 + PHI * PHI)) < 1e-6]
+    faces = []
+    for i in range(len(icosa)):
+        for j in range(i + 1, len(icosa)):
+            if abs(math.dist(icosa[i], icosa[j]) - 2) > 1e-6:
+                continue
+            # One face lies over each edge of the icosahedron
+            normal = tuple((a + b) / 2 for a, b in zip(icosa[i], icosa[j]))
+            dots = [sum(n * c for n, c in zip(normal, v)) for v in vertices]
+            corners = [v for v, d in zip(vertices, dots) if abs(d - max(dots)) < 1e-6]
+            assert len(corners) == 4
+            # In order around the face
+            u = tuple(a - b for a, b in zip(icosa[i], normal))
+            w = (normal[1] * u[2] - normal[2] * u[1], normal[2] * u[0] - normal[0] * u[2], normal[0] * u[1] - normal[1] * u[0])
+            corners.sort(key=lambda v: math.atan2(sum((a - n) * c for a, n, c in zip(v, normal, w)),
+                                                  sum((a - n) * c for a, n, c in zip(v, normal, u))))
+            faces.append((normal, corners))
+    assert len(faces) == 30
+    return faces
+
+
+def rotate(v, yaw, pitch):
+    x, y, z = v
+    x, z = x * math.cos(yaw) + z * math.sin(yaw), -x * math.sin(yaw) + z * math.cos(yaw)
+    y, z = y * math.cos(pitch) - z * math.sin(pitch), y * math.sin(pitch) + z * math.cos(pitch)
+    return (x, y, z)
+
+
+def polyhedron_faces():
+    """The faces turned towards the viewer, as (shade, [(x, y) corners]) in the 64x64 frame."""
+    yaw, pitch = 0.33, 0.24
+    faces = [(rotate(n, yaw, pitch), [rotate(c, yaw, pitch) for c in corners]) for n, corners in triacontahedron_faces()]
+    extent = max(math.hypot(c[0], c[1]) for n, corners in faces for c in corners)
+    scale = RADIUS / extent
+    centre = SIZE / 2
     light = (-0.45, -0.55, 0.70)
     norm = math.sqrt(sum(c * c for c in light))
     light = tuple(c / norm for c in light)
-    bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+    visible = []
+    for n, corners in faces:
+        length = math.sqrt(sum(c * c for c in n))
+        n = tuple(c / length for c in n)
+        if n[2] <= 1e-6:
+            continue
+        lum = max(0.0, sum(a * b for a, b in zip(n, light)))
+        shade = max(3, min(8, int(round(2.5 + lum * 6.6))))
+        visible.append((shade, [(centre + c[0] * scale, centre + c[1] * scale) for c in corners]))
+    return visible
+
+
+def in_polygon(points, x, y):
+    hit = False
+    for i in range(len(points)):
+        (x0, y0), (x1, y1) = points[i], points[(i + 1) % len(points)]
+        if (y0 > y) != (y1 > y) and x < x0 + (y - y0) * (x1 - x0) / (y1 - y0):
+            hit = not hit
+    return hit
+
+
+def draw_polyhedron(faces, shrink, spread):
+    """The polyhedron, each face shrunk towards its own middle by `shrink` and pushed
+    `spread` times further from the polyhedron's: 1 and 1 draw it whole."""
+    centre = SIZE / 2
+    owner = [[-1] * SIZE for _ in range(SIZE)]
+    for i, (shade, corners) in enumerate(faces):
+        mx = sum(c[0] for c in corners) / 4
+        my = sum(c[1] for c in corners) / 4
+        nx, ny = centre + (mx - centre) * spread, centre + (my - centre) * spread
+        moved = [(nx + (x - mx) * shrink, ny + (y - my) * shrink) for x, y in corners]
+        for y in range(SIZE):
+            for x in range(SIZE):
+                if in_polygon(moved, x + 0.5, y + 0.5):
+                    owner[y][x] = i
+
+    def at(x, y):
+        return owner[y][x] if 0 <= x < SIZE and 0 <= y < SIZE else -1
+
+    px = [[0] * SIZE for _ in range(SIZE)]
     for y in range(SIZE):
         for x in range(SIZE):
-            dx, dy = (x - centre) / RADIUS, (y - centre) / RADIUS
-            d2 = dx * dx + dy * dy
-            if d2 > 1:
+            i = owner[y][x]
+            if i < 0:
                 continue
-            if d2 > 0.90:
-                px[y][x] = OUTLINE
-                continue
-            dz = math.sqrt(1 - d2)
-            lum = max(0.0, dx * light[0] + dy * light[1] + dz * light[2])
-            shade = 2 + lum * 5.6 + (bayer[y % 4][x % 4] / 16 - 0.5) * 0.9
-            px[y][x] = max(2, min(8, int(round(shade))))
-    # The glint
-    for y in range(SIZE):
-        for x in range(SIZE):
-            if (x - 20) ** 2 / 30 + (y - 17) ** 2 / 14 <= 1:
-                px[y][x] = HIGHLIGHT
+            shade = faces[i][0]
+            around = [at(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))]
+            if -1 in around:
+                shade = OUTLINE          # The polyhedron's outline, or a loose face's
+            elif at(x + 1, y) != i or at(x, y + 1) != i:
+                shade = max(2, shade - 3)  # The edges between faces
+            px[y][x] = shade
     return px
+
+
+def silhouette_radius(px):
+    """How far from the middle the nearest transparent pixel is."""
+    centre = (SIZE - 1) / 2
+    return min(math.hypot(x - centre, y - centre) for y in range(-1, SIZE + 1) for x in range(-1, SIZE + 1)
+               if not (0 <= x < SIZE and 0 <= y < SIZE) or px[y][x] == 0)
 
 
 def draw_rock(rng):
@@ -346,20 +433,22 @@ def save(name, frames, width, palette=PALETTE):
 
 
 def main():
-    rng = random.Random(0x4D454741)
-    sphere = draw_sphere()
-    cracks = make_cracks(rng)
-    save("mega_sphere", [
-        sphere,
-        draw_cracks(sphere, cracks, 0.35, False),
-        draw_cracks(sphere, cracks, 0.70, False),
-        draw_cracks(sphere, cracks, 1.00, True),
+    faces = polyhedron_faces()
+    whole = draw_polyhedron(faces, 1, 1)
+    # At 1.75 times its size (sAffineAnim_MegaPolyhedron), it has to cover a 64x64 sprite
+    assert silhouette_radius(whole) * 1.75 >= 32 * math.sqrt(2), silhouette_radius(whole)
+    save("mega_polyhedron", [
+        whole,
+        draw_polyhedron(faces, 0.88, 1.00),
+        draw_polyhedron(faces, 0.74, 1.04),
+        draw_polyhedron(faces, 0.56, 1.10),
     ], SIZE)
+    # Loose faces, seen from four sides
     save("mega_shards", [
-        draw_shard([(2, 3), (12, 1), (14, 9), (6, 14)], lambda x, y: y > x),
-        draw_shard([(4, 1), (13, 5), (10, 14), (1, 10)], lambda x, y: x + y > 16),
-        draw_shard([(7, 1), (14, 12), (2, 13)], lambda x, y: x < 8 and y < 12),
-        draw_shard([(3, 5), (9, 3), (12, 8), (8, 12), (4, 11)], lambda x, y: y < 7),
+        draw_shard([(8, 1), (14, 8), (8, 15), (2, 8)], lambda x, y: y < 8 and x < 8),
+        draw_shard([(1, 8), (8, 4), (15, 8), (8, 12)], lambda x, y: y < 8),
+        draw_shard([(3, 2), (13, 5), (13, 14), (3, 11)], lambda x, y: x < 5),
+        draw_shard([(13, 2), (13, 11), (3, 14), (3, 5)], lambda x, y: y < x - 6),
     ], 16)
 
     rock = draw_rock(random.Random(0x4B594F47))

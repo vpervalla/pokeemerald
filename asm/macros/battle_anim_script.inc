@@ -596,11 +596,14 @@
 	createvisualtask AnimTask_CreateSurfWave, \priority, \palette
 	.endm
 
-	@ The Mega Evolution animation, around the shell of one's choice (the purple sphere, or a
-	@ Primal Reversion's): the shell grows over the attacker, the Pokémon changes inside it,
-	@ cracks spread across it and it bursts. The delays follow sAnim_MegaSphere.
-	@ glow_color makes the shell pulse with that color until it bursts.
-	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, glow_color
+	@ The Mega Evolution animation, around the shell of one's choice: it grows over the
+	@ attacker, the Pokémon changes inside it, and it comes apart, leaving the new form in a
+	@ flash of light among its pieces.
+	@ cracks: TRUE for a Primal Reversion's rock, which cracks in three steps before it
+	@   shatters (the delays follow sAnim_PrimalRock); FALSE for the Mega Evolution's
+	@   polyhedron, whose faces part instead (sAnim_MegaPolyhedron).
+	@ glow_color makes the shell pulse with that color as it grows.
+	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, burst_se:req, glow_color
 	loadspritegfx \shell_tag
 	loadspritegfx \shards_tag
 	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
@@ -616,6 +619,7 @@
 	delay 40
 	@ Out of sight inside it, the Pokémon takes its new form
 	createvisualtask AnimTask_MegaEvolutionGfxChange, 2
+	.if \cracks
 	delay 10
 	@ Cracks spread across the shell, in three steps
 	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
@@ -623,9 +627,14 @@
 	playsewithpan SE_ICE_CRACK, SOUND_PAN_ATTACKER
 	delay 14
 	playsewithpan SE_ICE_BREAK, SOUND_PAN_ATTACKER
+	.else
+	delay 20
+	@ Its faces part, and let the Pokémon show between them
+	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
+	.endif
 	waitforvisualfinish
-	@ It bursts: its shards fly off, and the new form stands in a flash of light
-	playsewithpan SE_M_EXPLOSION, SOUND_PAN_ATTACKER
+	@ It is gone: its pieces fly off, and the new form stands in a flash of light
+	playsewithpan \burst_se, SOUND_PAN_ATTACKER
 	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
 	createsprite \shard_template, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
 	createsprite \shard_template, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22

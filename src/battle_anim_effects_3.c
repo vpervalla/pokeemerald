@@ -122,8 +122,10 @@ static void AnimTask_OdorSleuthMovementWaitFinish(u8);
 static void MoveOdorSleuthClone(struct Sprite *);
 static void AnimTask_TeeterDanceMovement_Step(u8);
 static void AnimTask_SlackOffSquish_Step(u8);
-static void AnimMegaSphere(struct Sprite *);
-static void AnimMegaSphere_Step(struct Sprite *);
+static void AnimMegaShell(struct Sprite *);
+static void AnimMegaShell_Step(struct Sprite *);
+static void AnimPrimalRock(struct Sprite *);
+static void AnimPrimalRock_Step(struct Sprite *);
 static void AnimMegaShard(struct Sprite *);
 static void AnimMegaShard_Step(struct Sprite *);
 
@@ -2387,49 +2389,68 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-// The Mega Evolution animation (General_MegaEvolution): a purple sphere grows over the
-// attacker until it hides it, yellow cracks spread across it, and it bursts into shards.
-// The script changes the Pokémon's sprite while the sphere hides it, and times its sounds
-// and the burst on the durations below.
-#define MEGA_SPHERE_FRAME(n) ((n) * 64) // 64x64 frames
+// The Mega Evolution animation (General_MegaEvolution): a shell grows over the attacker until
+// it hides it, the script changes the Pokémon's sprite out of sight, and the shell comes
+// apart. The script times its sounds and the burst on the durations below.
+#define MEGA_SHELL_FRAME(n) ((n) * 64) // 64x64 frames
 
-static const union AnimCmd sAnim_MegaSphere[] =
+// A Mega Evolution's shell is a golden rhombic triacontahedron. Its faces draw apart as it
+// goes, and the script then throws a few of them around.
+static const union AnimCmd sAnim_MegaPolyhedron[] =
 {
-    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(0), 50), // Whole: it has grown after 32 frames
-    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(1), 14), // The cracks spread
-    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(2), 14),
-    ANIMCMD_FRAME(MEGA_SPHERE_FRAME(3), 20),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 60), // Whole: it has grown after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 5),  // Its faces part
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 5),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 6),
     ANIMCMD_END,
 };
 
-static const union AnimCmd *const sAnims_MegaSphere[] =
+static const union AnimCmd *const sAnims_MegaPolyhedron[] =
 {
-    sAnim_MegaSphere,
+    sAnim_MegaPolyhedron,
 };
 
-// From an eighth of its size to one and a half times: 96 pixels across, which covers a
-// whole 64x64 Pokémon sprite, corners included.
-static const union AffineAnimCmd sAffineAnim_MegaSphere[] =
+// From an eighth of its size to 1.75 times (112 pixels across), which covers a whole 64x64
+// Pokémon sprite, corners included. It swells to twice its size as its faces part.
+static const union AffineAnimCmd sAffineAnim_MegaPolyhedron[] =
 {
     AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
-    AFFINEANIMCMD_FRAME(0xB, 0xB, 0, 32),
+    AFFINEANIMCMD_FRAME(0xD, 0xD, 0, 32),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 28),
+    AFFINEANIMCMD_FRAME(0x4, 0x4, 0, 16),
     AFFINEANIMCMD_END,
 };
 
-static const union AffineAnimCmd *const sAffineAnims_MegaSphere[] =
+static const union AffineAnimCmd *const sAffineAnims_MegaPolyhedron[] =
 {
-    sAffineAnim_MegaSphere,
+    sAffineAnim_MegaPolyhedron,
 };
 
-const struct SpriteTemplate gMegaSphereSpriteTemplate =
+const struct SpriteTemplate gMegaPolyhedronSpriteTemplate =
 {
-    .tileTag = ANIM_TAG_MEGA_SPHERE,
-    .paletteTag = ANIM_TAG_MEGA_SPHERE,
+    .tileTag = ANIM_TAG_MEGA_POLYHEDRON,
+    .paletteTag = ANIM_TAG_MEGA_POLYHEDRON,
     .oam = &gOamData_AffineDouble_ObjNormal_64x64,
-    .anims = sAnims_MegaSphere,
+    .anims = sAnims_MegaPolyhedron,
     .images = NULL,
-    .affineAnims = sAffineAnims_MegaSphere,
-    .callback = AnimMegaSphere,
+    .affineAnims = sAffineAnims_MegaPolyhedron,
+    .callback = AnimMegaShell,
+};
+
+// A Primal Reversion's shell is a rock: cracks spread across it, and it trembles more with
+// each one, before it shatters.
+static const union AnimCmd sAnim_PrimalRock[] =
+{
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 50), // Whole: it has grown after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 14), // The cracks spread
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 14),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 20),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnims_PrimalRock[] =
+{
+    sAnim_PrimalRock,
 };
 
 static const union AnimCmd sAnim_MegaShard0[] =
@@ -2475,10 +2496,8 @@ const struct SpriteTemplate gMegaShardSpriteTemplate =
     .callback = AnimMegaShard,
 };
 
-// Primal Reversion plays the same animation with a shell of its own: a glowing rock, blue
-// with cyan cracks for KYOGRE, red with orange cracks for GROUDON. It is rougher than the
-// sphere, so it grows to 1.75 times its size (112 pixels across) to cover the Pokémon's
-// whole sprite.
+// The rocks: blue with cyan cracks for KYOGRE, red with orange cracks for GROUDON. They
+// grow to 1.75 times their size (112 pixels across), which covers the Pokémon's whole sprite.
 static const union AffineAnimCmd sAffineAnim_PrimalRock[] =
 {
     AFFINEANIMCMD_FRAME(0x20, 0x20, 0, 0),
@@ -2496,10 +2515,10 @@ const struct SpriteTemplate gPrimalKyogreRockSpriteTemplate =
     .tileTag = ANIM_TAG_PRIMAL_KYOGRE_ROCK,
     .paletteTag = ANIM_TAG_PRIMAL_KYOGRE_ROCK,
     .oam = &gOamData_AffineDouble_ObjNormal_64x64,
-    .anims = sAnims_MegaSphere,
+    .anims = sAnims_PrimalRock,
     .images = NULL,
     .affineAnims = sAffineAnims_PrimalRock,
-    .callback = AnimMegaSphere,
+    .callback = AnimPrimalRock,
 };
 
 const struct SpriteTemplate gPrimalKyogreShardSpriteTemplate =
@@ -2518,10 +2537,10 @@ const struct SpriteTemplate gPrimalGroudonRockSpriteTemplate =
     .tileTag = ANIM_TAG_PRIMAL_GROUDON_ROCK,
     .paletteTag = ANIM_TAG_PRIMAL_GROUDON_ROCK,
     .oam = &gOamData_AffineDouble_ObjNormal_64x64,
-    .anims = sAnims_MegaSphere,
+    .anims = sAnims_PrimalRock,
     .images = NULL,
     .affineAnims = sAffineAnims_PrimalRock,
-    .callback = AnimMegaSphere,
+    .callback = AnimPrimalRock,
 };
 
 const struct SpriteTemplate gPrimalGroudonShardSpriteTemplate =
@@ -2556,7 +2575,7 @@ void AnimTask_GetPrimalReversion(u8 taskId)
 
 // The middle of the attacker's sprite, wherever it stands right now. The sprite takes the
 // attacker's priority too, which keeps it behind the message box on the player's side.
-// There, it also goes in front of the foes' healthboxes, which the sphere reaches
+// There, it also goes in front of the foes' healthboxes, which the shell reaches
 // (AnimTask_MegaEvolutionSetFoeHealthboxes has put them behind).
 static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
 {
@@ -2569,9 +2588,9 @@ static void SetSpritePosToAttackerSprite(struct Sprite *sprite)
         sprite->subpriority = HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 1;
 }
 
-// For a Mega Evolution on the player's side: puts the foes' healthboxes behind the sphere
+// For a Mega Evolution on the player's side: puts the foes' healthboxes behind the shell
 // and its shards, or back in front once they are gone. The player's own healthboxes stay
-// in front of the sphere.
+// in front of the shell.
 // arg 0: TRUE to put them behind, FALSE to put them back
 void AnimTask_MegaEvolutionSetFoeHealthboxes(u8 taskId)
 {
@@ -2589,17 +2608,30 @@ void AnimTask_MegaEvolutionSetFoeHealthboxes(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
+// No args
+static void AnimMegaShell(struct Sprite *sprite)
+{
+    SetSpritePosToAttackerSprite(sprite);
+    sprite->callback = AnimMegaShell_Step;
+}
+
+static void AnimMegaShell_Step(struct Sprite *sprite)
+{
+    if (sprite->animEnded)
+        DestroySpriteAndMatrix(sprite);
+}
+
 #define sShakeTimer data[0]
 
 // No args
-static void AnimMegaSphere(struct Sprite *sprite)
+static void AnimPrimalRock(struct Sprite *sprite)
 {
     SetSpritePosToAttackerSprite(sprite);
     sprite->sShakeTimer = 0;
-    sprite->callback = AnimMegaSphere_Step;
+    sprite->callback = AnimPrimalRock_Step;
 }
 
-static void AnimMegaSphere_Step(struct Sprite *sprite)
+static void AnimPrimalRock_Step(struct Sprite *sprite)
 {
     // It trembles as it cracks, harder once the cracks have reached its edge
     if (sprite->animCmdIndex != 0)
@@ -2609,8 +2641,7 @@ static void AnimMegaSphere_Step(struct Sprite *sprite)
         sprite->x2 = (++sprite->sShakeTimer & 2) ? shake : -shake;
     }
 
-    if (sprite->animEnded)
-        DestroySpriteAndMatrix(sprite);
+    AnimMegaShell_Step(sprite);
 }
 
 #undef sShakeTimer
@@ -2624,7 +2655,7 @@ static void AnimMegaSphere_Step(struct Sprite *sprite)
 #define MEGA_SHARD_GRAVITY       16
 #define MEGA_SHARD_FLICKER_TIME  8
 
-// A piece of the sphere's shell, thrown from the attacker and falling as it goes. Its
+// A piece of the shell, thrown from the attacker and falling as it goes. Its
 // speeds are in 1/256ths of a pixel per frame.
 // arg 0: initial x offset from the attacker's sprite
 // arg 1: initial y offset
