@@ -223,8 +223,8 @@ What exists now:
   Gen 7 result. The new `handlemegaevolution` command updates the battle data, plays
   `B_ANIM_MEGA_EVOLUTION` and then runs switch-in abilities.
 - The animation (`General_MegaEvolution` in `data/battle_anim_scripts.s`, its sprites in
-  `src/battle_anim_effects_3.c`): a golden rhombic triacontahedron grows over the Pokémon
-  until it hides it, while two strands of lights spiral up around it
+  `src/battle_anim_effects_3.c`): the faces of a golden rhombic triacontahedron come in
+  from all around the Pokémon and close over it, while two strands of lights spiral up around it
   (`AnimTask_MegaEvolutionLightSpiral`); the sprite changes inside it, and the polyhedron's
   faces draw apart,
   showing the Mega Evolution between them, before they scatter and leave it standing in a

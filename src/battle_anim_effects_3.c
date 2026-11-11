@@ -2390,7 +2390,7 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-// The Mega Evolution animation (General_MegaEvolution): a shell grows over the attacker until
+// The Mega Evolution animation (General_MegaEvolution): a shell forms over the attacker until
 // it hides it, the script changes the Pokémon's sprite out of sight, and the shell comes
 // apart. The script times its sounds and the burst on the durations below.
 #define MEGA_SHELL_FRAME(n) ((n) * 64) // 64x64 frames
@@ -2399,11 +2399,15 @@ void AnimTask_MegaEvolutionGfxChange(u8 taskId)
 // healthboxes. It leaves one under it for the lights that pass in front of the shell.
 #define MEGA_SHELL_PLAYER_SUBPRIORITY (HEALTHBOX_BEHIND_ANIM_SUBPRIORITY - 2)
 
-// A Mega Evolution's shell is a golden rhombic triacontahedron. Its faces draw apart as it
-// goes, and the script then throws a few of them around.
+// A Mega Evolution's shell is a golden rhombic triacontahedron. Its faces come in from all
+// around the Pokémon and close over it, and draw apart again as it goes: the script then
+// throws a few of them around.
 static const union AnimCmd sAnim_MegaPolyhedron[] =
 {
-    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 60), // Whole: it has grown after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 11), // Its faces close in: they have met after 32 frames
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 11),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 10),
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 28), // Whole
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 5),  // Its faces part
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 5),
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 6),
@@ -2415,13 +2419,14 @@ static const union AnimCmd *const sAnims_MegaPolyhedron[] =
     sAnim_MegaPolyhedron,
 };
 
-// From under a fifth of its size to 1.3 times (84 pixels across), which hides the Pokémon
-// but for the corners of the largest sprites. It swells to one and a half times its size as
-// its faces part.
+// Its faces start twice as far apart as they are drawn, and close in to 1.3 times its size
+// (84 pixels across), which hides the Pokémon but for the corners of the largest sprites.
+// It swells to one and a half times its size as its faces part.
 static const union AffineAnimCmd sAffineAnim_MegaPolyhedron[] =
 {
-    AFFINEANIMCMD_FRAME(0x30, 0x30, 0, 0),
-    AFFINEANIMCMD_FRAME(0x9, 0x9, 0, 32),
+    AFFINEANIMCMD_FRAME(0x200, 0x200, 0, 0),
+    AFFINEANIMCMD_FRAME(-0x6, -0x6, 0, 16),
+    AFFINEANIMCMD_FRAME(-0x5, -0x5, 0, 16),
     AFFINEANIMCMD_FRAME(0, 0, 0, 28),
     AFFINEANIMCMD_FRAME(0x3, 0x3, 0, 16),
     AFFINEANIMCMD_END,

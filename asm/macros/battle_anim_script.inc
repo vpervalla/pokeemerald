@@ -596,7 +596,7 @@
 	createvisualtask AnimTask_CreateSurfWave, \priority, \palette
 	.endm
 
-	@ The Mega Evolution animation, around the shell of one's choice: it grows over the
+	@ The Mega Evolution animation, around the shell of one's choice: it forms over the
 	@ attacker, the Pokémon changes inside it, and it comes apart, leaving the new form in a
 	@ flash of light among its pieces.
 	@ cracks: TRUE for a Primal Reversion's rock, which cracks in three steps before it
@@ -612,7 +612,7 @@
 	.endif
 	simple_palette_blend selector=F_PAL_BG, delay=2, initial_blend_y=0, target_blend_y=10, color=RGB_BLACK
 	waitforvisualfinish
-	@ The shell grows over the Pokémon: it has hidden it after 32 frames. The player's
+	@ The shell forms over the Pokémon: it has hidden it after 32 frames. The player's
 	@ reaches the foe's healthbox, and passes in front of it
 	createvisualtask AnimTask_MegaEvolutionSetFoeHealthboxes, 2, TRUE
 	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
