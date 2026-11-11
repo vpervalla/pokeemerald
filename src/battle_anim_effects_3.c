@@ -124,6 +124,8 @@ static void AnimTask_TeeterDanceMovement_Step(u8);
 static void AnimTask_SlackOffSquish_Step(u8);
 static void AnimMegaShell(struct Sprite *);
 static void AnimMegaShell_Step(struct Sprite *);
+static void AnimMegaPolyhedron(struct Sprite *);
+static void AnimMegaPolyhedron_Step(struct Sprite *);
 static void AnimPrimalRock(struct Sprite *);
 static void AnimPrimalRock_Step(struct Sprite *);
 static void AnimMegaShard(struct Sprite *);
@@ -2407,12 +2409,14 @@ static const union AnimCmd sAnim_MegaPolyhedron[] =
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 11), // Its faces close in: they have met after 32 frames
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 11),
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 10),
-    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 28), // Whole
+    ANIMCMD_FRAME(MEGA_SHELL_FRAME(0), 28), // Whole (MEGA_POLYHEDRON_CMD_WHOLE)
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(1), 5),  // Its faces part
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(2), 5),
     ANIMCMD_FRAME(MEGA_SHELL_FRAME(3), 6),
     ANIMCMD_END,
 };
+
+#define MEGA_POLYHEDRON_CMD_WHOLE 3
 
 static const union AnimCmd *const sAnims_MegaPolyhedron[] =
 {
@@ -2420,7 +2424,7 @@ static const union AnimCmd *const sAnims_MegaPolyhedron[] =
 };
 
 // Its faces start twice as far apart as they are drawn, and close in to 1.3 times its size
-// (84 pixels across), which hides the Pokémon but for the corners of the largest sprites.
+// (84 pixels across).
 // It swells to one and a half times its size as its faces part.
 static const union AffineAnimCmd sAffineAnim_MegaPolyhedron[] =
 {
@@ -2445,7 +2449,7 @@ const struct SpriteTemplate gMegaPolyhedronSpriteTemplate =
     .anims = sAnims_MegaPolyhedron,
     .images = NULL,
     .affineAnims = sAffineAnims_MegaPolyhedron,
-    .callback = AnimMegaShell,
+    .callback = AnimMegaPolyhedron,
 };
 
 // A Primal Reversion's shell is a rock: cracks spread across it, and it trembles more with
@@ -2630,6 +2634,23 @@ static void AnimMegaShell_Step(struct Sprite *sprite)
 {
     if (sprite->animEnded)
         DestroySpriteAndMatrix(sprite);
+}
+
+// No args
+static void AnimMegaPolyhedron(struct Sprite *sprite)
+{
+    SetSpritePosToAttackerSprite(sprite);
+    sprite->callback = AnimMegaPolyhedron_Step;
+}
+
+// The Pokémon is hidden for as long as the polyhedron is closed over it, so that nothing of
+// it shows past the polyhedron, and is back (in its new form) the moment the faces part.
+static void AnimMegaPolyhedron_Step(struct Sprite *sprite)
+{
+    struct Sprite *monSprite = &gSprites[GetAnimBattlerSpriteId(ANIM_ATTACKER)];
+
+    monSprite->invisible = (sprite->animCmdIndex == MEGA_POLYHEDRON_CMD_WHOLE && !sprite->animEnded);
+    AnimMegaShell_Step(sprite);
 }
 
 #define sShakeTimer data[0]
