@@ -2598,15 +2598,31 @@ void AnimTask_GetPrimalReversion(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-// The attacker's cry, as it shows again in its new form. Mega Evolutions and primal forms
-// have their base species' cry, which is the species of the party Pokémon.
-void AnimTask_MegaEvolutionCry(u8 taskId)
+// The attacker makes its entrance in its new form, as it would coming into battle: it cries
+// and plays its animation (its front sprite's on the foe's side, its back sprite's on the
+// player's), which goes on after the script has ended. Mega Evolutions and primal forms
+// have their base species' cry and animation: that is the party Pokémon's species.
+void AnimTask_MegaEvolutionEntrance(u8 taskId)
 {
-    struct Pokemon *party = (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER) ? gPlayerParty : gEnemyParty;
+    bool8 isPlayerSide = (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER);
+    struct Pokemon *party = isPlayerSide ? gPlayerParty : gEnemyParty;
     u16 species = GetMonData(&party[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
+    struct Sprite *monSprite = &gSprites[gBattlerSpriteIds[gBattleAnimAttacker]];
 
     if (species != SPECIES_NONE)
+    {
         PlayCry_ByMode(species, BattleAnimAdjustPanning(SOUND_PAN_ATTACKER), CRY_MODE_NORMAL);
+        if (isPlayerSide)
+        {
+            BattleAnimateBackSprite(monSprite, species);
+        }
+        else
+        {
+            if (HasTwoFramesAnimation(species))
+                StartSpriteAnim(monSprite, 1);
+            BattleAnimateFrontSprite(monSprite, species, TRUE, 1);
+        }
+    }
     DestroyAnimVisualTask(taskId);
 }
 

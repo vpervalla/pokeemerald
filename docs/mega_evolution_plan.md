@@ -241,8 +241,8 @@ What exists now:
   (`primal_kyogre_rock.png`, `primal_kyogre_shards.png`), GROUDON's a glowing red rock
   with orange cracks (`primal_groudon_rock.png`, `primal_groudon_shards.png`).
 - Its sounds are all borrowed from moves (the macro takes them): one as the shell's pieces
-  come in, one as they meet, one or two as they fly off, with the Pokémon's cry
-  (`AnimTask_MegaEvolutionCry`). The polyhedron forms in a rising whoosh and closes with a ring; KYOGRE's rock shatters
+  come in, one as they meet, one or two as they fly off. The Pokémon then cries and plays
+  its entrance animation, as it does coming into battle (`AnimTask_MegaEvolutionEntrance`). The polyhedron forms in a rising whoosh and closes with a ring; KYOGRE's rock shatters
   in a rush of water, GROUDON's in an eruption.
 - Sprite reloads (the bag, the party menu, a substitute fading) keep the Mega sprite.
 

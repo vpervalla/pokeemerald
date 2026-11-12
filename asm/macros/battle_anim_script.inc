@@ -604,7 +604,8 @@
 	@   polyhedron, whose faces part instead (sAnim_MegaPolyhedron).
 	@ spiral: TRUE for a spiral of lights to rise around the shell as it forms.
 	@ form_se plays as the shell's pieces come in, close_se as they meet, and burst_se
-	@   (with burst_se2 over it, if given) as they fly off, along with the Pokémon's cry.
+	@   (with burst_se2 over it, if given) as they fly off. The Pokémon then cries and
+	@   plays its animation, as it does coming into battle.
 	@ glow_color makes the shell pulse with that color as it forms.
 	@ (Each delay and each new sprite costs the script a frame more than the shell's own
 	@ count: the delays below are that much shorter than sAnim_*'s durations.)
@@ -658,7 +659,7 @@
 	.ifnb \burst_se2
 	playsewithpan \burst_se2, SOUND_PAN_ATTACKER
 	.endif
-	createvisualtask AnimTask_MegaEvolutionCry, 2
+	createvisualtask AnimTask_MegaEvolutionEntrance, 2
 	createsprite \shard_template, ANIM_ATTACKER, 2, 20, 0, 0x2C0, -0x40, 0, 24
 	createsprite \shard_template, ANIM_ATTACKER, 2, 17, 10, 0x260, 0x120, 1, 22
 	createsprite \shard_template, ANIM_ATTACKER, 2, 10, 17, 0x160, 0x200, 2, 20
