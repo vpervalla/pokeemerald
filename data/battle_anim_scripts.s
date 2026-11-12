@@ -10881,7 +10881,7 @@ General_MegaEvolution:
 	jumpreteq PRIMAL_REVERSION_KYOGRE, PrimalReversionKyogre
 	jumpreteq PRIMAL_REVERSION_GROUDON, PrimalReversionGroudon
 	@ A golden polyhedron, whose faces part, with a spiral of lights rising around it
-	mega_evolution_shell ANIM_TAG_MEGA_POLYHEDRON, ANIM_TAG_MEGA_SHARDS, gMegaPolyhedronSpriteTemplate, gMegaShardSpriteTemplate, cracks=FALSE, spiral=TRUE, form_se=SE_M_MEGA_KICK, close_se=SE_M_HARDEN, burst_se=SE_ICE_BREAK, glow_color=RGB(31, 31, 22)
+	mega_evolution_shell ANIM_TAG_MEGA_POLYHEDRON, ANIM_TAG_MEGA_SHARDS, gMegaPolyhedronSpriteTemplate, gMegaShardSpriteTemplate, cracks=FALSE, spiral=TRUE, form_se=SE_M_MEGA_KICK, close_se=SE_M_HARDEN, open_se=SE_M_HYPER_BEAM, burst_se=SE_ICE_BREAK, glow_color=RGB(31, 31, 22)
 	end
 @ A glowing blue rock, with cyan cracks, which shatters in a rush of water
 PrimalReversionKyogre:

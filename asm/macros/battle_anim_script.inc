@@ -603,13 +603,14 @@
 	@   shatters (the delays follow sAnim_PrimalRock); FALSE for the Mega Evolution's
 	@   polyhedron, whose faces part instead (sAnim_MegaPolyhedron).
 	@ spiral: TRUE for a spiral of lights to rise around the shell as it forms.
-	@ form_se plays as the shell's pieces come in, close_se as they meet, and burst_se
+	@ form_se plays as the shell's pieces come in, close_se as they meet, open_se as the
+	@   polyhedron's faces part in the flash (it is not used with cracks), and burst_se
 	@   (with burst_se2 over it, if given) as they fly off. The Pokémon then cries and
 	@   plays its animation, as it does coming into battle.
 	@ glow_color makes the shell pulse with that color as it forms.
 	@ (Each delay and each new sprite costs the script a frame more than the shell's own
 	@ count: the delays below are that much shorter than sAnim_*'s durations.)
-	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, spiral:req, form_se:req, close_se:req, burst_se:req, burst_se2, glow_color
+	.macro mega_evolution_shell shell_tag:req, shards_tag:req, shell_template:req, shard_template:req, cracks:req, spiral:req, form_se:req, close_se:req, burst_se:req, burst_se2, open_se, glow_color
 	loadspritegfx \shell_tag
 	loadspritegfx \shards_tag
 	.if \spiral
@@ -650,7 +651,7 @@
 	@ Its faces part in a flash of light, and let the Pokémon show between them. The flash
 	@ outlasts the shell, so the script counts the 16 frames the faces take to part
 	@ instead of waiting
-	playsewithpan SE_M_DETECT, SOUND_PAN_ATTACKER
+	playsewithpan \open_se, SOUND_PAN_ATTACKER
 	simple_palette_blend selector=(F_PAL_BG | F_PAL_ATTACKER), delay=2, initial_blend_y=16, target_blend_y=0, color=RGB_WHITE
 	delay 12
 	@ It is gone: its faces fly off, and the light fades around the new form
