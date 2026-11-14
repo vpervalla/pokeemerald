@@ -191,6 +191,17 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   catching, prefer a type the team lacks, and teach TMs and HMs that widen coverage over a second move of a type
   the Pokémon already has. This also feeds the switch rule above: a varied team is more likely to have a member
   that is above the opponent's level and strong against it.
+- **Prefer strong Pokémon.** Within the versatility rule, choose Pokémon with high base stats, above all a high
+  Attack or Special Attack (and good Speed), and evolve them when they can. A weak species is a stopgap, to be
+  replaced as soon as a stronger one of the same role turns up.
+- **Party goals.** At the end of the Kanto run (before the ship to Hoenn) the party includes at least a
+  **Charizard**, a **Gengar** and a **Dragonite**, with three more chosen by the two rules above. At the end of the
+  Hoenn run it includes at least a **Sceptile**, a **Typhlosion** and a **Feraligatr**. Plan for them early: they
+  need catches, trades, evolution items and levels (Charmander is the Mt. Moon quest and Gengar is a trade evolution;
+  Dragonite needs a Dratini line; Sceptile means choosing Treecko as BIRCH's starter; CYNDAQUIL and TOTODILE are gifts
+  from side quests in Hoenn, found on the way from Dewford and Slateport, see `docs/johto_starters_plan.md`). Check
+  how each one is obtained in the plans and in the game, and log
+  a way that doesn't work as a bug.
 - **Grind next to a Pokémon Center.** A good loop: heal, walk to the nearest grass, `train N` with
   `MINHP=40`, walk back, `heal`. Places that worked: Route 1 next to Mom (she heals for free),
   Viridian Center ↔ Route 22, Pewter Center ↔ the top of Route 2.
