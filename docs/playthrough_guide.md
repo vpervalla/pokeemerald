@@ -10,8 +10,19 @@ are in `saves/` (see [Saves](#saves)).
 
 ## Goal
 
-Play this build from a new game to the end of the story (the Kanto Hall of Fame and the credits), and test it
-the whole way for bugs. The run is a test, not only a route: a leg isn't finished until its bugs are logged.
+Complete this build and test it for bugs the whole way. The run is a test, not only a route: a leg isn't
+finished until its bugs are logged. The legs, in order:
+
+1. **Kanto:** all eight badges, then the Elite Four and the Hall of Fame.
+2. **The post-game opens:** the ship to Hoenn.
+3. **Hoenn:** all eight badges, then Hoenn's Elite Four.
+4. **Back to the Sevii Islands:** the Kanto rematches (the Elite Four too), and the MEGA STONES.
+5. **Mega Island:** win the final tournament. The run ends there.
+
+The plans say what each leg should contain: `docs/hoenn_plan.md` for Hoenn and its theft, link and return
+scenes, `docs/mega_evolution_plan.md` and `docs/mega_island.md` for the stones and the tournament. Check what
+the game does against them, and log a difference as a bug unless the plan says it is intended.
+
 What counts as a bug:
 
 - **Soft locks:** the game stops answering input, a script never ends (`sGlobalScriptContextStatus` stuck, a
