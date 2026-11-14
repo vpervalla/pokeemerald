@@ -15,6 +15,13 @@
 2. A wild **Pidgey L3**: Mankey's SCRATCH took it to 4 HP and one ball held. ![Wild Pidgey](img/05_pidgey_wild.png) ![Weakened](img/05_pidgey_weak.png) ![Caught: the nickname prompt](img/05_pidgey_caught.png)
 3. Levelling here was slow and cost three trips to Viridian's Center (the road back is about 35 tiles). Pikachu reached L7 and Mankey L6; two POTIONS from the bag kept them going. (Pikachu fell to 2 HP when switched in on every fight, so Mankey was put in front instead: the first time it fainted at 0/20.)
 
+## Levelling for the Brock fight (the north grass, south of Pewter)
+
+The rule "at most 2 levels between the highest and lowest POKéMON" needed the low ones raised before Brock. Route 2's north grass (x 1-9, y 0-8, just south of Pewter, wilds L2-5) was used with the helper `cycle`: the lowest POKéMON leads, PIKACHU is switched in on turn 1 as the finisher (MANKEY, the highest, is left out), and when someone is under 30% HP the party walks to Pewter's Center, heals and comes back. One cycle gave about 100 experience.
+- 11 cycles took CATERPIE from L5 to **METAPOD, then BUTTERFREE** (L12-13) and PIKACHU from L10 to L14. PIKACHU learned **QUICK ATTACK** at L11 (forgetting GROWL); the move-learning prompt stopped the auto-battle each time and was answered by hand. BUTTERFREE learned **POISONPOWDER** at L13 (forgetting HARDEN).
+- A second batch of cycles led with PIDGEY (L5) and BUTTERFREE as the finisher: PIDGEY reached **L10** and learned **GUST** when the grind was stopped on request.
+- Result: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10: still 4 levels apart, so the balance rule is not yet met.
+
 ## Party after
 
 PIKACHU L7, MANKEY L6, PIDGEY L3.

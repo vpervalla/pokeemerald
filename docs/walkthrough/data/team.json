@@ -1,6 +1,81 @@
 {
  "mons": [
   {
+   "species": "pikachu",
+   "name": "Pikachu",
+   "lv": 14,
+   "exp": 2881,
+   "types": [
+    "Electric"
+   ],
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "The finisher of the grind: fast, learned QUICK ATTACK at L11 (it forgot GROWL). Still useless against Brock's Rock and Ground.",
+   "stats": [
+    [
+     "HP",
+     36,
+     0
+    ],
+    [
+     "Attack",
+     25,
+     1
+    ],
+    [
+     "Defense",
+     12,
+     -1
+    ],
+    [
+     "Sp. Atk",
+     23,
+     0
+    ],
+    [
+     "Sp. Def",
+     19,
+     0
+    ],
+    [
+     "Speed",
+     36,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Thundershock",
+     "Electric",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Quick Attack",
+     "Normal",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Tail Whip",
+     "Normal",
+     "—",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Thunder Wave",
+     "Electric",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
    "species": "mankey",
    "name": "Mankey",
    "lv": 13,
@@ -69,17 +144,94 @@
    ]
   },
   {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 10,
-   "exp": 1007,
+   "species": "butterfree",
+   "name": "Butterfree",
+   "lv": 13,
+   "exp": 2206,
    "types": [
-    "Electric"
+    "Bug",
+    "Flying"
    ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "Fast and paralyzes with Static or Thunder Wave. Useless against Brock: Ground and Rock resist or ignore Electric.",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Compound Eyes",
+   "met": "Caught in Viridian Forest as a wild Caterpie L4",
+   "role": "Grew from Caterpie on Route 2's north grass: Metapod, then Butterfree at L10. CONFUSION and POISONPOWDER (learned at L13, replacing HARDEN) give it status and coverage.",
+   "stats": [
+    [
+     "HP",
+     40,
+     0
+    ],
+    [
+     "Attack",
+     18,
+     0
+    ],
+    [
+     "Defense",
+     22,
+     0
+    ],
+    [
+     "Sp. Atk",
+     28,
+     0
+    ],
+    [
+     "Sp. Def",
+     23,
+     -1
+    ],
+    [
+     "Speed",
+     30,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Tackle",
+     "Normal",
+     "35",
+     "95%",
+     "25/35"
+    ],
+    [
+     "String Shot",
+     "Bug",
+     "—",
+     "95%",
+     "40/40"
+    ],
+    [
+     "PoisonPowder",
+     "Poison",
+     "—",
+     "75%",
+     "35/35"
+    ],
+    [
+     "Confusion",
+     "Psychic",
+     "50",
+     "100%",
+     "25/25"
+    ]
+   ]
+  },
+  {
+   "species": "pidgey",
+   "name": "Pidgey",
+   "lv": 10,
+   "exp": 582,
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "nature": "Impish (+Defense, −Sp. Atk)",
+   "ability": "Keen Eye",
+   "met": "Route 2, wild L3",
+   "role": "The Flying type of the team, led through the grind to catch up; it learned GUST. It still trails the others by 4 levels.",
    "stats": [
     [
      "HP",
@@ -88,103 +240,27 @@
     ],
     [
      "Attack",
-     19,
-     1
-    ],
-    [
-     "Defense",
-     10,
-     -1
-    ],
-    [
-     "Sp. Atk",
-     18,
+     17,
      0
     ],
     [
-     "Sp. Def",
+     "Defense",
      15,
-     0
-    ],
-    [
-     "Speed",
-     24,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Thundershock",
-     "Electric",
-     "40",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Growl",
-     "Normal",
-     "—",
-     "100%",
-     "40/40"
-    ],
-    [
-     "Tail Whip",
-     "Normal",
-     "—",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Thunder Wave",
-     "Electric",
-     "—",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "pidgey",
-   "name": "Pidgey",
-   "lv": 5,
-   "exp": 138,
-   "types": [
-    "Normal",
-    "Flying"
-   ],
-   "nature": "Impish (+Defense, −Sp. Atk)",
-   "ability": "Keen Eye",
-   "met": "Route 2, wild L3",
-   "role": "The Flying type for the versatility goal. Still weak; it needs levels.",
-   "stats": [
-    [
-     "HP",
-     19,
-     0
-    ],
-    [
-     "Attack",
-     11,
-     0
-    ],
-    [
-     "Defense",
-     9,
      1
     ],
     [
      "Sp. Atk",
-     8,
+     12,
      -1
     ],
     [
      "Sp. Def",
-     9,
+     13,
      0
     ],
     [
      "Speed",
-     12,
+     20,
      0
     ]
    ],
@@ -202,67 +278,13 @@
      "—",
      "100%",
      "15/15"
-    ]
-   ]
-  },
-  {
-   "species": "caterpie",
-   "name": "Caterpie",
-   "lv": 4,
-   "exp": 94,
-   "types": [
-    "Bug"
-   ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Shield Dust",
-   "met": "Viridian Forest, wild L4",
-   "role": "To become Butterfree: Metapod at L7, Butterfree at L10, then Sleep Powder.",
-   "stats": [
-    [
-     "HP",
-     18,
-     0
     ],
     [
-     "Attack",
-     8,
-     0
-    ],
-    [
-     "Defense",
-     9,
-     0
-    ],
-    [
-     "Sp. Atk",
-     7,
-     0
-    ],
-    [
-     "Sp. Def",
-     5,
-     -1
-    ],
-    [
-     "Speed",
-     8,
-     1
-    ]
-   ],
-   "moves": [
-    [
-     "Tackle",
-     "Normal",
-     "35",
-     "95%",
+     "Gust",
+     "Flying",
+     "40",
+     "100%",
      "35/35"
-    ],
-    [
-     "String Shot",
-     "Bug",
-     "—",
-     "95%",
-     "40/40"
     ]
    ]
   }
