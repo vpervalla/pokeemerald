@@ -30,6 +30,13 @@
    "text": "The gym guy at (7,12): advice about party order.",
    "chip": "yes",
    "chipText": "Talked to"
+  },
+  {
+   "kind": "gift",
+   "n": "2",
+   "text": "Brock's reward: <b>TM39 (Rock Tomb)</b> and the Boulder Badge.",
+   "chip": "yes",
+   "chipText": "Done in our run"
   }
  ],
  "trainers": [
@@ -51,7 +58,7 @@
   },
   {
    "name": "Leader Brock",
-   "hint": "Not fought yet: the run stops at the door. Prize and badge to come.",
+   "hint": "Prize ¥1400, the BOULDER BADGE and TM39 (ROCK TOMB). Beaten in four turns with LOW KICK.",
    "team": [
     [
      "geodude",

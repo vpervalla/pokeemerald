@@ -323,6 +323,11 @@ New things learned by talking to people. Add to this list whenever someone expla
 - **Experience (Pewter Trainer Tips):** every POKéMON that appears in a battle, however briefly, earns EXP, which is why the lead-then-switch trick shares it.
 - **Outsiders (Pewter house):** a POKéMON obtained in a trade grows fast but may ignore an unskilled TRAINER in battle: badges are needed.
 - **Moves and catching (Pewter house):** some moves must be taught by people (TMs, tutors); a status problem (sleep, poison, burn, paralysis) makes catching easier.
+- **HELP button (Pallet bedroom notice):** press L or R when confused for help.
+- **TOWN MAP (Daisy):** a KEY ITEM that shows where you are and the names of places.
+- **Card game (CARD CASE, Pewter aide):** a deck of 20 cards, a copy of every POKéMON caught, a free pack from the first POKé MART clerk visited each day, duels with people in every town; the duel menu has a Forfeit with no penalty.
+- **TMs (Brock):** one use only, so pick the POKéMON carefully.
+- **Stairs:** a short press toward the stairs on the stair tile (a long hold overshoots).
 - **Party order (Pewter Gym guy):** the first POKéMON in the list leads; change the order to suit the opponent's party.
 - **The Gym guide (Pewter):** he walks you to the Gym and repeats every time you cross x=42 on the east road until BROCK is
   beaten; the scientist and the CARD CASE come after the badge.
@@ -444,6 +449,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_pallet_boulder.sav` | Pallet Town in front of Oak's lab, 37:13: the BOULDER BADGE, TM39, CARD CASE, TOWN MAP. PIDGEOTTO L18, PIKACHU L15, MANKEY L14, BUTTERFREE L13; ¥1694. Next: Route 3 and Mt. Moon trainers (balancing on the way), Cerulean. |
 | `saves/ethan_route2_balance.sav` | Route 2's north grass, 36:52, mid-rebalance: PIDGEOTTO L18, PIKACHU L15, MANKEY L13, BUTTERFREE L13; ¥294, 0 badges. Next: raise MANKEY and BUTTERFREE to about 16 (solo cycles, counted), then BROCK and the CARD CASE. |
 | `saves/ethan_pewter_grind.sav` | Pewter Center, healed, after the grind: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10; ¥294, 0 badges, 30:57. Next: raise PIDGEY (2 more levels), then BROCK. |
 | `saves/ethan_after_blue.sav` | Viridian Center after beating Blue on Route 22; the spare PIKACHU is in BOX 1. MANKEY L13, PIKACHU L10, PIDGEY L5, CATERPIE L4; ¥394, 0 badges, 1:59. Levels are unbalanced (rule: at most 2 apart); next: raise PIDGEY and CATERPIE, then BROCK. |

@@ -78,44 +78,44 @@
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 13,
-   "exp": 2313,
+   "lv": 14,
+   "exp": 3193,
    "types": [
     "Fighting"
    ],
    "nature": "Quirky (neutral)",
    "ability": "Vital Spirit",
    "met": "Route 22, east grass, wild L4",
-   "role": "Leads the fights so far. Low Kick, which hits harder the heavier the target is, is the answer to Geodude and Onix.",
+   "role": "Beat Brock with LOW KICK, which hits harder the heavier the target is. Still L14 after the badge.",
    "stats": [
     [
      "HP",
-     33,
+     35,
      0
     ],
     [
      "Attack",
-     29,
+     31,
      0
     ],
     [
      "Defense",
-     15,
+     16,
      0
     ],
     [
      "Sp. Atk",
-     15,
+     16,
      0
     ],
     [
      "Sp. Def",
-     19,
+     20,
      0
     ],
     [
      "Speed",
-     25,
+     27,
      0
     ]
    ],
@@ -285,6 +285,13 @@
      "40",
      "100%",
      "35/35"
+    ],
+    [
+     "Quick Attack",
+     "Normal",
+     "40",
+     "100%",
+     "30/30"
     ]
    ]
   }

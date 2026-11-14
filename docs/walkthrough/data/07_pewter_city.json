@@ -73,9 +73,9 @@
   {
    "kind": "gift",
    "n": "5",
-   "text": "The scientist: gives the Card Case once Brock is beaten.",
-   "chip": "no",
-   "chipText": "Not yet"
+   "text": "The scientist (OAK's aide) on the east road: gives the <b>Card Case</b> and a first card pack once BROCK is beaten.",
+   "chip": "yes",
+   "chipText": "Done in our run"
   },
   {
    "kind": "hidden",

@@ -58,10 +58,21 @@ POKéMON, no badges. See [Start](00_start.md).
 After the first visit: PIKACHU L5, ¥3000, no POKéDEX (the START menu: POKéMON, BAG, ETHAN, SAVE, OPTION, EXIT).
 After the parcel: POKéDEX, 5 POKé BALLS.
 
+## Everyone and every building
+
+Done after the Boulder Badge (return visit).
+
+- **Signs:** the town sign ("PALLET TOWN Shades of your journey await!"); ETHAN's house; BLUE's house; OAK POKéMON RESEARCH LAB; TRAINER TIPS ("Press START to open the MENU!").
+- **Sign lady:** now "Signs are useful, aren't they?".
+- **Fat man** (wanders near the pond): "Technology is incredible! You can now store and recall items and POKéMON as data via PC. You have a CARD CASE too? How about a friendly duel?" and a **card duel** starts against GUS (SPEAROW as the active card, MEOWTH on his side; deck 15, hand 5; the menu offers Play (cards in hand), Look at the cards and Forfeit). We forfeited: "You lost the duel..." and "Ho ho! Small towns have big card players!". No penalty.
+- **ETHAN's house:** MOM heals the whole party for free ("ETHAN! You should take a quick rest." ... "Oh, good! You and your POKéMON are looking great. Take care now!"); the TV ("There's a movie on TV. Four boys are walking on railroad tracks. ...I better go, too."). **Bedroom:** the NES ("ETHAN played with the NES.") and a notice ("If you're confused, ask for HELP! Press the L or R Button!"). The stairs: stand on the stair tile and give a *short* right (up) or left (down) press; holding the direction overshoots.
+- **BLUE's house:** his sister **DAISY** gives the **TOWN MAP**: "Grandpa asked you to run an errand? Gee, that's lazy of him. Here, this will help you. ETHAN received a TOWN MAP from DAISY." and "You can use the TOWN MAP to find out where you are, or check the names of places." (KEY ITEMS). A bookshelf ("The shelves are crammed full of books on POKéMON.").
+- **OAK's LAB:** the aides ("I study POKéMON as PROF. OAK's AIDE."); **OAK** rates the Pokédex: "Good to see you! How is your POKéDEX coming along? Here, let me take a look. The amount of progress you've made on your POKéDEX is: 15 POKéMON seen and 7 POKéMON owned. PROF. OAK's rating: ..."
+
 ## Bugs
 
 - [Bug 1](../playthrough_bugs.md): the right half of the house's exit does nothing.
 - Interactions tried: the PC, MOM, OAK's scene, BLUE, the sign lady. The sign lady's blocking is intended (see step 6).
-- Not tried yet: the fat man and the signs, the other house.
+- Everything reachable was tried on the return visit (see "Everyone and every building"); the lab's computers, signs and Pokédex machines were out of the path planner's reach (Oak stood in the way) and were not read.
 
 **Save.** None here. See [Route 1](02_route_1.md).
