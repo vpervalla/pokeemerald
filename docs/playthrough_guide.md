@@ -363,6 +363,11 @@ Route 6/5/7/8 gate houses are closed until then.
 
 ## 7. Recording a run as a walkthrough page
 
+**The page is built from the log:** `python3 tools/playthrough/build_walkthrough.py OUT.html` turns `docs/walkthrough/*.md`,
+`docs/playthrough_bugs.md` and `docs/walkthrough/img` into one self-contained page (look in `walkthrough_template.html`; the
+status block of the overview is `STATUS` in the script, update it when a leg ends). Publish the result as an artifact.
+
+
 The user wanted the run as a shareable HTML artifact, organized in pages (Intro, Route 1, Viridian
 City, …), one per area. What worked:
 
