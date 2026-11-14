@@ -4,9 +4,8 @@ usage: fight.py [SLOT] [MAXTURNS]          (as catch.py: throw the ball under th
 Text is advanced with B inside the battle and with A outside it (B would cancel an evolution).
 Stops when back in the overworld, after MAXTURNS moves (leaving the action menu open), when a catch
 succeeds, or after 400 idle loops ("stuck": usually a "learn a new move?" prompt, answer it by hand).
-Env: SWITCH=auto  switch only when the opponent is too strong (its level is above the active Pokemon's), and then
-                  to the weakest healthy party member whose level is above the opponent's. If nobody qualifies,
-                  stay and fight. Checked once for each opponent that appears (also each next trainer Pokemon).
+Env: SWITCH=auto  switch only when the opponent is more than 2 levels above the active Pokemon, or the active one is about
+                  to faint (30% HP or less); then to the weakest healthy party member whose level is at or above the opponent's.
      SWITCH=n     force a switch to party slot n (1-5) on the first turn (manual override)
      RESHARE=1    with SWITCH=n, switch again whenever the opponent sends out its next Pokemon (the old swap trick)
      STOPEVO=1  stop as soon as the battle ends (to watch an evolution or a move prompt)"""
@@ -18,7 +17,7 @@ maxturns = int(sys.argv[2]) if len(sys.argv) > 2 else 99
 CATCH = sys.argv[0].endswith("catch.py")
 AUTO = os.environ.get("SWITCH") == "auto"
 SWITCH = 0 if AUTO else int(os.environ.get("SWITCH", "0")); pending = 1 if SWITCH else 0
-checked_ei = None
+checked_pair = None
 RESHARE = os.environ.get("RESHARE") == "1"
 ACTION_CUR, MOVE_CUR = S["gActionSelectionCursor"], S["gMoveSelectionCursor"]
 e = Emu()
@@ -39,25 +38,31 @@ def move_pp():
 
 def level_hp(base, i):
     m = e.peek(base + i * 100, 100)
-    return m[84], int.from_bytes(m[86:88], "little")
+    return m[84], int.from_bytes(m[86:88], "little"), int.from_bytes(m[88:90], "little")   # level, HP, max HP
 
 
 def pick_switch():
-    """The party slot to switch to, or 0. The opponent is too strong when its level is above the active
-    Pokemon's; then the weakest (lowest level) healthy Pokemon that is still above the opponent's level comes in."""
-    global checked_ei
+    """The party slot to switch to, or 0. A switch happens only when
+      1) the opponent is more than 2 levels above the active Pokemon (checked once for each pairing), or
+      2) the active Pokemon is about to faint (HP at or under 30% of its maximum, checked at every turn).
+    Then the weakest healthy Pokemon whose level is still at or above the opponent's comes in; if none is, the highest-level
+    healthy one does (case 2) or nobody (case 1)."""
+    global checked_pair
     ai, ei = e.peek(S["gBattlerPartyIndexes"], 1)[0], e.peek(S["gBattlerPartyIndexes"] + 2, 1)[0]
-    if ei == checked_ei: return 0
-    checked_ei = ei
-    foe, _ = level_hp(S["gEnemyParty"], ei)
-    mine, _ = level_hp(S["gPlayerParty"], ai)
-    if foe <= mine: return 0
-    best = None
+    foe, _, _ = level_hp(S["gEnemyParty"], ei)
+    mine, hp, mhp = level_hp(S["gPlayerParty"], ai)
+    dying = hp * 100 <= 30 * mhp
+    gap = foe - mine > 2 and (ai, ei) != checked_pair
+    if gap: checked_pair = (ai, ei)
+    if not (gap or dying): return 0
+    cands = []
     for i in range(e.peek(S["gPlayerPartyCount"], 1)[0]):
-        lv, hp = level_hp(S["gPlayerParty"], i)
-        if i != ai and hp > 0 and lv > foe and (best is None or lv < best[0]): best = (lv, i)
-    if best: log.append(f"auto-switch to slot {best[1]} (L{best[0]}) against L{foe}")
-    return best[1] if best else 0
+        lv, h, _ = level_hp(S["gPlayerParty"], i)
+        if i != ai and h > 0: cands.append((lv, i))
+    above = [c for c in cands if c[0] >= foe]
+    pick = min(above) if above else (max(cands) if cands and dying else None)
+    if pick: log.append(f"auto-switch to slot {pick[1]} (L{pick[0]}) against L{foe}" + (" (about to faint)" if dying else ""))
+    return pick[1] if pick else 0
 
 
 def hp_state():

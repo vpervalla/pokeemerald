@@ -94,7 +94,7 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 | --- | --- |
 | `g TOKENS` | Buttons `A B ST SE L R`, walk `U3 D2 L1 R4`, raw hold `hU5`, wait `w60`, repeat `A*5`, `shot:NAME`, `peek:ADDR:N`, `undo`. |
 | `st` | Map name, (x,y), money, party (species, level, HP, exp, nature, stats, status, moves with PP), and the enemy in a battle. Read-only. |
-| `fight [SLOT] [MAXTURNS]` | Auto-battle with move SLOT (0 top-left, 1 top-right, 2 bottom-left, 3 bottom-right) until the battle ends. Env `SWITCH=auto` (switch only against a stronger opponent), `SWITCH=n`, `RESHARE=1`, `STOPEVO=1`. |
+| `fight [SLOT] [MAXTURNS]` | Auto-battle with move SLOT (0 top-left, 1 top-right, 2 bottom-left, 3 bottom-right) until the battle ends. Env `SWITCH=auto` (switch only if the opponent is over 2 levels higher or the active one is about to faint), `SWITCH=n`, `RESHARE=1`, `STOPEVO=1`. |
 | `catch` | Throw the ball under the BAG cursor every turn until caught. Open the POKé BALLS pocket by hand once first. |
 | `gw TOKENS` | `g`, and if a wild battle interrupts, `fight ${SLOT:-0}`. |
 | `goto X Y [--adj]` | Path-find on the current map (collision + NPCs; warps blocked unless they are the goal) and walk, fighting and re-planning. Prints `blocked` when it can't move. |
@@ -197,17 +197,25 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 
 ## 4. Battle and training tactics
 
-- **Switch only against a stronger opponent.** Don't swap by habit. When the opponent's level is above the
-  active Pokémon's, switch in the weakest healthy party member whose level is still above the opponent's. If none
-  is, stay and fight (or heal). `SWITCH=auto fight 0` applies this rule at each new opponent, including a
-  trainer's next Pokémon. The old swap trick (`SWITCH=n` forces slot n, `RESHARE=1` repeats it) is a manual
-  override now: use it only to raise a weak Pokémon on purpose, and heal first.
+- **Switch only when it is needed.** Don't swap by habit. Switch only if 1) the opponent is more than 2 levels above the
+  active POKéMON, or 2) the active POKéMON is about to faint (about 30% HP or less). Then switch in the weakest healthy
+  party member whose level is still at or above the opponent's (when about to faint with nobody that high, the highest-level
+  healthy one). `SWITCH=auto fight 0` applies this rule. The old swap trick (`SWITCH=n` forces slot n, `RESHARE=1` repeats
+  it) is a manual override: use it only to bring a POKéMON that is too low back to the party's level, and heal first.
+- **Keep the team's levels balanced: at most 2 levels between the highest and the lowest POKéMON of the party.** Raise the lowest
+  ones (lead with them in easy fights, see the override above) before taking the party on to the next gym or route. A POKéMON
+  that can't be raised in reasonable time, or a duplicate, goes to the PC.
+- **Never skip a battle against an available trainer.** Every trainer that can be reached, with a sight line or by talking,
+  is fought, for the exp, the money, and the bugs the fight may show: gym trainers, route trainers, rivals at their triggers.
+  Heal first if the party needs it, then fight.
 - **Keep the party versatile.** Build a team of different types with different moves, so some member answers
   every opponent: a Water, Fire, Grass, Electric, Fighting and Flying or Psychic coverage beats three of one type.
   Before a gym or a long trainer stretch, check with `st` that the party's moves cover the opponent's types; when
   catching, prefer a type the team lacks, and teach TMs and HMs that widen coverage over a second move of a type
   the Pokémon already has. This also feeds the switch rule above: a varied team is more likely to have a member
   that is above the opponent's level and strong against it.
+- **One POKéMON of each kind.** A duplicate that adds no type or move coverage (a second PIKACHU) is deposited in the PC at
+  the next Center, since it breaks the versatility rule and drags the level average down.
 - **Prefer strong Pokémon.** Within the versatility rule, choose Pokémon with high base stats, above all a high
   Attack or Special Attack (and good Speed), and evolve them when they can. A weak species is a stopgap, to be
   replaced as soon as a stronger one of the same role turns up.
