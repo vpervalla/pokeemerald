@@ -15,6 +15,8 @@
 3. In the Mart: a youngster ("It's totally weak and it cost ¥500!", about a fish POKéMON) and a boy ("The shelves brim with all sorts of POKéMON merchandise.").
 4. Walking onto (42,21-23) on the east road starts the **Gym guide's scene**: "You're a TRAINER, right? BROCK's looking for new challengers. Follow me!" He walks the player round to the Gym door and says "If you have the right stuff, go take on BROCK!" ![Guide](img/07_gym_guide.png) ![At the door](img/07_gym_guide_end.png) The scene **repeats every time the player crosses x=42 until BROCK is beaten**, exactly as in FireRed (the scientist, who gives the CARD CASE in this build in place of the RUNNING SHOES, only appears after the badge).
 
+5. At the Center's PC (stand at (11,3) facing up): SOMEONE'S PC, DEPOSIT POKéMON, STORE: the spare PIKACHU L4 went to BOX 1. The party keeps one POKéMON of each kind. ![Deposit](img/07_pc_deposit.png)
+
 ## Party after
 
 Unchanged; healed. Money ¥250 after the Gym's first trainer. Pokédex 4 caught.

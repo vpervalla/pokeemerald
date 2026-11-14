@@ -21,9 +21,9 @@
   {
    "kind": "gift",
    "n": "1",
-   "text": "Blue's trigger: stepping on x=33 (y 4-6) starts his early battle. We turned back before it.",
-   "chip": "no",
-   "chipText": "Not triggered"
+   "text": "Blue's trigger at x=33 (y 4-6): his early battle, Pidgey L9 and Squirtle L9. Prize ¥144.",
+   "chip": "yes",
+   "chipText": "Fought in our run"
   },
   {
    "kind": "gift",
@@ -39,5 +39,23 @@
    "land_mons",
    "Tall grass"
   ]
+ ],
+ "trainers": [
+  {
+   "name": "Rival Blue",
+   "hint": "On the sand path at the trigger. Prize ¥144.",
+   "team": [
+    [
+     "pidgey",
+     9,
+     "Tackle, Sand-Attack"
+    ],
+    [
+     "squirtle",
+     9,
+     "Tackle, Tail Whip"
+    ]
+   ]
+  }
  ]
 }

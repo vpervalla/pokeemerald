@@ -3,8 +3,8 @@
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 12,
-   "exp": 1839,
+   "lv": 13,
+   "exp": 2313,
    "types": [
     "Fighting"
    ],
@@ -15,17 +15,17 @@
    "stats": [
     [
      "HP",
-     31,
+     33,
      0
     ],
     [
      "Attack",
-     27,
+     29,
      0
     ],
     [
      "Defense",
-     14,
+     15,
      0
     ],
     [
@@ -35,12 +35,12 @@
     ],
     [
      "Sp. Def",
-     18,
+     19,
      0
     ],
     [
      "Speed",
-     23,
+     25,
      0
     ]
    ],
@@ -71,8 +71,8 @@
   {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 9,
-   "exp": 776,
+   "lv": 10,
+   "exp": 1007,
    "types": [
     "Electric"
    ],
@@ -83,32 +83,32 @@
    "stats": [
     [
      "HP",
-     26,
+     28,
      0
     ],
     [
      "Attack",
-     17,
+     19,
      1
     ],
     [
      "Defense",
-     9,
+     10,
      -1
     ],
     [
      "Sp. Atk",
-     16,
+     18,
      0
     ],
     [
      "Sp. Def",
-     14,
+     15,
      0
     ],
     [
      "Speed",
-     22,
+     24,
      0
     ]
    ],
@@ -262,67 +262,6 @@
      "Bug",
      "—",
      "95%",
-     "40/40"
-    ]
-   ]
-  },
-  {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 4,
-   "exp": 93,
-   "types": [
-    "Electric"
-   ],
-   "nature": "Relaxed (+Defense, −Speed)",
-   "ability": "Static",
-   "met": "Viridian Forest, wild L3, holding an Oran Berry",
-   "role": "A spare. It is only here as a Pikachu to level or to give away.",
-   "stats": [
-    [
-     "HP",
-     17,
-     0
-    ],
-    [
-     "Attack",
-     10,
-     0
-    ],
-    [
-     "Defense",
-     9,
-     1
-    ],
-    [
-     "Sp. Atk",
-     9,
-     0
-    ],
-    [
-     "Sp. Def",
-     9,
-     0
-    ],
-    [
-     "Speed",
-     11,
-     -1
-    ]
-   ],
-   "moves": [
-    [
-     "Thundershock",
-     "Electric",
-     "40",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Growl",
-     "Normal",
-     "—",
-     "100%",
      "40/40"
     ]
    ]

@@ -22,11 +22,11 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
-    "where": "Pewter Gym",
-    "party": "Mankey L12, Pikachu L9 and 3 more",
+    "where": "Viridian City",
+    "party": "Mankey L13, Pikachu L10, Pidgey L5, Caterpie L4",
     "badges": "0",
-    "time": "1:45",
-    "save": "Pewter Gym, one step below Brock",
+    "time": "1:59",
+    "save": "Viridian City, after beating Blue",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

@@ -423,6 +423,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_after_blue.sav` | Viridian Center after beating Blue on Route 22; the spare PIKACHU is in BOX 1. MANKEY L13, PIKACHU L10, PIDGEY L5, CATERPIE L4; ¥394, 0 badges, 1:59. Levels are unbalanced (rule: at most 2 apart); next: raise PIDGEY and CATERPIE, then BROCK. |
 | `saves/ethan_brock_door.sav` | Pewter Gym, one tile below BROCK, not yet spoken to. MANKEY L12, PIKACHU L9, PIDGEY L5, CATERPIE L4, PIKACHU L4. 0 badges, ¥250, 1:45. Next: BROCK. |
 | `saves/ethan_pewter.sav` | Pewter Center, healed, before the Mart and the Gym. |
 | `saves/ethan_viridian_party.sav` | Viridian Center with PIKACHU, MANKEY and PIDGEY, before the forest. |

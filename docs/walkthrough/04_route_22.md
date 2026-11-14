@@ -4,7 +4,7 @@
 
 ## Map notes
 
-- A long east-west route to the Pokémon League gate. The upper path is sand, with **Blue's trigger at x=33 (y 4-6)**; we turned back before it.
+- A long east-west route to the Pokémon League gate. The upper path is sand, with **Blue's trigger at x=33 (y 4-6)**.
 - Two grass patches: x 34-39, y 9-13 (east of the trigger, reached from the east end) and x 15-21, y 9-13 (west of it).
 
 ## Story
@@ -13,10 +13,14 @@
 2. A wild **Mankey L4** showed up. One THUNDERSHOCK left it at 1 HP and, thanks to Pikachu's Static, paralyzed. One POKé BALL caught it, first throw. ![Weakened Mankey](img/04_mankey_weak.png) ![Caught](img/04_mankey_caught.png)
 3. Training here was slow: about fifteen battles took Pikachu from L6 to L6 and Mankey from L4 to L4. With Mankey in front and Pikachu switched in (the manual override), each fight wore Pikachu down. We went back to Viridian's Center twice and moved to Route 2.
 
+4. **Blue**, the rival, on the sand path (second visit, after Pewter and the forest; PIKACHU in front): walking onto x=33 at (33,5) stops the player: "Hey! ETHAN! You're off to the POKéMON LEAGUE? Forget about it! You probably don't have any BADGES, do you? The guard won't let you through without them. By the way, did your POKéMON get any stronger?" ![Blue](img/04_blue_hey.png)
+   - His team (the game's data): **PIDGEY L9** (Tackle, Sand-Attack) and **SQUIRTLE L9** (Tackle, Tail Whip). Both fall to THUNDERSHOCK: four turns, ¥144, PIKACHU L10. ![Battle](img/04_blue_battle.png)
+   - After the fight: "I heard the POKéMON LEAGUE is crawling with tough TRAINERS. I have to figure out how to get past them. You should quit dawdling and get a move on!" ![After](img/04_blue_after.png)
+
 ## Party after
 
-PIKACHU L6, MANKEY L4 (new). Money ¥1100.
+PIKACHU L10, MANKEY L13 after the second visit (the first visit left PIKACHU L6, MANKEY L4). Money ¥394 after the fight.
 
 ## Bugs
 
-None found. Not done: Blue's battle at the trigger, the League gate.
+None found. Not done: the League gate (needs the eight badges).
