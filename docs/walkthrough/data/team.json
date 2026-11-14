@@ -1,7 +1,331 @@
-{"mons": [{
-  "species": "pikachu", "name": "Pikachu", "lv": 6, "exp": 234, "types": ["Electric"],
-  "nature": "Lonely (+Attack, −Defense)", "ability": "Static", "met": "Gift from Prof. Oak, L5",
-  "role": "The only member so far. Thundershock does the work; Growl and Tail Whip make the first trainers easier.",
-  "stats": [["HP", 21, 0], ["Attack", 13, 1], ["Defense", 8, -1], ["Sp. Atk", 12, 0], ["Sp. Def", 11, 0], ["Speed", 16, 0]],
-  "moves": [["Thundershock", "Electric", "40", "100%", "21/30"], ["Growl", "Normal", "—", "100%", "40/40"], ["Tail Whip", "Normal", "—", "100%", "30/30"]]
-}]}
+{
+ "mons": [
+  {
+   "species": "mankey",
+   "name": "Mankey",
+   "lv": 12,
+   "exp": 1839,
+   "types": [
+    "Fighting"
+   ],
+   "nature": "Quirky (neutral)",
+   "ability": "Vital Spirit",
+   "met": "Route 22, east grass, wild L4",
+   "role": "Leads the fights so far. Low Kick, which hits harder the heavier the target is, is the answer to Geodude and Onix.",
+   "stats": [
+    [
+     "HP",
+     31,
+     0
+    ],
+    [
+     "Attack",
+     27,
+     0
+    ],
+    [
+     "Defense",
+     14,
+     0
+    ],
+    [
+     "Sp. Atk",
+     15,
+     0
+    ],
+    [
+     "Sp. Def",
+     18,
+     0
+    ],
+    [
+     "Speed",
+     23,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Scratch",
+     "Normal",
+     "40",
+     "100%",
+     "35/35"
+    ],
+    [
+     "Leer",
+     "Normal",
+     "—",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Low Kick",
+     "Fighting",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "pikachu",
+   "name": "Pikachu",
+   "lv": 9,
+   "exp": 776,
+   "types": [
+    "Electric"
+   ],
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "Fast and paralyzes with Static or Thunder Wave. Useless against Brock: Ground and Rock resist or ignore Electric.",
+   "stats": [
+    [
+     "HP",
+     26,
+     0
+    ],
+    [
+     "Attack",
+     17,
+     1
+    ],
+    [
+     "Defense",
+     9,
+     -1
+    ],
+    [
+     "Sp. Atk",
+     16,
+     0
+    ],
+    [
+     "Sp. Def",
+     14,
+     0
+    ],
+    [
+     "Speed",
+     22,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Thundershock",
+     "Electric",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Growl",
+     "Normal",
+     "—",
+     "100%",
+     "40/40"
+    ],
+    [
+     "Tail Whip",
+     "Normal",
+     "—",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Thunder Wave",
+     "Electric",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "pidgey",
+   "name": "Pidgey",
+   "lv": 5,
+   "exp": 138,
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "nature": "Impish (+Defense, −Sp. Atk)",
+   "ability": "Keen Eye",
+   "met": "Route 2, wild L3",
+   "role": "The Flying type for the versatility goal. Still weak; it needs levels.",
+   "stats": [
+    [
+     "HP",
+     19,
+     0
+    ],
+    [
+     "Attack",
+     11,
+     0
+    ],
+    [
+     "Defense",
+     9,
+     1
+    ],
+    [
+     "Sp. Atk",
+     8,
+     -1
+    ],
+    [
+     "Sp. Def",
+     9,
+     0
+    ],
+    [
+     "Speed",
+     12,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Tackle",
+     "Normal",
+     "35",
+     "95%",
+     "35/35"
+    ],
+    [
+     "Sand-Attack",
+     "Ground",
+     "—",
+     "100%",
+     "15/15"
+    ]
+   ]
+  },
+  {
+   "species": "caterpie",
+   "name": "Caterpie",
+   "lv": 4,
+   "exp": 94,
+   "types": [
+    "Bug"
+   ],
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Shield Dust",
+   "met": "Viridian Forest, wild L4",
+   "role": "To become Butterfree: Metapod at L7, Butterfree at L10, then Sleep Powder.",
+   "stats": [
+    [
+     "HP",
+     18,
+     0
+    ],
+    [
+     "Attack",
+     8,
+     0
+    ],
+    [
+     "Defense",
+     9,
+     0
+    ],
+    [
+     "Sp. Atk",
+     7,
+     0
+    ],
+    [
+     "Sp. Def",
+     5,
+     -1
+    ],
+    [
+     "Speed",
+     8,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Tackle",
+     "Normal",
+     "35",
+     "95%",
+     "35/35"
+    ],
+    [
+     "String Shot",
+     "Bug",
+     "—",
+     "95%",
+     "40/40"
+    ]
+   ]
+  },
+  {
+   "species": "pikachu",
+   "name": "Pikachu",
+   "lv": 4,
+   "exp": 93,
+   "types": [
+    "Electric"
+   ],
+   "nature": "Relaxed (+Defense, −Speed)",
+   "ability": "Static",
+   "met": "Viridian Forest, wild L3, holding an Oran Berry",
+   "role": "A spare. It is only here as a Pikachu to level or to give away.",
+   "stats": [
+    [
+     "HP",
+     17,
+     0
+    ],
+    [
+     "Attack",
+     10,
+     0
+    ],
+    [
+     "Defense",
+     9,
+     1
+    ],
+    [
+     "Sp. Atk",
+     9,
+     0
+    ],
+    [
+     "Sp. Def",
+     9,
+     0
+    ],
+    [
+     "Speed",
+     11,
+     -1
+    ]
+   ],
+   "moves": [
+    [
+     "Thundershock",
+     "Electric",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Growl",
+     "Normal",
+     "—",
+     "100%",
+     "40/40"
+    ]
+   ]
+  }
+ ]
+}

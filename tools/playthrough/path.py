@@ -39,7 +39,7 @@ for y in range(h):
         if "WATER" in n and not any(k in n for k in ("SHALLOW", "SEMI_DEEP", "UNDERWATER")) or "WATERFALL" in n:
             blocked[y, x] = True
 for o in mj.get("object_events", []):
-    if (o["x"], o["y"]) != (x1, y1):
+    if 0 <= o["x"] < w and 0 <= o["y"] < h and (o["x"], o["y"]) != (x1, y1):   # a "clone" object can sit outside the map
         blocked[o["y"], o["x"]] = True
 goal_tiles = {(x1, y1)}
 for wp in mj.get("warp_events", []):

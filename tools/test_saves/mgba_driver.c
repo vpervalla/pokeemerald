@@ -4,6 +4,7 @@
 //   shot FILE       write the screen to FILE (PPM)
 //   keys MASK N     hold the keys in MASK (bit 0 A, 1 B, 2 SELECT, 3 START, 4 RIGHT, 5 LEFT, 6 UP, 7 DOWN, 8 R, 9 L) for N frames
 //   peek ADDR LEN   print LEN bytes from the bus at ADDR (hex) as hex, on one line
+//   poke ADDR:HEX   write the bytes (one token, hex pairs) to the bus at ADDR (hex)
 //   savestate FILE / loadstate FILE
 //   sync            print "ok" (every reply is flushed, so a script can drive this through a pipe)
 // Build: cc -O2 -o mgba_driver mgba_driver.c -lmgba
@@ -75,6 +76,20 @@ int main(int argc, char **argv)
             for (i = 0; i < n; i++)
                 core->runFrame(core);
             core->setKeys(core, 0);
+        }
+        else if (!strcmp(cmd, "poke"))
+        {
+            // poke ADDR:HEXBYTES (one token, up to 199 bytes)
+            char *colon = strchr(arg, ':');
+            if (colon)
+            {
+                uint32_t addr = strtoul(arg, NULL, 16);
+                for (i = 0, colon++; colon[i] && colon[i + 1]; i += 2)
+                {
+                    char byte[3] = {colon[i], colon[i + 1], 0};
+                    core->busWrite8(core, addr + i / 2, strtoul(byte, NULL, 16));
+                }
+            }
         }
         else if (!strcmp(cmd, "peek"))
         {

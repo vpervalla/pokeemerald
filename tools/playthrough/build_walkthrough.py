@@ -22,11 +22,11 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
-    "where": "Viridian City",
-    "party": "Pikachu L6",
+    "where": "Pewter Gym",
+    "party": "Mankey L12, Pikachu L9 and 3 more",
     "badges": "0",
-    "time": "0:11",
-    "save": "Viridian City",
+    "time": "1:45",
+    "save": "Pewter Gym, one step below Brock",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
@@ -255,7 +255,7 @@ def map_panel(spec):
     a = assets()
     im = a.map_img(spec["name"], [tuple(m) for m in spec["markers"]], crop=tuple(spec["crop"]) if spec.get("crop") else None)
     key = ('<p class="key"><span class="mk item">1</span> item ball <span class="mk gift">1</span> gift / event '
-           '<span class="mk trainer">T1</span> trainer <span class="mk cut">C</span> tree that needs Cut</p>')
+           '<span class="mk hidden">1</span> hidden item <span class="mk trainer">T1</span> trainer <span class="mk cut">C</span> tree that needs Cut</p>')
     return (f'<div class="panel wide mapbox"><h3>Map</h3><div class="mapscroll"><img class="map" src="{a.b64(im, quant=True)}" '
             f'alt="Map of {esc(spec["name"])} with numbered markers"></div>{key}</div>')
 

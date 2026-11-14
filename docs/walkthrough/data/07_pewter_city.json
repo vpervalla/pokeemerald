@@ -1,0 +1,75 @@
+{
+ "sub": "Mart · Gym guide · Pokémon Center",
+ "map": {
+  "name": "PewterCity",
+  "markers": [
+   [
+    "gift",
+    17,
+    25,
+    "1"
+   ],
+   [
+    "gift",
+    28,
+    18,
+    "2"
+   ],
+   [
+    "gift",
+    15,
+    16,
+    "3"
+   ],
+   [
+    "gift",
+    42,
+    22,
+    "4"
+   ],
+   [
+    "gift",
+    46,
+    21,
+    "5"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "gift",
+   "n": "1",
+   "text": "Pokémon Center: free healing, PP included. We saved here.",
+   "chip": "yes",
+   "chipText": "Used in our run"
+  },
+  {
+   "kind": "gift",
+   "n": "2",
+   "text": "Poké Mart: Poké Ball ¥200, Potion ¥300, Antidote ¥100, Parlyz Heal ¥200, Awakening ¥250, Burn Heal ¥250, Escape Rope ¥550, Repel ¥350.",
+   "chip": "yes",
+   "chipText": "Bought 3 Potions"
+  },
+  {
+   "kind": "gift",
+   "n": "3",
+   "text": "Pewter Gym, door at (15,16). Camper Liam, then Brock.",
+   "chip": "yes",
+   "chipText": "Entered"
+  },
+  {
+   "kind": "gift",
+   "n": "4",
+   "text": "The Gym guide's trigger: tiles (42,21-23) and (43,23). It repeats until Brock is beaten.",
+   "chip": "yes",
+   "chipText": "Triggered"
+  },
+  {
+   "kind": "gift",
+   "n": "5",
+   "text": "The scientist: gives the Card Case once Brock is beaten.",
+   "chip": "no",
+   "chipText": "Not yet"
+  }
+ ]
+}

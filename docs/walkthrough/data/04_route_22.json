@@ -1,0 +1,43 @@
+{
+ "sub": "West of Viridian · Mankey · Blue's trigger",
+ "map": {
+  "name": "Route22",
+  "markers": [
+   [
+    "gift",
+    33,
+    5,
+    "1"
+   ],
+   [
+    "gift",
+    37,
+    11,
+    "2"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "gift",
+   "n": "1",
+   "text": "Blue's trigger: stepping on x=33 (y 4-6) starts his early battle. We turned back before it.",
+   "chip": "no",
+   "chipText": "Not triggered"
+  },
+  {
+   "kind": "gift",
+   "n": "2",
+   "text": "East grass patch: a wild <b>Mankey</b> was caught here (a Fighting type for the team).",
+   "chip": "yes",
+   "chipText": "Caught in our run"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE22",
+   "land_mons",
+   "Tall grass"
+  ]
+ ]
+}

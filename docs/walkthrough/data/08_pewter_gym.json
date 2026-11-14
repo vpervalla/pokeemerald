@@ -1,0 +1,69 @@
+{
+ "sub": "Camper Liam · the door before Brock",
+ "map": {
+  "name": "PewterCity_Gym",
+  "markers": [
+   [
+    "trainer",
+    3,
+    8,
+    "T1"
+   ],
+   [
+    "trainer",
+    6,
+    5,
+    "T2"
+   ],
+   [
+    "gift",
+    7,
+    12,
+    "1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "gift",
+   "n": "1",
+   "text": "The gym guy at (7,12): advice about party order.",
+   "chip": "yes",
+   "chipText": "Talked to"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Camper Liam",
+   "hint": "Stops you halfway to Brock. Prize ¥176.",
+   "team": [
+    [
+     "geodude",
+     10,
+     "Tackle, Defense Curl"
+    ],
+    [
+     "sandshrew",
+     11,
+     "Scratch, Defense Curl, Sand-Attack"
+    ]
+   ]
+  },
+  {
+   "name": "Leader Brock",
+   "hint": "Not fought yet: the run stops at the door. Prize and badge to come.",
+   "team": [
+    [
+     "geodude",
+     12,
+     "Tackle, Defense Curl"
+    ],
+    [
+     "onix",
+     14,
+     "Tackle, Bind, Rock Tomb"
+    ]
+   ]
+  }
+ ]
+}

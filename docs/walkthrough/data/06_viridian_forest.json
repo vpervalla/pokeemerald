@@ -1,0 +1,231 @@
+{
+ "sub": "Natural maze · five Bug Catchers · Caterpie",
+ "map": {
+  "name": "ViridianForest",
+  "markers": [
+   [
+    "item",
+    49,
+    60,
+    "1"
+   ],
+   [
+    "hidden",
+    28,
+    57,
+    "2"
+   ],
+   [
+    "item",
+    40,
+    21,
+    "3"
+   ],
+   [
+    "item",
+    21,
+    34,
+    "4"
+   ],
+   [
+    "item",
+    5,
+    41,
+    "5"
+   ],
+   [
+    "hidden",
+    3,
+    22,
+    "6"
+   ],
+   [
+    "trainer",
+    47,
+    45,
+    "T1"
+   ],
+   [
+    "trainer",
+    47,
+    29,
+    "T2"
+   ],
+   [
+    "trainer",
+    43,
+    6,
+    "T3"
+   ],
+   [
+    "trainer",
+    7,
+    22,
+    "T4"
+   ],
+   [
+    "trainer",
+    16,
+    5,
+    "T5"
+   ],
+   [
+    "cut",
+    51,
+    6,
+    "C"
+   ],
+   [
+    "gift",
+    62,
+    7,
+    "B"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Potion at (49,60).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Antidote at (28,57), just below the entrance.",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Antidote at (40,21).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "Potion at (21,34).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "5",
+   "text": "Poké Ball at (5,41).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "6",
+   "text": "Hidden Potion at (3,22).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "gift",
+   "n": "B",
+   "text": "Bulbasaur, lost behind three Cut trees; two angry Beedrill guard it. Needs Cut.",
+   "chip": "no",
+   "chipText": "Later"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Bug Catcher Rick",
+   "hint": "Prize ¥96.",
+   "team": [
+    [
+     "weedle",
+     6,
+     "—"
+    ],
+    [
+     "caterpie",
+     6,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Doug",
+   "hint": "Prize ¥112. The fight took 14 turns.",
+   "team": [
+    [
+     "weedle",
+     7,
+     "—"
+    ],
+    [
+     "kakuna",
+     7,
+     "—"
+    ],
+    [
+     "weedle",
+     7,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Anthony",
+   "hint": "Prize ¥128.",
+   "team": [
+    [
+     "caterpie",
+     7,
+     "—"
+    ],
+    [
+     "caterpie",
+     8,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Sammy",
+   "hint": "Prize ¥144.",
+   "team": [
+    [
+     "weedle",
+     9,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Charlie",
+   "hint": "Prize ¥112.",
+   "team": [
+    [
+     "metapod",
+     7,
+     "—"
+    ],
+    [
+     "caterpie",
+     7,
+     "—"
+    ],
+    [
+     "metapod",
+     7,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_VIRIDIAN_FOREST",
+   "land_mons",
+   "Tall grass"
+  ]
+ ]
+}

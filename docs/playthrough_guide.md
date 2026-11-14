@@ -180,6 +180,19 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   fix needs `poke 3000d90:00` style rescue: the script stops at `waitstate` and `sGlobalScriptContextStatus`
   (nm it) has to be set back to 0 for it to resume).
 - **Weather and time.** Rain starts on Route 10; the clock is the host's, so day/night tables change under you.
+- **The bag reopens on the pocket last used.** After healing with a Potion in the field, the battle bag opens on ITEMS and `catch`
+  throws nothing: open BAG, press right to the POKé BALLS pocket, back out with B, then run `catch` (it burned six turns on a Caterpie).
+- **Never press A near a trainer without looking at the menu first.** A dropped START press turns the next A into talking to him:
+  in the Pewter Gym that started BROCK's intro. Check the screen (`shot:`) after START and after each cursor move beside a leader.
+- **`g undo` adds history, it doesn't rewind twice.** Each `undo` is itself a call and saves a state. To go further back, list
+  `$PLAY_DIR/hist/*.ss`, load them with the driver (`loadstate`) into a contact sheet, and copy the clean one over `cur.ss`.
+- **`lead` needs the driver's `poke` command.** `tools/test_saves/mgba_driver.c` on this branch has it now; rebuild the driver
+  (`cc -O2 -o $PLAY_DIR/mgba_driver tools/test_saves/mgba_driver.c -lmgba`) if `lead` seems to do nothing.
+- **Blackouts happen in long walks.** The auto-battles of `gotf` and `pick` don't heal: at 3 or fewer healthy POKéMON a trip of
+  30 tiles can end in a blackout (half the money lost, team healed at the last Center, exp and trainers kept). Heal or use a
+  Potion before long walks, and watch `st` after each trainer.
+- **Warps.** Standing on a door mat does nothing until you press the direction of the door (down) once more; the first mat
+  tile of Ethan's house (5,8) never works, see bug 1.
 - **Pipes.** `g ... | head` can raise BrokenPipe; send stderr to /dev/null or read the whole output.
 
 ## 4. Battle and training tactics
@@ -272,6 +285,14 @@ New things learned by talking to people. Add to this list whenever someone expla
 - **Catching (OAK, the old man):** throw a ball at a wild POKéMON; a healthy one can escape, so weaken it first. The
   POKéDEX records the data of each POKéMON seen or caught.
 - **TEACHY TV (the old man):** a KEY ITEM that teaches the basics when something isn't clear.
+- **Weaken, then catch; the first ball often holds (Mankey, Pidgey, Caterpie, Pikachu):** a wild POKéMON at 1-8 HP, ideally
+  paralyzed (Static, Thunder Wave), is caught on the first or second ball.
+- **Forest and cave only POKéMON, skinny trees (Viridian Forest north gate):** some POKéMON live only in forests and caves, and
+  thin trees on the roadside can be cut down by a special move (Cut).
+- **Stopping an evolution (Viridian Forest north gate):** B during the evolution keeps the POKéMON as it is.
+- **Party order (Pewter Gym guy):** the first POKéMON in the list leads; change the order to suit the opponent's party.
+- **The Gym guide (Pewter):** he walks you to the Gym and repeats every time you cross x=42 on the east road until BROCK is
+  beaten; the scientist and the CARD CASE come after the badge.
 
 ## 6. Route notes (Pallet Town to Mt. Moon)
 
@@ -390,6 +411,9 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_brock_door.sav` | Pewter Gym, one tile below BROCK, not yet spoken to. MANKEY L12, PIKACHU L9, PIDGEY L5, CATERPIE L4, PIKACHU L4. 0 badges, ¥250, 1:45. Next: BROCK. |
+| `saves/ethan_pewter.sav` | Pewter Center, healed, before the Mart and the Gym. |
+| `saves/ethan_viridian_party.sav` | Viridian Center with PIKACHU, MANKEY and PIDGEY, before the forest. |
 | `saves/ethan_viridian_tutorial.sav` | Viridian City after the old man's catching tutorial: POKéDEX, 5 POKé BALLS, TEACHY TV, PIKACHU L6, ¥3000, 0 badges. |
 | `saves/ethan_route1.sav` | A new game's start: Route 1's entrance, PIKACHU L5, ¥3000, 0 badges, options FAST/OFF/SET. |
 | `saves/ethan_viridian_forest_gate.sav` | Route 2, at the forest gate. Pikachu, Pidgey, Mankey, Ledyba. |
