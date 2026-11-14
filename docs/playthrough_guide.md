@@ -257,6 +257,8 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   Check how each one is obtained in the game, and log a way that doesn't work as a bug.
 - **Grind in counted batches.** A lead that fights alone gains about 700 experience per cycle (7x the shared method): run 1-2 cycles at a time and check `st`, or a batch left running overshoots the target (PIDGEY went L10 to PIDGEOTTO L18).
 - **A defeated trainer can block a one-tile corridor.** In Mt. Moon 1F, Josh stood in the corridor at (15,17) after the fight and the walk tokens just did nothing; step around by the other side, and check `g R1` against a screenshot before assuming a text box.
+- **Mashing A buys and duels.** In a sweep, a shopkeeper's "you'll buy it?" answered with A buys (the Route 4 MAGIKARP salesman took ¥500), and a card player's "care for a duel?" starts one. Press A once at a time near shops and gamblers and look at the screen; forfeit a duel from the last menu line.
+- **The wild CHARMANDER of Mt. Moon respawns** after any fight you don't finish by catching; heal and retry. Thunder Wave plus a ball by hand worked.
 - **Heal at the Center, keep the Potions for battles.** Between fights, walk back to the nearest POKéMON Center and heal the
   whole party there (free, PP included); don't spend Potions on it. Potions are for the middle of a hard fight (a gym leader,
   a trainer with a long team) and for a POKéMON that can't reach a Center. Before a long walk or a trainer, check `st`: if
@@ -458,6 +460,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_charmander.sav` | Route 4 Center, healed: CHARMANDER L10 caught on Mt. Moon B2F, Luna's MOON STONE, 2 MOON STONES in all; MANKEY L17, BUTTERFREE L18, PIKACHU L16, PIDGEOTTO L19; ¥4514, 1 badge. MAGIKARP in the PC. Next: raise CHARMANDER, B1F to Route 4 east and its grass. |
 | `saves/ethan_mtmoon_1f.sav` | Route 4 Center, healed, Mt. Moon 1F cleared (all trainers and items); PIDGEOTTO L19, BUTTERFREE L18, MANKEY L17, PIKACHU L16; ¥4662, 1 badge. Next: the Charmander quest on B2F, then B1F to Route 4 east and its grass (catching rule). |
 | `saves/ethan_route4_center.sav` | Route 4 Center (foot of Mt. Moon), 38:14, healed: 1 badge; PIDGEOTTO L18, PIKACHU L15, BUTTERFREE L15, MANKEY L15; ¥3102; Route 3 done. Next: Mt. Moon, Cerulean. |
 | `saves/ethan_pallet_boulder.sav` | Pallet Town in front of Oak's lab, 37:13: the BOULDER BADGE, TM39, CARD CASE, TOWN MAP. PIDGEOTTO L18, PIKACHU L15, MANKEY L14, BUTTERFREE L13; ¥1694. Next: Route 3 and Mt. Moon trainers (balancing on the way), Cerulean. |

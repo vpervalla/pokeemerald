@@ -138,6 +138,27 @@
    "text": "The bald man at (42,7) is walled in by smashable rocks: Rock Smash.",
    "chip": "no",
    "chipText": "Later"
+  },
+  {
+   "kind": "gift",
+   "n": "7",
+   "text": "Mt. Moon B2F: a wild <b>Charmander L10</b> cornered at (32,30). Caught after Thunder Wave and two Thundershocks (Luna's quest).",
+   "chip": "yes",
+   "chipText": "Caught in our run"
+  },
+  {
+   "kind": "item",
+   "n": "8",
+   "text": "Star Piece on the ledge at (30,26), B2F.",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "gift",
+   "n": "9",
+   "text": "Route 4 Center: Luna's mother gives a second Moon Stone.",
+   "chip": "yes",
+   "chipText": "Done in our run"
   }
  ],
  "trainers": [

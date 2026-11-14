@@ -79,7 +79,7 @@
    "species": "mankey",
    "name": "Mankey",
    "lv": 17,
-   "exp": 4986,
+   "exp": 5654,
    "types": [
     "Fighting"
    ],
@@ -292,6 +292,60 @@
      "40",
      "100%",
      "30/30"
+    ]
+   ]
+  },
+  {
+   "species": "charmander",
+   "name": "Charmander",
+   "lv": 10,
+   "exp": 560,
+   "types": [
+    "Fire"
+   ],
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "Mt. Moon B2F, wild L10 (Luna's quest)",
+   "role": "Raises toward Charmeleon and Charizard, the Kanto goal. Far below the others in level, so it needs the next trainer fights.",
+   "stats": [
+    [
+     "HP",
+     30,
+     0
+    ],
+    [
+     "Attack",
+     15,
+     -1
+    ],
+    [
+     "Defense",
+     14,
+     0
+    ],
+    [
+     "Sp. Atk",
+     20,
+     0
+    ],
+    [
+     "Sp. Def",
+     16,
+     1
+    ],
+    [
+     "Speed",
+     18,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Scratch",
+     "Normal",
+     "40",
+     "100%",
+     "35/35"
     ]
    ]
   }
