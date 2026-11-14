@@ -27,12 +27,26 @@
 6. **Route 4 Pokémon Center:** LUNA ("How's the CHARMANDER? I'm glad it isn't alone in the dark anymore!") and her mother ("LUNA told me everything! You saved her from a wild POKéMON! Thank you so much! Please, take this. ETHAN received a MOON STONE from LUNA's mom. LUNA found it in MT. MOON. They say the CLEFAIRY dance around stones like that one. LUNA won't go into MT. MOON alone anymore. Thank you again!"): a **second MOON STONE**.
 7. The Center's other people: the **MAGIKARP salesman** at (1,3) ("I'll let you have a secret POKéMON, a MAGIKARP, for just ¥500! So, you'll buy it, am I right?"; *my A presses accepted it: ¥500 for a MAGIKARP L5 nicknamed "AAAAAAAAAA", now in the PC*); a boy ("Okay, set six POKé BALLS in my belt... Yeah, that'll do it. At most, you can have six POKéMON with you."); a gentleman at (12,5) ("Not a day goes by without TEAM ROCKET being in the news. HIKERS play cards here, too. Care for a duel, young one?" and a **card duel against ANSEL** (SPEAROW / PIDGEY / ONIX+ on his side): forfeited); a youngster; the newspaper ("TEAM ROCKET attacks CERULEAN citizens...").
 
+## B2F, the rest (second visit)
+
+- **The B2F cave is in separate pieces.** From the corridor ladder at (17,31) you can't reach the grunts: go up to B1F, along to 1F, to the ladder at 1F (5,6), B1F (3,3), walk to (22,18), and down to B2F (24,21), the big cave. Standing on an arrival ladder doesn't re-trigger it: step off and back on (`g R1 L1`).
+- **Rocket Grunts** at (12,20) (a Rattata L13 team, ¥416; CHARMANDER led and was switched out, reaching L11 then L12) and (37,21) (¥416; MANKEY to L18). The grunt at (35,12) is on another ledge reachable from the (31,11) ladder: not fought.
+- **REVIVE** at (24,6) (used on BUTTERFREE). **TM46** at (35,5) and the **ANTIDOTE** at (3,11) were out of reach this visit.
+- **Super Nerd Miguel** stands at the foot of the fossil stairs at (13,11): "Hey, stop! I found these fossils! They're both mine!" A battle (**GRIMER L12**, poisons: MANKEY was poisoned and lost HP in the field until an ANTIDOTE) paid ¥288, and then: "We'll each take a fossil! No being greedy!" The player takes the **HELIX FOSSIL** at (14,7) ("Do you want the HELIX FOSSIL?" YES), and Miguel takes the DOME FOSSIL ("All right. Then this fossil is mine!"). ![Helix](img/10_helix_fossil.png)
+- A wild **ZUBAT L8** (Pokédex +1) appeared as the player walked: weakened to 4/26 HP, caught with the last POKé BALL. ![Zubat](img/10_zubat_caught.png)
+- Out of B2F by the ladder at (5,10) to B1F (39,4) and the exit at (45,4): this is Route 4's **east** side, from where the road leads to Cerulean.
+- **Team state:** no more POKé BALLS, PIKACHU and CHARMANDER fainted in the grunts' fights, so the party walked to **Cerulean's Center** (the Route 4 east grass was passed without catching: no balls).
+
+## Cerulean City, arrival
+
+Route 4's east road ends at Cerulean's west edge (3,20). The Pokémon Center at (22,19) healed the party and the run was saved there: `saves/ethan_cerulean_arrival.sav`. The Mart (balls), the Gym and the rest of Cerulean are next.
+
 ## Party after
 
-MANKEY L17, BUTTERFREE L18, PIKACHU L16, PIDGEOTTO L19 and **CHARMANDER L10** (new; far below the rest, so the balance rule needs it raised). ¥4514. A Magikarp is in the PC.
+PIDGEOTTO L19, MANKEY L19, BUTTERFREE L18, PIKACHU L16, CHARMANDER L12, ZUBAT L8 (spread 11: the balancing is far from met; CHARMANDER and ZUBAT need fights). ¥5634. HELIX FOSSIL, STAR PIECE, MOON STONE (1 in the bag: the one from Luna's mother; the 1F stone at (3,2) did not show up as a second one), 3 POTIONS, 4 ANTIDOTES.
 
 ## Bugs
 
 None found in the game. Process lessons: the catching tool throws whatever is under the bag cursor; mashing A on a shopkeeper buys, and on a card player starts a duel.
 
-**Save.** `saves/ethan_charmander.sav` (Route 4 Center).
+**Save.** `saves/ethan_charmander.sav` (Route 4 Center), then `saves/ethan_cerulean_arrival.sav`.

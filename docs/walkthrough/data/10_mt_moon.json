@@ -159,6 +159,34 @@
    "text": "Route 4 Center: Luna's mother gives a second Moon Stone.",
    "chip": "yes",
    "chipText": "Done in our run"
+  },
+  {
+   "kind": "item",
+   "n": "10",
+   "text": "Revive at (24,6), B2F: used on Butterfree.",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "gift",
+   "n": "11",
+   "text": "Helix Fossil at (14,7), B2F, after beating Miguel (he takes the Dome Fossil).",
+   "chip": "yes",
+   "chipText": "Done in our run"
+  },
+  {
+   "kind": "gift",
+   "n": "12",
+   "text": "Wild Zubat L8 on B2F: caught.",
+   "chip": "yes",
+   "chipText": "Caught in our run"
+  },
+  {
+   "kind": "item",
+   "n": "13",
+   "text": "TM46 (35,5) and the Antidote (3,11): not reached.",
+   "chip": "no",
+   "chipText": "Later"
   }
  ],
  "trainers": [

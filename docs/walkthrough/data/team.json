@@ -78,8 +78,8 @@
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 17,
-   "exp": 5654,
+   "lv": 19,
+   "exp": 6932,
    "types": [
     "Fighting"
    ],
@@ -90,32 +90,32 @@
    "stats": [
     [
      "HP",
-     41,
+     45,
      0
     ],
     [
      "Attack",
-     36,
+     40,
      0
     ],
     [
      "Defense",
-     19,
+     21,
      0
     ],
     [
      "Sp. Atk",
-     19,
+     20,
      0
     ],
     [
      "Sp. Def",
-     23,
+     25,
      0
     ],
     [
      "Speed",
-     32,
+     36,
      0
     ]
    ],
@@ -298,8 +298,8 @@
   {
    "species": "charmander",
    "name": "Charmander",
-   "lv": 10,
-   "exp": 560,
+   "lv": 12,
+   "exp": 1047,
    "types": [
     "Fire"
    ],
@@ -310,32 +310,32 @@
    "stats": [
     [
      "HP",
-     30,
+     34,
      0
     ],
     [
      "Attack",
-     15,
+     18,
      -1
     ],
     [
      "Defense",
-     14,
+     16,
      0
     ],
     [
      "Sp. Atk",
-     20,
+     22,
      0
     ],
     [
      "Sp. Def",
-     16,
+     18,
      1
     ],
     [
      "Speed",
-     18,
+     20,
      0
     ]
    ],
@@ -346,6 +346,82 @@
      "40",
      "100%",
      "35/35"
+    ],
+    [
+     "Growl",
+     "Normal",
+     "—",
+     "100%",
+     "40/40"
+    ],
+    [
+     "Ember",
+     "Fire",
+     "40",
+     "100%",
+     "25/25"
+    ]
+   ]
+  },
+  {
+   "species": "zubat",
+   "name": "Zubat",
+   "lv": 8,
+   "exp": 512,
+   "types": [
+    "Poison",
+    "Flying"
+   ],
+   "nature": "Impish (+Defense, −Sp. Atk)",
+   "ability": "Inner Focus",
+   "met": "Mt. Moon B2F, wild L8",
+   "role": "A catch for the Pokédex, and the Golbat and Crobat line; it needs levels.",
+   "stats": [
+    [
+     "HP",
+     26,
+     0
+    ],
+    [
+     "Attack",
+     13,
+     0
+    ],
+    [
+     "Defense",
+     14,
+     1
+    ],
+    [
+     "Sp. Atk",
+     9,
+     -1
+    ],
+    [
+     "Sp. Def",
+     11,
+     0
+    ],
+    [
+     "Speed",
+     15,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Supersonic",
+     "Normal",
+     "—",
+     "55%",
+     "20/20"
+    ],
+    [
+     "Leech Life",
+     "Bug",
+     "20",
+     "100%",
+     "15/15"
     ]
    ]
   }
