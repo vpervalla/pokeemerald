@@ -4,7 +4,7 @@
    "species": "pikachu",
    "name": "Pikachu",
    "lv": 15,
-   "exp": 3375,
+   "exp": 3654,
    "types": [
     "Electric"
    ],
@@ -78,8 +78,8 @@
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 14,
-   "exp": 3193,
+   "lv": 15,
+   "exp": 3675,
    "types": [
     "Fighting"
    ],
@@ -90,32 +90,32 @@
    "stats": [
     [
      "HP",
-     35,
+     37,
      0
     ],
     [
      "Attack",
-     31,
+     32,
      0
     ],
     [
      "Defense",
-     16,
+     18,
      0
     ],
     [
      "Sp. Atk",
-     16,
+     17,
      0
     ],
     [
      "Sp. Def",
-     20,
+     21,
      0
     ],
     [
      "Speed",
-     27,
+     29,
      0
     ]
    ],
@@ -146,8 +146,8 @@
   {
    "species": "butterfree",
    "name": "Butterfree",
-   "lv": 13,
-   "exp": 2206,
+   "lv": 15,
+   "exp": 4044,
    "types": [
     "Bug",
     "Flying"
@@ -155,36 +155,36 @@
    "nature": "Naive (+Speed, −Sp. Def)",
    "ability": "Compound Eyes",
    "met": "Caught in Viridian Forest as a wild Caterpie L4",
-   "role": "Grew from Caterpie on Route 2's north grass: Metapod, then Butterfree at L10. CONFUSION and POISONPOWDER (learned at L13, replacing HARDEN) give it status and coverage.",
+   "role": "The status specialist: SLEEP POWDER and STUN SPORE (learned at L15 and L14) plus CONFUSION. It led Route 3's trainers.",
    "stats": [
     [
      "HP",
-     40,
+     45,
      0
     ],
     [
      "Attack",
-     18,
+     20,
      0
     ],
     [
      "Defense",
-     22,
+     24,
      0
     ],
     [
      "Sp. Atk",
-     28,
+     32,
      0
     ],
     [
      "Sp. Def",
-     23,
+     26,
      -1
     ],
     [
      "Speed",
-     30,
+     35,
      1
     ]
    ],
@@ -194,21 +194,21 @@
      "Normal",
      "35",
      "95%",
-     "25/35"
+     "35/35"
     ],
     [
-     "String Shot",
-     "Bug",
-     "—",
-     "95%",
-     "40/40"
-    ],
-    [
-     "PoisonPowder",
-     "Poison",
+     "Stun Spore",
+     "Grass",
      "—",
      "75%",
-     "35/35"
+     "30/30"
+    ],
+    [
+     "Sleep Powder",
+     "Grass",
+     "—",
+     "75%",
+     "15/15"
     ],
     [
      "Confusion",

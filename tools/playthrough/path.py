@@ -60,6 +60,8 @@ while q:
             if 0 <= n[0] < w and 0 <= n[1] < h and n not in prev and not blocked[n[1], n[0]]:
                 prev[n] = (c, k + "J"); q.append(n)
             continue
+        if 0 <= n[0] < w and 0 <= n[1] < h and beh(*n) in JUMP.values():
+            continue                                                   # a ledge tile can't be entered the other way
         e = {"U": "N", "D": "S", "L": "W", "R": "E"}[k]; o = {"N": "S", "S": "N", "W": "E", "E": "W"}[e]
         if walled(*c, e) or (0 <= n[0] < w and 0 <= n[1] < h and walled(*n, o)):
             continue

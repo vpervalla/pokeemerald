@@ -1,0 +1,72 @@
+{
+ "sub": "Pewter City ↔ Mt. Moon · eight trainers",
+ "map": {
+  "name": "Route3",
+  "markers": [
+   [
+    "trainer",
+    12,
+    6,
+    "T1"
+   ],
+   [
+    "trainer",
+    17,
+    4,
+    "T2"
+   ],
+   [
+    "trainer",
+    19,
+    9,
+    "T3"
+   ],
+   [
+    "trainer",
+    25,
+    4,
+    "T4"
+   ],
+   [
+    "trainer",
+    29,
+    10,
+    "T5"
+   ],
+   [
+    "trainer",
+    30,
+    3,
+    "T6"
+   ],
+   [
+    "trainer",
+    32,
+    6,
+    "T7"
+   ],
+   [
+    "trainer",
+    40,
+    11,
+    "T8"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "trainer",
+   "n": "T",
+   "text": "All eight trainers were beaten, for about ¥1400 in prizes and a lot of experience.",
+   "chip": "yes",
+   "chipText": "Done in our run"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE3",
+   "land_mons",
+   "Tall grass"
+  ]
+ ]
+}

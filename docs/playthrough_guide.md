@@ -449,6 +449,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_route4_center.sav` | Route 4 Center (foot of Mt. Moon), 38:14, healed: 1 badge; PIDGEOTTO L18, PIKACHU L15, BUTTERFREE L15, MANKEY L15; ¥3102; Route 3 done. Next: Mt. Moon, Cerulean. |
 | `saves/ethan_pallet_boulder.sav` | Pallet Town in front of Oak's lab, 37:13: the BOULDER BADGE, TM39, CARD CASE, TOWN MAP. PIDGEOTTO L18, PIKACHU L15, MANKEY L14, BUTTERFREE L13; ¥1694. Next: Route 3 and Mt. Moon trainers (balancing on the way), Cerulean. |
 | `saves/ethan_route2_balance.sav` | Route 2's north grass, 36:52, mid-rebalance: PIDGEOTTO L18, PIKACHU L15, MANKEY L13, BUTTERFREE L13; ¥294, 0 badges. Next: raise MANKEY and BUTTERFREE to about 16 (solo cycles, counted), then BROCK and the CARD CASE. |
 | `saves/ethan_pewter_grind.sav` | Pewter Center, healed, after the grind: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10; ¥294, 0 badges, 30:57. Next: raise PIDGEY (2 more levels), then BROCK. |
