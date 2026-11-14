@@ -23,10 +23,10 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
     "where": "Cerulean City Pokémon Center",
-    "party": "Pidgeotto L19, Mankey L19, Butterfree L18, Pikachu L16, Charmander L12, Zubat L8",
+    "party": "Pidgeotto L19, Mankey L19, Butterfree L19, Pikachu L16, Charmander L13, Zubat L8",
     "badges": "1",
-    "time": "41:00",
-    "save": "Cerulean City Center, healed",
+    "time": "42:00",
+    "save": "Cerulean City Center, healed (ethan_route4_done)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

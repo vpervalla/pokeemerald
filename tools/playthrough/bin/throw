@@ -1,0 +1,14 @@
+#!/bin/bash
+# throw [N] : in a battle at the action menu, throw the first POKé BALL N times (default 1), stopping when caught.
+# It goes to the POKé BALLS pocket explicitly (reading the open pocket from gBagPosition and pressing RIGHT until it is 1), so the bag's remembered pocket
+# doesn't matter (the `catch` tool uses whatever pocket was last open, which cost balls and turns).
+for i in $(seq 1 ${1:-1}); do
+  st | grep -q ENEMY || break
+  g hR5 w15 >/dev/null 2>&1; g A w100 >/dev/null 2>&1                       # BAG (the cursor is on FIGHT: RIGHT is BAG)
+  for k in 1 2 3 4 5; do [ "$(pocket)" = "1" ] && break; g hR5 w30 >/dev/null 2>&1; done   # until the POKé BALLS pocket (index 1)
+  g A w50 A w250 >/dev/null 2>&1                                              # the ball, USE
+  for k in 1 2 3 4 5 6; do g w60 >/dev/null 2>&1; done
+  [ "$(outcome)" = "7" ] && { echo CAUGHT; break; }
+  st | grep -q ENEMY || { echo over; break; }
+done
+st | grep ENEMY | cut -c1-70
