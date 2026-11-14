@@ -32,6 +32,12 @@
     46,
     21,
     "5"
+   ],
+   [
+    "hidden",
+    6,
+    3,
+    "6"
    ]
   ]
  },
@@ -70,6 +76,13 @@
    "text": "The scientist: gives the Card Case once Brock is beaten.",
    "chip": "no",
    "chipText": "Not yet"
+  },
+  {
+   "kind": "hidden",
+   "n": "6",
+   "text": "Hidden Poké Ball at (6,3), in the north-west grove.",
+   "chip": "yes",
+   "chipText": "Found"
   }
  ]
 }

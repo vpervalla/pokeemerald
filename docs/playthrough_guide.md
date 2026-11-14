@@ -316,6 +316,9 @@ New things learned by talking to people. Add to this list whenever someone expla
 - **PP (Viridian sign):** moves run out of power points; resting at a Center restores them.
 - **Weather forecast (Viridian Center scientist):** a person in the Center reads out the weather for the next towns.
 - **Caterpillars (Viridian youngster):** WEEDLE's POISON STING poisons; CATERPIE has no poison.
+- **Experience (Pewter Trainer Tips):** every POKéMON that appears in a battle, however briefly, earns EXP, which is why the lead-then-switch trick shares it.
+- **Outsiders (Pewter house):** a POKéMON obtained in a trade grows fast but may ignore an unskilled TRAINER in battle: badges are needed.
+- **Moves and catching (Pewter house):** some moves must be taught by people (TMs, tutors); a status problem (sleep, poison, burn, paralysis) makes catching easier.
 - **Party order (Pewter Gym guy):** the first POKéMON in the list leads; change the order to suit the opponent's party.
 - **The Gym guide (Pewter):** he walks you to the Gym and repeats every time you cross x=42 on the east road until BROCK is
   beaten; the scientist and the CARD CASE come after the badge.

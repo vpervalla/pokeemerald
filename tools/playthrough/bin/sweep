@@ -1,0 +1,19 @@
+#!/bin/bash
+# sweep GROUP "X Y NAME [N]" "X Y NAME [N]" ... : `talk` to each (N presses, default 5) and stack the dialogue sheets into
+# $PLAY_DIR/sweep_GROUP.png (a label-free stack, in the order given). Wandering people may be missed (their strip shows no text):
+# look at the screen and use `talk - - NAME N` for those.
+g=$1; shift
+names=""
+for t in "$@"; do set -- $t; talk $1 $2 $3 ${4:-5} >/dev/null 2>&1; names="$names $3"; done
+python3 - "$g" $names <<'PY'
+import sys, os
+from PIL import Image
+g, names = sys.argv[1], sys.argv[2:]
+d = os.environ.get("PLAY_DIR", os.path.expanduser("~/.playthrough"))
+ims = [Image.open(f"{d}/talk_{n}.png") for n in names if os.path.exists(f"{d}/talk_{n}.png")]
+W = Image.new("RGB", (480, sum(i.height for i in ims) + 12 * len(ims)), (255, 0, 255))
+y = 0
+for i in ims:
+    W.paste(i, (0, y)); y += i.height + 12
+W.save(f"{d}/sweep_{g}.png")
+PY
