@@ -135,6 +135,12 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   is, stay and fight (or heal). `SWITCH=auto fight 0` applies this rule at each new opponent, including a
   trainer's next Pokémon. The old swap trick (`SWITCH=n` forces slot n, `RESHARE=1` repeats it) is a manual
   override now: use it only to raise a weak Pokémon on purpose, and heal first.
+- **Keep the party versatile.** Build a team of different types with different moves, so some member answers
+  every opponent: a Water, Fire, Grass, Electric, Fighting and Flying or Psychic coverage beats three of one type.
+  Before a gym or a long trainer stretch, check with `st` that the party's moves cover the opponent's types; when
+  catching, prefer a type the team lacks, and teach TMs and HMs that widen coverage over a second move of a type
+  the Pokémon already has. This also feeds the switch rule above: a varied team is more likely to have a member
+  that is above the opponent's level and strong against it.
 - **Grind next to a Pokémon Center.** A good loop: heal, walk to the nearest grass, `train N` with
   `MINHP=40`, walk back, `heal`. Places that worked: Route 1 next to Mom (she heals for free),
   Viridian Center ↔ Route 22, Pewter Center ↔ the top of Route 2.
