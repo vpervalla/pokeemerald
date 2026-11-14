@@ -65,6 +65,14 @@ sets story state.
   people inside. Note what each one says and any item, gift, quest or scene they give: it feeds the area's page and the "what
   the NPCs have taught" list, and it is where missing interactions and broken scripts show up. Mark anything unreachable (behind
   a Cut tree, a locked door) and come back to it when the way opens.
+- **On a route's first visit, catch every POKéMON available for that time of day.** Read the route's wild table (the walkthrough
+  page shows day, 6:00-17:00, and night, 17:00-6:00; the game's own data is `src/data/wild_encounters.json`), and catch one of each
+  species in the table for the current time that is not yet in the POKéDEX, including grass, water, fishing and Rock Smash tables
+  once their field move or rod is available. Weaken first and use the lowest balls that work. This fills the POKéDEX, gives a card
+  for each (the CARD CASE copies every catch), tests the encounter tables, and gives trade and evolution material. The extras go to
+  the PC at the next Center so the party keeps one POKéMON of each kind and stays balanced. Species of the other time of day, or
+  that need a later HM, are noted on the area's page and caught when the player is back. Record each catch (level, where, how many
+  balls) on the page. Rare slots (1-5%) get a bounded effort: about 20 encounters, then note it as "not found".
 
 ## 1. Setup (about 5 minutes)
 
