@@ -320,6 +320,8 @@ def area_html(p, n):
         ref += wild_panels(d["wild"])
     if d.get("trainers"):
         ref += trainer_cards(d["trainers"])
+    if any(l.strip() for l in s.get("Everyone and every building", [])):
+        ref += f'<div class="panel wide"><h3>People and buildings</h3>{render(s["Everyone and every building"])}</div>'
     ref = f'<div class="ref">{ref}</div>' if ref else ""
     log = ""
     if s.get("Story"):

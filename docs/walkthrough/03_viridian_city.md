@@ -60,12 +60,10 @@ Done as the "speak to everyone, enter every building" pass, after the first Pewt
 
 ## Party after
 
-PIKACHU L6 (HP 11/21), 5 POKé BALLS, 2 POTIONS (one from the PC, one from the clerk), POKéDEX with 1 entry, ¥3000,
-0 badges.
+After the tutorial: PIKACHU L6, 5 POKé BALLS, ¥3000, POKéDEX with 1 entry. At the end of the full pass (second visit): MANKEY L13, PIKACHU L10, PIDGEY L5, CATERPIE L4; bag 7 POKé BALLS, 5 POTIONS, 5 ANTIDOTES, TEACHY TV; ¥394; 0 badges; POKéDEX 4.
 
 ## Bugs
 
-None found. Interactions tried: the Mart clerk and shop, the old man, the demo. Not tried: the woman, the second old
-man, the Center, the school.
+None found. Everything reachable was tried: the Center (nurse and PC, four people), the Mart (clerk and two customers), the house (three people and the sign), the school (two people, the bookshelf and the whole blackboard), the streets (five people, four signs) and the Gym door. Not reachable yet: the POTION in the grove at (17,5) and the Dream Eater tutor at (8,26), both behind Cut trees.
 
-**Save.** `saves/ethan_viridian_tutorial.sav`.
+**Save.** `saves/ethan_viridian_tutorial.sav` (after the tutorial).
