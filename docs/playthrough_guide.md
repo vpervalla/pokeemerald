@@ -110,7 +110,7 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 | --- | --- |
 | `g TOKENS` | Buttons `A B ST SE L R`, walk `U3 D2 L1 R4`, raw hold `hU5`, wait `w60`, repeat `A*5`, `shot:NAME`, `peek:ADDR:N`, `undo`. |
 | `st` | Map name, (x,y), money, party (species, level, HP, exp, nature, stats, status, moves with PP), and the enemy in a battle. Read-only. |
-| `fight [SLOT] [MAXTURNS]` | Auto-battle with move SLOT (0 top-left, 1 top-right, 2 bottom-left, 3 bottom-right) until the battle ends. Env `SWITCH=auto` (switch only if the opponent is over 2 levels higher or the active one is about to faint), `SWITCH=n`, `RESHARE=1`, `STOPEVO=1`. |
+| `fight [SLOT] [MAXTURNS]` | Auto-battle with move SLOT (0 top-left, 1 top-right, 2 bottom-left, 3 bottom-right) until the battle ends. Env `TYPES=1` (super effective moves, type switching in trainer battles), `SWITCH=auto` (switch only if the opponent is over 2 levels higher or the active one is about to faint), `SWITCH=n`, `RESHARE=1`, `STOPEVO=1`. |
 | `catch` | Throw the ball under the BAG cursor every turn until caught. Open the POKé BALLS pocket by hand once first. |
 | `gw TOKENS` | `g`, and if a wild battle interrupts, `fight ${SLOT:-0}`. |
 | `goto X Y [--adj]` | Path-find on the current map (collision + NPCs; warps blocked unless they are the goal) and walk, fighting and re-planning. Prints `blocked` when it can't move. |
@@ -228,8 +228,10 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
      party member that has one, even if that costs a turn. Prefer not-very-effective-resistant matches too (don't send a Fire move
      into Water, a Normal move into Rock). Check the move list with `st` before the fight and keep a spread of types for this reason.
   3. Only then the level and experience rules below (balance, sharing).
-  `fight` doesn't know about types yet: until it does, play trainer fights turn by turn with `fight SLOT 1` and the moves' types
-  (`src/data/battle_moves.h` or the walkthrough's team page), and use `SWITCH=n` to bring in the member with the right move.
+  `fight` knows about types: with `TYPES=1` (the default in `trainer`) it reads the species' types and the moves' type and power
+  from `src/` and the type chart from `src/battle_main.c`, uses a super effective move when the active POKéMON has one, and in a
+  trainer battle switches to a healthy party member that has one when it doesn't (once for each opponent POKéMON). It logs
+  `type-switch` and `type-move` lines. It doesn't use items: heal and cure by hand between fights, and check the party with `st`.
 - **Switch only when it is needed.** Don't swap by habit. Switch only if 1) the opponent is more than 2 levels above the
   active POKéMON, or 2) the active POKéMON is about to faint (about 30% HP or less). Then switch in the weakest healthy
   party member whose level is still at or above the opponent's (when about to faint with nobody that high, the highest-level

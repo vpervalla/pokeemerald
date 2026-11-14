@@ -8,6 +8,10 @@ Env: SWITCH=auto  switch only when the opponent is more than 2 levels above the 
                   to faint (30% HP or less); then to the weakest healthy party member whose level is at or above the opponent's.
      SWITCH=n     force a switch to party slot n (1-5) on the first turn (manual override)
      RESHARE=1    with SWITCH=n, switch again whenever the opponent sends out its next Pokemon (the old swap trick)
+     TYPES=1      choose the move by type: use a super effective move if the active POKeMON has one (the best one);
+                  in a TRAINER battle, if it hasn't, switch in the healthy party member that has one (once for each
+                  opponent POKeMON); otherwise use the damaging move with the best power x effectiveness x STAB.
+                  `trainer` turns it on by default (TYPES=0 to turn it off). Needs the type data from src/.
      STOPEVO=1  stop as soon as the battle ends (to watch an evolution or a move prompt)"""
 import os, sys
 from emu import *
@@ -65,6 +69,110 @@ def pick_switch():
     return pick[1] if pick else 0
 
 
+# ---------- type-aware choices (TYPES=1) ----------
+TYPES = os.environ.get("TYPES", "0") == "1"
+_data = {}
+MOVE_FALLBACK_POWER = ("LOW_KICK", "LEVEL_DAMAGE", "FIXED_DAMAGE", "SUPER_FANG", "PSYWAVE", "RETURN", "FRUSTRATION", "ENDEAVOR")
+
+
+def load_data():
+    """Species types, move type/power/effect and the type chart, read from the repository's source."""
+    import re
+    if _data: return _data
+    R = REPO
+    rd = lambda f: open(os.path.join(R, f), encoding="utf-8", errors="replace").read()
+    types = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define TYPE_(\w+)\s+(\d+)\b", rd("include/constants/pokemon.h"))}
+    sp_id = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define SPECIES_(\w+)\s+(\d+)\b", rd("include/constants/species.h"))}
+    mv_id = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define MOVE_(\w+)\s+(\d+)\b", rd("include/constants/moves.h"))}
+    sp_types = {}
+    txt = rd("src/data/pokemon/species_info.h")
+    for m in re.finditer(r"\[SPECIES_(\w+)\]\s*=\s*\{(.*?)\n    \},", txt, re.S):
+        t = re.search(r"\.types\s*=\s*\{\s*TYPE_(\w+),\s*TYPE_(\w+)", m.group(2))
+        if t and m.group(1) in sp_id: sp_types[sp_id[m.group(1)]] = (types[t.group(1)], types[t.group(2)])
+    mv = {}
+    txt = rd("src/data/battle_moves.h")
+    for m in re.finditer(r"\[MOVE_(\w+)\]\s*=\s*\{(.*?)\n    \},", txt, re.S):
+        b = m.group(2)
+        eff = re.search(r"\.effect\s*=\s*EFFECT_(\w+)", b); pw = re.search(r"\.power\s*=\s*(\d+)", b); ty = re.search(r"\.type\s*=\s*TYPE_(\w+)", b)
+        if m.group(1) in mv_id and pw and ty:
+            power = int(pw.group(1))
+            if power == 0 and eff and any(k in eff.group(1) for k in MOVE_FALLBACK_POWER): power = 40
+            mv[mv_id[m.group(1)]] = (m.group(1), types[ty.group(1)], power)
+    chart = {}
+    mul = {"NO_EFFECT": 0, "NOT_EFFECTIVE": 5, "NORMAL": 10, "SUPER_EFFECTIVE": 20}
+    body = rd("src/battle_main.c")
+    body = body[body.index("gTypeEffectiveness[366]"):]
+    for line in body.split("\n")[2:]:
+        if "TYPE_FORESIGHT" in line or "};" in line: break
+        t = re.findall(r"TYPE_(\w+)", line)
+        if len(t) == 3 and t[0] in types and t[1] in types: chart[(types[t[0]], types[t[1]])] = mul[t[2][4:]] if t[2].startswith("MUL_") else 10
+    _data.update(types=types, sp_types=sp_types, mv=mv, chart=chart, tname={v: k for k, v in types.items()})
+    return _data
+
+
+def decode(base, i):
+    """(species, [move ids], [pp], level, hp, max hp) of a party member."""
+    m = e.peek(base + i * 100, 100)
+    pers, otid = int.from_bytes(m[:4], "little"), int.from_bytes(m[4:8], "little")
+    k = pers ^ otid
+    raw = b"".join((int.from_bytes(m[32 + j * 4:36 + j * 4], "little") ^ k).to_bytes(4, "little") for j in range(12))
+    order = ORDERS[pers % 24]
+    G, A = raw[order.index("G") * 12:][:12], raw[order.index("A") * 12:][:12]
+    moves = [int.from_bytes(A[2 * j:2 * j + 2], "little") for j in range(4)]
+    return (int.from_bytes(G[:2], "little"), moves, list(A[8:12]), m[84], int.from_bytes(m[86:88], "little"), int.from_bytes(m[88:90], "little"))
+
+
+def effectiveness(move_type, def_types):
+    d = load_data(); f = 1.0
+    for t in set(def_types):
+        f *= d["chart"].get((move_type, t), 10) / 10
+    return f
+
+
+def best_move(mon, foe_types, banned_slots=()):
+    """(score, slot, effectiveness, name) of the member's best damaging move against foe_types, or None."""
+    d = load_data(); sp, moves, pp, *_ = mon
+    own = d["sp_types"].get(sp, ())
+    best = None
+    for slot, mid in enumerate(moves):
+        if not mid or pp[slot] <= 0 or slot in banned_slots or mid not in d["mv"]: continue
+        name, ty, power = d["mv"][mid]
+        if power <= 0: continue
+        eff = effectiveness(ty, foe_types)
+        score = power * eff * (1.5 if ty in own else 1.0)
+        if best is None or score > best[0]: best = (score, slot, eff, name)
+    return best
+
+
+switched_for = set()
+
+
+def type_plan():
+    """('move', slot) or ('switch', party index) or None, by the type rules."""
+    d = load_data()
+    ai, ei = e.peek(S["gBattlerPartyIndexes"], 1)[0], e.peek(S["gBattlerPartyIndexes"] + 2, 1)[0]
+    foe = decode(S["gEnemyParty"], ei); ft = d["sp_types"].get(foe[0])
+    if not ft: return None
+    me = decode(S["gPlayerParty"], ai)
+    mine = best_move(me, ft, banned)
+    trainer = bool(e.u32(S["gBattleTypeFlags"]) & 8)
+    if mine and mine[2] >= 2: return ("move", mine[1], mine, ft)
+    if trainer and (ai, ei) not in switched_for:
+        cands = []
+        for i in range(e.peek(S["gPlayerPartyCount"], 1)[0]):
+            if i == ai: continue
+            m = decode(S["gPlayerParty"], i)
+            if m[4] <= 0 or m[4] * 100 < 30 * m[5]: continue            # fainted or nearly
+            bm = best_move(m, ft)
+            if bm and bm[2] >= 2: cands.append((bm[0] * m[4] / m[5], i, bm))
+        if cands:
+            switched_for.add((ai, ei))
+            sc, i, bm = max(cands)
+            return ("switch", i, bm, ft)
+    if mine: return ("move", mine[1], mine, ft)
+    return None
+
+
 def hp_state():
     """(my active HP, foe active HP): if neither changes for a turn the chosen move did nothing (Disable, no PP left)"""
     mi, ei = e.peek(S["gBattlerPartyIndexes"], 1)[0], e.peek(S["gBattlerPartyIndexes"] + 2, 1)[0]
@@ -95,6 +203,16 @@ def cursor(addr, want):
     if (cur & 2) != (want & 2): e.keys(BIT["DOWN"] if want & 2 else BIT["UP"], 4); e.wait(8)
 
 
+def go_party(cur, target):
+    """Move the party menu's cursor from slot cur to slot target (slot 0 is the big box on the left, 1-5 stack on the right)."""
+    if cur == target: return
+    if target == 0:
+        e.keys(BIT["LEFT"], 4); e.wait(10); return
+    if cur == 0:
+        e.keys(BIT["RIGHT"], 4); e.wait(10); cur = 1
+    for _ in range(abs(target - cur)): e.keys(BIT["DOWN"] if target > cur else BIT["UP"], 4); e.wait(10)
+
+
 for _ in range(3000):
     cb2 = e.cb2()
     if cb2 == CB2_OVERWORLD:
@@ -107,6 +225,15 @@ for _ in range(3000):
             if last_ei is not None and ei != last_ei:
                 pending += 2                                  # new opponent: the weak Pokemon in, then out again
             last_ei = ei
+        if TYPES and not pending:
+            plan = type_plan()
+            if plan and plan[0] == "switch":
+                tn = d_tn = load_data()["tname"]
+                log.append(f"type-switch to slot {plan[1]}: {plan[2][3]} (x{plan[2][2]:g}) vs {'/'.join(tn[t] for t in set(plan[3]))}")
+                SWITCH = plan[1]; pending = 1
+            elif plan:
+                slot = plan[1]
+                if plan[2][2] >= 2 or plan[2][2] < 1: log.append(f"type-move {plan[2][3]} (x{plan[2][2]:g})")
         if AUTO and not pending:
             SWITCH = pick_switch()
             pending = 1 if SWITCH else 0
@@ -114,8 +241,7 @@ for _ in range(3000):
             pending -= 1
             cursor(ACTION_CUR, 2)                             # POKeMON
             e.keys(BIT["A"], 4); e.wait(90)
-            e.keys(BIT["RIGHT"], 4); e.wait(10)               # party slot 1
-            for _ in range(SWITCH - 1): e.keys(BIT["DOWN"], 4); e.wait(10)
+            go_party(e.peek(S["gBattlerPartyIndexes"], 1)[0], SWITCH)
             e.keys(BIT["A"], 4); e.wait(30); e.keys(BIT["A"], 4); e.wait(60)   # SHIFT
         elif CATCH:
             cursor(ACTION_CUR, 1)                             # BAG; it reopens on the last pocket used
