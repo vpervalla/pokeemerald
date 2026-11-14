@@ -1,0 +1,25 @@
+#!/bin/bash
+# talk X Y NAME [PRESSES]   (or  talk - - NAME [PRESSES]  to skip the walk) : walk next to the person/sign at (X,Y), face it, and press A PRESSES times (default 8) with a
+# screenshot after each. Writes the dialogue lines as one sheet to $PLAY_DIR/talk.png (and shots/NAME_N.png). Stops pressing
+# when the overworld is free again. Does not fight (use `trainer` for trainers).
+n=${4:-8}
+[ "$1" = "-" ] || pick $1 $2 $3 2>&1 | tail -1   # talk - - NAME N: just press A where you stand
+for i in $(seq 1 $n); do g A w70 shot:$3_$i >/dev/null 2>&1; done
+g B w30 >/dev/null 2>&1
+python3 - "$3" "$n" <<'PY'
+import sys, os
+from PIL import Image
+name, n = sys.argv[1], int(sys.argv[2])
+d = os.path.join(os.environ.get("PLAY_DIR", os.path.expanduser("~/.playthrough")), "shots")
+ims, last = [], None
+for i in range(1, n + 1):
+    p = f"{d}/{name}_{i}.png"
+    if not os.path.exists(p): continue
+    im = Image.open(p).crop((0, 112, 240, 160)).resize((480, 96))
+    b = im.tobytes()
+    if b == last: continue
+    last = b; ims.append(im)
+W = Image.new("RGB", (480, 96 * max(1, len(ims))))
+for i, m in enumerate(ims): W.paste(m, (0, 96 * i))
+W.save(os.path.join(os.environ.get("PLAY_DIR", os.path.expanduser("~/.playthrough")), "talk_" + name + ".png"))
+PY

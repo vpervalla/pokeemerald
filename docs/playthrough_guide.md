@@ -310,6 +310,11 @@ New things learned by talking to people. Add to this list whenever someone expla
 - **Forest and cave only POKéMON, skinny trees (Viridian Forest north gate):** some POKéMON live only in forests and caves, and
   thin trees on the roadside can be cut down by a special move (Cut).
 - **Stopping an evolution (Viridian Forest north gate):** B during the evolution keeps the POKéMON as it is.
+- **Status conditions (Viridian school blackboard):** sleep (AWAKENING), poison (ANTIDOTE), paralysis (PARLYZ HEAL), burn (BURN HEAL) and
+  freeze (ICE HEAL) all stay after battles, so cure them with the item or a Center.
+- **PP (Viridian sign):** moves run out of power points; resting at a Center restores them.
+- **Weather forecast (Viridian Center scientist):** a person in the Center reads out the weather for the next towns.
+- **Caterpillars (Viridian youngster):** WEEDLE's POISON STING poisons; CATERPIE has no poison.
 - **Party order (Pewter Gym guy):** the first POKéMON in the list leads; change the order to suit the opponent's party.
 - **The Gym guide (Pewter):** he walks you to the Gym and repeats every time you cross x=42 on the east road until BROCK is
   beaten; the scientist and the CARD CASE come after the badge.

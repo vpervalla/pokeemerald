@@ -1,11 +1,86 @@
 {
  "sub": "Oak's Parcel · catching tutorial · Poké Mart",
- "map": {"name": "ViridianCity", "markers": [["gift", 36, 19, "1"], ["gift", 21, 6, "2"], ["item", 17, 5, "3"], ["gift", 26, 26, "4"], ["cut", 18, 5, "C"], ["cut", 11, 24, "C"]]},
+ "map": {
+  "name": "ViridianCity",
+  "markers": [
+   [
+    "gift",
+    36,
+    19,
+    "1"
+   ],
+   [
+    "gift",
+    21,
+    6,
+    "2"
+   ],
+   [
+    "item",
+    17,
+    5,
+    "3"
+   ],
+   [
+    "gift",
+    26,
+    26,
+    "4"
+   ],
+   [
+    "cut",
+    18,
+    5,
+    "C"
+   ],
+   [
+    "cut",
+    11,
+    24,
+    "C"
+   ]
+  ]
+ },
  "items": [
-  {"kind": "gift", "n": "1", "text": "Poké Mart: the clerk gives you <b>Oak's Parcel</b> the moment you walk in. Poké Ball ¥200, Potion ¥300, Antidote ¥100, Parlyz Heal ¥200.", "chip": "yes", "chipText": "Done in our run"},
-  {"kind": "gift", "n": "2", "text": "Old man: blocks the north road until the parcel is delivered. Then he shows how to catch a POKéMON and gives the <b>Teachy TV</b>.", "chip": "yes", "chipText": "Done in our run"},
-  {"kind": "item", "n": "3", "text": "Potion: item ball in the fenced grove north-west, behind a tree that needs Cut.", "chip": "no", "chipText": "Not collected"},
-  {"kind": "gift", "n": "4", "text": "Pokémon Center: free healing.", "chip": "no", "chipText": "Not visited yet"}
+  {
+   "kind": "gift",
+   "n": "1",
+   "text": "Poké Mart: the clerk gives you <b>Oak's Parcel</b> the moment you walk in. Poké Ball ¥200, Potion ¥300, Antidote ¥100, Parlyz Heal ¥200.",
+   "chip": "yes",
+   "chipText": "Done in our run"
+  },
+  {
+   "kind": "gift",
+   "n": "2",
+   "text": "Old man: blocks the north road until the parcel is delivered. Then he shows how to catch a POKéMON and gives the <b>Teachy TV</b>.",
+   "chip": "yes",
+   "chipText": "Done in our run"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Potion: item ball in the fenced grove north-west, behind a tree that needs Cut.",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "gift",
+   "n": "4",
+   "text": "Pokémon Center: free healing.",
+   "chip": "yes",
+   "chipText": "Used in our run"
+  }
  ],
- "wild": [["MAP_VIRIDIAN_CITY", "water_mons", "Surfing"], ["MAP_VIRIDIAN_CITY", "fishing_mons", "Fishing"]]
+ "wild": [
+  [
+   "MAP_VIRIDIAN_CITY",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_VIRIDIAN_CITY",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ]
 }
