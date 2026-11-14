@@ -227,6 +227,10 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
     Slateport side), see `docs/johto_starters_plan.md`.
 
   Check how each one is obtained in the game, and log a way that doesn't work as a bug.
+- **Heal at the Center, keep the Potions for battles.** Between fights, walk back to the nearest POKéMON Center and heal the
+  whole party there (free, PP included); don't spend Potions on it. Potions are for the middle of a hard fight (a gym leader,
+  a trainer with a long team) and for a POKéMON that can't reach a Center. Before a long walk or a trainer, check `st`: if
+  the lead is under about half HP, go back and heal first.
 - **Grind next to a Pokémon Center.** A good loop: heal, walk to the nearest grass, `train N` with
   `MINHP=40`, walk back, `heal`. Places that worked: Route 1 next to Mom (she heals for free),
   Viridian Center ↔ Route 22, Pewter Center ↔ the top of Route 2.
