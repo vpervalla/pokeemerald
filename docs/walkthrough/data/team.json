@@ -3,8 +3,8 @@
   {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 15,
-   "exp": 3654,
+   "lv": 16,
+   "exp": 4096,
    "types": [
     "Electric"
    ],
@@ -15,32 +15,32 @@
    "stats": [
     [
      "HP",
-     37,
+     39,
      0
     ],
     [
      "Attack",
-     26,
+     28,
      1
     ],
     [
      "Defense",
-     13,
+     14,
      -1
     ],
     [
      "Sp. Atk",
-     24,
+     25,
      0
     ],
     [
      "Sp. Def",
-     20,
+     21,
      0
     ],
     [
      "Speed",
-     39,
+     41,
      0
     ]
    ],
@@ -78,8 +78,8 @@
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 15,
-   "exp": 3675,
+   "lv": 17,
+   "exp": 4986,
    "types": [
     "Fighting"
    ],
@@ -90,32 +90,32 @@
    "stats": [
     [
      "HP",
-     37,
+     41,
      0
     ],
     [
      "Attack",
-     32,
+     36,
      0
     ],
     [
      "Defense",
-     18,
+     19,
      0
     ],
     [
      "Sp. Atk",
-     17,
+     19,
      0
     ],
     [
      "Sp. Def",
-     21,
+     23,
      0
     ],
     [
      "Speed",
-     29,
+     32,
      0
     ]
    ],
@@ -146,8 +146,8 @@
   {
    "species": "butterfree",
    "name": "Butterfree",
-   "lv": 15,
-   "exp": 4044,
+   "lv": 18,
+   "exp": 6238,
    "types": [
     "Bug",
     "Flying"
@@ -159,32 +159,32 @@
    "stats": [
     [
      "HP",
-     45,
+     53,
      0
     ],
     [
      "Attack",
-     20,
-     0
-    ],
-    [
-     "Defense",
      24,
      0
     ],
     [
+     "Defense",
+     29,
+     0
+    ],
+    [
      "Sp. Atk",
-     32,
+     37,
      0
     ],
     [
      "Sp. Def",
-     26,
+     30,
      -1
     ],
     [
      "Speed",
-     35,
+     41,
      1
     ]
    ],
@@ -222,8 +222,8 @@
   {
    "species": "pidgeotto",
    "name": "Pidgeotto",
-   "lv": 18,
-   "exp": 4511,
+   "lv": 19,
+   "exp": 4613,
    "types": [
     "Normal",
     "Flying"
@@ -235,32 +235,32 @@
    "stats": [
     [
      "HP",
-     52,
+     54,
      0
     ],
     [
      "Attack",
-     32,
+     33,
      0
     ],
     [
      "Defense",
-     28,
+     29,
      1
     ],
     [
      "Sp. Atk",
-     23,
+     24,
      -1
     ],
     [
      "Sp. Def",
-     25,
+     26,
      0
     ],
     [
      "Speed",
-     42,
+     46,
      0
     ]
    ],

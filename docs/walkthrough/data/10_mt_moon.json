@@ -1,0 +1,167 @@
+{
+ "sub": "1F cleared · Rare Candy · Moon Stone · TM09",
+ "map": {
+  "name": "MtMoon_1F",
+  "markers": [
+   [
+    "item",
+    2,
+    22,
+    "1"
+   ],
+   [
+    "item",
+    11,
+    35,
+    "2"
+   ],
+   [
+    "item",
+    26,
+    32,
+    "3"
+   ],
+   [
+    "item",
+    42,
+    35,
+    "4"
+   ],
+   [
+    "item",
+    44,
+    21,
+    "5"
+   ],
+   [
+    "item",
+    3,
+    2,
+    "6"
+   ],
+   [
+    "trainer",
+    20,
+    26,
+    "T1"
+   ],
+   [
+    "trainer",
+    36,
+    30,
+    "T2"
+   ],
+   [
+    "trainer",
+    30,
+    35,
+    "T3"
+   ],
+   [
+    "trainer",
+    33,
+    4,
+    "T4"
+   ],
+   [
+    "trainer",
+    7,
+    26,
+    "T5"
+   ],
+   [
+    "trainer",
+    13,
+    17,
+    "T6"
+   ],
+   [
+    "trainer",
+    7,
+    10,
+    "T7"
+   ],
+   [
+    "cut",
+    42,
+    7,
+    "R"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Paralyz Heal at (2,22).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "TM09 at (11,35).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Potion at (26,32).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "Rare Candy at (42,35): used on Pikachu.",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "5",
+   "text": "Escape Rope at (44,21): used to leave the cave.",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "6",
+   "text": "Moon Stone at (3,2).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "cut",
+   "n": "R",
+   "text": "The bald man at (42,7) is walled in by smashable rocks: Rock Smash.",
+   "chip": "no",
+   "chipText": "Later"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Lass Iris",
+   "hint": "Prize ¥224.",
+   "team": [
+    [
+     "clefairy",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Miriam",
+   "hint": "Prize ¥176.",
+   "team": [
+    [
+     "oddish",
+     11,
+     "—"
+    ]
+   ]
+  }
+ ]
+}
