@@ -58,6 +58,14 @@ sets story state.
 4. Don't fix the source in the middle of a leg. At the end of the leg, fix the clear and small bugs, each in its own
    commit with the bug's number, rebuild, and retest from the saved state. Large or unclear ones stay logged for the user.
 
+## Exploring every area
+
+- **Speak to every reachable NPC and go inside every building.** In each town, city and route: talk to each person who can be
+  reached (more than once if they say something new), read every sign, enter every house, shop, Center and gym, and talk to the
+  people inside. Note what each one says and any item, gift, quest or scene they give: it feeds the area's page and the "what
+  the NPCs have taught" list, and it is where missing interactions and broken scripts show up. Mark anything unreachable (behind
+  a Cut tree, a locked door) and come back to it when the way opens.
+
 ## 1. Setup (about 5 minutes)
 
 ```sh
