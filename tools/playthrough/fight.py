@@ -9,8 +9,10 @@ Env: SWITCH=auto  switch only when the opponent is more than 2 levels above the 
      SWITCH=n     force a switch to party slot n (1-5) on the first turn (manual override)
      RESHARE=1    with SWITCH=n, switch again whenever the opponent sends out its next Pokemon (the old swap trick)
      TYPES=1      choose the move by type: use a super effective move if the active POKeMON has one (the best one);
-                  in a TRAINER battle, if it hasn't, switch in the healthy party member that has one (once for each
-                  opponent POKeMON); otherwise use the damaging move with the best power x effectiveness x STAB.
+                  in a TRAINER battle, switch out when one of the opponent's moves is super effective against the lead (to a
+                  member the opponent's moves don't threaten that has a super effective move, best of all one that resists it)
+                  and when the lead has no super effective move (to one that has); max two switches for each opponent
+                  POKeMON; otherwise the damaging move with the best power x effectiveness x STAB.
                   `trainer` turns it on by default (TYPES=0 to turn it off). Needs the type data from src/.
      STOPEVO=1  stop as soon as the battle ends (to watch an evolution or a move prompt)"""
 import os, sys
@@ -86,6 +88,7 @@ def load_data():
     mv_id = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define MOVE_(\w+)\s+(\d+)\b", rd("include/constants/moves.h"))}
     sp_types = {}
     txt = rd("src/data/pokemon/species_info.h")
+    txt = txt[txt.index("[SPECIES_NONE]"):].split("\n", 1)[1]     # "[SPECIES_NONE] = {0}," has no closing brace line
     for m in re.finditer(r"\[SPECIES_(\w+)\]\s*=\s*\{(.*?)\n    \},", txt, re.S):
         t = re.search(r"\.types\s*=\s*\{\s*TYPE_(\w+),\s*TYPE_(\w+)", m.group(2))
         if t and m.group(1) in sp_id: sp_types[sp_id[m.group(1)]] = (types[t.group(1)], types[t.group(2)])
@@ -144,11 +147,30 @@ def best_move(mon, foe_types, banned_slots=()):
     return best
 
 
-switched_for = set()
+switched_for = {}
+
+
+def threat(foe_mon, my_types):
+    """The strongest effectiveness any damaging move of the foe has against a POKeMON of my_types (1.0 if it has none)."""
+    d = load_data(); worst = None
+    for mid, pp in zip(foe_mon[1], foe_mon[2]):
+        if not mid or pp <= 0 or mid not in d["mv"]: continue
+        name, ty, power = d["mv"][mid]
+        if power <= 0: continue
+        eff = effectiveness(ty, my_types)
+        worst = eff if worst is None else max(worst, eff)
+    return 1.0 if worst is None else worst
 
 
 def type_plan():
-    """('move', slot) or ('switch', party index) or None, by the type rules."""
+    """('move', slot, best, foe types) or ('switch', party index, best, foe types) or None, by the type rules:
+      1. the foe has a move that is super effective against the active POKeMON (trainer battles): switch in a healthy member that
+         the foe's moves do not threaten and that has a super effective move; best of all one that resists the foe;
+         failing that one that resists it; failing that stay;
+      2. otherwise a super effective move if the active one has it (the best one);
+      3. a trainer battle and the active one has none: switch in a member that has one (and prefers resisting the foe);
+      4. else the damaging move with the best power x effectiveness x STAB.
+    At most two switches for each opponent POKeMON, so it can't ping-pong."""
     d = load_data()
     ai, ei = e.peek(S["gBattlerPartyIndexes"], 1)[0], e.peek(S["gBattlerPartyIndexes"] + 2, 1)[0]
     foe = decode(S["gEnemyParty"], ei); ft = d["sp_types"].get(foe[0])
@@ -156,19 +178,31 @@ def type_plan():
     me = decode(S["gPlayerParty"], ai)
     mine = best_move(me, ft, banned)
     trainer = bool(e.u32(S["gBattleTypeFlags"]) & 8)
-    if mine and mine[2] >= 2: return ("move", mine[1], mine, ft)
-    if trainer and (ai, ei) not in switched_for:
+    my_t = d["sp_types"].get(me[0], ())
+    threatened = threat(foe, my_t) >= 2
+    can_switch = trainer and switched_for.get(ei, 0) < 2
+    if can_switch and (threatened or not (mine and mine[2] >= 2)):
         cands = []
         for i in range(e.peek(S["gPlayerPartyCount"], 1)[0]):
             if i == ai: continue
             m = decode(S["gPlayerParty"], i)
             if m[4] <= 0 or m[4] * 100 < 30 * m[5]: continue            # fainted or nearly
+            mt = d["sp_types"].get(m[0], ())
+            dmg = threat(foe, mt)                                       # what the foe's moves do to it
+            resist = max(effectiveness(t, mt) for t in set(ft))         # what the foe's own types (its STAB) do to it
             bm = best_move(m, ft)
-            if bm and bm[2] >= 2: cands.append((bm[0] * m[4] / m[5], i, bm))
+            offense = bm[2] >= 2 if bm else False
+            if threatened:
+                if dmg >= 2: continue                                   # no better off
+                if not offense and dmg > 0.5: continue                  # nothing to gain
+            elif not offense:
+                continue
+            frac = m[4] / m[5]
+            cands.append((offense, -resist, -dmg, (bm[0] if bm else 0) * frac, i, bm, dmg))
         if cands:
-            switched_for.add((ai, ei))
-            sc, i, bm = max(cands)
-            return ("switch", i, bm, ft)
+            _, _, _, _, i, bm, dmg = max(cands, key=lambda c: c[:4])
+            switched_for[ei] = switched_for.get(ei, 0) + 1
+            return ("switch", i, bm if bm else (0, 0, 1.0, "-"), ft, dmg, threatened)
     if mine: return ("move", mine[1], mine, ft)
     return None
 
@@ -229,7 +263,7 @@ for _ in range(3000):
             plan = type_plan()
             if plan and plan[0] == "switch":
                 tn = d_tn = load_data()["tname"]
-                log.append(f"type-switch to slot {plan[1]}: {plan[2][3]} (x{plan[2][2]:g}) vs {'/'.join(tn[t] for t in set(plan[3]))}")
+                log.append(f"type-switch to slot {plan[1]}: {plan[2][3]} (x{plan[2][2]:g}), the foe's moves do x{plan[4]:g} to it" + (" [the foe threatened the lead]" if plan[5] else "") + f" vs {'/'.join(tn[t] for t in set(plan[3]))}")
                 SWITCH = plan[1]; pending = 1
             elif plan:
                 slot = plan[1]

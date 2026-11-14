@@ -227,10 +227,17 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
      data) and use a move that is super effective against it. If the POKéMON in front has one, use that move. If not, switch in a
      party member that has one, even if that costs a turn. Prefer not-very-effective-resistant matches too (don't send a Fire move
      into Water, a Normal move into Rock). Check the move list with `st` before the fight and keep a spread of types for this reason.
-  3. Only then the level and experience rules below (balance, sharing).
+  3. **Switch out of a type that is super effective against the lead.** If one of the opponent's moves is super effective
+     against the POKéMON in front (CHARMANDER against SQUIRTLE), switch it out. Bring in a member that has a super effective move
+     against the opponent, preferably one that also resists the opponent's type: BULBASAUR (resists Water, Vine Whip) over
+     PIKACHU (neutral to Water) against SQUIRTLE. If nobody has a super effective move but one resists, bring that one; if none
+     is better, stay. At most two switches for each opposing POKéMON.
+  4. Only then the level and experience rules below (balance, sharing).
   `fight` knows about types: with `TYPES=1` (the default in `trainer`) it reads the species' types and the moves' type and power
-  from `src/` and the type chart from `src/battle_main.c`, uses a super effective move when the active POKéMON has one, and in a
-  trainer battle switches to a healthy party member that has one when it doesn't (once for each opponent POKéMON). It logs
+  from `src/` and the type chart from `src/battle_main.c`, uses a super effective move when the active POKéMON has one; in a
+  trainer battle it switches out when one of the opponent's moves (read from the game's memory) is super effective against the
+  lead, or when the lead has no super effective move, to a healthy member that the opponent's moves don't threaten and that has one,
+  preferring a member that resists the opponent's type (two switches at most for each opposing POKéMON). It logs
   `type-switch` and `type-move` lines. It doesn't use items: heal and cure by hand between fights, and check the party with `st`.
 - **Switch only when it is needed.** Don't swap by habit. Switch only if 1) the opponent is more than 2 levels above the
   active POKéMON, or 2) the active POKéMON is about to faint (about 30% HP or less). Then switch in the weakest healthy
