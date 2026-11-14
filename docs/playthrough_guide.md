@@ -486,6 +486,8 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | --- | --- |
 | `saves/ethan_cerulean_arrival.sav` | Cerulean Center, healed, 41:00: Mt. Moon cleared of what was reachable; HELIX FOSSIL, ZUBAT caught; PIDGEOTTO L19, MANKEY L19, BUTTERFREE L18, PIKACHU L16, CHARMANDER L12, ZUBAT L8; ¥5634, 1 badge; no POKé BALLS left. Next: Cerulean's Mart (balls) and sweep, then back to Route 4's grass for the catching rule. |
 | `saves/ethan_route4_done.sav` | Cerulean Center, healed: Route 4 east grass done (Spearow, Rattata, Sandshrew, Ekans in the PC); BUTTERFREE L19, CHARMANDER L13, ZUBAT L8 still behind; ¥834, 12+ POKé BALLS, 10 POTIONS. Route 4's upper road (CRISSY, TM05, tutors) is not walkable from here: needs CUT or another link. Next: sweep Cerulean (Gym, Nugget Bridge, houses). |
+| `saves/ethan_nugget_bridge.sav` | Cerulean Center, healed, 47:48: rival Blue, Nugget Bridge and Route 25 done, S.S. TICKET, NUGGET, TM45; Oddish, Hoothoot, Spinarak, Abra, Bellsprout, Squirtle caught (PC); 15 POKé BALLS; ¥1278. |
+| `saves/ethan_misty_beaten.sav` | Cerulean Gym, 48:03, 2 badges (CASCADE), TM03; BUTTERFREE L23, PIDGEOTTO L21, MANKEY L21, CHARMELEON L18, PIKACHU L18, ZUBAT L8 (the first four have fainted: heal first); ¥6586. Next: Center, then Route 5 / Vermilion and the S.S. Anne (CUT). |
 | `saves/ethan_charmander.sav` | Route 4 Center, healed: CHARMANDER L10 caught on Mt. Moon B2F, Luna's MOON STONE, 2 MOON STONES in all; MANKEY L17, BUTTERFREE L18, PIKACHU L16, PIDGEOTTO L19; ¥4514, 1 badge. MAGIKARP in the PC. Next: raise CHARMANDER, B1F to Route 4 east and its grass. |
 | `saves/ethan_mtmoon_1f.sav` | Route 4 Center, healed, Mt. Moon 1F cleared (all trainers and items); PIDGEOTTO L19, BUTTERFREE L18, MANKEY L17, PIKACHU L16; ¥4662, 1 badge. Next: the Charmander quest on B2F, then B1F to Route 4 east and its grass (catching rule). |
 | `saves/ethan_route4_center.sav` | Route 4 Center (foot of Mt. Moon), 38:14, healed: 1 badge; PIDGEOTTO L18, PIKACHU L15, BUTTERFREE L15, MANKEY L15; ¥3102; Route 3 done. Next: Mt. Moon, Cerulean. |
@@ -508,3 +510,12 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 Save in the game (START → SAVE, then A through the prompts) at the end of each leg, check with
 `st`, and copy `$PLAY_DIR/game.sav` into `saves/`.
+
+## Lessons from Cerulean (new)
+
+- **Showing a friendly Pokémon to the SQUIRTLE in Cerulean's house (17,11) gives it away** (a free third starter). The trade man in (15,17) wants a POLIWHIRL for his JYNX.
+- **STARMIE (Misty) uses RECOVER and outspeeds**: don't trade hits. SLEEP POWDER (BUTTERFREE) then ELECTRIC hits worked; a first attempt cost four fainted Pokémon and was reloaded from a savestate (`hist/`; find the one just before the fight by loading a few and taking a screenshot).
+- **Menus remember the cursor** (START menu, party list, bag pocket): get to a known entry first. In the party list slot 0 is the big box on the left, slots 1 to 5 the right column; use `hD4`/`hU4`/`hR4`/`hL4` (held keys) for menus: `D1` etc. are walking steps.
+- **`st` prints the map from RAM even inside a battle**, so a map check can't tell a battle from the overworld. The nickname prompt after a catch needs B (`aftercatch`, rewritten with a fixed key sequence).
+- **New tools:** `potion SLOT [N]` (Potions out of battle), `ball` (throw one ball by hand), `sendout K` (forced replacement), `talk`, `sweep`.
+- **Trainers that see you run into you** while you walk; a `trainer X Y` on a trainer already beaten does nothing.

@@ -22,11 +22,11 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
-    "where": "Cerulean City Pokémon Center",
-    "party": "Pidgeotto L19, Mankey L19, Butterfree L19, Pikachu L16, Charmander L13, Zubat L8",
-    "badges": "1",
-    "time": "42:00",
-    "save": "Cerulean City Center, healed (ethan_route4_done)",
+    "where": "Cerulean City Gym",
+    "party": "Butterfree L23, Pidgeotto L21, Mankey L21, Charmeleon L18, Pikachu L18, Zubat L8",
+    "badges": "2",
+    "time": "48:03",
+    "save": "Cerulean Gym (ethan_misty_beaten)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

@@ -1,6 +1,6 @@
 #!/bin/bash
 # aftercatch : after "Gotcha!", get through the dex page and answer NO to the nickname with B, back to the overworld.
-for i in 1 2 3 4; do g A w120 >/dev/null 2>&1; done
-g B w100 >/dev/null 2>&1
-for i in 1 2 3; do st | head -1 | grep -q "Route\|City\|Cave\|Moon" && break; g B w80 >/dev/null 2>&1; done
+# (st prints the map from RAM even inside a battle, so no map check: fixed key sequence.)
+g A w120 A w120 >/dev/null 2>&1
+g B w150 B w150 B w100 >/dev/null 2>&1
 st | head -1
