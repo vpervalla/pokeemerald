@@ -217,6 +217,19 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 
 ## 4. Battle and training tactics
 
+- **Battle priorities, in this order.**
+  1. **Never let the whole team faint.** A whiteout costs half the money and sends the team back to a Center, so it is the worst
+     outcome. Spend items freely to prevent it: POTIONS (and better), REVIVES, status cures, and switch to a healthy POKéMON early. When
+     the party is thin (two or fewer healthy members) stop taking new fights, heal with items or walk to a Center first. Keep a stock
+     (a dozen POTIONS, ANTIDOTES, a REVIVE or two) and buy more with the prize money; money spent on items is cheaper than a whiteout.
+     This replaces the earlier "keep the Potions for hard fights": use them whenever they stop a faint.
+  2. **In trainer battles, fight with a super effective move.** Look at the opponent's POKéMON (its type from the POKéDEX or the
+     data) and use a move that is super effective against it. If the POKéMON in front has one, use that move. If not, switch in a
+     party member that has one, even if that costs a turn. Prefer not-very-effective-resistant matches too (don't send a Fire move
+     into Water, a Normal move into Rock). Check the move list with `st` before the fight and keep a spread of types for this reason.
+  3. Only then the level and experience rules below (balance, sharing).
+  `fight` doesn't know about types yet: until it does, play trainer fights turn by turn with `fight SLOT 1` and the moves' types
+  (`src/data/battle_moves.h` or the walkthrough's team page), and use `SWITCH=n` to bring in the member with the right move.
 - **Switch only when it is needed.** Don't swap by habit. Switch only if 1) the opponent is more than 2 levels above the
   active POKéMON, or 2) the active POKéMON is about to faint (about 30% HP or less). Then switch in the weakest healthy
   party member whose level is still at or above the opponent's (when about to faint with nobody that high, the highest-level
@@ -261,9 +274,9 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 - **The wild CHARMANDER of Mt. Moon respawns** after any fight you don't finish by catching; heal and retry. Thunder Wave plus a ball by hand worked.
 - **Poison drains HP in the field.** A POKéMON poisoned by a trainer (Miguel's Grimer) walked to 1 HP on the way out of Mt. Moon: cure it with an ANTIDOTE as soon as the fight ends.
 - **Count the POKé BALLS before a catching route.** Two attempts at the CHARMANDER and one wild Zubat used them up (none left in the bag): buy a dozen at the next Mart before the next first-visit route.
-- **Heal at the Center, keep the Potions for battles.** Between fights, walk back to the nearest POKéMON Center and heal the
-  whole party there (free, PP included); don't spend Potions on it. Potions are for the middle of a hard fight (a gym leader,
-  a trainer with a long team) and for a POKéMON that can't reach a Center. Before a long walk or a trainer, check `st`: if
+- **Heal at the Center when it is near, use items when it is not.** Between fights, a Center heals the whole party for free, PP
+  included; use it when it is on the way. Far from one, or in the middle of a hard fight, items come first (see the battle
+  priorities above): a whiteout is the thing to avoid. Before a long walk or a trainer, check `st`: if
   the lead is under about half HP, go back and heal first.
 - **Grind next to a Pokémon Center.** A good loop: heal, walk to the nearest grass, `train N` with
   `MINHP=40`, walk back, `heal`. Places that worked: Route 1 next to Mom (she heals for free),
