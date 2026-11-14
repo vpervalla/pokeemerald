@@ -8,6 +8,45 @@ input quirks that cost time, battle tactics, and what is where on each route.
 The run so far: Ethan, Pikachu start, Boulder Badge, Charmander from the Mt. Moon quest. The saves
 are in `saves/` (see [Saves](#saves)).
 
+## Goal
+
+Play this build from a new game to the end of the story (the Kanto Hall of Fame and the credits), and test it
+the whole way for bugs. The run is a test, not only a route: a leg isn't finished until its bugs are logged.
+What counts as a bug:
+
+- **Soft locks:** the game stops answering input, a script never ends (`sGlobalScriptContextStatus` stuck, a
+  `waitstate` with nothing to wake it), a warp that leads nowhere, an NPC or object blocking the only path,
+  a battle that can't end.
+- **Broken scripts:** a wrong or missing line, a flag or var that isn't set or is set twice, an item or gift
+  given twice or never, a scene that plays out of order or again after it should be over.
+- **Missing interactions:** an NPC, sign, door, item ball or PC that does nothing, a trainer that doesn't see
+  you, a shop with a wrong stock.
+- **Graphics and animation:** glitched tiles, wrong palettes, sprites in the wrong place or layer, a battle or
+  move animation that breaks, a transition that hangs or flickers, text that overflows its box.
+- **Others:** a crash or reset, wrong sound or music, wrong battle results (moves, types, stats, evolutions),
+  save and reload that loses or changes anything.
+
+Look for them on purpose, not only when they hit you: try each NPC, sign and item ball on the way, read every
+message, use every move and menu the story gives you at least once, and save and reload after each scene that
+sets story state.
+
+**How to catch them**
+- After every call look at `last.png`. A screen that doesn't change after input is a suspect: wait, press B and
+  A once, then check `gMain.callback2` and the script context before calling it a soft lock.
+- Take `shot:` before and after every scene, and a savestate (`hist/`) just before anything risky.
+- Check state through `st` and `peek` (flags, vars, money, party, items), not only the screen: a gift that is
+  given twice shows in the bag before it shows in the story.
+- Reload the latest in-game save after each leg to check that the save is sound.
+
+**When you find one**
+1. Stop and keep the savestate of the moment (copy `hist/NNNNN.ss` to `bugs/`), take a screenshot.
+2. Log it in `docs/playthrough_bugs.md`: number, place (map and x,y), what happened, what should have happened,
+   the exact steps from the last save, the evidence, and the status.
+3. Try the workaround (reload the last save, or a rescue poke for a stuck script) to carry on, and log it.
+   A bug that stops the run for good is a blocker: tell the user at once.
+4. Don't fix the source in the middle of a leg. At the end of the leg, fix the clear and small bugs, each in its own
+   commit with the bug's number, rebuild, and retest from the saved state. Large or unclear ones stay logged for the user.
+
 ## 1. Setup (about 5 minutes)
 
 ```sh
