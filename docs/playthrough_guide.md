@@ -135,6 +135,10 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   turn in place without walking.
 - **Start menu and other menus.** Presses sent too soon after opening a menu are dropped. Wait
   about 90 frames after `ST` before moving the cursor, and check `last.png` before pressing A.
+- **Menus and `g` tokens.** Walk tokens (`D1`) stop with "not in overworld" in a menu: move a cursor with the raw
+  hold `hD5` (directions only; `hB8` is a bad token) and press `A`/`B` as tokens, each after a `w30`. Menu presses
+  are often dropped on the first try (the title menu, the options screen): check the screenshot every time. The
+  title screen needs about 800 frames from the boot before START works.
 - **Screenshots.** `shot:` as the very first token of a call is blank (no frame drawn since the
   load). Put `w1` or anything before it. A missed scene can be recovered: load a `hist/` state with
   the driver and shoot it.
