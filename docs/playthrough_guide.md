@@ -116,6 +116,9 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
 | `lead A B` | Swap party slots A and B in RAM (overworld only). Faster and safer than START > POKéMON > SWITCH. |
 | `sendout K` | On the forced "Choose a POKéMON" screen after a faint, send out party slot K. |
 | `xpathf MAP X Y GOALMAP[:X,Y]` | Cross-map route: which warps to take to get from here to another map, with the walk inside each map planned by `pathf`. Use it for caves with several floors (Rock Tunnel, Mt. Moon) before walking. |
+| `talk X Y NAME [N]` | Walk next to a person or sign, press A N times with a screenshot each, and stack the dialogue into `$PLAY_DIR/talk_NAME.png`. `talk - - NAME N` skips the walk. Wandering people move: find them on screen first. |
+| `sweep GROUP "X Y NAME"...` | `talk` to several people and stack their sheets in `$PLAY_DIR/sweep_GROUP.png`. |
+| `cycle N` | Grind on Route 2's north grass (lead low, switch to the finisher), then heal at Pewter's Center and return; one call per cycle. |
 | `strip NAMES...` | Tile shots three across into `$PLAY_DIR/strip.png`, to review a scene at once. |
 
 `tools/playthrough/assets.py` turns maps with numbered markers, front sprites and icons into

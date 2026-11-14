@@ -1,0 +1,12 @@
+#!/bin/bash
+# cycle N : grind on Route 2's north grass for the party's lowest levels, then heal at Pewter's Center and come back.
+#   Assumes: standing in the grass at Route 2 (5,3); party ordered [low lead, finisher, ...]. SWITCH=1 sends slot 1 in on turn 1.
+# One cycle = train N battles (stops early when a POKeMON is under 30% HP), walk to the Center, heal, walk back.
+SWITCH=1 MINHP=30 train ${1:-20} 2>&1 | grep -E "LOWHP|stuck" | tail -2
+gotf 11 0 >/dev/null 2>&1; g U2 w60 >/dev/null 2>&1
+gotf 17 25 >/dev/null 2>&1; g w60 >/dev/null 2>&1
+heal | sed -n 1,4p | cut -c1-70
+g hD5 w90 >/dev/null 2>&1
+gotf 23 38 >/dev/null 2>&1; g D3 w60 >/dev/null 2>&1
+gotf 5 3 >/dev/null 2>&1
+st | sed -n 1,5p | cut -c1-70
