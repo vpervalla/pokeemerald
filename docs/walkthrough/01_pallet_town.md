@@ -29,9 +29,20 @@ POKéMON, no badges. See [Start](00_start.md).
    walk into any building and out again, and the corridor is free. This is the original FireRed tutorial; it is
    not a bug, but a player who talks to her and does nothing else can be stuck.
 
+7. **Second visit, with OAK'S PARCEL** (from the Viridian Mart, see [Viridian City](03_viridian_city.md)): talk to OAK at
+   (6,3) from (6,4). He says "Oh, ETHAN! How is my old POKéMON?", takes the parcel (a custom POKé BALL) and BLUE
+   arrives. ![Parcel](img/01_parcel_delivered.png)
+   - OAK gives the **POKéDEX** to ETHAN and BLUE ("a high-tech encyclopedia, it records data on POKéMON you've seen or
+     caught"; the START menu now has POKéDEX). ![Dex](img/01_pokedex_received.png)
+   - He gives **five POKé BALLS** ("you must catch them to obtain complete data"). ![Balls](img/01_pokeballs_received.png)
+   - He explains catching: throw a ball at a wild POKéMON; it won't always work, a healthy one can escape. He wants the
+     two of them to finish his POKéDEX. BLUE: "I'll borrow a TOWN MAP from my sis!" and leaves. Setting
+     `VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN` to 1 here is what lets the old man in Viridian teach catching.
+
 ## Items
 
 - POTION in the bedroom PC (the PC has only this).
+- POKéDEX and 5 POKé BALLS from OAK, after the parcel.
 - No item balls, no hidden items found.
 
 ## Pokémon
@@ -44,7 +55,8 @@ POKéMON, no badges. See [Start](00_start.md).
 
 ## Party after
 
-PIKACHU L5, money ¥3000, 0 badges. POKéDEX not yet (the START menu has POKéMON, BAG, ETHAN, SAVE, OPTION, EXIT).
+After the first visit: PIKACHU L5, ¥3000, no POKéDEX (the START menu: POKéMON, BAG, ETHAN, SAVE, OPTION, EXIT).
+After the parcel: POKéDEX, 5 POKé BALLS.
 
 ## Bugs
 

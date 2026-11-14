@@ -259,6 +259,20 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   clerk you talk to each day gives a free pack.
 - The old man's catching demo in Viridian plays in full and gives the Teachy TV.
 
+### What the NPCs have taught so far
+
+New things learned by talking to people. Add to this list whenever someone explains something.
+
+- **START menu (the sign lady, Pallet Town):** open it, close it, then re-enter the map before she clears the
+  route entrance.
+- **Mart samples (Route 1 clerk):** one free POTION, and the Mart is in Viridian.
+- **Ledges (Route 1 boy):** one-way jumps, only southward, and a quick way back to Pallet Town.
+- **Parcel and POKéDEX (Viridian clerk, OAK):** the parcel from the Viridian Mart goes to OAK, who gives the POKéDEX and
+  5 POKé BALLS. Delivering it also lets the old man in Viridian teach catching.
+- **Catching (OAK, the old man):** throw a ball at a wild POKéMON; a healthy one can escape, so weaken it first. The
+  POKéDEX records the data of each POKéMON seen or caught.
+- **TEACHY TV (the old man):** a KEY ITEM that teaches the basics when something isn't clear.
+
 ## 6. Route notes (Pallet Town to Mt. Moon)
 
 Coordinates are map tiles, as `st` and `render --grid` show them.
@@ -367,6 +381,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_viridian_tutorial.sav` | Viridian City after the old man's catching tutorial: POKéDEX, 5 POKé BALLS, TEACHY TV, PIKACHU L6, ¥3000, 0 badges. |
 | `saves/ethan_route1.sav` | A new game's start: Route 1's entrance, PIKACHU L5, ¥3000, 0 badges, options FAST/OFF/SET. |
 | `saves/ethan_viridian_forest_gate.sav` | Route 2, at the forest gate. Pikachu, Pidgey, Mankey, Ledyba. |
 | `saves/ethan_boulder_badge.sav` | Pewter Center after Brock. Butterfree, Mankey, Ledyba, Pikachu, Pidgey. |
