@@ -20,7 +20,10 @@
 The rule "at most 2 levels between the highest and lowest POKéMON" needed the low ones raised before Brock. Route 2's north grass (x 1-9, y 0-8, just south of Pewter, wilds L2-5) was used with the helper `cycle`: the lowest POKéMON leads, PIKACHU is switched in on turn 1 as the finisher (MANKEY, the highest, is left out), and when someone is under 30% HP the party walks to Pewter's Center, heals and comes back. One cycle gave about 100 experience.
 - 11 cycles took CATERPIE from L5 to **METAPOD, then BUTTERFREE** (L12-13) and PIKACHU from L10 to L14. PIKACHU learned **QUICK ATTACK** at L11 (forgetting GROWL); the move-learning prompt stopped the auto-battle each time and was answered by hand. BUTTERFREE learned **POISONPOWDER** at L13 (forgetting HARDEN).
 - A second batch of cycles led with PIDGEY (L5) and BUTTERFREE as the finisher: PIDGEY reached **L10** and learned **GUST** when the grind was stopped on request.
-- Result: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10: still 4 levels apart, so the balance rule is not yet met.
+- Result of those batches: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10.
+- **Letting the lead fight alone** (the switch rule as the safety net, GUST as the move) gave about 700 experience per cycle, seven times the shared method. A six-cycle batch left running unattended **overshot**: PIDGEY went from L10 to L13, L15, L16, L17 and finally evolved into **PIDGEOTTO L18**, five levels above the rest. The lesson, now in the guide: run these batches in counted steps and stop at the target level.
+- To bring the others up, a rebalancing batch began: PIKACHU reached L15 (it was offered DOUBLE TEAM and declined), and MANKEY and BUTTERFREE were still L13 when the grind was stopped on request.
+- Team at the save: PIDGEOTTO L18, PIKACHU L15, MANKEY L13, BUTTERFREE L13 (a spread of 5).
 
 ## Party after
 

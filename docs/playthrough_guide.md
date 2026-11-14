@@ -247,6 +247,7 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
     Slateport side), see `docs/johto_starters_plan.md`.
 
   Check how each one is obtained in the game, and log a way that doesn't work as a bug.
+- **Grind in counted batches.** A lead that fights alone gains about 700 experience per cycle (7x the shared method): run 1-2 cycles at a time and check `st`, or a batch left running overshoots the target (PIDGEY went L10 to PIDGEOTTO L18).
 - **Heal at the Center, keep the Potions for battles.** Between fights, walk back to the nearest POKéMON Center and heal the
   whole party there (free, PP included); don't spend Potions on it. Potions are for the middle of a hard fight (a gym leader,
   a trainer with a long team) and for a POKéMON that can't reach a Center. Before a long walk or a trainer, check `st`: if
@@ -443,6 +444,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_route2_balance.sav` | Route 2's north grass, 36:52, mid-rebalance: PIDGEOTTO L18, PIKACHU L15, MANKEY L13, BUTTERFREE L13; ¥294, 0 badges. Next: raise MANKEY and BUTTERFREE to about 16 (solo cycles, counted), then BROCK and the CARD CASE. |
 | `saves/ethan_pewter_grind.sav` | Pewter Center, healed, after the grind: PIKACHU L14, MANKEY L13, BUTTERFREE L13, PIDGEY L10; ¥294, 0 badges, 30:57. Next: raise PIDGEY (2 more levels), then BROCK. |
 | `saves/ethan_after_blue.sav` | Viridian Center after beating Blue on Route 22; the spare PIKACHU is in BOX 1. MANKEY L13, PIKACHU L10, PIDGEY L5, CATERPIE L4; ¥394, 0 badges, 1:59. Levels are unbalanced (rule: at most 2 apart); next: raise PIDGEY and CATERPIE, then BROCK. |
 | `saves/ethan_brock_door.sav` | Pewter Gym, one tile below BROCK, not yet spoken to. MANKEY L12, PIKACHU L9, PIDGEY L5, CATERPIE L4, PIKACHU L4. 0 badges, ¥250, 1:45. Next: BROCK. |

@@ -3,8 +3,8 @@
   {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 14,
-   "exp": 2881,
+   "lv": 15,
+   "exp": 3375,
    "types": [
     "Electric"
    ],
@@ -15,32 +15,32 @@
    "stats": [
     [
      "HP",
-     36,
+     37,
      0
     ],
     [
      "Attack",
-     25,
+     26,
      1
     ],
     [
      "Defense",
-     12,
+     13,
      -1
     ],
     [
      "Sp. Atk",
-     23,
+     24,
      0
     ],
     [
      "Sp. Def",
-     19,
+     20,
      0
     ],
     [
      "Speed",
-     36,
+     39,
      0
     ]
    ],
@@ -220,10 +220,10 @@
    ]
   },
   {
-   "species": "pidgey",
-   "name": "Pidgey",
-   "lv": 10,
-   "exp": 582,
+   "species": "pidgeotto",
+   "name": "Pidgeotto",
+   "lv": 18,
+   "exp": 4511,
    "types": [
     "Normal",
     "Flying"
@@ -231,36 +231,36 @@
    "nature": "Impish (+Defense, −Sp. Atk)",
    "ability": "Keen Eye",
    "met": "Route 2, wild L3",
-   "role": "The Flying type of the team, led through the grind to catch up; it learned GUST. It still trails the others by 4 levels.",
+   "role": "Evolved from Pidgey at L18 after being led alone through the grind. It overshot the others by 5 levels (see Route 2).",
    "stats": [
     [
      "HP",
-     28,
+     52,
      0
     ],
     [
      "Attack",
-     17,
+     32,
      0
     ],
     [
      "Defense",
-     15,
+     28,
      1
     ],
     [
      "Sp. Atk",
-     12,
+     23,
      -1
     ],
     [
      "Sp. Def",
-     13,
+     25,
      0
     ],
     [
      "Speed",
-     20,
+     42,
      0
     ]
    ],
