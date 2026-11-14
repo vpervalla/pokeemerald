@@ -196,12 +196,20 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   replaced as soon as a stronger one of the same role turns up.
 - **Party goals.** At the end of the Kanto run (before the ship to Hoenn) the party includes at least a
   **Charizard**, a **Gengar** and a **Dragonite**, with three more chosen by the two rules above. At the end of the
-  Hoenn run it includes at least a **Sceptile**, a **Typhlosion** and a **Feraligatr**. Plan for them early: they
-  need catches, trades, evolution items and levels (Charmander is the Mt. Moon quest and Gengar is a trade evolution;
-  Dragonite needs a Dratini line; Sceptile means choosing Treecko as BIRCH's starter; CYNDAQUIL and TOTODILE are gifts
-  from side quests in Hoenn, found on the way from Dewford and Slateport, see `docs/johto_starters_plan.md`). Check
-  how each one is obtained in the plans and in the game, and log
-  a way that doesn't work as a bug.
+  Hoenn run it includes at least a **Sceptile**, a **Typhlosion** and a **Feraligatr**. Plan for them early, they
+  need catches, trades and levels:
+  - **Charizard:** Charmander from the Mt. Moon quest.
+  - **Gengar:** catch a Gastly (it evolves into Haunter at L25), then use a trader whose exchange is still free:
+    Lavender Town's AGNES, or any other in the table of `docs/catch_them_all.md` ("Trade evolutions"). It is a
+    double exchange: you give the Haunter, get the trader's Pokémon, and the two are traded straight back, so the
+    Haunter returns as a Gengar. A trader refuses a Pokémon that wouldn't evolve, and each one works only once.
+  - **Dragonite:** Dratini is fished in the Safari Zone with the SUPER ROD (Dratini L15-25, Dragonair L25-35), so
+    get the SUPER ROD first. Then it evolves by level.
+  - **Sceptile:** choose Treecko as BIRCH's starter.
+  - **Typhlosion and Feraligatr:** CYNDAQUIL and TOTODILE are gifts from side quests in Hoenn (Dewford and
+    Slateport side), see `docs/johto_starters_plan.md`.
+
+  Check how each one is obtained in the game, and log a way that doesn't work as a bug.
 - **Grind next to a Pokémon Center.** A good loop: heal, walk to the nearest grass, `train N` with
   `MINHP=40`, walk back, `heal`. Places that worked: Route 1 next to Mom (she heals for free),
   Viridian Center ↔ Route 22, Pewter Center ↔ the top of Route 2.
