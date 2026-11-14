@@ -12,7 +12,7 @@
 ## Story
 
 1. Walk to (4,62), then into the grass at (8,58) and fight with `train` (Pidgey, Rattata by day; Caterpie, Weedle sometimes; Hoothoot and Spinarak at night).
-2. A wild **Pidgey L3**: Mankey's SCRATCH took it to 4 HP and one ball held. ![Wild Pidgey](img/05_pidgey_wild.png) ![Caught](img/05_pidgey_caught.png)
+2. A wild **Pidgey L3**: Mankey's SCRATCH took it to 4 HP and one ball held. ![Wild Pidgey](img/05_pidgey_wild.png) ![Weakened](img/05_pidgey_weak.png) ![Caught: the nickname prompt](img/05_pidgey_caught.png)
 3. Levelling here was slow and cost three trips to Viridian's Center (the road back is about 35 tiles). Pikachu reached L7 and Mankey L6; two POTIONS from the bag kept them going. (Pikachu fell to 2 HP when switched in on every fight, so Mankey was put in front instead: the first time it fainted at 0/20.)
 
 ## Party after

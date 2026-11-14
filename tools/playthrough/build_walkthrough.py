@@ -53,8 +53,18 @@ def esc(t):
     return html.escape(t, quote=True)
 
 
+BLANK = []
+
+
 def data_uri(rel):
     p = os.path.join(WT, rel)
+    if os.path.exists(p) and rel not in BLANK:
+        try:
+            from PIL import Image, ImageStat
+            if sum(ImageStat.Stat(Image.open(p).convert("RGB")).stddev) < 6 and "intro_stars" not in rel:
+                BLANK.append(rel); print("WARNING: blank screenshot", rel)
+        except Exception:
+            pass
     return "data:image/png;base64," + base64.b64encode(open(p, "rb").read()).decode() if os.path.exists(p) else ""
 
 

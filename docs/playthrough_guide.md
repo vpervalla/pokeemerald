@@ -147,6 +147,7 @@ long blind sequences: a text box or a wild battle in the middle eats the rest of
   hold `hD5` (directions only; `hB8` is a bad token) and press `A`/`B` as tokens, each after a `w30`. Menu presses
   are often dropped on the first try (the title menu, the options screen): check the screenshot every time. The
   title screen needs about 800 frames from the boot before START works.
+- **Check the screenshots for blanks.** A `shot:` as the first token of a call is a blank white frame, and the page can't tell. `build_walkthrough.py` prints `WARNING: blank screenshot` for any image that is flat; fix the shot or retake it (a lost moment can sometimes be rebuilt from `$PLAY_DIR/hist/*.ss`: load a state with the driver and `shot` it).
 - **Screenshots.** `shot:` as the very first token of a call is blank (no frame drawn since the
   load). Put `w1` or anything before it. A missed scene can be recovered: load a `hist/` state with
   the driver and shoot it.

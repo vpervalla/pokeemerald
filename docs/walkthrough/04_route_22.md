@@ -10,7 +10,7 @@
 ## Story
 
 1. Walk into the east grass at (37,11) and fight wild POKéMON with `train`. The wild levels are only 2-5 (Rattata, Mankey, Spearow by day; no Spearow at night).
-2. A wild **Mankey L4** showed up. One THUNDERSHOCK left it at 1 HP and, thanks to Pikachu's Static, paralyzed. One POKé BALL caught it, first throw. ![Weakened Mankey](img/04_mankey_weak.png) ![Caught](img/04_mankey_caught.png)
+2. A wild **Mankey L4** showed up. One THUNDERSHOCK left it at 1 HP and, thanks to Pikachu's Static, paralyzed. One POKé BALL caught it, first throw. (The battle screenshots of this catch were taken blank and are lost; here is the patch.) ![The east grass patch](img/04_mankey_grass.png)
 3. Training here was slow: about fifteen battles took Pikachu from L6 to L6 and Mankey from L4 to L4. With Mankey in front and Pikachu switched in (the manual override), each fight wore Pikachu down. We went back to Viridian's Center twice and moved to Route 2.
 
 4. **Blue**, the rival, on the sand path (second visit, after Pewter and the forest; PIKACHU in front): walking onto x=33 at (33,5) stops the player: "Hey! ETHAN! You're off to the POKéMON LEAGUE? Forget about it! You probably don't have any BADGES, do you? The guard won't let you through without them. By the way, did your POKéMON get any stronger?" ![Blue](img/04_blue_hey.png)
