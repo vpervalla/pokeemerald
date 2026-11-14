@@ -1,0 +1,7 @@
+{"mons": [{
+  "species": "pikachu", "name": "Pikachu", "lv": 6, "exp": 234, "types": ["Electric"],
+  "nature": "Lonely (+Attack, −Defense)", "ability": "Static", "met": "Gift from Prof. Oak, L5",
+  "role": "The only member so far. Thundershock does the work; Growl and Tail Whip make the first trainers easier.",
+  "stats": [["HP", 21, 0], ["Attack", 13, 1], ["Defense", 8, -1], ["Sp. Atk", 12, 0], ["Sp. Def", 11, 0], ["Speed", 16, 0]],
+  "moves": [["Thundershock", "Electric", "40", "100%", "21/30"], ["Growl", "Normal", "—", "100%", "40/40"], ["Tail Whip", "Normal", "—", "100%", "30/30"]]
+}]}

@@ -1,0 +1,9 @@
+{
+ "sub": "Pallet Town ↔ Viridian City",
+ "map": {"name": "Route1", "markers": [["gift", 6, 28, "1"], ["gift", 19, 16, "2"]]},
+ "items": [
+  {"kind": "gift", "n": "1", "text": "Poké Mart clerk: hands out a free <b>Potion</b> sample, once. Stand below him and face up.", "chip": "yes", "chipText": "Done in our run"},
+  {"kind": "gift", "n": "2", "text": "Boy: explains that ledges can be jumped, southward only.", "chip": "yes", "chipText": "Talked to"}
+ ],
+ "wild": [["MAP_ROUTE1", "land_mons", "Tall grass"]]
+}

@@ -1,0 +1,9 @@
+{
+ "sub": "Ethan's house · Prof. Oak's Lab · Pikachu",
+ "map": {"name": "PalletTown", "markers": [["gift", 6, 7, "1"], ["gift", 16, 13, "2"], ["gift", 12, 2, "3"]]},
+ "items": [
+  {"kind": "gift", "n": "1", "text": "Ethan's house: a <b>Potion</b> waits in the bedroom PC (Item Storage, Withdraw). Mom is downstairs. Leave by the left doormat tile only (bug 1).", "chip": "yes", "chipText": "Done in our run"},
+  {"kind": "gift", "n": "2", "text": "Prof. Oak's Lab: <b>Pikachu</b> (L5) as the starter. Later the parcel from Viridian gets the <b>Pokédex</b> and <b>5 Poké Balls</b>.", "chip": "yes", "chipText": "Done in our run"},
+  {"kind": "gift", "n": "3", "text": "The sign lady stands in the corridor north after the lab and clears it only once the START menu has been opened and the map re-entered.", "chip": "yes", "chipText": "Done in our run"}
+ ]
+}

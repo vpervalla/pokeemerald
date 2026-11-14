@@ -363,9 +363,13 @@ Route 6/5/7/8 gate houses are closed until then.
 
 ## 7. Recording a run as a walkthrough page
 
-**The page is built from the log:** `python3 tools/playthrough/build_walkthrough.py OUT.html` turns `docs/walkthrough/*.md`,
-`docs/playthrough_bugs.md` and `docs/walkthrough/img` into one self-contained page (look in `walkthrough_template.html`; the
-status block of the overview is `STATUS` in the script, update it when a leg ends). Publish the result as an artifact.
+**The page is built from the log, on the template of the earlier Kanto run's page** (route-sign headers, a map with numbered
+markers, items and events, wild Pokémon by day and night, trainer cards, a boxed playthrough log, a team page):
+`python3 tools/playthrough/build_walkthrough.py OUT.html`. Per area, write `docs/walkthrough/NN_name.md` (Arrival,
+Map notes, Story with its screenshots, Party after, Bugs) and `docs/walkthrough/data/NN_name.json` (the map's marker
+coordinates, the items and events legend, which wild tables to show, the trainers' teams); the team page reads `data/team.json`.
+Wild tables come from `src/data/wild_encounters.json`, so they are the game's own. Update `STATUS` in the script when a leg
+ends, rebuild and publish to the same artifact.
 
 
 The user wanted the run as a shareable HTML artifact, organized in pages (Intro, Route 1, Viridian
