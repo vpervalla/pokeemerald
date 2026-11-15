@@ -1,75 +1,75 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "name": "Alakazam",
+   "species": "pikachu",
+   "name": "Pikachu",
    "lv": 24,
-   "exp": 10657,
+   "exp": 14175,
    "types": [
-    "Psychic"
+    "Electric"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Inner Focus",
-   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
-   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
    "stats": [
     [
      "HP",
-     65,
+     54,
      0
     ],
     [
      "Attack",
-     30,
-     0
+     40,
+     1
     ],
     [
      "Defense",
-     30,
-     0
+     19,
+     -1
     ],
     [
      "Sp. Atk",
-     76,
+     36,
      0
     ],
     [
      "Sp. Def",
-     45,
-     -1
+     29,
+     0
     ],
     [
      "Speed",
-     80,
-     1
+     63,
+     0
     ]
    ],
    "moves": [
     [
-     "Teleport",
-     "Psychic",
-     "—",
-     "—",
+     "Slam",
+     "Normal",
+     "80",
+     "75%",
      "20/20"
     ],
     [
-     "Confusion",
-     "Psychic",
-     "50",
+     "Quick Attack",
+     "Normal",
+     "40",
      "100%",
-     "25/25"
+     "30/30"
     ],
     [
-     "Disable",
+     "Tail Whip",
      "Normal",
      "—",
-     "55%",
-     "20/20"
+     "100%",
+     "30/30"
     ],
     [
-     "Psybeam",
-     "Psychic",
-     "65",
+     "Thunder Wave",
+     "Electric",
+     "—",
      "100%",
      "20/20"
     ]
@@ -151,85 +151,10 @@
    ]
   },
   {
-   "species": "charmeleon",
-   "name": "Charmeleon",
-   "lv": 21,
-   "exp": 7533,
-   "types": [
-    "Fire"
-   ],
-   "nature": "Calm (+Sp. Def, −Attack)",
-   "ability": "Blaze",
-   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
-   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
-   "stats": [
-    [
-     "HP",
-     61,
-     0
-    ],
-    [
-     "Attack",
-     33,
-     -1
-    ],
-    [
-     "Defense",
-     31,
-     0
-    ],
-    [
-     "Sp. Atk",
-     44,
-     0
-    ],
-    [
-     "Sp. Def",
-     36,
-     1
-    ],
-    [
-     "Speed",
-     40,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Scratch",
-     "Normal",
-     "40",
-     "100%",
-     "35/35"
-    ],
-    [
-     "Cut",
-     "Normal",
-     "50",
-     "95%",
-     "30/30"
-    ],
-    [
-     "Ember",
-     "Fire",
-     "40",
-     "100%",
-     "25/25"
-    ],
-    [
-     "Smokescreen",
-     "Normal",
-     "—",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
    "species": "pidgeotto",
    "name": "Pidgeotto",
-   "lv": 21,
-   "exp": 7127,
+   "lv": 24,
+   "exp": 10492,
    "types": [
     "Normal",
     "Flying"
@@ -241,32 +166,32 @@
    "stats": [
     [
      "HP",
-     59,
+     66,
      0
     ],
     [
      "Attack",
-     36,
+     41,
      0
     ],
     [
      "Defense",
-     33,
+     37,
      1
     ],
     [
      "Sp. Atk",
-     27,
+     30,
      -1
     ],
     [
      "Sp. Def",
-     28,
+     32,
      0
     ],
     [
      "Speed",
-     50,
+     59,
      0
     ]
    ],
@@ -302,75 +227,150 @@
    ]
   },
   {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 18,
-   "exp": 6856,
+   "species": "charmeleon",
+   "name": "Charmeleon",
+   "lv": 24,
+   "exp": 11545,
    "types": [
-    "Electric"
+    "Fire"
    ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
+   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
    "stats": [
     [
      "HP",
-     43,
+     68,
      0
     ],
     [
      "Attack",
-     31,
-     1
-    ],
-    [
-     "Defense",
-     15,
+     36,
      -1
     ],
     [
+     "Defense",
+     35,
+     0
+    ],
+    [
      "Sp. Atk",
-     28,
+     51,
      0
     ],
     [
      "Sp. Def",
-     23,
-     0
+     40,
+     1
     ],
     [
      "Speed",
-     46,
+     47,
      0
     ]
    ],
    "moves": [
     [
-     "Thundershock",
-     "Electric",
-     "40",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Quick Attack",
+     "Scratch",
      "Normal",
      "40",
      "100%",
+     "35/35"
+    ],
+    [
+     "Cut",
+     "Normal",
+     "50",
+     "95%",
      "30/30"
     ],
     [
-     "Tail Whip",
+     "Ember",
+     "Fire",
+     "40",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Smokescreen",
      "Normal",
      "—",
      "100%",
-     "30/30"
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "alakazam",
+   "name": "Alakazam",
+   "lv": 24,
+   "exp": 10657,
+   "types": [
+    "Psychic"
+   ],
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Inner Focus",
+   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
+   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "stats": [
+    [
+     "HP",
+     65,
+     0
     ],
     [
-     "Thunder Wave",
-     "Electric",
+     "Attack",
+     30,
+     0
+    ],
+    [
+     "Defense",
+     30,
+     0
+    ],
+    [
+     "Sp. Atk",
+     76,
+     0
+    ],
+    [
+     "Sp. Def",
+     45,
+     -1
+    ],
+    [
+     "Speed",
+     80,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Teleport",
+     "Psychic",
      "—",
+     "—",
+     "20/20"
+    ],
+    [
+     "Confusion",
+     "Psychic",
+     "50",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Disable",
+     "Normal",
+     "—",
+     "55%",
+     "20/20"
+    ],
+    [
+     "Psybeam",
+     "Psychic",
+     "65",
      "100%",
      "20/20"
     ]

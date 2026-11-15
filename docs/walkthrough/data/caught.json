@@ -1,13 +1,13 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "id": 65,
-   "nick": "ALAKAZAM",
-   "metloc": 124,
-   "mapsec": "MAPSEC_ROUTE_24",
-   "metlevel": 10,
-   "exp": 10657,
+   "species": "pikachu",
+   "id": 25,
+   "nick": "PIKACHU",
+   "metloc": 88,
+   "mapsec": "MAPSEC_PALLET_TOWN",
+   "metlevel": 5,
+   "exp": 14175,
    "level": 24,
    "where": "party"
   },
@@ -23,36 +23,36 @@
    "where": "party"
   },
   {
-   "species": "charmeleon",
-   "id": 5,
-   "nick": "CHARMELEON",
-   "metloc": 127,
-   "mapsec": "MAPSEC_MT_MOON",
-   "metlevel": 10,
-   "exp": 7533,
-   "level": 21,
-   "where": "party"
-  },
-  {
    "species": "pidgeotto",
    "id": 17,
    "nick": "PIDGEOTTO",
    "metloc": 102,
    "mapsec": "MAPSEC_ROUTE_2",
    "metlevel": 3,
-   "exp": 7127,
-   "level": 21,
+   "exp": 10492,
+   "level": 24,
    "where": "party"
   },
   {
-   "species": "pikachu",
-   "id": 25,
-   "nick": "PIKACHU",
-   "metloc": 88,
-   "mapsec": "MAPSEC_PALLET_TOWN",
-   "metlevel": 5,
-   "exp": 6856,
-   "level": 18,
+   "species": "charmeleon",
+   "id": 5,
+   "nick": "CHARMELEON",
+   "metloc": 127,
+   "mapsec": "MAPSEC_MT_MOON",
+   "metlevel": 10,
+   "exp": 11545,
+   "level": 24,
+   "where": "party"
+  },
+  {
+   "species": "alakazam",
+   "id": 65,
+   "nick": "ALAKAZAM",
+   "metloc": 124,
+   "mapsec": "MAPSEC_ROUTE_24",
+   "metlevel": 10,
+   "exp": 10657,
+   "level": 24,
    "where": "party"
   },
   {
