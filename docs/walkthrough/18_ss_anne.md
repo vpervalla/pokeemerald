@@ -13,6 +13,10 @@
 7. **Kitchen:** seven chefs, a GREAT BALL at (1,10), hidden CHESTO, PECHA and CHERI berries (between the chefs: face them from the west).
 8. The exterior's hidden LAVA COOKIE at (58,28) could not be reached.
 
+## Missed for good: the ship sails
+
+After HM01 the S.S. ANNE **leaves the harbour as soon as you walk off the dock** ("The ship set sail." from the dock sailor): the visits afterwards (the 1F and kitchen sweeps) worked only because I stayed inside the ship's maps. What was **left behind**: **Gentleman BROOKS** (2F room 2, PIKACHU L23, ¥1840: the one fight skipped by a chained script that moved on after a stuck fight), the **STARDUST** in 2F room 2 (3,3), the **X ATTACK** in 2F room 4 (2,4) and the hidden **LAVA COOKIE** at (58,28) on the exterior (no walkable approach). Lesson in the guide: before leaving the ship after HM01, run `mapinfo` on every ship map and finish it.
+
 ## Bugs
 
 None. A bug in my tooling: `dmove` for doubles must first put the cursor on FIGHT (the action menu remembers BAG).
