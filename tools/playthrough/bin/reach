@@ -1,0 +1,5 @@
+#!/bin/bash
+# reach X Y : exit 0 when (X,Y) can be walked next to from where the player is (current map), else 1.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+s=$(st | head -1); map=$(echo "$s" | awk '{print $2}'); px=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); py=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
+python3 tools/playthrough/path.py $map $px $py $1 $2 --adj 2>&1 | tail -1 | grep -q "end"
