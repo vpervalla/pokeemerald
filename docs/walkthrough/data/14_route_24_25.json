@@ -535,6 +535,14 @@
  ],
  "caught": [
   {
+   "species": "kadabra",
+   "nick": "KADABRA",
+   "met": 10,
+   "level": 16,
+   "where": "party",
+   "how": "wild"
+  },
+  {
    "species": "oddish",
    "nick": "ODDISH",
    "met": 12,
@@ -554,14 +562,6 @@
    "species": "spinarak",
    "nick": "SPINARAK",
    "met": 7,
-   "level": null,
-   "where": "box 1",
-   "how": "wild"
-  },
-  {
-   "species": "abra",
-   "nick": "ABRA",
-   "met": 10,
    "level": null,
    "where": "box 1",
    "how": "wild"

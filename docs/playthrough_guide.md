@@ -489,6 +489,10 @@ City, …), one per area. What worked:
 
 In this build there is **no need to teach HM moves** to a party Pokémon: field moves (CUT and the like) can be used without a move slot. Teach an HM move only when it is **actually strong in battle**, like SURF. (CHARMELEON had GROWL replaced by CUT on the S.S. Anne before this was known; GROWL was a dead move, so nothing was lost, but do not repeat it.) Update the notes if a field move turns out not to work without the move.
 
+## Rule: no Rare Candies
+
+**Never use a RARE CANDY** (two were used early on, on PIKACHU and ZUBAT; no more). Level Pokémon with **wild battles in grass near a Pokémon Center** and heal there between rounds. `lvlabra TARGET` is the loop used for ABRA (Route 6 grass, Center at Vermilion): it heals whenever a member is under 40%. A weak Pokémon is raised by leading it and switching to a strong one on turn 1 (`SWITCH=1 RESHARE=1 fight`), so both get experience. Keep RARE CANDIES in the bag (they can be sold or kept).
+
 ## Saves
 
 The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
@@ -547,3 +551,5 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - **A fight tool that says "stuck" is a forced party screen**: never chain more actions after it (a chained `clearmap` went on to fight the next trainer with one Pokémon left: reload from `hist/`).
 - **Cut trees grow back** every time the map reloads. **CUT was taught to CHARMELEON** (the only one able; teaching HMs is not needed, see the HM rule); trainers fought on the way trigger by sight, so `trainer X Y` on one already beaten does nothing.
 - **Sleep before throwing:** SLEEP POWDER, then the ball, caught Meowth and was decisive in the Misty and rival fights.
+
+- ABRA replaced ZUBAT in the party (ZUBAT is in box 1); ABRA went L10 to L16 (KADABRA) on Route 6 by swap-outs, no Rare Candy.

@@ -1,25 +1,25 @@
 {
  "mons": [
   {
+   "species": "kadabra",
+   "id": 64,
+   "nick": "KADABRA",
+   "metloc": 124,
+   "mapsec": "MAPSEC_ROUTE_24",
+   "metlevel": 10,
+   "exp": 2704,
+   "level": 16,
+   "where": "party"
+  },
+  {
    "species": "mankey",
    "id": 56,
    "nick": "MANKEY",
    "metloc": 122,
    "mapsec": "MAPSEC_ROUTE_22",
    "metlevel": 4,
-   "exp": 16041,
-   "level": 25,
-   "where": "party"
-  },
-  {
-   "species": "butterfree",
-   "id": 12,
-   "nick": "BUTTERFREE",
-   "metloc": 126,
-   "mapsec": "MAPSEC_VIRIDIAN_FOREST",
-   "metlevel": 4,
-   "exp": 21499,
-   "level": 27,
+   "exp": 18135,
+   "level": 26,
    "where": "party"
   },
   {
@@ -31,17 +31,6 @@
    "metlevel": 10,
    "exp": 7533,
    "level": 21,
-   "where": "party"
-  },
-  {
-   "species": "zubat",
-   "id": 41,
-   "nick": "ZUBAT",
-   "metloc": 127,
-   "mapsec": "MAPSEC_MT_MOON",
-   "metlevel": 8,
-   "exp": 729,
-   "level": 9,
    "where": "party"
   },
   {
@@ -64,6 +53,17 @@
    "metlevel": 5,
    "exp": 6856,
    "level": 18,
+   "where": "party"
+  },
+  {
+   "species": "butterfree",
+   "id": 12,
+   "nick": "BUTTERFREE",
+   "metloc": 126,
+   "mapsec": "MAPSEC_VIRIDIAN_FOREST",
+   "metlevel": 4,
+   "exp": 21666,
+   "level": 27,
    "where": "party"
   },
   {
@@ -177,17 +177,6 @@
    "where": "box 1"
   },
   {
-   "species": "abra",
-   "id": 63,
-   "nick": "ABRA",
-   "metloc": 124,
-   "mapsec": "MAPSEC_ROUTE_24",
-   "metlevel": 10,
-   "exp": 560,
-   "level": null,
-   "where": "box 1"
-  },
-  {
    "species": "bellsprout",
    "id": 69,
    "nick": "BELLSPROUT",
@@ -206,6 +195,17 @@
    "mapsec": "MAPSEC_ROUTE_6",
    "metlevel": 14,
    "exp": 2744,
+   "level": null,
+   "where": "box 1"
+  },
+  {
+   "species": "zubat",
+   "id": 41,
+   "nick": "ZUBAT",
+   "metloc": 127,
+   "mapsec": "MAPSEC_MT_MOON",
+   "metlevel": 8,
+   "exp": 729,
    "level": null,
    "where": "box 1"
   }
@@ -229,6 +229,7 @@
   52,
   56,
   63,
+  64,
   69,
   129,
   163,

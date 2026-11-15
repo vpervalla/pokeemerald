@@ -1,10 +1,71 @@
 {
  "mons": [
   {
+   "species": "kadabra",
+   "name": "Kadabra",
+   "lv": 16,
+   "exp": 2704,
+   "types": [
+    "Psychic"
+   ],
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Inner Focus",
+   "met": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
+   "role": "The Psychic special attacker; it evolves into ALAKAZAM by trade. Swapped in for ZUBAT.",
+   "stats": [
+    [
+     "HP",
+     42,
+     0
+    ],
+    [
+     "Attack",
+     16,
+     0
+    ],
+    [
+     "Defense",
+     17,
+     0
+    ],
+    [
+     "Sp. Atk",
+     47,
+     0
+    ],
+    [
+     "Sp. Def",
+     27,
+     -1
+    ],
+    [
+     "Speed",
+     47,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Teleport",
+     "Psychic",
+     "—",
+     "—",
+     "20/20"
+    ],
+    [
+     "Confusion",
+     "Psychic",
+     "50",
+     "100%",
+     "25/25"
+    ]
+   ]
+  },
+  {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 25,
-   "exp": 16041,
+   "lv": 26,
+   "exp": 18135,
    "types": [
     "Fighting"
    ],
@@ -15,32 +76,32 @@
    "stats": [
     [
      "HP",
-     58,
+     59,
      0
     ],
     [
      "Attack",
-     52,
+     54,
      0
     ],
     [
      "Defense",
-     27,
+     28,
      0
     ],
     [
      "Sp. Atk",
-     26,
+     27,
      0
     ],
     [
      "Sp. Def",
-     32,
+     33,
      0
     ],
     [
      "Speed",
-     47,
+     50,
      0
     ]
    ],
@@ -69,82 +130,6 @@
     [
      "Karate Chop",
      "Fighting",
-     "50",
-     "100%",
-     "25/25"
-    ]
-   ]
-  },
-  {
-   "species": "butterfree",
-   "name": "Butterfree",
-   "lv": 27,
-   "exp": 21499,
-   "types": [
-    "Bug",
-    "Flying"
-   ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Compound Eyes",
-   "met": "Caught in Viridian Forest as a wild Caterpie L4",
-   "role": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
-   "stats": [
-    [
-     "HP",
-     74,
-     0
-    ],
-    [
-     "Attack",
-     34,
-     0
-    ],
-    [
-     "Defense",
-     41,
-     0
-    ],
-    [
-     "Sp. Atk",
-     54,
-     0
-    ],
-    [
-     "Sp. Def",
-     45,
-     -1
-    ],
-    [
-     "Speed",
-     62,
-     1
-    ]
-   ],
-   "moves": [
-    [
-     "Tackle",
-     "Normal",
-     "35",
-     "95%",
-     "35/35"
-    ],
-    [
-     "Stun Spore",
-     "Grass",
-     "—",
-     "75%",
-     "30/30"
-    ],
-    [
-     "Sleep Powder",
-     "Grass",
-     "—",
-     "75%",
-     "15/15"
-    ],
-    [
-     "Confusion",
-     "Psychic",
      "50",
      "100%",
      "25/25"
@@ -222,68 +207,6 @@
      "Normal",
      "—",
      "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "zubat",
-   "name": "Zubat",
-   "lv": 9,
-   "exp": 729,
-   "types": [
-    "Poison",
-    "Flying"
-   ],
-   "nature": "Impish (+Defense, −Sp. Atk)",
-   "ability": "Inner Focus",
-   "met": "Mt. Moon B2F, wild L8",
-   "role": "The poison/flying bat, still far behind in level.",
-   "stats": [
-    [
-     "HP",
-     28,
-     0
-    ],
-    [
-     "Attack",
-     14,
-     0
-    ],
-    [
-     "Defense",
-     15,
-     1
-    ],
-    [
-     "Sp. Atk",
-     9,
-     -1
-    ],
-    [
-     "Sp. Def",
-     12,
-     0
-    ],
-    [
-     "Speed",
-     14,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Leech Life",
-     "Bug",
-     "20",
-     "100%",
-     "15/15"
-    ],
-    [
-     "Supersonic",
-     "Normal",
-     "—",
-     "55%",
      "20/20"
     ]
    ]
@@ -436,6 +359,82 @@
      "—",
      "100%",
      "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "butterfree",
+   "name": "Butterfree",
+   "lv": 27,
+   "exp": 21666,
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Compound Eyes",
+   "met": "Caught in Viridian Forest as a wild Caterpie L4",
+   "role": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
+   "stats": [
+    [
+     "HP",
+     74,
+     0
+    ],
+    [
+     "Attack",
+     34,
+     0
+    ],
+    [
+     "Defense",
+     41,
+     0
+    ],
+    [
+     "Sp. Atk",
+     54,
+     0
+    ],
+    [
+     "Sp. Def",
+     45,
+     -1
+    ],
+    [
+     "Speed",
+     62,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Tackle",
+     "Normal",
+     "35",
+     "95%",
+     "35/35"
+    ],
+    [
+     "Stun Spore",
+     "Grass",
+     "—",
+     "75%",
+     "30/30"
+    ],
+    [
+     "Sleep Powder",
+     "Grass",
+     "—",
+     "75%",
+     "15/15"
+    ],
+    [
+     "Confusion",
+     "Psychic",
+     "50",
+     "100%",
+     "25/25"
     ]
    ]
   }

@@ -468,8 +468,8 @@
    "species": "zubat",
    "nick": "ZUBAT",
    "met": 8,
-   "level": 9,
-   "where": "party",
+   "level": null,
+   "where": "box 1",
    "how": "wild"
   }
  ],

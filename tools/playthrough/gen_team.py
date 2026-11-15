@@ -14,6 +14,7 @@ MET = {
     "pidgeotto": "Route 1 or 2, wild Pidgey",
     "charmeleon": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
     "zubat": "Mt. Moon B2F, wild L8",
+    "kadabra": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
 }
 ROLE = {
     "pikachu": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
@@ -21,7 +22,8 @@ ROLE = {
     "butterfree": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
     "pidgeotto": "Flying coverage and the sturdiest body; QUICK ATTACK for priority.",
     "charmeleon": "The Fire starter; goal: Charizard by the end of Kanto.",
-    "zubat": "The poison/flying bat, still far behind in level.",
+    "zubat": "The poison/flying bat, boxed for being far behind in level.",
+    "kadabra": "The Psychic special attacker; it evolves into ALAKAZAM by trade. Swapped in for ZUBAT.",
 }
 NAT = {"Hardy": "", "Lonely": "Atk,Def", "Brave": "Atk,Spe", "Adamant": "Atk,SpA", "Naughty": "Atk,SpD", "Bold": "Def,Atk",
        "Docile": "", "Relaxed": "Def,Spe", "Impish": "Def,SpA", "Lax": "Def,SpD", "Timid": "Spe,Atk", "Hasty": "Spe,Def",

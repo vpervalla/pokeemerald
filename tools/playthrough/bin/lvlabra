@@ -1,0 +1,15 @@
+#!/bin/bash
+# lvlabra TARGET : level the lead (Abra) to level TARGET with wild battles on Route 6 (near Vermilion's Center): lead swaps to slot 1 on turn 1
+# (SWITCH=1 RESHARE=1), heal at the Center whenever a party member drops under 40%.  Stops at TARGET or after 6 rounds.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+T=${1:-16}
+lv() { st | sed -n 2p | grep -o " L[0-9]* " | tr -d ' L'; }
+for round in 1 2 3 4 5 6; do
+  [ "$(lv)" -ge "$T" ] && { echo "Abra L$(lv): done"; exit 0; }
+  st | head -1 | grep -q Center && { g D2 w20 D1 w100 >/dev/null; }
+  goto 24 1 >/dev/null 2>&1; g U2 w100 >/dev/null; goto 15 32 >/dev/null 2>&1
+  PACE="U1 D1 U1 D1" SWITCH=1 RESHARE=1 TYPES=0 MINHP=40 timeout 500 train 15 2>&1 | grep -E "LOWHP" | tail -1
+  echo "round $round: $(st | sed -n 2,3p | grep -o '[A-Z]* ([A-Z]*) L[0-9]* HP [0-9]*/[0-9]*' | tr '\n' ';')"
+  goto 12 39 >/dev/null 2>&1; g D3 w100 >/dev/null; goto 15 7 >/dev/null 2>&1; g U1 w90 >/dev/null; heal >/dev/null
+done
+echo "Abra L$(lv)"
