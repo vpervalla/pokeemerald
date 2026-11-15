@@ -7,8 +7,8 @@
    "metloc": 88,
    "mapsec": "MAPSEC_PALLET_TOWN",
    "metlevel": 5,
-   "exp": 14175,
-   "level": 24,
+   "exp": 17045,
+   "level": 25,
    "where": "party"
   },
   {
@@ -18,7 +18,7 @@
    "metloc": 122,
    "mapsec": "MAPSEC_ROUTE_22",
    "metlevel": 4,
-   "exp": 19751,
+   "exp": 20892,
    "level": 27,
    "where": "party"
   },
@@ -29,7 +29,7 @@
    "metloc": 102,
    "mapsec": "MAPSEC_ROUTE_2",
    "metlevel": 3,
-   "exp": 10492,
+   "exp": 11023,
    "level": 24,
    "where": "party"
   },
@@ -40,8 +40,8 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 11545,
-   "level": 24,
+   "exp": 12813,
+   "level": 25,
    "where": "party"
   },
   {
@@ -51,8 +51,8 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 10657,
-   "level": 24,
+   "exp": 12003,
+   "level": 25,
    "where": "party"
   },
   {
@@ -62,8 +62,8 @@
    "metloc": 126,
    "mapsec": "MAPSEC_VIRIDIAN_FOREST",
    "metlevel": 4,
-   "exp": 21666,
-   "level": 27,
+   "exp": 22008,
+   "level": 28,
    "where": "party"
   },
   {
