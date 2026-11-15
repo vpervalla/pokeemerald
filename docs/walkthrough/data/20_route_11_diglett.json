@@ -1,0 +1,378 @@
+{
+ "sub": "Ten trainers · Drowzee, Diglett, Dugtrio · cave to Route 2",
+ "map": [
+  {
+   "name": "Route11",
+   "markers": [
+    [
+     "item",
+     42,
+     12,
+     "1"
+    ],
+    [
+     "item",
+     63,
+     13,
+     "2"
+    ],
+    [
+     "item",
+     13,
+     3,
+     "3"
+    ],
+    [
+     "hidden",
+     58,
+     5,
+     "4"
+    ],
+    [
+     "trainer",
+     19,
+     8,
+     "T1"
+    ],
+    [
+     "trainer",
+     16,
+     17,
+     "T2"
+    ],
+    [
+     "trainer",
+     31,
+     8,
+     "T3"
+    ],
+    [
+     "trainer",
+     28,
+     10,
+     "T4"
+    ],
+    [
+     "trainer",
+     38,
+     15,
+     "T5"
+    ],
+    [
+     "trainer",
+     50,
+     4,
+     "T6"
+    ],
+    [
+     "trainer",
+     42,
+     8,
+     "T7"
+    ],
+    [
+     "trainer",
+     50,
+     14,
+     "T8"
+    ],
+    [
+     "trainer",
+     57,
+     16,
+     "T9"
+    ],
+    [
+     "trainer",
+     32,
+     18,
+     "T10"
+    ]
+   ]
+  },
+  {
+   "name": "DiglettsCave_SouthEntrance",
+   "markers": []
+  },
+  {
+   "name": "DiglettsCave_B1F",
+   "markers": []
+  },
+  {
+   "name": "DiglettsCave_NorthEntrance",
+   "markers": []
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "X Defend at (42,12) (Route11).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Great Ball at (63,13) (Route11).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Awakening at (13,3) (Route11).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Escape Rope at (58,5) (Route11).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Youngster Eddie",
+   "hint": "Route11 at (19,8). Prize ¥336. <b>Beaten.</b>",
+   "team": [
+    [
+     "ekans",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gamer Hugo",
+   "hint": "Route11 at (16,17). Prize ¥1296. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     18,
+     "—"
+    ],
+    [
+     "horsea",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Dillon",
+   "hint": "Route11 at (31,8). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "sandshrew",
+     19,
+     "—"
+    ],
+    [
+     "zubat",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Dave",
+   "hint": "Route11 at (28,10). Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     18,
+     "—"
+    ],
+    [
+     "nidorino",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gamer Jasper",
+   "hint": "Route11 at (38,15). Prize ¥1296. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     18,
+     "—"
+    ],
+    [
+     "oddish",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gamer Darian",
+   "hint": "Route11 at (50,4). Prize ¥1296. <b>Beaten.</b>",
+   "team": [
+    [
+     "growlithe",
+     18,
+     "—"
+    ],
+    [
+     "vulpix",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Engineer Braxton",
+   "hint": "Route11 at (42,8). Prize ¥1008. <b>Beaten.</b>",
+   "team": [
+    [
+     "magnemite",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Yasu",
+   "hint": "Route11 at (50,14). Prize ¥272. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     17,
+     "—"
+    ],
+    [
+     "rattata",
+     17,
+     "—"
+    ],
+    [
+     "raticate",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gamer Dirk",
+   "hint": "Route11 at (57,16). Prize ¥1296. <b>Beaten.</b>",
+   "team": [
+    [
+     "voltorb",
+     18,
+     "—"
+    ],
+    [
+     "magnemite",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Engineer Bernie",
+   "hint": "Route11 at (32,18). Prize ¥864. <b>Beaten.</b>",
+   "team": [
+    [
+     "magnemite",
+     18,
+     "—"
+    ],
+    [
+     "magnemite",
+     18,
+     "—"
+    ],
+    [
+     "magneton",
+     18,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [
+  {
+   "species": "drowzee",
+   "nick": "DROWZEE",
+   "met": 11,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "diglett",
+   "nick": "DIGLETT",
+   "met": 18,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "dugtrio",
+   "nick": "DUGTRIO",
+   "met": 29,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE11",
+   "land_mons",
+   "Tall grass (Route11)"
+  ],
+  [
+   "MAP_ROUTE11",
+   "water_mons",
+   "Surfing (Route11)"
+  ],
+  [
+   "MAP_ROUTE11",
+   "fishing_mons",
+   "Fishing (Route11)"
+  ],
+  [
+   "MAP_DIGLETTS_CAVE_B1F",
+   "land_mons",
+   "Tall grass (DiglettsCave_B1F)"
+  ]
+ ]
+}

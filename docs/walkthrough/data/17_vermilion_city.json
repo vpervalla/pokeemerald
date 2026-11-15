@@ -39,7 +39,16 @@
    "Fishing"
   ]
  ],
- "caught": [],
+ "caught": [
+  {
+   "species": "bulbasaur",
+   "nick": "BULBASAUR",
+   "met": 20,
+   "level": null,
+   "where": "box 1",
+   "how": "gift from the trainer after the Beedrill rescue (Viridian Forest)"
+  }
+ ],
  "missing": [
   {
    "species": "gyarados",

@@ -27,3 +27,7 @@ MANKEY L11 (Low Kick learned at L9), PIKACHU L9 (Thunder Wave), PIDGEY L5, CATER
 ## Bugs
 
 None found. Interactions tried: both gate houses (the south gate's second woman repeated the first one's line), all five trainers, the youngster, the boy, five of the six items (the hidden POTION at (3,22) was not found). The Bulbasaur clearing was not visited (needs Cut).
+
+## Second visit: the lost BULBASAUR (rescue)
+
+From the Route 2 side (Diglett's Cave north entrance, cut tree at (11,13) on Route 2, the Forest's north entrance), walk east to the cuttable trees at (51,5) to (51,7), cut (51,6) and walk to the clearing at (60,6): "A BULBASAUR is backed up against the tree!" Two **wild BEEDRILL L20** attack at once, a **double battle** (the game needs two usable Pokémon; ALAKAZAM's PSYBEAM and CHARMELEON's EMBER, both super effective, won it without damage). BULBASAUR: "There's a little tag tied around its leg." and runs home to Vermilion: its trainer in the house at (19,17) then gives a **BULBASAUR L20** ("Do you want to give a nickname to this BULBASAUR?"; party full, so it went to box 1).
