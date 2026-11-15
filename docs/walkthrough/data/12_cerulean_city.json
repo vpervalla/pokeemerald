@@ -96,12 +96,12 @@
  ],
  "caught": [
   {
-   "species": "squirtle",
-   "nick": "SQUIRTLE",
+   "species": "wartortle",
+   "nick": "WARTORTLE",
    "met": 12,
-   "level": null,
-   "where": "box 1",
-   "how": "gift (the house at (17,11))"
+   "level": 24,
+   "where": "party",
+   "how": "wild"
   }
  ],
  "missing": [

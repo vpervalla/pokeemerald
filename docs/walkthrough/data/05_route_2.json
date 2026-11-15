@@ -83,8 +83,8 @@
    "species": "pidgeotto",
    "nick": "PIDGEOTTO",
    "met": 3,
-   "level": 24,
-   "where": "party",
+   "level": null,
+   "where": "box 1",
    "how": "wild"
   }
  ],

@@ -1,85 +1,85 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "name": "Alakazam",
-   "lv": 26,
-   "exp": 13832,
+   "species": "wartortle",
+   "name": "Wartortle",
+   "lv": 24,
+   "exp": 10535,
    "types": [
-    "Psychic"
+    "Water"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Inner Focus",
-   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
-   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
+   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
    "stats": [
     [
      "HP",
-     70,
+     67,
      0
     ],
     [
      "Attack",
-     33,
+     37,
      0
     ],
     [
      "Defense",
-     32,
+     45,
      0
     ],
     [
      "Sp. Atk",
-     81,
+     41,
      0
     ],
     [
      "Sp. Def",
-     48,
-     -1
+     50,
+     0
     ],
     [
      "Speed",
-     88,
-     1
+     39,
+     0
     ]
    ],
    "moves": [
     [
-     "Recover",
+     "Bite",
+     "Dark",
+     "60",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Tail Whip",
      "Normal",
      "—",
-     "—",
-     "0/20"
-    ],
-    [
-     "Confusion",
-     "Psychic",
-     "50",
      "100%",
-     "12/25"
+     "30/30"
     ],
     [
-     "Disable",
-     "Normal",
-     "—",
-     "55%",
-     "20/20"
-    ],
-    [
-     "Psybeam",
-     "Psychic",
-     "65",
+     "Bubble",
+     "Water",
+     "20",
      "100%",
-     "18/20"
+     "30/30"
+    ],
+    [
+     "Withdraw",
+     "Water",
+     "—",
+     "—",
+     "40/40"
     ]
    ]
   },
   {
    "species": "charmeleon",
    "name": "Charmeleon",
-   "lv": 25,
-   "exp": 13267,
+   "lv": 30,
+   "exp": 22261,
    "types": [
     "Fire"
    ],
@@ -90,42 +90,42 @@
    "stats": [
     [
      "HP",
-     71,
+     87,
      0
     ],
     [
      "Attack",
-     38,
+     46,
      -1
     ],
     [
      "Defense",
-     37,
+     43,
      0
     ],
     [
      "Sp. Atk",
-     53,
+     64,
      0
     ],
     [
      "Sp. Def",
-     41,
+     49,
      1
     ],
     [
      "Speed",
-     49,
+     61,
      0
     ]
    ],
    "moves": [
     [
-     "Scratch",
+     "Scary Face",
      "Normal",
-     "40",
-     "100%",
-     "35/35"
+     "—",
+     "90%",
+     "10/10"
     ],
     [
      "Cut",
@@ -139,7 +139,7 @@
      "Fire",
      "40",
      "100%",
-     "24/25"
+     "25/25"
     ],
     [
      "Smokescreen",
@@ -147,82 +147,6 @@
      "—",
      "100%",
      "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "pidgeotto",
-   "name": "Pidgeotto",
-   "lv": 24,
-   "exp": 11023,
-   "types": [
-    "Normal",
-    "Flying"
-   ],
-   "nature": "Impish (+Defense, −Sp. Atk)",
-   "ability": "Keen Eye",
-   "met": "Route 1 or 2, wild Pidgey",
-   "role": "Flying coverage and the sturdiest body; QUICK ATTACK for priority.",
-   "stats": [
-    [
-     "HP",
-     66,
-     0
-    ],
-    [
-     "Attack",
-     41,
-     0
-    ],
-    [
-     "Defense",
-     37,
-     1
-    ],
-    [
-     "Sp. Atk",
-     30,
-     -1
-    ],
-    [
-     "Sp. Def",
-     32,
-     0
-    ],
-    [
-     "Speed",
-     59,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Tackle",
-     "Normal",
-     "35",
-     "95%",
-     "35/35"
-    ],
-    [
-     "Sand-Attack",
-     "Ground",
-     "—",
-     "100%",
-     "15/15"
-    ],
-    [
-     "Gust",
-     "Flying",
-     "40",
-     "100%",
-     "35/35"
-    ],
-    [
-     "Quick Attack",
-     "Normal",
-     "40",
-     "100%",
-     "30/30"
     ]
    ]
   },
@@ -352,28 +276,28 @@
      "Flying",
      "40",
      "100%",
-     "0/35"
+     "35/35"
     ],
     [
      "Stun Spore",
      "Grass",
      "—",
      "75%",
-     "5/30"
+     "30/30"
     ],
     [
      "Sleep Powder",
      "Grass",
      "—",
      "75%",
-     "0/15"
+     "15/15"
     ],
     [
      "Confusion",
      "Psychic",
      "50",
      "100%",
-     "20/25"
+     "25/25"
     ]
    ]
   },
@@ -447,6 +371,81 @@
      "Thunder Wave",
      "Electric",
      "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "alakazam",
+   "name": "Alakazam",
+   "lv": 26,
+   "exp": 13832,
+   "types": [
+    "Psychic"
+   ],
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Inner Focus",
+   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
+   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "stats": [
+    [
+     "HP",
+     70,
+     0
+    ],
+    [
+     "Attack",
+     33,
+     0
+    ],
+    [
+     "Defense",
+     32,
+     0
+    ],
+    [
+     "Sp. Atk",
+     81,
+     0
+    ],
+    [
+     "Sp. Def",
+     48,
+     -1
+    ],
+    [
+     "Speed",
+     88,
+     1
+    ]
+   ],
+   "moves": [
+    [
+     "Recover",
+     "Normal",
+     "—",
+     "—",
+     "20/20"
+    ],
+    [
+     "Confusion",
+     "Psychic",
+     "50",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Disable",
+     "Normal",
+     "—",
+     "55%",
+     "20/20"
+    ],
+    [
+     "Psybeam",
+     "Psychic",
+     "65",
      "100%",
      "20/20"
     ]

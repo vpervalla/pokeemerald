@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "id": 65,
-   "nick": "ALAKAZAM",
-   "metloc": 124,
-   "mapsec": "MAPSEC_ROUTE_24",
-   "metlevel": 10,
-   "exp": 13832,
-   "level": 26,
+   "species": "wartortle",
+   "id": 8,
+   "nick": "WARTORTLE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 10535,
+   "level": 24,
    "where": "party"
   },
   {
@@ -18,19 +18,8 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 13267,
-   "level": 25,
-   "where": "party"
-  },
-  {
-   "species": "pidgeotto",
-   "id": 17,
-   "nick": "PIDGEOTTO",
-   "metloc": 102,
-   "mapsec": "MAPSEC_ROUTE_2",
-   "metlevel": 3,
-   "exp": 11023,
-   "level": 24,
+   "exp": 22261,
+   "level": 30,
    "where": "party"
   },
   {
@@ -64,6 +53,17 @@
    "metlevel": 5,
    "exp": 17045,
    "level": 25,
+   "where": "party"
+  },
+  {
+   "species": "alakazam",
+   "id": 65,
+   "nick": "ALAKAZAM",
+   "metloc": 124,
+   "mapsec": "MAPSEC_ROUTE_24",
+   "metlevel": 10,
+   "exp": 13832,
+   "level": 26,
    "where": "party"
   },
   {
@@ -129,17 +129,6 @@
    "mapsec": "MAPSEC_ROUTE_4",
    "metlevel": 6,
    "exp": 216,
-   "level": null,
-   "where": "box 1"
-  },
-  {
-   "species": "squirtle",
-   "id": 7,
-   "nick": "SQUIRTLE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 973,
    "level": null,
    "where": "box 1"
   },
@@ -252,6 +241,17 @@
    "exp": 5460,
    "level": null,
    "where": "box 1"
+  },
+  {
+   "species": "pidgeotto",
+   "id": 17,
+   "nick": "PIDGEOTTO",
+   "metloc": 102,
+   "mapsec": "MAPSEC_ROUTE_2",
+   "metlevel": 3,
+   "exp": 11023,
+   "level": null,
+   "where": "box 1"
   }
  ],
  "dex_owned": [
@@ -259,6 +259,7 @@
   4,
   5,
   7,
+  8,
   10,
   11,
   12,
