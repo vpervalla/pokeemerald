@@ -532,5 +532,123 @@
    "fishing_mons",
    "Fishing (Route25)"
   ]
+ ],
+ "caught": [
+  {
+   "species": "oddish",
+   "nick": "ODDISH",
+   "met": 12,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "hoothoot",
+   "nick": "HOOTHOOT",
+   "met": 13,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "spinarak",
+   "nick": "SPINARAK",
+   "met": 7,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "abra",
+   "nick": "ABRA",
+   "met": 10,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "bellsprout",
+   "nick": "BELLSPROUT",
+   "met": 13,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "goldeen",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kakuna",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "ledyba",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwhirl",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "weedle",
+   "via": [
+    "land"
+   ]
+  }
  ]
 }

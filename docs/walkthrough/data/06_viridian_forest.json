@@ -227,5 +227,37 @@
    "land_mons",
    "Tall grass"
   ]
+ ],
+ "caught": [
+  {
+   "species": "butterfree",
+   "nick": "BUTTERFREE",
+   "met": 4,
+   "level": 27,
+   "where": "party",
+   "how": "wild"
+  },
+  {
+   "species": "pikachu",
+   "nick": "PIKACHU",
+   "met": 3,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "kakuna",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weedle",
+   "via": [
+    "land"
+   ]
+  }
  ]
 }

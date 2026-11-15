@@ -203,5 +203,26 @@
     ]
    ]
   }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "jigglypuff",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "nidoran_f",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "nidoran_m",
+   "via": [
+    "land"
+   ]
+  }
  ]
 }

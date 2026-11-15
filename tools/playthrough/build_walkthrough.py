@@ -301,6 +301,32 @@ def load_pages():
     return pages
 
 
+def caught_panel(d):
+    """The Pokémon of this area that are in the party or the PC (met location stored in each Pokémon), and the wild species still to catch."""
+    if "caught" not in d:
+        return ""
+    got, miss = d["caught"], d.get("missing", [])
+    if got:
+        rows = "".join(f'<tr><td>{monname("SPECIES_" + c["species"].upper())}</td><td class="n">{c["met"]}</td>'
+                       f'<td>{"in the party" if c["where"] == "party" else "in the PC (" + c["where"] + ")"}{" · now Lv " + str(c["level"]) if c.get("level") else ""}</td>'
+                       f'<td>{esc(c["how"])}</td></tr>' for c in got)
+        body = ('<div class="tablewrap"><table><thead><tr><th>Pokémon</th><th>Met at Lv</th><th>Now</th><th>How</th></tr></thead>'
+                f'<tbody>{rows}</tbody></table></div>')
+    else:
+        body = '<p class="hint">Nothing caught here yet.</p>'
+    walk = [m for m in miss if "land" in m["via"]]
+    rod = [m for m in miss if "land" not in m["via"]]
+    def chips(lst, note=""):
+        return " ".join(f'<span class="chip no">{monname("SPECIES_" + m["species"].upper())}{note}</span>' for m in lst)
+    if walk:
+        body += f'<h4>Still to catch (walking)</h4><p>{chips(walk)}</p>'
+    if rod:
+        body += f'<h4>Still to catch (surf or a rod)</h4><p>{chips(rod)}</p>'
+    if not walk and not rod and got:
+        body += '<p class="hint">Every species of this area\'s wild tables is in the dex.</p>'
+    return f'<div class="panel wide"><h3>Pokémon caught here</h3>{body}</div>'
+
+
 def area_html(p, n):
     s, d = p["secs"], p["data"]
     sign = (f'<header class="sign"><span class="num">{n}</span><div><h2>{esc(p["title"])}</h2>'
@@ -319,6 +345,7 @@ def area_html(p, n):
         ref += f'<div class="panel"><h3>Items &amp; events</h3>{panel}</div>'
     if d.get("wild"):
         ref += wild_panels(d["wild"])
+    ref += caught_panel(d)
     if d.get("trainers"):
         ref += trainer_cards(d["trainers"])
     if any(l.strip() for l in s.get("Everyone and every building", [])):
@@ -367,9 +394,18 @@ def team_html():
                   f'<p class="role">{m["role"]}</p><div class="stats" role="list" aria-label="{m["name"]} stats">{stats}</div>'
                   f'<div class="tablewrap"><table class="moves-t"><thead><tr><th>Move</th><th>Type</th><th>Pow</th><th>Acc</th><th>PP</th></tr></thead>'
                   f'<tbody>{moves}</tbody></table></div></article>')
+    pc = ""
+    try:
+        cj = json.load(open(os.path.join(WT, "data", "caught.json"), encoding="utf-8"))
+        box = [m for m in cj["mons"] if m["where"] != "party"]
+        pc = ('<div class="panel wide"><h3>In the PC</h3><p>' + " ".join(f'<span class="chip no">{monname("SPECIES_" + m["species"].upper())}'
+              f' met at Lv {m["metlevel"]}, {m["mapsec"].replace("MAPSEC_", "").replace("_", " ").title()}</span>' for m in box)
+              + f'</p><p class="hint">{len(cj["dex_owned"])} species owned in the Pokédex.</p></div>')
+    except Exception:
+        pass
     return ('<section class="team" id="s-team" aria-labelledby="team-h"><div class="team-intro"><h2 id="team-h">The team</h2>'
             '<p>The party as last saved, in party order. Stats are the in-game values; bars share one scale (0–60).</p></div>'
-            f'<div class="team-grid">{cards}</div></section>')
+            f'<div class="team-grid">{cards}</div>{pc}</section>')
 
 
 def party_text(s):

@@ -93,5 +93,47 @@
    "fishing_mons",
    "Fishing"
   ]
+ ],
+ "caught": [
+  {
+   "species": "squirtle",
+   "nick": "SQUIRTLE",
+   "met": 12,
+   "level": null,
+   "where": "box 1",
+   "how": "gift (the house at (17,11))"
+  }
+ ],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  }
  ]
 }

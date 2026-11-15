@@ -67,5 +67,55 @@
     ]
    ]
   }
+ ],
+ "caught": [
+  {
+   "species": "mankey",
+   "nick": "MANKEY",
+   "met": 4,
+   "level": 25,
+   "where": "party",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "goldeen",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwhirl",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  }
  ]
 }

@@ -77,5 +77,29 @@
    "Tall grass"
   ]
  ],
- "trainers": []
+ "trainers": [],
+ "caught": [
+  {
+   "species": "pidgeotto",
+   "nick": "PIDGEOTTO",
+   "met": 3,
+   "level": 21,
+   "where": "party",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "ledyba",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weedle",
+   "via": [
+    "land"
+   ]
+  }
+ ]
 }

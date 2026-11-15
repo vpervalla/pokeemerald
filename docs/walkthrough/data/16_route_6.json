@@ -183,5 +183,55 @@
    "fishing_mons",
    "Fishing"
   ]
+ ],
+ "caught": [
+  {
+   "species": "meowth",
+   "nick": "MEOWTH",
+   "met": 14,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "goldeen",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwhirl",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  }
  ]
 }

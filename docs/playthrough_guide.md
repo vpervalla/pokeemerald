@@ -482,6 +482,7 @@ City, …), one per area. What worked:
 
 - `python3 tools/playthrough/gen_team.py` rewrites `data/team.json` from the party in `cur.ss` (types, abilities, natures, stats, moves with power/accuracy/PP); the "met" and "role" sentences are keyed by species inside the script: edit them there when the party changes.
 - `python3 tools/playthrough/gen_area.py [NN_area ...]` fills each area's **trainer cards** (name, class, exact team with levels and custom moves, prize = 4 x last level x class factor, and *Beaten* or *Not fought yet* read from the savestate's trainer flags), the other maps of an area, item and hidden-item markers with their *Collected / Found* state, and the wild-table list. Add every new area to `AREAS` in the script (data file -> map names). The builder takes the party line from `team.json`.
+- `python3 tools/playthrough/gen_caught.py` reads the party and all PC boxes of `cur.ss` (species, level when met, the map section stored in each Pokémon, box) and the Pokédex owned bits into `data/caught.json`; then `gen_area.py` writes each area's **Pokémon caught here** panel and the list of wild species still missing there (walking, or surf/rod), and the team page gets an **In the PC** strip. Run the order **gen_caught, gen_team, gen_area, build**. Gifts and special catches are named in `HOW` inside `gen_area.py`.
 - Every route page must list **all** its trainers with their teams; if a page has none, the area has none (check `AREAS`).
 
 ## Saves

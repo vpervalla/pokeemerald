@@ -454,5 +454,43 @@
    "land_mons",
    "Tall grass (MtMoon_B2F)"
   ]
+ ],
+ "caught": [
+  {
+   "species": "charmeleon",
+   "nick": "CHARMELEON",
+   "met": 10,
+   "level": 21,
+   "where": "party",
+   "how": "wild Charmander L10, cornered on B2F (Luna's quest)"
+  },
+  {
+   "species": "zubat",
+   "nick": "ZUBAT",
+   "met": 8,
+   "level": 9,
+   "where": "party",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "clefairy",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "geodude",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "paras",
+   "via": [
+    "land"
+   ]
+  }
  ]
 }

@@ -669,5 +669,44 @@
    "fishing_mons",
    "Fishing (SSAnne_Exterior)"
   ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "staryu",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  }
  ]
 }

@@ -15,6 +15,8 @@ WT = os.path.join(R, "docs", "walkthrough", "data")
 
 # data file -> maps whose trainers belong to it
 AREAS = {
+    "01_pallet_town": ["PalletTown"],
+    "02_route_1": ["Route1"],
     "03_viridian_city": ["ViridianCity", "ViridianCity_Gym"],
     "04_route_22": ["Route22"],
     "05_route_2": ["Route2"],
@@ -306,6 +308,50 @@ def extend(k, by_map):
     json.dump(d, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 
+# ---- the Pokémon caught in each area (from the party and PC boxes of the savestate: gen_caught.py) and the ones still missing
+AREA_MAPSEC = {
+    "01_pallet_town": ["MAPSEC_PALLET_TOWN"], "02_route_1": ["MAPSEC_ROUTE_1"], "03_viridian_city": ["MAPSEC_VIRIDIAN_CITY"],
+    "04_route_22": ["MAPSEC_ROUTE_22"], "05_route_2": ["MAPSEC_ROUTE_2"], "06_viridian_forest": ["MAPSEC_VIRIDIAN_FOREST"],
+    "07_pewter_city": ["MAPSEC_PEWTER_CITY"], "09_route_3": ["MAPSEC_ROUTE_3"], "10_mt_moon": ["MAPSEC_MT_MOON"],
+    "11_route_4": ["MAPSEC_ROUTE_4", "MAPSEC_ROUTE_4_POKECENTER"], "12_cerulean_city": ["MAPSEC_CERULEAN_CITY"],
+    "14_route_24_25": ["MAPSEC_ROUTE_24", "MAPSEC_ROUTE_25"], "15_route_5_underground": ["MAPSEC_ROUTE_5", "MAPSEC_UNDERGROUND_PATH", "MAPSEC_UNDERGROUND_PATH_2"],
+    "16_route_6": ["MAPSEC_ROUTE_6"], "17_vermilion_city": ["MAPSEC_VERMILION_CITY"], "18_ss_anne": ["MAPSEC_S_S_ANNE"],
+}
+# the area whose wild tables decide what is "still missing" (several data files share a map section)
+HOW = {("pikachu", "MAPSEC_PALLET_TOWN"): "gift from Prof. Oak", ("squirtle", "MAPSEC_CERULEAN_CITY"): "gift (the house at (17,11))",
+       ("magikarp", "MAPSEC_ROUTE_4"): "bought for ¥500 from the Center's salesman (by accident)", ("charmeleon", "MAPSEC_MT_MOON"): "wild Charmander L10, cornered on B2F (Luna's quest)"}
+
+
+def caught_for(k):
+    try:
+        c = json.load(open(os.path.join(WT, "caught.json")))
+    except Exception:
+        return None
+    secs = AREA_MAPSEC.get(k)
+    if not secs:
+        return None
+    mons = [m for m in c["mons"] if m["mapsec"] in secs]
+    owned = set(c["dex_owned"])
+    got = [{"species": m["species"], "nick": m["nick"], "met": m["metlevel"], "level": m["level"], "where": m["where"],
+            "how": HOW.get((m["species"], m["mapsec"]), "wild")} for m in mons]
+    # the species of this area's wild tables (every time of day and method) that are not owned yet
+    enc = json.load(open(os.path.join(R, "src/data/wild_encounters.json")))["wild_encounter_groups"][0]["encounters"]
+    ids = {int(m.group(2)): m.group(1) for m in re.finditer(r"#define SPECIES_(\w+)\s+(\d+)\b", read("include/constants/species.h"))}
+    names = {v: k for k, v in ids.items()}
+    ground = {}
+    for mp in AREAS.get(k, []):
+        mid = json.load(open(os.path.join(R, f"data/maps/{mp}/map.json")))["id"]
+        for e in enc:
+            if e.get("map") == mid:
+                for kind in ("land_mons", "water_mons", "fishing_mons", "rock_smash_mons"):
+                    for m in e.get(kind, {}).get("mons", []):
+                        ground.setdefault(m["species"][8:], set()).add(kind.split("_")[0])
+    # evolution lines count: a species is "owned" when the dex says so, which the game sets for the caught form only
+    missing = [{"species": sp.lower(), "via": sorted(v)} for sp, v in sorted(ground.items())
+               if names.get(sp, 0) not in owned and not any(g["species"] == sp.lower() for g in got)]
+    return got, missing, None
+
+
 def main(keys):
     beaten = flags()
     for k in keys:
@@ -321,6 +367,10 @@ def main(keys):
         d["trainers"] = [{kk: v for kk, v in t.items() if kk != "_id"} for t in cards]
         json.dump(d, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         d0 = json.load(open(p, encoding="utf-8"))
+        cf = caught_for(k)
+        if cf:
+            d0["caught"], d0["missing"] = cf[0], cf[1]
+            json.dump(d0, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         mp0 = d0.get("map")
         if d0.get("items") and mp0 and (isinstance(mp0, list) or mp0.get("markers")):
             extend(k, by_map)

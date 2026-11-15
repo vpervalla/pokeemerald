@@ -104,5 +104,79 @@
    "fishing_mons",
    "Fishing"
   ]
+ ],
+ "caught": [
+  {
+   "species": "magikarp",
+   "nick": "AAAAAAAAAA",
+   "met": 5,
+   "level": null,
+   "where": "box 1",
+   "how": "bought for ¥500 from the Center's salesman (by accident)"
+  },
+  {
+   "species": "spearow",
+   "nick": "SPEAROW",
+   "met": 10,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "rattata",
+   "nick": "RATTATA",
+   "met": 10,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "sandshrew",
+   "nick": "SANDSHREW",
+   "met": 10,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "ekans",
+   "nick": "EKANS",
+   "met": 6,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  }
  ]
 }
