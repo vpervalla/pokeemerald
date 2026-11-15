@@ -1,0 +1,13 @@
+#!/bin/bash
+# lvlchain : after the running lvlabra has finished, level CHARMELEON (Ember, slot 2) then PIDGEOTTO (Gust, slot 2) to 24 in direct mode.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+while pgrep -f "bin/lvlabra" >/dev/null; do sleep 5; done
+for spec in "CHARMELEON 2" "PIDGEOTTO 2"; do
+  set -- $spec
+  idx=$(st | sed -n '2,7p' | grep -n "^  $1 " | cut -d: -f1); idx=$((idx-1))
+  echo "lead $1 (slot $idx)"
+  [ "$idx" -gt 0 ] && lead 0 $idx | tail -1
+  # make sure we start outside the Center's door state lvlabra expects (it handles Center or Vermilion)
+  DIRECT=1 SLOT=$2 lvlabra 24
+done
+echo CHAIN DONE
