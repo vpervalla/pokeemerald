@@ -14,6 +14,7 @@ MET = {
     "pidgeotto": "Route 1 or 2, wild Pidgey",
     "charmeleon": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
     "zubat": "Mt. Moon B2F, wild L8",
+    "alakazam": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
     "kadabra": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
 }
 ROLE = {
@@ -23,6 +24,7 @@ ROLE = {
     "pidgeotto": "Flying coverage and the sturdiest body; QUICK ATTACK for priority.",
     "charmeleon": "The Fire starter; goal: Charizard by the end of Kanto.",
     "zubat": "The poison/flying bat, boxed for being far behind in level.",
+    "alakazam": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
     "kadabra": "The Psychic special attacker; it evolves into ALAKAZAM by trade. Swapped in for ZUBAT.",
 }
 NAT = {"Hardy": "", "Lonely": "Atk,Def", "Brave": "Atk,Spe", "Adamant": "Atk,SpA", "Naughty": "Atk,SpD", "Bold": "Def,Atk",

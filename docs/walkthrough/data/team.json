@@ -1,46 +1,46 @@
 {
  "mons": [
   {
-   "species": "kadabra",
-   "name": "Kadabra",
-   "lv": 16,
-   "exp": 2704,
+   "species": "alakazam",
+   "name": "Alakazam",
+   "lv": 24,
+   "exp": 10657,
    "types": [
     "Psychic"
    ],
    "nature": "Naive (+Speed, −Sp. Def)",
    "ability": "Inner Focus",
-   "met": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
-   "role": "The Psychic special attacker; it evolves into ALAKAZAM by trade. Swapped in for ZUBAT.",
+   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
+   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
    "stats": [
     [
      "HP",
-     42,
+     65,
      0
     ],
     [
      "Attack",
-     16,
+     30,
      0
     ],
     [
      "Defense",
-     17,
+     30,
      0
     ],
     [
      "Sp. Atk",
-     47,
+     76,
      0
     ],
     [
      "Sp. Def",
-     27,
+     45,
      -1
     ],
     [
      "Speed",
-     47,
+     80,
      1
     ]
    ],
@@ -58,14 +58,28 @@
      "50",
      "100%",
      "25/25"
+    ],
+    [
+     "Disable",
+     "Normal",
+     "—",
+     "55%",
+     "20/20"
+    ],
+    [
+     "Psybeam",
+     "Psychic",
+     "65",
+     "100%",
+     "20/20"
     ]
    ]
   },
   {
    "species": "mankey",
    "name": "Mankey",
-   "lv": 26,
-   "exp": 18135,
+   "lv": 27,
+   "exp": 19751,
    "types": [
     "Fighting"
    ],
@@ -76,32 +90,32 @@
    "stats": [
     [
      "HP",
-     59,
+     61,
      0
     ],
     [
      "Attack",
-     54,
+     56,
      0
     ],
     [
      "Defense",
-     28,
+     29,
      0
     ],
     [
      "Sp. Atk",
-     27,
+     29,
      0
     ],
     [
      "Sp. Def",
-     33,
+     34,
      0
     ],
     [
      "Speed",
-     50,
+     54,
      0
     ]
    ],

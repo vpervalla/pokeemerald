@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "kadabra",
-   "id": 64,
-   "nick": "KADABRA",
+   "species": "alakazam",
+   "id": 65,
+   "nick": "ALAKAZAM",
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 2704,
-   "level": 16,
+   "exp": 10657,
+   "level": 24,
    "where": "party"
   },
   {
@@ -18,8 +18,8 @@
    "metloc": 122,
    "mapsec": "MAPSEC_ROUTE_22",
    "metlevel": 4,
-   "exp": 18135,
-   "level": 26,
+   "exp": 19751,
+   "level": 27,
    "where": "party"
   },
   {
@@ -230,7 +230,9 @@
   56,
   63,
   64,
+  65,
   69,
+  90,
   129,
   163,
   167

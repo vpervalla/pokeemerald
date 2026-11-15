@@ -535,10 +535,10 @@
  ],
  "caught": [
   {
-   "species": "kadabra",
-   "nick": "KADABRA",
+   "species": "alakazam",
+   "nick": "ALAKAZAM",
    "met": 10,
-   "level": 16,
+   "level": 24,
    "where": "party",
    "how": "wild"
   },
