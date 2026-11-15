@@ -39,11 +39,11 @@ def pretty(s):
 
 
 # ---- the trainer database
-consts = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define\s+(TRAINER_KANTO_\w+)\s+(\d+)\b", read("include/constants/opponents_kanto.h"))}
+consts = {m.group(1): int(m.group(2)) for m in re.finditer(r"#define\s+(TRAINER_(?:KANTO|LEAF|KRIS)_\w+)\s+(\d+)\b", read("include/constants/opponents_kanto.h"))}
 money = {m.group(1): int(m.group(2)) for m in re.finditer(r"\{(TRAINER_CLASS_\w+),\s*(\d+)\}", read("src/battle_main.c") + read("include/constants/trainers_kanto.h"))}
 money["0xFF"] = 5   # "any trainer class not listed above"
 parties = {}
-for f in ("src/data/kanto_trainer_parties.h", "src/data/trainer_parties.h"):
+for f in ("src/data/kanto_trainer_parties.h", "src/data/lab_trainer_parties.h", "src/data/trainer_parties.h"):
     if not os.path.exists(os.path.join(R, f)):
         continue
     txt = read(f)
@@ -59,9 +59,9 @@ for f in ("src/data/kanto_trainer_parties.h", "src/data/trainer_parties.h"):
                 mons.append((sp.group(1).lower(), int(lv.group(1)), ", ".join(moves) or "—"))
         parties[m.group(1)] = mons
 trainers = {}
-for f in ("src/data/kanto_trainers.h",):
+for f in ("src/data/kanto_trainers.h", "src/data/lab_trainers.h"):
     txt = read(f)
-    for m in re.finditer(r"\[(TRAINER_KANTO_\w+)\]\s*=\s*\{(.*?)\n    \},", txt, re.S):
+    for m in re.finditer(r"\[(TRAINER_(?:KANTO|LEAF|KRIS)_\w+)\]\s*=\s*\{(.*?)\n    \},", txt, re.S):
         b = m.group(2)
         cls = re.search(r"\.trainerClass\s*=\s*(\w+)", b)
         nm = re.search(r'\.trainerName\s*=\s*_\("([^"]*)"\)', b)
@@ -99,7 +99,8 @@ def flags():
 
 
 def map_trainers(mp, beaten):
-    sc = read(f"data/maps/{mp}/scripts.inc")
+    sc0 = read(f"data/maps/{mp}/scripts.inc")
+    sc = sc0 + "\n" + read("data/scripts/lab_trainers.inc")   # the lab trainers (Leaf/Kris) are scripted there
     mj = json.load(open(os.path.join(R, f"data/maps/{mp}/map.json")))
     pos = {}
     for o in mj.get("object_events", []):
@@ -107,16 +108,19 @@ def map_trainers(mp, beaten):
             pos[o["script"]] = (o["x"], o["y"])
     labels = [(m.start(), m.group(1)) for m in re.finditer(r"^(\w+)::", sc, re.M)]
     out = []
-    for m in re.finditer(r"trainerbattle\w*\s+(TRAINER_KANTO_\w+)", sc):
+    for m in re.finditer(r"trainerbattle\w*\s+(TRAINER_(?:KANTO|LEAF|KRIS)_\w+)", sc):
         c = m.group(1)
         if c not in trainers:
             continue
         lab = [l for p, l in labels if p < m.start()]
         where = pos.get(lab[-1]) if lab else None
+        if m.start() >= len(sc0) and where is None:
+            continue                       # a lab trainer that belongs to another map
         out.append((c, where))
     seen, res = set(), []
     # the rival has one entry per starter in the same script: keep the fought one, else the one for a PIKACHU start (the first listed)
     rival = [c for c, w in out if "RIVAL" in trainers[c][0]]
+    out = [(c, w) for c, w in out if not c.startswith("TRAINER_KRIS") or (beaten is not None and flag_index(consts[c]) in beaten)]
     if beaten is not None:
         won = [c for c in rival if flag_index(consts[c]) in beaten]
         drop = set(rival) - set(won) if won else set()
@@ -136,7 +140,7 @@ def card(c, where, mp, beaten, multi):
     state = "" if beaten is None else (" <b>Beaten.</b>" if flag_index(consts[c]) in beaten else " <b>Not fought yet.</b>")
     at = f" at ({where[0]},{where[1]})" if where else ""
     loc = f"{mp}{at}. " if multi else (f"({where[0]},{where[1]}). " if where else "")
-    title = "Rival Blue" if "RIVAL" in cls else f"{class_name(cls)} {name.title()}"
+    title = ("Rival " + name.title()) if "RIVAL" in cls and name.upper() in ("LEAF", "KRIS") else "Rival Blue" if "RIVAL" in cls else f"{class_name(cls)} {name.title()}"
     return {"name": title, "hint": f"{loc}Prize ¥{prize}.{state}",
             "team": [[s, l, m] for s, l, m in team], "_id": c}
 

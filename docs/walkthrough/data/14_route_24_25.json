@@ -51,6 +51,12 @@
      5,
      21,
      "T6"
+    ],
+    [
+     "trainer",
+     12,
+     9,
+     "T8"
     ]
    ]
   },
@@ -97,55 +103,55 @@
      "trainer",
      11,
      4,
-     "T8"
+     "T9"
     ],
     [
      "trainer",
      18,
      2,
-     "T9"
+     "T10"
     ],
     [
      "trainer",
      17,
      7,
-     "T10"
-    ],
-    [
-     "trainer",
-     22,
-     4,
      "T11"
     ],
     [
      "trainer",
      22,
-     8,
+     4,
      "T12"
+    ],
+    [
+     "trainer",
+     22,
+     8,
+     "T13"
     ],
     [
      "trainer",
      27,
      9,
-     "T13"
+     "T14"
     ],
     [
      "trainer",
      28,
      4,
-     "T14"
+     "T15"
     ],
     [
      "trainer",
      36,
      4,
-     "T15"
+     "T16"
     ],
     [
      "trainer",
      42,
      5,
-     "T16"
+     "T17"
     ]
    ]
   }
@@ -321,6 +327,27 @@
      "zubat",
      15,
      "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Leaf",
+   "hint": "Route24 at (12,9). Prize ¥900. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_f",
+     13,
+     "Double Kick, Poison Sting, Scratch, Tail Whip"
+    ],
+    [
+     "clefairy",
+     13,
+     "Pound, Sing, Encore, Growl"
+    ],
+    [
+     "bulbasaur",
+     15,
+     "Vine Whip, Leech Seed, Tackle, Growl"
     ]
    ]
   },

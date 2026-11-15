@@ -14,7 +14,7 @@
 
 ## The rival on the bridge
 
-BLUE waits at (22,5): "Yo! ETHAN!" Team: PIDGEOTTO L17 (the fight left PIKACHU and BUTTERFREE fainted, a lead PIDGEOTTO L19 finished it), RATTATA, others; prize ¥1 100 (¥1 554 after). He then says: "Since you're using his system, you should go thank him. So here, I'll give you a little present as a favor… this time I really am gone. Smell ya!" The present was not seen as a message (the sweep passed it).
+BLUE waits at (22,5): "Yo! ETHAN!" Team: PIDGEOTTO L17, ABRA L16, RATTATA L15, SQUIRTLE L18 (the fight left PIKACHU and BUTTERFREE fainted; PIDGEOTTO L19 and MANKEY finished it); prize ¥288 (¥1 554 after). He then says: "Since you're using his system, you should go thank him. So here, I'll give you a little present as a favor… this time I really am gone. Smell ya!" The present was not seen as a message (the sweep passed it).
 
 ## Bugs
 
