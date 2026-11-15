@@ -38,17 +38,27 @@
    "MAP_ROUTE22",
    "land_mons",
    "Tall grass"
+  ],
+  [
+   "MAP_ROUTE22",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE22",
+   "fishing_mons",
+   "Fishing"
   ]
  ],
  "trainers": [
   {
    "name": "Rival Blue",
-   "hint": "On the sand path at the trigger. Prize ¥144.",
+   "hint": "Prize ¥144. <b>Beaten.</b>",
    "team": [
     [
      "pidgey",
      9,
-     "Tackle, Sand-Attack"
+     "Tackle, Sand Attack"
     ],
     [
      "squirtle",

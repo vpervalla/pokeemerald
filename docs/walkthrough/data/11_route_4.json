@@ -1,1 +1,108 @@
-{"sub": "Grass pocket done · 4 species caught · upper road needs another way", "map": {"name": "Route4", "markers": [["item", 67, 5, "1"], ["trainer", 75, 3, "T1"], ["trainer", 109, 3, "T2"]]}, "items": [{"kind": "item", "n": "1", "text": "TM05 at (67,5): on the upper road, not reachable yet.", "chip": "no", "chipText": "Later"}], "trainers": [{"name": "Lass Crissy", "hint": "(75,3), upper road: not reached.", "team": []}]}
+{
+ "sub": "Grass pocket done · 4 species caught · upper road needs another way",
+ "map": {
+  "name": "Route4",
+  "markers": [
+   [
+    "item",
+    67,
+    5,
+    "1"
+   ],
+   [
+    "hidden",
+    43,
+    2,
+    "2"
+   ],
+   [
+    "hidden",
+    5,
+    4,
+    "3"
+   ],
+   [
+    "hidden",
+    67,
+    17,
+    "4"
+   ],
+   [
+    "trainer",
+    75,
+    3,
+    "T1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM05 at (67,5).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Great Ball at (43,2).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Persim Berry at (5,4).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Razz Berry at (67,17).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Lass Crissy",
+   "hint": "(75,3). Prize ¥496. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "paras",
+     31,
+     "—"
+    ],
+    [
+     "paras",
+     31,
+     "—"
+    ],
+    [
+     "parasect",
+     31,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE4",
+   "land_mons",
+   "Tall grass"
+  ],
+  [
+   "MAP_ROUTE4",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE4",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ]
+}

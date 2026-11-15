@@ -478,6 +478,12 @@ City, …), one per area. What worked:
 - Write facts from the run, not from memory of the original games: this build differs.
 - One self-contained HTML file: inline images as `data:` URIs, hash routing between pages.
 
+### Generated parts of the walkthrough (run these before building the page)
+
+- `python3 tools/playthrough/gen_team.py` rewrites `data/team.json` from the party in `cur.ss` (types, abilities, natures, stats, moves with power/accuracy/PP); the "met" and "role" sentences are keyed by species inside the script: edit them there when the party changes.
+- `python3 tools/playthrough/gen_area.py [NN_area ...]` fills each area's **trainer cards** (name, class, exact team with levels and custom moves, prize = 4 x last level x class factor, and *Beaten* or *Not fought yet* read from the savestate's trainer flags), the other maps of an area, item and hidden-item markers with their *Collected / Found* state, and the wild-table list. Add every new area to `AREAS` in the script (data file -> map names). The builder takes the party line from `team.json`.
+- Every route page must list **all** its trainers with their teams; if a page has none, the area has none (check `AREAS`).
+
 ## Saves
 
 The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
@@ -519,3 +525,10 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - **`st` prints the map from RAM even inside a battle**, so a map check can't tell a battle from the overworld. The nickname prompt after a catch needs B (`aftercatch`, rewritten with a fixed key sequence).
 - **New tools:** `potion SLOT [N]` (Potions out of battle), `ball` (throw one ball by hand), `sendout K` (forced replacement), `talk`, `sweep`.
 - **Trainers that see you run into you** while you walk; a `trainer X Y` on a trainer already beaten does nothing.
+
+## Open items found by the generators (to do when passing again)
+
+- Route 4: TM05 (67,5), the Mega Punch and Mega Kick tutors (47,3) and (50,3) and Lass Crissy (L31 Paras team) are on the upper road, reached from the Mt. Moon B1F exit (32,5): not done. Hidden items: Great Ball (43,2), Persim (5,4) and Razz (67,17) berries.
+- Cerulean: a hidden Rare Candy at (18,7) in the robbed house's back-yard (reached through the house at (10,11)); the thief Rocket at (33,6) and the policeman's door.
+- Route 24: hidden Pecha Berry (19,4). Route 25: TM43 at (26,2), hidden Elixir (14,2), Ether (58,6), Oran (33,8) and Bluk (40,3) berries. Hidden items are picked by standing on the tile and pressing A (no Itemfinder needed).
+- Mt. Moon: the grunt at (35,12), TM46 (35,5), the Antidote (3,11).

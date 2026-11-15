@@ -3,44 +3,44 @@
   {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 16,
-   "exp": 4096,
+   "lv": 18,
+   "exp": 6169,
    "types": [
     "Electric"
    ],
    "nature": "Lonely (+Attack, −Defense)",
    "ability": "Static",
    "met": "Gift from Prof. Oak, L5",
-   "role": "The finisher of the grind: fast, learned QUICK ATTACK at L11 (it forgot GROWL). Still useless against Brock's Rock and Ground.",
+   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
    "stats": [
     [
      "HP",
-     39,
+     43,
      0
     ],
     [
      "Attack",
-     28,
+     31,
      1
     ],
     [
      "Defense",
-     14,
+     15,
      -1
     ],
     [
      "Sp. Atk",
-     25,
+     28,
      0
     ],
     [
      "Sp. Def",
-     21,
+     23,
      0
     ],
     [
      "Speed",
-     41,
+     46,
      0
     ]
    ],
@@ -50,7 +50,7 @@
      "Electric",
      "40",
      "100%",
-     "30/30"
+     "24/30"
     ],
     [
      "Quick Attack",
@@ -76,78 +76,10 @@
    ]
   },
   {
-   "species": "mankey",
-   "name": "Mankey",
-   "lv": 19,
-   "exp": 6932,
-   "types": [
-    "Fighting"
-   ],
-   "nature": "Quirky (neutral)",
-   "ability": "Vital Spirit",
-   "met": "Route 22, east grass, wild L4",
-   "role": "Beat Brock with LOW KICK, which hits harder the heavier the target is. Still L14 after the badge.",
-   "stats": [
-    [
-     "HP",
-     45,
-     0
-    ],
-    [
-     "Attack",
-     40,
-     0
-    ],
-    [
-     "Defense",
-     21,
-     0
-    ],
-    [
-     "Sp. Atk",
-     20,
-     0
-    ],
-    [
-     "Sp. Def",
-     25,
-     0
-    ],
-    [
-     "Speed",
-     36,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Scratch",
-     "Normal",
-     "40",
-     "100%",
-     "35/35"
-    ],
-    [
-     "Leer",
-     "Normal",
-     "—",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Low Kick",
-     "Fighting",
-     "—",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
    "species": "butterfree",
    "name": "Butterfree",
-   "lv": 18,
-   "exp": 6238,
+   "lv": 23,
+   "exp": 12320,
    "types": [
     "Bug",
     "Flying"
@@ -155,36 +87,36 @@
    "nature": "Naive (+Speed, −Sp. Def)",
    "ability": "Compound Eyes",
    "met": "Caught in Viridian Forest as a wild Caterpie L4",
-   "role": "The status specialist: SLEEP POWDER and STUN SPORE (learned at L15 and L14) plus CONFUSION. It led Route 3's trainers.",
+   "role": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
    "stats": [
     [
      "HP",
-     53,
+     64,
      0
     ],
     [
      "Attack",
-     24,
+     30,
      0
     ],
     [
      "Defense",
-     29,
+     36,
      0
     ],
     [
      "Sp. Atk",
-     37,
+     47,
      0
     ],
     [
      "Sp. Def",
-     30,
+     37,
      -1
     ],
     [
      "Speed",
-     41,
+     52,
      1
     ]
    ],
@@ -194,7 +126,7 @@
      "Normal",
      "35",
      "95%",
-     "35/35"
+     "34/35"
     ],
     [
      "Stun Spore",
@@ -208,7 +140,7 @@
      "Grass",
      "—",
      "75%",
-     "15/15"
+     "13/15"
     ],
     [
      "Confusion",
@@ -220,47 +152,184 @@
    ]
   },
   {
+   "species": "charmeleon",
+   "name": "Charmeleon",
+   "lv": 18,
+   "exp": 3826,
+   "types": [
+    "Fire"
+   ],
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
+   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
+   "stats": [
+    [
+     "HP",
+     53,
+     0
+    ],
+    [
+     "Attack",
+     28,
+     -1
+    ],
+    [
+     "Defense",
+     28,
+     0
+    ],
+    [
+     "Sp. Atk",
+     39,
+     0
+    ],
+    [
+     "Sp. Def",
+     31,
+     1
+    ],
+    [
+     "Speed",
+     35,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Scratch",
+     "Normal",
+     "40",
+     "100%",
+     "35/35"
+    ],
+    [
+     "Growl",
+     "Normal",
+     "—",
+     "100%",
+     "40/40"
+    ],
+    [
+     "Ember",
+     "Fire",
+     "40",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Smokescreen",
+     "Normal",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "zubat",
+   "name": "Zubat",
+   "lv": 8,
+   "exp": 659,
+   "types": [
+    "Poison",
+    "Flying"
+   ],
+   "nature": "Impish (+Defense, −Sp. Atk)",
+   "ability": "Inner Focus",
+   "met": "Mt. Moon B2F, wild L8",
+   "role": "The poison/flying bat, still far behind in level.",
+   "stats": [
+    [
+     "HP",
+     26,
+     0
+    ],
+    [
+     "Attack",
+     13,
+     0
+    ],
+    [
+     "Defense",
+     14,
+     1
+    ],
+    [
+     "Sp. Atk",
+     9,
+     -1
+    ],
+    [
+     "Sp. Def",
+     11,
+     0
+    ],
+    [
+     "Speed",
+     13,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Leech Life",
+     "Bug",
+     "20",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Supersonic",
+     "Normal",
+     "—",
+     "55%",
+     "20/20"
+    ]
+   ]
+  },
+  {
    "species": "pidgeotto",
    "name": "Pidgeotto",
-   "lv": 19,
-   "exp": 4613,
+   "lv": 21,
+   "exp": 6785,
    "types": [
     "Normal",
     "Flying"
    ],
    "nature": "Impish (+Defense, −Sp. Atk)",
    "ability": "Keen Eye",
-   "met": "Route 2, wild L3",
-   "role": "Evolved from Pidgey at L18 after being led alone through the grind. It overshot the others by 5 levels (see Route 2).",
+   "met": "Route 1 or 2, wild Pidgey",
+   "role": "Flying coverage and the sturdiest body; QUICK ATTACK for priority.",
    "stats": [
     [
      "HP",
-     54,
+     59,
      0
     ],
     [
      "Attack",
-     33,
+     36,
      0
     ],
     [
      "Defense",
-     29,
+     33,
      1
     ],
     [
      "Sp. Atk",
-     24,
+     27,
      -1
     ],
     [
      "Sp. Def",
-     26,
+     28,
      0
     ],
     [
      "Speed",
-     46,
+     50,
      0
     ]
    ],
@@ -291,36 +360,36 @@
      "Normal",
      "40",
      "100%",
-     "30/30"
+     "28/30"
     ]
    ]
   },
   {
-   "species": "charmander",
-   "name": "Charmander",
-   "lv": 12,
-   "exp": 1047,
+   "species": "mankey",
+   "name": "Mankey",
+   "lv": 21,
+   "exp": 9589,
    "types": [
-    "Fire"
+    "Fighting"
    ],
-   "nature": "Calm (+Sp. Def, −Attack)",
-   "ability": "Blaze",
-   "met": "Mt. Moon B2F, wild L10 (Luna's quest)",
-   "role": "Raises toward Charmeleon and Charizard, the Kanto goal. Far below the others in level, so it needs the next trainer fights.",
+   "nature": "Quirky (neutral)",
+   "ability": "Vital Spirit",
+   "met": "Route 22, east grass, wild L4",
+   "role": "The Fighting type: FURY SWIPES replaced SCRATCH; hits Normal and Rock hard.",
    "stats": [
     [
      "HP",
-     34,
+     50,
      0
     ],
     [
      "Attack",
-     18,
-     -1
+     44,
+     0
     ],
     [
      "Defense",
-     16,
+     23,
      0
     ],
     [
@@ -330,98 +399,43 @@
     ],
     [
      "Sp. Def",
-     18,
-     1
+     27,
+     0
     ],
     [
      "Speed",
-     20,
+     39,
      0
     ]
    ],
    "moves": [
     [
-     "Scratch",
+     "Fury Swipes",
      "Normal",
-     "40",
-     "100%",
-     "35/35"
+     "18",
+     "80%",
+     "15/15"
     ],
     [
-     "Growl",
-     "Normal",
-     "—",
-     "100%",
-     "40/40"
-    ],
-    [
-     "Ember",
-     "Fire",
-     "40",
-     "100%",
-     "25/25"
-    ]
-   ]
-  },
-  {
-   "species": "zubat",
-   "name": "Zubat",
-   "lv": 8,
-   "exp": 512,
-   "types": [
-    "Poison",
-    "Flying"
-   ],
-   "nature": "Impish (+Defense, −Sp. Atk)",
-   "ability": "Inner Focus",
-   "met": "Mt. Moon B2F, wild L8",
-   "role": "A catch for the Pokédex, and the Golbat and Crobat line; it needs levels.",
-   "stats": [
-    [
-     "HP",
-     26,
-     0
-    ],
-    [
-     "Attack",
-     13,
-     0
-    ],
-    [
-     "Defense",
-     14,
-     1
-    ],
-    [
-     "Sp. Atk",
-     9,
-     -1
-    ],
-    [
-     "Sp. Def",
-     11,
-     0
-    ],
-    [
-     "Speed",
-     15,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Supersonic",
+     "Leer",
      "Normal",
      "—",
-     "55%",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Low Kick",
+     "Fighting",
+     "1",
+     "100%",
      "20/20"
     ],
     [
-     "Leech Life",
-     "Bug",
-     "20",
+     "Karate Chop",
+     "Fighting",
+     "50",
      "100%",
-     "15/15"
+     "24/25"
     ]
    ]
   }

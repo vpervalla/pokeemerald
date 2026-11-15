@@ -1,1 +1,73 @@
-{"sub": "Misty beaten \u00b7 Cascade Badge \u00b7 TM03", "map": {"name": "CeruleanCity_Gym", "markers": []}, "items": [], "trainers": []}
+{
+ "sub": "Misty beaten · Cascade Badge · TM03",
+ "map": {
+  "name": "CeruleanCity_Gym",
+  "markers": [
+   [
+    "trainer",
+    10,
+    12,
+    "T1"
+   ],
+   [
+    "trainer",
+    4,
+    7,
+    "T2"
+   ],
+   [
+    "trainer",
+    8,
+    6,
+    "T3"
+   ]
+  ]
+ },
+ "items": [],
+ "trainers": [
+  {
+   "name": "Swimmer M Luis",
+   "hint": "(10,12). Prize ¥128. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     16,
+     "—"
+    ],
+    [
+     "shellder",
+     16,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Diana",
+   "hint": "(4,7). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Leader Misty",
+   "hint": "(8,6). Prize ¥2100. <b>Beaten.</b>",
+   "team": [
+    [
+     "staryu",
+     18,
+     "Tackle, Harden, Recover, Water Pulse"
+    ],
+    [
+     "starmie",
+     21,
+     "Swift, Recover, Rapid Spin, Water Pulse"
+    ]
+   ]
+  }
+ ],
+ "wild": []
+}

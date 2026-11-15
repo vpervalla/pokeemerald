@@ -1,1 +1,97 @@
-{"sub": "Squirtle gift \u00b7 rival Blue \u00b7 every house", "map": {"name": "CeruleanCity", "markers": []}, "items": [], "trainers": []}
+{
+ "sub": "Squirtle gift · rival Blue · every house",
+ "map": {
+  "name": "CeruleanCity",
+  "markers": [
+   [
+    "cut",
+    26,
+    32,
+    "C"
+   ],
+   [
+    "cut",
+    50,
+    18,
+    "C"
+   ],
+   [
+    "hidden",
+    18,
+    7,
+    "1"
+   ],
+   [
+    "trainer",
+    33,
+    6,
+    "T1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Rare Candy at (18,7).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "(33,6). Prize ¥544. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "machop",
+     17,
+     "—"
+    ],
+    [
+     "drowzee",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Blue",
+   "hint": "Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     17,
+     "Tackle, Sand Attack, Gust, Quick Attack"
+    ],
+    [
+     "abra",
+     16,
+     "Teleport"
+    ],
+    [
+     "rattata",
+     15,
+     "Tackle, Tail Whip, Quick Attack"
+    ],
+    [
+     "squirtle",
+     18,
+     "Tackle, Tail Whip, Withdraw, Water Gun"
+    ]
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_CERULEAN_CITY",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_CERULEAN_CITY",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ]
+}

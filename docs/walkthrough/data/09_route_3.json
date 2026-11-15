@@ -5,20 +5,20 @@
   "markers": [
    [
     "trainer",
-    12,
-    6,
+    40,
+    11,
     "T1"
    ],
    [
     "trainer",
-    17,
-    4,
+    32,
+    6,
     "T2"
    ],
    [
     "trainer",
-    19,
-    9,
+    30,
+    3,
     "T3"
    ],
    [
@@ -35,20 +35,20 @@
    ],
    [
     "trainer",
-    30,
-    3,
+    19,
+    9,
     "T6"
    ],
    [
     "trainer",
-    32,
+    12,
     6,
     "T7"
    ],
    [
     "trainer",
-    40,
-    11,
+    17,
+    4,
     "T8"
    ]
   ]
@@ -68,5 +68,140 @@
    "land_mons",
    "Tall grass"
   ]
+ ],
+ "trainers": [
+  {
+   "name": "Lass Robin",
+   "hint": "(40,11). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "jigglypuff",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher James",
+   "hint": "(32,6). Prize ¥176. <b>Beaten.</b>",
+   "team": [
+    [
+     "caterpie",
+     11,
+     "—"
+    ],
+    [
+     "metapod",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Sally",
+   "hint": "(30,3). Prize ¥160. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     10,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Greg",
+   "hint": "(25,4). Prize ¥144. <b>Beaten.</b>",
+   "team": [
+    [
+     "weedle",
+     9,
+     "—"
+    ],
+    [
+     "kakuna",
+     9,
+     "—"
+    ],
+    [
+     "caterpie",
+     9,
+     "—"
+    ],
+    [
+     "metapod",
+     9,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Calvin",
+   "hint": "(29,10). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Janice",
+   "hint": "(19,9). Prize ¥144. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     9,
+     "—"
+    ],
+    [
+     "pidgey",
+     9,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Colton",
+   "hint": "(12,6). Prize ¥160. <b>Beaten.</b>",
+   "team": [
+    [
+     "caterpie",
+     10,
+     "—"
+    ],
+    [
+     "weedle",
+     10,
+     "—"
+    ],
+    [
+     "caterpie",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Ben",
+   "hint": "(17,4). Prize ¥176. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     11,
+     "—"
+    ],
+    [
+     "ekans",
+     11,
+     "—"
+    ]
+   ]
+  }
  ]
 }

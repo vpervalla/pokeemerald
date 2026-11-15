@@ -4,22 +4,22 @@
   "name": "PewterCity_Gym",
   "markers": [
    [
-    "trainer",
-    3,
-    8,
-    "T1"
+    "gift",
+    7,
+    12,
+    "1"
    ],
    [
     "trainer",
     6,
     5,
-    "T2"
+    "T1"
    ],
    [
-    "gift",
-    7,
-    12,
-    "1"
+    "trainer",
+    3,
+    8,
+    "T2"
    ]
   ]
  },
@@ -41,24 +41,8 @@
  ],
  "trainers": [
   {
-   "name": "Camper Liam",
-   "hint": "Stops you halfway to Brock. Prize ¥176.",
-   "team": [
-    [
-     "geodude",
-     10,
-     "Tackle, Defense Curl"
-    ],
-    [
-     "sandshrew",
-     11,
-     "Scratch, Defense Curl, Sand-Attack"
-    ]
-   ]
-  },
-  {
    "name": "Leader Brock",
-   "hint": "Prize ¥1400, the BOULDER BADGE and TM39 (ROCK TOMB). Beaten in four turns with LOW KICK.",
+   "hint": "(6,5). Prize ¥1400. <b>Beaten.</b>",
    "team": [
     [
      "geodude",
@@ -71,6 +55,23 @@
      "Tackle, Bind, Rock Tomb"
     ]
    ]
+  },
+  {
+   "name": "Camper Liam",
+   "hint": "(3,8). Prize ¥176. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     10,
+     "Tackle, Defense Curl"
+    ],
+    [
+     "sandshrew",
+     11,
+     "Scratch, Defense Curl, Sand Attack"
+    ]
+   ]
   }
- ]
+ ],
+ "wild": []
 }

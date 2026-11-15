@@ -1,94 +1,129 @@
 {
  "sub": "1F cleared · Rare Candy · Moon Stone · TM09",
- "map": {
-  "name": "MtMoon_1F",
-  "markers": [
-   [
-    "item",
-    2,
-    22,
-    "1"
-   ],
-   [
-    "item",
-    11,
-    35,
-    "2"
-   ],
-   [
-    "item",
-    26,
-    32,
-    "3"
-   ],
-   [
-    "item",
-    42,
-    35,
-    "4"
-   ],
-   [
-    "item",
-    44,
-    21,
-    "5"
-   ],
-   [
-    "item",
-    3,
-    2,
-    "6"
-   ],
-   [
-    "trainer",
-    20,
-    26,
-    "T1"
-   ],
-   [
-    "trainer",
-    36,
-    30,
-    "T2"
-   ],
-   [
-    "trainer",
-    30,
-    35,
-    "T3"
-   ],
-   [
-    "trainer",
-    33,
-    4,
-    "T4"
-   ],
-   [
-    "trainer",
-    7,
-    26,
-    "T5"
-   ],
-   [
-    "trainer",
-    13,
-    17,
-    "T6"
-   ],
-   [
-    "trainer",
-    7,
-    10,
-    "T7"
-   ],
-   [
-    "cut",
-    42,
-    7,
-    "R"
+ "map": [
+  {
+   "name": "MtMoon_1F",
+   "markers": [
+    [
+     "item",
+     2,
+     22,
+     "1"
+    ],
+    [
+     "item",
+     11,
+     35,
+     "2"
+    ],
+    [
+     "item",
+     26,
+     32,
+     "3"
+    ],
+    [
+     "item",
+     42,
+     35,
+     "4"
+    ],
+    [
+     "item",
+     44,
+     21,
+     "5"
+    ],
+    [
+     "item",
+     3,
+     2,
+     "6"
+    ],
+    [
+     "cut",
+     42,
+     7,
+     "R"
+    ],
+    [
+     "trainer",
+     20,
+     26,
+     "T1"
+    ],
+    [
+     "trainer",
+     36,
+     30,
+     "T2"
+    ],
+    [
+     "trainer",
+     30,
+     35,
+     "T3"
+    ],
+    [
+     "trainer",
+     33,
+     4,
+     "T4"
+    ],
+    [
+     "trainer",
+     7,
+     26,
+     "T5"
+    ],
+    [
+     "trainer",
+     13,
+     17,
+     "T6"
+    ],
+    [
+     "trainer",
+     7,
+     10,
+     "T7"
+    ]
    ]
-  ]
- },
+  },
+  {
+   "name": "MtMoon_B1F",
+   "markers": []
+  },
+  {
+   "name": "MtMoon_B2F",
+   "markers": [
+    [
+     "trainer",
+     37,
+     21,
+     "T8"
+    ],
+    [
+     "trainer",
+     12,
+     20,
+     "T9"
+    ],
+    [
+     "trainer",
+     35,
+     12,
+     "T10"
+    ],
+    [
+     "trainer",
+     18,
+     27,
+     "T11"
+    ]
+   ]
+  }
+ ],
  "items": [
   {
    "kind": "item",
@@ -192,7 +227,7 @@
  "trainers": [
   {
    "name": "Lass Iris",
-   "hint": "Prize ¥224.",
+   "hint": "MtMoon_1F at (20,26). Prize ¥224. <b>Beaten.</b>",
    "team": [
     [
      "clefairy",
@@ -202,15 +237,222 @@
    ]
   },
   {
+   "name": "Bug Catcher Robby",
+   "hint": "MtMoon_1F at (36,30). Prize ¥160. <b>Beaten.</b>",
+   "team": [
+    [
+     "caterpie",
+     10,
+     "—"
+    ],
+    [
+     "metapod",
+     10,
+     "—"
+    ],
+    [
+     "caterpie",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Super Nerd Jovan",
+   "hint": "MtMoon_1F at (30,35). Prize ¥264. <b>Beaten.</b>",
+   "team": [
+    [
+     "magnemite",
+     11,
+     "—"
+    ],
+    [
+     "voltorb",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
    "name": "Lass Miriam",
-   "hint": "Prize ¥176.",
+   "hint": "MtMoon_1F at (33,4). Prize ¥176. <b>Beaten.</b>",
    "team": [
     [
      "oddish",
      11,
      "—"
+    ],
+    [
+     "bellsprout",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Kent",
+   "hint": "MtMoon_1F at (7,26). Prize ¥176. <b>Beaten.</b>",
+   "team": [
+    [
+     "weedle",
+     11,
+     "—"
+    ],
+    [
+     "kakuna",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Josh",
+   "hint": "MtMoon_1F at (13,17). Prize ¥160. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     10,
+     "—"
+    ],
+    [
+     "rattata",
+     10,
+     "—"
+    ],
+    [
+     "zubat",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Marcos",
+   "hint": "MtMoon_1F at (7,10). Prize ¥400. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     10,
+     "—"
+    ],
+    [
+     "geodude",
+     10,
+     "—"
+    ],
+    [
+     "onix",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "MtMoon_B2F at (37,21). Prize ¥416. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     13,
+     "—"
+    ],
+    [
+     "sandshrew",
+     13,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "MtMoon_B2F at (12,20). Prize ¥416. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     13,
+     "—"
+    ],
+    [
+     "zubat",
+     13,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "MtMoon_B2F at (35,12). Prize ¥352. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "zubat",
+     11,
+     "—"
+    ],
+    [
+     "ekans",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "MtMoon_B2F at (18,27). Prize ¥352. <b>Beaten.</b>",
+   "team": [
+    [
+     "sandshrew",
+     11,
+     "—"
+    ],
+    [
+     "rattata",
+     11,
+     "—"
+    ],
+    [
+     "zubat",
+     11,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Super Nerd Miguel",
+   "hint": "MtMoon_B2F. Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     12,
+     "—"
+    ],
+    [
+     "voltorb",
+     12,
+     "—"
+    ],
+    [
+     "koffing",
+     12,
+     "—"
     ]
    ]
   }
+ ],
+ "wild": [
+  [
+   "MAP_MT_MOON_1F",
+   "land_mons",
+   "Tall grass (MtMoon_1F)"
+  ],
+  [
+   "MAP_MT_MOON_B1F",
+   "land_mons",
+   "Tall grass (MtMoon_B1F)"
+  ],
+  [
+   "MAP_MT_MOON_B2F",
+   "land_mons",
+   "Tall grass (MtMoon_B2F)"
+  ]
  ]
 }

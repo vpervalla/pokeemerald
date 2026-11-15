@@ -308,7 +308,8 @@ def area_html(p, n):
     lede = f'<div class="lede">{render(s[""])}</div>' if any(l.strip() for l in s[""]) else ""
     ref = ""
     if d.get("map"):
-        ref += map_panel(d["map"])
+        for spec in (d["map"] if isinstance(d["map"], list) else [d["map"]]):
+            ref += map_panel(spec)
     panel = ""
     if d.get("items"):
         panel += legend(d["items"])
@@ -371,6 +372,15 @@ def team_html():
             f'<div class="team-grid">{cards}</div></section>')
 
 
+def party_text(s):
+    """The party line comes from team.json (gen_team.py), falling back to STATUS."""
+    try:
+        d = json.load(open(os.path.join(WT, "data", "team.json"), encoding="utf-8"))
+        return ", ".join(f'{m["name"]} L{m["lv"]}' for m in d["mons"])
+    except Exception:
+        return s["party"]
+
+
 def bugs_html():
     text = open(os.path.join(ROOT, "docs", "playthrough_bugs.md"), encoding="utf-8").read().replace("(walkthrough/", "(")
     head, _, det = text.partition("## Details")
@@ -408,7 +418,7 @@ def main(out):
         pika = "Pikachu"
     facts = (f'<div class="fact"><h3>Player · rival</h3><p class="big">ETHAN · BLUE</p></div>'
              f'<div class="fact"><h3>First Pokémon</h3><p class="big">{pika}</p><p class="mono">gift from Prof. Oak, L5</p></div>'
-             f'<div class="fact"><h3>Team so far</h3><p class="big">{esc(s["party"])}</p></div>'
+             f'<div class="fact"><h3>Team so far</h3><p class="big">{esc(party_text(s))}</p></div>'
              f'<div class="fact"><h3>Badges</h3><p class="big">{esc(s["badges"])} of 8</p><p class="mono">{esc(s["time"])} play time · saved in {esc(s["save"])}</p></div>')
     lede = ("A step-by-step walkthrough of this Emerald-based ROM, played as Ethan from the new game screen to the end of the story, "
             "through Kanto, Hoenn, the Sevii Islands and Mega Island, and checked for bugs on the way. Each area opens with its map, "

@@ -4,7 +4,8 @@
 
 ## Map notes
 
-- The road is split in two by ledges. The lower grass pocket (where the party fought) is reached from Cerulean's west edge. The **upper corridor** (rows 3 to 8) holds LASS CRISSY at (75,3), a cooltrainer at (109,3), **TM05** at (67,5) and two black belts at (47,3) and (50,3) (move tutors: Mega Punch, Mega Kick). It could not be reached on foot from the pocket (a ledge only jumps south into it) and Cerulean's walled west side has no walkable link to it either: it probably needs CUT or another route. Left for later.
+- The road is split by ledges into a lower grass pocket (x 75 to 107, y 10 to 18: reached from Cerulean's west edge, where the wild Pokémon were caught) and the **upper road** (rows 3 to 8), which is reached on foot from the Mt. Moon B1F exit at (32,5): TM05 at (67,5), the two move tutors (black belts at (47,3) Mega Punch and (50,3) Mega Kick) and LASS CRISSY at (75,3) are all up there. *Correction to an earlier note: the upper road is walkable, I had tested the planner from the wrong side.* Crissy's team in this build is PARAS L31 x2 and PARASECT L31 (¥496): a late-game trainer, to be fought when the party is stronger.
+- Hidden items (not yet searched): a Great Ball at (43,2), a Persim Berry at (5,4), a Razz Berry at (67,17).
 - Warps on the west half: Mt. Moon 1F (19,5), Mt. Moon B1F (32,5), the Pokémon Center at (12,5).
 
 ## Wild Pokémon (night)
