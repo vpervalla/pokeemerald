@@ -485,6 +485,10 @@ City, …), one per area. What worked:
 - `python3 tools/playthrough/gen_caught.py` reads the party and all PC boxes of `cur.ss` (species, level when met, the map section stored in each Pokémon, box) and the Pokédex owned bits into `data/caught.json`; then `gen_area.py` writes each area's **Pokémon caught here** panel and the list of wild species still missing there (walking, or surf/rod), and the team page gets an **In the PC** strip. Run the order **gen_caught, gen_team, gen_area, build**. Gifts and special catches are named in `HOW` inside `gen_area.py`.
 - Every route page must list **all** its trainers with their teams; if a page has none, the area has none (check `AREAS`).
 
+## Rule: HM moves
+
+In this build there is **no need to teach HM moves** to a party Pokémon: field moves (CUT and the like) can be used without a move slot. Teach an HM move only when it is **actually strong in battle**, like SURF. (CHARMELEON had GROWL replaced by CUT on the S.S. Anne before this was known; GROWL was a dead move, so nothing was lost, but do not repeat it.) Update the notes if a field move turns out not to work without the move.
+
 ## Saves
 
 The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
@@ -541,5 +545,5 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - **New tools:** `mapinfo` (people, trainers with teams and beaten/unbeaten, items taken or not, hidden items, warps of the current map), `clearmap` (fights unbeaten trainers, takes items and hidden items, talks to the others; aborts on a stuck fight), `hid X Y` (hidden item: stands two tiles away, steps toward it, presses A), `shiproom` / `shiproom2` (enter a door, clearmap, leave), `dmove IDX` (a move in a double battle; it first puts the cursor on FIGHT), `vcan X Y` (Vermilion trash cans), `cuttree DIR`, `potion`, `ball`, `sendout`.
 - **Doors:** a door on a wall is entered by standing on the door tile and pressing the direction (use `g D1` first, then `hD4`); stairs warps need `hL4` / `hR4` into them, and standing on the warp tile does nothing. A warp tile start makes `goto` say "no path": step off first.
 - **A fight tool that says "stuck" is a forced party screen**: never chain more actions after it (a chained `clearmap` went on to fight the next trainer with one Pokémon left: reload from `hist/`).
-- **Cut trees grow back** every time the map reloads. **Cut is first learned by CHARMELEON** (the only one able); trainers fought on the way trigger by sight, so `trainer X Y` on one already beaten does nothing.
+- **Cut trees grow back** every time the map reloads. **CUT was taught to CHARMELEON** (the only one able; teaching HMs is not needed, see the HM rule); trainers fought on the way trigger by sight, so `trainer X Y` on one already beaten does nothing.
 - **Sleep before throwing:** SLEEP POWDER, then the ball, caught Meowth and was decisive in the Misty and rival fights.
