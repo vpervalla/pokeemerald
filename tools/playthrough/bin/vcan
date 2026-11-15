@@ -1,0 +1,16 @@
+#!/bin/bash
+# vcan X Y : Vermilion Gym trash can at (X,Y): stand next to it (row 9 face down / rows 13, 15 face up), press A, screenshot to $PLAY_DIR/can_X_Y.png.
+# prints NOPE when the text box says only trash (and closes it), else STOP (the box is left open: a switch?).
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+X=$1; Y=$2
+case $Y in 10) sy=9; d=D;; 12) sy=13; d=U;; 14) sy=15; d=U;; esac
+goto $X $sy >/dev/null 2>&1
+g h${d}4 w10 A w80 >/dev/null 2>&1; g w5 >/dev/null 2>&1
+cp "$PLAY_DIR/last.png" "$PLAY_DIR/can_${X}_${Y}.png"
+python3 - "$PLAY_DIR/can_${X}_${Y}.png" /tmp/claude-0/can1.png <<'P'
+import sys
+from PIL import Image, ImageChops
+a=Image.open(sys.argv[1]).convert('L').crop((20,245,460,305)); b=Image.open(sys.argv[2]).convert('L').crop((20,245,460,305))
+d=ImageChops.difference(a,b); h=d.histogram(); big=sum(h[40:])
+print("NOPE" if big<120 else "STOP", big)
+P

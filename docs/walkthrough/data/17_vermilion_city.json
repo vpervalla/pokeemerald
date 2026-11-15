@@ -1,0 +1,42 @@
+{
+ "sub": "Mart · cut tree · S.S. Anne dock",
+ "map": {
+  "name": "VermilionCity",
+  "markers": [
+   [
+    "cut",
+    19,
+    24,
+    "C"
+   ],
+   [
+    "hidden",
+    14,
+    11,
+    "1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Max Ether at (14,11).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "trainers": [],
+ "wild": [
+  [
+   "MAP_VERMILION_CITY",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_VERMILION_CITY",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ]
+}

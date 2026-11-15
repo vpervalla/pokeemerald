@@ -1,0 +1,11 @@
+#!/bin/bash
+# shiproom X [Y] : from the S.S. Anne 1F corridor walk to the door at (X,10) (or (X,Y)), go in, clearmap, and come back out of the room.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+X=$1; Y=${2:-10}
+goto $X $((Y-1)) 2>&1 | tail -1; g D1 w40 >/dev/null; g hD4 w100 >/dev/null
+st | head -1
+clearmap || { echo ABORTED; exit 3; }
+w=$(mapinfo | grep warp | head -1 | sed 's/.*(\([0-9]*\),\([0-9]*\)).*/\1 \2/')
+set -- $w
+goto $1 $(($2+1)) >/dev/null 2>&1; g hU4 w100 >/dev/null
+st | head -1

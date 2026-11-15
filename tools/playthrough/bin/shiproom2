@@ -1,0 +1,19 @@
+#!/bin/bash
+# shiproom2 X Y DIR : walk to the tile before the door (X,Y) on the current map (approach direction DIR = U or D, i.e. the door is entered going up or down),
+# go in, clearmap, and leave by the room's first warp.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+X=$1; Y=$2; D=${3:-U}
+before=$(st | head -1 | awk '{print $2}')
+if [ "$D" = U ]; then goto $X $((Y+1)) 2>&1 | tail -1; else goto $X $((Y-1)) 2>&1 | tail -1; fi
+g ${D}1 w20 ${D}1 w100 >/dev/null; st | head -1
+clearmap || { echo ABORTED; exit 3; }
+w=$(mapinfo | grep warp | head -1 | sed 's/.*(\([0-9]*\),\([0-9]*\)).*/\1 \2/'); set -- $w
+for adj in "$1 $(($2-1)) D" "$1 $(($2+1)) U" "$(($1-1)) $2 R" "$(($1+1)) $2 L"; do
+  set -- $adj
+  goto $1 $2 >/dev/null 2>&1
+  [ "$(st | head -1 | sed 's/.*pos (\([0-9-]*,[0-9-]*\)).*/\1/')" = "$1,$2" ] || continue
+  g ${3}1 w20 >/dev/null 2>&1; g ${3}1 w100 >/dev/null 2>&1
+  [ "$(st | head -1 | awk '{print $2}')" != "$(mapinfo | head -1 | awk '{print $2}')" ] && break
+  break
+done
+st | head -1

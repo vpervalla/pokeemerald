@@ -1,0 +1,18 @@
+#!/bin/bash
+# hid X Y [NAME] : pick up the hidden item at (X,Y): walk to the tile two steps from it, step toward it (so the player faces it) and press A.
+# Tries the four directions until the planner finds a way; saves the message as shots/hid_NAME.png.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}
+X=$1; Y=$2; N=${3:-$1_$2}
+s=$(st | head -1); map=$(echo "$s" | awk '{print $2}'); px=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); py=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
+for d in R L D U; do
+  case $d in R) dx=1; dy=0;; L) dx=-1; dy=0;; D) dx=0; dy=1;; U) dx=0; dy=-1;; esac
+  PX=$((X-2*dx)); PY=$((Y-2*dy))
+  p=$(python3 tools/playthrough/path.py $map $px $py $PX $PY 2>&1 | tail -1)
+  case "$p" in *end*) ;; *) continue;; esac
+  tools/playthrough/bin/goto $PX $PY >/dev/null 2>&1
+  [ "$(st | head -1 | sed 's/.*pos (\([0-9-]*,[0-9-]*\)).*/\1/')" = "$PX,$PY" ] || continue
+  g ${d}1 w15 A w90 >/dev/null 2>&1; g w5 >/dev/null 2>&1; cp "$PLAY_DIR/last.png" "$PLAY_DIR/shots/hid_$N.png"
+  g B w20 B w20 >/dev/null 2>&1
+  echo "tried from $d: $(st | head -1)"; exit 0
+done
+echo "no approach found for ($X,$Y)"

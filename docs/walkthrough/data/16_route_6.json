@@ -1,0 +1,187 @@
+{
+ "sub": "Meowth · six trainers · Rare Candy",
+ "map": {
+  "name": "Route6",
+  "markers": [
+   [
+    "hidden",
+    5,
+    5,
+    "1"
+   ],
+   [
+    "hidden",
+    19,
+    5,
+    "2"
+   ],
+   [
+    "trainer",
+    3,
+    16,
+    "T1"
+   ],
+   [
+    "trainer",
+    12,
+    21,
+    "T2"
+   ],
+   [
+    "trainer",
+    13,
+    21,
+    "T3"
+   ],
+   [
+    "trainer",
+    20,
+    25,
+    "T4"
+   ],
+   [
+    "trainer",
+    13,
+    32,
+    "T5"
+   ],
+   [
+    "trainer",
+    13,
+    33,
+    "T6"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Sitrus Berry at (5,5).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Rare Candy at (19,5).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Bug Catcher Keigo",
+   "hint": "(3,16). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "weedle",
+     16,
+     "—"
+    ],
+    [
+     "caterpie",
+     16,
+     "—"
+    ],
+    [
+     "weedle",
+     16,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Ricky",
+   "hint": "(12,21). Prize ¥320. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "squirtle",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Nancy",
+   "hint": "(13,21). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     16,
+     "—"
+    ],
+    [
+     "pikachu",
+     16,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Elijah",
+   "hint": "(20,25). Prize ¥320. <b>Beaten.</b>",
+   "team": [
+    [
+     "butterfree",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Isabelle",
+   "hint": "(13,32). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     16,
+     "—"
+    ],
+    [
+     "pidgey",
+     16,
+     "—"
+    ],
+    [
+     "pidgey",
+     16,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Jeff",
+   "hint": "(13,33). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     16,
+     "—"
+    ],
+    [
+     "raticate",
+     16,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE6",
+   "land_mons",
+   "Tall grass"
+  ],
+  [
+   "MAP_ROUTE6",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE6",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ]
+}

@@ -27,6 +27,14 @@ AREAS = {
     "12_cerulean_city": ["CeruleanCity"],
     "13_cerulean_gym": ["CeruleanCity_Gym"],
     "14_route_24_25": ["Route24", "Route25"],
+    "15_route_5_underground": ["Route5", "UndergroundPath_NorthEntrance", "UndergroundPath_NorthSouthTunnel", "UndergroundPath_SouthEntrance"],
+    "16_route_6": ["Route6"],
+    "17_vermilion_city": ["VermilionCity"],
+    "18_ss_anne": ["SSAnne_Exterior", "SSAnne_1F_Corridor", "SSAnne_1F_Room1", "SSAnne_1F_Room2", "SSAnne_1F_Room3", "SSAnne_1F_Room4", "SSAnne_1F_Room5",
+                   "SSAnne_1F_Room6", "SSAnne_1F_Room7", "SSAnne_Kitchen", "SSAnne_2F_Corridor", "SSAnne_2F_Room1", "SSAnne_2F_Room2", "SSAnne_2F_Room3",
+                   "SSAnne_2F_Room4", "SSAnne_2F_Room5", "SSAnne_2F_Room6", "SSAnne_CaptainsOffice", "SSAnne_3F_Corridor", "SSAnne_Deck",
+                   "SSAnne_B1F_Corridor", "SSAnne_B1F_Room1", "SSAnne_B1F_Room2", "SSAnne_B1F_Room3", "SSAnne_B1F_Room4", "SSAnne_B1F_Room5"],
+    "19_vermilion_gym": ["VermilionCity_Gym"],
 }
 
 
@@ -208,7 +216,9 @@ def fill(k, cards_by_map):
     maps = AREAS[k]
     p = os.path.join(WT, k + ".json")
     d = json.load(open(p, encoding="utf-8"))
-    if d.get("items") and d.get("map", {}).get("markers") and d.get("wild"):
+    mp0 = d.get("map")
+    has_markers = bool(mp0) and (isinstance(mp0, list) and any(x.get("markers") for x in mp0) or isinstance(mp0, dict) and mp0.get("markers"))
+    if d.get("items") and has_markers and d.get("wild"):
         return
     items, specs, wild, n = [], [], [], 0
     for mp in maps:
@@ -245,7 +255,7 @@ def fill(k, cards_by_map):
                 wild.append([mid, kind, label + (f" ({mp})" if len(maps) > 1 else "")])
     if not d.get("items"):
         d["items"] = items
-    if not d.get("map", {}).get("markers"):
+    if not has_markers:
         d["map"] = specs[0] if len(specs) == 1 else specs
     if not d.get("wild"):
         d["wild"] = wild

@@ -1,0 +1,7 @@
+#!/bin/bash
+# dmove IDX [TARGET_RIGHT] : in a double battle at an action menu, pick FIGHT, move IDX (0-3: row-major 2x2) and the target (default: left foe; 1 = right foe).
+g hL4 w12 hU4 w12 >/dev/null 2>&1; g A w70 >/dev/null 2>&1
+case $1 in 1) g hR4 w15;; 2) g hD4 w15;; 3) g hD4 w15 hR4 w15;; esac >/dev/null 2>&1
+g A w60 >/dev/null 2>&1
+[ "$2" = 1 ] && g hR4 w15 >/dev/null 2>&1
+g A w100 >/dev/null 2>&1

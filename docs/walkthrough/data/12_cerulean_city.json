@@ -34,14 +34,14 @@
    "kind": "hidden",
    "n": "1",
    "text": "Hidden Rare Candy at (18,7).",
-   "chip": "no",
-   "chipText": "Not found"
+   "chip": "yes",
+   "chipText": "Found"
   }
  ],
  "trainers": [
   {
    "name": "Team Rocket Grunt",
-   "hint": "(33,6). Prize ¥544. <b>Not fought yet.</b>",
+   "hint": "(33,6). Prize ¥544. <b>Beaten.</b>",
    "team": [
     [
      "machop",

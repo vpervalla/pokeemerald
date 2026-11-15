@@ -1,0 +1,3 @@
+#!/bin/bash
+# cuttree DIR : with the Cut tree next to you in direction DIR (U/D/L/R), face it, say YES and wait for the animation. Trees grow back whenever the map is reloaded (a building visit counts).
+g h${1:-D}4 w15 A w80 >/dev/null 2>&1; g A w80 >/dev/null 2>&1; g w300 >/dev/null 2>&1; g A w60 >/dev/null 2>&1; g w60 >/dev/null 2>&1

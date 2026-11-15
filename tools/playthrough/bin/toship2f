@@ -1,0 +1,8 @@
+#!/bin/bash
+# toship2f : from anywhere in Vermilion walk onto the S.S. Anne and up to the 2F corridor.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+g D3 w60 >/dev/null; goto 23 33 2>&1 | tail -1
+g B w30 B w30 >/dev/null; g D1 w20 D1 w100 >/dev/null
+goto 32 13 >/dev/null 2>&1; g D1 w20 D1 w100 >/dev/null
+goto 4 8 >/dev/null 2>&1; g hL4 w100 >/dev/null; g hL4 w100 >/dev/null
+st | head -1

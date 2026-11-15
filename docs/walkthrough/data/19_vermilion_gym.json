@@ -1,0 +1,100 @@
+{
+ "sub": "Trash cans · Thunder Badge · TM34",
+ "map": {
+  "name": "VermilionCity_Gym",
+  "markers": [
+   [
+    "trainer",
+    5,
+    2,
+    "T1"
+   ],
+   [
+    "trainer",
+    2,
+    11,
+    "T2"
+   ],
+   [
+    "trainer",
+    8,
+    13,
+    "T3"
+   ],
+   [
+    "trainer",
+    7,
+    8,
+    "T4"
+   ]
+  ]
+ },
+ "items": [],
+ "trainers": [
+  {
+   "name": "Leader Lt. Surge",
+   "hint": "(5,2). Prize ¥2400. <b>Beaten.</b>",
+   "team": [
+    [
+     "voltorb",
+     21,
+     "Sonic Boom, Tackle, Screech, Shock Wave"
+    ],
+    [
+     "pikachu",
+     18,
+     "Quick Attack, Thunder Wave, Double Team, Shock Wave"
+    ],
+    [
+     "raichu",
+     24,
+     "Quick Attack, Thunder Wave, Double Team, Shock Wave"
+    ]
+   ]
+  },
+  {
+   "name": "Engineer Baily",
+   "hint": "(2,11). Prize ¥1008. <b>Beaten.</b>",
+   "team": [
+    [
+     "voltorb",
+     21,
+     "—"
+    ],
+    [
+     "magnemite",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Dwayne",
+   "hint": "(8,13). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "pikachu",
+     21,
+     "—"
+    ],
+    [
+     "pikachu",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gentleman Tucker",
+   "hint": "(7,8). Prize ¥1840. <b>Beaten.</b>",
+   "team": [
+    [
+     "pikachu",
+     23,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "wild": []
+}
