@@ -230,17 +230,17 @@
  ],
  "caught": [
   {
-   "species": "butterfree",
-   "nick": "BUTTERFREE",
-   "met": 4,
-   "level": 29,
-   "where": "party",
-   "how": "wild"
-  },
-  {
    "species": "pikachu",
    "nick": "PIKACHU",
    "met": 3,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "butterfree",
+   "nick": "BUTTERFREE",
+   "met": 4,
    "level": null,
    "where": "box 1",
    "how": "wild"

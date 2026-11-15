@@ -1,85 +1,86 @@
 {
  "mons": [
   {
-   "species": "wartortle",
-   "name": "Wartortle",
-   "lv": 24,
-   "exp": 10535,
+   "species": "ivysaur",
+   "name": "Ivysaur",
+   "lv": 26,
+   "exp": 13468,
    "types": [
-    "Water"
+    "Grass",
+    "Poison"
    ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
-   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Overgrow",
+   "met": "Vermilion house: the BULBASAUR L20 rescued in Viridian Forest (gift); raised to L26 by swap-outs, no Rare Candy",
+   "role": "The Grass/Poison type: RAZOR LEAF, SLEEP POWDER, POISONPOWDER; the Grass answer to Water. Swapped in for BUTTERFREE (boxed).",
    "stats": [
     [
      "HP",
-     67,
+     77,
      0
     ],
     [
      "Attack",
-     37,
-     0
-    ],
-    [
-     "Defense",
      45,
      0
     ],
     [
+     "Defense",
+     44,
+     0
+    ],
+    [
      "Sp. Atk",
-     41,
+     48,
      0
     ],
     [
      "Sp. Def",
-     50,
-     0
+     41,
+     -1
     ],
     [
      "Speed",
-     39,
-     0
+     42,
+     1
     ]
    ],
    "moves": [
     [
-     "Bite",
-     "Dark",
-     "60",
+     "Vine Whip",
+     "Grass",
+     "35",
      "100%",
+     "10/10"
+    ],
+    [
+     "Poisonpowder",
+     "Poison",
+     "—",
+     "75%",
+     "35/35"
+    ],
+    [
+     "Sleep Powder",
+     "Grass",
+     "—",
+     "75%",
+     "15/15"
+    ],
+    [
+     "Razor Leaf",
+     "Grass",
+     "55",
+     "95%",
      "25/25"
-    ],
-    [
-     "Tail Whip",
-     "Normal",
-     "—",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Bubble",
-     "Water",
-     "20",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Withdraw",
-     "Water",
-     "—",
-     "—",
-     "40/40"
     ]
    ]
   },
   {
    "species": "charmeleon",
    "name": "Charmeleon",
-   "lv": 30,
-   "exp": 22261,
+   "lv": 32,
+   "exp": 29859,
    "types": [
     "Fire"
    ],
@@ -90,32 +91,32 @@
    "stats": [
     [
      "HP",
-     87,
+     95,
      0
     ],
     [
      "Attack",
-     46,
+     50,
      -1
     ],
     [
      "Defense",
-     43,
+     45,
      0
     ],
     [
      "Sp. Atk",
-     64,
+     69,
      0
     ],
     [
      "Sp. Def",
-     49,
+     52,
      1
     ],
     [
      "Speed",
-     61,
+     67,
      0
     ]
    ],
@@ -219,82 +220,6 @@
     [
      "Karate Chop",
      "Fighting",
-     "50",
-     "100%",
-     "25/25"
-    ]
-   ]
-  },
-  {
-   "species": "butterfree",
-   "name": "Butterfree",
-   "lv": 29,
-   "exp": 26348,
-   "types": [
-    "Bug",
-    "Flying"
-   ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Compound Eyes",
-   "met": "Caught in Viridian Forest as a wild Caterpie L4",
-   "role": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
-   "stats": [
-    [
-     "HP",
-     79,
-     0
-    ],
-    [
-     "Attack",
-     37,
-     0
-    ],
-    [
-     "Defense",
-     45,
-     0
-    ],
-    [
-     "Sp. Atk",
-     58,
-     0
-    ],
-    [
-     "Sp. Def",
-     47,
-     -1
-    ],
-    [
-     "Speed",
-     68,
-     1
-    ]
-   ],
-   "moves": [
-    [
-     "Gust",
-     "Flying",
-     "40",
-     "100%",
-     "35/35"
-    ],
-    [
-     "Stun Spore",
-     "Grass",
-     "—",
-     "75%",
-     "30/30"
-    ],
-    [
-     "Sleep Powder",
-     "Grass",
-     "—",
-     "75%",
-     "15/15"
-    ],
-    [
-     "Confusion",
-     "Psychic",
      "50",
      "100%",
      "25/25"
@@ -448,6 +373,81 @@
      "65",
      "100%",
      "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "wartortle",
+   "name": "Wartortle",
+   "lv": 24,
+   "exp": 10535,
+   "types": [
+    "Water"
+   ],
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
+   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
+   "stats": [
+    [
+     "HP",
+     67,
+     0
+    ],
+    [
+     "Attack",
+     37,
+     0
+    ],
+    [
+     "Defense",
+     45,
+     0
+    ],
+    [
+     "Sp. Atk",
+     41,
+     0
+    ],
+    [
+     "Sp. Def",
+     50,
+     0
+    ],
+    [
+     "Speed",
+     39,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Bite",
+     "Dark",
+     "60",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Tail Whip",
+     "Normal",
+     "—",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Bubble",
+     "Water",
+     "20",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Withdraw",
+     "Water",
+     "—",
+     "—",
+     "40/40"
     ]
    ]
   }

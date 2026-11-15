@@ -41,12 +41,12 @@
  ],
  "caught": [
   {
-   "species": "bulbasaur",
-   "nick": "BULBASAUR",
+   "species": "ivysaur",
+   "nick": "IVYSAUR",
    "met": 20,
-   "level": null,
-   "where": "box 1",
-   "how": "gift from the trainer after the Beedrill rescue (Viridian Forest)"
+   "level": 26,
+   "where": "party",
+   "how": "wild"
   }
  ],
  "missing": [

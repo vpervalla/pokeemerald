@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "wartortle",
-   "id": 8,
-   "nick": "WARTORTLE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 10535,
-   "level": 24,
+   "species": "ivysaur",
+   "id": 2,
+   "nick": "IVYSAUR",
+   "metloc": 93,
+   "mapsec": "MAPSEC_VERMILION_CITY",
+   "metlevel": 20,
+   "exp": 13468,
+   "level": 26,
    "where": "party"
   },
   {
@@ -18,8 +18,8 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 22261,
-   "level": 30,
+   "exp": 29859,
+   "level": 32,
    "where": "party"
   },
   {
@@ -31,17 +31,6 @@
    "metlevel": 4,
    "exp": 20892,
    "level": 27,
-   "where": "party"
-  },
-  {
-   "species": "butterfree",
-   "id": 12,
-   "nick": "BUTTERFREE",
-   "metloc": 126,
-   "mapsec": "MAPSEC_VIRIDIAN_FOREST",
-   "metlevel": 4,
-   "exp": 26348,
-   "level": 29,
    "where": "party"
   },
   {
@@ -64,6 +53,17 @@
    "metlevel": 10,
    "exp": 13832,
    "level": 26,
+   "where": "party"
+  },
+  {
+   "species": "wartortle",
+   "id": 8,
+   "nick": "WARTORTLE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 10535,
+   "level": 24,
    "where": "party"
   },
   {
@@ -129,6 +129,17 @@
    "mapsec": "MAPSEC_ROUTE_4",
    "metlevel": 6,
    "exp": 216,
+   "level": null,
+   "where": "box 1"
+  },
+  {
+   "species": "butterfree",
+   "id": 12,
+   "nick": "BUTTERFREE",
+   "metloc": 126,
+   "mapsec": "MAPSEC_VIRIDIAN_FOREST",
+   "metlevel": 4,
+   "exp": 26348,
    "level": null,
    "where": "box 1"
   },
@@ -232,17 +243,6 @@
    "where": "box 1"
   },
   {
-   "species": "bulbasaur",
-   "id": 1,
-   "nick": "BULBASAUR",
-   "metloc": 93,
-   "mapsec": "MAPSEC_VERMILION_CITY",
-   "metlevel": 20,
-   "exp": 5460,
-   "level": null,
-   "where": "box 1"
-  },
-  {
    "species": "pidgeotto",
    "id": 17,
    "nick": "PIDGEOTTO",
@@ -256,6 +256,7 @@
  ],
  "dex_owned": [
   1,
+  2,
   4,
   5,
   7,
