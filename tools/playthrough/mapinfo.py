@@ -19,6 +19,8 @@ for o in mj.get("object_events", []):
     if s in labels:
         m = re.search(r"trainerbattle\w*\s+(TRAINER_(?:KANTO|LEAF|KRIS)_\w+)", sc[labels[s]:labels[s] + 600])
         tr = m.group(1) if m else None
+    if g.endswith("ITEM_BALL"):
+        tr = None
     if tr in G.trainers:
         state = "?" if beaten is None else ("beaten" if G.flag_index(G.consts[tr]) in beaten else "TO FIGHT")
         team = ", ".join(f"{a} L{b}" for a, b, _ in G.parties.get(G.trainers[tr][2], []))
