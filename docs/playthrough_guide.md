@@ -553,3 +553,4 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - **Sleep before throwing:** SLEEP POWDER, then the ball, caught Meowth and was decisive in the Misty and rival fights.
 
 - ABRA replaced ZUBAT in the party (ZUBAT is in box 1); ABRA went L10 to L16 (KADABRA) on Route 6 by swap-outs, no Rare Candy.
+- **Trade evolutions without a partner:** the Vermilion Center sailor's DOUBLE EXCHANGE (one use) trade-evolves any trade-evolving Pokémon: KADABRA to ALAKAZAM at L16. Other double exchanges exist in the game (Cerulean, Route 10...): check which flag each uses before spending one (Gengar needs a Haunter).
