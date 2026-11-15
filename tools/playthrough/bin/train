@@ -7,7 +7,9 @@ for n in $(seq 1 $1); do
   g w200 >/dev/null
   e=$(st | grep ENEMY); echo "$e"
   if [ -n "$CATCH" ] && echo "$e" | grep -Eq "$CATCH"; then echo CATCHME; break; fi
-  fight ${SLOT:-0} ${MAXT:-99}
+  out=$(fight ${SLOT:-0} ${MAXT:-99}); echo "$out" | tail -1
+  # a "learn a move?" prompt stops fight (stuck): answer 'stop learning' (the default YES) and let the battle finish
+  if echo "$out" | grep -q stuck; then for k in 1 2 3 4 5 6; do g A w90 >/dev/null; done; fi
   s=$(st | grep -v ENEMY); echo "$s" | sed -n 2,3p
   low=$(echo "$s" | grep -o "HP [0-9]*/[0-9]*" | tr -d "HP " | awk -F/ -v m=${MINHP:-45} '$1*100<m*$2{print}' | head -1)
   if [ -n "$low" ]; then echo "LOWHP $low"; break; fi
