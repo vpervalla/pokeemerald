@@ -70,10 +70,10 @@
  ],
  "caught": [
   {
-   "species": "mankey",
-   "nick": "MANKEY",
+   "species": "primeape",
+   "nick": "PRIMEAPE",
    "met": 4,
-   "level": 27,
+   "level": 28,
    "where": "party",
    "how": "wild"
   }

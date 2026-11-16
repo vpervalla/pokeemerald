@@ -460,7 +460,7 @@
    "species": "charmeleon",
    "nick": "CHARMELEON",
    "met": 10,
-   "level": 32,
+   "level": 33,
    "where": "party",
    "how": "wild Charmander L10, cornered on B2F (Luna's quest)"
   },
@@ -476,12 +476,6 @@
  "missing": [
   {
    "species": "clefairy",
-   "via": [
-    "land"
-   ]
-  },
-  {
-   "species": "geodude",
    "via": [
     "land"
    ]

@@ -37,6 +37,7 @@ AREAS = {
                    "SSAnne_2F_Room4", "SSAnne_2F_Room5", "SSAnne_2F_Room6", "SSAnne_CaptainsOffice", "SSAnne_3F_Corridor", "SSAnne_Deck",
                    "SSAnne_B1F_Corridor", "SSAnne_B1F_Room1", "SSAnne_B1F_Room2", "SSAnne_B1F_Room3", "SSAnne_B1F_Room4", "SSAnne_B1F_Room5"],
     "19_vermilion_gym": ["VermilionCity_Gym"],
+    "21_route_9_10_rock_tunnel": ["Route9", "Route10", "RockTunnel_1F", "RockTunnel_B1F"],
     "20_route_11_diglett": ["Route11", "DiglettsCave_SouthEntrance", "DiglettsCave_B1F", "DiglettsCave_NorthEntrance"],
 }
 
@@ -316,7 +317,7 @@ AREA_MAPSEC = {
     "07_pewter_city": ["MAPSEC_PEWTER_CITY"], "09_route_3": ["MAPSEC_ROUTE_3"], "10_mt_moon": ["MAPSEC_MT_MOON"],
     "11_route_4": ["MAPSEC_ROUTE_4", "MAPSEC_ROUTE_4_POKECENTER"], "12_cerulean_city": ["MAPSEC_CERULEAN_CITY"],
     "14_route_24_25": ["MAPSEC_ROUTE_24", "MAPSEC_ROUTE_25"], "15_route_5_underground": ["MAPSEC_ROUTE_5", "MAPSEC_UNDERGROUND_PATH", "MAPSEC_UNDERGROUND_PATH_2"],
-    "16_route_6": ["MAPSEC_ROUTE_6"], "20_route_11_diglett": ["MAPSEC_ROUTE_11", "MAPSEC_DIGLETTS_CAVE"], "17_vermilion_city": ["MAPSEC_VERMILION_CITY"], "18_ss_anne": ["MAPSEC_S_S_ANNE"],
+    "16_route_6": ["MAPSEC_ROUTE_6"], "20_route_11_diglett": ["MAPSEC_ROUTE_11", "MAPSEC_DIGLETTS_CAVE"], "21_route_9_10_rock_tunnel": ["MAPSEC_ROUTE_9", "MAPSEC_ROUTE_10", "MAPSEC_ROCK_TUNNEL", "MAPSEC_ROUTE_10_POKECENTER"], "17_vermilion_city": ["MAPSEC_VERMILION_CITY"], "18_ss_anne": ["MAPSEC_S_S_ANNE"],
 }
 # the area whose wild tables decide what is "still missing" (several data files share a map section)
 HOW = {("pikachu", "MAPSEC_PALLET_TOWN"): "gift from Prof. Oak", ("squirtle", "MAPSEC_CERULEAN_CITY"): "gift (the house at (17,11))",

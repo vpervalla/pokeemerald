@@ -1,0 +1,24 @@
+#!/bin/bash
+# weakball [SLOT] [PCT] : in a wild battle, use move SLOT (default 0) one turn at a time until the foe is at or under PCT% HP (default 35), then throw balls (up to 8) until it is caught or gone. Prints CAUGHT-ish state.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+S=${1:-0}; P=${2:-35}
+for i in $(seq 1 12); do
+  e=$(st | grep ENEMY | grep -o "HP [0-9]*/[0-9]*" | head -1); [ -z "$e" ] && { echo "battle over"; exit 0; }
+  hp=$(echo $e | sed 's/HP \([0-9]*\)\/\([0-9]*\)/\1/'); mx=$(echo $e | sed 's/HP \([0-9]*\)\/\([0-9]*\)/\2/')
+  [ $((hp*100)) -le $((P*mx)) ] && break
+  TYPES=0 SWITCH=0 fight $S 1 | tail -1 | cut -c1-40
+done
+for i in $(seq 1 8); do
+  st | grep -q ENEMY || { echo "over"; exit 0; }
+  ball
+  # a catch leaves the "Gotcha" box; the battle state stays: look at the screen
+  g w5 >/dev/null 2>&1
+  python3 - <<'P'
+import os
+from PIL import Image
+im=Image.open(os.path.expanduser("~/.playthrough/last.png")).convert("L").crop((20,245,460,305))
+# bright text box = dialogue; can't read it: print a signature for the caller
+print("sig", sum(im.histogram()[0:60]))
+P
+  break
+done

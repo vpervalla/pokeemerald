@@ -1,0 +1,16 @@
+#!/bin/bash
+# fighttr X Y : walk next to the trainer at (X,Y) with goto (path.py --adj), face it by bumping each direction, press A until a battle starts, fight it (TYPES=1 SWITCH=auto) and clear the text.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+X=$1; Y=$2
+s=$(st | head -1); map=$(echo "$s" | awk '{print $2}'); px=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); py=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
+p=$(python3 tools/playthrough/path.py $map $px $py $X $Y --adj 2>&1 | tail -1); echo "$p" | grep -q end || { echo "unreachable"; exit 1; }
+tx=$(echo "$p" | sed 's/.*end (\([0-9]*\), \([0-9]*\)).*/\1/'); ty=$(echo "$p" | sed 's/.*end (\([0-9]*\), \([0-9]*\)).*/\2/')
+goto $tx $ty >/dev/null 2>&1
+if [ $tx -lt $X ]; then d=R; elif [ $tx -gt $X ]; then d=L; elif [ $ty -lt $Y ]; then d=D; else d=U; fi
+g h${d}4 w15 A w100 >/dev/null 2>&1
+for i in 1 2 3 4 5 6; do st | grep -q ENEMY && break; g A w80 >/dev/null 2>&1; done
+g w200 >/dev/null 2>&1
+st | grep ENEMY | cut -c1-70
+for i in 1 2 3 4 5; do TYPES=1 SWITCH=auto fight 0 | tail -1 | cut -c1-90; st | grep -q ENEMY || break; done
+for i in 1 2 3 4; do g A w80 >/dev/null 2>&1; done
+st | head -1

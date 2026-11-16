@@ -1,86 +1,85 @@
 {
  "mons": [
   {
-   "species": "ivysaur",
-   "name": "Ivysaur",
+   "species": "pikachu",
+   "name": "Pikachu",
    "lv": 26,
-   "exp": 13468,
+   "exp": 17725,
    "types": [
-    "Grass",
-    "Poison"
+    "Electric"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Overgrow",
-   "met": "Vermilion house: the BULBASAUR L20 rescued in Viridian Forest (gift); raised to L26 by swap-outs, no Rare Candy",
-   "role": "The Grass/Poison type: RAZOR LEAF, SLEEP POWDER, POISONPOWDER; the Grass answer to Water. Swapped in for BUTTERFREE (boxed).",
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
    "stats": [
     [
      "HP",
-     77,
+     58,
      0
     ],
     [
      "Attack",
-     45,
-     0
+     44,
+     1
     ],
     [
      "Defense",
-     44,
-     0
+     21,
+     -1
     ],
     [
      "Sp. Atk",
-     48,
+     39,
      0
     ],
     [
      "Sp. Def",
-     41,
-     -1
+     32,
+     0
     ],
     [
      "Speed",
-     42,
-     1
+     68,
+     0
     ]
    ],
    "moves": [
     [
-     "Vine Whip",
-     "Grass",
-     "35",
+     "Thunderbolt",
+     "Electric",
+     "95",
      "100%",
-     "10/10"
-    ],
-    [
-     "Poisonpowder",
-     "Poison",
-     "—",
-     "75%",
-     "35/35"
-    ],
-    [
-     "Sleep Powder",
-     "Grass",
-     "—",
-     "75%",
      "15/15"
     ],
     [
-     "Razor Leaf",
-     "Grass",
-     "55",
-     "95%",
-     "25/25"
+     "Quick Attack",
+     "Normal",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Tail Whip",
+     "Normal",
+     "—",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Thunder Wave",
+     "Electric",
+     "—",
+     "100%",
+     "20/20"
     ]
    ]
   },
   {
    "species": "charmeleon",
    "name": "Charmeleon",
-   "lv": 32,
-   "exp": 29859,
+   "lv": 33,
+   "exp": 32703,
    "types": [
     "Fire"
    ],
@@ -91,32 +90,32 @@
    "stats": [
     [
      "HP",
-     95,
+     99,
      0
     ],
     [
      "Attack",
-     50,
+     52,
      -1
     ],
     [
      "Defense",
-     45,
+     47,
      0
     ],
     [
      "Sp. Atk",
-     69,
+     71,
      0
     ],
     [
      "Sp. Def",
-     52,
+     53,
      1
     ],
     [
      "Speed",
-     67,
+     71,
      0
     ]
    ],
@@ -152,56 +151,56 @@
    ]
   },
   {
-   "species": "mankey",
-   "name": "Mankey",
-   "lv": 27,
-   "exp": 20892,
+   "species": "primeape",
+   "name": "Primeape",
+   "lv": 28,
+   "exp": 23925,
    "types": [
     "Fighting"
    ],
    "nature": "Quirky (neutral)",
    "ability": "Vital Spirit",
-   "met": "Route 22, east grass, wild L4",
-   "role": "The Fighting type: FURY SWIPES replaced SCRATCH; hits Normal and Rock hard.",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     61,
+     77,
      0
     ],
     [
      "Attack",
-     56,
+     72,
      0
     ],
     [
      "Defense",
-     29,
+     44,
      0
     ],
     [
      "Sp. Atk",
-     29,
+     43,
      0
     ],
     [
      "Sp. Def",
-     34,
+     49,
      0
     ],
     [
      "Speed",
-     54,
+     70,
      0
     ]
    ],
    "moves": [
     [
-     "Fury Swipes",
+     "Rage",
      "Normal",
-     "18",
-     "80%",
-     "15/15"
+     "20",
+     "100%",
+     "20/20"
     ],
     [
      "Dig",
@@ -227,63 +226,56 @@
    ]
   },
   {
-   "species": "pikachu",
-   "name": "Pikachu",
+   "species": "wartortle",
+   "name": "Wartortle",
    "lv": 25,
-   "exp": 17045,
+   "exp": 11825,
    "types": [
-    "Electric"
+    "Water"
    ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
+   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
    "stats": [
     [
      "HP",
-     56,
+     69,
      0
     ],
     [
      "Attack",
-     42,
-     1
-    ],
-    [
-     "Defense",
-     20,
-     -1
-    ],
-    [
-     "Sp. Atk",
      38,
      0
     ],
     [
+     "Defense",
+     47,
+     0
+    ],
+    [
+     "Sp. Atk",
+     42,
+     0
+    ],
+    [
      "Sp. Def",
-     31,
+     52,
      0
     ],
     [
      "Speed",
-     66,
+     41,
      0
     ]
    ],
    "moves": [
     [
-     "Slam",
+     "Rapid Spin",
      "Normal",
-     "80",
-     "75%",
-     "20/20"
-    ],
-    [
-     "Quick Attack",
-     "Normal",
-     "40",
+     "20",
      "100%",
-     "30/30"
+     "40/40"
     ],
     [
      "Tail Whip",
@@ -293,19 +285,26 @@
      "30/30"
     ],
     [
-     "Thunder Wave",
-     "Electric",
-     "—",
+     "Bubble",
+     "Water",
+     "20",
      "100%",
-     "20/20"
+     "30/30"
+    ],
+    [
+     "Withdraw",
+     "Water",
+     "—",
+     "—",
+     "40/40"
     ]
    ]
   },
   {
    "species": "alakazam",
    "name": "Alakazam",
-   "lv": 26,
-   "exp": 13832,
+   "lv": 29,
+   "exp": 20682,
    "types": [
     "Psychic"
    ],
@@ -316,32 +315,32 @@
    "stats": [
     [
      "HP",
-     70,
+     77,
      0
     ],
     [
      "Attack",
-     33,
+     37,
      0
     ],
     [
      "Defense",
-     32,
+     35,
      0
     ],
     [
      "Sp. Atk",
-     81,
+     91,
      0
     ],
     [
      "Sp. Def",
-     48,
+     54,
      -1
     ],
     [
      "Speed",
-     88,
+     97,
      1
     ]
    ],
@@ -377,77 +376,78 @@
    ]
   },
   {
-   "species": "wartortle",
-   "name": "Wartortle",
-   "lv": 24,
-   "exp": 10535,
+   "species": "ivysaur",
+   "name": "Ivysaur",
+   "lv": 29,
+   "exp": 19467,
    "types": [
-    "Water"
+    "Grass",
+    "Poison"
    ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
-   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Overgrow",
+   "met": "Vermilion house: the BULBASAUR L20 rescued in Viridian Forest (gift); raised to L26 by swap-outs, no Rare Candy",
+   "role": "The Grass/Poison type: RAZOR LEAF, SLEEP POWDER, POISONPOWDER; the Grass answer to Water. Swapped in for BUTTERFREE (boxed).",
    "stats": [
     [
      "HP",
-     67,
+     86,
      0
     ],
     [
      "Attack",
-     37,
-     0
-    ],
-    [
-     "Defense",
-     45,
-     0
-    ],
-    [
-     "Sp. Atk",
-     41,
-     0
-    ],
-    [
-     "Sp. Def",
      50,
      0
     ],
     [
-     "Speed",
-     39,
+     "Defense",
+     49,
      0
+    ],
+    [
+     "Sp. Atk",
+     53,
+     0
+    ],
+    [
+     "Sp. Def",
+     45,
+     -1
+    ],
+    [
+     "Speed",
+     47,
+     1
     ]
    ],
    "moves": [
     [
-     "Bite",
-     "Dark",
-     "60",
-     "100%",
-     "25/25"
-    ],
-    [
-     "Tail Whip",
+     "Sweet Scent",
      "Normal",
      "—",
      "100%",
-     "30/30"
+     "20/20"
     ],
     [
-     "Bubble",
-     "Water",
-     "20",
-     "100%",
-     "30/30"
+     "Poisonpowder",
+     "Poison",
+     "—",
+     "75%",
+     "35/35"
     ],
     [
-     "Withdraw",
-     "Water",
+     "Sleep Powder",
+     "Grass",
      "—",
-     "—",
-     "40/40"
+     "75%",
+     "15/15"
+    ],
+    [
+     "Razor Leaf",
+     "Grass",
+     "55",
+     "95%",
+     "25/25"
     ]
    ]
   }
