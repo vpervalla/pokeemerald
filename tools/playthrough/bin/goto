@@ -12,7 +12,7 @@ for i in $(seq 1 ${TRIES:-12}); do
   echo "$map ($x,$y): $p"
   case "$p" in *"no path"*) exit 1;; esac
   out=$(g ${p%%#*} 2>&1)
-  if echo "$out" | grep -q STOPPED; then g w200 >/dev/null; st | grep ENEMY; fight ${SLOT:-0}; g w60 >/dev/null; last=""; continue; fi
+  if echo "$out" | grep -q STOPPED; then g w200 >/dev/null; st | grep ENEMY; TYPES=${TYPES:-1} SWITCH=${SWITCH:-auto} fight ${SLOT:-0}; g w60 >/dev/null; last=""; continue; fi
   [ -n "$3" ] && { st | head -1; exit 0; }
 done
 st | head -1
