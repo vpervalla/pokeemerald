@@ -17,7 +17,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 - **Workaround:** use (4,8).
 - **Seen in:** [Pallet Town](walkthrough/01_pallet_town.md).
 
-## Observations (not bugs)
+### Observations (not bugs)
 
 - **Card duel NPCs.** The rocker in the Route 2 east building starts the ROM's card game (`cardduel CARD_OPPONENT_ROUTE2_ROCKER`) straight after his FLASH hint, with no yes/no question: talking to him always begins a duel. The duel screen draws and takes input; Forfeit (last action) then A ends it with "You lost the duel..." and the overworld returns. A full duel has not been played: still to test (win and lose paths, the reward).
 - **Cerulean's east road** is only reachable from the west plateau through the robbed house (hedge at x=34 and a one-way ledge row at y=20). That matches the layout and is the intended way, but it makes the walk from the Center to Route 9 long.
