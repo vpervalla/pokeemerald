@@ -1,235 +1,10 @@
 {
  "mons": [
   {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 26,
-   "exp": 17725,
-   "types": [
-    "Electric"
-   ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
-   "stats": [
-    [
-     "HP",
-     58,
-     0
-    ],
-    [
-     "Attack",
-     44,
-     1
-    ],
-    [
-     "Defense",
-     21,
-     -1
-    ],
-    [
-     "Sp. Atk",
-     39,
-     0
-    ],
-    [
-     "Sp. Def",
-     32,
-     0
-    ],
-    [
-     "Speed",
-     68,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Thunderbolt",
-     "Electric",
-     "95",
-     "100%",
-     "15/15"
-    ],
-    [
-     "Quick Attack",
-     "Normal",
-     "40",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Tail Whip",
-     "Normal",
-     "—",
-     "100%",
-     "30/30"
-    ],
-    [
-     "Thunder Wave",
-     "Electric",
-     "—",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "charmeleon",
-   "name": "Charmeleon",
-   "lv": 33,
-   "exp": 32703,
-   "types": [
-    "Fire"
-   ],
-   "nature": "Calm (+Sp. Def, −Attack)",
-   "ability": "Blaze",
-   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
-   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
-   "stats": [
-    [
-     "HP",
-     99,
-     0
-    ],
-    [
-     "Attack",
-     52,
-     -1
-    ],
-    [
-     "Defense",
-     47,
-     0
-    ],
-    [
-     "Sp. Atk",
-     71,
-     0
-    ],
-    [
-     "Sp. Def",
-     53,
-     1
-    ],
-    [
-     "Speed",
-     71,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Scary Face",
-     "Normal",
-     "—",
-     "90%",
-     "10/10"
-    ],
-    [
-     "Cut",
-     "Normal",
-     "50",
-     "95%",
-     "30/30"
-    ],
-    [
-     "Ember",
-     "Fire",
-     "40",
-     "100%",
-     "25/25"
-    ],
-    [
-     "Smokescreen",
-     "Normal",
-     "—",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "primeape",
-   "name": "Primeape",
-   "lv": 28,
-   "exp": 23925,
-   "types": [
-    "Fighting"
-   ],
-   "nature": "Quirky (neutral)",
-   "ability": "Vital Spirit",
-   "met": "see the playthrough log",
-   "role": "",
-   "stats": [
-    [
-     "HP",
-     77,
-     0
-    ],
-    [
-     "Attack",
-     72,
-     0
-    ],
-    [
-     "Defense",
-     44,
-     0
-    ],
-    [
-     "Sp. Atk",
-     43,
-     0
-    ],
-    [
-     "Sp. Def",
-     49,
-     0
-    ],
-    [
-     "Speed",
-     70,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Rage",
-     "Normal",
-     "20",
-     "100%",
-     "20/20"
-    ],
-    [
-     "Dig",
-     "Ground",
-     "60",
-     "100%",
-     "10/10"
-    ],
-    [
-     "Low Kick",
-     "Fighting",
-     "1",
-     "100%",
-     "20/20"
-    ],
-    [
-     "Karate Chop",
-     "Fighting",
-     "50",
-     "100%",
-     "25/25"
-    ]
-   ]
-  },
-  {
    "species": "wartortle",
    "name": "Wartortle",
-   "lv": 25,
-   "exp": 11825,
+   "lv": 29,
+   "exp": 19606,
    "types": [
     "Water"
    ],
@@ -240,32 +15,32 @@
    "stats": [
     [
      "HP",
-     69,
+     79,
      0
     ],
     [
      "Attack",
-     38,
+     44,
      0
     ],
     [
      "Defense",
-     47,
+     55,
      0
     ],
     [
      "Sp. Atk",
-     42,
+     48,
      0
     ],
     [
      "Sp. Def",
-     52,
+     59,
      0
     ],
     [
      "Speed",
-     41,
+     47,
      0
     ]
    ],
@@ -301,10 +76,235 @@
    ]
   },
   {
+   "species": "charmeleon",
+   "name": "Charmeleon",
+   "lv": 34,
+   "exp": 35898,
+   "types": [
+    "Fire"
+   ],
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
+   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
+   "stats": [
+    [
+     "HP",
+     102,
+     0
+    ],
+    [
+     "Attack",
+     54,
+     -1
+    ],
+    [
+     "Defense",
+     48,
+     0
+    ],
+    [
+     "Sp. Atk",
+     73,
+     0
+    ],
+    [
+     "Sp. Def",
+     56,
+     1
+    ],
+    [
+     "Speed",
+     73,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Flamethrower",
+     "Fire",
+     "95",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Cut",
+     "Normal",
+     "50",
+     "95%",
+     "30/30"
+    ],
+    [
+     "Ember",
+     "Fire",
+     "40",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Smokescreen",
+     "Normal",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
+   "species": "primeape",
+   "name": "Primeape",
+   "lv": 29,
+   "exp": 25444,
+   "types": [
+    "Fighting"
+   ],
+   "nature": "Quirky (neutral)",
+   "ability": "Vital Spirit",
+   "met": "see the playthrough log",
+   "role": "",
+   "stats": [
+    [
+     "HP",
+     80,
+     0
+    ],
+    [
+     "Attack",
+     74,
+     0
+    ],
+    [
+     "Defense",
+     45,
+     0
+    ],
+    [
+     "Sp. Atk",
+     45,
+     0
+    ],
+    [
+     "Sp. Def",
+     51,
+     0
+    ],
+    [
+     "Speed",
+     73,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Rage",
+     "Normal",
+     "20",
+     "100%",
+     "20/20"
+    ],
+    [
+     "Dig",
+     "Ground",
+     "60",
+     "100%",
+     "10/10"
+    ],
+    [
+     "Low Kick",
+     "Fighting",
+     "1",
+     "100%",
+     "20/20"
+    ],
+    [
+     "Karate Chop",
+     "Fighting",
+     "50",
+     "100%",
+     "25/25"
+    ]
+   ]
+  },
+  {
+   "species": "pikachu",
+   "name": "Pikachu",
+   "lv": 27,
+   "exp": 21191,
+   "types": [
+    "Electric"
+   ],
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
+   "stats": [
+    [
+     "HP",
+     60,
+     0
+    ],
+    [
+     "Attack",
+     45,
+     1
+    ],
+    [
+     "Defense",
+     21,
+     -1
+    ],
+    [
+     "Sp. Atk",
+     40,
+     0
+    ],
+    [
+     "Sp. Def",
+     33,
+     0
+    ],
+    [
+     "Speed",
+     71,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Thunderbolt",
+     "Electric",
+     "95",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Quick Attack",
+     "Normal",
+     "40",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Flash",
+     "Normal",
+     "—",
+     "70%",
+     "20/20"
+    ],
+    [
+     "Thunder Wave",
+     "Electric",
+     "—",
+     "100%",
+     "20/20"
+    ]
+   ]
+  },
+  {
    "species": "alakazam",
    "name": "Alakazam",
-   "lv": 29,
-   "exp": 20682,
+   "lv": 30,
+   "exp": 22088,
    "types": [
     "Psychic"
    ],
@@ -315,32 +315,32 @@
    "stats": [
     [
      "HP",
-     77,
+     79,
      0
     ],
     [
      "Attack",
-     37,
+     38,
      0
     ],
     [
      "Defense",
-     35,
+     37,
      0
     ],
     [
      "Sp. Atk",
-     91,
+     94,
      0
     ],
     [
      "Sp. Def",
-     54,
+     55,
      -1
     ],
     [
      "Speed",
-     97,
+     101,
      1
     ]
    ],
@@ -378,8 +378,8 @@
   {
    "species": "ivysaur",
    "name": "Ivysaur",
-   "lv": 29,
-   "exp": 19467,
+   "lv": 30,
+   "exp": 22783,
    "types": [
     "Grass",
     "Poison"
@@ -391,32 +391,32 @@
    "stats": [
     [
      "HP",
-     86,
+     88,
      0
     ],
     [
      "Attack",
-     50,
+     51,
      0
     ],
     [
      "Defense",
-     49,
+     51,
      0
     ],
     [
      "Sp. Atk",
-     53,
+     55,
      0
     ],
     [
      "Sp. Def",
-     45,
+     47,
      -1
     ],
     [
      "Speed",
-     47,
+     48,
      1
     ]
    ],

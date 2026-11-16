@@ -22,11 +22,11 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
-    "where": "Vermilion City Center",
-    "party": "Butterfree L23, Pidgeotto L21, Mankey L21, Charmeleon L18, Pikachu L18, Zubat L8",
+    "where": "Lavender Town Center",
+    "party": "Wartortle L29, Charmeleon L34, Primeape L29, Pikachu L27, Alakazam L30, Ivysaur L30",
     "badges": "3",
-    "time": "55:00",
-    "save": "Vermilion Center (ethan_surge_beaten)",
+    "time": "~120:00",
+    "save": "Lavender Town Center (ethan_lavender)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

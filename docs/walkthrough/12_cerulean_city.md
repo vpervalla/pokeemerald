@@ -16,6 +16,10 @@
 
 BLUE waits at (22,5): "Yo! ETHAN!" Team: PIDGEOTTO L17, ABRA L16, RATTATA L15, SQUIRTLE L18 (the fight left PIKACHU and BUTTERFREE fainted; PIDGEOTTO L19 and MANKEY finished it); prize ¥288 (¥1 554 after). He then says: "Since you're using his system, you should go thank him. So here, I'll give you a little present as a favor… this time I really am gone. Smell ya!" The present was not seen as a message (the sweep passed it).
 
+## Moving around the town (return visits)
+
+The town is split by one-way ledges and hedges. The **west plateau** (Center, the thief's house front door (30,11), the rival's bridge) cannot be walked into the **east road** (x 35 to 47, Route 9, the strip at x 39-40 to Route 5): the hedge column at x=34 (y 12-17) and the ledge row at y=20 close it. The two are joined only through the **robbed house**: front door (30,11), back door (4,1) inside, which exits at (31,8) on the east side. The policeman at (31,12) stays in front of the door. So going from the Center to Route 9 means: front door, through the house, back door, east road, (47,18), Route 9.
+
 ## Bugs
 
 None found.

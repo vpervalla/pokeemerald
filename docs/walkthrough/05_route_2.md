@@ -25,6 +25,12 @@ The rule "at most 2 levels between the highest and lowest POKéMON" needed the l
 - To bring the others up, a rebalancing batch began: PIKACHU reached L15 (it was offered DOUBLE TEAM and declined), and MANKEY and BUTTERFREE were still L13 when the grind was stopped on request.
 - Team at the save: PIDGEOTTO L18, PIKACHU L15, MANKEY L13, BUTTERFREE L13 (a spread of 5).
 
+## Return visit: HM05 FLASH and the card duel (north end)
+
+- Reached from Diglett's Cave (north entrance (17,11)): the Cut tree at (18,26) must be cut again each time the map is reloaded (a building visit counts).
+- **Route 2 east building** (doors (18,41) and (19,41) on the north side, (18,46) and (19,46) on the south, a gatehouse across the road): the **Aide** (4,6) gives **HM05 FLASH** if 10 or more POKéMON were seen. The rocker at (10,3) says "Once a POKéMON learns FLASH, you can get through ROCK TUNNEL" and then starts a **card duel** (the ROM's added card game, `data/scripts/card_duel.inc`). ![the Route 2 building](img/05_route2_entry.png)
+- The duel was **forfeited** on purpose (Forfeit is the last entry of the action menu, then "A: yes"); it counts as a loss with no penalty. The duel screen worked (decks 14 and 15, hand, energy, an action menu listing "Play PROF. OAK'S RESEARCH" for the cards in hand), but it was not played out: a duel is a game of its own and is left for a dedicated test.
+
 ## Party after
 
 PIKACHU L7, MANKEY L6, PIDGEY L3.
