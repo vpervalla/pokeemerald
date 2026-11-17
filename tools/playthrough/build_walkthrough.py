@@ -352,9 +352,16 @@ def area_html(p, n):
         ref += f'<div class="panel wide"><h3>People and buildings</h3>{render(s["Everyone and every building"])}</div>'
     ref = f'<div class="ref">{ref}</div>' if ref else ""
     log = ""
-    if s.get("Story"):
+    # every other section of the page text (return visits, side trips, one-off lessons) is part of "what happened":
+    # shown after the Story under its own heading. Items / Pokémon lists are drawn from game data in the panels above instead.
+    shown = {"", "Map notes", "Story", "Everyone and every building", "Party after", "Bugs", "Items", "Pokémon", "Pokémon / trainers"}
+    extra = [(t, ls) for t, ls in s.items() if t not in shown and not t.startswith("Map notes") and any(l.strip() for l in ls)]
+    if s.get("Story") or extra:
+        body = render(s["Story"], steps=True).replace("<ol>", "<ol class=\"moves\">", 1) if s.get("Story") else ""
+        for t, ls in extra:
+            body += f"<h4 class=\"later\">{inline(t)}</h4>" + render(ls, steps=True).replace("<ol>", "<ol class=\"moves\">").replace("<ul>", "<ul class=\"moves\">")
         log = ('<aside class="run" aria-label="From our playthrough"><h3><span class="runtag">Playthrough log</span> '
-               f'What happened in our run as Ethan</h3>{render(s["Story"], steps=True).replace("<ol>", "<ol class=\"moves\">", 1)}</aside>')
+               f'What happened in our run as Ethan</h3>{body}</aside>')
     end = ""
     box = ""
     for label in ("Party after", "Bugs"):

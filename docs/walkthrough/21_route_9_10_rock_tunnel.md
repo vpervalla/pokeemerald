@@ -2,6 +2,16 @@
 
 **Arrival.** From Cerulean's east side (through the robbed house's back door, then the strip at x 35 to 47): a **Cut tree at (2,8)** opens Route 9. Route 9 runs east to Route 10 (north part: Pokémon Center (13,20) behind four Cut trees at x=10, the Power Plant doors (7,40) and (2,37), Rock Tunnel's north door (8,19)), and the Rock Tunnel leads south to the rest of Route 10 and on to Lavender.
 
+## Story
+
+1. **Route 9** (Cut tree (2,8), then nine trainers, TM40, hidden ETHER and CHESTO BERRY; the hidden RARE CANDY (63,2) was left alone by the no-Rare-Candy rule) and **Route 10 north**: HEIDI, the Center (13,20).
+2. **Rock Tunnel, first try (dark):** 1F north (ASHTON, the REPEL) and B1F east (STEVE, ALLEN, ERIC, the REVIVE). The leveling loop that followed killed the whole party on a wild GEODUDE (see the whiteout below).
+3. **After the whiteout** the party was revived at the Route 10 Center (¥19 905 left) and the lower-level POKéMON led from then on.
+4. **MACHOP L17 caught on B1F:** THUNDER WAVE from PIKACHU, then the first ball. Throwing balls with the tool left a stray nickname screen: B erases, START moves to OK, A keeps the default name (the catch tool presses A blindly: a bug of mine).
+5. The tunnel needed light and **HM05 FLASH** was fetched from Route 2's Aide (see [Route 2](05_route_2.md), second section of its log): PIKACHU learned it, the tunnel was resumed with FLASH lit from the party menu.
+6. **The rest of the tunnel,** floor by floor through the ladders: 1F west (LUCAS, OLIVER, LENNY, the ESCAPE ROPE), B1F west (COOPER, DUDLEY, SOFIA, MAX ETHER; the youngster talked to), 1F south (DANA, ARIANA, LEAH, the PEARL). Super Potions on PIKACHU and WARTORTLE between fights.
+7. **Route 10 south:** CAROL, CLARK, HERMAN, TRENT, hidden NANAB BERRY; the south edge leads into **Lavender Town** whose Center healed and saved the run (`saves/ethan_lavender.sav`).
+
 ## Everyone and every building
 
 - **Route 9 (all done):** nine trainers (picnicker ALICIA, hikers JEREMY, ALAN and BRICE, campers CHRIS and DREW, bug catchers BRENT and CONNER, picnicker CAITLIN: about ¥4 700 together), **TM40** at (12,17), a BURN HEAL at (65,17), hidden ETHER (15,7), **hidden RARE CANDY (63,2)** (kept: the rule says no Rare Candies) and a CHESTO BERRY (48,2). No new wild species.

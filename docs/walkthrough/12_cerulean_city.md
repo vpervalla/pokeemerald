@@ -16,9 +16,11 @@
 
 BLUE waits at (22,5): "Yo! ETHAN!" Team: PIDGEOTTO L17, ABRA L16, RATTATA L15, SQUIRTLE L18 (the fight left PIKACHU and BUTTERFREE fainted; PIDGEOTTO L19 and MANKEY finished it); prize ¥288 (¥1 554 after). He then says: "Since you're using his system, you should go thank him. So here, I'll give you a little present as a favor… this time I really am gone. Smell ya!" The present was not seen as a message (the sweep passed it).
 
-## Moving around the town (return visits)
+## Later visits: the SQUIRTLE and the way through the robbed house
 
-The town is split by one-way ledges and hedges. The **west plateau** (Center, the thief's house front door (30,11), the rival's bridge) cannot be walked into the **east road** (x 35 to 47, Route 9, the strip at x 39-40 to Route 5): the hedge column at x=34 (y 12-17) and the ledge row at y=20 close it. The two are joined only through the **robbed house**: front door (30,11), back door (4,1) inside, which exits at (31,8) on the east side. The policeman at (31,12) stays in front of the door. So going from the Center to Route 9 means: front door, through the house, back door, east road, (47,18), Route 9.
+1. **The SQUIRTLE house (17,11)** was visited again once the party needed a Water type: the SQUIRTLE came out when the party leader was friendly ("ETHAN received SQUIRTLE") and went to the PC; it was raised from L12 to L24 on Route 6 by swap-outs (direct leveling failed at L12 with 33 HP) and became the party's WARTORTLE.
+2. **Moving around the town:** the town is split by one-way ledges and hedges. The **west plateau** (Center, the thief's house front door (30,11), the rival's bridge) cannot be walked into the **east road** (x 35 to 47, Route 9, the strip at x 39-40 to Route 5): the hedge column at x=34 (y 12-17) and the ledge row at y=20 close it. The two are joined only through the **robbed house**: front door (30,11), back door (4,1) inside, which exits at (31,8) on the east side. The policeman at (31,12) stays in front of the door ("It's obvious that TEAM ROCKET is behind this most heinous crime!"). From the Center to Route 9: front door, through the house, back door, the east road to (47,18), Route 9. The south exit at (22,32) is a fence: Route 5 is reached from the east strip.
+3. **Walking back from Route 2** (after fetching HM05) used the same trick: Route 5's north end comes out on Cerulean's south edge at x 15, the east strip leads up to the house's back door, through the house, and, to reach Route 9 again, back out of the **back door** onto the east road (the front door only leads to the west plateau).
 
 ## Bugs
 
