@@ -283,20 +283,43 @@ def extend(k, by_map):
         mj = json.load(open(os.path.join(R, f"data/maps/{mp}/map.json")))
         sp = have.get(mp) or {"name": mp, "markers": []}
         sp["markers"] = [m for m in sp["markers"] if m[0] != "trainer"]
-        known = " ".join(i["text"] for i in items)
+        # every item ball, hidden item and Cut tree of the map gets a marker (also on maps the file already lists): an entry of the
+        # item list that names the same tile (and floor) keeps its number, otherwise a new entry is added
+        floor = mp.rsplit("_", 1)[-1] if re.search(r"_(B?\d+F)$", mp) else ""
+        def entry_for(x, y):
+            for i in items:
+                if f"({x},{y})" in i["text"]:
+                    other = re.search(r"\bB?\d+F\b", i["text"])
+                    if (other.group(0) if other else (floor if mp == maps[0] else "")) == floor or not other and mp == maps[0]:
+                        return i
+            return None
+        have_pos = {(m[1], m[2]) for m in sp["markers"] if m[0] != "trainer"}
+        sc = read(f"data/maps/{mp}/scripts.inc")
         for o in mj.get("object_events", []):
-            if o["graphics_id"].endswith("ITEM_BALL") and mp not in have:
+            if o["graphics_id"].endswith("CUT_TREE") and (o["x"], o["y"]) not in have_pos:
+                sp["markers"].append(["cut", o["x"], o["y"], "C"]); have_pos.add((o["x"], o["y"]))
+            if not (o["graphics_id"].endswith("ITEM_BALL") and o.get("script")) or (o["x"], o["y"]) in have_pos:
                 continue
-        if mp not in have:
-            for o in mj.get("object_events", []):
-                if o["graphics_id"].endswith("ITEM_BALL") and o.get("script") and f"({o['x']},{o['y']})" not in known:
-                    sc = read(f"data/maps/{mp}/scripts.inc")
-                    m = re.search(re.escape(o["script"]) + r"::\s*(?:\w+\s+)*?(?:finditem|giveitem\w*|kanto_giveitem\w*)\s+(?:\w+,\s*)?(ITEM_\w+)", sc)
-                    got = flag_set(o["flag"]) if o.get("flag") else None
-                    n += 1
-                    sp["markers"].append(["item", o["x"], o["y"], str(n)])
-                    items.append({"kind": "item", "n": str(n), "text": f"{pretty_item(m.group(1)) if m else 'An item'} at ({o['x']},{o['y']}) ({mp}).",
-                                  "chip": "yes" if got else "no", "chipText": "Collected" if got else "Not collected"})
+            e = entry_for(o["x"], o["y"])
+            if e is None:
+                m = re.search(re.escape(o["script"]) + r"::\s*(?:\w+\s+)*?(?:finditem|giveitem\w*|kanto_giveitem\w*)\s+(?:\w+,\s*)?(ITEM_\w+)", sc)
+                got = flag_set(o["flag"]) if o.get("flag") else None
+                n += 1
+                e = {"kind": "item", "n": str(n), "text": f"{pretty_item(m.group(1)) if m else 'An item'} at ({o['x']},{o['y']}) ({mp}).",
+                     "chip": "yes" if got else "no", "chipText": "Collected" if got else "Not collected"}
+                items.append(e)
+            sp["markers"].append(["item", o["x"], o["y"], e["n"]]); have_pos.add((o["x"], o["y"]))
+        for bg in mj.get("bg_events", []):
+            if bg.get("type") != "hidden_item" or (bg["x"], bg["y"]) in have_pos:
+                continue
+            e = entry_for(bg["x"], bg["y"])
+            if e is None:
+                got = flag_set(bg["flag"]) if bg.get("flag") else None
+                n += 1
+                e = {"kind": "hidden", "n": str(n), "text": f"Hidden {pretty_item(bg['item'])} at ({bg['x']},{bg['y']}) ({mp}).",
+                     "chip": "yes" if got else "no", "chipText": "Found" if got else "Not found"}
+                items.append(e)
+            sp["markers"].append(["hidden", bg["x"], bg["y"], e["n"]]); have_pos.add((bg["x"], bg["y"]))
         for c in by_map.get(mp, []):
             if c["pos"]:
                 sp["markers"].append(["trainer", c["pos"][0], c["pos"][1], f"T{c['k']}"])

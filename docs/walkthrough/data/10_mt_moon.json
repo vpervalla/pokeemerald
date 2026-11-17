@@ -92,11 +92,84 @@
   },
   {
    "name": "MtMoon_B1F",
-   "markers": []
+   "markers": [
+    [
+     "hidden",
+     46,
+     2,
+     "14"
+    ],
+    [
+     "hidden",
+     26,
+     2,
+     "15"
+    ],
+    [
+     "hidden",
+     39,
+     34,
+     "16"
+    ],
+    [
+     "hidden",
+     24,
+     35,
+     "17"
+    ],
+    [
+     "hidden",
+     6,
+     12,
+     "18"
+    ],
+    [
+     "hidden",
+     25,
+     34,
+     "19"
+    ]
+   ]
   },
   {
    "name": "MtMoon_B2F",
    "markers": [
+    [
+     "item",
+     30,
+     26,
+     "8"
+    ],
+    [
+     "item",
+     35,
+     5,
+     "20"
+    ],
+    [
+     "item",
+     24,
+     6,
+     "10"
+    ],
+    [
+     "item",
+     3,
+     11,
+     "21"
+    ],
+    [
+     "hidden",
+     20,
+     16,
+     "22"
+    ],
+    [
+     "hidden",
+     39,
+     11,
+     "23"
+    ],
     [
      "trainer",
      37,
@@ -217,11 +290,74 @@
    "chipText": "Caught in our run"
   },
   {
-   "kind": "item",
-   "n": "13",
-   "text": "TM46 (35,5) and the Antidote (3,11): not reached.",
+   "kind": "hidden",
+   "n": "14",
+   "text": "Hidden Tiny Mushroom at (46,2) (MtMoon_B1F).",
    "chip": "no",
-   "chipText": "Later"
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "15",
+   "text": "Hidden Tiny Mushroom at (26,2) (MtMoon_B1F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "16",
+   "text": "Hidden Tiny Mushroom at (39,34) (MtMoon_B1F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "17",
+   "text": "Hidden Big Mushroom at (24,35) (MtMoon_B1F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "18",
+   "text": "Hidden Big Mushroom at (6,12) (MtMoon_B1F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "19",
+   "text": "Hidden Big Mushroom at (25,34) (MtMoon_B1F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "item",
+   "n": "20",
+   "text": "TM46 at (35,5) (MtMoon_B2F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "21",
+   "text": "Antidote at (3,11) (MtMoon_B2F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "22",
+   "text": "Hidden Moon Stone at (20,16) (MtMoon_B2F).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "23",
+   "text": "Hidden Ether at (39,11) (MtMoon_B2F).",
+   "chip": "no",
+   "chipText": "Not found"
   }
  ],
  "trainers": [
@@ -460,7 +596,7 @@
    "species": "charmeleon",
    "nick": "CHARMELEON",
    "met": 10,
-   "level": 33,
+   "level": 34,
    "where": "party",
    "how": "wild Charmander L10, cornered on B2F (Luna's quest)"
   },

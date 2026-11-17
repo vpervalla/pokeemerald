@@ -46,6 +46,12 @@
    "name": "ViridianCity_Gym",
    "markers": [
     [
+     "hidden",
+     2,
+     2,
+     "5"
+    ],
+    [
      "trainer",
      10,
      2,
@@ -130,6 +136,13 @@
    "text": "Pokémon Center: free healing.",
    "chip": "yes",
    "chipText": "Used in our run"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Macho Brace at (2,2) (ViridianCity_Gym).",
+   "chip": "no",
+   "chipText": "Not found"
   }
  ],
  "wild": [

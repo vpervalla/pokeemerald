@@ -4,6 +4,12 @@
   "name": "Route3",
   "markers": [
    [
+    "hidden",
+    26,
+    9,
+    "1"
+   ],
+   [
     "trainer",
     40,
     11,
@@ -60,6 +66,13 @@
    "text": "All eight trainers were beaten, for about ¥1400 in prizes and a lot of experience.",
    "chip": "yes",
    "chipText": "Done in our run"
+  },
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Oran Berry at (26,9) (Route3).",
+   "chip": "no",
+   "chipText": "Not found"
   }
  ],
  "wild": [

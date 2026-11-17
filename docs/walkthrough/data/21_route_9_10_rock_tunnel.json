@@ -987,6 +987,14 @@
    "level": null,
    "where": "box 1",
    "how": "wild"
+  },
+  {
+   "species": "machop",
+   "nick": "MACHOP",
+   "met": 17,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
   }
  ],
  "missing": [
@@ -1018,12 +1026,6 @@
    "species": "krabby",
    "via": [
     "fishing"
-   ]
-  },
-  {
-   "species": "machop",
-   "via": [
-    "land"
    ]
   },
   {
