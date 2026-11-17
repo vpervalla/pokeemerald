@@ -7,19 +7,19 @@
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 19606,
+   "exp": 20373,
    "level": 29,
    "where": "party"
   },
   {
-   "species": "charmeleon",
-   "id": 5,
-   "nick": "CHARMELEON",
-   "metloc": 127,
-   "mapsec": "MAPSEC_MT_MOON",
-   "metlevel": 10,
-   "exp": 35898,
-   "level": 34,
+   "species": "pikachu",
+   "id": 25,
+   "nick": "PIKACHU",
+   "metloc": 88,
+   "mapsec": "MAPSEC_PALLET_TOWN",
+   "metlevel": 5,
+   "exp": 26574,
+   "level": 29,
    "where": "party"
   },
   {
@@ -34,14 +34,14 @@
    "where": "party"
   },
   {
-   "species": "pikachu",
-   "id": 25,
-   "nick": "PIKACHU",
-   "metloc": 88,
-   "mapsec": "MAPSEC_PALLET_TOWN",
-   "metlevel": 5,
-   "exp": 21191,
-   "level": 27,
+   "species": "charmeleon",
+   "id": 5,
+   "nick": "CHARMELEON",
+   "metloc": 127,
+   "mapsec": "MAPSEC_MT_MOON",
+   "metlevel": 10,
+   "exp": 37581,
+   "level": 35,
    "where": "party"
   },
   {
@@ -51,7 +51,7 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 22088,
+   "exp": 23733,
    "level": 30,
    "where": "party"
   },
@@ -62,7 +62,7 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 22783,
+   "exp": 23154,
    "level": 30,
    "where": "party"
   },
@@ -285,6 +285,28 @@
    "exp": 3120,
    "level": null,
    "where": "box 1"
+  },
+  {
+   "species": "gastly",
+   "id": 92,
+   "nick": "GASTLY",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 17,
+   "exp": 3120,
+   "level": null,
+   "where": "box 1"
+  },
+  {
+   "species": "cubone",
+   "id": 104,
+   "nick": "CUBONE",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 17,
+   "exp": 4913,
+   "level": null,
+   "where": "box 1"
   }
  ],
  "dex_owned": [
@@ -318,8 +340,10 @@
   69,
   74,
   90,
+  92,
   95,
   96,
+  104,
   129,
   163,
   167
