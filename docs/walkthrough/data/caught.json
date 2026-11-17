@@ -1,25 +1,25 @@
 {
  "mons": [
   {
-   "species": "wartortle",
-   "id": 8,
-   "nick": "WARTORTLE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 20373,
-   "level": 29,
-   "where": "party"
-  },
-  {
    "species": "pikachu",
    "id": 25,
    "nick": "PIKACHU",
    "metloc": 88,
    "mapsec": "MAPSEC_PALLET_TOWN",
    "metlevel": 5,
-   "exp": 26574,
-   "level": 29,
+   "exp": 32910,
+   "level": 32,
+   "where": "party"
+  },
+  {
+   "species": "wartortle",
+   "id": 8,
+   "nick": "WARTORTLE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 25549,
+   "level": 31,
    "where": "party"
   },
   {
@@ -40,7 +40,7 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 37581,
+   "exp": 37729,
    "level": 35,
    "where": "party"
   },
@@ -51,8 +51,8 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 23733,
-   "level": 30,
+   "exp": 25763,
+   "level": 31,
    "where": "party"
   },
   {
@@ -62,8 +62,8 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 23154,
-   "level": 30,
+   "exp": 24367,
+   "level": 31,
    "where": "party"
   },
   {
