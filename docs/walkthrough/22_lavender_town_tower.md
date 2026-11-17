@@ -27,9 +27,15 @@
 5. **6F: the ghost.** Walking onto the stairs (11,16): "Be gone... Intruders..." and the player is pushed back one tile: the MAROWAK ghost cannot be fought without the **SILPH SCOPE** (Celadon's Rocket Hideout), so the top floor, MR. FUJI and the POKé FLUTE wait for later. The wild "GHOST" battles on 6F and 7F also appear as normal GASTLY here (the ROM's note: Emerald's battles have no unidentified GHOST).
 6. **Bad hour:** a hunt loop standing on 5F's up-stairs walked onto 6F and wild GASTLY wore the party down to CHARMELEON only; the party was saved by an ESCAPE ROPE and the Lavender Center. The saves: `saves/ethan_lavender.sav`, then `saves/ethan_tower.sav` (healed at Lavender).
 
+## Later: hunting a MODEST GASTLY (for the GENGAR goal)
+
+1. The GASTLY caught first is **Relaxed** (nature = personality mod 25, read from the PC box), so a **Modest** one (+Sp. Atk, -Atk: the best for a special attacker like GENGAR) was hunted on Tower 5F, on a strip of floor away from the stairs (a first try on the purified-zone tile did nothing: the text box "Entered the purified and protected zone." swallowed the walking keys).
+2. A script walked and, on every wild encounter, read the enemy's nature from the battle; anything but a Modest GASTLY/HAUNTER was beaten with the lead. The first attempt tried to RUN with a key sequence that picked a move instead (THUNDER WAVE), then the script switched to fighting. The **7th encounter** was a **Modest GASTLY L15**: THUNDER WAVE, then GREAT BALLS ("Gotcha!"); stray A presses in the nickname screen named it "BBBCCCDDDE". The nature was confirmed in the PC data (`Modest`).
+3. At the Center's PC (BILL'S PC: WITHDRAW, DEPOSIT, MOVE POKéMON, MOVE ITEMS, SEE YA!) PRIMEAPE was deposited (the deposit asks "Deposit in which BOX?" and the box prompt "Continue BOX operations?": NO leaves) and the new GASTLY withdrawn. The Name Rater was tried to restore the name: an empty new name keeps the old one ("Done! From now on, this POKéMON shall be known as BBBCCCDDDE!"), and the on-screen keyboard's cursor wraps into the OK/BACK column, which made typing by key presses unreliable; the nickname stays.
+
 ## Party after
 
-PIKACHU L32, WARTORTLE L31, PRIMEAPE L29, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 (spread 6). GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
+PIKACHU L32, WARTORTLE L31, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 and the MODEST GASTLY L15 ("BBBCCCDDDE"); PRIMEAPE L29, the Relaxed GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
 
 ## Bugs
 

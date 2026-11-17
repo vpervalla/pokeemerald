@@ -499,6 +499,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_modest_gastly.sav` | Lavender Town (Name Rater house), healed: a **MODEST GASTLY L15** (7th wild encounter of the hunt on Tower 5F) is in the party (nickname "BBBCCCDDDE" by a stray-key slip; the Name Rater keeps the old name when the new one is empty) replacing PRIMEAPE (Box 1); the other GASTLY is Relaxed. ¥26061. Next: raise it to L25 (HAUNTER) and trade-evolve it (GENGAR). |
 | `saves/ethan_tower.sav` | Lavender Town Center, healed: Lavender fully visited, Pokémon Tower 1F to 6F cleared (rival, 14 Channelers, items), GASTLY L17 and CUBONE L17 caught (Box 1); PIKACHU L32, WARTORTLE L31 (PROTECT), PRIMEAPE L29, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31; ¥26061, 3 badges. 7F, Mr. Fuji and the POKé FLUTE need the SILPH SCOPE (Celadon). HAUNTER still missing. |
 | `saves/ethan_lavender.sav` | Lavender Town Center, healed, ~120h: Rock Tunnel and Route 10 south cleared; MACHOP caught (box 1); PIKACHU knows FLASH; WARTORTLE L29, CHARMELEON L34 (FLAMETHROWER), PRIMEAPE L29, PIKACHU L27, ALAKAZAM L30, IVYSAUR L30; ¥28793, 3 badges. Next: Lavender (Tower, houses), Route 10's middle strip (MARK, hidden items), GASTLY/VOLTORB. |
 | `saves/ethan_flash.sav` | Vermilion Center, healed: HM05 FLASH taught to PIKACHU (Route 2 Aide), CHARMELEON L34 with FLAMETHROWER; ¥19905, 3 badges. Next: back to Route 10 through Cerulean's robbed house. |

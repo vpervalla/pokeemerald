@@ -7,7 +7,7 @@
    "metloc": 88,
    "mapsec": "MAPSEC_PALLET_TOWN",
    "metlevel": 5,
-   "exp": 32910,
+   "exp": 34559,
    "level": 32,
    "where": "party"
   },
@@ -20,17 +20,6 @@
    "metlevel": 12,
    "exp": 25549,
    "level": 31,
-   "where": "party"
-  },
-  {
-   "species": "primeape",
-   "id": 57,
-   "nick": "PRIMEAPE",
-   "metloc": 122,
-   "mapsec": "MAPSEC_ROUTE_22",
-   "metlevel": 4,
-   "exp": 25444,
-   "level": 29,
    "where": "party"
   },
   {
@@ -64,6 +53,17 @@
    "metlevel": 20,
    "exp": 24367,
    "level": 31,
+   "where": "party"
+  },
+  {
+   "species": "gastly",
+   "id": 92,
+   "nick": "BBBCCCDDDE",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 15,
+   "exp": 2035,
+   "level": 15,
    "where": "party"
   },
   {
@@ -305,6 +305,17 @@
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 17,
    "exp": 4913,
+   "level": null,
+   "where": "box 1"
+  },
+  {
+   "species": "primeape",
+   "id": 57,
+   "nick": "PRIMEAPE",
+   "metloc": 122,
+   "mapsec": "MAPSEC_ROUTE_22",
+   "metlevel": 4,
+   "exp": 25444,
    "level": null,
    "where": "box 1"
   }
