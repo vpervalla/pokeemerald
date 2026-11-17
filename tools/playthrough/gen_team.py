@@ -17,7 +17,7 @@ MET = {
     "alakazam": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
     "wartortle": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
     "ivysaur": "Vermilion house: the BULBASAUR L20 rescued in Viridian Forest (gift); raised to L26 by swap-outs, no Rare Candy",
-    "gastly": "Pokémon Tower 5F, wild L15 (the seventh encounter of the Modest hunt; nickname by a stray-key slip)",
+    "gastly": "Pokémon Tower 5F, wild L15 (the seventh encounter of the Modest hunt), renamed DR VENKMAN at Lavender's Name Rater",
     "kadabra": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
 }
 ROLE = {
