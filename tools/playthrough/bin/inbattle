@@ -1,0 +1,4 @@
+#!/bin/sh
+# inbattle : prints "battle" when the game is in a battle (callback2 is the battle one), else "field"
+D=$(cd "$(dirname "$0")/.." && pwd)
+exec python3 "$D/inbattle.py"
