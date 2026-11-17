@@ -1,77 +1,78 @@
 {
  "mons": [
   {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 32,
-   "exp": 34559,
+   "species": "gastly",
+   "name": "DR VENKMAN",
+   "lv": 18,
+   "exp": 4351,
    "types": [
-    "Electric"
+    "Ghost",
+    "Poison"
    ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
+   "nature": "Modest (+Sp. Atk, −Attack)",
+   "ability": "Levitate",
+   "met": "Pokémon Tower 5F, wild L15 (the seventh encounter of the Modest hunt), renamed DR VENKMAN at Lavender's Name Rater",
+   "role": "The GENGAR goal: Modest (+Sp. Atk, -Atk), needs L25 for HAUNTER and then a trade (the Vermilion sailor's double exchange).",
    "stats": [
     [
      "HP",
-     70,
+     43,
      0
     ],
     [
      "Attack",
-     53,
-     1
-    ],
-    [
-     "Defense",
-     26,
+     18,
      -1
     ],
     [
-     "Sp. Atk",
-     52,
+     "Defense",
+     20,
      0
     ],
     [
+     "Sp. Atk",
+     47,
+     1
+    ],
+    [
      "Sp. Def",
-     38,
+     17,
      0
     ],
     [
      "Speed",
-     84,
+     37,
      0
     ]
    ],
    "moves": [
     [
-     "Thunderbolt",
-     "Electric",
-     "95",
-     "100%",
-     "8/15"
-    ],
-    [
-     "Quick Attack",
-     "Normal",
-     "40",
-     "100%",
-     "28/30"
-    ],
-    [
-     "Flash",
-     "Normal",
+     "Hypnosis",
+     "Psychic",
      "—",
-     "70%",
-     "20/20"
+     "60%",
+     "10/20"
     ],
     [
-     "Thunder Wave",
-     "Electric",
+     "Lick",
+     "Ghost",
+     "20",
+     "100%",
+     "25/30"
+    ],
+    [
+     "Spite",
+     "Ghost",
      "—",
      "100%",
-     "6/20"
+     "10/10"
+    ],
+    [
+     "Mean Look",
+     "Normal",
+     "—",
+     "100%",
+     "5/5"
     ]
    ]
   },
@@ -79,7 +80,7 @@
    "species": "wartortle",
    "name": "Wartortle",
    "lv": 31,
-   "exp": 25549,
+   "exp": 26356,
    "types": [
     "Water"
    ],
@@ -139,7 +140,7 @@
      "Water",
      "20",
      "100%",
-     "30/30"
+     "29/30"
     ],
     [
      "Withdraw",
@@ -377,78 +378,77 @@
    ]
   },
   {
-   "species": "gastly",
-   "name": "DR VENKMAN",
-   "lv": 15,
-   "exp": 2035,
+   "species": "pikachu",
+   "name": "Pikachu",
+   "lv": 32,
+   "exp": 34770,
    "types": [
-    "Ghost",
-    "Poison"
+    "Electric"
    ],
-   "nature": "Modest (+Sp. Atk, −Attack)",
-   "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild L15 (the seventh encounter of the Modest hunt), renamed DR VENKMAN at Lavender's Name Rater",
-   "role": "The GENGAR goal: Modest (+Sp. Atk, -Atk), needs L25 for HAUNTER and then a trade (the Vermilion sailor's double exchange).",
+   "nature": "Lonely (+Attack, −Defense)",
+   "ability": "Static",
+   "met": "Gift from Prof. Oak, L5",
+   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
    "stats": [
     [
      "HP",
-     37,
+     70,
      0
     ],
     [
      "Attack",
-     17,
-     -1
-    ],
-    [
-     "Defense",
-     18,
-     0
-    ],
-    [
-     "Sp. Atk",
-     39,
+     53,
      1
     ],
     [
+     "Defense",
+     26,
+     -1
+    ],
+    [
+     "Sp. Atk",
+     52,
+     0
+    ],
+    [
      "Sp. Def",
-     15,
+     38,
      0
     ],
     [
      "Speed",
-     32,
+     84,
      0
     ]
    ],
    "moves": [
     [
-     "Hypnosis",
-     "Psychic",
-     "—",
-     "60%",
-     "20/20"
+     "Thunderbolt",
+     "Electric",
+     "95",
+     "100%",
+     "15/15"
     ],
     [
-     "Lick",
-     "Ghost",
-     "20",
+     "Quick Attack",
+     "Normal",
+     "40",
      "100%",
      "30/30"
     ],
     [
-     "Spite",
-     "Ghost",
-     "—",
-     "100%",
-     "10/10"
-    ],
-    [
-     "Mean Look",
+     "Flash",
      "Normal",
      "—",
+     "70%",
+     "20/20"
+    ],
+    [
+     "Thunder Wave",
+     "Electric",
+     "—",
      "100%",
-     "5/5"
+     "20/20"
     ]
    ]
   }
