@@ -1,0 +1,769 @@
+{
+ "sub": "Game Corner · Rocket Hideout B1F–B4F · Giovanni · SILPH SCOPE · LIFT KEY",
+ "title": "Celadon Game Corner and the Rocket Hideout",
+ "tab": "Game Corner / Hideout",
+ "map": [
+  {
+   "name": "CeladonCity_GameCorner",
+   "markers": [
+    [
+     "hidden",
+     2,
+     4,
+     "1"
+    ],
+    [
+     "hidden",
+     3,
+     8,
+     "2"
+    ],
+    [
+     "hidden",
+     2,
+     11,
+     "3"
+    ],
+    [
+     "hidden",
+     6,
+     12,
+     "4"
+    ],
+    [
+     "hidden",
+     9,
+     9,
+     "5"
+    ],
+    [
+     "hidden",
+     8,
+     5,
+     "6"
+    ],
+    [
+     "hidden",
+     10,
+     4,
+     "7"
+    ],
+    [
+     "hidden",
+     13,
+     3,
+     "8"
+    ],
+    [
+     "hidden",
+     15,
+     5,
+     "9"
+    ],
+    [
+     "hidden",
+     17,
+     5,
+     "10"
+    ],
+    [
+     "hidden",
+     15,
+     13,
+     "11"
+    ],
+    [
+     "hidden",
+     12,
+     12,
+     "12"
+    ],
+    [
+     "trainer",
+     11,
+     2,
+     "T1"
+    ]
+   ]
+  },
+  {
+   "name": "RocketHideout_B1F",
+   "markers": [
+    [
+     "item",
+     5,
+     16,
+     "13"
+    ],
+    [
+     "item",
+     1,
+     22,
+     "14"
+    ],
+    [
+     "hidden",
+     16,
+     17,
+     "15"
+    ],
+    [
+     "trainer",
+     4,
+     9,
+     "T2"
+    ],
+    [
+     "trainer",
+     24,
+     12,
+     "T3"
+    ],
+    [
+     "trainer",
+     6,
+     32,
+     "T4"
+    ],
+    [
+     "trainer",
+     10,
+     22,
+     "T5"
+    ],
+    [
+     "trainer",
+     21,
+     27,
+     "T6"
+    ]
+   ]
+  },
+  {
+   "name": "RocketHideout_B2F",
+   "markers": [
+    [
+     "item",
+     15,
+     3,
+     "16"
+    ],
+    [
+     "item",
+     2,
+     5,
+     "17"
+    ],
+    [
+     "item",
+     5,
+     7,
+     "18"
+    ],
+    [
+     "item",
+     0,
+     14,
+     "19"
+    ],
+    [
+     "trainer",
+     20,
+     6,
+     "T7"
+    ]
+   ]
+  },
+  {
+   "name": "RocketHideout_B3F",
+   "markers": [
+    [
+     "item",
+     12,
+     12,
+     "20"
+    ],
+    [
+     "item",
+     19,
+     14,
+     "21"
+    ],
+    [
+     "item",
+     14,
+     24,
+     "22"
+    ],
+    [
+     "hidden",
+     1,
+     3,
+     "23"
+    ],
+    [
+     "trainer",
+     19,
+     9,
+     "T8"
+    ],
+    [
+     "trainer",
+     2,
+     20,
+     "T9"
+    ]
+   ]
+  },
+  {
+   "name": "RocketHideout_B4F",
+   "markers": [
+    [
+     "item",
+     20,
+     5,
+     "24"
+    ],
+    [
+     "item",
+     3,
+     2,
+     "25"
+    ],
+    [
+     "item",
+     1,
+     6,
+     "26"
+    ],
+    [
+     "item",
+     4,
+     14,
+     "27"
+    ],
+    [
+     "item",
+     6,
+     23,
+     "28"
+    ],
+    [
+     "hidden",
+     22,
+     6,
+     "29"
+    ],
+    [
+     "hidden",
+     16,
+     6,
+     "30"
+    ],
+    [
+     "trainer",
+     19,
+     4,
+     "T10"
+    ],
+    [
+     "trainer",
+     4,
+     2,
+     "T11"
+    ],
+    [
+     "trainer",
+     19,
+     14,
+     "T12"
+    ],
+    [
+     "trainer",
+     16,
+     14,
+     "T13"
+    ]
+   ]
+  },
+  {
+   "name": "RocketHideout_Elevator",
+   "markers": []
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "CeladonCity_GameCorner at (11,2). Prize ¥640. <b>Beaten.</b>",
+   "team": [
+    [
+     "raticate",
+     20,
+     "—"
+    ],
+    [
+     "zubat",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B1F at (4,9). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "raticate",
+     21,
+     "—"
+    ],
+    [
+     "raticate",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B1F at (24,12). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "drowzee",
+     21,
+     "—"
+    ],
+    [
+     "machop",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B1F at (6,32). Prize ¥608. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     19,
+     "—"
+    ],
+    [
+     "raticate",
+     19,
+     "—"
+    ],
+    [
+     "raticate",
+     19,
+     "—"
+    ],
+    [
+     "rattata",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B1F at (10,22). Prize ¥640. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     20,
+     "Minimize, Sludge, Disable, Harden"
+    ],
+    [
+     "koffing",
+     20,
+     "Smog, Tackle, Poison Gas"
+    ],
+    [
+     "koffing",
+     20,
+     "Smog, Tackle, Poison Gas"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B1F at (21,27). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     22,
+     "Minimize, Sludge, Disable, Harden"
+    ],
+    [
+     "koffing",
+     22,
+     "Sludge, Smog, Tackle, Poison Gas"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B2F at (20,6). Prize ¥544. <b>Beaten.</b>",
+   "team": [
+    [
+     "zubat",
+     17,
+     "Bite, Astonish, Supersonic, Leech Life"
+    ],
+    [
+     "koffing",
+     17,
+     "Smog, Tackle, Poison Gas"
+    ],
+    [
+     "grimer",
+     17,
+     "Sludge, Disable, Harden, Pound"
+    ],
+    [
+     "zubat",
+     17,
+     "Bite, Astonish, Supersonic, Leech Life"
+    ],
+    [
+     "raticate",
+     17,
+     "Hyper Fang, Quick Attack, Tail Whip, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B3F at (19,9). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     21,
+     "—"
+    ],
+    [
+     "machop",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B3F at (2,20). Prize ¥640. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     20,
+     "—"
+    ],
+    [
+     "raticate",
+     20,
+     "—"
+    ],
+    [
+     "drowzee",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Boss Giovanni",
+   "hint": "RocketHideout_B4F at (19,4). Prize ¥2900. <b>Beaten.</b>",
+   "team": [
+    [
+     "onix",
+     25,
+     "—"
+    ],
+    [
+     "rhyhorn",
+     24,
+     "—"
+    ],
+    [
+     "kangaskhan",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B4F at (4,2). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     21,
+     "—"
+    ],
+    [
+     "zubat",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B4F at (19,14). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "ekans",
+     23,
+     "—"
+    ],
+    [
+     "sandshrew",
+     23,
+     "—"
+    ],
+    [
+     "arbok",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "RocketHideout_B4F at (16,14). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "sandshrew",
+     23,
+     "—"
+    ],
+    [
+     "ekans",
+     23,
+     "—"
+    ],
+    [
+     "sandslash",
+     23,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden coins at (2,4) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden coins at (3,8) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden coins at (2,11) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden coins at (6,12) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden coins at (9,9) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "6",
+   "text": "Hidden coins at (8,5) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "7",
+   "text": "Hidden coins at (10,4) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "8",
+   "text": "Hidden coins at (13,3) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "9",
+   "text": "Hidden coins at (15,5) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "10",
+   "text": "Hidden coins at (17,5) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "11",
+   "text": "Hidden coins at (15,13) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "12",
+   "text": "Hidden coins at (12,12) (CeladonCity_GameCorner).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "13",
+   "text": "Escape Rope at (5,16) (RocketHideout_B1F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "14",
+   "text": "Hyper Potion at (1,22) (RocketHideout_B1F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "15",
+   "text": "Hidden PP Up at (16,17) (RocketHideout_B1F).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "16",
+   "text": "X Speed at (15,3) (RocketHideout_B2F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "17",
+   "text": "Moon Stone at (2,5) (RocketHideout_B2F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "18",
+   "text": "TM12 at (5,7) (RocketHideout_B2F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "19",
+   "text": "Super Potion at (0,14) (RocketHideout_B2F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "20",
+   "text": "Rare Candy at (12,12) (RocketHideout_B3F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "21",
+   "text": "TM21 at (19,14) (RocketHideout_B3F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "22",
+   "text": "Black Glasses at (14,24) (RocketHideout_B3F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "23",
+   "text": "Hidden Nugget at (1,3) (RocketHideout_B3F).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "24",
+   "text": "Silph Scope at (20,5) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "25",
+   "text": "Lift Key at (3,2) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "26",
+   "text": "TM49 at (1,6) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "27",
+   "text": "Max Ether at (4,14) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "28",
+   "text": "Calcium at (6,23) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "29",
+   "text": "Hidden Nest Ball at (22,6) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "30",
+   "text": "Hidden Net Ball at (16,6) (RocketHideout_B4F).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": []
+}

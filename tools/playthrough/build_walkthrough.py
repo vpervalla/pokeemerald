@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Celadon City",
-    "party": "Venusaur L34, Wartortle L32, Charmeleon L35, Dr Venkman (Gengar) L27, Alakazam L33, Pikachu L34",
+    "where": "Rocket Hideout B4F (cleared)",
+    "party": "Charizard L36, Venusaur L35, Alakazam L34, Pikachu L34, Wartortle L33, Dr Venkman (Gengar) L30",
     "badges": "3",
-    "time": "~125:00",
-    "save": "Celadon City (ethan_celadon2)",
+    "time": "~154:00",
+    "save": "Rocket Hideout B4F (ethan_rocket_hideout)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

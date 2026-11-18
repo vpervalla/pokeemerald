@@ -3,8 +3,8 @@
   {
    "species": "gengar",
    "name": "DR VENKMAN",
-   "lv": 27,
-   "exp": 16807,
+   "lv": 30,
+   "exp": 22077,
    "types": [
     "Ghost",
     "Poison"
@@ -16,32 +16,32 @@
    "stats": [
     [
      "HP",
-     76,
+     84,
      0
     ],
     [
      "Attack",
-     41,
+     46,
      -1
     ],
     [
      "Defense",
-     45,
+     50,
      0
     ],
     [
      "Sp. Atk",
-     89,
+     97,
      1
     ],
     [
      "Sp. Def",
-     45,
+     50,
      0
     ],
     [
      "Speed",
-     70,
+     78,
      0
     ]
    ],
@@ -51,7 +51,7 @@
      "Ghost",
      "60",
      "—",
-     "20/20"
+     "12/20"
     ],
     [
      "Night Shade",
@@ -79,8 +79,8 @@
   {
    "species": "wartortle",
    "name": "Wartortle",
-   "lv": 32,
-   "exp": 29124,
+   "lv": 33,
+   "exp": 30901,
    "types": [
     "Water"
    ],
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     86,
+     89,
      0
     ],
     [
      "Attack",
-     48,
+     50,
      0
     ],
     [
      "Defense",
-     60,
+     62,
      0
     ],
     [
      "Sp. Atk",
-     56,
+     58,
      0
     ],
     [
      "Sp. Def",
-     65,
+     67,
      0
     ],
     [
      "Speed",
-     51,
+     54,
      0
     ]
    ],
@@ -152,56 +152,57 @@
    ]
   },
   {
-   "species": "charmeleon",
-   "name": "Charmeleon",
-   "lv": 35,
-   "exp": 39671,
+   "species": "charizard",
+   "name": "Charizard",
+   "lv": 36,
+   "exp": 40603,
    "types": [
-    "Fire"
+    "Fire",
+    "Flying"
    ],
    "nature": "Calm (+Sp. Def, −Attack)",
    "ability": "Blaze",
-   "met": "Mt. Moon B2F, the cornered wild Charmander L10 (Luna's quest)",
-   "role": "The Fire starter; goal: Charizard by the end of Kanto.",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     105,
+     122,
      0
     ],
     [
      "Attack",
-     55,
+     70,
      -1
     ],
     [
      "Defense",
-     50,
+     66,
      0
     ],
     [
      "Sp. Atk",
-     75,
+     98,
      0
     ],
     [
      "Sp. Def",
-     57,
+     74,
      1
     ],
     [
      "Speed",
-     76,
+     92,
      0
     ]
    ],
    "moves": [
     [
-     "Flamethrower",
-     "Fire",
-     "95",
+     "Wing Attack",
+     "Flying",
+     "60",
      "100%",
-     "15/15"
+     "35/35"
     ],
     [
      "Cut",
@@ -229,8 +230,8 @@
   {
    "species": "venusaur",
    "name": "Venusaur",
-   "lv": 34,
-   "exp": 34347,
+   "lv": 35,
+   "exp": 38939,
    "types": [
     "Grass",
     "Poison"
@@ -242,32 +243,32 @@
    "stats": [
     [
      "HP",
-     113,
+     116,
      0
     ],
     [
      "Attack",
-     72,
+     74,
      0
     ],
     [
      "Defense",
-     72,
+     74,
      0
     ],
     [
      "Sp. Atk",
-     76,
+     78,
      0
     ],
     [
      "Sp. Def",
-     65,
+     67,
      -1
     ],
     [
      "Speed",
-     71,
+     73,
      1
     ]
    ],
@@ -298,15 +299,15 @@
      "Grass",
      "55",
      "95%",
-     "25/25"
+     "16/25"
     ]
    ]
   },
   {
    "species": "alakazam",
    "name": "Alakazam",
-   "lv": 33,
-   "exp": 31240,
+   "lv": 34,
+   "exp": 33117,
    "types": [
     "Psychic"
    ],
@@ -317,32 +318,32 @@
    "stats": [
     [
      "HP",
-     87,
+     90,
      0
     ],
     [
      "Attack",
-     42,
+     43,
      0
     ],
     [
      "Defense",
-     40,
+     42,
      0
     ],
     [
      "Sp. Atk",
-     104,
+     107,
      0
     ],
     [
      "Sp. Def",
-     61,
+     63,
      -1
     ],
     [
      "Speed",
-     111,
+     114,
      1
     ]
    ],
@@ -373,7 +374,7 @@
      "Psychic",
      "65",
      "100%",
-     "20/20"
+     "17/20"
     ]
    ]
   },
@@ -381,7 +382,7 @@
    "species": "pikachu",
    "name": "Pikachu",
    "lv": 34,
-   "exp": 40251,
+   "exp": 41821,
    "types": [
     "Electric"
    ],
