@@ -1,0 +1,134 @@
+{
+ "sub": "Route 7 · the rival Leaf · Game Corner, Department Store, Mansion, Gym",
+ "title": "Route 7 and Celadon City (streets)",
+ "tab": "Celadon City",
+ "map": {
+  "name": "CeladonCity",
+  "markers": [
+   [
+    "cut",
+    52,
+    22,
+    "C"
+   ],
+   [
+    "cut",
+    40,
+    35,
+    "C"
+   ],
+   [
+    "item",
+    5,
+    3,
+    "1"
+   ],
+   [
+    "cut",
+    -7,
+    21,
+    "C"
+   ],
+   [
+    "hidden",
+    55,
+    20,
+    "2"
+   ],
+   [
+    "trainer",
+    13,
+    16,
+    "T1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Ether at (5,3).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden PP Up at (55,20).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_CELADON_CITY",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_CELADON_CITY",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Rival Leaf",
+   "hint": "(13,16). Prize ¥1980. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidorina",
+     30,
+     "Double Kick, Bite, Poison Sting, Fury Swipes"
+    ],
+    [
+     "clefairy",
+     30,
+     "Metronome, Sing, Minimize, Double Slap"
+    ],
+    [
+     "ponyta",
+     31,
+     "Ember, Stomp, Fire Spin, Agility"
+    ],
+    [
+     "psyduck",
+     30,
+     "Confusion, Water Gun, Disable, Fury Swipes"
+    ],
+    [
+     "ivysaur",
+     33,
+     "Razor Leaf, Sleep Powder, Leech Seed, Poison Powder"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "grimer",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "koffing",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "water"
+   ]
+  }
+ ]
+}

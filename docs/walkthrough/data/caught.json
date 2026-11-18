@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "venusaur",
-   "id": 3,
-   "nick": "VENUSAUR",
-   "metloc": 93,
-   "mapsec": "MAPSEC_VERMILION_CITY",
-   "metlevel": 20,
-   "exp": 30764,
-   "level": 33,
+   "species": "gengar",
+   "id": 94,
+   "nick": "DR VENKMAN",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 15,
+   "exp": 16807,
+   "level": 27,
    "where": "party"
   },
   {
@@ -18,7 +18,7 @@
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 28313,
+   "exp": 29124,
    "level": 32,
    "where": "party"
   },
@@ -29,19 +29,19 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 39326,
+   "exp": 39671,
    "level": 35,
    "where": "party"
   },
   {
-   "species": "gengar",
-   "id": 94,
-   "nick": "DR VENKMAN",
-   "metloc": 140,
-   "mapsec": "MAPSEC_POKEMON_TOWER",
-   "metlevel": 15,
-   "exp": 14594,
-   "level": 26,
+   "species": "venusaur",
+   "id": 3,
+   "nick": "VENUSAUR",
+   "metloc": 93,
+   "mapsec": "MAPSEC_VERMILION_CITY",
+   "metlevel": 20,
+   "exp": 34347,
+   "level": 34,
    "where": "party"
   },
   {
@@ -51,8 +51,8 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 29097,
-   "level": 32,
+   "exp": 31240,
+   "level": 33,
    "where": "party"
   },
   {
@@ -62,8 +62,8 @@
    "metloc": 88,
    "mapsec": "MAPSEC_PALLET_TOWN",
    "metlevel": 5,
-   "exp": 37610,
-   "level": 33,
+   "exp": 40251,
+   "level": 34,
    "where": "party"
   },
   {
