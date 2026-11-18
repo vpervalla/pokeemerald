@@ -30,6 +30,9 @@ def beh(x, y):
 # directional walls (MB_IMPASSABLE_<edge>): a tile whose edge is walled can't be left or entered across it
 EDGES = {"N": ("NORTH", "NORTHEAST", "NORTHWEST"), "S": ("SOUTH", "SOUTHEAST", "SOUTHWEST"),
          "E": ("EAST", "NORTHEAST", "SOUTHEAST"), "W": ("WEST", "NORTHWEST", "SOUTHWEST")}
+SPIN = {beh_names.index("MB_SPIN_RIGHT"): "R", beh_names.index("MB_SPIN_LEFT"): "L",
+        beh_names.index("MB_SPIN_UP"): "U", beh_names.index("MB_SPIN_DOWN"): "D"}
+STOPB = beh_names.index("MB_STOP_SPINNING")
 def walled(x, y, edge):
     return beh_names[beh(x, y)] in ["MB_IMPASSABLE_" + e for e in EDGES[edge]]
 # surfable water has collision 0 but can't be walked without Surf (shallow and semi-deep water are wadeable)
@@ -65,8 +68,19 @@ while q:
         e = {"U": "N", "D": "S", "L": "W", "R": "E"}[k]; o = {"N": "S", "S": "N", "W": "E", "E": "W"}[e]
         if walled(*c, e) or (0 <= n[0] < w and 0 <= n[1] < h and walled(*n, o)):
             continue
-        if 0 <= n[0] < w and 0 <= n[1] < h and n not in prev and (not blocked[n[1], n[0]] or n in goal):
-            prev[n] = (c, k); q.append(n)
+        if 0 <= n[0] < w and 0 <= n[1] < h and (not blocked[n[1], n[0]] or n in goal):
+            if beh(*n) in SPIN and n not in goal:          # a spinner slides the player on until a stop tile or a wall
+                d = SPIN[beh(*n)]
+                for _ in range(200):
+                    dx2, dy2 = D[d]; m = (n[0] + dx2, n[1] + dy2)
+                    e2 = {"U": "N", "D": "S", "L": "W", "R": "E"}[d]; o2 = {"N": "S", "S": "N", "W": "E", "E": "W"}[e2]
+                    if not (0 <= m[0] < w and 0 <= m[1] < h) or blocked[m[1], m[0]] or walled(*n, e2) or walled(*m, o2):
+                        break
+                    n = m
+                    if beh(*n) == STOPB: break
+                    if beh(*n) in SPIN: d = SPIN[beh(*n)]
+            if n not in prev:
+                prev[n] = (c, k); q.append(n)
 if end is None:
     sys.exit("no path")
 steps = []

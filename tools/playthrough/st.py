@@ -55,7 +55,16 @@ try:
 except (IndexError, KeyError):
     mname = f"{g}.{n}"
 money = e.u32(sb1 + 0x490) ^ e.u32(sb2 + 0xAC)   # money is XORed with SaveBlock2's encryptionKey
-print(f"map {mname} ({g}.{n}) pos ({x},{y})  money {money}")
+# Kanto spinner slides leave the save-block position (the camera) behind the player's real tile: report the object's tile
+try:
+    ox, oy = e.obj_pos()
+    if (ox, oy) != (x, y) and -8 < ox < 200 and -8 < oy < 200:
+        print(f"map {mname} ({g}.{n}) pos ({ox},{oy})  money {money}  [spinner desync: camera at ({x},{y})]")
+        x, y = ox, oy
+    else:
+        print(f"map {mname} ({g}.{n}) pos ({x},{y})  money {money}")
+except Exception:
+    print(f"map {mname} ({g}.{n}) pos ({x},{y})  money {money}")
 cnt = e.peek(S["gPlayerPartyCount"], 1)[0]
 for i in range(cnt):
     print("  " + mon(e.peek(S["gPlayerParty"] + i * 100, 100)))

@@ -32,11 +32,15 @@ def walk(e, k, n):
     for _ in range(n):
         if e.cb2() not in OVERWORLD:
             print("STOPPED: not in overworld (battle/menu/script)"); return False
-        p0 = e.pos()
+        p0 = e.obj_pos()
         for _ in range(12):
             e.keys(k, 4)
-            if e.pos() != p0:
+            if e.obj_pos() != p0:
                 e.keys(k, 10); break
+        for _ in range(40):          # a spinner slide keeps going: wait until the player has stopped
+            q = e.obj_pos(); e.wait(6)
+            if e.obj_pos() == q: break
+        e.fix_pos()
     e.wait(12)
     return True
 

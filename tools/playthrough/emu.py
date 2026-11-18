@@ -35,6 +35,28 @@ class Emu:
     def pos(self):
         return self.peek(self.u32(S["gSaveBlock1Ptr"]), 4)
 
+    def obj_pos(self):
+        """The player's ObjectEvent tile (collision truth). Spinner slides can leave the save-block position behind it."""
+        import re, struct
+        if not hasattr(self, "_objaddr"):
+            m = open(os.path.join(os.path.dirname(__file__), "..", "..", "pokeemerald_modern.map")).read()
+            self._og = int(re.search(r"(0x[0-9a-f]+)\s+gObjectEvents\n", m).group(1), 16)
+            self._pa = int(re.search(r"(0x[0-9a-f]+)\s+gPlayerAvatar\n", m).group(1), 16)
+            self._objaddr = True
+        base = self._og + self.peek(self._pa, 8)[5] * 0x24
+        x, y = struct.unpack("<hh", self.peek(base + 0x10, 4))
+        return x - 7, y - 7
+
+    def fix_pos(self):
+        """Copy the object's tile into the save-block position when a spinner slide left them apart."""
+        import struct
+        ox, oy = self.obj_pos()
+        sb = self.u32(S["gSaveBlock1Ptr"])
+        if struct.unpack("<hh", self.peek(sb, 4)) != (ox, oy):
+            self.send(f"poke {sb:x}:" + struct.pack("<hh", ox, oy).hex())
+            return True
+        return False
+
     def shot(self, path):
         self.send(f"shot {path}")
 

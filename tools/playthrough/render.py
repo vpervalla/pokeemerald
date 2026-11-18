@@ -9,10 +9,18 @@ def tileset_dir(sym):
     src = open(R + "/src/data/tilesets/graphics.h").read()
     name = sym.replace("gTileset_", "")
     m = re.search(r"gTilesetTiles_" + name + r"\[\] = INCBIN_U32\(\"([^\"]+)/tiles\.4bpp", src)
+    if not m:  # tileset sharing another's graphics (e.g. KantoSilphCo): fall back to its own data dir
+        snake = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+        for sub in ("secondary", "primary"):
+            if os.path.isdir(R + f"/data/tilesets/{sub}/{snake}"):
+                return R + f"/data/tilesets/{sub}/{snake}"
     return R + "/" + m.group(1)
 
 def load_ts(d):
-    tiles = np.frombuffer(open(d + "/tiles.4bpp", "rb").read(), dtype=np.uint8)
+    gd = d
+    if not os.path.exists(d + "/tiles.4bpp"):  # SilphCo shares Condominiums graphics
+        gd = os.path.join(os.path.dirname(d), "kanto_condominiums")
+    tiles = np.frombuffer(open(gd + "/tiles.4bpp", "rb").read(), dtype=np.uint8)
     n = len(tiles) // 32
     t = np.zeros((n, 8, 8), np.uint8)
     b = tiles.reshape(n, 8, 4)
@@ -20,7 +28,7 @@ def load_ts(d):
     t[:, :, 1::2] = b >> 4
     pals = []
     for i in range(16):
-        p = d + f"/palettes/{i:02d}.gbapal"
+        p = gd + f"/palettes/{i:02d}.gbapal"
         raw = open(p, "rb").read() if os.path.exists(p) else bytes(32)
         cols = []
         for j in range(16):

@@ -2,6 +2,17 @@
 # goto X Y [--adj] : walk to (X,Y) on the current map (or next to it with --adj), fighting wild battles
 # with move ${SLOT:-0} and re-planning after each one. Ledges and moving NPCs can still need a hand.
 g B w20 B w20 >/dev/null
+# spinner mazes: plan step by step
+case "$(st | head -1 | awk '{print $2}')" in *RocketHideout_B[234]F*|*ViridianCity_Gym*)
+  # spinner mazes: the static planner and the camera (save-block position, which lags after slides) can't be trusted,
+  # so explore the REAL game (rbfs.py) for a path, replay it, and fight whatever starts a battle on the way
+  for i in $(seq 1 ${TRIES:-8}); do
+    out=$(python3 "$(dirname "$0")/../rbfs.py" go $1 $2 $3 2>&1 | tail -2); echo "$out" | head -1 | cut -c1-120
+    case "$out" in *"no real path"*) exit 1;; esac
+    if echo "$out" | grep -q BATTLE; then g w200 >/dev/null; st | grep ENEMY; TYPES=${TYPES:-1} SWITCH=${SWITCH:-auto} fight ${SLOT:-0}; g w60 >/dev/null; continue; fi
+    st | head -1; exit 0
+  done; st | head -1; exit 0;;
+esac
 for i in $(seq 1 ${TRIES:-12}); do
   s=$(st | head -1)
   map=$(echo "$s" | awk '{print $2}'); x=$(echo "$s" | sed 's/.*pos (\([0-9-]*\),.*/\1/'); y=$(echo "$s" | sed 's/.*pos ([0-9-]*,\([0-9-]*\)).*/\1/')
