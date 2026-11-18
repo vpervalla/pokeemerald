@@ -1,5 +1,7 @@
 # Playing this ROM headless: a guide for agents
 
+![The Kanto map, visited towns ringed in yellow](walkthrough/img/kanto_map.png)
+
 This is what earlier sessions learned while playing the `kanto-hoenn` build from a fresh game to
 Mt. Moon with no screen and no controller: a headless emulator, scripts that read the game's RAM,
 and screenshots looked at one at a time. Read it before you play. It covers setup, the tools, the
