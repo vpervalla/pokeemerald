@@ -329,8 +329,13 @@ def caught_panel(d):
     return f'<div class="panel wide"><h3>Pokémon caught here</h3>{body}</div>'
 
 
-def kmap_html(spec, pages):
-    """The illustrated Kanto map: every label is a link to the page of the place when the run has one, dimmed otherwise."""
+KMAP = {}
+KMAP_CSS_DONE = []
+
+
+def kmap_html(spec, pages, current=None, compact=False):
+    """The illustrated Kanto map: every label is a link to the page of the place when the run has one (dimmed otherwise); the labels of the
+    current page are marked "you are here". The picture is embedded once, as a CSS background of .kmap-img, and shared by every page."""
     w, h = spec["size"]
     ids = {pg["id"]: pg["tab"] for pg in pages}
     hs = ""
@@ -338,12 +343,18 @@ def kmap_html(spec, pages):
         x, y, bw, bh = sp["box"]
         pos = f'left:{x / w * 100:.2f}%;top:{y / h * 100:.2f}%;width:{bw / w * 100:.2f}%;height:{bh / h * 100:.2f}%'
         if sp.get("page") in ids:
-            hs += f'<a class="hs ok" style="{pos}" href="#{sp["page"]}" title="{esc(sp["label"])}: {esc(ids[sp["page"]])}"><span class="sr">{esc(sp["label"])}</span></a>'
+            here = " here" if sp["page"] == current else ""
+            hs += f'<a class="hs ok{here}" style="{pos}" href="#{sp["page"]}" title="{esc(sp["label"])}: {esc(ids[sp["page"]])}"><span class="sr">{esc(sp["label"])}</span></a>'
         else:
             hs += f'<span class="hs no" style="{pos}" title="{esc(sp["label"])}: not visited yet"><span class="sr">{esc(sp["label"])}</span></span>'
-    return ('<div class="panel wide kmap"><h3>The Kanto map</h3><p class="hint">Click a label to open that place\'s page. Outlined labels have a page; dimmed ones are '
-            'still ahead. (Map art: psypoke.org.)</p><div class="kmap-wrap">'
-            f'<img src="{data_uri(spec["image"])}" alt="Map of Kanto with the towns and routes" width="{w}" height="{h}">{hs}</div></div>')
+    css = ""
+    if not KMAP_CSS_DONE:
+        KMAP_CSS_DONE.append(1)
+        css = f'<style>.kmap-img{{background-image:url({data_uri(spec["image"])})}}</style>'
+    hint = ("Click a label to open that place's page. Outlined labels have a page, the gold ones are this page, dimmed ones are still ahead. (Map art: psypoke.org.)"
+            if not compact else "The Kanto map: gold = this page, outlined = other pages, dimmed = still ahead.")
+    return (f'{css}<div class="panel wide kmap{" compact" if compact else ""}"><h3>The Kanto map</h3><p class="hint">{hint}</p><div class="kmap-wrap">'
+            f'<div class="kmap-img" role="img" aria-label="Map of Kanto with the towns and routes" style="aspect-ratio:{w}/{h}"></div>{hs}</div></div>')
 
 
 def area_html(p, n):
@@ -351,8 +362,8 @@ def area_html(p, n):
     sign = (f'<header class="sign"><span class="num">{n}</span><div><h2>{esc(p["title"])}</h2>'
             f'<p class="sub">{esc(d.get("sub", ""))}</p></div></header>')
     lede = f'<div class="lede">{render(s[""])}</div>' if any(l.strip() for l in s[""]) else ""
-    if d.get("kmap"):
-        lede = kmap_html(d["kmap"], PAGES) + lede
+    if KMAP:
+        lede = kmap_html(KMAP, PAGES, current=p["id"], compact=p["id"] != "intro") + lede
     ref = ""
     if d.get("map"):
         for spec in (d["map"] if isinstance(d["map"], list) else [d["map"]]):
@@ -465,6 +476,7 @@ def main(out):
     pages = load_pages()
     global PAGES
     PAGES = pages
+    KMAP.update(next((pg["data"]["kmap"] for pg in pages if pg["data"].get("kmap")), {}))
     allp = [(p["id"], p["tab"], area_html(p, i + 1)) for i, p in enumerate(pages)]
     allp.append(("team", "Team", team_html()))
     allp.append(("bugs", "Bugs", bugs_html()))
