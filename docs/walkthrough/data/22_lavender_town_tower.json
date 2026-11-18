@@ -8,36 +8,19 @@
    "markers": []
   },
   {
-   "name": "LavenderTown_PokemonCenter_1F",
-   "markers": []
-  },
-  {
-   "name": "LavenderTown_PokemonCenter_2F",
-   "markers": []
-  },
-  {
-   "name": "LavenderTown_VolunteerPokemonHouse",
-   "markers": []
-  },
-  {
-   "name": "LavenderTown_House1",
-   "markers": []
-  },
-  {
-   "name": "LavenderTown_House2",
-   "markers": []
-  },
-  {
-   "name": "LavenderTown_Mart",
-   "markers": []
-  },
-  {
    "name": "PokemonTower_1F",
    "markers": []
   },
   {
    "name": "PokemonTower_2F",
-   "markers": []
+   "markers": [
+    [
+     "trainer",
+     16,
+     5,
+     "T1"
+    ]
+   ]
   },
   {
    "name": "PokemonTower_3F",
@@ -323,7 +306,7 @@
  "trainers": [
   {
    "name": "Rival Blue",
-   "hint": "PokemonTower_2F. Prize ¥900. <b>Beaten.</b>",
+   "hint": "PokemonTower_2F at (16,5). Prize ¥900. <b>Beaten.</b>",
    "team": [
     [
      "pidgeotto",
@@ -576,6 +559,14 @@
  ],
  "caught": [
   {
+   "species": "gengar",
+   "nick": "DR VENKMAN",
+   "met": 15,
+   "level": 25,
+   "where": "party",
+   "how": "wild"
+  },
+  {
    "species": "gastly",
    "nick": "GASTLY",
    "met": 17,
@@ -592,12 +583,5 @@
    "how": "wild"
   }
  ],
- "missing": [
-  {
-   "species": "haunter",
-   "via": [
-    "land"
-   ]
-  }
- ]
+ "missing": []
 }

@@ -14,6 +14,12 @@
     37,
     11,
     "2"
+   ],
+   [
+    "trainer",
+    25,
+    4,
+    "T1"
    ]
   ]
  },
@@ -53,7 +59,7 @@
  "trainers": [
   {
    "name": "Rival Blue",
-   "hint": "Prize ¥144. <b>Beaten.</b>",
+   "hint": "(25,4). Prize ¥144. <b>Beaten.</b>",
    "team": [
     [
      "pidgey",
@@ -73,8 +79,8 @@
    "species": "primeape",
    "nick": "PRIMEAPE",
    "met": 4,
-   "level": 29,
-   "where": "party",
+   "level": null,
+   "where": "box 1",
    "how": "wild"
   }
  ],

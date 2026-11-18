@@ -39,9 +39,8 @@ AREAS = {
     "19_vermilion_gym": ["VermilionCity_Gym"],
     "21_route_9_10_rock_tunnel": ["Route9", "Route10", "RockTunnel_1F", "RockTunnel_B1F"],
     "20_route_11_diglett": ["Route11", "DiglettsCave_SouthEntrance", "DiglettsCave_B1F", "DiglettsCave_NorthEntrance"],
-    "22_lavender_town_tower": ["LavenderTown", "LavenderTown_PokemonCenter_1F", "LavenderTown_PokemonCenter_2F", "LavenderTown_VolunteerPokemonHouse",
-                               "LavenderTown_House1", "LavenderTown_House2", "LavenderTown_Mart", "PokemonTower_1F", "PokemonTower_2F",
-                               "PokemonTower_3F", "PokemonTower_4F", "PokemonTower_5F", "PokemonTower_6F", "PokemonTower_7F"],
+    "22_lavender_town_tower": ["LavenderTown", "PokemonTower_1F", "PokemonTower_2F", "PokemonTower_3F", "PokemonTower_4F",
+                               "PokemonTower_5F", "PokemonTower_6F", "PokemonTower_7F"],
 }
 
 
@@ -129,6 +128,11 @@ def map_trainers(mp, beaten):
             continue
         lab = [l for p, l in labels if p < m.start()]
         where = pos.get(lab[-1]) if lab else None
+        if where is None and "RIVAL" in trainers[c][0] and m.start() < len(sc0):
+            # the rival waits as a script-less person (coord-event battle): his marker is the BLUE object of the map
+            for o in mj.get("object_events", []):
+                if o["graphics_id"].endswith("_BLUE") or o["graphics_id"].endswith("_RIVAL"):
+                    where = (o["x"], o["y"])
         if m.start() >= len(sc0) and where is None:
             continue                       # a lab trainer that belongs to another map
         out.append((c, where))

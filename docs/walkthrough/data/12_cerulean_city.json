@@ -26,6 +26,12 @@
     33,
     6,
     "T1"
+   ],
+   [
+    "trainer",
+    22,
+    0,
+    "T2"
    ]
   ]
  },
@@ -57,7 +63,7 @@
   },
   {
    "name": "Rival Blue",
-   "hint": "Prize ¥288. <b>Beaten.</b>",
+   "hint": "(22,0). Prize ¥288. <b>Beaten.</b>",
    "team": [
     [
      "pidgeotto",
@@ -99,7 +105,7 @@
    "species": "wartortle",
    "nick": "WARTORTLE",
    "met": 12,
-   "level": 29,
+   "level": 31,
    "where": "party",
    "how": "wild"
   }

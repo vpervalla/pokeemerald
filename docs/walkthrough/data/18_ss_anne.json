@@ -108,7 +108,14 @@
   },
   {
    "name": "SSAnne_2F_Corridor",
-   "markers": []
+   "markers": [
+    [
+     "trainer",
+     30,
+     2,
+     "T5"
+    ]
+   ]
   },
   {
    "name": "SSAnne_2F_Room1",
@@ -436,7 +443,7 @@
   },
   {
    "name": "Rival Blue",
-   "hint": "SSAnne_2F_Corridor. Prize ¥720. <b>Beaten.</b>",
+   "hint": "SSAnne_2F_Corridor at (30,2). Prize ¥720. <b>Beaten.</b>",
    "team": [
     [
      "pidgeotto",
