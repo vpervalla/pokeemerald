@@ -41,10 +41,10 @@
  ],
  "caught": [
   {
-   "species": "ivysaur",
-   "nick": "IVYSAUR",
+   "species": "venusaur",
+   "nick": "VENUSAUR",
    "met": 20,
-   "level": 31,
+   "level": 33,
    "where": "party",
    "how": "wild"
   }

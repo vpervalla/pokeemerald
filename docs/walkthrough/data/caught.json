@@ -1,13 +1,13 @@
 {
  "mons": [
   {
-   "species": "pikachu",
-   "id": 25,
-   "nick": "PIKACHU",
-   "metloc": 88,
-   "mapsec": "MAPSEC_PALLET_TOWN",
-   "metlevel": 5,
-   "exp": 37217,
+   "species": "venusaur",
+   "id": 3,
+   "nick": "VENUSAUR",
+   "metloc": 93,
+   "mapsec": "MAPSEC_VERMILION_CITY",
+   "metlevel": 20,
+   "exp": 30764,
    "level": 33,
    "where": "party"
   },
@@ -40,7 +40,7 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 14535,
+   "exp": 14594,
    "level": 26,
    "where": "party"
   },
@@ -56,14 +56,14 @@
    "where": "party"
   },
   {
-   "species": "venusaur",
-   "id": 3,
-   "nick": "VENUSAUR",
-   "metloc": 93,
-   "mapsec": "MAPSEC_VERMILION_CITY",
-   "metlevel": 20,
-   "exp": 28379,
-   "level": 32,
+   "species": "pikachu",
+   "id": 25,
+   "nick": "PIKACHU",
+   "metloc": 88,
+   "mapsec": "MAPSEC_PALLET_TOWN",
+   "metlevel": 5,
+   "exp": 37610,
+   "level": 33,
    "where": "party"
   },
   {
@@ -329,6 +329,17 @@
    "exp": 25444,
    "level": null,
    "where": "box 1"
+  },
+  {
+   "species": "growlithe",
+   "id": 58,
+   "nick": "GROWLITHE",
+   "metloc": 108,
+   "mapsec": "MAPSEC_ROUTE_8",
+   "metlevel": 17,
+   "exp": 6141,
+   "level": null,
+   "where": "box 1"
   }
  ],
  "dex_owned": [
@@ -357,6 +368,7 @@
   52,
   56,
   57,
+  58,
   63,
   64,
   65,

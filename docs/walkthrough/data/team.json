@@ -1,86 +1,86 @@
 {
  "mons": [
   {
-   "species": "gengar",
-   "name": "DR VENKMAN",
-   "lv": 25,
-   "exp": 11998,
+   "species": "venusaur",
+   "name": "Venusaur",
+   "lv": 33,
+   "exp": 30764,
    "types": [
-    "Ghost",
+    "Grass",
     "Poison"
    ],
-   "nature": "Modest (+Sp. Atk, −Attack)",
-   "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
-   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Overgrow",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     71,
+     109,
      0
     ],
     [
      "Attack",
-     38,
-     -1
+     70,
+     0
     ],
     [
      "Defense",
-     42,
+     69,
      0
     ],
     [
      "Sp. Atk",
-     82,
-     1
+     74,
+     0
     ],
     [
      "Sp. Def",
-     42,
-     0
+     63,
+     -1
     ],
     [
      "Speed",
-     65,
-     0
+     69,
+     1
     ]
    ],
    "moves": [
     [
-     "Shadow Punch",
-     "Ghost",
-     "60",
-     "—",
-     "20/20"
-    ],
-    [
-     "Night Shade",
-     "Ghost",
-     "1",
-     "100%",
-     "15/15"
-    ],
-    [
-     "Spite",
-     "Ghost",
-     "—",
-     "100%",
-     "10/10"
-    ],
-    [
-     "Mean Look",
+     "Sweet Scent",
      "Normal",
      "—",
      "100%",
-     "5/5"
+     "20/20"
+    ],
+    [
+     "Poisonpowder",
+     "Poison",
+     "—",
+     "75%",
+     "35/35"
+    ],
+    [
+     "Sleep Powder",
+     "Grass",
+     "—",
+     "75%",
+     "14/15"
+    ],
+    [
+     "Razor Leaf",
+     "Grass",
+     "55",
+     "95%",
+     "4/25"
     ]
    ]
   },
   {
    "species": "wartortle",
    "name": "Wartortle",
-   "lv": 31,
-   "exp": 26356,
+   "lv": 32,
+   "exp": 28313,
    "types": [
     "Water"
    ],
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     84,
+     86,
      0
     ],
     [
      "Attack",
-     47,
+     48,
      0
     ],
     [
      "Defense",
-     58,
+     60,
      0
     ],
     [
      "Sp. Atk",
-     53,
+     56,
      0
     ],
     [
      "Sp. Def",
-     63,
+     65,
      0
     ],
     [
      "Speed",
-     50,
+     51,
      0
     ]
    ],
@@ -155,7 +155,7 @@
    "species": "charmeleon",
    "name": "Charmeleon",
    "lv": 35,
-   "exp": 37729,
+   "exp": 39326,
    "types": [
     "Fire"
    ],
@@ -227,10 +227,86 @@
    ]
   },
   {
+   "species": "gengar",
+   "name": "DR VENKMAN",
+   "lv": 26,
+   "exp": 14594,
+   "types": [
+    "Ghost",
+    "Poison"
+   ],
+   "nature": "Modest (+Sp. Atk, −Attack)",
+   "ability": "Levitate",
+   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
+   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
+   "stats": [
+    [
+     "HP",
+     74,
+     0
+    ],
+    [
+     "Attack",
+     40,
+     -1
+    ],
+    [
+     "Defense",
+     43,
+     0
+    ],
+    [
+     "Sp. Atk",
+     85,
+     1
+    ],
+    [
+     "Sp. Def",
+     44,
+     0
+    ],
+    [
+     "Speed",
+     67,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Shadow Punch",
+     "Ghost",
+     "60",
+     "—",
+     "17/20"
+    ],
+    [
+     "Night Shade",
+     "Ghost",
+     "1",
+     "100%",
+     "7/15"
+    ],
+    [
+     "Spite",
+     "Ghost",
+     "—",
+     "100%",
+     "8/10"
+    ],
+    [
+     "Mean Look",
+     "Normal",
+     "—",
+     "100%",
+     "3/5"
+    ]
+   ]
+  },
+  {
    "species": "alakazam",
    "name": "Alakazam",
-   "lv": 31,
-   "exp": 25763,
+   "lv": 32,
+   "exp": 29097,
    "types": [
     "Psychic"
    ],
@@ -241,32 +317,32 @@
    "stats": [
     [
      "HP",
-     82,
+     84,
      0
     ],
     [
      "Attack",
-     39,
+     40,
      0
     ],
     [
      "Defense",
-     38,
+     39,
      0
     ],
     [
      "Sp. Atk",
-     98,
+     101,
      0
     ],
     [
      "Sp. Def",
-     57,
+     59,
      -1
     ],
     [
      "Speed",
-     104,
+     107,
      1
     ]
    ],
@@ -302,86 +378,10 @@
    ]
   },
   {
-   "species": "ivysaur",
-   "name": "Ivysaur",
-   "lv": 31,
-   "exp": 24367,
-   "types": [
-    "Grass",
-    "Poison"
-   ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Overgrow",
-   "met": "Vermilion house: the BULBASAUR L20 rescued in Viridian Forest (gift); raised to L26 by swap-outs, no Rare Candy",
-   "role": "The Grass/Poison type: RAZOR LEAF, SLEEP POWDER, POISONPOWDER; the Grass answer to Water. Swapped in for BUTTERFREE (boxed).",
-   "stats": [
-    [
-     "HP",
-     91,
-     0
-    ],
-    [
-     "Attack",
-     53,
-     0
-    ],
-    [
-     "Defense",
-     53,
-     0
-    ],
-    [
-     "Sp. Atk",
-     58,
-     0
-    ],
-    [
-     "Sp. Def",
-     48,
-     -1
-    ],
-    [
-     "Speed",
-     50,
-     1
-    ]
-   ],
-   "moves": [
-    [
-     "Sweet Scent",
-     "Normal",
-     "—",
-     "100%",
-     "20/20"
-    ],
-    [
-     "Poisonpowder",
-     "Poison",
-     "—",
-     "75%",
-     "35/35"
-    ],
-    [
-     "Sleep Powder",
-     "Grass",
-     "—",
-     "75%",
-     "15/15"
-    ],
-    [
-     "Razor Leaf",
-     "Grass",
-     "55",
-     "95%",
-     "25/25"
-    ]
-   ]
-  },
-  {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 32,
-   "exp": 34770,
+   "lv": 33,
+   "exp": 37610,
    "types": [
     "Electric"
    ],
@@ -392,32 +392,32 @@
    "stats": [
     [
      "HP",
-     70,
+     72,
      0
     ],
     [
      "Attack",
-     53,
+     55,
      1
     ],
     [
      "Defense",
-     26,
+     27,
      -1
     ],
     [
      "Sp. Atk",
-     52,
+     54,
      0
     ],
     [
      "Sp. Def",
-     38,
+     39,
      0
     ],
     [
      "Speed",
-     84,
+     87,
      0
     ]
    ],
@@ -427,14 +427,14 @@
      "Electric",
      "95",
      "100%",
-     "15/15"
+     "6/15"
     ],
     [
      "Quick Attack",
      "Normal",
      "40",
      "100%",
-     "30/30"
+     "18/30"
     ],
     [
      "Flash",
@@ -448,7 +448,7 @@
      "Electric",
      "—",
      "100%",
-     "20/20"
+     "19/20"
     ]
    ]
   }
