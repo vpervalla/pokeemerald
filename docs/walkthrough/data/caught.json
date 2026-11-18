@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "pikachu",
-   "id": 25,
-   "nick": "PIKACHU",
-   "metloc": 88,
-   "mapsec": "MAPSEC_PALLET_TOWN",
-   "metlevel": 5,
-   "exp": 34559,
-   "level": 32,
+   "species": "haunter",
+   "id": 93,
+   "nick": "DR VENKMAN",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 15,
+   "exp": 11998,
+   "level": 25,
    "where": "party"
   },
   {
@@ -18,7 +18,7 @@
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 25549,
+   "exp": 26356,
    "level": 31,
    "where": "party"
   },
@@ -56,14 +56,14 @@
    "where": "party"
   },
   {
-   "species": "gastly",
-   "id": 92,
-   "nick": "DR VENKMAN",
-   "metloc": 140,
-   "mapsec": "MAPSEC_POKEMON_TOWER",
-   "metlevel": 15,
-   "exp": 2035,
-   "level": 15,
+   "species": "pikachu",
+   "id": 25,
+   "nick": "PIKACHU",
+   "metloc": 88,
+   "mapsec": "MAPSEC_PALLET_TOWN",
+   "metlevel": 5,
+   "exp": 34770,
+   "level": 32,
    "where": "party"
   },
   {
@@ -352,6 +352,7 @@
   74,
   90,
   92,
+  93,
   95,
   96,
   104,

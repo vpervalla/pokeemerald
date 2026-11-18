@@ -23,10 +23,10 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 STATUS = {
     "where": "Lavender Town Center",
-    "party": "Pikachu L32, Wartortle L31, Charmeleon L35, Alakazam L31, Ivysaur L31, Dr Venkman (Gastly) L15",
+    "party": "Pikachu L32, Wartortle L31, Charmeleon L35, Alakazam L31, Ivysaur L31, Dr Venkman (Haunter) L25",
     "badges": "3",
     "time": "~125:00",
-    "save": "Lavender Town (ethan_modest_gastly)",
+    "save": "Lavender Town (ethan_haunter)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

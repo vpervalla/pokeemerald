@@ -1,64 +1,64 @@
 {
  "mons": [
   {
-   "species": "gastly",
+   "species": "haunter",
    "name": "DR VENKMAN",
-   "lv": 18,
-   "exp": 4351,
+   "lv": 25,
+   "exp": 11998,
    "types": [
     "Ghost",
     "Poison"
    ],
    "nature": "Modest (+Sp. Atk, −Attack)",
    "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild L15 (the seventh encounter of the Modest hunt), renamed DR VENKMAN at Lavender's Name Rater",
-   "role": "The GENGAR goal: Modest (+Sp. Atk, -Atk), needs L25 for HAUNTER and then a trade (the Vermilion sailor's double exchange).",
+   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; evolved at L25 by solo wild battles",
+   "role": "The GENGAR goal: Modest HAUNTER L25 (raised alone on Tower 5F beside the purified zone); the Vermilion sailor's double exchange makes it GENGAR.",
    "stats": [
     [
      "HP",
-     43,
+     64,
      0
     ],
     [
      "Attack",
-     18,
+     32,
      -1
     ],
     [
      "Defense",
-     20,
+     34,
      0
     ],
     [
      "Sp. Atk",
-     47,
+     74,
      1
     ],
     [
      "Sp. Def",
-     17,
+     32,
      0
     ],
     [
      "Speed",
-     37,
+     57,
      0
     ]
    ],
    "moves": [
     [
-     "Hypnosis",
-     "Psychic",
+     "Shadow Punch",
+     "Ghost",
+     "60",
      "—",
-     "60%",
-     "10/20"
+     "20/20"
     ],
     [
-     "Lick",
+     "Night Shade",
      "Ghost",
-     "20",
+     "1",
      "100%",
-     "25/30"
+     "15/15"
     ],
     [
      "Spite",
@@ -140,7 +140,7 @@
      "Water",
      "20",
      "100%",
-     "29/30"
+     "30/30"
     ],
     [
      "Withdraw",

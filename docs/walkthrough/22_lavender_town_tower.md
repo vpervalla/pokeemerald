@@ -38,11 +38,12 @@
 1. DR VENKMAN (GASTLY, moves HYPNOSIS, LICK, SPITE, MEAN LOOK) was put in front and fought wild GASTLY, HAUNTER and CUBONE on the 5F strip alone, healing with POTIONS between fights; a script drove it (walk back and forth, fight, drink, repeat).
 2. **Results:** L15 to **L18** (4351 exp) in about ten fights, but **three faintings** (REVIVE each time) and a stuck loop: the wild GASTLYs use **MEAN LOOK** (he cannot be switched out or run: "Can't escape!"), **HYPNOSIS** (he sleeps while the foe attacks) and **CURSE**; a wild **HAUNTER L20** (49 HP) beat him outright. LICK is his only attack and its 30 PP ran out after about ten fights: an ELIXIR restored 10 PP for each move.
 3. **Learned:** CURSE was offered at L16 and refused (it would replace a move). A move-learn prompt stopped the first script: NO to deleting, YES to stop learning; a "stuck" fight must be dismissed with those keys, not A. The script's health check failed silently once because the POTION at the top of the bag ran out (the top entry became an ANTIDOTE).
-4. The grind was **paused** at L18 (`saves/ethan_venkman18.sav`): L25 (HAUNTER) is about 8 000 more exp, roughly 35 more fights at these odds.
+4. The grind was paused at L18 (`saves/ethan_venkman18.sav`), then resumed with **no items** and a trick: Tower **5F's purified zone** (tiles x 10-12, y 8-10: `special HealPlayerParty`, "ETHAN's POKéMON were fully healed.") heals everything, fainted POKéMON included. The loop stepped up into the zone tile (11,10) and back down to (11,11) after every fight; wild battles only happen outside it. If DR VENKMAN fainted, the next POKéMON finished the fight and the next zone step revived him.
+5. **L18 to L25 in 24 more fights** with no faint stopping the run: NIGHT SHADE learned at L21, then **evolved into HAUNTER at L25** ("Modest": 74 Sp. Atk) and learned SHADOW PUNCH. A tool slip again taught the new moves in place of LICK and HYPNOSIS (the move-learn prompt has two text boxes before the YES/NO; the key sequence answered YES and forgot the first move). Moves now: SHADOW PUNCH, NIGHT SHADE, SPITE, MEAN LOOK. `saves/ethan_haunter.sav`.
 
 ## Party after
 
-PIKACHU L32, WARTORTLE L31, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 and the MODEST GASTLY L15 (DR VENKMAN); PRIMEAPE L29, the Relaxed GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
+PIKACHU L32, WARTORTLE L31, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 and the MODEST GASTLY L15 (DR VENKMAN, now a HAUNTER L25); PRIMEAPE L29, the Relaxed GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
 
 ## Bugs
 
