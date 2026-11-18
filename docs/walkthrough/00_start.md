@@ -1,9 +1,5 @@
 # 00 Start
 
-![The Kanto map: the 11 towns of the Town Map; ringed in yellow = visited so far](img/kanto_map.png)
-
-**The Kanto Town Map** (the game's own region map). The route of this walkthrough: Pallet Town, Viridian City, Pewter City, Cerulean City, Vermilion City, Lavender Town; next Celadon, Saffron, Fuchsia, Cinnabar and the Indigo Plateau. Visited towns are ringed in yellow.
-
 **Arrival.** Boot the ROM. The intro plays (stars over a dark sky, then the Emerald title with Mewtwo and Rayquaza); START opens the menu. It takes about 800 frames before START answers.
 
 ## Story

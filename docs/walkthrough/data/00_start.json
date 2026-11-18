@@ -1,1 +1,484 @@
-{"title": "New game", "tab": "Intro", "sub": "Title screen · Prof. Oak's speech"}
+{
+ "title": "New game",
+ "tab": "Intro",
+ "sub": "Title screen · Prof. Oak's speech",
+ "kmap": {
+  "image": "img/kanto_map_psypoke.jpg",
+  "size": [
+   735,
+   508
+  ],
+  "spots": [
+   {
+    "label": "Bill's Cottage",
+    "box": [
+     516,
+     12,
+     70,
+     16
+    ],
+    "page": "route-24-25"
+   },
+   {
+    "label": "Route 25",
+    "box": [
+     449,
+     32,
+     50,
+     16
+    ],
+    "page": "route-24-25"
+   },
+   {
+    "label": "Indigo Plateau",
+    "box": [
+     15,
+     57,
+     80,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Pewter City",
+    "box": [
+     122,
+     72,
+     70,
+     16
+    ],
+    "page": "pewter-city"
+   },
+   {
+    "label": "Mt. Moon",
+    "box": [
+     264,
+     52,
+     52,
+     16
+    ],
+    "page": "mt-moon"
+   },
+   {
+    "label": "Unknown Dungeon",
+    "box": [
+     325,
+     54,
+     106,
+     16
+    ],
+    "page": "cerulean-city"
+   },
+   {
+    "label": "Route 24",
+    "box": [
+     455,
+     68,
+     50,
+     16
+    ],
+    "page": "route-24-25"
+   },
+   {
+    "label": "Route 3",
+    "box": [
+     222,
+     92,
+     48,
+     16
+    ],
+    "page": "route-3"
+   },
+   {
+    "label": "Route 4",
+    "box": [
+     321,
+     92,
+     46,
+     16
+    ],
+    "page": "route-4"
+   },
+   {
+    "label": "Cerulean City",
+    "box": [
+     397,
+     100,
+     78,
+     16
+    ],
+    "page": "cerulean-city"
+   },
+   {
+    "label": "Route 9",
+    "box": [
+     501,
+     97,
+     46,
+     16
+    ],
+    "page": "route-9-10-rock-tunnel"
+   },
+   {
+    "label": "Rock Tunnel",
+    "box": [
+     561,
+     79,
+     70,
+     16
+    ],
+    "page": "route-9-10-rock-tunnel"
+   },
+   {
+    "label": "Route 23",
+    "box": [
+     12,
+     117,
+     46,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Diglett's Cave (west)",
+    "box": [
+     180,
+     133,
+     88,
+     16
+    ],
+    "page": "route-11-diglett"
+   },
+   {
+    "label": "Power Plant",
+    "box": [
+     618,
+     130,
+     82,
+     16
+    ],
+    "page": "route-9-10-rock-tunnel"
+   },
+   {
+    "label": "Route 5",
+    "box": [
+     420,
+     127,
+     46,
+     16
+    ],
+    "page": "route-5-underground"
+   },
+   {
+    "label": "Celadon City",
+    "box": [
+     271,
+     143,
+     82,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 10",
+    "box": [
+     564,
+     138,
+     48,
+     16
+    ],
+    "page": "route-9-10-rock-tunnel"
+   },
+   {
+    "label": "Victory Road",
+    "box": [
+     7,
+     156,
+     80,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Viridian Forest",
+    "box": [
+     93,
+     182,
+     80,
+     16
+    ],
+    "page": "viridian-forest"
+   },
+   {
+    "label": "Route 16",
+    "box": [
+     198,
+     169,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 8",
+    "box": [
+     529,
+     180,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Lavender Town",
+    "box": [
+     587,
+     189,
+     86,
+     16
+    ],
+    "page": "lavender-town-tower"
+   },
+   {
+    "label": "Route 7",
+    "box": [
+     345,
+     190,
+     46,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Saffron City",
+    "box": [
+     425,
+     198,
+     78,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 22",
+    "box": [
+     39,
+     215,
+     48,
+     16
+    ],
+    "page": "route-22"
+   },
+   {
+    "label": "Route 6",
+    "box": [
+     416,
+     233,
+     46,
+     16
+    ],
+    "page": "route-6"
+   },
+   {
+    "label": "Route 12",
+    "box": [
+     589,
+     223,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 2",
+    "box": [
+     126,
+     234,
+     46,
+     16
+    ],
+    "page": "route-2"
+   },
+   {
+    "label": "Diglett's Cave (east)",
+    "box": [
+     477,
+     239,
+     90,
+     16
+    ],
+    "page": "route-11-diglett"
+   },
+   {
+    "label": "Route 11",
+    "box": [
+     515,
+     279,
+     48,
+     16
+    ],
+    "page": "route-11-diglett"
+   },
+   {
+    "label": "Viridian City",
+    "box": [
+     108,
+     289,
+     72,
+     16
+    ],
+    "page": "viridian-city"
+   },
+   {
+    "label": "Vermilion City",
+    "box": [
+     419,
+     295,
+     88,
+     16
+    ],
+    "page": "vermilion-city"
+   },
+   {
+    "label": "Route 13",
+    "box": [
+     583,
+     321,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 1",
+    "box": [
+     130,
+     325,
+     42,
+     16
+    ],
+    "page": "route-1"
+   },
+   {
+    "label": "Route 17",
+    "box": [
+     218,
+     327,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Safari Zone",
+    "box": [
+     357,
+     357,
+     68,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 14",
+    "box": [
+     534,
+     366,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Pallet Town",
+    "box": [
+     174,
+     373,
+     70,
+     16
+    ],
+    "page": "pallet-town"
+   },
+   {
+    "label": "Route 18",
+    "box": [
+     288,
+     412,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 15",
+    "box": [
+     454,
+     411,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 21",
+    "box": [
+     167,
+     414,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Fuchsia City",
+    "box": [
+     359,
+     434,
+     78,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Cinnabar Island",
+    "box": [
+     151,
+     445,
+     90,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Seafoam Islands",
+    "box": [
+     254,
+     450,
+     92,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 19",
+    "box": [
+     330,
+     471,
+     48,
+     16
+    ],
+    "page": null
+   },
+   {
+    "label": "Route 20",
+    "box": [
+     236,
+     481,
+     48,
+     16
+    ],
+    "page": null
+   }
+  ]
+ }
+}

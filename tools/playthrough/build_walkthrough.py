@@ -21,6 +21,7 @@ sys.path.insert(0, HERE)
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 WT = os.path.join(ROOT, "docs", "walkthrough")
 
+PAGES = []
 STATUS = {
     "where": "Lavender Town Center",
     "party": "Pikachu L32, Wartortle L31, Charmeleon L35, Alakazam L31, Ivysaur L31, Dr Venkman (Gengar) L25",
@@ -65,7 +66,8 @@ def data_uri(rel):
                 BLANK.append(rel); print("WARNING: blank screenshot", rel)
         except Exception:
             pass
-    return "data:image/png;base64," + base64.b64encode(open(p, "rb").read()).decode() if os.path.exists(p) else ""
+    mime = "image/jpeg" if rel.lower().endswith((".jpg", ".jpeg")) else "image/png"
+    return f"data:{mime};base64," + base64.b64encode(open(p, "rb").read()).decode() if os.path.exists(p) else ""
 
 
 def slug(name):
@@ -327,11 +329,30 @@ def caught_panel(d):
     return f'<div class="panel wide"><h3>Pokémon caught here</h3>{body}</div>'
 
 
+def kmap_html(spec, pages):
+    """The illustrated Kanto map: every label is a link to the page of the place when the run has one, dimmed otherwise."""
+    w, h = spec["size"]
+    ids = {pg["id"]: pg["tab"] for pg in pages}
+    hs = ""
+    for sp in spec["spots"]:
+        x, y, bw, bh = sp["box"]
+        pos = f'left:{x / w * 100:.2f}%;top:{y / h * 100:.2f}%;width:{bw / w * 100:.2f}%;height:{bh / h * 100:.2f}%'
+        if sp.get("page") in ids:
+            hs += f'<a class="hs ok" style="{pos}" href="#{sp["page"]}" title="{esc(sp["label"])}: {esc(ids[sp["page"]])}"><span class="sr">{esc(sp["label"])}</span></a>'
+        else:
+            hs += f'<span class="hs no" style="{pos}" title="{esc(sp["label"])}: not visited yet"><span class="sr">{esc(sp["label"])}</span></span>'
+    return ('<div class="panel wide kmap"><h3>The Kanto map</h3><p class="hint">Click a label to open that place\'s page. Outlined labels have a page; dimmed ones are '
+            'still ahead. (Map art: psypoke.org.)</p><div class="kmap-wrap">'
+            f'<img src="{data_uri(spec["image"])}" alt="Map of Kanto with the towns and routes" width="{w}" height="{h}">{hs}</div></div>')
+
+
 def area_html(p, n):
     s, d = p["secs"], p["data"]
     sign = (f'<header class="sign"><span class="num">{n}</span><div><h2>{esc(p["title"])}</h2>'
             f'<p class="sub">{esc(d.get("sub", ""))}</p></div></header>')
     lede = f'<div class="lede">{render(s[""])}</div>' if any(l.strip() for l in s[""]) else ""
+    if d.get("kmap"):
+        lede = kmap_html(d["kmap"], PAGES) + lede
     ref = ""
     if d.get("map"):
         for spec in (d["map"] if isinstance(d["map"], list) else [d["map"]]):
@@ -442,6 +463,8 @@ def bugs_html():
 
 def main(out):
     pages = load_pages()
+    global PAGES
+    PAGES = pages
     allp = [(p["id"], p["tab"], area_html(p, i + 1)) for i, p in enumerate(pages)]
     allp.append(("team", "Team", team_html()))
     allp.append(("bugs", "Bugs", bugs_html()))
