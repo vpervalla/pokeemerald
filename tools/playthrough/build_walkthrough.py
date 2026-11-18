@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Route 8, west gatehouse",
-    "party": "Venusaur L33, Wartortle L32, Charmeleon L35, Dr Venkman (Gengar) L26, Alakazam L32, Pikachu L33",
+    "where": "Route 12, lookout (north gatehouse)",
+    "party": "Venusaur L33, Wartortle L32, Charmeleon L35, Dr Venkman (Gengar) L27, Alakazam L32, Pikachu L33",
     "badges": "3",
     "time": "~125:00",
-    "save": "Route 8, west gatehouse (ethan_route8)",
+    "save": "Route 12 lookout (ethan_route12)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

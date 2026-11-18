@@ -1,0 +1,345 @@
+{
+ "sub": "Four fishermen and a couple · the lookout's TM27 · the sleeping Snorlax",
+ "title": "Route 12 (north)",
+ "tab": "Route 12",
+ "map": {
+  "name": "Route12",
+  "markers": [
+   [
+    "cut",
+    11,
+    100,
+    "C"
+   ],
+   [
+    "item",
+    18,
+    36,
+    "1"
+   ],
+   [
+    "item",
+    9,
+    101,
+    "2"
+   ],
+   [
+    "cut",
+    12,
+    111,
+    "C"
+   ],
+   [
+    "hidden",
+    18,
+    57,
+    "3"
+   ],
+   [
+    "hidden",
+    14,
+    70,
+    "4"
+   ],
+   [
+    "hidden",
+    9,
+    116,
+    "5"
+   ],
+   [
+    "trainer",
+    17,
+    32,
+    "T1"
+   ],
+   [
+    "trainer",
+    9,
+    40,
+    "T2"
+   ],
+   [
+    "trainer",
+    16,
+    47,
+    "T3"
+   ],
+   [
+    "trainer",
+    13,
+    59,
+    "T4"
+   ],
+   [
+    "trainer",
+    13,
+    92,
+    "T5"
+   ],
+   [
+    "trainer",
+    10,
+    99,
+    "T6"
+   ],
+   [
+    "trainer",
+    18,
+    108,
+    "T7"
+   ],
+   [
+    "trainer",
+    19,
+    64,
+    "T8"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM48 at (18,36).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Iron at (9,101).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Hyper Potion at (18,57).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Leftovers at (14,70).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Rare Candy at (9,116).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE12",
+   "land_mons",
+   "Tall grass"
+  ],
+  [
+   "MAP_ROUTE12",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE12",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Fisherman Ned",
+   "hint": "(17,32). Prize ¥880. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     22,
+     "—"
+    ],
+    [
+     "poliwag",
+     22,
+     "—"
+    ],
+    [
+     "goldeen",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Chip",
+   "hint": "(9,40). Prize ¥960. <b>Beaten.</b>",
+   "team": [
+    [
+     "tentacool",
+     24,
+     "—"
+    ],
+    [
+     "goldeen",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Hank",
+   "hint": "(16,47). Prize ¥1080. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Elliot",
+   "hint": "(13,59). Prize ¥840. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     21,
+     "—"
+    ],
+    [
+     "shellder",
+     21,
+     "—"
+    ],
+    [
+     "goldeen",
+     21,
+     "—"
+    ],
+    [
+     "horsea",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rocker Luca",
+   "hint": "(13,92). Prize ¥696. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "voltorb",
+     29,
+     "—"
+    ],
+    [
+     "electrode",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Justin",
+   "hint": "(10,99). Prize ¥464. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     29,
+     "—"
+    ],
+    [
+     "nidorino",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Andrew",
+   "hint": "(18,108). Prize ¥960. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "magikarp",
+     24,
+     "—"
+    ],
+    [
+     "magikarp",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Young Couple Gia & Jes",
+   "hint": "(19,64). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     24,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     24,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "venonat",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weepinbell",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

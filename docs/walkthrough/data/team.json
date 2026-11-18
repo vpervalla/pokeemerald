@@ -1,78 +1,78 @@
 {
  "mons": [
   {
-   "species": "venusaur",
-   "name": "Venusaur",
-   "lv": 33,
-   "exp": 30764,
+   "species": "gengar",
+   "name": "DR VENKMAN",
+   "lv": 27,
+   "exp": 16096,
    "types": [
-    "Grass",
+    "Ghost",
     "Poison"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Overgrow",
-   "met": "see the playthrough log",
-   "role": "",
+   "nature": "Modest (+Sp. Atk, −Attack)",
+   "ability": "Levitate",
+   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
+   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
    "stats": [
     [
      "HP",
-     109,
+     76,
      0
     ],
     [
      "Attack",
-     70,
-     0
+     41,
+     -1
     ],
     [
      "Defense",
-     69,
+     45,
      0
     ],
     [
      "Sp. Atk",
-     74,
-     0
+     89,
+     1
     ],
     [
      "Sp. Def",
-     63,
-     -1
+     45,
+     0
     ],
     [
      "Speed",
-     69,
-     1
+     70,
+     0
     ]
    ],
    "moves": [
     [
-     "Sweet Scent",
+     "Shadow Punch",
+     "Ghost",
+     "60",
+     "—",
+     "18/20"
+    ],
+    [
+     "Night Shade",
+     "Ghost",
+     "1",
+     "100%",
+     "13/15"
+    ],
+    [
+     "Spite",
+     "Ghost",
+     "—",
+     "100%",
+     "10/10"
+    ],
+    [
+     "Mean Look",
      "Normal",
      "—",
      "100%",
-     "20/20"
-    ],
-    [
-     "Poisonpowder",
-     "Poison",
-     "—",
-     "75%",
-     "35/35"
-    ],
-    [
-     "Sleep Powder",
-     "Grass",
-     "—",
-     "75%",
-     "14/15"
-    ],
-    [
-     "Razor Leaf",
-     "Grass",
-     "55",
-     "95%",
-     "4/25"
+     "3/5"
     ]
    ]
   },
@@ -80,7 +80,7 @@
    "species": "wartortle",
    "name": "Wartortle",
    "lv": 32,
-   "exp": 28313,
+   "exp": 28617,
    "types": [
     "Water"
    ],
@@ -140,7 +140,7 @@
      "Water",
      "20",
      "100%",
-     "30/30"
+     "26/30"
     ],
     [
      "Withdraw",
@@ -155,7 +155,7 @@
    "species": "charmeleon",
    "name": "Charmeleon",
    "lv": 35,
-   "exp": 39326,
+   "exp": 39500,
    "types": [
     "Fire"
    ],
@@ -227,78 +227,78 @@
    ]
   },
   {
-   "species": "gengar",
-   "name": "DR VENKMAN",
-   "lv": 26,
-   "exp": 14594,
+   "species": "venusaur",
+   "name": "Venusaur",
+   "lv": 34,
+   "exp": 34176,
    "types": [
-    "Ghost",
+    "Grass",
     "Poison"
    ],
-   "nature": "Modest (+Sp. Atk, −Attack)",
-   "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
-   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Overgrow",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     74,
+     113,
      0
     ],
     [
      "Attack",
-     40,
-     -1
+     72,
+     0
     ],
     [
      "Defense",
-     43,
+     72,
      0
     ],
     [
      "Sp. Atk",
-     85,
-     1
+     76,
+     0
     ],
     [
      "Sp. Def",
-     44,
-     0
+     65,
+     -1
     ],
     [
      "Speed",
-     67,
-     0
+     71,
+     1
     ]
    ],
    "moves": [
     [
-     "Shadow Punch",
-     "Ghost",
-     "60",
-     "—",
-     "17/20"
-    ],
-    [
-     "Night Shade",
-     "Ghost",
-     "1",
-     "100%",
-     "7/15"
-    ],
-    [
-     "Spite",
-     "Ghost",
-     "—",
-     "100%",
-     "8/10"
-    ],
-    [
-     "Mean Look",
+     "Sweet Scent",
      "Normal",
      "—",
      "100%",
-     "3/5"
+     "20/20"
+    ],
+    [
+     "Poisonpowder",
+     "Poison",
+     "—",
+     "75%",
+     "35/35"
+    ],
+    [
+     "Sleep Powder",
+     "Grass",
+     "—",
+     "75%",
+     "15/15"
+    ],
+    [
+     "Razor Leaf",
+     "Grass",
+     "55",
+     "95%",
+     "0/25"
     ]
    ]
   },
@@ -380,8 +380,8 @@
   {
    "species": "pikachu",
    "name": "Pikachu",
-   "lv": 33,
-   "exp": 37610,
+   "lv": 34,
+   "exp": 40251,
    "types": [
     "Electric"
    ],
@@ -392,12 +392,12 @@
    "stats": [
     [
      "HP",
-     72,
+     74,
      0
     ],
     [
      "Attack",
-     55,
+     56,
      1
     ],
     [
@@ -407,17 +407,17 @@
     ],
     [
      "Sp. Atk",
-     54,
+     55,
      0
     ],
     [
      "Sp. Def",
-     39,
+     40,
      0
     ],
     [
      "Speed",
-     87,
+     90,
      0
     ]
    ],
@@ -427,14 +427,14 @@
      "Electric",
      "95",
      "100%",
-     "6/15"
+     "8/15"
     ],
     [
      "Quick Attack",
      "Normal",
      "40",
      "100%",
-     "18/30"
+     "30/30"
     ],
     [
      "Flash",
@@ -448,7 +448,7 @@
      "Electric",
      "—",
      "100%",
-     "19/20"
+     "20/20"
     ]
    ]
   }
