@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "gengar",
-   "id": 94,
-   "nick": "DR VENKMAN",
-   "metloc": 140,
-   "mapsec": "MAPSEC_POKEMON_TOWER",
-   "metlevel": 15,
-   "exp": 11998,
-   "level": 25,
+   "species": "pikachu",
+   "id": 25,
+   "nick": "PIKACHU",
+   "metloc": 88,
+   "mapsec": "MAPSEC_PALLET_TOWN",
+   "metlevel": 5,
+   "exp": 37217,
+   "level": 33,
    "where": "party"
   },
   {
@@ -18,8 +18,8 @@
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 26356,
-   "level": 31,
+   "exp": 28313,
+   "level": 32,
    "where": "party"
   },
   {
@@ -29,8 +29,19 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 37729,
+   "exp": 39326,
    "level": 35,
+   "where": "party"
+  },
+  {
+   "species": "gengar",
+   "id": 94,
+   "nick": "DR VENKMAN",
+   "metloc": 140,
+   "mapsec": "MAPSEC_POKEMON_TOWER",
+   "metlevel": 15,
+   "exp": 14535,
+   "level": 26,
    "where": "party"
   },
   {
@@ -40,29 +51,18 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 25763,
-   "level": 31,
+   "exp": 29097,
+   "level": 32,
    "where": "party"
   },
   {
-   "species": "ivysaur",
-   "id": 2,
-   "nick": "IVYSAUR",
+   "species": "venusaur",
+   "id": 3,
+   "nick": "VENUSAUR",
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 24367,
-   "level": 31,
-   "where": "party"
-  },
-  {
-   "species": "pikachu",
-   "id": 25,
-   "nick": "PIKACHU",
-   "metloc": 88,
-   "mapsec": "MAPSEC_PALLET_TOWN",
-   "metlevel": 5,
-   "exp": 34770,
+   "exp": 28379,
    "level": 32,
    "where": "party"
   },
@@ -309,6 +309,17 @@
    "where": "box 1"
   },
   {
+   "species": "vulpix",
+   "id": 37,
+   "nick": "VULPIX",
+   "metloc": 108,
+   "mapsec": "MAPSEC_ROUTE_8",
+   "metlevel": 16,
+   "exp": 4096,
+   "level": null,
+   "where": "box 1"
+  },
+  {
    "species": "primeape",
    "id": 57,
    "nick": "PRIMEAPE",
@@ -323,6 +334,7 @@
  "dex_owned": [
   1,
   2,
+  3,
   4,
   5,
   7,
@@ -337,6 +349,7 @@
   23,
   25,
   27,
+  37,
   41,
   43,
   50,
