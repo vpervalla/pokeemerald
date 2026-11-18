@@ -340,6 +340,17 @@
    "exp": 6141,
    "level": null,
    "where": "box 1"
+  },
+  {
+   "species": "eevee",
+   "id": 133,
+   "nick": "AAAAAAAAAA",
+   "metloc": 94,
+   "mapsec": "MAPSEC_CELADON_CITY",
+   "metlevel": 25,
+   "exp": 15625,
+   "level": null,
+   "where": "box 1"
   }
  ],
  "dex_owned": [
@@ -383,6 +394,7 @@
   96,
   104,
   129,
+  133,
   163,
   167
  ]

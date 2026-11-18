@@ -27,7 +27,7 @@ STATUS = {
     "party": "Venusaur L34, Wartortle L32, Charmeleon L35, Dr Venkman (Gengar) L27, Alakazam L33, Pikachu L34",
     "badges": "3",
     "time": "~125:00",
-    "save": "Celadon City (ethan_celadon)",
+    "save": "Celadon City (ethan_celadon2)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

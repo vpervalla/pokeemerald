@@ -1,0 +1,30 @@
+#!/bin/bash
+# clearmap : on the current map fight every unbeaten trainer, take every item ball and hidden item, and talk once to every other person
+# (dialogue sheets in shots/cm_<x>_<y>_N.png; read them for the walkthrough). Leaves you where the last action ended.
+cd "$(dirname "$0")/../../.." ; export PLAY_DIR=${PLAY_DIR:-$HOME/.playthrough}; export PATH="$PWD/tools/playthrough/bin:$PATH"
+info=$(mapinfo)
+echo "$info" | head -1
+while read -r _ pos rest; do
+  xy=${pos//[()]/}; x=${xy%,*}; y=${xy#*,}
+  reach $x $y || { echo "skip (unreachable from here) $x,$y $rest" | cut -c1-80; continue; }
+  echo "fight $x,$y $rest" | cut -c1-110
+  out=$(trainer $x $y cm_${x}_$y 2>&1 | grep -E "^map|turns" | cut -c1-100); echo "$out"
+  if echo "$out" | grep -q "stuck"; then echo "ABORT: a fight needs a hand (forced switch or menu): look at the screen"; exit 3; fi
+  for i in 1 2 3 4; do g A w80 >/dev/null 2>&1; done
+done < <(echo "$info" | grep "TRAINER.*TO FIGHT")
+echo "$info" | grep "ITEM.*TO TAKE" | while read -r _ pos rest; do
+  xy=${pos//[()]/}; x=${xy%,*}; y=${xy#*,}
+  reach $x $y || { echo "skip (unreachable from here) $x,$y $rest" | cut -c1-80; continue; }
+  echo "take $x,$y $rest"; pick $x $y cm_${x}_$y >/dev/null 2>&1; g w60 A w60 B w20 B w20 >/dev/null 2>&1
+done
+echo "$info" | grep "HIDDEN.*TO FIND" | while read -r _ pos rest; do
+  xy=${pos//[()]/}; x=${xy%,*}; y=${xy#*,}
+  reach $x $y || { echo "skip (unreachable from here) $x,$y $rest" | cut -c1-80; continue; }
+  echo "hidden $x,$y $rest"; hid $x $y | tail -1
+done
+echo "$info" | grep "npc" | while read -r _ pos rest; do
+  xy=${pos//[()]/}; x=${xy%,*}; y=${xy#*,}
+  case "$rest" in *ROCK_SMASH*|*CUT_TREE*|*CLERK*|*ELEVATOR*) continue;; esac
+  reach $x $y || { echo "skip (unreachable from here) $x,$y $rest" | cut -c1-80; continue; }
+  echo "talk $x,$y $rest"; talk $x $y cm_${x}_$y 3 >/dev/null 2>&1; g B w20 B w20 >/dev/null 2>&1
+done

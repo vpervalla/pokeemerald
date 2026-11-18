@@ -501,6 +501,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 
 | File | Where |
 | --- | --- |
+| `saves/ethan_celadon2.sav` | Celadon Pokémon Center: every building but the Game Corner and the Gym visited; COIN CASE, TEA, EEVEE L25 (Box 1, nicknamed AAAAAAAAAA by a slip), TM16, TM20, TM27, TM33; ¥20957. Next: the Game Corner and its hideout (Silph Scope), the Gym (Erika), then the Saffron gates with the TEA. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
