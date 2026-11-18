@@ -41,9 +41,13 @@
 4. The grind was paused at L18 (`saves/ethan_venkman18.sav`), then resumed with **no items** and a trick: Tower **5F's purified zone** (tiles x 10-12, y 8-10: `special HealPlayerParty`, "ETHAN's POKéMON were fully healed.") heals everything, fainted POKéMON included. The loop stepped up into the zone tile (11,10) and back down to (11,11) after every fight; wild battles only happen outside it. If DR VENKMAN fainted, the next POKéMON finished the fight and the next zone step revived him.
 5. **L18 to L25 in 24 more fights** with no faint stopping the run: NIGHT SHADE learned at L21, then **evolved into HAUNTER at L25** ("Modest": 74 Sp. Atk) and learned SHADOW PUNCH. A tool slip again taught the new moves in place of LICK and HYPNOSIS (the move-learn prompt has two text boxes before the YES/NO; the key sequence answered YES and forgot the first move). Moves now: SHADOW PUNCH, NIGHT SHADE, SPITE, MEAN LOOK. `saves/ethan_haunter.sav`.
 
+## Later: the Lavender double exchange: DR VENKMAN becomes GENGAR
+
+The Lavender Center has its own **double-exchange trader**: the **Channeler at (10,7)** (the script `LavenderTown_PokemonCenter_1F_EventScript_DoubleExchangeTrader`, flag `FLAG_DID_DOUBLE_EXCHANGE_LAVENDER_TOWN`; the first visit's sweep talked to him without accepting). Each Center has one and each exchanges only once: Cerulean, Vermilion (used for ALAKAZAM), Route 10, Lavender, Celadon, Saffron, Fuchsia, Cinnabar and four of the Sevii Islands; the unused ones were read from the save (Vermilion's flag set, all others clear). The trader asks "Ready to exchange?" ("Remember, I can only do this once."), offers his **GASTLY "WISP"** (OT AGNES), "That was the first exchange. Now let's trade them back!", and "Oh, your DR VENKMAN! It'll evolve on its way back!": **"Congratulations! Your DR VENKMAN evolved into GENGAR!"** (L25, 71 HP, Sp. Atk 82; SHADOW PUNCH, NIGHT SHADE, SPITE, MEAN LOOK). An Escape Rope took the party out of the Tower to the town door first. `saves/ethan_gengar.sav`.
+
 ## Party after
 
-PIKACHU L32, WARTORTLE L31, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 and the MODEST GASTLY L15 (DR VENKMAN, now a HAUNTER L25); PRIMEAPE L29, the Relaxed GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
+PIKACHU L32, WARTORTLE L31, CHARMELEON L35, ALAKAZAM L31, IVYSAUR L31 and the MODEST GASTLY L15 (DR VENKMAN, now a GENGAR L25); PRIMEAPE L29, the Relaxed GASTLY L17 and CUBONE L17 in Box 1. Money ¥26 061; 3 REVIVES, 12 GREAT BALLS.
 
 ## Bugs
 

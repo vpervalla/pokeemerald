@@ -1,7 +1,7 @@
 {
  "mons": [
   {
-   "species": "haunter",
+   "species": "gengar",
    "name": "DR VENKMAN",
    "lv": 25,
    "exp": 11998,
@@ -11,37 +11,37 @@
    ],
    "nature": "Modest (+Sp. Atk, −Attack)",
    "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; evolved at L25 by solo wild battles",
-   "role": "The GENGAR goal: Modest HAUNTER L25 (raised alone on Tower 5F beside the purified zone); the Vermilion sailor's double exchange makes it GENGAR.",
+   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
+   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
    "stats": [
     [
      "HP",
-     64,
+     71,
      0
     ],
     [
      "Attack",
-     32,
+     38,
      -1
     ],
     [
      "Defense",
-     34,
+     42,
      0
     ],
     [
      "Sp. Atk",
-     74,
+     82,
      1
     ],
     [
      "Sp. Def",
-     32,
+     42,
      0
     ],
     [
      "Speed",
-     57,
+     65,
      0
     ]
    ],

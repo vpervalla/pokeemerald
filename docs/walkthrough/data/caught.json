@@ -1,8 +1,8 @@
 {
  "mons": [
   {
-   "species": "haunter",
-   "id": 93,
+   "species": "gengar",
+   "id": 94,
    "nick": "DR VENKMAN",
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
@@ -353,6 +353,7 @@
   90,
   92,
   93,
+  94,
   95,
   96,
   104,
