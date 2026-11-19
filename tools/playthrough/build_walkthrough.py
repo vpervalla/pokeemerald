@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Route 16 house (HM02 FLY)",
+    "where": "Saffron City (before Silph Co.)",
     "party": "Charizard L38, Venusaur L35, Alakazam L35, Snorlax L30, Wartortle L33, Dr Venkman (Gengar) L31",
     "badges": "4",
     "time": "~154:00",
-    "save": "Route 16 house (ethan_fly)",
+    "save": "Saffron Center (ethan_saffron)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
