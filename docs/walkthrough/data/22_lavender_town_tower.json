@@ -495,7 +495,7 @@
   },
   {
    "name": "Team Rocket Grunt",
-   "hint": "PokemonTower_7F at (9,10). Prize ¥800. <b>Not fought yet.</b>",
+   "hint": "PokemonTower_7F at (9,10). Prize ¥800. <b>Beaten.</b>",
    "team": [
     [
      "zubat",
@@ -516,7 +516,7 @@
   },
   {
    "name": "Team Rocket Grunt",
-   "hint": "PokemonTower_7F at (13,8). Prize ¥832. <b>Not fought yet.</b>",
+   "hint": "PokemonTower_7F at (13,8). Prize ¥832. <b>Beaten.</b>",
    "team": [
     [
      "koffing",
@@ -532,7 +532,7 @@
   },
   {
    "name": "Team Rocket Grunt",
-   "hint": "PokemonTower_7F at (9,6). Prize ¥736. <b>Not fought yet.</b>",
+   "hint": "PokemonTower_7F at (9,6). Prize ¥736. <b>Beaten.</b>",
    "team": [
     [
      "zubat",
@@ -562,7 +562,7 @@
    "species": "gengar",
    "nick": "DR VENKMAN",
    "met": 15,
-   "level": 26,
+   "level": 30,
    "where": "party",
    "how": "wild"
   },

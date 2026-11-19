@@ -33,7 +33,11 @@ DR VENKMAN (GENGAR) L30, WARTORTLE L33, **CHARIZARD L36**, VENUSAUR L35, ALAKAZA
 
 ## Not done here
 
-- The **Prize Room** (39,20) and the Gym (excluded by request); the **Pokémon Tower's 7F** and Mr. Fuji (the SILPH SCOPE is now in the bag).
+- Nothing: the Gym is [page 27](27_celadon_gym.md) and the Tower's 7F and Mr. Fuji are on [page 22](22_lavender_town_tower.md).
+
+## The Prize Room (39,20)
+
+Visited with only **60 COINS**, so nothing was bought (the clerks at (2,2), (4,2) and (6,2) say "We exchange your COINS for prizes."): **items** SMOKE BALL 800, MIRACLE SEED 1 000, CHARCOAL 1 000, MYSTIC WATER 1 000, YELLOW FLUTE 1 600; **Pokémon** ABRA 180, CLEFAIRY 500, DRATINI 2 800, SCYTHER 5 500, PORYGON 9 999; **TMs** TM13 (Ice Beam) 4 000, TM23 (Iron Tail) 3 500, TM24 (Thunderbolt) 4 000, TM30 (Shadow Ball) 4 500, TM35 (Flamethrower) 4 000. A balding man at the shelves ("The shelves brim with all sorts of POKéMON merchandise.") and an old man ("Gahaha! I raked it in today! If only every day were like this..."). Coins cost ¥1 000 for 50 here, so DRATINI would be about ¥56 000: left for you to decide.
 
 ## Bugs
 

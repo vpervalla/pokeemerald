@@ -27,6 +27,13 @@
 5. **6F: the ghost.** Walking onto the stairs (11,16): "Be gone... Intruders..." and the player is pushed back one tile: the MAROWAK ghost cannot be fought without the **SILPH SCOPE** (Celadon's Rocket Hideout), so the top floor, MR. FUJI and the POKé FLUTE wait for later. The wild "GHOST" battles on 6F and 7F also appear as normal GASTLY here (the ROM's note: Emerald's battles have no unidentified GHOST).
 6. **Bad hour:** a hunt loop standing on 5F's up-stairs walked onto 6F and wild GASTLY wore the party down to CHARMELEON only; the party was saved by an ESCAPE ROPE and the Lavender Center. The saves: `saves/ethan_lavender.sav`, then `saves/ethan_tower.sav` (healed at Lavender).
 
+## Later: the SILPH SCOPE, the ghost and MR. FUJI (7F)
+
+1. With the SILPH SCOPE (Rocket Hideout) back on **6F**: walking to (11,15) starts the ghost scene ("Be gone... Intruders...") and the **MAROWAK ghost L30** (84 HP) is a normal battle now; won in five turns. "The ghost was the restless spirit of CUBONE's mother! The mother's spirit was calmed. It departed to the afterlife...". The stairs (11,16) up to 7F work (hold a direction on them: LEFT here).
+2. **7F:** three Rocket grunts (ZUBAT L25 x2 + GOLBAT L25; KOFFING L26 + DROWZEE L26; ZUBAT, RATTATA, RATICATE, ZUBAT L23) fell to THUNDERBOLT and PSYBEAM (¥2 400 together). Talking to **MR. FUJI at (11,4)** ends the scene and he sends you to the Volunteer House.
+3. **Volunteer Pokémon House:** "Your POKéDEX quest is one that requires strong dedication... Without deep love for POKéMON, your quest may fail. I'm not sure if this will help you, but I'd like you to have it." **ETHAN received a POKé FLUTE** (KEY ITEMS pocket: "Upon hearing the POKé FLUTE, sleeping POKéMON will spring awake. Try using it on POKéMON that are sleeping obstacles."). Then "MR. FUJI: Has my POKé FLUTE helped you?". The others: NIDORINO "Gaoo!", PSYDUCK "Gwappa!", a boy ("It's so warm! POKéMON are so nice to hug."), a youngster ("MR. FUJI had been praying alone for CUBONE's mother. He's really kind. He looks after abandoned and orphaned POKéMON.").
+4. Back on 7F the hidden **SOOTHE BELL (11,4)**, where he stood, was found from (11,3) facing down. Save `saves/ethan_poke_flute.sav`.
+
 ## Later: hunting a MODEST GASTLY (for the GENGAR goal)
 
 1. The GASTLY caught first is **Relaxed** (nature = personality mod 25, read from the PC box), so a **Modest** one (+Sp. Atk, -Atk: the best for a special attacker like GENGAR) was hunted on Tower 5F, on a strip of floor away from the stairs (a first try on the purified-zone tile did nothing: the text box "Entered the purified and protected zone." swallowed the walking keys).
