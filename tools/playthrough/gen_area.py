@@ -41,6 +41,7 @@ AREAS = {
     "20_route_11_diglett": ["Route11", "DiglettsCave_SouthEntrance", "DiglettsCave_B1F", "DiglettsCave_NorthEntrance"],
     "25_celadon_city": ["CeladonCity"],
     "26_game_corner_rocket_hideout": ["CeladonCity_GameCorner", "RocketHideout_B1F", "RocketHideout_B2F", "RocketHideout_B3F", "RocketHideout_B4F", "RocketHideout_Elevator"],
+    "27_celadon_gym": ["CeladonCity_Gym"],
     "24_route_12": ["Route12"],
     "23_route_8": ["Route8", "UndergroundPath_EastWestTunnel"],
     "22_lavender_town_tower": ["LavenderTown", "PokemonTower_1F", "PokemonTower_2F", "PokemonTower_3F", "PokemonTower_4F",

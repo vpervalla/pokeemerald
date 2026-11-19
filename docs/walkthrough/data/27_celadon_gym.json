@@ -1,0 +1,233 @@
+{
+ "sub": "Erika · Rainbow Badge · TM19 Giga Drain · eight trainers",
+ "title": "Celadon Gym (Erika)",
+ "tab": "Celadon Gym",
+ "map": {
+  "name": "CeladonCity_Gym",
+  "markers": [
+   [
+    "cut",
+    6,
+    8,
+    "C"
+   ],
+   [
+    "cut",
+    3,
+    5,
+    "C"
+   ],
+   [
+    "cut",
+    9,
+    6,
+    "C"
+   ],
+   [
+    "trainer",
+    3,
+    11,
+    "T1"
+   ],
+   [
+    "trainer",
+    9,
+    10,
+    "T2"
+   ],
+   [
+    "trainer",
+    10,
+    7,
+    "T3"
+   ],
+   [
+    "trainer",
+    2,
+    6,
+    "T4"
+   ],
+   [
+    "trainer",
+    5,
+    4,
+    "T5"
+   ],
+   [
+    "trainer",
+    7,
+    4,
+    "T6"
+   ],
+   [
+    "trainer",
+    6,
+    4,
+    "T7"
+   ],
+   [
+    "trainer",
+    8,
+    7,
+    "T8"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Lass Kay",
+   "hint": "(3,11). Prize ¥368. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     23,
+     "—"
+    ],
+    [
+     "weepinbell",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Bridget",
+   "hint": "(9,10). Prize ¥1680. <b>Beaten.</b>",
+   "team": [
+    [
+     "oddish",
+     21,
+     "—"
+    ],
+    [
+     "bellsprout",
+     21,
+     "—"
+    ],
+    [
+     "oddish",
+     21,
+     "—"
+    ],
+    [
+     "bellsprout",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Tina",
+   "hint": "(10,7). Prize ¥384. <b>Beaten.</b>",
+   "team": [
+    [
+     "bulbasaur",
+     24,
+     "—"
+    ],
+    [
+     "ivysaur",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Tamia",
+   "hint": "(2,6). Prize ¥1920. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     24,
+     "—"
+    ],
+    [
+     "bellsprout",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Lori",
+   "hint": "(5,4). Prize ¥1920. <b>Beaten.</b>",
+   "team": [
+    [
+     "exeggcute",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Lisa",
+   "hint": "(7,4). Prize ¥368. <b>Beaten.</b>",
+   "team": [
+    [
+     "oddish",
+     23,
+     "—"
+    ],
+    [
+     "gloom",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Leader Erika",
+   "hint": "(6,4). Prize ¥2900. <b>Beaten.</b>",
+   "team": [
+    [
+     "victreebel",
+     29,
+     "Stun Spore, Acid, Poison Powder, Giga Drain"
+    ],
+    [
+     "tangela",
+     24,
+     "Poison Powder, Constrict, Ingrain, Giga Drain"
+    ],
+    [
+     "vileplume",
+     29,
+     "Sleep Powder, Acid, Stun Spore, Giga Drain"
+    ]
+   ]
+  },
+  {
+   "name": "Cooltrainer Mary",
+   "hint": "(8,7). Prize ¥1056. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     22,
+     "Wrap, Stun Spore, Poison Powder, Growth"
+    ],
+    [
+     "oddish",
+     22,
+     "Poison Powder, Stun Spore, Absorb, Sweet Scent"
+    ],
+    [
+     "weepinbell",
+     22,
+     "Vine Whip, Stun Spore, Poison Powder, Growth"
+    ],
+    [
+     "gloom",
+     22,
+     "Absorb, Stun Spore, Poison Powder, Sweet Scent"
+    ],
+    [
+     "ivysaur",
+     22,
+     "Razor Leaf, Sleep Powder, Vine Whip, Leech Seed"
+    ]
+   ]
+  }
+ ],
+ "items": [],
+ "wild": []
+}

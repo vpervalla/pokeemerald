@@ -3,8 +3,8 @@
   {
    "species": "gengar",
    "name": "DR VENKMAN",
-   "lv": 30,
-   "exp": 22077,
+   "lv": 31,
+   "exp": 24926,
    "types": [
     "Ghost",
     "Poison"
@@ -16,32 +16,32 @@
    "stats": [
     [
      "HP",
-     84,
+     87,
      0
     ],
     [
      "Attack",
-     46,
+     47,
      -1
     ],
     [
      "Defense",
-     50,
+     51,
      0
     ],
     [
      "Sp. Atk",
-     97,
+     102,
      1
     ],
     [
      "Sp. Def",
-     50,
+     51,
      0
     ],
     [
      "Speed",
-     78,
+     80,
      0
     ]
    ],
@@ -51,7 +51,7 @@
      "Ghost",
      "60",
      "—",
-     "12/20"
+     "20/20"
     ],
     [
      "Night Shade",
@@ -61,11 +61,11 @@
      "15/15"
     ],
     [
-     "Spite",
-     "Ghost",
+     "Hypnosis",
+     "Psychic",
      "—",
-     "100%",
-     "10/10"
+     "60%",
+     "20/20"
     ],
     [
      "Mean Look",
@@ -122,11 +122,11 @@
    ],
    "moves": [
     [
-     "Rapid Spin",
-     "Normal",
-     "20",
+     "Water Gun",
+     "Water",
+     "40",
      "100%",
-     "40/40"
+     "25/25"
     ],
     [
      "Protect",
@@ -154,8 +154,8 @@
   {
    "species": "charizard",
    "name": "Charizard",
-   "lv": 36,
-   "exp": 40603,
+   "lv": 37,
+   "exp": 47755,
    "types": [
     "Fire",
     "Flying"
@@ -167,32 +167,32 @@
    "stats": [
     [
      "HP",
-     122,
+     125,
      0
     ],
     [
      "Attack",
-     70,
+     72,
      -1
     ],
     [
      "Defense",
-     66,
+     67,
      0
     ],
     [
      "Sp. Atk",
-     98,
+     101,
      0
     ],
     [
      "Sp. Def",
-     74,
+     77,
      1
     ],
     [
      "Speed",
-     92,
+     95,
      0
     ]
    ],
@@ -205,11 +205,11 @@
      "35/35"
     ],
     [
-     "Cut",
-     "Normal",
-     "50",
-     "95%",
-     "30/30"
+     "Flamethrower",
+     "Fire",
+     "95",
+     "100%",
+     "15/15"
     ],
     [
      "Ember",
@@ -299,7 +299,7 @@
      "Grass",
      "55",
      "95%",
-     "16/25"
+     "25/25"
     ]
    ]
   },
@@ -307,7 +307,7 @@
    "species": "alakazam",
    "name": "Alakazam",
    "lv": 34,
-   "exp": 33117,
+   "exp": 34833,
    "types": [
     "Psychic"
    ],
@@ -374,7 +374,7 @@
      "Psychic",
      "65",
      "100%",
-     "17/20"
+     "20/20"
     ]
    ]
   },
@@ -382,7 +382,7 @@
    "species": "pikachu",
    "name": "Pikachu",
    "lv": 34,
-   "exp": 41821,
+   "exp": 42104,
    "types": [
     "Electric"
    ],
