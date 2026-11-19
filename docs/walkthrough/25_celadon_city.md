@@ -36,3 +36,9 @@ DR VENKMAN (GENGAR) L27, WARTORTLE L32, CHARMELEON L35, VENUSAUR L34, ALAKAZAM L
 ## Bugs
 
 None found.
+
+## Later: Route 16 and its SNORLAX (west of Celadon)
+
+The west edge (0,21) of the city leads to **Route 16** (map 36.34). The Cut tree at (41,11) was cut. **SNORLAX L30 (139 HP, Quirky)** sits at (31,13) on the bridge: with the POKé FLUTE it woke and was caught (box 1) with the same plan as on Route 12: CHARIZARD (SMOKESCREEN then WING ATTACK, about 43 a hit, FLAMETHROWER only about 26), PIKACHU's THUNDER WAVE, VENKMAN's HYPNOSIS, and balls thrown while it slept after its REST (it sleeps two turns each time: two WING ATTACKS took it from 139 to about 55, then a GREAT BALL; four tries, the last one caught it). The hidden **LEFTOVERS** at (31,13) was found.
+
+Route 16's west half (five bikers and Cue Balls, and Lea & Jed up north) lies behind the gatehouse (doors (27,13) and (20,13)): inside, a policeman says "No pedestrians are allowed on CYCLING ROAD!" and the walk stops, so those trainers wait for a bicycle. The gatehouse exits (11,12) and (11,3) only fire when RIGHT is pressed. Trainers there: Lao (GRIMER, KOFFING L29), Koji (MACHOP, MANKEY, MACHOP L28), Luke, Ruben (WEEZING, KOFFING, WEEZING L28), Hideo (WEEZING L33), Camron.

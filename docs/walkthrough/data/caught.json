@@ -7,8 +7,8 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 22077,
-   "level": 30,
+   "exp": 29892,
+   "level": 32,
    "where": "party"
   },
   {
@@ -29,8 +29,8 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 40603,
-   "level": 36,
+   "exp": 47755,
+   "level": 37,
    "where": "party"
   },
   {
@@ -51,7 +51,7 @@
    "metloc": 124,
    "mapsec": "MAPSEC_ROUTE_24",
    "metlevel": 10,
-   "exp": 33117,
+   "exp": 35716,
    "level": 34,
    "where": "party"
   },
@@ -62,8 +62,8 @@
    "metloc": 88,
    "mapsec": "MAPSEC_PALLET_TOWN",
    "metlevel": 5,
-   "exp": 41821,
-   "level": 34,
+   "exp": 44699,
+   "level": 35,
    "where": "party"
   },
   {
@@ -351,6 +351,28 @@
    "exp": 15625,
    "level": null,
    "where": "box 1"
+  },
+  {
+   "species": "snorlax",
+   "id": 143,
+   "nick": "SNORLAX",
+   "metloc": 112,
+   "mapsec": "MAPSEC_ROUTE_12",
+   "metlevel": 30,
+   "exp": 33750,
+   "level": null,
+   "where": "box 1"
+  },
+  {
+   "species": "snorlax",
+   "id": 143,
+   "nick": "SNORLAX",
+   "metloc": 116,
+   "mapsec": "MAPSEC_ROUTE_16",
+   "metlevel": 30,
+   "exp": 33750,
+   "level": null,
+   "where": "box 1"
   }
  ],
  "dex_owned": [
@@ -396,6 +418,7 @@
   104,
   129,
   133,
+  143,
   163,
   167
  ]

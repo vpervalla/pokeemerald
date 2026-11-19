@@ -29,3 +29,12 @@ DR VENKMAN (GENGAR) L27, WARTORTLE L32, CHARMELEON L35, VENUSAUR L34, ALAKAZAM L
 ## Bugs
 
 None found.
+
+## Later: waking and catching the SNORLAX (with the POKé FLUTE)
+
+1. At (14,69) facing down (the SNORLAX is at (14,70)): "Want to use the POKé FLUTE?" YES, "SNORLAX woke up!" and a wild **SNORLAX L30** (140 HP, Quiet, holding LEFTOVERS; moves HEADBUTT, YAWN, REST, BODY SLAM-class) fights. **A mistake first**: my menu script selected RUN (a move index chosen while the screen still showed text) and the game ended the fight: "SNORLAX calmed down. It gave a huge yawn... And returned to the mountains" (a win, run or teleport removes it for good). A savestate taken at the start of the fight brought it back.
+2. **What the SNORLAX does:** it uses **YAWN** almost every turn (whoever is out falls asleep a turn later: CHARIZARD and PIKACHU and VENUSAUR all slept, and a sleeping benched Pokémon keeps its sleep until it is out again), and **REST** whenever it is under about 40% HP (full HP, asleep, paralysis cured), and it recovers 8 HP a turn from the LEFTOVERS. DR VENKMAN (Ghost) takes nothing from its Normal moves.
+3. **What worked:** CHARIZARD led and used SMOKESCREEN (the lowered accuracy kept its HEADBUTTs off); PIKACHU's THUNDER WAVE paralysed it; then, since REST always cures that, VENUSAUR's SLEEP POWDER and RAZOR LEAF (about 35 a hit) brought it to 27/140 while it slept (its own REST gave a two-turn window each time), and the first GREAT BALL then caught it. Boxed in **Box 1**.
+4. Hidden **LEFTOVERS** (14,70) found where it slept.
+
+Saves: `saves/ethan_snorlax.sav`.

@@ -24,7 +24,7 @@ echo "$info" | grep "HIDDEN.*TO FIND" | while read -r _ pos rest; do
 done
 echo "$info" | grep "npc" | while read -r _ pos rest; do
   xy=${pos//[()]/}; x=${xy%,*}; y=${xy#*,}
-  case "$rest" in *ROCK_SMASH*|*CUT_TREE*|*CLERK*|*ELEVATOR*) continue;; esac
+  case "$rest" in *ROCK_SMASH*|*CUT_TREE*|*CLERK*|*ELEVATOR*|*SNORLAX*) continue;; esac
   reach $x $y || { echo "skip (unreachable from here) $x,$y $rest" | cut -c1-80; continue; }
   echo "talk $x,$y $rest"; talk $x $y cm_${x}_$y 3 >/dev/null 2>&1; g B w20 B w20 >/dev/null 2>&1
 done
