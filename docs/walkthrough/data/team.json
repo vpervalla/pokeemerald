@@ -379,77 +379,77 @@
    ]
   },
   {
-   "species": "pikachu",
-   "name": "Pikachu",
-   "lv": 35,
-   "exp": 44699,
+   "species": "snorlax",
+   "name": "Snorlax",
+   "lv": 30,
+   "exp": 33750,
    "types": [
-    "Electric"
+    "Normal"
    ],
-   "nature": "Lonely (+Attack, −Defense)",
-   "ability": "Static",
-   "met": "Gift from Prof. Oak, L5",
-   "role": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
+   "nature": "Quiet (+Sp. Atk, −Speed)",
+   "ability": "Immunity",
+   "met": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
+   "role": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
    "stats": [
     [
      "HP",
-     76,
+     140,
      0
     ],
     [
      "Attack",
-     58,
-     1
-    ],
-    [
-     "Defense",
-     27,
-     -1
-    ],
-    [
-     "Sp. Atk",
-     57,
+     75,
      0
     ],
     [
+     "Defense",
+     45,
+     0
+    ],
+    [
+     "Sp. Atk",
+     52,
+     1
+    ],
+    [
      "Sp. Def",
-     41,
+     77,
      0
     ],
     [
      "Speed",
-     92,
-     0
+     27,
+     -1
     ]
    ],
    "moves": [
     [
-     "Thunderbolt",
-     "Electric",
-     "95",
+     "Headbutt",
+     "Normal",
+     "70",
      "100%",
      "15/15"
     ],
     [
-     "Quick Attack",
+     "Yawn",
+     "Normal",
+     "—",
+     "100%",
+     "10/10"
+    ],
+    [
+     "Rest",
+     "Psychic",
+     "—",
+     "—",
+     "10/10"
+    ],
+    [
+     "Snore",
      "Normal",
      "40",
      "100%",
-     "30/30"
-    ],
-    [
-     "Flash",
-     "Normal",
-     "—",
-     "70%",
-     "20/20"
-    ],
-    [
-     "Thunder Wave",
-     "Electric",
-     "—",
-     "100%",
-     "20/20"
+     "15/15"
     ]
    ]
   }

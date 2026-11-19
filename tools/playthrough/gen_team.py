@@ -8,6 +8,7 @@ R = os.path.abspath(os.path.join(HERE, "..", ".."))
 OUT = os.path.join(R, "docs", "walkthrough", "data", "team.json")
 
 MET = {
+    "snorlax": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
     "pikachu": "Gift from Prof. Oak, L5",
     "mankey": "Route 22, east grass, wild L4",
     "butterfree": "Caught in Viridian Forest as a wild Caterpie L4",
@@ -23,6 +24,7 @@ MET = {
     "kadabra": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
 }
 ROLE = {
+    "snorlax": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
     "pikachu": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
     "mankey": "The Fighting type: FURY SWIPES replaced SCRATCH; hits Normal and Rock hard.",
     "butterfree": "The status support: SLEEP POWDER decided Misty's STARMIE; CONFUSION is the attack.",
