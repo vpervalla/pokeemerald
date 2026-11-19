@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Celadon City (both SNORLAX caught)",
-    "party": "Charizard L37, Venusaur L35, Alakazam L34, Snorlax L30, Wartortle L33, Dr Venkman (Gengar) L31",
+    "where": "Route 16 house (HM02 FLY)",
+    "party": "Charizard L38, Venusaur L35, Alakazam L35, Snorlax L30, Wartortle L33, Dr Venkman (Gengar) L31",
     "badges": "4",
     "time": "~154:00",
-    "save": "Celadon Center (ethan_snorlax_team)",
+    "save": "Route 16 house (ethan_fly)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
