@@ -15,6 +15,15 @@ Tokens (space separated, run in order):
 import glob, os, shutil, sys
 from PIL import Image
 from emu import *
+CHARS = {}
+for _l in open(os.path.join(os.path.dirname(__file__), '..', '..', 'charmap.txt'), encoding='utf-8'):
+    _m = __import__('re').match(r"^'(.)'\s*=\s*([0-9A-F]{2})\s*$", _l)
+    if _m: CHARS.setdefault(int(_m.group(2), 16), _m.group(1))
+
+
+def txt(b):
+    return ''.join(CHARS.get(c, '\x00') for c in b.split(b'\xff')[0])
+
 
 KEYS = {"A": "A", "B": "B", "ST": "START", "SE": "SELECT", "L": "L", "R": "R"}
 DIRS = {"U": "UP", "D": "DOWN", "L": "LEFT", "R": "RIGHT"}
@@ -64,9 +73,21 @@ def run(e, tok, shots):
     return True
 
 
+def learn_prompt(e):
+    """True while a "wants to learn ..." / "forget" / "Stop learning" message is the current text (the user decides new moves)."""
+    for a in (0x0203e138, 0x020001e0):
+        t = txt(e.peek(a, 160))
+        if any(w in t for w in ("trying to learn", "learn", "forget", "Stop learning")):
+            return True
+    return False
+
+
 e = Emu()
 shots = []
 for tok in args:
+    if tok in ("A", "ST") and not os.environ.get("LEARN_OK") and learn_prompt(e):
+        print("LEARN PROMPT: a Pokemon is learning a move; stopping so the user can decide (LEARN_OK=1 overrides)")
+        e.commit(); sys.exit(3)
     tok, rep = (tok.split("*")[0], int(tok.split("*")[1])) if "*" in tok else (tok, 1)
     if not all(run(e, tok, shots) for _ in range(rep)):
         break
