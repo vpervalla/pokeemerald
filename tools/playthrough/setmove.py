@@ -23,7 +23,7 @@ p = mv.index(ids[old]); mv[p] = ids[new]
 raw[i:i + 8] = struct.pack("<4H", *mv)
 raw[i + 8 + p] = 5 if False else raw[i + 8 + p]
 # PP: full base PP of the new move (from the table below, else keep)
-BASE = {"flamethrower": 15, "water gun": 25, "hypnosis": 20}
+BASE = {"flamethrower": 15, "water gun": 25, "hypnosis": 20, "recover": 20}
 raw[i + 8 + p] = BASE.get(new, raw[i + 8 + p])
 cs = sum(struct.unpack("<24H", raw)) & 0xFFFF
 m[0x1C:0x1E] = struct.pack("<H", cs)

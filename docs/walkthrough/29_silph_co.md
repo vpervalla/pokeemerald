@@ -27,7 +27,7 @@ All 3 grunts of 2F to 11F, the scientists (Jerry, Connor, Jose, Rodney, Beau, Ta
 
 ## Party after
 
-CHARIZARD L45 (WING ATTACK, FLAMETHROWER, SLASH, SMOKESCREEN), WARTORTLE L34, DR VENKMAN L35 (fainted), VENUSAUR L37, ALAKAZAM L39 (PSYCHIC, CONFUSION, CALM MIND, PSYBEAM; fainted), SNORLAX L30. Money ¥86 713. Master Ball in the bag.
+CHARIZARD L45 (WING ATTACK, FLAMETHROWER, SLASH, SMOKESCREEN), WARTORTLE L34, DR VENKMAN L35 (fainted), VENUSAUR L37, ALAKAZAM L39 (PSYCHIC, RECOVER restored in place of CONFUSION at your request, CALM MIND, PSYBEAM), SNORLAX L30. Money ¥86 713. Master Ball in the bag.
 
 ## Bugs
 
