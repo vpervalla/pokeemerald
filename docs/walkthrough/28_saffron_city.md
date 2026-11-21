@@ -16,6 +16,12 @@
 
 Five black belts, the first four in **double battles**, which the auto-fight tool cannot play, so they were fought with `dmove` turn by turn (a helper ran each turn and a screenshot before each menu): **Hitoshi** (MACHOP, MANKEY... L31) and **Hideki** (MACHOP L32, MACHOKE L32), **Aaron** (PRIMEAPE L36) and **Mike** (MANKEY L31 x2, PRIMEAPE L31), then **Koichi** (a single battle: HITMONLEE L37 and HITMONCHAN L37; CHARIZARD's WING ATTACK and ALAKAZAM's PSYBEAM won). ¥7 200 in all; DR VENKMAN and WARTORTLE fainted once each and CHARIZARD fell to 2 HP at one point. Koichi: "Indeed, I have lost! But, I beseech you, do not take our emblem as your trophy! In return, I will give you a prized FIGHTING POKéMON! Choose whichever one you like!": the two balls at (5,3) (HITMONLEE) and (7,3) (HITMONCHAN): **you chose HITMONCHAN** ("You want the piston-punching HITMONCHAN?" YES; the nickname screen swallowed one A: B then START then A keeps the name). It went to Box 1 (the party is full).
 
+## The Copycat's house (door (22,14), after Silph Co.)
+
+With Silph Co. cleared the Rocket in front of the door is gone. **1F:** a balding man, a woman (the Copycat's mother: "My daughter is so self-centered. She has but a few friends.") and a CHANSEY; the stairs (10,2). **2F** (the Copycat's room): a DODUO ("Giiih!"), a PIKACHU and a JIGGLYPUFF that are only dolls ("This is a rare POKéMON! Huh? It's only a doll!"), the little girl (9,6) herself and a hidden **NUGGET (2,1)** (found). In the original game the girl trades the TM31 (Mimic) for a **POKé DOLL** (sold on the Celadon Department Store's 4F... not in the bag), so it was not obtained.
+
+**TM29 PSYCHIC** (from Mr. Psychic) was taught to **DR VENKMAN** forgetting MEAN LOOK at your request (ALAKAZAM already knows it): SHADOW PUNCH, NIGHT SHADE, HYPNOSIS, PSYCHIC. Save `saves/ethan_copycat.sav`.
+
 ## Party after
 
 DR VENKMAN (GENGAR) L33, WARTORTLE L33, CHARIZARD L38, VENUSAUR L35, ALAKAZAM L35, SNORLAX L30. Healed at the Saffron Center. Money ¥47 629. Save `saves/ethan_saffron.sav`. Next: **Silph Co.**.
