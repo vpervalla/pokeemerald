@@ -1,86 +1,86 @@
 {
  "mons": [
   {
-   "species": "gengar",
-   "name": "DR VENKMAN",
-   "lv": 33,
-   "exp": 32916,
+   "species": "charizard",
+   "name": "Charizard",
+   "lv": 45,
+   "exp": 89341,
    "types": [
-    "Ghost",
-    "Poison"
+    "Fire",
+    "Flying"
    ],
-   "nature": "Modest (+Sp. Atk, −Attack)",
-   "ability": "Levitate",
-   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
-   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     92,
+     151,
      0
     ],
     [
      "Attack",
-     51,
+     89,
      -1
     ],
     [
      "Defense",
-     54,
+     82,
      0
     ],
     [
      "Sp. Atk",
-     110,
-     1
-    ],
-    [
-     "Sp. Def",
-     54,
+     125,
      0
     ],
     [
+     "Sp. Def",
+     94,
+     1
+    ],
+    [
      "Speed",
-     85,
+     117,
      0
     ]
    ],
    "moves": [
     [
-     "Shadow Punch",
-     "Ghost",
+     "Wing Attack",
+     "Flying",
      "60",
-     "—",
-     "20/20"
-    ],
-    [
-     "Night Shade",
-     "Ghost",
-     "1",
      "100%",
-     "15/15"
+     "35/35"
     ],
     [
-     "Hypnosis",
-     "Psychic",
-     "—",
-     "60%",
+     "Flamethrower",
+     "Fire",
+     "95",
+     "100%",
+     "10/15"
+    ],
+    [
+     "Slash",
+     "Normal",
+     "70",
+     "100%",
      "20/20"
     ],
     [
-     "Mean Look",
+     "Smokescreen",
      "Normal",
      "—",
      "100%",
-     "5/5"
+     "20/20"
     ]
    ]
   },
   {
    "species": "wartortle",
    "name": "Wartortle",
-   "lv": 33,
-   "exp": 31981,
+   "lv": 34,
+   "exp": 33352,
    "types": [
     "Water"
    ],
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     89,
+     91,
      0
     ],
     [
      "Attack",
-     50,
+     52,
      0
     ],
     [
      "Defense",
-     62,
+     64,
      0
     ],
     [
      "Sp. Atk",
-     58,
+     59,
      0
     ],
     [
      "Sp. Def",
-     67,
+     69,
      0
     ],
     [
      "Speed",
-     54,
+     55,
      0
     ]
    ],
@@ -126,7 +126,7 @@
      "Water",
      "40",
      "100%",
-     "25/25"
+     "24/25"
     ],
     [
      "Protect",
@@ -152,86 +152,86 @@
    ]
   },
   {
-   "species": "charizard",
-   "name": "Charizard",
-   "lv": 38,
-   "exp": 51716,
+   "species": "gengar",
+   "name": "DR VENKMAN",
+   "lv": 35,
+   "exp": 36990,
    "types": [
-    "Fire",
-    "Flying"
+    "Ghost",
+    "Poison"
    ],
-   "nature": "Calm (+Sp. Def, −Attack)",
-   "ability": "Blaze",
-   "met": "see the playthrough log",
-   "role": "",
+   "nature": "Modest (+Sp. Atk, −Attack)",
+   "ability": "Levitate",
+   "met": "Pokémon Tower 5F, wild GASTLY L15 (Modest), renamed DR VENKMAN; HAUNTER at L25 by solo battles, GENGAR by the Lavender Center double exchange",
+   "role": "The Ghost/Poison special attacker (82 Sp. Atk, Modest): the goal of the Kanto run; double-exchanged from HAUNTER at the Lavender Center trader.",
    "stats": [
     [
      "HP",
-     128,
+     97,
      0
     ],
     [
      "Attack",
-     74,
+     54,
      -1
     ],
     [
      "Defense",
-     69,
+     58,
      0
     ],
     [
      "Sp. Atk",
-     105,
-     0
-    ],
-    [
-     "Sp. Def",
-     79,
+     116,
      1
     ],
     [
+     "Sp. Def",
+     57,
+     0
+    ],
+    [
      "Speed",
-     98,
+     91,
      0
     ]
    ],
    "moves": [
     [
-     "Wing Attack",
-     "Flying",
+     "Shadow Punch",
+     "Ghost",
      "60",
-     "100%",
-     "35/35"
+     "—",
+     "17/20"
     ],
     [
-     "Flamethrower",
-     "Fire",
-     "95",
+     "Night Shade",
+     "Ghost",
+     "1",
      "100%",
      "15/15"
     ],
     [
-     "Ember",
-     "Fire",
-     "40",
-     "100%",
-     "25/25"
+     "Hypnosis",
+     "Psychic",
+     "—",
+     "60%",
+     "20/20"
     ],
     [
-     "Smokescreen",
+     "Mean Look",
      "Normal",
      "—",
      "100%",
-     "20/20"
+     "5/5"
     ]
    ]
   },
   {
    "species": "venusaur",
    "name": "Venusaur",
-   "lv": 35,
-   "exp": 38939,
+   "lv": 37,
+   "exp": 44198,
    "types": [
     "Grass",
     "Poison"
@@ -243,32 +243,32 @@
    "stats": [
     [
      "HP",
-     116,
+     122,
      0
     ],
     [
      "Attack",
-     74,
-     0
-    ],
-    [
-     "Defense",
-     74,
-     0
-    ],
-    [
-     "Sp. Atk",
      78,
      0
     ],
     [
+     "Defense",
+     79,
+     0
+    ],
+    [
+     "Sp. Atk",
+     83,
+     0
+    ],
+    [
      "Sp. Def",
-     67,
+     71,
      -1
     ],
     [
      "Speed",
-     73,
+     78,
      1
     ]
    ],
@@ -278,14 +278,14 @@
      "Normal",
      "—",
      "100%",
-     "20/20"
+     "15/20"
     ],
     [
      "Poisonpowder",
      "Poison",
      "—",
      "75%",
-     "35/35"
+     "33/35"
     ],
     [
      "Sleep Powder",
@@ -299,15 +299,15 @@
      "Grass",
      "55",
      "95%",
-     "25/25"
+     "22/25"
     ]
    ]
   },
   {
    "species": "alakazam",
    "name": "Alakazam",
-   "lv": 35,
-   "exp": 37762,
+   "lv": 39,
+   "exp": 52243,
    "types": [
     "Psychic"
    ],
@@ -318,42 +318,42 @@
    "stats": [
     [
      "HP",
-     92,
+     102,
      0
     ],
     [
      "Attack",
-     44,
+     50,
      0
     ],
     [
      "Defense",
-     43,
+     49,
      0
     ],
     [
      "Sp. Atk",
-     111,
+     123,
      0
     ],
     [
      "Sp. Def",
-     64,
+     72,
      -1
     ],
     [
      "Speed",
-     117,
+     132,
      1
     ]
    ],
    "moves": [
     [
-     "Recover",
-     "Normal",
-     "—",
-     "—",
-     "20/20"
+     "Psychic",
+     "Psychic",
+     "90",
+     "100%",
+     "2/10"
     ],
     [
      "Confusion",
@@ -382,7 +382,7 @@
    "species": "snorlax",
    "name": "Snorlax",
    "lv": 30,
-   "exp": 35180,
+   "exp": 35832,
    "types": [
     "Normal"
    ],

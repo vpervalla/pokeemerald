@@ -77,7 +77,7 @@ def learn_prompt(e):
     """True while a "wants to learn ..." / "forget" / "Stop learning" message is the current text (the user decides new moves)."""
     for a in (0x0203e138, 0x020001e0):
         t = txt(e.peek(a, 160))
-        if any(w in t for w in ("trying to learn", "learn", "forget", "Stop learning")):
+        if any(w in t for w in ("trying to learn", "Stop learning", "Delete a move", "make room for", "Make it forget")):
             return True
     return False
 

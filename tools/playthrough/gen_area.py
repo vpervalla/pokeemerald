@@ -43,6 +43,7 @@ AREAS = {
     "26_game_corner_rocket_hideout": ["CeladonCity_GameCorner", "RocketHideout_B1F", "RocketHideout_B2F", "RocketHideout_B3F", "RocketHideout_B4F", "RocketHideout_Elevator"],
     "27_celadon_gym": ["CeladonCity_Gym"],
     "28_saffron_city": ["SaffronCity", "SaffronCity_Dojo", "SaffronCity_Mart", "SaffronCity_PokemonCenter_1F", "SaffronCity_MrPsychicsHouse", "SaffronCity_PokemonTrainerFanClub"],
+    "29_silph_co": ['SilphCo_1F', 'SilphCo_2F', 'SilphCo_3F', 'SilphCo_4F', 'SilphCo_5F', 'SilphCo_6F', 'SilphCo_7F', 'SilphCo_8F', 'SilphCo_9F', 'SilphCo_10F', 'SilphCo_11F', 'SilphCo_Elevator'],
     "24_route_12": ["Route12"],
     "23_route_8": ["Route8", "UndergroundPath_EastWestTunnel"],
     "22_lavender_town_tower": ["LavenderTown", "PokemonTower_1F", "PokemonTower_2F", "PokemonTower_3F", "PokemonTower_4F",

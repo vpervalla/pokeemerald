@@ -3,7 +3,7 @@
 # with move ${SLOT:-0} and re-planning after each one. Ledges and moving NPCs can still need a hand.
 g B w20 B w20 >/dev/null
 # spinner mazes: plan step by step
-case "$(st | head -1 | awk '{print $2}')" in *RocketHideout_B[234]F*|*ViridianCity_Gym*)
+case "$(st | head -1 | awk '{print $2}')" in *RocketHideout_B[234]F*|*ViridianCity_Gym*|*SilphCo_*)
   # spinner mazes: the static planner and the camera (save-block position, which lags after slides) can't be trusted,
   # so explore the REAL game (rbfs.py) for a path, replay it, and fight whatever starts a battle on the way
   for i in $(seq 1 ${TRIES:-8}); do

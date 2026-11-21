@@ -509,6 +509,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_snorlax_team.sav` | Celadon Center: PIKACHU deposited (Box 1) and the Quiet SNORLAX of Route 12 (Immunity, LEFTOVERS; HEADBUTT, YAWN, REST, SNORE) in the party instead. |
 | `saves/ethan_fly.sav` | Route 16 house: HM02 (FLY) received, Lea & Jed beaten, CHARIZARD L38, ALAKAZAM L35; party only partly healed. Next: teach FLY (not a strong move: only if you say so), a bicycle, the Saffron gates with the TEA. |
 | `saves/ethan_saffron.sav` | Saffron Center: streets, Dojo (HITMONCHAN chosen, in Box 1), Mart, Fan Club and Mr. Psychic (TM29) done; Rockets block three doors until Silph Co. Healed. Next: Silph Co., the Gym (Sabrina). |
+| `saves/ethan_silph.sav` | Silph Co. 11F: Giovanni beaten, MASTER BALL, CARD KEY, CHARIZARD L45 (SLASH), healer on 9F. Fainted: Venkman and Alakazam (revive or heal). Next: Sabrina's Gym, the Copycat's house, the leftovers on 9F/10F. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -607,3 +608,10 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - The static planner treats the SNORLAX's tile as a wall after it is gone; walk past it by hand. `clearmap_noclerk` now skips SNORLAX objects (talking to one would wake it).
 - **Double battles:** `fight` loops (99 turns) on them. Play them with `dmove IDX [1]` for each mon (menus asked per mon), switching with POKéMON > the mon > SHIFT > A (the forced-switch screen starts its cursor on the first entry; check it with a screenshot).
 - **HMs without a user:** the game lets you cut a tree (and presumably use other field moves) via a borrowed wild Pokémon, so a missing CUT does not stop the walk; `cuttree DIR` still works.
+
+## Lessons from Silph Co.
+
+- **`rbfs_g.py G N X Y [adj]`** searches the real game across floors (stairs and teleport pads are edges): it found the path to the CARD KEY room (only reachable by the 9F pad) and into the rival's pocket. `/tmp`-style helpers used: floor panel (cursor starts on the current floor: count the presses), card doors (`hU8 A` next to the panel), exit mats (step off and on).
+- Many "no path" results are only an open text box: press B a few times first (A re-talks to the person in front of you and loops).
+- A healer woman (9F) restores HP and PP: use it before Giovanni.
+- The guard now only stops on the real prompts ("is trying to learn", "Stop learning", "Delete a move", "make room for").
