@@ -1,76 +1,75 @@
 {
  "mons": [
   {
-   "species": "charizard",
-   "name": "Charizard",
-   "lv": 45,
-   "exp": 89341,
+   "species": "alakazam",
+   "name": "Alakazam",
+   "lv": 42,
+   "exp": 70701,
    "types": [
-    "Fire",
-    "Flying"
+    "Psychic"
    ],
-   "nature": "Calm (+Sp. Def, −Attack)",
-   "ability": "Blaze",
-   "met": "see the playthrough log",
-   "role": "",
+   "nature": "Naive (+Speed, −Sp. Def)",
+   "ability": "Inner Focus",
+   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
+   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
    "stats": [
     [
      "HP",
-     151,
+     110,
      0
     ],
     [
      "Attack",
-     89,
-     -1
+     54,
+     0
     ],
     [
      "Defense",
-     82,
+     53,
      0
     ],
     [
      "Sp. Atk",
-     125,
+     132,
      0
     ],
     [
      "Sp. Def",
-     94,
-     1
+     77,
+     -1
     ],
     [
      "Speed",
-     117,
-     0
+     143,
+     1
     ]
    ],
    "moves": [
     [
-     "Wing Attack",
-     "Flying",
-     "60",
+     "Psychic",
+     "Psychic",
+     "90",
      "100%",
-     "35/35"
+     "10/10"
     ],
     [
-     "Flamethrower",
-     "Fire",
-     "95",
-     "100%",
-     "10/15"
-    ],
-    [
-     "Slash",
+     "Recover",
      "Normal",
-     "70",
-     "100%",
+     "—",
+     "—",
      "20/20"
     ],
     [
-     "Smokescreen",
-     "Normal",
+     "Calm Mind",
+     "Psychic",
      "—",
+     "—",
+     "20/20"
+    ],
+    [
+     "Psybeam",
+     "Psychic",
+     "65",
      "100%",
      "20/20"
     ]
@@ -80,7 +79,7 @@
    "species": "wartortle",
    "name": "Wartortle",
    "lv": 34,
-   "exp": 33352,
+   "exp": 36342,
    "types": [
     "Water"
    ],
@@ -126,7 +125,7 @@
      "Water",
      "40",
      "100%",
-     "24/25"
+     "25/25"
     ],
     [
      "Protect",
@@ -154,8 +153,8 @@
   {
    "species": "gengar",
    "name": "DR VENKMAN",
-   "lv": 35,
-   "exp": 36990,
+   "lv": 37,
+   "exp": 47779,
    "types": [
     "Ghost",
     "Poison"
@@ -167,32 +166,32 @@
    "stats": [
     [
      "HP",
-     97,
+     102,
      0
     ],
     [
      "Attack",
-     54,
+     57,
      -1
     ],
     [
      "Defense",
-     58,
+     61,
      0
     ],
     [
      "Sp. Atk",
-     116,
+     122,
      1
     ],
     [
      "Sp. Def",
-     57,
+     60,
      0
     ],
     [
      "Speed",
-     91,
+     96,
      0
     ]
    ],
@@ -202,7 +201,7 @@
      "Ghost",
      "60",
      "—",
-     "17/20"
+     "20/20"
     ],
     [
      "Night Shade",
@@ -219,11 +218,11 @@
      "20/20"
     ],
     [
-     "Mean Look",
-     "Normal",
-     "—",
+     "Psychic",
+     "Psychic",
+     "90",
      "100%",
-     "5/5"
+     "10/10"
     ]
    ]
   },
@@ -231,7 +230,7 @@
    "species": "venusaur",
    "name": "Venusaur",
    "lv": 37,
-   "exp": 44198,
+   "exp": 46971,
    "types": [
     "Grass",
     "Poison"
@@ -278,14 +277,14 @@
      "Normal",
      "—",
      "100%",
-     "15/20"
+     "20/20"
     ],
     [
      "Poisonpowder",
      "Poison",
      "—",
      "75%",
-     "33/35"
+     "35/35"
     ],
     [
      "Sleep Powder",
@@ -299,80 +298,81 @@
      "Grass",
      "55",
      "95%",
-     "22/25"
+     "25/25"
     ]
    ]
   },
   {
-   "species": "alakazam",
-   "name": "Alakazam",
-   "lv": 39,
-   "exp": 52243,
+   "species": "charizard",
+   "name": "Charizard",
+   "lv": 47,
+   "exp": 100340,
    "types": [
-    "Psychic"
+    "Fire",
+    "Flying"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Inner Focus",
-   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
-   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "nature": "Calm (+Sp. Def, −Attack)",
+   "ability": "Blaze",
+   "met": "see the playthrough log",
+   "role": "",
    "stats": [
     [
      "HP",
-     102,
+     157,
      0
     ],
     [
      "Attack",
-     50,
-     0
+     93,
+     -1
     ],
     [
      "Defense",
-     49,
+     86,
      0
     ],
     [
      "Sp. Atk",
-     123,
+     130,
      0
     ],
     [
      "Sp. Def",
-     72,
-     -1
+     99,
+     1
     ],
     [
      "Speed",
-     132,
-     1
+     122,
+     0
     ]
    ],
    "moves": [
     [
-     "Psychic",
-     "Psychic",
-     "90",
+     "Wing Attack",
+     "Flying",
+     "60",
      "100%",
-     "2/10"
+     "35/35"
     ],
     [
-     "Confusion",
-     "Psychic",
-     "50",
+     "Flamethrower",
+     "Fire",
+     "95",
      "100%",
-     "25/25"
+     "15/15"
     ],
     [
-     "Calm Mind",
-     "Psychic",
-     "—",
-     "—",
+     "Slash",
+     "Normal",
+     "70",
+     "100%",
      "20/20"
     ],
     [
-     "Psybeam",
-     "Psychic",
-     "65",
+     "Smokescreen",
+     "Normal",
+     "—",
      "100%",
      "20/20"
     ]
@@ -381,8 +381,8 @@
   {
    "species": "snorlax",
    "name": "Snorlax",
-   "lv": 30,
-   "exp": 35832,
+   "lv": 31,
+   "exp": 40641,
    "types": [
     "Normal"
    ],
@@ -393,32 +393,32 @@
    "stats": [
     [
      "HP",
-     140,
+     144,
      0
     ],
     [
      "Attack",
-     75,
-     0
-    ],
-    [
-     "Defense",
-     45,
-     0
-    ],
-    [
-     "Sp. Atk",
-     52,
-     1
-    ],
-    [
-     "Sp. Def",
      77,
      0
     ],
     [
+     "Defense",
+     47,
+     0
+    ],
+    [
+     "Sp. Atk",
+     53,
+     1
+    ],
+    [
+     "Sp. Def",
+     80,
+     0
+    ],
+    [
      "Speed",
-     27,
+     28,
      -1
     ]
    ],

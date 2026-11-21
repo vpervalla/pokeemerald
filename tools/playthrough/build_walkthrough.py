@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Silph Co. 11F (cleared)",
-    "party": "Charizard L38, Venusaur L35, Alakazam L35, Snorlax L30, Wartortle L33, Dr Venkman (Gengar) L31",
+    "where": "Fuchsia City (streets, Center, Mart)",
+    "party": "Charizard L47, Venusaur L37, Alakazam L42, Snorlax L31, Wartortle L34, Dr Venkman (Gengar) L37",
     "badges": "4",
-    "time": "~154:00",
-    "save": "Silph Co. (ethan_silph)",
+    "time": "~181:20",
+    "save": "Fuchsia City (ethan_fuchsia)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

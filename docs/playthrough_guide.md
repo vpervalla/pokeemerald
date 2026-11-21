@@ -615,3 +615,4 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - Many "no path" results are only an open text box: press B a few times first (A re-talks to the person in front of you and loops).
 - A healer woman (9F) restores HP and PP: use it before Giovanni.
 - The guard now only stops on the real prompts ("is trying to learn", "Stop learning", "Delete a move", "make room for").
+| `saves/ethan_fuchsia.sav` | Fuchsia City, healed: Routes 13 to 15 swept (north lane of Route 15 and TM18 left: Cut tree Route 14 (1,47)), VENONAT caught, 10 Ultra Balls, 6 Revives, 5 Full Heals, MAX REVIVE; ALAKAZAM L42 CHARIZARD L47; ¥120889. Next: Koga's Gym, the Safari Zone, the north lane. |

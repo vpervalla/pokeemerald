@@ -44,6 +44,7 @@ AREAS = {
     "27_celadon_gym": ["CeladonCity_Gym"],
     "28_saffron_city": ["SaffronCity", "SaffronCity_Dojo", "SaffronCity_Mart", "SaffronCity_PokemonCenter_1F", "SaffronCity_MrPsychicsHouse", "SaffronCity_PokemonTrainerFanClub"],
     "29_silph_co": ['SilphCo_1F', 'SilphCo_2F', 'SilphCo_3F', 'SilphCo_4F', 'SilphCo_5F', 'SilphCo_6F', 'SilphCo_7F', 'SilphCo_8F', 'SilphCo_9F', 'SilphCo_10F', 'SilphCo_11F', 'SilphCo_Elevator'],
+    "30_routes_13_15_fuchsia": ["Route13", "Route14", "Route15", "Route15_WestEntrance_1F", "Route15_WestEntrance_2F", "FuchsiaCity", "FuchsiaCity_PokemonCenter_1F", "FuchsiaCity_Mart", "FuchsiaCity_SafariZone_Office", "FuchsiaCity_WardensHouse", "FuchsiaCity_House1", "FuchsiaCity_House2", "FuchsiaCity_House3"],
     "24_route_12": ["Route12"],
     "23_route_8": ["Route8", "UndergroundPath_EastWestTunnel"],
     "22_lavender_town_tower": ["LavenderTown", "PokemonTower_1F", "PokemonTower_2F", "PokemonTower_3F", "PokemonTower_4F",
@@ -356,7 +357,7 @@ AREA_MAPSEC = {
     "07_pewter_city": ["MAPSEC_PEWTER_CITY"], "09_route_3": ["MAPSEC_ROUTE_3"], "10_mt_moon": ["MAPSEC_MT_MOON"],
     "11_route_4": ["MAPSEC_ROUTE_4", "MAPSEC_ROUTE_4_POKECENTER"], "12_cerulean_city": ["MAPSEC_CERULEAN_CITY"],
     "14_route_24_25": ["MAPSEC_ROUTE_24", "MAPSEC_ROUTE_25"], "15_route_5_underground": ["MAPSEC_ROUTE_5", "MAPSEC_UNDERGROUND_PATH", "MAPSEC_UNDERGROUND_PATH_2"],
-    "16_route_6": ["MAPSEC_ROUTE_6"], "20_route_11_diglett": ["MAPSEC_ROUTE_11", "MAPSEC_DIGLETTS_CAVE"], "21_route_9_10_rock_tunnel": ["MAPSEC_ROUTE_9", "MAPSEC_ROUTE_10", "MAPSEC_ROCK_TUNNEL", "MAPSEC_ROUTE_10_POKECENTER"], "17_vermilion_city": ["MAPSEC_VERMILION_CITY"], "22_lavender_town_tower": ["MAPSEC_LAVENDER_TOWN", "MAPSEC_POKEMON_TOWER"], "23_route_8": ["MAPSEC_ROUTE_8"], "24_route_12": ["MAPSEC_ROUTE_12"], "25_celadon_city": ["MAPSEC_CELADON_CITY"], "26_game_corner_rocket_hideout": ["MAPSEC_ROCKET_HIDEOUT"], "18_ss_anne": ["MAPSEC_S_S_ANNE"],
+    "16_route_6": ["MAPSEC_ROUTE_6"], "20_route_11_diglett": ["MAPSEC_ROUTE_11", "MAPSEC_DIGLETTS_CAVE"], "21_route_9_10_rock_tunnel": ["MAPSEC_ROUTE_9", "MAPSEC_ROUTE_10", "MAPSEC_ROCK_TUNNEL", "MAPSEC_ROUTE_10_POKECENTER"], "17_vermilion_city": ["MAPSEC_VERMILION_CITY"], "22_lavender_town_tower": ["MAPSEC_LAVENDER_TOWN", "MAPSEC_POKEMON_TOWER"], "23_route_8": ["MAPSEC_ROUTE_8"], "24_route_12": ["MAPSEC_ROUTE_12"], "25_celadon_city": ["MAPSEC_CELADON_CITY"], "26_game_corner_rocket_hideout": ["MAPSEC_ROCKET_HIDEOUT"], "18_ss_anne": ["MAPSEC_S_S_ANNE"], "30_routes_13_15_fuchsia": ["MAPSEC_ROUTE_13", "MAPSEC_ROUTE_14", "MAPSEC_ROUTE_15", "MAPSEC_FUCHSIA_CITY"],
 }
 # the area whose wild tables decide what is "still missing" (several data files share a map section)
 HOW = {("pikachu", "MAPSEC_PALLET_TOWN"): "gift from Prof. Oak", ("squirtle", "MAPSEC_CERULEAN_CITY"): "gift (the house at (17,11))",

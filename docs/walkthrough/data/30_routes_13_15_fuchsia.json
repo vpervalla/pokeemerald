@@ -1,0 +1,1178 @@
+{
+ "sub": "Routes 13, 14 and 15 · Fuchsia City streets, Center, Mart and houses",
+ "title": "Routes 13–15 and Fuchsia City",
+ "tab": "Routes 13–15, Fuchsia",
+ "map": [
+  {
+   "name": "Route13",
+   "markers": [
+    [
+     "cut",
+     44,
+     5,
+     "C"
+    ],
+    [
+     "hidden",
+     23,
+     14,
+     "1"
+    ],
+    [
+     "trainer",
+     62,
+     6,
+     "T1"
+    ],
+    [
+     "trainer",
+     63,
+     12,
+     "T2"
+    ],
+    [
+     "trainer",
+     54,
+     11,
+     "T3"
+    ],
+    [
+     "trainer",
+     42,
+     7,
+     "T4"
+    ],
+    [
+     "trainer",
+     43,
+     7,
+     "T5"
+    ],
+    [
+     "trainer",
+     35,
+     10,
+     "T6"
+    ],
+    [
+     "trainer",
+     29,
+     11,
+     "T7"
+    ],
+    [
+     "trainer",
+     9,
+     14,
+     "T8"
+    ],
+    [
+     "trainer",
+     16,
+     5,
+     "T9"
+    ],
+    [
+     "trainer",
+     14,
+     8,
+     "T10"
+    ]
+   ]
+  },
+  {
+   "name": "Route14",
+   "markers": [
+    [
+     "cut",
+     7,
+     26,
+     "C"
+    ],
+    [
+     "cut",
+     12,
+     35,
+     "C"
+    ],
+    [
+     "cut",
+     1,
+     47,
+     "C"
+    ],
+    [
+     "hidden",
+     9,
+     20,
+     "2"
+    ],
+    [
+     "hidden",
+     19,
+     53,
+     "3"
+    ],
+    [
+     "trainer",
+     7,
+     37,
+     "T11"
+    ],
+    [
+     "trainer",
+     18,
+     35,
+     "T12"
+    ],
+    [
+     "trainer",
+     10,
+     14,
+     "T13"
+    ],
+    [
+     "trainer",
+     16,
+     16,
+     "T14"
+    ],
+    [
+     "trainer",
+     7,
+     31,
+     "T15"
+    ],
+    [
+     "trainer",
+     7,
+     34,
+     "T16"
+    ],
+    [
+     "trainer",
+     8,
+     9,
+     "T17"
+    ],
+    [
+     "trainer",
+     7,
+     6,
+     "T18"
+    ],
+    [
+     "trainer",
+     10,
+     37,
+     "T19"
+    ],
+    [
+     "trainer",
+     18,
+     47,
+     "T20"
+    ],
+    [
+     "trainer",
+     13,
+     51,
+     "T21"
+    ]
+   ]
+  },
+  {
+   "name": "Route15",
+   "markers": [
+    [
+     "item",
+     20,
+     6,
+     "4"
+    ],
+    [
+     "cut",
+     73,
+     7,
+     "C"
+    ],
+    [
+     "trainer",
+     22,
+     13,
+     "T22"
+    ],
+    [
+     "trainer",
+     31,
+     12,
+     "T23"
+    ],
+    [
+     "trainer",
+     37,
+     14,
+     "T24"
+    ],
+    [
+     "trainer",
+     44,
+     13,
+     "T25"
+    ],
+    [
+     "trainer",
+     50,
+     12,
+     "T26"
+    ],
+    [
+     "trainer",
+     59,
+     12,
+     "T27"
+    ],
+    [
+     "trainer",
+     63,
+     13,
+     "T28"
+    ],
+    [
+     "trainer",
+     52,
+     8,
+     "T29"
+    ],
+    [
+     "trainer",
+     54,
+     12,
+     "T30"
+    ],
+    [
+     "trainer",
+     28,
+     6,
+     "T31"
+    ],
+    [
+     "trainer",
+     39,
+     7,
+     "T32"
+    ]
+   ]
+  },
+  {
+   "name": "Route15_WestEntrance_1F",
+   "markers": []
+  },
+  {
+   "name": "Route15_WestEntrance_2F",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity",
+   "markers": [
+    [
+     "cut",
+     30,
+     10,
+     "C"
+    ],
+    [
+     "cut",
+     21,
+     13,
+     "C"
+    ],
+    [
+     "cut",
+     32,
+     16,
+     "C"
+    ],
+    [
+     "cut",
+     24,
+     22,
+     "C"
+    ],
+    [
+     "hidden",
+     33,
+     26,
+     "5"
+    ]
+   ]
+  },
+  {
+   "name": "FuchsiaCity_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_Mart",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_SafariZone_Office",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_WardensHouse",
+   "markers": [
+    [
+     "item",
+     11,
+     5,
+     "6"
+    ],
+    [
+     "item",
+     4,
+     1,
+     "7"
+    ]
+   ]
+  },
+  {
+   "name": "FuchsiaCity_House1",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_House2",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_House3",
+   "markers": []
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Picnicker Alma",
+   "hint": "Route13 at (62,6). Prize ¥448. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     28,
+     "—"
+    ],
+    [
+     "poliwag",
+     28,
+     "—"
+    ],
+    [
+     "horsea",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Sebastian",
+   "hint": "Route13 at (63,12). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     29,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Susie",
+   "hint": "Route13 at (54,11). Prize ¥384. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     24,
+     "—"
+    ],
+    [
+     "meowth",
+     24,
+     "—"
+    ],
+    [
+     "rattata",
+     24,
+     "—"
+    ],
+    [
+     "pikachu",
+     24,
+     "—"
+    ],
+    [
+     "meowth",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Sheila",
+   "hint": "Route13 at (42,7). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "clefairy",
+     29,
+     "—"
+    ],
+    [
+     "meowth",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Lola",
+   "hint": "Route13 at (43,7). Prize ¥2160. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     27,
+     "—"
+    ],
+    [
+     "pikachu",
+     27,
+     "—"
+    ],
+    [
+     "rattata",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Valerie",
+   "hint": "Route13 at (35,10). Prize ¥480. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     30,
+     "—"
+    ],
+    [
+     "poliwag",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Gwen",
+   "hint": "Route13 at (29,11). Prize ¥432. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     27,
+     "—"
+    ],
+    [
+     "meowth",
+     27,
+     "—"
+    ],
+    [
+     "pidgey",
+     27,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Robert",
+   "hint": "Route13 at (9,14). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "fearow",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Perry",
+   "hint": "Route13 at (16,5). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     25,
+     "—"
+    ],
+    [
+     "pidgey",
+     25,
+     "—"
+    ],
+    [
+     "pidgey",
+     25,
+     "—"
+    ],
+    [
+     "spearow",
+     25,
+     "—"
+    ],
+    [
+     "spearow",
+     25,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Jared",
+   "hint": "Route13 at (14,8). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Poison Gas"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Gerald",
+   "hint": "Route14 at (7,37). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     29,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "muk",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Donald",
+   "hint": "Route14 at (18,35). Prize ¥1056. <b>Beaten.</b>",
+   "team": [
+    [
+     "farfetchd",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Beck",
+   "hint": "Route14 at (10,14). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ],
+    [
+     "fearow",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Marlon",
+   "hint": "Route14 at (16,16). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "fearow",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Isaac",
+   "hint": "Route14 at (7,31). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Malik",
+   "hint": "Route14 at (7,34). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     29,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Mitch",
+   "hint": "Route14 at (8,9). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "fearow",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Carter",
+   "hint": "Route14 at (7,6). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Lukas",
+   "hint": "Route14 at (10,37). Prize ¥520. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     26,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Benny",
+   "hint": "Route14 at (18,47). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     29,
+     "—"
+    ],
+    [
+     "fearow",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Twins Kiri & Jan",
+   "hint": "Route14 at (13,51). Prize ¥348. <b>Beaten.</b>",
+   "team": [
+    [
+     "charmander",
+     29,
+     "—"
+    ],
+    [
+     "squirtle",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Yazmin",
+   "hint": "Route15 at (22,13). Prize ¥464. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     29,
+     "—"
+    ],
+    [
+     "oddish",
+     29,
+     "—"
+    ],
+    [
+     "tangela",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Edwin",
+   "hint": "Route15 at (31,12). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     26,
+     "—"
+    ],
+    [
+     "farfetchd",
+     26,
+     "—"
+    ],
+    [
+     "doduo",
+     26,
+     "—"
+    ],
+    [
+     "pidgey",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Chester",
+   "hint": "Route15 at (37,14). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "dodrio",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Kindra",
+   "hint": "Route15 at (44,13). Prize ¥448. <b>Beaten.</b>",
+   "team": [
+    [
+     "gloom",
+     28,
+     "—"
+    ],
+    [
+     "oddish",
+     28,
+     "—"
+    ],
+    [
+     "oddish",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Olivia",
+   "hint": "Route15 at (50,12). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "bulbasaur",
+     29,
+     "—"
+    ],
+    [
+     "ivysaur",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Alex",
+   "hint": "Route15 at (59,12). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Ernest",
+   "hint": "Route15 at (63,13). Prize ¥500. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     25,
+     "Minimize, Sludge, Disable, Pound"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Becky",
+   "hint": "Route15 at (52,8). Prize ¥464. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "pikachu",
+     29,
+     "—"
+    ],
+    [
+     "raichu",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Grace",
+   "hint": "Route15 at (54,12). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ],
+    [
+     "wigglytuff",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Celia",
+   "hint": "Route15 at (28,6). Prize ¥528. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "clefairy",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Crush Kin Ron & Mya",
+   "hint": "Route15 at (39,7). Prize ¥696. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "hitmonchan",
+     29,
+     "—"
+    ],
+    [
+     "hitmonlee",
+     29,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden PP Up at (23,14) (Route13).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Zinc at (9,20) (Route14).",
+   "chip": "no",
+   "chipText": "Not reached"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Pinap Berry at (19,53) (Route14).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "TM18 at (20,6) (Route15).",
+   "chip": "no",
+   "chipText": "North lane: behind the Cut tree at Route 14 (1,47)"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Max Revive at (33,26) (FuchsiaCity).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "6",
+   "text": "Rare Candy at (11,5) (FuchsiaCity_WardensHouse).",
+   "chip": "no",
+   "chipText": "Needs STRENGTH (boulder at (11,6))"
+  },
+  {
+   "kind": "item",
+   "n": "7",
+   "text": "an item at (4,1) (FuchsiaCity_WardensHouse).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE13",
+   "land_mons",
+   "Tall grass (Route13)"
+  ],
+  [
+   "MAP_ROUTE13",
+   "water_mons",
+   "Surfing (Route13)"
+  ],
+  [
+   "MAP_ROUTE13",
+   "fishing_mons",
+   "Fishing (Route13)"
+  ],
+  [
+   "MAP_ROUTE14",
+   "land_mons",
+   "Tall grass (Route14)"
+  ],
+  [
+   "MAP_ROUTE15",
+   "land_mons",
+   "Tall grass (Route15)"
+  ],
+  [
+   "MAP_FUCHSIA_CITY",
+   "water_mons",
+   "Surfing (FuchsiaCity)"
+  ],
+  [
+   "MAP_FUCHSIA_CITY",
+   "fishing_mons",
+   "Fishing (FuchsiaCity)"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "ditto",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "goldeen",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "noctowl",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "seaking",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "venonat",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weepinbell",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}
