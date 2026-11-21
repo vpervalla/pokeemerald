@@ -42,3 +42,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 - **Rocket Hideout stair warps** (B1F (12,2), (17,2), B2F (21,2), (28,2), (23,12), B3F (18,2), (15,18), B4F (11,15)) fire when a direction is pressed on the tile (the stair's own direction: the B2F stair at (21,2) needs RIGHT, the B3F one at (18,2) needs RIGHT); walking onto the tile does nothing.
 - **Hideout barriers:** B1F's barrier (20..21,19..20) opens when the grunt at (21,27) is beaten, who can only be reached by the elevator (LIFT KEY from the B4F grunt); B4F's barrier (17..18,12..14) opens when both grunts at (16,14) and (19,14) are beaten (one is on each side; the east side is reached by the elevator too). The elevator rooms' panel is at (0,2): face up from (0,3).
 - **Cerulean's east road** is only reachable from the west plateau through the robbed house (hedge at x=34 and a one-way ledge row at y=20). That matches the layout and is the intended way, but it makes the walk from the Center to Route 9 long.
+
+## 4. RETIRE in the Kanto Safari Zone warps to Hoenn
+
+START menu > RETIRE > YES in the Fuchsia Safari Zone (maps 34.63 and the other Kanto Safari maps) moves the player to `ROUTE121_SAFARI_ZONE_ENTRANCE` (Hoenn, 23.0), the Hoenn Safari's own exit warp, with the Safari state ended. The Hoenn and Kanto Safari maps are not connected and FLY needs a badge, so the player is stranded until a later badge. Walk out through the Center's south door (25..27,30) instead: the attendant then asks "Are you going to leave the SAFARI ZONE early?" and returns to Fuchsia.

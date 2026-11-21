@@ -31,3 +31,12 @@ ALAKAZAM L42 (LEFTOVERS), WARTORTLE L34, DR VENKMAN (GENGAR) L37, VENUSAUR L37, 
 ## Bugs
 
 - The Safari Zone office's middle mat (6,9) is the working exit; (5,9) and (7,9) did not warp (bug 2 family).
+
+## Later: items in the PC and a DRATINI from the Safari Zone
+
+1. **PC (Fuchsia Center, the machine at (11,2), face up from (11,3)):** ETHAN's PC > ITEM STORAGE > DEPOSIT: SOOTHE BELL, BLACKGLASSES, X ACCURACY, CLEANSE TAG, BIG MUSHROOM, PEARL, X DEFEND, AWAKENING, ICE HEAL, BURN HEAL, MOON STONE, PARLYZ HEAL and ANTIDOTE (the bag's Items pocket holds 30 slots).
+2. **Safari Zone** (door (24,5), ¥500, 30 SAFARI BALLS; walking out through the south mat of the Kanto Center map is the safe exit). The Kanto part (CENTER, EAST, NORTH, WEST) has **DRATINI L15-25 by fishing only** (slot 8 of the rod table: 15% on the SUPER ROD, which the bag already had). The pond is at (18..33,13..18); stand at **(33,19)** facing up (the ledge row at y=20 can only be passed at x 31 to 33 from the east side). The rod was registered to SELECT and a script cast it, pressed A when the "Oh! A bite!" text jumped (it comes more than once, the dots game repeats) and ran from every GOLDEEN, SEAKING and the like. Several SAFARI BALLs were wasted by an unfinished script (A pressed on the menu).
+3. **DRATINI L22 caught with the second ball** (Pokédex 49, so one more species gets OAK's AIDE's EVERSTONE). SAFARI BALLS left 22.
+4. **Bug 4: RETIRE sends you to Hoenn.** Choosing RETIRE in the START menu ("Would you like to exit the SAFARI ZONE right now?") warps to **Route 121's Safari entrance (Hoenn)**, not to Fuchsia. FLY does not help yet (no new badge). The Kanto Safari maps (`SAFARI_ZONE_CENTER` and friends) have no way back from there. A savestate from before the retire fixed it. Always leave on foot through the south mat (25..27,30) of the Safari Center and answer YES to "leave early?".
+
+Save: `saves/ethan_dratini.sav`.
