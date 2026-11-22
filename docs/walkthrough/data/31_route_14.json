@@ -1,0 +1,358 @@
+{
+ "sub": "Route 14",
+ "title": "Route 14",
+ "tab": "Route 14",
+ "map": {
+  "name": "Route14",
+  "markers": [
+   [
+    "cut",
+    7,
+    26,
+    "C"
+   ],
+   [
+    "cut",
+    12,
+    35,
+    "C"
+   ],
+   [
+    "cut",
+    1,
+    47,
+    "C"
+   ],
+   [
+    "hidden",
+    9,
+    20,
+    "1"
+   ],
+   [
+    "hidden",
+    19,
+    53,
+    "2"
+   ],
+   [
+    "trainer",
+    7,
+    37,
+    "T1"
+   ],
+   [
+    "trainer",
+    18,
+    35,
+    "T2"
+   ],
+   [
+    "trainer",
+    10,
+    14,
+    "T3"
+   ],
+   [
+    "trainer",
+    16,
+    16,
+    "T4"
+   ],
+   [
+    "trainer",
+    7,
+    31,
+    "T5"
+   ],
+   [
+    "trainer",
+    7,
+    34,
+    "T6"
+   ],
+   [
+    "trainer",
+    8,
+    9,
+    "T7"
+   ],
+   [
+    "trainer",
+    7,
+    6,
+    "T8"
+   ],
+   [
+    "trainer",
+    10,
+    37,
+    "T9"
+   ],
+   [
+    "trainer",
+    18,
+    47,
+    "T10"
+   ],
+   [
+    "trainer",
+    13,
+    51,
+    "T11"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Biker Gerald",
+   "hint": "(7,37). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     29,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "muk",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Donald",
+   "hint": "(18,35). Prize ¥1056. <b>Beaten.</b>",
+   "team": [
+    [
+     "farfetchd",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Beck",
+   "hint": "(10,14). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ],
+    [
+     "fearow",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Marlon",
+   "hint": "(16,16). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "fearow",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Isaac",
+   "hint": "(7,31). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Malik",
+   "hint": "(7,34). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     29,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Mitch",
+   "hint": "(8,9). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "fearow",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Carter",
+   "hint": "(7,6). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Lukas",
+   "hint": "(10,37). Prize ¥520. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     26,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "koffing",
+     26,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Benny",
+   "hint": "(18,47). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     29,
+     "—"
+    ],
+    [
+     "fearow",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Twins Kiri & Jan",
+   "hint": "(13,51). Prize ¥348. <b>Beaten.</b>",
+   "team": [
+    [
+     "charmander",
+     29,
+     "—"
+    ],
+    [
+     "squirtle",
+     29,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Zinc at (9,20).",
+   "chip": "no",
+   "chipText": "Not reached"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Pinap Berry at (19,53).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE14",
+   "land_mons",
+   "Tall grass"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "ditto",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "noctowl",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

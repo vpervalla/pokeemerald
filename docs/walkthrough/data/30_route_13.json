@@ -1,0 +1,392 @@
+{
+ "sub": "Route 13",
+ "title": "Route 13",
+ "tab": "Route 13",
+ "map": {
+  "name": "Route13",
+  "markers": [
+   [
+    "cut",
+    44,
+    5,
+    "C"
+   ],
+   [
+    "hidden",
+    23,
+    14,
+    "1"
+   ],
+   [
+    "trainer",
+    62,
+    6,
+    "T1"
+   ],
+   [
+    "trainer",
+    63,
+    12,
+    "T2"
+   ],
+   [
+    "trainer",
+    54,
+    11,
+    "T3"
+   ],
+   [
+    "trainer",
+    42,
+    7,
+    "T4"
+   ],
+   [
+    "trainer",
+    43,
+    7,
+    "T5"
+   ],
+   [
+    "trainer",
+    35,
+    10,
+    "T6"
+   ],
+   [
+    "trainer",
+    29,
+    11,
+    "T7"
+   ],
+   [
+    "trainer",
+    9,
+    14,
+    "T8"
+   ],
+   [
+    "trainer",
+    16,
+    5,
+    "T9"
+   ],
+   [
+    "trainer",
+    14,
+    8,
+    "T10"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Picnicker Alma",
+   "hint": "(62,6). Prize ¥448. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     28,
+     "—"
+    ],
+    [
+     "poliwag",
+     28,
+     "—"
+    ],
+    [
+     "horsea",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Sebastian",
+   "hint": "(63,12). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     29,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Susie",
+   "hint": "(54,11). Prize ¥384. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     24,
+     "—"
+    ],
+    [
+     "meowth",
+     24,
+     "—"
+    ],
+    [
+     "rattata",
+     24,
+     "—"
+    ],
+    [
+     "pikachu",
+     24,
+     "—"
+    ],
+    [
+     "meowth",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Sheila",
+   "hint": "(42,7). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "clefairy",
+     29,
+     "—"
+    ],
+    [
+     "meowth",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Lola",
+   "hint": "(43,7). Prize ¥2160. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     27,
+     "—"
+    ],
+    [
+     "pikachu",
+     27,
+     "—"
+    ],
+    [
+     "rattata",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Valerie",
+   "hint": "(35,10). Prize ¥480. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     30,
+     "—"
+    ],
+    [
+     "poliwag",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Gwen",
+   "hint": "(29,11). Prize ¥432. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     27,
+     "—"
+    ],
+    [
+     "meowth",
+     27,
+     "—"
+    ],
+    [
+     "pidgey",
+     27,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Robert",
+   "hint": "(9,14). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     26,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "fearow",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Perry",
+   "hint": "(16,5). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     25,
+     "—"
+    ],
+    [
+     "pidgey",
+     25,
+     "—"
+    ],
+    [
+     "pidgey",
+     25,
+     "—"
+    ],
+    [
+     "spearow",
+     25,
+     "—"
+    ],
+    [
+     "spearow",
+     25,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Jared",
+   "hint": "(14,8). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Poison Gas"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden PP Up at (23,14).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE13",
+   "land_mons",
+   "Tall grass"
+  ],
+  [
+   "MAP_ROUTE13",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE13",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "ditto",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "noctowl",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacool",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "weepinbell",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

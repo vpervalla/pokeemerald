@@ -1,6 +1,6 @@
-# 31 Fuchsia City
+# 33 Fuchsia City
 
-**Arrival.** The west door of Route 15's gate ([page 30](30_routes_13_15.md)) opens on Fuchsia City (map 36.7). Everything here is done except the Gym (not entered), the Safari Zone's far areas and the Rare Candy behind the Warden's boulder.
+**Arrival.** The west door of Route 15's gate ([page 32](32_route_15.md)) opens on Fuchsia City (map 36.7). Everything here is done except the Gym (not entered), the Safari Zone's far areas and the Rare Candy behind the Warden's boulder.
 
 ## Map notes
 

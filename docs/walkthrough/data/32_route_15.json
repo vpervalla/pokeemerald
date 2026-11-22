@@ -1,0 +1,368 @@
+{
+ "sub": "Route 15 · the gate (1F and 2F) · Oak's aide",
+ "title": "Route 15",
+ "tab": "Route 15",
+ "map": [
+  {
+   "name": "Route15",
+   "markers": [
+    [
+     "item",
+     20,
+     6,
+     "1"
+    ],
+    [
+     "cut",
+     73,
+     7,
+     "C"
+    ],
+    [
+     "trainer",
+     22,
+     13,
+     "T1"
+    ],
+    [
+     "trainer",
+     31,
+     12,
+     "T2"
+    ],
+    [
+     "trainer",
+     37,
+     14,
+     "T3"
+    ],
+    [
+     "trainer",
+     44,
+     13,
+     "T4"
+    ],
+    [
+     "trainer",
+     50,
+     12,
+     "T5"
+    ],
+    [
+     "trainer",
+     59,
+     12,
+     "T6"
+    ],
+    [
+     "trainer",
+     63,
+     13,
+     "T7"
+    ],
+    [
+     "trainer",
+     52,
+     8,
+     "T8"
+    ],
+    [
+     "trainer",
+     54,
+     12,
+     "T9"
+    ],
+    [
+     "trainer",
+     28,
+     6,
+     "T10"
+    ],
+    [
+     "trainer",
+     39,
+     7,
+     "T11"
+    ]
+   ]
+  },
+  {
+   "name": "Route15_WestEntrance_1F",
+   "markers": []
+  },
+  {
+   "name": "Route15_WestEntrance_2F",
+   "markers": []
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Picnicker Yazmin",
+   "hint": "Route15 at (22,13). Prize ¥464. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     29,
+     "—"
+    ],
+    [
+     "oddish",
+     29,
+     "—"
+    ],
+    [
+     "tangela",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Edwin",
+   "hint": "Route15 at (31,12). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     26,
+     "—"
+    ],
+    [
+     "farfetchd",
+     26,
+     "—"
+    ],
+    [
+     "doduo",
+     26,
+     "—"
+    ],
+    [
+     "pidgey",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Chester",
+   "hint": "Route15 at (37,14). Prize ¥896. <b>Beaten.</b>",
+   "team": [
+    [
+     "dodrio",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ],
+    [
+     "doduo",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Kindra",
+   "hint": "Route15 at (44,13). Prize ¥448. <b>Beaten.</b>",
+   "team": [
+    [
+     "gloom",
+     28,
+     "—"
+    ],
+    [
+     "oddish",
+     28,
+     "—"
+    ],
+    [
+     "oddish",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Olivia",
+   "hint": "Route15 at (50,12). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "bulbasaur",
+     29,
+     "—"
+    ],
+    [
+     "ivysaur",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Alex",
+   "hint": "Route15 at (59,12). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     28,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Ernest",
+   "hint": "Route15 at (63,13). Prize ¥500. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "grimer",
+     25,
+     "Minimize, Sludge, Disable, Pound"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Becky",
+   "hint": "Route15 at (52,8). Prize ¥464. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "pikachu",
+     29,
+     "—"
+    ],
+    [
+     "raichu",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Beauty Grace",
+   "hint": "Route15 at (54,12). Prize ¥2320. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     29,
+     "—"
+    ],
+    [
+     "wigglytuff",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Celia",
+   "hint": "Route15 at (28,6). Prize ¥528. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "clefairy",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Crush Kin Ron & Mya",
+   "hint": "Route15 at (39,7). Prize ¥696. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "hitmonchan",
+     29,
+     "—"
+    ],
+    [
+     "hitmonlee",
+     29,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM18 at (20,6) (Route15).",
+   "chip": "no",
+   "chipText": "North lane: behind the Cut tree at Route 14 (1,47)"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE15",
+   "land_mons",
+   "Tall grass (Route15)"
+  ]
+ ],
+ "caught": [
+  {
+   "species": "venonat",
+   "nick": "VENONAT",
+   "met": 24,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "ditto",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "noctowl",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weepinbell",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}
