@@ -8,7 +8,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 | 1 | PalletTown_PlayersHouse_1F (5,8) | Missing interaction | The right tile of the exit does not leave the house | open |
 | 2 | CeladonCity_GameCorner (10,13), (11,13); RocketHideout_Elevator (1,5) | Dead warp tiles | Two of the Game Corner's three exit tiles and one of the elevator's two leave nothing (same cause as #1) | open |
 | 3 | RocketHideout_B2F, B3F (spinner mazes) | Camera/position desync | After a spinner slide the save-block position (camera) stays behind the player; walls and map edges then block moves that the map allows | open |
-| 4 | SafariZone_Center (Kanto Safari Zone), START > RETIRE | Wrong destination | Retiring from the Kanto Safari Zone warps to Route 121's Hoenn Safari entrance, with no way back until a later badge (FLY) | workaround: walk out through the south door |
+| 4 | SafariZone_Center (Kanto Safari Zone), START > RETIRE | Wrong destination | Retiring, running out of SAFARI BALLs or of steps in the Kanto Safari Zone warps to Route 121's Hoenn Safari entrance, with no way back until a later badge (FLY) | workaround: walk out through the south door |
 
 ## Details
 
@@ -46,4 +46,4 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 
 ### 4. RETIRE in the Kanto Safari Zone warps to Hoenn
 
-START menu > RETIRE > YES in the Fuchsia Safari Zone (maps 34.63 and the other Kanto Safari maps) moves the player to `ROUTE121_SAFARI_ZONE_ENTRANCE` (Hoenn, 23.0), the Hoenn Safari's own exit warp, with the Safari state ended. The Hoenn and Kanto Safari maps are not connected and FLY needs a badge, so the player is stranded until a later badge. Walk out through the Center's south door (25..27,30) instead: the attendant then asks "Are you going to leave the SAFARI ZONE early?" and returns to Fuchsia.
+START menu > RETIRE > YES in the Fuchsia Safari Zone (maps 34.63 and the other Kanto Safari maps) moves the player to `ROUTE121_SAFARI_ZONE_ENTRANCE` (Hoenn, 23.0), the Hoenn Safari's own exit warp, with the Safari state ended. The Hoenn and Kanto Safari maps are not connected and FLY needs a badge, so the player is stranded until a later badge. The same exit script runs when the SAFARI BALLs run out or the steps run out (`SafariZone_EventScript_OutOfBalls`, `SafariZone_EventScript_TimesUp` and `OutOfBallsMidBattle` in `data/scripts/safari_zone.inc` all warp to `MAP_ROUTE121_SAFARI_ZONE_ENTRANCE`), so keep at least one ball and some steps. Walk out through the Center's south door (25..27,30) instead: the attendant then asks "Are you going to leave the SAFARI ZONE early?" and returns to Fuchsia.

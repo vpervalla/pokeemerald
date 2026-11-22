@@ -428,6 +428,28 @@
    "exp": 6859,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "psyduck",
+   "id": 54,
+   "nick": "AAAAAAAAAA",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 23,
+   "exp": 12167,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "dratini",
+   "id": 147,
+   "nick": "DRATINI",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 21,
+   "exp": 11576,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -456,6 +478,7 @@
   50,
   51,
   52,
+  54,
   56,
   57,
   58,
@@ -478,6 +501,7 @@
   131,
   133,
   143,
+  147,
   163,
   167
  ]

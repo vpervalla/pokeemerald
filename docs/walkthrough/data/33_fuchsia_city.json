@@ -120,7 +120,40 @@
    "Fishing (FuchsiaCity)"
   ]
  ],
- "caught": [],
+ "caught": [
+  {
+   "species": "goldeen",
+   "nick": "GOLDEEN",
+   "met": 22,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "goldeen",
+   "nick": "GOLDEEN",
+   "met": 19,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "psyduck",
+   "nick": "AAAAAAAAAA",
+   "met": 23,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "dratini",
+   "nick": "DRATINI",
+   "met": 21,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
  "missing": [
   {
    "species": "gyarados",
@@ -132,13 +165,6 @@
    "species": "poliwag",
    "via": [
     "fishing"
-   ]
-  },
-  {
-   "species": "psyduck",
-   "via": [
-    "fishing",
-    "water"
    ]
   },
   {
