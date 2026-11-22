@@ -217,7 +217,7 @@
      48,
      16
     ],
-    "page": null
+    "page": "celadon-city"
    },
    {
     "label": "Route 8",
@@ -257,7 +257,7 @@
      78,
      16
     ],
-    "page": null
+    "page": "saffron-city"
    },
    {
     "label": "Route 22",
@@ -347,7 +347,7 @@
      48,
      16
     ],
-    "page": null
+    "page": "route-13-14-15"
    },
    {
     "label": "Route 1",
@@ -377,7 +377,7 @@
      68,
      16
     ],
-    "page": null
+    "page": "fuchsia-city"
    },
    {
     "label": "Route 14",
@@ -387,7 +387,7 @@
      48,
      16
     ],
-    "page": null
+    "page": "route-13-14-15"
    },
    {
     "label": "Pallet Town",
@@ -417,7 +417,7 @@
      48,
      16
     ],
-    "page": null
+    "page": "route-13-14-15"
    },
    {
     "label": "Route 21",
@@ -437,7 +437,7 @@
      78,
      16
     ],
-    "page": null
+    "page": "fuchsia-city"
    },
    {
     "label": "Cinnabar Island",

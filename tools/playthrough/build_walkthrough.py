@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Fuchsia City (Dratini caught)",
+    "where": "Fuchsia City (Safari fishing started)",
     "party": "Charizard L47, Venusaur L37, Alakazam L42, Snorlax L31, Wartortle L34, Dr Venkman (Gengar) L37",
     "badges": "4",
     "time": "~181:20",
-    "save": "Fuchsia City (ethan_dratini)",
+    "save": "Fuchsia City (ethan_safari)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
@@ -437,9 +437,18 @@ def team_html():
     try:
         cj = json.load(open(os.path.join(WT, "data", "caught.json"), encoding="utf-8"))
         box = [m for m in cj["mons"] if m["where"] != "party"]
-        pc = ('<div class="panel wide"><h3>In the PC</h3><p>' + " ".join(f'<span class="chip no">{monname("SPECIES_" + m["species"].upper())}'
-              f' met at Lv {m["metlevel"]}, {m["mapsec"].replace("MAPSEC_", "").replace("_", " ").title()}</span>' for m in box)
-              + f'</p><p class="hint">{len(cj["dex_owned"])} species owned in the Pokédex.</p></div>')
+        boxes = {}
+        for m in box:
+            boxes.setdefault(m["where"], []).append(m)
+        def pcname(b):
+            return int(b.split()[-1]) if b.split()[-1].isdigit() else 99
+        secs = ""
+        for b in sorted(boxes, key=pcname):
+            chips = " ".join(f'<span class="chip no">{monname("SPECIES_" + m["species"].upper())}'
+                             f' met at Lv {m["metlevel"]}, {m["mapsec"].replace("MAPSEC_", "").replace("_", " ").title()}</span>' for m in boxes[b])
+            secs += f'<h4>{b.title()} ({len(boxes[b])})</h4><p>{chips}</p>'
+        pc = (f'<div class="panel wide"><h3>In the PC ({len(box)} Pokémon)</h3>{secs}'
+              f'<p class="hint">{len(cj["dex_owned"])} species owned in the Pokédex.</p></div>')
     except Exception:
         pass
     return ('<section class="team" id="s-team" aria-labelledby="team-h"><div class="team-intro"><h2 id="team-h">The team</h2>'

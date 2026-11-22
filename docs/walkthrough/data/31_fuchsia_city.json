@@ -1,0 +1,164 @@
+{
+ "sub": "Fuchsia City streets, Center, Mart, houses, Safari office",
+ "title": "Fuchsia City",
+ "tab": "Fuchsia City",
+ "map": [
+  {
+   "name": "FuchsiaCity",
+   "markers": [
+    [
+     "cut",
+     30,
+     10,
+     "C"
+    ],
+    [
+     "cut",
+     21,
+     13,
+     "C"
+    ],
+    [
+     "cut",
+     32,
+     16,
+     "C"
+    ],
+    [
+     "cut",
+     24,
+     22,
+     "C"
+    ],
+    [
+     "hidden",
+     33,
+     26,
+     "1"
+    ]
+   ]
+  },
+  {
+   "name": "FuchsiaCity_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_Mart",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_SafariZone_Office",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_WardensHouse",
+   "markers": [
+    [
+     "item",
+     11,
+     5,
+     "2"
+    ],
+    [
+     "item",
+     4,
+     1,
+     "3"
+    ]
+   ]
+  },
+  {
+   "name": "FuchsiaCity_House1",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_House2",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_House3",
+   "markers": []
+  },
+  {
+   "name": "FuchsiaCity_SafariZone_Entrance",
+   "markers": []
+  }
+ ],
+ "trainers": [],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Max Revive at (33,26) (FuchsiaCity).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Rare Candy at (11,5) (FuchsiaCity_WardensHouse).",
+   "chip": "no",
+   "chipText": "Needs STRENGTH (boulder at (11,6))"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "an item at (4,1) (FuchsiaCity_WardensHouse).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_FUCHSIA_CITY",
+   "water_mons",
+   "Surfing (FuchsiaCity)"
+  ],
+  [
+   "MAP_FUCHSIA_CITY",
+   "fishing_mons",
+   "Fishing (FuchsiaCity)"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "goldeen",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "psyduck",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "seaking",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  }
+ ]
+}
