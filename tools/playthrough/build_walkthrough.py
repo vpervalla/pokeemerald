@@ -27,7 +27,7 @@ STATUS = {
     "party": "Dragonair L45, Gengar L46, Venusaur L45, Charizard L51, Blastoise L45, Snorlax L45",
     "badges": "5",
     "time": "193:40",
-    "save": "Warden's house (ethan_hm03_hm04)",
+    "save": "Warden's house (ethan_strength_fix)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
