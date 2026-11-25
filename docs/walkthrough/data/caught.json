@@ -7,7 +7,7 @@
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 21,
-   "exp": 113906,
+   "exp": 121272,
    "level": 45,
    "where": "party"
   },
@@ -18,8 +18,8 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 83335,
-   "level": 45,
+   "exp": 89691,
+   "level": 46,
    "where": "party"
   },
   {
@@ -29,7 +29,7 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 83335,
+   "exp": 85833,
    "level": 45,
    "where": "party"
   },
@@ -40,7 +40,7 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 129455,
+   "exp": 131499,
    "level": 51,
    "where": "party"
   },

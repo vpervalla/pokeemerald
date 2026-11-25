@@ -4,7 +4,7 @@
    "species": "dragonair",
    "name": "Dragonair",
    "lv": 45,
-   "exp": 113906,
+   "exp": 121272,
    "types": [
     "Dragon"
    ],
@@ -78,8 +78,8 @@
   {
    "species": "gengar",
    "name": "Gengar",
-   "lv": 45,
-   "exp": 83335,
+   "lv": 46,
+   "exp": 89691,
    "types": [
     "Ghost",
     "Poison"
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     122,
+     125,
      0
     ],
     [
      "Attack",
-     70,
+     72,
      -1
     ],
     [
      "Defense",
-     75,
+     77,
      0
     ],
     [
      "Sp. Atk",
-     148,
+     150,
      1
     ],
     [
      "Sp. Def",
-     72,
+     74,
      0
     ],
     [
      "Speed",
-     117,
+     119,
      0
     ]
    ],
@@ -155,7 +155,7 @@
    "species": "venusaur",
    "name": "Venusaur",
    "lv": 45,
-   "exp": 83335,
+   "exp": 85833,
    "types": [
     "Grass",
     "Poison"
@@ -231,7 +231,7 @@
    "species": "charizard",
    "name": "Charizard",
    "lv": 51,
-   "exp": 129455,
+   "exp": 131499,
    "types": [
     "Fire",
     "Flying"

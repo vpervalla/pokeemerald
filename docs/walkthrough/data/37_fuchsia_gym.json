@@ -1,0 +1,188 @@
+{
+ "sub": "Koga · Soul Badge · TM06 Toxic",
+ "title": "Fuchsia Gym (Koga)",
+ "tab": "Fuchsia Gym",
+ "map": {
+  "name": "FuchsiaCity_Gym",
+  "markers": [
+   [
+    "trainer",
+    12,
+    16,
+    "T1"
+   ],
+   [
+    "trainer",
+    2,
+    9,
+    "T2"
+   ],
+   [
+    "trainer",
+    11,
+    11,
+    "T3"
+   ],
+   [
+    "trainer",
+    13,
+    4,
+    "T4"
+   ],
+   [
+    "trainer",
+    4,
+    6,
+    "T5"
+   ],
+   [
+    "trainer",
+    2,
+    16,
+    "T6"
+   ],
+   [
+    "trainer",
+    7,
+    13,
+    "T7"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Juggler Kayden",
+   "hint": "(12,16). Prize ¥1520. <b>Beaten.</b>",
+   "team": [
+    [
+     "hypno",
+     38,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Juggler Shawn",
+   "hint": "(2,9). Prize ¥1360. <b>Beaten.</b>",
+   "team": [
+    [
+     "drowzee",
+     34,
+     "—"
+    ],
+    [
+     "hypno",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Juggler Kirk",
+   "hint": "(11,11). Prize ¥1240. <b>Beaten.</b>",
+   "team": [
+    [
+     "drowzee",
+     31,
+     "—"
+    ],
+    [
+     "drowzee",
+     31,
+     "—"
+    ],
+    [
+     "kadabra",
+     31,
+     "—"
+    ],
+    [
+     "drowzee",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Tamer Edgar",
+   "hint": "(13,4). Prize ¥1320. <b>Beaten.</b>",
+   "team": [
+    [
+     "arbok",
+     33,
+     "—"
+    ],
+    [
+     "sandslash",
+     33,
+     "—"
+    ],
+    [
+     "arbok",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Tamer Phil",
+   "hint": "(4,6). Prize ¥1360. <b>Beaten.</b>",
+   "team": [
+    [
+     "sandslash",
+     34,
+     "—"
+    ],
+    [
+     "arbok",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Juggler Nate",
+   "hint": "(2,16). Prize ¥1360. <b>Beaten.</b>",
+   "team": [
+    [
+     "drowzee",
+     34,
+     "—"
+    ],
+    [
+     "kadabra",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Leader Koga",
+   "hint": "(7,13). Prize ¥4300. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     37,
+     "Self Destruct, Sludge, Smokescreen, Toxic"
+    ],
+    [
+     "muk",
+     39,
+     "Minimize, Sludge, Acid Armor, Toxic"
+    ],
+    [
+     "koffing",
+     37,
+     "Self Destruct, Sludge, Smokescreen, Toxic"
+    ],
+    [
+     "weezing",
+     43,
+     "Tackle, Sludge, Smokescreen, Toxic"
+    ]
+   ]
+  }
+ ],
+ "items": [],
+ "wild": []
+}
