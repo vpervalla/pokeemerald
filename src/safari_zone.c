@@ -5,6 +5,7 @@
 #include "overworld.h"
 #include "main.h"
 #include "pokeblock.h"
+#include "region_map.h"
 #include "safari_zone.h"
 #include "script.h"
 #include "string_util.h"
@@ -87,6 +88,12 @@ bool8 SafariZoneTakeStep(void)
         return TRUE;
     }
     return FALSE;
+}
+
+// Script helper: TRUE if the Safari Zone being left is the Kanto one.
+void IsInKantoSafariZone(void)
+{
+    gSpecialVar_Result = (GetPlayerRegion() == REGION_KANTO);
 }
 
 void SafariZoneRetirePrompt(void)
