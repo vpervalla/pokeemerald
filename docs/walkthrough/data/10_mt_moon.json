@@ -262,13 +262,6 @@
    "chipText": "Collected"
   },
   {
-   "kind": "gift",
-   "n": "9",
-   "text": "Route 4 Center: Luna's mother gives a second Moon Stone.",
-   "chip": "yes",
-   "chipText": "Done in our run"
-  },
-  {
    "kind": "item",
    "n": "10",
    "text": "Revive at (24,6), B2F: used on Butterfree.",
@@ -593,12 +586,12 @@
  ],
  "caught": [
   {
-   "species": "charmeleon",
-   "nick": "CHARMELEON",
+   "species": "charizard",
+   "nick": "CHARIZARD",
    "met": 10,
-   "level": 35,
+   "level": 51,
    "where": "party",
-   "how": "wild Charmander L10, cornered on B2F (Luna's quest)"
+   "how": "wild"
   },
   {
    "species": "zubat",

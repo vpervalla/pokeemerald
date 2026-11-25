@@ -1,0 +1,317 @@
+{
+ "sub": "Nine trainers east of Cerulean",
+ "title": "Route 9",
+ "tab": "Route 9",
+ "map": {
+  "name": "Route9",
+  "markers": [
+   [
+    "cut",
+    2,
+    8,
+    "C"
+   ],
+   [
+    "item",
+    12,
+    17,
+    "1"
+   ],
+   [
+    "item",
+    65,
+    17,
+    "2"
+   ],
+   [
+    "hidden",
+    15,
+    7,
+    "3"
+   ],
+   [
+    "hidden",
+    63,
+    2,
+    "4"
+   ],
+   [
+    "hidden",
+    48,
+    2,
+    "5"
+   ],
+   [
+    "trainer",
+    14,
+    10,
+    "T1"
+   ],
+   [
+    "trainer",
+    20,
+    17,
+    "T2"
+   ],
+   [
+    "trainer",
+    61,
+    16,
+    "T3"
+   ],
+   [
+    "trainer",
+    26,
+    7,
+    "T4"
+   ],
+   [
+    "trainer",
+    26,
+    1,
+    "T5"
+   ],
+   [
+    "trainer",
+    49,
+    7,
+    "T6"
+   ],
+   [
+    "trainer",
+    53,
+    2,
+    "T7"
+   ],
+   [
+    "trainer",
+    60,
+    9,
+    "T8"
+   ],
+   [
+    "trainer",
+    36,
+    6,
+    "T9"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM40 at (12,17) (Route9).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Burn Heal at (65,17) (Route9).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Ether at (15,7) (Route9).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Rare Candy at (63,2) (Route9).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Chesto Berry at (48,2) (Route9).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE9",
+   "land_mons",
+   "Tall grass (Route9)"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Picnicker Alicia",
+   "hint": "(14,10). Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "oddish",
+     18,
+     "—"
+    ],
+    [
+     "bellsprout",
+     18,
+     "—"
+    ],
+    [
+     "oddish",
+     18,
+     "—"
+    ],
+    [
+     "bellsprout",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Jeremy",
+   "hint": "(20,17). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     20,
+     "—"
+    ],
+    [
+     "onix",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Alan",
+   "hint": "(61,16). Prize ¥840. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ],
+    [
+     "onix",
+     21,
+     "Harden, Rock Throw, Bind, Screech"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Chris",
+   "hint": "(26,7). Prize ¥336. <b>Beaten.</b>",
+   "team": [
+    [
+     "growlithe",
+     21,
+     "—"
+    ],
+    [
+     "charmander",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Brent",
+   "hint": "(26,1). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "beedrill",
+     19,
+     "—"
+    ],
+    [
+     "beedrill",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Conner",
+   "hint": "(49,7). Prize ¥320. <b>Beaten.</b>",
+   "team": [
+    [
+     "caterpie",
+     20,
+     "—"
+    ],
+    [
+     "weedle",
+     20,
+     "—"
+    ],
+    [
+     "venonat",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Brice",
+   "hint": "(53,2). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     20,
+     "—"
+    ],
+    [
+     "machop",
+     20,
+     "—"
+    ],
+    [
+     "geodude",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Caitlin",
+   "hint": "(60,9). Prize ¥368. <b>Beaten.</b>",
+   "team": [
+    [
+     "meowth",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Drew",
+   "hint": "(36,6). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     19,
+     "—"
+    ],
+    [
+     "sandshrew",
+     19,
+     "—"
+    ],
+    [
+     "ekans",
+     19,
+     "—"
+    ],
+    [
+     "sandshrew",
+     19,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": []
+}

@@ -1,0 +1,48 @@
+{
+ "sub": "Between Celadon and Saffron",
+ "title": "Route 7",
+ "tab": "Route 7",
+ "map": {
+  "name": "Route7",
+  "markers": [
+   [
+    "cut",
+    -8,
+    12,
+    "C"
+   ],
+   [
+    "hidden",
+    16,
+    15,
+    "1"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Wepear Berry at (16,15).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE7",
+   "land_mons",
+   "Tall grass"
+  ]
+ ],
+ "trainers": [],
+ "caught": [],
+ "missing": [
+  {
+   "species": "murkrow",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

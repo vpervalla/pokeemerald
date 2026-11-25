@@ -1,0 +1,322 @@
+{
+ "sub": "Nugget Bridge · the Rocket recruiter · Leaf",
+ "title": "Route 24 (Nugget Bridge)",
+ "tab": "Route 24",
+ "map": {
+  "name": "Route24",
+  "markers": [
+   [
+    "item",
+    11,
+    4,
+    "1"
+   ],
+   [
+    "hidden",
+    19,
+    4,
+    "2"
+   ],
+   [
+    "trainer",
+    12,
+    19,
+    "T1"
+   ],
+   [
+    "trainer",
+    10,
+    22,
+    "T2"
+   ],
+   [
+    "trainer",
+    12,
+    25,
+    "T3"
+   ],
+   [
+    "trainer",
+    10,
+    28,
+    "T4"
+   ],
+   [
+    "trainer",
+    12,
+    31,
+    "T5"
+   ],
+   [
+    "trainer",
+    5,
+    21,
+    "T6"
+   ],
+   [
+    "trainer",
+    12,
+    9,
+    "T8"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM45 at (11,4) (Route24).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Pecha Berry at (19,4) (Route24).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE24",
+   "land_mons",
+   "Tall grass (Route24)"
+  ],
+  [
+   "MAP_ROUTE24",
+   "water_mons",
+   "Surfing (Route24)"
+  ],
+  [
+   "MAP_ROUTE24",
+   "fishing_mons",
+   "Fishing (Route24)"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Camper Ethan",
+   "hint": "(12,19). Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Reli",
+   "hint": "(10,22). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     16,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     16,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Timmy",
+   "hint": "(12,25). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "sandshrew",
+     14,
+     "—"
+    ],
+    [
+     "ekans",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Ali",
+   "hint": "(10,28). Prize ¥192. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     12,
+     "—"
+    ],
+    [
+     "oddish",
+     12,
+     "—"
+    ],
+    [
+     "bellsprout",
+     12,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bug Catcher Cale",
+   "hint": "(12,31). Prize ¥160. <b>Beaten.</b>",
+   "team": [
+    [
+     "caterpie",
+     10,
+     "—"
+    ],
+    [
+     "weedle",
+     10,
+     "—"
+    ],
+    [
+     "metapod",
+     10,
+     "—"
+    ],
+    [
+     "kakuna",
+     10,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Shane",
+   "hint": "(5,21). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     14,
+     "—"
+    ],
+    [
+     "ekans",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "Prize ¥480. <b>Beaten.</b>",
+   "team": [
+    [
+     "ekans",
+     15,
+     "—"
+    ],
+    [
+     "zubat",
+     15,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Leaf",
+   "hint": "(12,9). Prize ¥900. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_f",
+     13,
+     "Double Kick, Poison Sting, Scratch, Tail Whip"
+    ],
+    [
+     "clefairy",
+     13,
+     "Pound, Sing, Encore, Growl"
+    ],
+    [
+     "bulbasaur",
+     15,
+     "Vine Whip, Leech Seed, Tackle, Growl"
+    ]
+   ]
+  }
+ ],
+ "caught": [
+  {
+   "species": "oddish",
+   "nick": "ODDISH",
+   "met": 12,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "hoothoot",
+   "nick": "HOOTHOOT",
+   "met": 13,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "spinarak",
+   "nick": "SPINARAK",
+   "met": 7,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "bellsprout",
+   "nick": "BELLSPROUT",
+   "met": 13,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "alakazam",
+   "nick": "ALAKAZAM",
+   "met": 10,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kakuna",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "ledyba",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "weedle",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,279 @@
+{
+ "sub": "The Center, the Power Plant, the way to Lavender",
+ "title": "Route 10",
+ "tab": "Route 10",
+ "map": {
+  "name": "Route10",
+  "markers": [
+   [
+    "cut",
+    10,
+    20,
+    "C"
+   ],
+   [
+    "cut",
+    10,
+    22,
+    "C"
+   ],
+   [
+    "cut",
+    10,
+    24,
+    "C"
+   ],
+   [
+    "cut",
+    10,
+    26,
+    "C"
+   ],
+   [
+    "hidden",
+    10,
+    19,
+    "1"
+   ],
+   [
+    "hidden",
+    12,
+    40,
+    "2"
+   ],
+   [
+    "hidden",
+    6,
+    26,
+    "3"
+   ],
+   [
+    "hidden",
+    17,
+    29,
+    "4"
+   ],
+   [
+    "hidden",
+    20,
+    57,
+    "5"
+   ],
+   [
+    "trainer",
+    7,
+    60,
+    "T1"
+   ],
+   [
+    "trainer",
+    4,
+    62,
+    "T2"
+   ],
+   [
+    "trainer",
+    15,
+    70,
+    "T3"
+   ],
+   [
+    "trainer",
+    4,
+    68,
+    "T4"
+   ],
+   [
+    "trainer",
+    13,
+    44,
+    "T5"
+   ],
+   [
+    "trainer",
+    9,
+    27,
+    "T6"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Super Potion at (10,19) (Route10).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Max Ether at (12,40) (Route10).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Cheri Berry at (6,26) (Route10).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Persim Berry at (17,29) (Route10).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Nanab Berry at (20,57) (Route10).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE10",
+   "land_mons",
+   "Tall grass (Route10)"
+  ],
+  [
+   "MAP_ROUTE10",
+   "water_mons",
+   "Surfing (Route10)"
+  ],
+  [
+   "MAP_ROUTE10",
+   "fishing_mons",
+   "Fishing (Route10)"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Picnicker Carol",
+   "hint": "(7,60). Prize ¥336. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     21,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Clark",
+   "hint": "(4,62). Prize ¥840. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ],
+    [
+     "onix",
+     21,
+     "Harden, Rock Throw, Bind, Screech"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Herman",
+   "hint": "(15,70). Prize ¥1200. <b>Beaten.</b>",
+   "team": [
+    [
+     "cubone",
+     20,
+     "—"
+    ],
+    [
+     "slowpoke",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Trent",
+   "hint": "(4,68). Prize ¥760. <b>Beaten.</b>",
+   "team": [
+    [
+     "onix",
+     19,
+     "—"
+    ],
+    [
+     "graveler",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Mark",
+   "hint": "(13,44). Prize ¥1740. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "rhyhorn",
+     29,
+     "—"
+    ],
+    [
+     "lickitung",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Heidi",
+   "hint": "(9,27). Prize ¥320. <b>Beaten.</b>",
+   "team": [
+    [
+     "pikachu",
+     20,
+     "—"
+    ],
+    [
+     "clefairy",
+     20,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "voltorb",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

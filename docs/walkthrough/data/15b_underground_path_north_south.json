@@ -1,10 +1,8 @@
 {
- "sub": "Underground Path · 7 hidden items",
+ "sub": "Seven hidden items under Saffron",
+ "title": "Underground Path (north-south)",
+ "tab": "Underground Path N–S",
  "map": [
-  {
-   "name": "Route5",
-   "markers": []
-  },
   {
    "name": "UndergroundPath_NorthEntrance",
    "markers": []
@@ -112,14 +110,8 @@
    "chipText": "Found"
   }
  ],
+ "wild": [],
  "trainers": [],
- "wild": [
-  [
-   "MAP_ROUTE5",
-   "land_mons",
-   "Tall grass (Route5)"
-  ]
- ],
  "caught": [],
  "missing": []
 }

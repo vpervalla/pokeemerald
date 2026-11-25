@@ -1,0 +1,20 @@
+{
+ "sub": "The way south from Cerulean · the Day Care",
+ "title": "Route 5",
+ "tab": "Route 5",
+ "map": {
+  "name": "Route5",
+  "markers": []
+ },
+ "items": [],
+ "wild": [
+  [
+   "MAP_ROUTE5",
+   "land_mons",
+   "Tall grass (Route5)"
+  ]
+ ],
+ "trainers": [],
+ "caught": [],
+ "missing": []
+}

@@ -2,162 +2,113 @@
  "sub": "Nine trainers and twins · Growlithe, Vulpix · the Underground Path · the thirsty guard",
  "title": "Route 8 and the Underground Path (east)",
  "tab": "Route 8",
- "map": [
-  {
-   "name": "Route8",
-   "markers": [
-    [
-     "cut",
-     33,
-     15,
-     "C"
-    ],
-    [
-     "cut",
-     47,
-     12,
-     "C"
-    ],
-    [
-     "hidden",
-     42,
-     10,
-     "1"
-    ],
-    [
-     "hidden",
-     38,
-     11,
-     "2"
-    ],
-    [
-     "hidden",
-     42,
-     15,
-     "3"
-    ],
-    [
-     "trainer",
-     62,
-     14,
-     "T1"
-    ],
-    [
-     "trainer",
-     55,
-     15,
-     "T2"
-    ],
-    [
-     "trainer",
-     51,
-     6,
-     "T3"
-    ],
-    [
-     "trainer",
-     29,
-     3,
-     "T4"
-    ],
-    [
-     "trainer",
-     29,
-     4,
-     "T5"
-    ],
-    [
-     "trainer",
-     29,
-     5,
-     "T6"
-    ],
-    [
-     "trainer",
-     29,
-     6,
-     "T7"
-    ],
-    [
-     "trainer",
-     21,
-     3,
-     "T8"
-    ],
-    [
-     "trainer",
-     9,
-     6,
-     "T9"
-    ],
-    [
-     "trainer",
-     40,
-     3,
-     "T10"
-    ],
-    [
-     "trainer",
-     14,
-     16,
-     "T11"
-    ],
-    [
-     "trainer",
-     24,
-     17,
-     "T12"
-    ]
+ "map": {
+  "name": "Route8",
+  "markers": [
+   [
+    "cut",
+    33,
+    15,
+    "C"
+   ],
+   [
+    "cut",
+    47,
+    12,
+    "C"
+   ],
+   [
+    "hidden",
+    42,
+    10,
+    "1"
+   ],
+   [
+    "hidden",
+    38,
+    11,
+    "2"
+   ],
+   [
+    "hidden",
+    42,
+    15,
+    "3"
+   ],
+   [
+    "trainer",
+    62,
+    14,
+    "T1"
+   ],
+   [
+    "trainer",
+    55,
+    15,
+    "T2"
+   ],
+   [
+    "trainer",
+    51,
+    6,
+    "T3"
+   ],
+   [
+    "trainer",
+    29,
+    3,
+    "T4"
+   ],
+   [
+    "trainer",
+    29,
+    4,
+    "T5"
+   ],
+   [
+    "trainer",
+    29,
+    5,
+    "T6"
+   ],
+   [
+    "trainer",
+    29,
+    6,
+    "T7"
+   ],
+   [
+    "trainer",
+    21,
+    3,
+    "T8"
+   ],
+   [
+    "trainer",
+    9,
+    6,
+    "T9"
+   ],
+   [
+    "trainer",
+    40,
+    3,
+    "T10"
+   ],
+   [
+    "trainer",
+    14,
+    16,
+    "T11"
+   ],
+   [
+    "trainer",
+    24,
+    17,
+    "T12"
    ]
-  },
-  {
-   "name": "UndergroundPath_EastWestTunnel",
-   "markers": [
-    [
-     "hidden",
-     7,
-     3,
-     "4"
-    ],
-    [
-     "hidden",
-     17,
-     5,
-     "5"
-    ],
-    [
-     "hidden",
-     31,
-     4,
-     "6"
-    ],
-    [
-     "hidden",
-     45,
-     3,
-     "7"
-    ],
-    [
-     "hidden",
-     70,
-     3,
-     "8"
-    ],
-    [
-     "hidden",
-     55,
-     2,
-     "9"
-    ],
-    [
-     "hidden",
-     62,
-     5,
-     "10"
-    ]
-   ]
-  }
- ],
+  ]
+ },
  "items": [
   {
    "kind": "hidden",
@@ -179,55 +130,6 @@
    "text": "Hidden Leppa Berry at (42,15) (Route8).",
    "chip": "yes",
    "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "4",
-   "text": "Hidden Potion at (7,3) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "5",
-   "text": "Hidden Paralyze Heal at (17,5) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "6",
-   "text": "Hidden Awakening at (31,4) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "7",
-   "text": "Hidden Burn Heal at (45,3) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "8",
-   "text": "Hidden Ice Heal at (70,3) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "9",
-   "text": "Hidden Ether at (55,2) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
-  },
-  {
-   "kind": "hidden",
-   "n": "10",
-   "text": "Hidden Antidote at (62,5) (UndergroundPath_EastWestTunnel).",
-   "chip": "yes",
-   "chipText": "Found"
   }
  ],
  "wild": [
@@ -240,7 +142,7 @@
  "trainers": [
   {
    "name": "Lass Julia",
-   "hint": "Route8 at (62,14). Prize ¥352. <b>Beaten.</b>",
+   "hint": "(62,14). Prize ¥352. <b>Beaten.</b>",
    "team": [
     [
      "clefairy",
@@ -256,7 +158,7 @@
   },
   {
    "name": "Gamer Rich",
-   "hint": "Route8 at (55,15). Prize ¥1728. <b>Beaten.</b>",
+   "hint": "(55,15). Prize ¥1728. <b>Beaten.</b>",
    "team": [
     [
      "growlithe",
@@ -272,7 +174,7 @@
   },
   {
    "name": "Super Nerd Glenn",
-   "hint": "Route8 at (51,6). Prize ¥528. <b>Beaten.</b>",
+   "hint": "(51,6). Prize ¥528. <b>Beaten.</b>",
    "team": [
     [
      "grimer",
@@ -293,7 +195,7 @@
   },
   {
    "name": "Lass Paige",
-   "hint": "Route8 at (29,3). Prize ¥368. <b>Beaten.</b>",
+   "hint": "(29,3). Prize ¥368. <b>Beaten.</b>",
    "team": [
     [
      "nidoran_f",
@@ -309,7 +211,7 @@
   },
   {
    "name": "Super Nerd Leslie",
-   "hint": "Route8 at (29,4). Prize ¥624. <b>Beaten.</b>",
+   "hint": "(29,4). Prize ¥624. <b>Beaten.</b>",
    "team": [
     [
      "koffing",
@@ -320,7 +222,7 @@
   },
   {
    "name": "Lass Andrea",
-   "hint": "Route8 at (29,5). Prize ¥384. <b>Beaten.</b>",
+   "hint": "(29,5). Prize ¥384. <b>Beaten.</b>",
    "team": [
     [
      "meowth",
@@ -341,7 +243,7 @@
   },
   {
    "name": "Lass Megan",
-   "hint": "Route8 at (29,6). Prize ¥304. <b>Beaten.</b>",
+   "hint": "(29,6). Prize ¥304. <b>Beaten.</b>",
    "team": [
     [
      "pidgey",
@@ -372,7 +274,7 @@
   },
   {
    "name": "Gamer Stan",
-   "hint": "Route8 at (21,3). Prize ¥1584. <b>Beaten.</b>",
+   "hint": "(21,3). Prize ¥1584. <b>Beaten.</b>",
    "team": [
     [
      "poliwag",
@@ -393,7 +295,7 @@
   },
   {
    "name": "Super Nerd Aidan",
-   "hint": "Route8 at (9,6). Prize ¥480. <b>Beaten.</b>",
+   "hint": "(9,6). Prize ¥480. <b>Beaten.</b>",
    "team": [
     [
      "voltorb",
@@ -419,7 +321,7 @@
   },
   {
    "name": "Twins Eli & Anne",
-   "hint": "Route8 at (40,3). Prize ¥264. <b>Beaten.</b>",
+   "hint": "(40,3). Prize ¥264. <b>Beaten.</b>",
    "team": [
     [
      "clefairy",
@@ -435,7 +337,7 @@
   },
   {
    "name": "Biker Ricardo",
-   "hint": "Route8 at (14,16). Prize ¥460. <b>Beaten.</b>",
+   "hint": "(14,16). Prize ¥460. <b>Beaten.</b>",
    "team": [
     [
      "koffing",
@@ -456,7 +358,7 @@
   },
   {
    "name": "Biker Jaren",
-   "hint": "Route8 at (24,17). Prize ¥480. <b>Beaten.</b>",
+   "hint": "(24,17). Prize ¥480. <b>Beaten.</b>",
    "team": [
     [
      "grimer",

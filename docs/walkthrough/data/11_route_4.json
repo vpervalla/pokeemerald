@@ -63,6 +63,13 @@
    "text": "Hidden Razz Berry at (67,17).",
    "chip": "no",
    "chipText": "Not found"
+  },
+  {
+   "kind": "gift",
+   "n": "5",
+   "text": "Route 4 Center: Luna's mother gives a second Moon Stone.",
+   "chip": "yes",
+   "chipText": "Done in our run"
   }
  ],
  "trainers": [
@@ -108,7 +115,7 @@
  "caught": [
   {
    "species": "magikarp",
-   "nick": "AAAAAAAAAA",
+   "nick": "MAGIKARP",
    "met": 5,
    "level": null,
    "where": "box 1",
@@ -171,12 +178,7 @@
    "via": [
     "fishing"
    ]
-  },
-  {
-   "species": "tentacool",
-   "via": [
-    "water"
-   ]
   }
- ]
+ ],
+ "title": "Route 4"
 }

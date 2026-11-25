@@ -1,6 +1,6 @@
 {
  "sub": "Four fishermen and a couple · the lookout's TM27 · the sleeping Snorlax",
- "title": "Route 12 (north)",
+ "title": "Route 12",
  "tab": "Route 12",
  "map": {
   "name": "Route12",
@@ -228,7 +228,7 @@
   },
   {
    "name": "Rocker Luca",
-   "hint": "(13,92). Prize ¥696. <b>Not fought yet.</b>",
+   "hint": "(13,92). Prize ¥696. <b>Beaten.</b>",
    "team": [
     [
      "voltorb",
@@ -244,7 +244,7 @@
   },
   {
    "name": "Camper Justin",
-   "hint": "(10,99). Prize ¥464. <b>Not fought yet.</b>",
+   "hint": "(10,99). Prize ¥464. <b>Beaten.</b>",
    "team": [
     [
      "nidoran_m",
@@ -260,7 +260,7 @@
   },
   {
    "name": "Fisherman Andrew",
-   "hint": "(18,108). Prize ¥960. <b>Not fought yet.</b>",
+   "hint": "(18,108). Prize ¥960. <b>Beaten.</b>",
    "team": [
     [
      "magikarp",
@@ -291,7 +291,16 @@
    ]
   }
  ],
- "caught": [],
+ "caught": [
+  {
+   "species": "snorlax",
+   "nick": "SNORLAX",
+   "met": 30,
+   "level": 45,
+   "where": "party",
+   "how": "wild"
+  }
+ ],
  "missing": [
   {
    "species": "gloom",
@@ -315,24 +324,6 @@
    "species": "krabby",
    "via": [
     "fishing"
-   ]
-  },
-  {
-   "species": "psyduck",
-   "via": [
-    "fishing"
-   ]
-  },
-  {
-   "species": "tentacool",
-   "via": [
-    "water"
-   ]
-  },
-  {
-   "species": "venonat",
-   "via": [
-    "land"
    ]
   },
   {

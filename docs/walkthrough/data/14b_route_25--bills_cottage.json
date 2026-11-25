@@ -1,0 +1,12 @@
+{
+ "sub": "Bill and the S.S. Ticket",
+ "title": "Bill's Sea Cottage",
+ "tab": "Bill's Cottage",
+ "map": {
+  "name": "Route25_SeaCottage",
+  "markers": []
+ },
+ "items": [],
+ "wild": [],
+ "trainers": []
+}

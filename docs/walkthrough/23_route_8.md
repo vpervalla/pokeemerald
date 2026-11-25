@@ -1,6 +1,6 @@
-# 23 Route 8 and the Underground Path (east)
+# 23 Route 8
 
-**Arrival.** From Lavender Town's west edge: the town's rows 5 to 9 are blocked by the rocky hill, but **(1,9)** walks out onto Route 8 (map 36.26) at its east end (69,9). The route runs 70 tiles west to the Saffron City gate. It has a Cut tree at (33,15) and another at (47,12) (they grow back whenever the map is reloaded: a visit to Lavender counts), the **Underground Path's east entrance** at (13,4) and the **west gatehouse** at (7,10).
+**Arrival.** From Lavender Town's west edge: the town's rows 5 to 9 are blocked by the rocky hill, but **(1,9)** walks out onto Route 8 (map 36.26) at its east end (69,9). The route runs 70 tiles west to the Saffron City gate. It has a Cut tree at (33,15) and another at (47,12) (they grow back whenever the map is reloaded: a visit to Lavender counts), the **[Underground Path](23b_underground_path_east_west.md)'s east entrance** at (13,4) and the **west gatehouse** at (7,10).
 
 ## Map notes
 
@@ -9,7 +9,6 @@
 
 ## Everyone and every building
 
-- **Underground Path, east entrance** (door (13,4)): a woman ("The DEPARTMENT STORE in CELADON has a great selection. Do you go there very often?"). Stairs at (7,4) lead to the **East-West tunnel** (76 tiles to the west entrance on Route 7 and so to Celadon), whose **seven hidden items** are all found: POTION (7,3), PARALYZ HEAL (17,5), AWAKENING (31,4), BURN HEAL (45,3), ETHER (55,2), ANTIDOTE (62,5), ICE HEAL (70,3). The tunnel has no trainers.
 - **West gatehouse** (door (7,10)): the Saffron gate guard: "I'm on guard duty. Gee, I'm thirsty, though! Oh, wait there, the road's closed." Giving him a **TEA** (from Celadon) opens the way ("Huh? I can have this drink? ... You can go on through. I'll share this TEA with the others"). The player has no TEA yet, so Saffron is closed from this side.
 - Route 8 has no other people than its trainers (nine singles, the TWINS ELI and ANNE as a double battle).
 

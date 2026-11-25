@@ -1,4 +1,4 @@
-# 24 Route 12 (north, up to the Snorlax)
+# 24 Route 12
 
 **Arrival.** South of Lavender Town: the town's south wall is rock except for two tiles, **(11,19) and (12,19)**, which lead onto Route 12 (map 36.30) at (11,3). The route is a long wooden-bridge road (120 rows). A **gatehouse crosses the road at y 15 to 21**: Route 12 north is cut off from the rest of the road until you walk through it (door (14,15), stairs, door (14,21)). The road south ends at a sleeping **SNORLAX** on the bridge at (14,70): it needs the POKé FLUTE (Mr. Fuji, after the Pokémon Tower).
 

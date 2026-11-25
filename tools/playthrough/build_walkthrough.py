@@ -71,7 +71,7 @@ def data_uri(rel):
 
 
 def slug(name):
-    return re.sub(r"^\d+_", "", name).replace("_", "-")
+    return re.sub(r"^\d+[a-z]?_", "", name).replace("_", "-")
 
 
 # ---------- markdown subset ----------
@@ -91,6 +91,9 @@ def inline(t):
         if ".md" in href:
             base = os.path.basename(href.split("#")[0])[:-3]
             href = "#bugs" if base == "playthrough_bugs" else "#" + slug(base)
+            tgt = next((q for q in PAGES if q["id"] == href[1:]), None)
+            if tgt and re.fullmatch(r"page [\d.]+", m.group(1)):   # "[page 24](24_route_12.md)": page numbers move, names don't
+                return f'<a href="{href}">{tgt["tab"]}</a>'
         return f'<a href="{href}">{m.group(1)}</a>'
     t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", ln, t)
     t = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", t)
@@ -298,7 +301,7 @@ def trainer_cards(trainers):
 
 def load_pages():
     pages = []
-    for md in sorted(glob.glob(os.path.join(WT, "[0-9][0-9]_*.md"))):
+    for md in sorted(m for m in glob.glob(os.path.join(WT, "[0-9][0-9]*_*.md")) if re.match(r"\d\d[a-z]?_", os.path.basename(m))):
         name = os.path.basename(md)[:-3]
         data_p = os.path.join(WT, "data", name + ".json")
         data = json.load(open(data_p, encoding="utf-8")) if os.path.exists(data_p) else {}

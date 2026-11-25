@@ -1,0 +1,107 @@
+{
+ "sub": "Seven hidden items between Lavender and Celadon",
+ "title": "Underground Path (east-west)",
+ "tab": "Underground Path E–W",
+ "map": {
+  "name": "UndergroundPath_EastWestTunnel",
+  "markers": [
+   [
+    "hidden",
+    7,
+    3,
+    "1"
+   ],
+   [
+    "hidden",
+    17,
+    5,
+    "2"
+   ],
+   [
+    "hidden",
+    31,
+    4,
+    "3"
+   ],
+   [
+    "hidden",
+    45,
+    3,
+    "4"
+   ],
+   [
+    "hidden",
+    70,
+    3,
+    "5"
+   ],
+   [
+    "hidden",
+    55,
+    2,
+    "6"
+   ],
+   [
+    "hidden",
+    62,
+    5,
+    "7"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Potion at (7,3) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Paralyze Heal at (17,5) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Awakening at (31,4) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Burn Heal at (45,3) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Ice Heal at (70,3) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "6",
+   "text": "Hidden Ether at (55,2) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "7",
+   "text": "Hidden Antidote at (62,5) (UndergroundPath_EastWestTunnel).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [],
+ "trainers": [],
+ "caught": [],
+ "missing": []
+}

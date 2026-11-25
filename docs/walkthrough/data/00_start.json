@@ -17,7 +17,7 @@
      70,
      16
     ],
-    "page": "route-24-25"
+    "page": "route-25--bills-cottage"
    },
    {
     "label": "Route 25",
@@ -27,7 +27,7 @@
      50,
      16
     ],
-    "page": "route-24-25"
+    "page": "route-25"
    },
    {
     "label": "Indigo Plateau",
@@ -67,7 +67,7 @@
      106,
      16
     ],
-    "page": "cerulean-city"
+    "page": null
    },
    {
     "label": "Route 24",
@@ -77,7 +77,7 @@
      50,
      16
     ],
-    "page": "route-24-25"
+    "page": "route-24"
    },
    {
     "label": "Route 3",
@@ -117,7 +117,7 @@
      46,
      16
     ],
-    "page": "route-9-10-rock-tunnel"
+    "page": "route-9"
    },
    {
     "label": "Rock Tunnel",
@@ -127,7 +127,7 @@
      70,
      16
     ],
-    "page": "route-9-10-rock-tunnel"
+    "page": "rock-tunnel"
    },
    {
     "label": "Route 23",
@@ -147,7 +147,7 @@
      88,
      16
     ],
-    "page": "route-11-diglett"
+    "page": "digletts-cave"
    },
    {
     "label": "Power Plant",
@@ -157,7 +157,7 @@
      82,
      16
     ],
-    "page": "route-9-10-rock-tunnel"
+    "page": null
    },
    {
     "label": "Route 5",
@@ -167,7 +167,7 @@
      46,
      16
     ],
-    "page": "route-5-underground"
+    "page": "route-5"
    },
    {
     "label": "Celadon City",
@@ -187,7 +187,7 @@
      48,
      16
     ],
-    "page": "route-9-10-rock-tunnel"
+    "page": "route-10"
    },
    {
     "label": "Victory Road",
@@ -237,7 +237,7 @@
      86,
      16
     ],
-    "page": "lavender-town-tower"
+    "page": "lavender-town"
    },
    {
     "label": "Route 7",
@@ -247,7 +247,7 @@
      46,
      16
     ],
-    "page": "celadon-city"
+    "page": "route-7"
    },
    {
     "label": "Saffron City",
@@ -307,7 +307,7 @@
      90,
      16
     ],
-    "page": "route-11-diglett"
+    "page": "digletts-cave"
    },
    {
     "label": "Route 11",
@@ -317,7 +317,7 @@
      48,
      16
     ],
-    "page": "route-11-diglett"
+    "page": "route-11"
    },
    {
     "label": "Viridian City",
@@ -377,7 +377,7 @@
      68,
      16
     ],
-    "page": "fuchsia-city"
+    "page": "fuchsia-city--safari-zone"
    },
    {
     "label": "Route 14",

@@ -13,7 +13,8 @@ BLUE waits at (22,5): "Yo! ETHAN!" Team: PIDGEOTTO L17, ABRA L16, RATTATA L15, S
 
 ## Story
 
-1. **Walking back from Route 2** (after fetching HM05): Route 5's north end comes out on Cerulean's south edge at x 15, the east strip leads up to the robbed house's back door, through the house, and back out of the back door onto the east road for Route 9.
+1. **Arrival from Mt. Moon.** Route 4's east road ends at Cerulean's west edge (3,20). The Pokémon Center at (22,19) healed the party and the run was saved there: `saves/ethan_cerulean_arrival.sav`. The Mart (balls), the Gym and the rest of Cerulean are next.
+2. **Walking back from Route 2** (after fetching HM05): Route 5's north end comes out on Cerulean's south edge at x 15, the east strip leads up to the robbed house's back door, through the house, and back out of the back door onto the east road for Route 9.
 
 ## Bugs
 

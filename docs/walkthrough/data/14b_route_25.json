@@ -1,0 +1,351 @@
+{
+ "sub": "Nine trainers · Bill's Sea Cottage",
+ "title": "Route 25",
+ "tab": "Route 25",
+ "map": {
+  "name": "Route25",
+  "markers": [
+   [
+    "item",
+    26,
+    2,
+    "1"
+   ],
+   [
+    "cut",
+    30,
+    3,
+    "C"
+   ],
+   [
+    "hidden",
+    14,
+    2,
+    "2"
+   ],
+   [
+    "hidden",
+    58,
+    6,
+    "3"
+   ],
+   [
+    "hidden",
+    33,
+    8,
+    "4"
+   ],
+   [
+    "hidden",
+    40,
+    3,
+    "5"
+   ],
+   [
+    "trainer",
+    11,
+    4,
+    "T1"
+   ],
+   [
+    "trainer",
+    18,
+    2,
+    "T2"
+   ],
+   [
+    "trainer",
+    17,
+    7,
+    "T3"
+   ],
+   [
+    "trainer",
+    22,
+    4,
+    "T4"
+   ],
+   [
+    "trainer",
+    22,
+    8,
+    "T5"
+   ],
+   [
+    "trainer",
+    27,
+    9,
+    "T6"
+   ],
+   [
+    "trainer",
+    28,
+    4,
+    "T7"
+   ],
+   [
+    "trainer",
+    36,
+    4,
+    "T8"
+   ],
+   [
+    "trainer",
+    42,
+    5,
+    "T9"
+   ]
+  ]
+ },
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "TM43 at (26,2) (Route25).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Elixir at (14,2) (Route25).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Ether at (58,6) (Route25).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Oran Berry at (33,8) (Route25).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Bluk Berry at (40,3) (Route25).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE25",
+   "land_mons",
+   "Tall grass (Route25)"
+  ],
+  [
+   "MAP_ROUTE25",
+   "water_mons",
+   "Surfing (Route25)"
+  ],
+  [
+   "MAP_ROUTE25",
+   "fishing_mons",
+   "Fishing (Route25)"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Hiker Franklin",
+   "hint": "(11,4). Prize ¥600. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     15,
+     "—"
+    ],
+    [
+     "geodude",
+     15,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Joey",
+   "hint": "(18,2). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     15,
+     "—"
+    ],
+    [
+     "spearow",
+     15,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Wayne",
+   "hint": "(17,7). Prize ¥680. <b>Beaten.</b>",
+   "team": [
+    [
+     "onix",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Dan",
+   "hint": "(22,4). Prize ¥272. <b>Beaten.</b>",
+   "team": [
+    [
+     "slowpoke",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Kelsey",
+   "hint": "(22,8). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     15,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     15,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Nob",
+   "hint": "(27,9). Prize ¥520. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     13,
+     "—"
+    ],
+    [
+     "geodude",
+     13,
+     "—"
+    ],
+    [
+     "machop",
+     13,
+     "—"
+    ],
+    [
+     "geodude",
+     13,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Camper Flint",
+   "hint": "(28,4). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     14,
+     "—"
+    ],
+    [
+     "ekans",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Chad",
+   "hint": "(36,4). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "ekans",
+     14,
+     "—"
+    ],
+    [
+     "sandshrew",
+     14,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Haley",
+   "hint": "(42,5). Prize ¥208. <b>Beaten.</b>",
+   "team": [
+    [
+     "oddish",
+     13,
+     "—"
+    ],
+    [
+     "pidgey",
+     13,
+     "—"
+    ],
+    [
+     "oddish",
+     13,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kakuna",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "ledyba",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "poliwhirl",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing",
+    "water"
+   ]
+  },
+  {
+   "species": "weedle",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

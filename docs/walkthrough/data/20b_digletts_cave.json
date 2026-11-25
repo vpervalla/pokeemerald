@@ -1,0 +1,47 @@
+{
+ "sub": "Diglett and Dugtrio · the tunnel to Route 2",
+ "title": "Diglett's Cave",
+ "tab": "Diglett's Cave",
+ "map": [
+  {
+   "name": "DiglettsCave_SouthEntrance",
+   "markers": []
+  },
+  {
+   "name": "DiglettsCave_B1F",
+   "markers": []
+  },
+  {
+   "name": "DiglettsCave_NorthEntrance",
+   "markers": []
+  }
+ ],
+ "items": [],
+ "wild": [
+  [
+   "MAP_DIGLETTS_CAVE_B1F",
+   "land_mons",
+   "Tall grass (DiglettsCave_B1F)"
+  ]
+ ],
+ "trainers": [],
+ "caught": [
+  {
+   "species": "diglett",
+   "nick": "DIGLETT",
+   "met": 18,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "dugtrio",
+   "nick": "DUGTRIO",
+   "met": 29,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": []
+}

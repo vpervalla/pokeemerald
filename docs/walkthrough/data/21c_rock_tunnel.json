@@ -1,0 +1,502 @@
+{
+ "sub": "Dark floors, hikers and FLASH",
+ "title": "Rock Tunnel",
+ "tab": "Rock Tunnel",
+ "map": [
+  {
+   "name": "RockTunnel_1F",
+   "markers": [
+    [
+     "item",
+     37,
+     5,
+     "1"
+    ],
+    [
+     "item",
+     33,
+     22,
+     "2"
+    ],
+    [
+     "item",
+     22,
+     22,
+     "3"
+    ],
+    [
+     "trainer",
+     26,
+     28,
+     "T1"
+    ],
+    [
+     "trainer",
+     39,
+     27,
+     "T2"
+    ],
+    [
+     "trainer",
+     45,
+     24,
+     "T3"
+    ],
+    [
+     "trainer",
+     20,
+     17,
+     "T4"
+    ],
+    [
+     "trainer",
+     5,
+     20,
+     "T5"
+    ],
+    [
+     "trainer",
+     7,
+     5,
+     "T6"
+    ],
+    [
+     "trainer",
+     27,
+     10,
+     "T7"
+    ]
+   ]
+  },
+  {
+   "name": "RockTunnel_B1F",
+   "markers": [
+    [
+     "item",
+     2,
+     37,
+     "4"
+    ],
+    [
+     "item",
+     9,
+     2,
+     "5"
+    ],
+    [
+     "trainer",
+     2,
+     6,
+     "T8"
+    ],
+    [
+     "trainer",
+     5,
+     11,
+     "T9"
+    ],
+    [
+     "trainer",
+     11,
+     15,
+     "T10"
+    ],
+    [
+     "trainer",
+     36,
+     11,
+     "T11"
+    ],
+    [
+     "trainer",
+     41,
+     5,
+     "T12"
+    ],
+    [
+     "trainer",
+     23,
+     23,
+     "T13"
+    ],
+    [
+     "trainer",
+     15,
+     33,
+     "T14"
+    ],
+    [
+     "trainer",
+     29,
+     35,
+     "T15"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Repel at (37,5) (RockTunnel_1F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Pearl at (33,22) (RockTunnel_1F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Escape Rope at (22,22) (RockTunnel_1F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "Revive at (2,37) (RockTunnel_B1F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "5",
+   "text": "Max Ether at (9,2) (RockTunnel_B1F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROCK_TUNNEL_1F",
+   "land_mons",
+   "Tall grass (RockTunnel_1F)"
+  ],
+  [
+   "MAP_ROCK_TUNNEL_B1F",
+   "land_mons",
+   "Tall grass (RockTunnel_B1F)"
+  ],
+  [
+   "MAP_ROCK_TUNNEL_B1F",
+   "rock_smash_mons",
+   "Rock Smash (RockTunnel_B1F)"
+  ]
+ ],
+ "trainers": [
+  {
+   "name": "Picnicker Dana",
+   "hint": "RockTunnel_1F at (26,28). Prize ¥320. <b>Beaten.</b>",
+   "team": [
+    [
+     "meowth",
+     20,
+     "—"
+    ],
+    [
+     "oddish",
+     20,
+     "—"
+    ],
+    [
+     "pidgey",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Ariana",
+   "hint": "RockTunnel_1F at (39,27). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     19,
+     "—"
+    ],
+    [
+     "rattata",
+     19,
+     "—"
+    ],
+    [
+     "rattata",
+     19,
+     "—"
+    ],
+    [
+     "bellsprout",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Leah",
+   "hint": "RockTunnel_1F at (45,24). Prize ¥352. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     22,
+     "—"
+    ],
+    [
+     "clefairy",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Lucas",
+   "hint": "RockTunnel_1F at (20,17). Prize ¥840. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ],
+    [
+     "graveler",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Oliver",
+   "hint": "RockTunnel_1F at (5,20). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "onix",
+     20,
+     "—"
+    ],
+    [
+     "onix",
+     20,
+     "—"
+    ],
+    [
+     "geodude",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Lenny",
+   "hint": "RockTunnel_1F at (7,5). Prize ¥760. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     19,
+     "—"
+    ],
+    [
+     "machop",
+     19,
+     "—"
+    ],
+    [
+     "geodude",
+     19,
+     "—"
+    ],
+    [
+     "geodude",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Ashton",
+   "hint": "RockTunnel_1F at (27,10). Prize ¥1380. <b>Beaten.</b>",
+   "team": [
+    [
+     "cubone",
+     23,
+     "—"
+    ],
+    [
+     "slowpoke",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Cooper",
+   "hint": "RockTunnel_B1F at (2,6). Prize ¥1200. <b>Beaten.</b>",
+   "team": [
+    [
+     "slowpoke",
+     20,
+     "—"
+    ],
+    [
+     "slowpoke",
+     20,
+     "—"
+    ],
+    [
+     "slowpoke",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Dudley",
+   "hint": "RockTunnel_B1F at (5,11). Prize ¥840. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ],
+    [
+     "geodude",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ],
+    [
+     "graveler",
+     21,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Sofia",
+   "hint": "RockTunnel_B1F at (11,15). Prize ¥336. <b>Beaten.</b>",
+   "team": [
+    [
+     "jigglypuff",
+     21,
+     "—"
+    ],
+    [
+     "pidgey",
+     21,
+     "—"
+    ],
+    [
+     "meowth",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Allen",
+   "hint": "RockTunnel_B1F at (36,11). Prize ¥1000. <b>Beaten.</b>",
+   "team": [
+    [
+     "geodude",
+     25,
+     "Magnitude, Rock Throw, Mud Sport, Defense Curl"
+    ]
+   ]
+  },
+  {
+   "name": "Hiker Eric",
+   "hint": "RockTunnel_B1F at (41,5). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     20,
+     "—"
+    ],
+    [
+     "onix",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Steve",
+   "hint": "RockTunnel_B1F at (23,23). Prize ¥1320. <b>Beaten.</b>",
+   "team": [
+    [
+     "charmander",
+     22,
+     "—"
+    ],
+    [
+     "cubone",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Martha",
+   "hint": "RockTunnel_B1F at (15,33). Prize ¥352. <b>Beaten.</b>",
+   "team": [
+    [
+     "oddish",
+     22,
+     "—"
+    ],
+    [
+     "bulbasaur",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Pokemaniac Winston",
+   "hint": "RockTunnel_B1F at (29,35). Prize ¥1500. <b>Beaten.</b>",
+   "team": [
+    [
+     "slowpoke",
+     25,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "caught": [
+  {
+   "species": "geodude",
+   "nick": "GEODUDE",
+   "met": 16,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "onix",
+   "nick": "ONIX",
+   "met": 15,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "machop",
+   "nick": "MACHOP",
+   "met": 17,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "graveler",
+   "via": [
+    "rock"
+   ]
+  }
+ ]
+}
