@@ -1,4 +1,4 @@
-# 37 Fuchsia Gym (Koga)
+# 33.9 Fuchsia Gym (Koga)
 
 **Arrival.** The Gym door (9,32) in Fuchsia City ([page 33](33_fuchsia_city.md)). The party was the L45 team (Charizard L51), healed.
 

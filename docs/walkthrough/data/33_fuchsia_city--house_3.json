@@ -1,0 +1,12 @@
+{
+ "sub": "One resident",
+ "title": "Fuchsia House 3",
+ "tab": "House 3",
+ "map": {
+  "name": "FuchsiaCity_House3",
+  "markers": []
+ },
+ "trainers": [],
+ "items": [],
+ "wild": []
+}

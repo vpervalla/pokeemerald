@@ -297,10 +297,13 @@ def load_pages():
         data_p = os.path.join(WT, "data", name + ".json")
         data = json.load(open(data_p, encoding="utf-8")) if os.path.exists(data_p) else {}
         text = open(md, encoding="utf-8").read()
-        title = re.match(r"# (?:\d+ )?(.*)", text).group(1)
+        title = re.match(r"# (?:[\d.]+ )?(.*)", text).group(1)
+        parent = slug(name.split("--")[0]) if "--" in name else None   # NN_city--place.md: a place inside NN_city
         pages.append({"id": "intro" if name == "00_start" else slug(name), "title": data.get("title", title),
-                      "tab": data.get("tab", data.get("title", title)), "secs": sections(text), "data": data, "kind": "area"})
-    return pages
+                      "tab": data.get("tab", data.get("title", title)), "secs": sections(text), "data": data, "kind": "area",
+                      "parent": parent, "order": [tuple(int(v) for v in x.split(".")) for x in re.findall(r"# ([\d.]+) ", text)[:1]] or [(99,)]})
+    # a place page keeps the number in its title (33.1, 33.2, ...): order the children by it
+    return sorted(pages, key=lambda p: (0, 0) if not p["parent"] else (1, p["order"][0]))
 
 
 def caught_panel(d):
@@ -357,13 +360,29 @@ def kmap_html(spec, pages, current=None, compact=False):
             f'<div class="kmap-img" role="img" aria-label="Map of Kanto with the towns and routes" style="aspect-ratio:{w}/{h}"></div>{hs}</div></div>')
 
 
+def places_html(p):
+    """The city page's list of its places (houses, shops, gym, dungeons), each a link to its own page."""
+    kids = [q for q in PAGES if q.get("parent") == p["id"]]
+    if not kids:
+        return ""
+    li = "".join(f'<li><a href="#{q["id"]}"><b>{esc(q["tab"])}</b></a>{" · " + esc(q["data"].get("sub", "")) if q["data"].get("sub") else ""}</li>'
+                 for q in kids)
+    return (f'<div class="panel wide places"><h3>Places in {esc(p["tab"])}</h3><p class="hint">Every building, the gym and the dungeons '
+            f'have their own page (map, people, items, trainers and our playthrough log there).</p><ul class="notes-list">{li}</ul></div>')
+
+
 def area_html(p, n):
     s, d = p["secs"], p["data"]
-    sign = (f'<header class="sign"><span class="num">{n}</span><div><h2>{esc(p["title"])}</h2>'
+    sign = (f'<header class="sign"><span class="num{" sub" if "." in str(n) else ""}">{n}</span><div><h2>{esc(p["title"])}</h2>'
             f'<p class="sub">{esc(d.get("sub", ""))}</p></div></header>')
     lede = f'<div class="lede">{render(s[""])}</div>' if any(l.strip() for l in s[""]) else ""
-    if KMAP:
+    if p.get("parent"):
+        par = next((q for q in PAGES if q["id"] == p["parent"]), None)
+        if par:
+            lede = f'<p class="crumb"><a href="#{par["id"]}">← {esc(par["tab"])}</a> · a place in {esc(par["tab"])}</p>' + lede
+    if KMAP and not p.get("parent"):
         lede = kmap_html(KMAP, PAGES, current=p["id"], compact=p["id"] != "intro") + lede
+    lede += places_html(p)
     ref = ""
     if d.get("map"):
         for spec in (d["map"] if isinstance(d["map"], list) else [d["map"]]):
@@ -486,9 +505,25 @@ def main(out):
     global PAGES
     PAGES = pages
     KMAP.update(next((pg["data"]["kmap"] for pg in pages if pg["data"].get("kmap")), {}))
-    allp = [(p["id"], p["tab"], area_html(p, i + 1)) for i, p in enumerate(pages)]
+    top = [p for p in pages if not p.get("parent")]
+    num = {p["id"]: str(i + 1) for i, p in enumerate(top)}
+    for p in pages:
+        if p.get("parent"):
+            sib = [q for q in pages if q.get("parent") == p["parent"]]
+            num[p["id"]] = f'{num.get(p["parent"], "?")}.{sib.index(p) + 1}'
+    allp = [(p["id"], p["tab"], area_html(p, num[p["id"]])) for p in top]
     allp.append(("team", "Team", team_html()))
     allp.append(("bugs", "Bugs", bugs_html()))
+    kids = ""
+    for p in pages:
+        if not p.get("parent"):
+            continue
+        sib = [q for q in pages if q.get("parent") == p["parent"]]
+        k = sib.index(p); par = next(q for q in pages if q["id"] == p["parent"])
+        prev = f'<a class="pg prev" href="#{sib[k - 1]["id"]}">← {esc(sib[k - 1]["tab"])}</a>' if k else f'<a class="pg prev" href="#{par["id"]}">← {esc(par["tab"])}</a>'
+        nxt = f'<a class="pg next" href="#{sib[k + 1]["id"]}">{esc(sib[k + 1]["tab"])} →</a>' if k + 1 < len(sib) else f'<a class="pg next" href="#{par["id"]}">{esc(par["tab"])} ↩</a>'
+        kids += (f'<div class="page" id="p-{p["id"]}" data-page="{p["id"]}" data-parent="{p["parent"]}" data-title="{esc(p["tab"])}" hidden>'
+                 f'{area_html(p, num[p["id"]])}<nav class="pager" aria-label="Page navigation">{prev}{nxt}</nav></div>')
     tabs, body = "", ""
     for i, (pid, tab, h) in enumerate(allp):
         num = "!" if pid == "bugs" else str(i + 1)
@@ -497,6 +532,7 @@ def main(out):
         nxt = f'<a class="pg next" href="#{allp[i + 1][0]}">{esc(allp[i + 1][1])} →</a>' if i + 1 < len(allp) else "<span></span>"
         body += (f'<div class="page" id="p-{pid}" data-page="{pid}" data-title="{esc(tab)}" hidden>{h}'
                  f'<nav class="pager" aria-label="Page navigation">{prev}{nxt}</nav></div>')
+    body += kids
     s = STATUS
     a = assets()
     try:

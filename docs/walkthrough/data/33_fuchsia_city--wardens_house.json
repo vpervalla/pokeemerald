@@ -1,0 +1,40 @@
+{
+ "sub": "Gold Teeth for HM04 Strength · the boulder's Rare Candy",
+ "title": "Warden's house",
+ "tab": "Warden's house",
+ "map": {
+  "name": "FuchsiaCity_WardensHouse",
+  "markers": [
+   [
+    "item",
+    11,
+    5,
+    "1"
+   ],
+   [
+    "item",
+    4,
+    1,
+    "2"
+   ]
+  ]
+ },
+ "trainers": [],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Rare Candy at (11,5).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "an item at (4,1).",
+   "chip": "no",
+   "chipText": "Not collected"
+  }
+ ],
+ "wild": []
+}

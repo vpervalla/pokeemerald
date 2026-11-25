@@ -190,6 +190,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
 .run h4.later { margin: 1.2rem 0 .1rem; font-family: var(--f-display); font-size: 1.15rem; color: var(--wood-dark); border-top: 1px dashed var(--wood); padding-top: .8rem; }
 .run h4.later:first-child { border-top: 0; }
 .bugs td:last-child { color: var(--accent); font-weight: 600; }
+.sign .num.sub{width:auto;min-width:2.2em;padding:0 .35em}.crumb{margin:0 0 .6rem;font-size:.92rem}.crumb a{font-weight:600}.places ul{columns:2;column-gap:2rem}@media (max-width:640px){.places ul{columns:1}}
 </style>
 <header class="masthead"><div class="wrap head">
   <p class="kicker">pokeemerald · kanto-hoenn branch · playthrough log</p>
@@ -206,8 +207,10 @@ a { color: var(--accent); text-underline-offset: 2px; }
   function show(id, scroll){
     var found = pages.some(function(p){ return p.dataset.page === id; });
     if (!found) id = pages[0].dataset.page;
-    pages.forEach(function(p){ p.hidden = p.dataset.page !== id; });
-    tabs.forEach(function(t){ var on = t.dataset.page === id; t.classList.toggle('on', on); if (on) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
+    var cur = null;
+    pages.forEach(function(p){ p.hidden = p.dataset.page !== id; if (!p.hidden) cur = p; });
+    var tabId = (cur && cur.dataset.parent) || id;   // a place page (house, gym, dungeon) lights its city's tab
+    tabs.forEach(function(t){ var on = t.dataset.page === tabId; t.classList.toggle('on', on); if (on) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
     if (scroll) window.scrollTo(0, 0);
   }
   document.addEventListener('click', function(e){

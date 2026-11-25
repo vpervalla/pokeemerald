@@ -1,0 +1,424 @@
+{
+ "sub": "Dratini by fishing · Gold Teeth · HM03 Surf · the timeout fix",
+ "title": "Safari Zone",
+ "tab": "Safari Zone",
+ "map": [
+  {
+   "name": "FuchsiaCity_SafariZone_Entrance",
+   "markers": []
+  },
+  {
+   "name": "SafariZone_Center",
+   "markers": [
+    [
+     "item",
+     24,
+     15,
+     "1"
+    ],
+    [
+     "hidden",
+     27,
+     15,
+     "2"
+    ]
+   ]
+  },
+  {
+   "name": "SafariZone_East",
+   "markers": [
+    [
+     "item",
+     13,
+     12,
+     "3"
+    ],
+    [
+     "item",
+     37,
+     15,
+     "4"
+    ],
+    [
+     "item",
+     31,
+     18,
+     "5"
+    ],
+    [
+     "item",
+     36,
+     17,
+     "6"
+    ]
+   ]
+  },
+  {
+   "name": "KantoSafariZone_North",
+   "markers": [
+    [
+     "item",
+     33,
+     5,
+     "7"
+    ],
+    [
+     "item",
+     28,
+     9,
+     "8"
+    ],
+    [
+     "item",
+     29,
+     17,
+     "9"
+    ]
+   ]
+  },
+  {
+   "name": "SafariZone_West",
+   "markers": [
+    [
+     "item",
+     28,
+     14,
+     "10"
+    ],
+    [
+     "item",
+     17,
+     13,
+     "11"
+    ],
+    [
+     "item",
+     16,
+     27,
+     "12"
+    ],
+    [
+     "item",
+     27,
+     24,
+     "13"
+    ],
+    [
+     "hidden",
+     13,
+     11,
+     "14"
+    ]
+   ]
+  },
+  {
+   "name": "SafariZone_SecretHouse",
+   "markers": []
+  }
+ ],
+ "trainers": [],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Nugget at (24,15) (SafariZone_Center).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Leaf Stone at (27,15) (SafariZone_Center).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Max Potion at (13,12) (SafariZone_East).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "Full Restore at (37,15) (SafariZone_East).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "5",
+   "text": "TM11 at (31,18) (SafariZone_East).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "6",
+   "text": "Leaf Stone at (36,17) (SafariZone_East).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "7",
+   "text": "Protein at (33,5) (KantoSafariZone_North).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "8",
+   "text": "TM47 at (28,9) (KantoSafariZone_North).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "9",
+   "text": "Quick Claw at (29,17) (KantoSafariZone_North).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "10",
+   "text": "Gold Teeth at (28,14) (SafariZone_West).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "11",
+   "text": "TM32 at (17,13) (SafariZone_West).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "12",
+   "text": "Max Potion at (16,27) (SafariZone_West).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "13",
+   "text": "Max Revive at (27,24) (SafariZone_West).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "14",
+   "text": "Hidden Revive at (13,11) (SafariZone_West).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_SAFARI_ZONE_CENTER",
+   "land_mons",
+   "Tall grass (SafariZone_Center)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_CENTER",
+   "water_mons",
+   "Surfing (SafariZone_Center)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_CENTER",
+   "fishing_mons",
+   "Fishing (SafariZone_Center)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_EAST",
+   "land_mons",
+   "Tall grass (SafariZone_East)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_EAST",
+   "water_mons",
+   "Surfing (SafariZone_East)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_EAST",
+   "fishing_mons",
+   "Fishing (SafariZone_East)"
+  ],
+  [
+   "MAP_KANTO_SAFARI_ZONE_NORTH",
+   "land_mons",
+   "Tall grass (KantoSafariZone_North)"
+  ],
+  [
+   "MAP_KANTO_SAFARI_ZONE_NORTH",
+   "water_mons",
+   "Surfing (KantoSafariZone_North)"
+  ],
+  [
+   "MAP_KANTO_SAFARI_ZONE_NORTH",
+   "fishing_mons",
+   "Fishing (KantoSafariZone_North)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_WEST",
+   "land_mons",
+   "Tall grass (SafariZone_West)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_WEST",
+   "water_mons",
+   "Surfing (SafariZone_West)"
+  ],
+  [
+   "MAP_SAFARI_ZONE_WEST",
+   "fishing_mons",
+   "Fishing (SafariZone_West)"
+  ]
+ ],
+ "caught": [
+  {
+   "species": "dragonair",
+   "nick": "DRAGONAIR",
+   "met": 21,
+   "level": 47,
+   "where": "party",
+   "how": "wild"
+  },
+  {
+   "species": "goldeen",
+   "nick": "GOLDEEN",
+   "met": 22,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "goldeen",
+   "nick": "GOLDEEN",
+   "met": 19,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "psyduck",
+   "nick": "PSYDUCK",
+   "met": 23,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "nidorino",
+   "nick": "NIDORINO",
+   "met": 33,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "nidoran_m",
+   "nick": "NIDORAN♂",
+   "met": 30,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "chansey",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "exeggcute",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "kangaskhan",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "nidoran_f",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "nidorina",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "paras",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "parasect",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "pinsir",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "poliwag",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "rhyhorn",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "scyther",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "seaking",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "water"
+   ]
+  },
+  {
+   "species": "tauros",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "venomoth",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}
