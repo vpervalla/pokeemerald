@@ -1,0 +1,328 @@
+{
+ "sub": "The Cycling Road · Bike Voucher and Bicycle",
+ "title": "Route 17 (Cycling Road)",
+ "tab": "Route 17",
+ "map": {
+  "name": "Route17",
+  "markers": [
+   [
+    "hidden",
+    18,
+    83,
+    "1"
+   ],
+   [
+    "hidden",
+    10,
+    53,
+    "2"
+   ],
+   [
+    "hidden",
+    4,
+    68,
+    "3"
+   ],
+   [
+    "hidden",
+    4,
+    125,
+    "4"
+   ],
+   [
+    "hidden",
+    14,
+    157,
+    "5"
+   ],
+   [
+    "trainer",
+    4,
+    18,
+    "T1"
+   ],
+   [
+    "trainer",
+    11,
+    15,
+    "T2"
+   ],
+   [
+    "trainer",
+    15,
+    24,
+    "T3"
+   ],
+   [
+    "trainer",
+    18,
+    41,
+    "T4"
+   ],
+   [
+    "trainer",
+    7,
+    38,
+    "T5"
+   ],
+   [
+    "trainer",
+    2,
+    61,
+    "T6"
+   ],
+   [
+    "trainer",
+    21,
+    61,
+    "T7"
+   ],
+   [
+    "trainer",
+    18,
+    94,
+    "T8"
+   ],
+   [
+    "trainer",
+    16,
+    134,
+    "T9"
+   ],
+   [
+    "trainer",
+    4,
+    116,
+    "T10"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Biker Virgil",
+   "hint": "(4,18). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Isaiah",
+   "hint": "(11,15). Prize ¥696. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     29,
+     "—"
+    ],
+    [
+     "machamp",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Raul",
+   "hint": "(15,24). Prize ¥696. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     29,
+     "—"
+    ],
+    [
+     "primeape",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Nikolas",
+   "hint": "(18,41). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "voltorb",
+     29,
+     "Spark, Sonic Boom, Screech, Charge"
+    ],
+    [
+     "voltorb",
+     29,
+     "Spark, Sonic Boom, Screech, Charge"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Billy",
+   "hint": "(7,38). Prize ¥660. <b>Beaten.</b>",
+   "team": [
+    [
+     "muk",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Jamal",
+   "hint": "(2,61). Prize ¥624. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     26,
+     "—"
+    ],
+    [
+     "mankey",
+     26,
+     "—"
+    ],
+    [
+     "machamp",
+     26,
+     "—"
+    ],
+    [
+     "machop",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Zeek",
+   "hint": "(21,61). Prize ¥792. <b>Beaten.</b>",
+   "team": [
+    [
+     "machoke",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Corey",
+   "hint": "(18,94). Prize ¥696. <b>Beaten.</b>",
+   "team": [
+    [
+     "primeape",
+     29,
+     "—"
+    ],
+    [
+     "machoke",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker William",
+   "hint": "(16,134). Prize ¥500. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     25,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     25,
+     "Smokescreen, Sludge, Self Destruct, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Jaxon",
+   "hint": "(4,116). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "weezing",
+     29,
+     "Sludge, Smokescreen, Smog, Tackle"
+    ],
+    [
+     "muk",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Rare Candy at (18,83).",
+   "chip": "no",
+   "chipText": "On a pull-down tile: not taken"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Full Restore at (10,53).",
+   "chip": "no",
+   "chipText": "On a pull-down tile: not taken"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden PP Up at (4,68).",
+   "chip": "no",
+   "chipText": "On a pull-down tile: not taken"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Max Revive at (4,125).",
+   "chip": "no",
+   "chipText": "On a pull-down tile: not taken"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Max Elixir at (14,157).",
+   "chip": "no",
+   "chipText": "On a pull-down tile: not taken"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE17",
+   "land_mons",
+   "Tall grass"
+  ]
+ ],
+ "caught": [],
+ "missing": []
+}

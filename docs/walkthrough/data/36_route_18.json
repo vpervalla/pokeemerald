@@ -1,0 +1,124 @@
+{
+ "sub": "Route 18 · Bird Keepers · Dratini to Dragonair",
+ "title": "Route 18",
+ "tab": "Route 18",
+ "map": [
+  {
+   "name": "Route18",
+   "markers": [
+    [
+     "trainer",
+     46,
+     14,
+     "T1"
+    ],
+    [
+     "trainer",
+     41,
+     15,
+     "T2"
+    ],
+    [
+     "trainer",
+     39,
+     12,
+     "T3"
+    ]
+   ]
+  },
+  {
+   "name": "Route18_EastEntrance_1F",
+   "markers": []
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Bird Keeper Jacob",
+   "hint": "Route18 at (46,14). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ],
+    [
+     "fearow",
+     26,
+     "—"
+    ],
+    [
+     "spearow",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Ramiro",
+   "hint": "Route18 at (41,15). Prize ¥1088. <b>Beaten.</b>",
+   "team": [
+    [
+     "dodrio",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Wilton",
+   "hint": "Route18 at (39,12). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "spearow",
+     29,
+     "—"
+    ],
+    [
+     "fearow",
+     29,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [],
+ "wild": [
+  [
+   "MAP_ROUTE18",
+   "land_mons",
+   "Tall grass (Route18)"
+  ]
+ ],
+ "caught": [
+  {
+   "species": "raticate",
+   "nick": "RATICATE",
+   "met": 25,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "doduo",
+   "nick": "DODUO",
+   "met": 24,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "fearow",
+   "nick": "FEAROW",
+   "met": 27,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
+ "missing": []
+}

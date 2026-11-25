@@ -104,7 +104,16 @@
    ]
   }
  ],
- "caught": [],
+ "caught": [
+  {
+   "species": "eevee",
+   "nick": "EEVEE",
+   "met": 25,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
  "missing": [
   {
    "species": "grimer",
@@ -114,12 +123,6 @@
   },
   {
    "species": "koffing",
-   "via": [
-    "water"
-   ]
-  },
-  {
-   "species": "psyduck",
    "via": [
     "water"
    ]

@@ -19,3 +19,7 @@ The sweep with ALAKAZAM leading (`lead 4 0`) beat the south-lane trainers; ALAKA
 ## Bugs
 
 None found.
+
+## Later: the north lane
+
+The Cut tree at Route 14 (1,47) was cut (a borrowed PARAS) and the north lane cleared with DRATINI leading: **Becky** (PIKACHU, RAICHU L29), **Ron & Mya** (Crush Kin double battle, HITMONCHAN and HITMONLEE L29: DRATINI swapped for CHARIZARD, DR VENKMAN's PSYCHIC; DR VENKMAN reached L38), **Celia** (CLEFAIRY L33), and **TM18** (20,6) picked up. Route 15 is now complete except OAK's AIDE's EVERSTONE (the Pokédex has 51 kinds now, so it can be collected).

@@ -1,160 +1,85 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "name": "Alakazam",
-   "lv": 42,
-   "exp": 70701,
+   "species": "dragonair",
+   "name": "Dragonair",
+   "lv": 30,
+   "exp": 34875,
    "types": [
-    "Psychic"
+    "Dragon"
    ],
-   "nature": "Naive (+Speed, −Sp. Def)",
-   "ability": "Inner Focus",
-   "met": "Route 24, wild Abra L10 (raised on Route 6 by wild battles, no Rare Candy; trade-evolved by the Vermilion Center sailor's double exchange)",
-   "role": "The Psychic special attacker (73 Sp. Atk at L24): CONFUSION and PSYBEAM, DISABLE; REFLECT was declined.",
+   "nature": "Adamant (+Attack, −Sp. Atk)",
+   "ability": "Shed Skin",
+   "met": "Kanto Safari Zone (Center pond, SUPER ROD), wild DRATINI L21 on the fifth try; nature edited to Adamant at your request; raised on the Cycling Road trainers and Route 18, evolved at L30",
+   "role": "The Dragon in training (goal: DRAGONITE at L55): SLAM, DRAGON RAGE, THUNDER WAVE, TWISTER; holds the DRAGON SCALE.",
    "stats": [
     [
      "HP",
-     110,
+     79,
      0
     ],
     [
      "Attack",
-     54,
-     0
+     69,
+     1
     ],
     [
      "Defense",
-     53,
-     0
-    ],
-    [
-     "Sp. Atk",
-     132,
-     0
-    ],
-    [
-     "Sp. Def",
-     77,
-     -1
-    ],
-    [
-     "Speed",
-     143,
-     1
-    ]
-   ],
-   "moves": [
-    [
-     "Psychic",
-     "Psychic",
-     "90",
-     "100%",
-     "10/10"
-    ],
-    [
-     "Recover",
-     "Normal",
-     "—",
-     "—",
-     "20/20"
-    ],
-    [
-     "Calm Mind",
-     "Psychic",
-     "—",
-     "—",
-     "20/20"
-    ],
-    [
-     "Psybeam",
-     "Psychic",
-     "65",
-     "100%",
-     "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "wartortle",
-   "name": "Wartortle",
-   "lv": 34,
-   "exp": 36342,
-   "types": [
-    "Water"
-   ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
-   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
-   "stats": [
-    [
-     "HP",
-     91,
-     0
-    ],
-    [
-     "Attack",
      52,
      0
     ],
     [
-     "Defense",
-     64,
-     0
-    ],
-    [
      "Sp. Atk",
-     59,
-     0
+     49,
+     -1
     ],
     [
      "Sp. Def",
-     69,
+     53,
      0
     ],
     [
      "Speed",
-     55,
+     59,
      0
     ]
    ],
    "moves": [
     [
-     "Water Gun",
-     "Water",
-     "40",
-     "100%",
-     "25/25"
+     "Slam",
+     "Normal",
+     "80",
+     "75%",
+     "20/20"
     ],
     [
-     "Protect",
-     "Normal",
-     "—",
-     "—",
+     "Dragon Rage",
+     "Dragon",
+     "1",
+     "100%",
      "10/10"
     ],
     [
-     "Bubble",
-     "Water",
-     "20",
+     "Thunder Wave",
+     "Electric",
+     "—",
      "100%",
-     "30/30"
+     "20/20"
     ],
     [
-     "Withdraw",
-     "Water",
-     "—",
-     "—",
-     "40/40"
+     "Twister",
+     "Dragon",
+     "40",
+     "100%",
+     "20/20"
     ]
    ]
   },
   {
    "species": "gengar",
    "name": "DR VENKMAN",
-   "lv": 37,
-   "exp": 47779,
+   "lv": 39,
+   "exp": 55161,
    "types": [
     "Ghost",
     "Poison"
@@ -166,32 +91,32 @@
    "stats": [
     [
      "HP",
-     102,
+     107,
      0
     ],
     [
      "Attack",
-     57,
+     61,
      -1
     ],
     [
      "Defense",
-     61,
+     65,
      0
     ],
     [
      "Sp. Atk",
-     122,
+     128,
      1
     ],
     [
      "Sp. Def",
-     60,
+     63,
      0
     ],
     [
      "Speed",
-     96,
+     101,
      0
     ]
    ],
@@ -204,9 +129,9 @@
      "20/20"
     ],
     [
-     "Night Shade",
-     "Ghost",
-     "1",
+     "Dream Eater",
+     "Psychic",
+     "100",
      "100%",
      "15/15"
     ],
@@ -305,8 +230,8 @@
   {
    "species": "charizard",
    "name": "Charizard",
-   "lv": 47,
-   "exp": 100340,
+   "lv": 51,
+   "exp": 129455,
    "types": [
     "Fire",
     "Flying"
@@ -318,32 +243,32 @@
    "stats": [
     [
      "HP",
-     157,
+     170,
      0
     ],
     [
      "Attack",
-     93,
+     100,
      -1
     ],
     [
      "Defense",
-     86,
+     93,
      0
     ],
     [
      "Sp. Atk",
-     130,
+     141,
      0
     ],
     [
      "Sp. Def",
-     99,
+     106,
      1
     ],
     [
      "Speed",
-     122,
+     132,
      0
     ]
    ],
@@ -379,10 +304,85 @@
    ]
   },
   {
+   "species": "wartortle",
+   "name": "Wartortle",
+   "lv": 34,
+   "exp": 36342,
+   "types": [
+    "Water"
+   ],
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
+   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
+   "stats": [
+    [
+     "HP",
+     91,
+     0
+    ],
+    [
+     "Attack",
+     52,
+     0
+    ],
+    [
+     "Defense",
+     64,
+     0
+    ],
+    [
+     "Sp. Atk",
+     59,
+     0
+    ],
+    [
+     "Sp. Def",
+     69,
+     0
+    ],
+    [
+     "Speed",
+     55,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Water Gun",
+     "Water",
+     "40",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Protect",
+     "Normal",
+     "—",
+     "—",
+     "10/10"
+    ],
+    [
+     "Bubble",
+     "Water",
+     "20",
+     "100%",
+     "30/30"
+    ],
+    [
+     "Withdraw",
+     "Water",
+     "—",
+     "—",
+     "40/40"
+    ]
+   ]
+  },
+  {
    "species": "snorlax",
    "name": "Snorlax",
-   "lv": 31,
-   "exp": 40641,
+   "lv": 32,
+   "exp": 43006,
    "types": [
     "Normal"
    ],
@@ -393,32 +393,32 @@
    "stats": [
     [
      "HP",
-     144,
+     149,
      0
     ],
     [
      "Attack",
-     77,
-     0
-    ],
-    [
-     "Defense",
-     47,
-     0
-    ],
-    [
-     "Sp. Atk",
-     53,
-     1
-    ],
-    [
-     "Sp. Def",
      80,
      0
     ],
     [
+     "Defense",
+     48,
+     0
+    ],
+    [
+     "Sp. Atk",
+     56,
+     1
+    ],
+    [
+     "Sp. Def",
+     82,
+     0
+    ],
+    [
      "Speed",
-     28,
+     29,
      -1
     ]
    ],

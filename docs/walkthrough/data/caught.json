@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "dratini",
-   "id": 147,
-   "nick": "DRATINI",
+   "species": "dragonair",
+   "id": 148,
+   "nick": "DRAGONAIR",
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 21,
-   "exp": 33405,
-   "level": 29,
+   "exp": 34875,
+   "level": 30,
    "where": "party"
   },
   {
@@ -62,7 +62,7 @@
    "metloc": 112,
    "mapsec": "MAPSEC_ROUTE_12",
    "metlevel": 30,
-   "exp": 41968,
+   "exp": 43006,
    "level": 32,
    "where": "party"
   },
@@ -538,6 +538,7 @@
   133,
   143,
   147,
+  148,
   163,
   167
  ]

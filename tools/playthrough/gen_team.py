@@ -8,6 +8,7 @@ R = os.path.abspath(os.path.join(HERE, "..", ".."))
 OUT = os.path.join(R, "docs", "walkthrough", "data", "team.json")
 
 MET = {
+    "dragonair": "Kanto Safari Zone (Center pond, SUPER ROD), wild DRATINI L21 on the fifth try; nature edited to Adamant at your request; raised on the Cycling Road trainers and Route 18, evolved at L30",
     "snorlax": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
     "pikachu": "Gift from Prof. Oak, L5",
     "mankey": "Route 22, east grass, wild L4",
@@ -24,6 +25,7 @@ MET = {
     "kadabra": "Route 24, wild Abra L10 (raised to L16 on Route 6 by swapping out on turn 1; no Rare Candy)",
 }
 ROLE = {
+    "dragonair": "The Dragon in training (goal: DRAGONITE at L55): SLAM, DRAGON RAGE, THUNDER WAVE, TWISTER; holds the DRAGON SCALE.",
     "snorlax": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
     "pikachu": "The Electric answer to Water types (Misty's STARYU); fast but fragile.",
     "mankey": "The Fighting type: FURY SWIPES replaced SCRATCH; hits Normal and Rock hard.",

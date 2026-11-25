@@ -1,0 +1,227 @@
+{
+ "sub": "Route 16 · Snorlax · HM02 Fly · the Cycling Road gate",
+ "title": "Route 16",
+ "tab": "Route 16",
+ "map": [
+  {
+   "name": "Route16",
+   "markers": [
+    [
+     "cut",
+     41,
+     11,
+     "C"
+    ],
+    [
+     "hidden",
+     31,
+     13,
+     "1"
+    ],
+    [
+     "trainer",
+     16,
+     12,
+     "T1"
+    ],
+    [
+     "trainer",
+     14,
+     14,
+     "T2"
+    ],
+    [
+     "trainer",
+     12,
+     12,
+     "T3"
+    ],
+    [
+     "trainer",
+     8,
+     12,
+     "T4"
+    ],
+    [
+     "trainer",
+     10,
+     14,
+     "T5"
+    ],
+    [
+     "trainer",
+     6,
+     14,
+     "T6"
+    ],
+    [
+     "trainer",
+     30,
+     5,
+     "T7"
+    ]
+   ]
+  },
+  {
+   "name": "Route16_House",
+   "markers": []
+  },
+  {
+   "name": "Route16_NorthEntrance_1F",
+   "markers": []
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Biker Lao",
+   "hint": "Route16 at (16,12). Prize ¥580. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     29,
+     "Screech, Minimize, Sludge, Disable"
+    ],
+    [
+     "koffing",
+     29,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Koji",
+   "hint": "Route16 at (14,14). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     28,
+     "—"
+    ],
+    [
+     "mankey",
+     28,
+     "—"
+    ],
+    [
+     "machop",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Luke",
+   "hint": "Route16 at (12,12). Prize ¥696. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     29,
+     "—"
+    ],
+    [
+     "machop",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Ruben",
+   "hint": "Route16 at (8,12). Prize ¥560. <b>Beaten.</b>",
+   "team": [
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "koffing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ],
+    [
+     "weezing",
+     28,
+     "Smokescreen, Sludge, Smog, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Hideo",
+   "hint": "Route16 at (10,14). Prize ¥660. <b>Beaten.</b>",
+   "team": [
+    [
+     "weezing",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Camron",
+   "hint": "Route16 at (6,14). Prize ¥696. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     29,
+     "—"
+    ],
+    [
+     "machop",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Young Couple Lea & Jed",
+   "hint": "Route16 at (30,5). Prize ¥928. <b>Beaten.</b>",
+   "team": [
+    [
+     "rapidash",
+     29,
+     "—"
+    ],
+    [
+     "ninetales",
+     29,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Leftovers at (31,13) (Route16).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE16",
+   "land_mons",
+   "Tall grass (Route16)"
+  ]
+ ],
+ "caught": [
+  {
+   "species": "snorlax",
+   "nick": "SNORLAX",
+   "met": 30,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "murkrow",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

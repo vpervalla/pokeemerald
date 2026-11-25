@@ -513,6 +513,8 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_fuchsia.sav` | Fuchsia City, healed: Routes 13 to 15 swept (north lane of Route 15 and TM18 left: Cut tree Route 14 (1,47)), VENONAT caught, 10 Ultra Balls, 6 Revives, 5 Full Heals, MAX REVIVE; ALAKAZAM L42 CHARIZARD L47; ¥120889. Next: Koga's Gym, the Safari Zone, the north lane. |
 | `saves/ethan_safari.sav` | Fuchsia City after a first Safari Zone visit: items stored in the PC, two GOLDEENs caught by mistake, **DRATINI still not caught** (fishing spot (33,19) in the Safari Center). Next: DRATINI, Koga's Gym, Route 15 north lane. |
 | `saves/ethan_dratini.sav` | Fuchsia City after the second Safari visit: **DRATINI L21** and PSYDUCK (named AAAAAAAAAA) caught, Pokédex 51; ¥119889. Next: EVERSTONE from Oak\'s aide, Koga\'s Gym, Route 15 north lane. |
+| `saves/ethan_cycling_road.sav` | Fuchsia Center after all 19 Cycling Road trainers (Routes 16-18): BICYCLE, DRATINI L25 (Adamant by save edit) in the party, ALAKAZAM in the PC; names fixed. |
+| `saves/ethan_dragonair.sav` | Fuchsia Center: DRATINI raised on Route 18 and evolved into **DRAGONAIR L30**; RATICATE, DODUO, FEAROW caught; Pokédex 55. Next: Everstone (Oak's aide), Koga's Gym, Strength (Safari Zone). |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -618,3 +620,11 @@ Save in the game (START → SAVE, then A through the prompts) at the end of each
 - Many "no path" results are only an open text box: press B a few times first (A re-talks to the person in front of you and loops).
 - A healer woman (9F) restores HP and PP: use it before Giovanni.
 - The guard now only stops on the real prompts ("is trying to learn", "Stop learning", "Delete a move", "make room for").
+
+## Your training rule (Dragonair, 2026-11)
+
+When raising a weaker Pokémon: let it fight as long as it has a real chance to win; otherwise switch, but to the lowest-level member that can still win (so that one levels too), never to an already strong one like CHARIZARD. `fight` with `SWITCH=auto` implements this. The old swap trick (`SWITCH=3 RESHARE=1`, always CHARIZARD) is not to be used for training.
+
+## Cycling Road
+
+Almost every tile pulls the bike south (`MB_CYCLING_ROAD_PULL_DOWN`): idle waits slide you down, so `goto`, `rbfs` and `clearmap` don't work there. Hold UP to climb; the middle of the road is water; the only Route 17/18 opening is column 12. A grid-search driver that holds the next direction every 6 frames (and UP+A to talk) worked.
