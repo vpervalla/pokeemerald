@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Saffron City (Marsh Badge)",
-    "party": "Dragonair L46, Gengar L47, Venusaur L46, Charizard L51, Blastoise L45, Snorlax L45",
+    "where": "Route 20, Seafoam Islands door (not entered)",
+    "party": "Blastoise L46, Gengar L47, Venusaur L48, Charizard L51, Dragonair L47, Snorlax L45",
     "badges": "6",
     "time": "194:15",
-    "save": "Saffron City (ethan_marsh_badge)",
+    "save": "Route 20 (ethan_seafoam_door)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

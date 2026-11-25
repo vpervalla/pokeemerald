@@ -39,7 +39,8 @@ def walled(x, y, edge):
 for y in range(h):
     for x in range(w):
         n = beh_names[beh(x, y)]
-        if "WATER" in n and not any(k in n for k in ("SHALLOW", "SEMI_DEEP", "UNDERWATER")) or "WATERFALL" in n:
+        if "WATERFALL" in n or ("WATER" in n and not any(k in n for k in ("SHALLOW", "SEMI_DEEP", "UNDERWATER"))
+                                and not os.environ.get("PATH_SURF")):   # PATH_SURF=1: the party can SURF
             blocked[y, x] = True
 for o in mj.get("object_events", []):
     if 0 <= o["x"] < w and 0 <= o["y"] < h and (o["x"], o["y"]) != (x1, y1):   # a "clone" object can sit outside the map

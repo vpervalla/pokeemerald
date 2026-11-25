@@ -1,0 +1,16 @@
+#!/bin/bash
+# advance text with B until the action menu is showing (checks the 'FIGHT' box pixels) or the battle ends
+export PATH="/home/user/pokeemerald/tools/playthrough/bin:$PATH" PLAY_DIR=~/.playthrough
+cd /home/user/pokeemerald
+for i in $(seq 1 20); do
+  inbattle | grep -q battle || { echo "battle over"; exit 0; }
+  python3 - <<'PY' && { echo menu; exit 0; }
+import os,sys
+from PIL import Image
+im=Image.open(os.path.expanduser('~/.playthrough/last.png')).convert('RGB')
+# the action menu box: white panel with dark text at right-bottom; test the 'RUN' region is light and the left box is teal/dark
+px=im.getpixel((300,262)); l=im.getpixel((120,258))
+sys.exit(0 if sum(px)>700 and l[0]<60 and l[2]>80 else 1)
+PY
+  g B w45 >/dev/null
+done; echo timeout

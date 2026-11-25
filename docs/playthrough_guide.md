@@ -520,6 +520,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_hm03_hm04.sav` | Warden's house, Fuchsia (**new ROM** with the Safari exit fix): HM03 SURF, HM04 STRENGTH, TM32; NIDORAN♂ and NIDORINO caught; Pokédex 58. Kanto boulders can't be pushed (bug 5). |
 | `saves/ethan_strength_fix.sav` | Warden's house on the ROM with the STRENGTH fix (bug 5): the RARE CANDY behind the boulder taken (47 in the bag, unused). |
 | `saves/ethan_marsh_badge.sav` | Saffron Center after Sabrina: **MARSH BADGE** (6 badges), TM04; BLASTOISE knows SURF; EXP. SHARE from Oak's aide; NUGGET and LEAF STONE from the Safari pond; FLY works (borrowed PIDGEOT). ¥157753. |
+| `saves/ethan_seafoam_door.sav` | Route 20 at the Seafoam Islands' west cave door (60,9), not entered: Routes 19 and 20 (east of the islands) swept; Irene (east island beach) and the trainers west of the islands left. BLASTOISE fainted, DRAGONAIR low. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -645,3 +646,7 @@ A rebuild moves code addresses, and a savestate (`cur.ss`, `hist/`) keeps pointe
 ## Teleport-pad gyms
 
 `rbfs_g` treats warps to other maps as edges but not pads that warp inside the same map (Saffron Gym). `tools/playthrough/padplan.py X0 Y0 TX TY` plans the hops (BFS over the pads, `path.py` inside each room); walk onto each pad with `goto`.
+
+## Surfing routes
+
+`PATH_SURF=1` makes `path.py` treat surfable water as open; `sgoto X Y` walks or surfs to a tile (answers the SURF prompt at a shoreline, fights interruptions, throws ULTRA BALLs at new wild species via `newwild.py` and `ballthrow`). Trainers that swim over after spotting you stay in their new place and block the old path.

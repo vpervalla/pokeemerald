@@ -1,0 +1,22 @@
+#!/bin/bash
+# sgoto X Y [ROUNDS] : goto with surfable water allowed (PATH_SURF=1); at a shoreline, answer the SURF prompt and go on.
+# Trainer interruptions are fought (SWITCH=auto TYPES=1).
+export PATH_SURF=1
+D=$(dirname "$0")
+battle_turn(){
+  # a new wild species is caught (first-visit rule): ULTRA BALLs under the bag cursor; anything else is fought
+  w=$(python3 "$D/../newwild.py" 2>/dev/null)
+  case "$w" in NEW*) echo "new wild $w: catch"; for t in 1 2 3 4 5 6; do inbattle | grep -q battle || break; ballthrow >/dev/null 2>&1; done;; esac
+  inbattle | grep -q battle && SWITCH=auto TYPES=1 fight 0 40 | tail -1 | cut -c1-100
+  for i in 1 2 3; do g B w40 >/dev/null; done
+}
+for r in $(seq 1 ${3:-12}); do
+  out=$(goto "$1" "$2" 2>&1); echo "$out" | tail -1
+  echo "$out" | tail -1 | grep -q "^at " && exit 0
+  if inbattle | grep -q battle; then battle_turn; continue; fi
+  g A w80 >/dev/null
+  t=$(python3 "$(dirname "$0")/../tx.py" 2>/dev/null | head -1)
+  case "$t" in *SURF*) g A w300 A w200 >/dev/null; g w60 >/dev/null; continue;; esac
+  for i in 1 2 3 4 5 6; do inbattle | grep -q battle && break; g A w60 >/dev/null; done
+  if inbattle | grep -q battle; then battle_turn; else g B w30 B w30 >/dev/null; fi
+done

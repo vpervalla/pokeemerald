@@ -1,0 +1,8 @@
+#!/bin/bash
+# ballthrow : in a battle at the action menu, throw the item under the POKé BALLS pocket cursor once, then wait for the next menu
+export PATH="/home/user/pokeemerald/tools/playthrough/bin:$PATH" PLAY_DIR=~/.playthrough; cd /home/user/pokeemerald
+g hL4 w10 hU4 w10 hR4 w15 A w100 >/dev/null
+for k in 1 2 3 4 5; do [ "$(pocket)" = "1" ] && break; g hR5 w30 >/dev/null; done
+g A w50 A w400 >/dev/null
+wait_menu | tail -1
+st | grep -E "ENEMY|VENUSAUR" | sed 's/ exp.*status/ status/;s/ item.*//' | cut -c1-80

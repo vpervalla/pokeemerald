@@ -1,0 +1,358 @@
+{
+ "sub": "Route 19 · swimmers · Surf from Fuchsia",
+ "title": "Route 19",
+ "tab": "Route 19",
+ "map": {
+  "name": "Route19",
+  "markers": [
+   [
+    "trainer",
+    15,
+    10,
+    "T1"
+   ],
+   [
+    "trainer",
+    10,
+    9,
+    "T2"
+   ],
+   [
+    "trainer",
+    12,
+    17,
+    "T3"
+   ],
+   [
+    "trainer",
+    18,
+    33,
+    "T4"
+   ],
+   [
+    "trainer",
+    8,
+    27,
+    "T5"
+   ],
+   [
+    "trainer",
+    16,
+    22,
+    "T6"
+   ],
+   [
+    "trainer",
+    11,
+    47,
+    "T7"
+   ],
+   [
+    "trainer",
+    14,
+    48,
+    "T8"
+   ],
+   [
+    "trainer",
+    12,
+    49,
+    "T9"
+   ],
+   [
+    "trainer",
+    9,
+    48,
+    "T10"
+   ],
+   [
+    "trainer",
+    8,
+    41,
+    "T11"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Swimmer M Reece",
+   "hint": "(15,10). Prize ¥232. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     29,
+     "—"
+    ],
+    [
+     "horsea",
+     29,
+     "—"
+    ],
+    [
+     "staryu",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Richard",
+   "hint": "(10,9). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "tentacool",
+     30,
+     "—"
+    ],
+    [
+     "shellder",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Tony",
+   "hint": "(12,17). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     30,
+     "—"
+    ],
+    [
+     "horsea",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Matthew",
+   "hint": "(18,33). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     30,
+     "—"
+    ],
+    [
+     "poliwhirl",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Douglas",
+   "hint": "(8,27). Prize ¥216. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     27,
+     "—"
+    ],
+    [
+     "tentacool",
+     27,
+     "—"
+    ],
+    [
+     "tentacool",
+     27,
+     "—"
+    ],
+    [
+     "goldeen",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M David",
+   "hint": "(16,22). Prize ¥232. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     29,
+     "—"
+    ],
+    [
+     "shellder",
+     29,
+     "—"
+    ],
+    [
+     "seaking",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Axle",
+   "hint": "(11,47). Prize ¥216. <b>Beaten.</b>",
+   "team": [
+    [
+     "tentacool",
+     27,
+     "—"
+    ],
+    [
+     "tentacool",
+     27,
+     "—"
+    ],
+    [
+     "staryu",
+     27,
+     "—"
+    ],
+    [
+     "horsea",
+     27,
+     "—"
+    ],
+    [
+     "tentacruel",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Alice",
+   "hint": "(14,48). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     30,
+     "—"
+    ],
+    [
+     "seaking",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Connie",
+   "hint": "(12,49). Prize ¥232. <b>Beaten.</b>",
+   "team": [
+    [
+     "staryu",
+     29,
+     "—"
+    ],
+    [
+     "staryu",
+     29,
+     "—"
+    ],
+    [
+     "staryu",
+     29,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Anya",
+   "hint": "(9,48). Prize ¥216. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     27,
+     "—"
+    ],
+    [
+     "goldeen",
+     27,
+     "—"
+    ],
+    [
+     "seaking",
+     27,
+     "—"
+    ],
+    [
+     "goldeen",
+     27,
+     "—"
+    ],
+    [
+     "poliwag",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sis And Bro Lia & Luc",
+   "hint": "(8,41). Prize ¥360. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     30,
+     "—"
+    ],
+    [
+     "seaking",
+     30,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [],
+ "wild": [
+  [
+   "MAP_ROUTE19",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE19",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "caught": [
+  {
+   "species": "tentacool",
+   "nick": "TENTACOOL",
+   "met": 6,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  }
+ ],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "seadra",
+   "via": [
+    "fishing"
+   ]
+  }
+ ]
+}

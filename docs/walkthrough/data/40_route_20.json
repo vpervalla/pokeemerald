@@ -1,0 +1,312 @@
+{
+ "sub": "Route 20 · to the Seafoam Islands (not entered)",
+ "title": "Route 20",
+ "tab": "Route 20",
+ "map": {
+  "name": "Route20",
+  "markers": [
+   [
+    "hidden",
+    23,
+    6,
+    "1"
+   ],
+   [
+    "trainer",
+    8,
+    11,
+    "T1"
+   ],
+   [
+    "trainer",
+    16,
+    14,
+    "T2"
+   ],
+   [
+    "trainer",
+    34,
+    7,
+    "T3"
+   ],
+   [
+    "trainer",
+    43,
+    9,
+    "T4"
+   ],
+   [
+    "trainer",
+    23,
+    10,
+    "T5"
+   ],
+   [
+    "trainer",
+    73,
+    16,
+    "T6"
+   ],
+   [
+    "trainer",
+    111,
+    9,
+    "T7"
+   ],
+   [
+    "trainer",
+    106,
+    11,
+    "T8"
+   ],
+   [
+    "trainer",
+    93,
+    10,
+    "T9"
+   ],
+   [
+    "trainer",
+    54,
+    11,
+    "T10"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Swimmer F Melissa",
+   "hint": "(8,11). Prize ¥248. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "poliwag",
+     31,
+     "—"
+    ],
+    [
+     "seaking",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Missy",
+   "hint": "(16,14). Prize ¥496. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "goldeen",
+     31,
+     "—"
+    ],
+    [
+     "seaking",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Nora",
+   "hint": "(34,7). Prize ¥240. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "shellder",
+     30,
+     "—"
+    ],
+    [
+     "shellder",
+     30,
+     "—"
+    ],
+    [
+     "cloyster",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Bird Keeper Roger",
+   "hint": "(43,9). Prize ¥960. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "fearow",
+     30,
+     "—"
+    ],
+    [
+     "fearow",
+     30,
+     "—"
+    ],
+    [
+     "pidgeotto",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Dean",
+   "hint": "(23,10). Prize ¥280. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "staryu",
+     35,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Picnicker Irene",
+   "hint": "(73,16). Prize ¥480. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "tentacool",
+     30,
+     "—"
+    ],
+    [
+     "horsea",
+     30,
+     "—"
+    ],
+    [
+     "seel",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Barry",
+   "hint": "(111,9). Prize ¥248. <b>Beaten.</b>",
+   "team": [
+    [
+     "shellder",
+     31,
+     "—"
+    ],
+    [
+     "cloyster",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Darrin",
+   "hint": "(106,11). Prize ¥224. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     28,
+     "—"
+    ],
+    [
+     "horsea",
+     28,
+     "—"
+    ],
+    [
+     "seadra",
+     28,
+     "—"
+    ],
+    [
+     "horsea",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Shirley",
+   "hint": "(93,10). Prize ¥240. <b>Beaten.</b>",
+   "team": [
+    [
+     "seadra",
+     30,
+     "—"
+    ],
+    [
+     "horsea",
+     30,
+     "—"
+    ],
+    [
+     "seadra",
+     30,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Tiffany",
+   "hint": "(54,11). Prize ¥280. <b>Beaten.</b>",
+   "team": [
+    [
+     "seaking",
+     35,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Stardust at (23,6).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE20",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ROUTE20",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kingler",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  }
+ ]
+}

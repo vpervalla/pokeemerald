@@ -1,77 +1,77 @@
 {
  "mons": [
   {
-   "species": "dragonair",
-   "name": "Dragonair",
+   "species": "blastoise",
+   "name": "Blastoise",
    "lv": 46,
-   "exp": 126756,
+   "exp": 94509,
    "types": [
-    "Dragon"
+    "Water"
    ],
-   "nature": "Adamant (+Attack, −Sp. Atk)",
-   "ability": "Shed Skin",
-   "met": "Kanto Safari Zone (Center pond, SUPER ROD), wild DRATINI L21 on the fifth try; nature edited to Adamant at your request; raised on the Cycling Road trainers and Route 18, evolved at L30",
-   "role": "The Dragon in training (goal: DRAGONITE at L55): SLAM, DRAGON RAGE, THUNDER WAVE, TWISTER; holds the DRAGON SCALE.",
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
+   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
    "stats": [
     [
      "HP",
-     117,
+     139,
      0
     ],
     [
      "Attack",
-     104,
-     1
+     88,
+     0
     ],
     [
      "Defense",
-     78,
+     104,
      0
     ],
     [
      "Sp. Atk",
-     73,
-     -1
+     97,
+     0
     ],
     [
      "Sp. Def",
-     80,
+     115,
      0
     ],
     [
      "Speed",
-     88,
+     92,
      0
     ]
    ],
    "moves": [
     [
-     "Slam",
-     "Normal",
-     "80",
-     "75%",
-     "20/20"
+     "Water Gun",
+     "Water",
+     "40",
+     "100%",
+     "12/25"
     ],
     [
-     "Dragon Rage",
-     "Dragon",
-     "1",
-     "100%",
+     "Protect",
+     "Normal",
+     "—",
+     "—",
      "10/10"
     ],
     [
-     "Agility",
-     "Psychic",
-     "—",
-     "—",
-     "30/30"
+     "Surf",
+     "Water",
+     "95",
+     "100%",
+     "0/15"
     ],
     [
-     "Twister",
-     "Dragon",
-     "40",
-     "100%",
-     "20/20"
+     "Rain Dance",
+     "Water",
+     "—",
+     "—",
+     "5/5"
     ]
    ]
   },
@@ -79,7 +79,7 @@
    "species": "gengar",
    "name": "Gengar",
    "lv": 47,
-   "exp": 96673,
+   "exp": 101287,
    "types": [
     "Ghost",
     "Poison"
@@ -126,7 +126,7 @@
      "Ghost",
      "60",
      "—",
-     "20/20"
+     "16/20"
     ],
     [
      "Dream Eater",
@@ -147,15 +147,15 @@
      "Psychic",
      "90",
      "100%",
-     "10/10"
+     "2/10"
     ]
    ]
   },
   {
    "species": "venusaur",
    "name": "Venusaur",
-   "lv": 46,
-   "exp": 90330,
+   "lv": 48,
+   "exp": 104348,
    "types": [
     "Grass",
     "Poison"
@@ -167,32 +167,32 @@
    "stats": [
     [
      "HP",
-     149,
+     155,
      0
     ],
     [
      "Attack",
-     97,
+     101,
      0
     ],
     [
      "Defense",
-     98,
-     0
-    ],
-    [
-     "Sp. Atk",
      102,
      0
     ],
     [
+     "Sp. Atk",
+     107,
+     0
+    ],
+    [
      "Sp. Def",
-     87,
+     90,
      -1
     ],
     [
      "Speed",
-     96,
+     101,
      1
     ]
    ],
@@ -209,7 +209,7 @@
      "Poison",
      "—",
      "75%",
-     "35/35"
+     "34/35"
     ],
     [
      "Sleep Powder",
@@ -223,7 +223,7 @@
      "Grass",
      "55",
      "95%",
-     "25/25"
+     "0/25"
     ]
    ]
   },
@@ -304,41 +304,41 @@
    ]
   },
   {
-   "species": "blastoise",
-   "name": "Blastoise",
-   "lv": 45,
-   "exp": 84516,
+   "species": "dragonair",
+   "name": "Dragonair",
+   "lv": 47,
+   "exp": 131838,
    "types": [
-    "Water"
+    "Dragon"
    ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
-   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
+   "nature": "Adamant (+Attack, −Sp. Atk)",
+   "ability": "Shed Skin",
+   "met": "Kanto Safari Zone (Center pond, SUPER ROD), wild DRATINI L21 on the fifth try; nature edited to Adamant at your request; raised on the Cycling Road trainers and Route 18, evolved at L30",
+   "role": "The Dragon in training (goal: DRAGONITE at L55): SLAM, DRAGON RAGE, THUNDER WAVE, TWISTER; holds the DRAGON SCALE.",
    "stats": [
     [
      "HP",
-     136,
+     119,
      0
     ],
     [
      "Attack",
-     86,
-     0
+     107,
+     1
     ],
     [
      "Defense",
-     101,
+     80,
      0
     ],
     [
      "Sp. Atk",
-     95,
-     0
+     76,
+     -1
     ],
     [
      "Sp. Def",
-     112,
+     82,
      0
     ],
     [
@@ -349,32 +349,32 @@
    ],
    "moves": [
     [
-     "Water Gun",
-     "Water",
+     "Slam",
+     "Normal",
+     "80",
+     "75%",
+     "8/20"
+    ],
+    [
+     "Dragon Rage",
+     "Dragon",
+     "1",
+     "100%",
+     "9/10"
+    ],
+    [
+     "Agility",
+     "Psychic",
+     "—",
+     "—",
+     "30/30"
+    ],
+    [
+     "Twister",
+     "Dragon",
      "40",
      "100%",
-     "25/25"
-    ],
-    [
-     "Protect",
-     "Normal",
-     "—",
-     "—",
-     "10/10"
-    ],
-    [
-     "Surf",
-     "Water",
-     "95",
-     "100%",
-     "15/15"
-    ],
-    [
-     "Rain Dance",
-     "Water",
-     "—",
-     "—",
-     "5/5"
+     "20/20"
     ]
    ]
   },
@@ -382,7 +382,7 @@
    "species": "snorlax",
    "name": "Snorlax",
    "lv": 45,
-   "exp": 113906,
+   "exp": 116343,
    "types": [
     "Normal"
    ],
@@ -428,7 +428,7 @@
      "Normal",
      "85",
      "100%",
-     "15/15"
+     "11/15"
     ],
     [
      "Yawn",

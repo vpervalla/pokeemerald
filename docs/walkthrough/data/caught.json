@@ -1,13 +1,13 @@
 {
  "mons": [
   {
-   "species": "dragonair",
-   "id": 148,
-   "nick": "DRAGONAIR",
-   "metloc": 136,
-   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
-   "metlevel": 21,
-   "exp": 126756,
+   "species": "blastoise",
+   "id": 9,
+   "nick": "BLASTOISE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 94509,
    "level": 46,
    "where": "party"
   },
@@ -18,7 +18,7 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 96673,
+   "exp": 101287,
    "level": 47,
    "where": "party"
   },
@@ -29,8 +29,8 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 90330,
-   "level": 46,
+   "exp": 104348,
+   "level": 48,
    "where": "party"
   },
   {
@@ -45,14 +45,14 @@
    "where": "party"
   },
   {
-   "species": "blastoise",
-   "id": 9,
-   "nick": "BLASTOISE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 84516,
-   "level": 45,
+   "species": "dragonair",
+   "id": 148,
+   "nick": "DRAGONAIR",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 21,
+   "exp": 131838,
+   "level": 47,
    "where": "party"
   },
   {
@@ -62,7 +62,7 @@
    "metloc": 112,
    "mapsec": "MAPSEC_ROUTE_12",
    "metlevel": 30,
-   "exp": 113906,
+   "exp": 116343,
    "level": 45,
    "where": "party"
   },
@@ -505,6 +505,17 @@
    "exp": 21760,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "tentacool",
+   "id": 72,
+   "nick": "TENTACOOL",
+   "metloc": 119,
+   "mapsec": "MAPSEC_ROUTE_19",
+   "metlevel": 6,
+   "exp": 270,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -547,6 +558,7 @@
   65,
   66,
   69,
+  72,
   74,
   84,
   90,
