@@ -483,6 +483,17 @@
    "exp": 19683,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "nidorino",
+   "id": 33,
+   "nick": "NIDORINO",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 33,
+   "exp": 29949,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -507,6 +518,7 @@
   23,
   25,
   27,
+  33,
   37,
   41,
   43,
