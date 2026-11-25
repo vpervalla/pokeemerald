@@ -7,19 +7,19 @@
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 21,
-   "exp": 34875,
-   "level": 30,
+   "exp": 113906,
+   "level": 45,
    "where": "party"
   },
   {
    "species": "gengar",
    "id": 94,
-   "nick": "DR VENKMAN",
+   "nick": "GENGAR",
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 55161,
-   "level": 39,
+   "exp": 83335,
+   "level": 45,
    "where": "party"
   },
   {
@@ -29,8 +29,8 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 46971,
-   "level": 37,
+   "exp": 83335,
+   "level": 45,
    "where": "party"
   },
   {
@@ -45,14 +45,14 @@
    "where": "party"
   },
   {
-   "species": "wartortle",
-   "id": 8,
-   "nick": "WARTORTLE",
+   "species": "blastoise",
+   "id": 9,
+   "nick": "BLASTOISE",
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 36342,
-   "level": 34,
+   "exp": 83335,
+   "level": 45,
    "where": "party"
   },
   {
@@ -62,8 +62,8 @@
    "metloc": 112,
    "mapsec": "MAPSEC_ROUTE_12",
    "metlevel": 30,
-   "exp": 43006,
-   "level": 32,
+   "exp": 113906,
+   "level": 45,
    "where": "party"
   },
   {
@@ -494,6 +494,7 @@
   6,
   7,
   8,
+  9,
   10,
   11,
   12,

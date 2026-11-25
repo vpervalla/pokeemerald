@@ -515,6 +515,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_dratini.sav` | Fuchsia City after the second Safari visit: **DRATINI L21** and PSYDUCK (named AAAAAAAAAA) caught, Pokédex 51; ¥119889. Next: EVERSTONE from Oak\'s aide, Koga\'s Gym, Route 15 north lane. |
 | `saves/ethan_cycling_road.sav` | Fuchsia Center after all 19 Cycling Road trainers (Routes 16-18): BICYCLE, DRATINI L25 (Adamant by save edit) in the party, ALAKAZAM in the PC; names fixed. |
 | `saves/ethan_dragonair.sav` | Fuchsia Center: DRATINI raised on Route 18 and evolved into **DRAGONAIR L30**; RATICATE, DODUO, FEAROW caught; Pokédex 55. Next: Everstone (Oak's aide), Koga's Gym, Strength (Safari Zone). |
+| `saves/ethan_level45.sav` | Fuchsia Center: DR VENKMAN renamed GENGAR, 99 RARE CANDIES added (save edit) and used: the party is L45 (Charizard L51), WARTORTLE evolved into BLASTOISE; 46 candies left. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -628,3 +629,7 @@ When raising a weaker Pokémon: let it fight as long as it has a real chance to 
 ## Cycling Road
 
 Almost every tile pulls the bike south (`MB_CYCLING_ROAD_PULL_DOWN`): idle waits slide you down, so `goto`, `rbfs` and `clearmap` don't work there. Hold UP to climb; the middle of the road is water; the only Route 17/18 opening is column 12. A grid-search driver that holds the next direction every 6 frames (and UP+A to talk) worked.
+
+## Rare Candies (your exception)
+
+The no-RARE-CANDY rule was lifted once, for the L45 boost; the rule stands otherwise. Using candies from the bag: after each use the bag returns with the party cursor still on the same Pokémon, **but pressing B out of the party screen resets the cursor to slot 0**; always check the target before looping (the loop now aborts when the watched Pokémon doesn't gain the level).

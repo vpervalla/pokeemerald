@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Fuchsia City (Dragonair L30)",
-    "party": "Dragonair L30, Dr Venkman (Gengar) L39, Venusaur L37, Charizard L51, Wartortle L34, Snorlax L32",
+    "where": "Fuchsia City (party at L45)",
+    "party": "Dragonair L45, Gengar L45, Venusaur L45, Charizard L51, Blastoise L45, Snorlax L45",
     "badges": "4",
     "time": "~190:00",
-    "save": "Fuchsia City (ethan_dragonair)",
+    "save": "Fuchsia City (ethan_level45)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

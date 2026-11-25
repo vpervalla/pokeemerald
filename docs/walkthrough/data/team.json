@@ -3,8 +3,8 @@
   {
    "species": "dragonair",
    "name": "Dragonair",
-   "lv": 30,
-   "exp": 34875,
+   "lv": 45,
+   "exp": 113906,
    "types": [
     "Dragon"
    ],
@@ -15,32 +15,32 @@
    "stats": [
     [
      "HP",
-     79,
+     114,
      0
     ],
     [
      "Attack",
-     69,
+     102,
      1
     ],
     [
      "Defense",
-     52,
+     76,
      0
     ],
     [
      "Sp. Atk",
-     49,
+     72,
      -1
     ],
     [
      "Sp. Def",
-     53,
+     77,
      0
     ],
     [
      "Speed",
-     59,
+     86,
      0
     ]
    ],
@@ -60,11 +60,11 @@
      "10/10"
     ],
     [
-     "Thunder Wave",
-     "Electric",
+     "Agility",
+     "Psychic",
      "—",
-     "100%",
-     "20/20"
+     "—",
+     "30/30"
     ],
     [
      "Twister",
@@ -77,9 +77,9 @@
   },
   {
    "species": "gengar",
-   "name": "DR VENKMAN",
-   "lv": 39,
-   "exp": 55161,
+   "name": "Gengar",
+   "lv": 45,
+   "exp": 83335,
    "types": [
     "Ghost",
     "Poison"
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     107,
+     122,
      0
     ],
     [
      "Attack",
-     61,
+     70,
      -1
     ],
     [
      "Defense",
-     65,
+     75,
      0
     ],
     [
      "Sp. Atk",
-     128,
+     148,
      1
     ],
     [
      "Sp. Def",
-     63,
+     72,
      0
     ],
     [
      "Speed",
-     101,
+     117,
      0
     ]
    ],
@@ -154,8 +154,8 @@
   {
    "species": "venusaur",
    "name": "Venusaur",
-   "lv": 37,
-   "exp": 46971,
+   "lv": 45,
+   "exp": 83335,
    "types": [
     "Grass",
     "Poison"
@@ -167,42 +167,42 @@
    "stats": [
     [
      "HP",
-     122,
+     146,
      0
     ],
     [
      "Attack",
-     78,
+     94,
      0
     ],
     [
      "Defense",
-     79,
+     95,
      0
     ],
     [
      "Sp. Atk",
-     83,
+     99,
      0
     ],
     [
      "Sp. Def",
-     71,
+     85,
      -1
     ],
     [
      "Speed",
-     78,
+     94,
      1
     ]
    ],
    "moves": [
     [
-     "Sweet Scent",
+     "Growth",
      "Normal",
      "—",
-     "100%",
-     "20/20"
+     "—",
+     "40/40"
     ],
     [
      "Poisonpowder",
@@ -304,46 +304,46 @@
    ]
   },
   {
-   "species": "wartortle",
-   "name": "Wartortle",
-   "lv": 34,
-   "exp": 36342,
+   "species": "blastoise",
+   "name": "Blastoise",
+   "lv": 45,
+   "exp": 83335,
    "types": [
     "Water"
    ],
    "nature": "Bashful (neutral)",
    "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); raised L12 to L24 on Route 6 by swap-outs, no Rare Candy",
-   "role": "The Water type (BUBBLE, WATER GUN): the Surf candidate and the answer to Fire and Ground; BLASTOISE at L36. Swapped in for PIDGEOTTO.",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
+   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
    "stats": [
     [
      "HP",
-     91,
+     136,
      0
     ],
     [
      "Attack",
-     52,
+     86,
      0
     ],
     [
      "Defense",
-     64,
+     101,
      0
     ],
     [
      "Sp. Atk",
-     59,
+     95,
      0
     ],
     [
      "Sp. Def",
-     69,
+     112,
      0
     ],
     [
      "Speed",
-     55,
+     90,
      0
     ]
    ],
@@ -370,19 +370,19 @@
      "30/30"
     ],
     [
-     "Withdraw",
+     "Rain Dance",
      "Water",
      "—",
      "—",
-     "40/40"
+     "5/5"
     ]
    ]
   },
   {
    "species": "snorlax",
    "name": "Snorlax",
-   "lv": 32,
-   "exp": 43006,
+   "lv": 45,
+   "exp": 113906,
    "types": [
     "Normal"
    ],
@@ -393,40 +393,40 @@
    "stats": [
     [
      "HP",
-     149,
+     205,
      0
     ],
     [
      "Attack",
-     80,
+     111,
      0
     ],
     [
      "Defense",
-     48,
+     66,
      0
     ],
     [
      "Sp. Atk",
-     56,
+     75,
      1
     ],
     [
      "Sp. Def",
-     82,
+     113,
      0
     ],
     [
      "Speed",
-     29,
+     41,
      -1
     ]
    ],
    "moves": [
     [
-     "Headbutt",
+     "Body Slam",
      "Normal",
-     "70",
+     "85",
      "100%",
      "15/15"
     ],

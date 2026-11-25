@@ -24,3 +24,20 @@ DRAGONAIR L30 (SLAM, DRAGON RAGE, THUNDER WAVE, TWISTER), DR VENKMAN L39, VENUSA
 ## Bugs
 
 None.
+
+## Later: GENGAR's name and 99 RARE CANDIES (your request)
+
+1. Save edit: **DR VENKMAN renamed GENGAR**; the ITEMS pocket's RARE CANDY count set to **99** (you lifted the no-RARE-CANDY rule for this).
+2. Candies used one at a time from the bag (START > BAG > RARE CANDY > USE), every new move decided by you beforehand:
+   - **GENGAR** L39 to 45: no new move.
+   - **DRAGONAIR** L30 to 45: **AGILITY** at L38 in place of THUNDER WAVE.
+   - **VENUSAUR** L37 to 45: **GROWTH** at L41 in place of SWEET SCENT.
+   - **SNORLAX** L32 to 45: **BODY SLAM** at L33 in place of HEADBUTT; BLOCK (L37) and COVET (L42) declined.
+   - **WARTORTLE** L34 to 45: **evolved into BLASTOISE at L36**; **RAIN DANCE** at L42 in place of WITHDRAW.
+   - CHARIZARD (already L51) got none. 53 candies used, 46 left.
+3. **A slip, undone:** after declining BLOCK I pressed B to get back to the bag; that resets the party cursor to slot 0, and my candy loop (which checked SNORLAX's level) fed ten candies to DRAGONAIR, taking it to L55 and into its evolution screen (it would have become DRAGONITE). The game was restored from the savestate taken just before (DRAGONAIR L45, 65 candies), and the loop now stops unless the watched Pokémon really gains the level.
+4. Saved: `saves/ethan_level45.sav`.
+
+## Party now
+
+DRAGONAIR L45 (SLAM, DRAGON RAGE, AGILITY, TWISTER), GENGAR L45 (SHADOW PUNCH, DREAM EATER, HYPNOSIS, PSYCHIC), VENUSAUR L45 (GROWTH, POISONPOWDER, SLEEP POWDER, RAZOR LEAF), CHARIZARD L51, BLASTOISE L45 (WATER GUN, PROTECT, BUBBLE, RAIN DANCE), SNORLAX L45 (BODY SLAM, YAWN, REST, SNORE).
