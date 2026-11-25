@@ -53,3 +53,7 @@ At your request: **ALAKAZAM went to the PC (Box 2) and DRATINI joined the party*
 7. **WARDEN:** "ETHAN gave the GOLD TEETH to the WARDEN. The WARDEN popped in his teeth! ... Let me give you something for your trouble." **HM04** received ("Inside HM04 you'll find STRENGTH. It lets POKéMON move boulders when you're outside of battle.").
 8. **The RARE CANDY behind his boulder still can't be reached:** STRENGTH activates ("Its STRENGTH made it possible to move boulders around!", a borrowed MACHOP) but the boulder never moves, pushed from either side: **bug 5**. **Fixed** in the ROM at your request (the push check now accepts the Kanto boulder): after a rebuild the boulder moved and the **RARE CANDY** was taken (not used). Saved: `saves/ethan_strength_fix.sav`.
 9. Saved: `saves/ethan_hm03_hm04.sav` (5 badges, Pokédex 58, 193:40).
+
+## SURF on BLASTOISE, and the Safari pond
+
+At your choice **BLASTOISE learned SURF (HM03) in place of BUBBLE**. A third Safari trip (¥500) used it on the Center pond (face the water from (33,19)): the island's **NUGGET (24,15)** and the hidden **LEAF STONE** (found facing left from (27,15)) were taken; out through the south door ("leave early?" YES).

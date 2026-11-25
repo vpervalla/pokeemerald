@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Fuchsia City (HM03, HM04)",
-    "party": "Dragonair L45, Gengar L46, Venusaur L45, Charizard L51, Blastoise L45, Snorlax L45",
-    "badges": "5",
-    "time": "193:40",
-    "save": "Warden's house (ethan_strength_fix)",
+    "where": "Saffron City (Marsh Badge)",
+    "party": "Dragonair L46, Gengar L47, Venusaur L46, Charizard L51, Blastoise L45, Snorlax L45",
+    "badges": "6",
+    "time": "194:15",
+    "save": "Saffron City (ethan_marsh_badge)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

@@ -23,3 +23,7 @@ None found.
 ## Later: the north lane
 
 The Cut tree at Route 14 (1,47) was cut (a borrowed PARAS) and the north lane cleared with DRATINI leading: **Becky** (PIKACHU, RAICHU L29), **Ron & Mya** (Crush Kin double battle, HITMONCHAN and HITMONLEE L29: DRATINI swapped for CHARIZARD, DR VENKMAN's PSYCHIC; DR VENKMAN reached L38), **Celia** (CLEFAIRY L33), and **TM18** (20,6) picked up. Route 15 is now complete except OAK's AIDE's EVERSTONE (the Pokédex has 51 kinds now, so it can be collected).
+
+## Later: OAK's AIDE's prize is the EXP. SHARE
+
+With 58 kinds in the Pokédex, OAK's AIDE (gate 2F (5,5)) said: "PROF. OAK entrusted me with the EXP. SHARE for you... Great! You have caught or owned 58 kinds of POKéMON! Congratulations! Here you go!": **EXP. SHARE** (not an EVERSTONE in this ROM). Then FLY from the road outside (the bag's HM02 > FLY, a wild PIDGEOT lends a hand; the five badges allow it now) to Saffron.

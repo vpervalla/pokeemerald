@@ -1,0 +1,210 @@
+{
+ "sub": "Sabrina · Marsh Badge · TM04 Calm Mind · teleport pads",
+ "title": "Saffron Gym (Sabrina)",
+ "tab": "Saffron Gym",
+ "map": {
+  "name": "SaffronCity_Gym",
+  "markers": [
+   [
+    "trainer",
+    24,
+    18,
+    "T1"
+   ],
+   [
+    "trainer",
+    24,
+    2,
+    "T2"
+   ],
+   [
+    "trainer",
+    4,
+    2,
+    "T3"
+   ],
+   [
+    "trainer",
+    14,
+    2,
+    "T4"
+   ],
+   [
+    "trainer",
+    4,
+    10,
+    "T5"
+   ],
+   [
+    "trainer",
+    4,
+    18,
+    "T6"
+   ],
+   [
+    "trainer",
+    14,
+    11,
+    "T7"
+   ],
+   [
+    "trainer",
+    24,
+    10,
+    "T8"
+   ]
+  ]
+ },
+ "trainers": [
+  {
+   "name": "Psychic Cameron",
+   "hint": "(24,18). Prize ¥792. <b>Beaten.</b>",
+   "team": [
+    [
+     "slowpoke",
+     33,
+     "—"
+    ],
+    [
+     "slowpoke",
+     33,
+     "—"
+    ],
+    [
+     "slowbro",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Psychic Johan",
+   "hint": "(24,2). Prize ¥744. <b>Beaten.</b>",
+   "team": [
+    [
+     "kadabra",
+     31,
+     "—"
+    ],
+    [
+     "slowpoke",
+     31,
+     "—"
+    ],
+    [
+     "mr_mime",
+     31,
+     "—"
+    ],
+    [
+     "kadabra",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Psychic Preston",
+   "hint": "(4,2). Prize ¥912. <b>Beaten.</b>",
+   "team": [
+    [
+     "slowbro",
+     38,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Amanda",
+   "hint": "(14,2). Prize ¥1088. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     34,
+     "—"
+    ],
+    [
+     "haunter",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Stacy",
+   "hint": "(4,10). Prize ¥1216. <b>Beaten.</b>",
+   "team": [
+    [
+     "haunter",
+     38,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Tasha",
+   "hint": "(4,18). Prize ¥1056. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     33,
+     "—"
+    ],
+    [
+     "gastly",
+     33,
+     "—"
+    ],
+    [
+     "haunter",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Leader Sabrina",
+   "hint": "(14,11). Prize ¥4300. <b>Beaten.</b>",
+   "team": [
+    [
+     "kadabra",
+     38,
+     "Psybeam, Reflect, Future Sight, Calm Mind"
+    ],
+    [
+     "mr_mime",
+     37,
+     "Barrier, Psybeam, Baton Pass, Calm Mind"
+    ],
+    [
+     "venomoth",
+     38,
+     "Psybeam, Gust, Leech Life, Supersonic"
+    ],
+    [
+     "alakazam",
+     43,
+     "Psychic, Recover, Future Sight, Calm Mind"
+    ]
+   ]
+  },
+  {
+   "name": "Psychic Tyron",
+   "hint": "(24,10). Prize ¥816. <b>Beaten.</b>",
+   "team": [
+    [
+     "mr_mime",
+     34,
+     "—"
+    ],
+    [
+     "kadabra",
+     34,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [],
+ "wild": []
+}

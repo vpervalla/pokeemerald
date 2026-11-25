@@ -52,6 +52,7 @@ AREAS = {
     "35_route_17": ["Route17"],
     "36_route_18": ["Route18", "Route18_EastEntrance_1F"],
     "37_fuchsia_gym": ["FuchsiaCity_Gym"],
+    "38_saffron_gym": ["SaffronCity_Gym"],
     "24_route_12": ["Route12"],
     "23_route_8": ["Route8", "UndergroundPath_EastWestTunnel"],
     "22_lavender_town_tower": ["LavenderTown", "PokemonTower_1F", "PokemonTower_2F", "PokemonTower_3F", "PokemonTower_4F",
