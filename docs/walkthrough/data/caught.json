@@ -494,6 +494,17 @@
    "exp": 29949,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "nidoran_m",
+   "id": 32,
+   "nick": "NIDORAN\u2642",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 30,
+   "exp": 21760,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -518,6 +529,7 @@
   23,
   25,
   27,
+  32,
   33,
   37,
   41,

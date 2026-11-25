@@ -98,7 +98,7 @@
    "n": "2",
    "text": "Rare Candy at (11,5) (FuchsiaCity_WardensHouse).",
    "chip": "no",
-   "chipText": "Needs STRENGTH (boulder at (11,6))"
+   "chipText": "Boulder can't be pushed (bug 5)"
   },
   {
    "kind": "item",
@@ -125,7 +125,7 @@
    "species": "dragonair",
    "nick": "DRAGONAIR",
    "met": 21,
-   "level": 30,
+   "level": 45,
    "where": "party",
    "how": "wild"
   },
@@ -149,6 +149,22 @@
    "species": "psyduck",
    "nick": "PSYDUCK",
    "met": 23,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "nidorino",
+   "nick": "NIDORINO",
+   "met": 33,
+   "level": null,
+   "where": "box 2",
+   "how": "wild"
+  },
+  {
+   "species": "nidoran_m",
+   "nick": "NIDORAN♂",
+   "met": 30,
    "level": null,
    "where": "box 2",
    "how": "wild"

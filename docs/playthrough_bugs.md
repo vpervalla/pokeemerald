@@ -8,7 +8,8 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 | 1 | PalletTown_PlayersHouse_1F (5,8) | Missing interaction | The right tile of the exit does not leave the house | open |
 | 2 | CeladonCity_GameCorner (10,13), (11,13); RocketHideout_Elevator (1,5) | Dead warp tiles | Two of the Game Corner's three exit tiles and one of the elevator's two leave nothing (same cause as #1) | open |
 | 3 | RocketHideout_B2F, B3F (spinner mazes) | Camera/position desync | After a spinner slide the save-block position (camera) stays behind the player; walls and map edges then block moves that the map allows | open |
-| 4 | SafariZone_Center (Kanto Safari Zone), START > RETIRE | Wrong destination | Retiring, running out of SAFARI BALLs or of steps in the Kanto Safari Zone warps to Route 121's Hoenn Safari entrance, with no way back until a later badge (FLY) | workaround: walk out through the south door |
+| 4 | SafariZone_Center (Kanto Safari Zone), START > RETIRE | Wrong destination | Retiring, running out of SAFARI BALLs or of steps in the Kanto Safari Zone warps to Route 121's Hoenn Safari entrance, with no way back until a later badge (FLY) | **fixed** (commit f2a9d4e0d, merged; timeout verified: back to the Fuchsia entrance) |
+| 5 | FuchsiaCity_WardensHouse (11,6) and every Kanto boulder | Strength can't push | The boulder push check (`src/field_player_avatar.c:850`, also `src/fldeff_strength.c:20`) only accepts `OBJ_EVENT_GFX_PUSHABLE_BOULDER`; Kanto boulders use `OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER`, so STRENGTH activates but they never move | open |
 
 ## Details
 
@@ -47,3 +48,9 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 ### 4. RETIRE in the Kanto Safari Zone warps to Hoenn
 
 START menu > RETIRE > YES in the Fuchsia Safari Zone (maps 34.63 and the other Kanto Safari maps) moves the player to `ROUTE121_SAFARI_ZONE_ENTRANCE` (Hoenn, 23.0), the Hoenn Safari's own exit warp, with the Safari state ended. The Hoenn and Kanto Safari maps are not connected and FLY needs a badge, so the player is stranded until a later badge. The same exit script runs when the SAFARI BALLs run out or the steps run out (`SafariZone_EventScript_OutOfBalls`, `SafariZone_EventScript_TimesUp` and `OutOfBallsMidBattle` in `data/scripts/safari_zone.inc` all warp to `MAP_ROUTE121_SAFARI_ZONE_ENTRANCE`), so keep at least one ball and some steps. Walk out through the Center's south door (25..27,30) instead: the attendant then asks "Are you going to leave the SAFARI ZONE early?" and returns to Fuchsia.
+
+**Fixed (2026-11-25):** commit f2a9d4e0d branches the three exit scripts on region (`special IsInKantoSafariZone`) and warps Kanto players to `MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE`. Tested on a rebuilt ROM by letting the steps run out in the West area: the player arrived in the Fuchsia entrance (4,4).
+
+### 5. Kanto boulders can't be pushed with STRENGTH
+
+In the Warden's house (FuchsiaCity_WardensHouse), the boulder at (11,6) guards a RARE CANDY at (11,5). With HM04 in the bag the game offers "Would you like to use STRENGTH?" and a borrowed MACHOP activates it ("Its STRENGTH made it possible to move boulders around!"; talking to the boulder again: "STRENGTH made it possible to move boulders around."), but pushing it from the right ((12,6), LEFT) or the left ((10,6), RIGHT) never moves it, although both destination tiles are free. Cause: `TryPushBoulder` in `src/field_player_avatar.c` (line 850) compares the object's graphics id with `OBJ_EVENT_GFX_PUSHABLE_BOULDER` only, and the Kanto maps' boulders are `OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER` (same check in `src/fldeff_strength.c:20`). Likely affects Victory Road, Seafoam Islands and every other Kanto boulder.

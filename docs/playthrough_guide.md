@@ -517,6 +517,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_dragonair.sav` | Fuchsia Center: DRATINI raised on Route 18 and evolved into **DRAGONAIR L30**; RATICATE, DODUO, FEAROW caught; Pokédex 55. Next: Everstone (Oak's aide), Koga's Gym, Strength (Safari Zone). |
 | `saves/ethan_level45.sav` | Fuchsia Center: DR VENKMAN renamed GENGAR, 99 RARE CANDIES added (save edit) and used: the party is L45 (Charizard L51), WARTORTLE evolved into BLASTOISE; 46 candies left. |
 | `saves/ethan_soul_badge.sav` | Fuchsia Center after Koga's Gym: **SOUL BADGE** (5 badges), TM06; party L45 (Gengar L46, Charizard L51); Pokédex 56; ¥147829. Next: Surf (HM03), Strength, Everstone, Sabrina. |
+| `saves/ethan_hm03_hm04.sav` | Warden's house, Fuchsia (**new ROM** with the Safari exit fix): HM03 SURF, HM04 STRENGTH, TM32; NIDORAN♂ and NIDORINO caught; Pokédex 58. Kanto boulders can't be pushed (bug 5). |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -634,3 +635,7 @@ Almost every tile pulls the bike south (`MB_CYCLING_ROAD_PULL_DOWN`): idle waits
 ## Rare Candies (your exception)
 
 The no-RARE-CANDY rule was lifted once, for the L45 boost; the rule stands otherwise. Using candies from the bag: after each use the bag returns with the party cursor still on the same Pokémon, **but pressing B out of the party screen resets the cursor to slot 0**; always check the target before looping (the loop now aborts when the watched Pokémon doesn't gain the level).
+
+## Rebuilding the ROM mid-run
+
+A rebuild moves code addresses, and a savestate (`cur.ss`, `hist/`) keeps pointers into the old code: after `make` start again from an in-game save (`setup.sh saves/X.sav`). Places where you can't save (the Safari Zone) lose their progress. Keep a copy of the old `.gba`/`.elf` if the old state matters.
