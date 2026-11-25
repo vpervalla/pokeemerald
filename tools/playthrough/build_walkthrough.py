@@ -263,12 +263,18 @@ def wild_panels(specs):
     return "".join(out)
 
 
-def map_panel(spec):
+def map_title(name):
+    """PokemonTower_3F -> Pokemon Tower 3F (a floor's heading on multi-map pages)."""
+    parts = [re.sub(r"(?<=[a-z])(?=[A-Z0-9])|(?<=[A-Z])(?=[A-Z][a-z])", " ", x) for x in name.split("_")]
+    return " ".join(parts).replace("Pokemon", "Pokémon")
+
+
+def map_panel(spec, title="Map"):
     a = assets()
     im = a.map_img(spec["name"], [tuple(m) for m in spec["markers"]], crop=tuple(spec["crop"]) if spec.get("crop") else None)
     key = ('<p class="key"><span class="mk item">1</span> item ball <span class="mk gift">1</span> gift / event '
            '<span class="mk hidden">1</span> hidden item <span class="mk trainer">T1</span> trainer <span class="mk cut">C</span> tree that needs Cut</p>')
-    return (f'<div class="panel wide mapbox"><h3>Map</h3><div class="mapscroll"><img class="map" src="{a.b64(im, quant=True)}" '
+    return (f'<div class="panel wide mapbox"><h3>{esc(title)}</h3><div class="mapscroll"><img class="map" src="{a.b64(im, quant=True)}" '
             f'alt="Map of {esc(spec["name"])} with numbered markers"></div>{key}</div>')
 
 
@@ -384,16 +390,31 @@ def area_html(p, n):
         lede = kmap_html(KMAP, PAGES, current=p["id"], compact=p["id"] != "intro") + lede
     lede += places_html(p)
     ref = ""
-    if d.get("map"):
-        for spec in (d["map"] if isinstance(d["map"], list) else [d["map"]]):
+    specs = d["map"] if isinstance(d.get("map"), list) else [d["map"]] if d.get("map") else []
+    items = d.get("items") or []
+    if len(specs) > 1:
+        # dungeons and buildings with several floors: each floor's map is followed by its own items & events
+        placed = set()
+        for spec in specs:
+            keys = {(m[0], str(m[3])) for m in spec["markers"]}
+            here = [i for i in items if (i["kind"], str(i["n"])) in keys]
+            placed |= {id(i) for i in here}
+            mine = [dict(i, text=i["text"].replace(f' ({spec["name"]})', "")) for i in here]
+            ttl = esc(map_title(spec["name"]))
+            ref += map_panel(spec, map_title(spec["name"]))
+            body = legend(mine) if mine else '<p class="note">No items or events on this floor.</p>'
+            ref += f'<div class="panel wide floor-items"><h3>Items &amp; events · {ttl}</h3>{body}</div>'
+        items = [i for i in items if id(i) not in placed]
+    else:
+        for spec in specs:
             ref += map_panel(spec)
     panel = ""
-    if d.get("items"):
-        panel += legend(d["items"])
+    if items:
+        panel += legend(items)
     if any(l.strip() for l in s.get("Map notes", [])):
         panel += render(s["Map notes"]).replace("<ul>", '<ul class="notes-list">', 1)
     if panel:
-        ref += f'<div class="panel"><h3>Items &amp; events</h3>{panel}</div>'
+        ref += f'<div class="panel"><h3>{"Other events &amp; notes" if len(specs) > 1 else "Items &amp; events"}</h3>{panel}</div>'
     if d.get("wild"):
         ref += wild_panels(d["wild"])
     ref += caught_panel(d)
