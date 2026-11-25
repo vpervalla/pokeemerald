@@ -132,6 +132,14 @@ def effectiveness(move_type, def_types):
     return f
 
 
+def foe_asleep():
+    """Whether the opponent's first battler is asleep (gBattleMons[1].status1 & 7)."""
+    try:
+        return bool(int.from_bytes(e.peek(S["gBattleMons"] + 0x58 + 0x4C, 4), "little") & 7)
+    except Exception:
+        return False
+
+
 def best_move(mon, foe_types, banned_slots=()):
     """(score, slot, effectiveness, name) of the member's best damaging move against foe_types, or None."""
     d = load_data(); sp, moves, pp, *_ = mon
@@ -141,6 +149,7 @@ def best_move(mon, foe_types, banned_slots=()):
         if not mid or pp[slot] <= 0 or slot in banned_slots or mid not in d["mv"]: continue
         name, ty, power = d["mv"][mid]
         if power <= 0: continue
+        if name == "DREAM_EATER" and not foe_asleep(): continue   # fails unless the target sleeps
         eff = effectiveness(ty, foe_types)
         score = power * eff * (1.5 if ty in own else 1.0)
         if best is None or score > best[0]: best = (score, slot, eff, name)

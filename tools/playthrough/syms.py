@@ -18,7 +18,7 @@ SHOTS = os.path.join(PLAY_DIR, "shots")       # named screenshots (240x160 PNG)
 
 GLOBALS = ["gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gPlayerPartyCount", "gPlayerParty", "gEnemyParty",
            "gBattlerControllerFuncs", "gActionSelectionCursor", "gMoveSelectionCursor", "gBattleOutcome",
-           "gBattlerPartyIndexes", "gBattleTypeFlags", "gBagPosition", "gPokemonStoragePtr", "BattleMainCB2", "CB2_Overworld"]
+           "gBattlerPartyIndexes", "gBattleTypeFlags", "gBagPosition", "gPokemonStoragePtr", "BattleMainCB2", "CB2_Overworld", "gBattleMons"]
 
 
 def _load():

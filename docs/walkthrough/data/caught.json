@@ -1,25 +1,14 @@
 {
  "mons": [
   {
-   "species": "alakazam",
-   "id": 65,
-   "nick": "ALAKAZAM",
-   "metloc": 124,
-   "mapsec": "MAPSEC_ROUTE_24",
-   "metlevel": 10,
-   "exp": 70701,
-   "level": 42,
-   "where": "party"
-  },
-  {
-   "species": "wartortle",
-   "id": 8,
-   "nick": "WARTORTLE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 36342,
-   "level": 34,
+   "species": "dratini",
+   "id": 147,
+   "nick": "DRATINI",
+   "metloc": 136,
+   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
+   "metlevel": 21,
+   "exp": 30729,
+   "level": 29,
    "where": "party"
   },
   {
@@ -29,8 +18,8 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 47779,
-   "level": 37,
+   "exp": 55161,
+   "level": 39,
    "where": "party"
   },
   {
@@ -51,8 +40,19 @@
    "metloc": 127,
    "mapsec": "MAPSEC_MT_MOON",
    "metlevel": 10,
-   "exp": 100340,
-   "level": 47,
+   "exp": 129291,
+   "level": 51,
+   "where": "party"
+  },
+  {
+   "species": "wartortle",
+   "id": 8,
+   "nick": "WARTORTLE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 36342,
+   "level": 34,
    "where": "party"
   },
   {
@@ -62,8 +62,8 @@
    "metloc": 112,
    "mapsec": "MAPSEC_ROUTE_12",
    "metlevel": 30,
-   "exp": 40641,
-   "level": 31,
+   "exp": 41679,
+   "level": 32,
    "where": "party"
   },
   {
@@ -80,7 +80,7 @@
   {
    "species": "magikarp",
    "id": 129,
-   "nick": "AAAAAAAAAA",
+   "nick": "MAGIKARP",
    "metloc": 104,
    "mapsec": "MAPSEC_ROUTE_4",
    "metlevel": 5,
@@ -344,7 +344,7 @@
   {
    "species": "eevee",
    "id": 133,
-   "nick": "AAAAAAAAAA",
+   "nick": "EEVEE",
    "metloc": 94,
    "mapsec": "MAPSEC_CELADON_CITY",
    "metlevel": 25,
@@ -432,7 +432,7 @@
   {
    "species": "psyduck",
    "id": 54,
-   "nick": "AAAAAAAAAA",
+   "nick": "PSYDUCK",
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 23,
@@ -441,13 +441,46 @@
    "where": "box 2"
   },
   {
-   "species": "dratini",
-   "id": 147,
-   "nick": "DRATINI",
-   "metloc": 136,
-   "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
-   "metlevel": 21,
-   "exp": 11576,
+   "species": "raticate",
+   "id": 20,
+   "nick": "RATICATE",
+   "metloc": 118,
+   "mapsec": "MAPSEC_ROUTE_18",
+   "metlevel": 25,
+   "exp": 15625,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "alakazam",
+   "id": 65,
+   "nick": "ALAKAZAM",
+   "metloc": 124,
+   "mapsec": "MAPSEC_ROUTE_24",
+   "metlevel": 10,
+   "exp": 70701,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "doduo",
+   "id": 84,
+   "nick": "DODUO",
+   "metloc": 118,
+   "mapsec": "MAPSEC_ROUTE_18",
+   "metlevel": 24,
+   "exp": 13824,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "fearow",
+   "id": 22,
+   "nick": "FEAROW",
+   "metloc": 118,
+   "mapsec": "MAPSEC_ROUTE_18",
+   "metlevel": 27,
+   "exp": 19683,
    "level": null,
    "where": "box 2"
   }
@@ -467,7 +500,9 @@
   16,
   17,
   19,
+  20,
   21,
+  22,
   23,
   25,
   27,
@@ -488,6 +523,7 @@
   66,
   69,
   74,
+  84,
   90,
   92,
   93,
