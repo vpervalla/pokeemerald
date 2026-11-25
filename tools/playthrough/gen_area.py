@@ -319,11 +319,24 @@ def fill(k, cards_by_map):
             g = o["graphics_id"]
             if g.endswith("ITEM_BALL") and o.get("script"):
                 m = re.search(re.escape(o["script"]) + r"::\s*(?:\w+\s+)*?(?:finditem|giveitem\w*|kanto_giveitem\w*)\s+(?:\w+,\s*)?(ITEM_\w+)", sc)
-                nm = pretty_item(m.group(1)) if m else "an item"
+                i0 = sc.find(o["script"] + "::")
+                body = sc[i0:sc.find("\n\n", i0)] if i0 >= 0 else ""
+                if not m and "famechecker" in body:
+                    continue   # a POKéMON JOURNAL on a bookshelf: an item-ball sprite that only shows a Fame Checker article
                 got = flag_set(o["flag"]) if o.get("flag") else None
+                where = f"at ({o['x']},{o['y']})" + (f" ({mp})" if len(maps) > 1 else "")
                 n += 1
+                sp = re.search(r"SPECIES_(\w+)", body) or re.search(r"SPECIES_(\w+)", o["script"].upper())
+                if not m and (sp or re.search(r"(\w+?)Ball$", o["script"])):
+                    # a POKéMON in a ball (Oak's starters, the Dojo's prize): an event, not an item
+                    mon = sp.group(1).title() if sp else re.search(r"_(\w+?)Ball$", o["script"]).group(1)
+                    marks.append(["gift", o["x"], o["y"], str(n)])
+                    items.append({"kind": "gift", "n": str(n), "text": f"Poké Ball with {mon} {where}.",
+                                  "chip": "yes" if got else "no", "chipText": "Taken" if got else ("Not taken" if got is False else "Not checked")})
+                    continue
+                nm = pretty_item(m.group(1)) if m else "an item"
                 marks.append(["item", o["x"], o["y"], str(n)])
-                items.append({"kind": "item", "n": str(n), "text": f"{nm} at ({o['x']},{o['y']})" + (f" ({mp})" if len(maps) > 1 else "") + ".",
+                items.append({"kind": "item", "n": str(n), "text": f"{nm} {where}.",
                               "chip": "yes" if got else "no", "chipText": "Collected" if got else ("Not collected" if got is False else "Not checked")})
             elif g.endswith("CUT_TREE"):
                 marks.append(["cut", o["x"], o["y"], "C"])

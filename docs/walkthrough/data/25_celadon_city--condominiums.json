@@ -2,25 +2,11 @@
  "trainers": [],
  "items": [
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "1",
-   "text": "an item at (6,6) (CeladonCity_Condominiums_2F).",
-   "chip": "no",
-   "chipText": "Not collected"
-  },
-  {
-   "kind": "item",
-   "n": "2",
-   "text": "an item at (5,6) (CeladonCity_Condominiums_2F).",
-   "chip": "no",
-   "chipText": "Not collected"
-  },
-  {
-   "kind": "item",
-   "n": "3",
-   "text": "an item at (7,3) (CeladonCity_Condominiums_RoofRoom).",
+   "text": "Poké Ball with Eevee at (7,3) (CeladonCity_Condominiums_RoofRoom).",
    "chip": "yes",
-   "chipText": "Collected"
+   "chipText": "Taken"
   }
  ],
  "wild": [],
@@ -34,20 +20,7 @@
   },
   {
    "name": "CeladonCity_Condominiums_2F",
-   "markers": [
-    [
-     "item",
-     6,
-     6,
-     "1"
-    ],
-    [
-     "item",
-     5,
-     6,
-     "2"
-    ]
-   ]
+   "markers": []
   },
   {
    "name": "CeladonCity_Condominiums_3F",
@@ -61,10 +34,10 @@
    "name": "CeladonCity_Condominiums_RoofRoom",
    "markers": [
     [
-     "item",
+     "gift",
      7,
      3,
-     "3"
+     "1"
     ]
    ]
   }

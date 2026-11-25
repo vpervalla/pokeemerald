@@ -10,12 +10,6 @@
     11,
     5,
     "1"
-   ],
-   [
-    "item",
-    4,
-    1,
-    "2"
    ]
   ]
  },
@@ -27,13 +21,6 @@
    "text": "Rare Candy at (11,5).",
    "chip": "yes",
    "chipText": "Collected"
-  },
-  {
-   "kind": "item",
-   "n": "2",
-   "text": "an item at (4,1).",
-   "chip": "no",
-   "chipText": "Not collected"
   }
  ],
  "wild": []

@@ -88,18 +88,18 @@
  ],
  "items": [
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "1",
-   "text": "an item at (5,3).",
+   "text": "Poké Ball with Hitmonlee at (5,3).",
    "chip": "no",
-   "chipText": "Not collected"
+   "chipText": "Not taken"
   },
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "2",
-   "text": "an item at (7,3).",
+   "text": "Poké Ball with Hitmonchan at (7,3).",
    "chip": "yes",
-   "chipText": "Collected"
+   "chipText": "Taken"
   }
  ],
  "wild": [],
@@ -110,13 +110,13 @@
   "name": "SaffronCity_Dojo",
   "markers": [
    [
-    "item",
+    "gift",
     5,
     3,
     "1"
    ],
    [
-    "item",
+    "gift",
     7,
     3,
     "2"

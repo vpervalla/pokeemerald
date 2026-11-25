@@ -36,25 +36,25 @@
  ],
  "items": [
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "1",
-   "text": "an item at (8,4).",
-   "chip": "yes",
-   "chipText": "Collected"
+   "text": "Poké Ball with Bulbasaur at (8,4): the starter LEAF took before ETHAN arrived (ETHAN got PIKACHU).",
+   "chip": "no",
+   "chipText": "Taken by a rival"
   },
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "2",
-   "text": "an item at (9,4).",
-   "chip": "yes",
-   "chipText": "Collected"
+   "text": "Poké Ball with Squirtle at (9,4): the starter BLUE took before ETHAN arrived (ETHAN got PIKACHU).",
+   "chip": "no",
+   "chipText": "Taken by a rival"
   },
   {
-   "kind": "item",
+   "kind": "gift",
    "n": "3",
-   "text": "an item at (10,4).",
-   "chip": "yes",
-   "chipText": "Collected"
+   "text": "Poké Ball with Charmander at (10,4): the starter RED took before ETHAN arrived (ETHAN got PIKACHU).",
+   "chip": "no",
+   "chipText": "Taken by a rival"
   }
  ],
  "wild": [],
@@ -65,19 +65,19 @@
   "name": "PalletTown_ProfessorOaksLab",
   "markers": [
    [
-    "item",
+    "gift",
     8,
     4,
     "1"
    ],
    [
-    "item",
+    "gift",
     9,
     4,
     "2"
    ],
    [
-    "item",
+    "gift",
     10,
     4,
     "3"

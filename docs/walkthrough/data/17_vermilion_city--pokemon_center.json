@@ -1,40 +1,12 @@
 {
  "trainers": [],
- "items": [
-  {
-   "kind": "item",
-   "n": "1",
-   "text": "an item at (2,1).",
-   "chip": "no",
-   "chipText": "Not collected"
-  },
-  {
-   "kind": "item",
-   "n": "2",
-   "text": "an item at (3,1).",
-   "chip": "no",
-   "chipText": "Not collected"
-  }
- ],
+ "items": [],
  "wild": [],
  "sub": "Kadabra into Alakazam by double exchange",
  "title": "Vermilion Pokémon Center",
  "tab": "Pokémon Center",
  "map": {
   "name": "VermilionCity_PokemonCenter_1F",
-  "markers": [
-   [
-    "item",
-    2,
-    1,
-    "1"
-   ],
-   [
-    "item",
-    3,
-    1,
-    "2"
-   ]
-  ]
+  "markers": []
  }
 }

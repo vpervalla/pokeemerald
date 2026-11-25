@@ -1,21 +1,6 @@
 {
  "trainers": [],
- "items": [
-  {
-   "kind": "item",
-   "n": "1",
-   "text": "an item at (2,1) (SaffronCity_PokemonCenter_1F).",
-   "chip": "no",
-   "chipText": "Not collected"
-  },
-  {
-   "kind": "item",
-   "n": "2",
-   "text": "an item at (3,1) (SaffronCity_PokemonCenter_1F).",
-   "chip": "no",
-   "chipText": "Not collected"
-  }
- ],
+ "items": [],
  "wild": [],
  "sub": "Drowzee double exchange",
  "title": "Saffron Pokémon Center",
@@ -23,20 +8,7 @@
  "map": [
   {
    "name": "SaffronCity_PokemonCenter_1F",
-   "markers": [
-    [
-     "item",
-     2,
-     1,
-     "1"
-    ],
-    [
-     "item",
-     3,
-     1,
-     "2"
-    ]
-   ]
+   "markers": []
   },
   {
    "name": "SaffronCity_PokemonCenter_2F",
