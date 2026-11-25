@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Great Balls and Revives",
+ "title": "Lavender Mart",
+ "tab": "Mart",
+ "map": {
+  "name": "LavenderTown_Mart",
+  "markers": []
+ }
+}

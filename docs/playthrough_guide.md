@@ -464,6 +464,7 @@ markers, items and events, wild Pokémon by day and night, trainer cards, a boxe
 `python3 tools/playthrough/build_walkthrough.py OUT.html`. Per area, write `docs/walkthrough/NN_name.md` (Arrival,
 Map notes, Story with its screenshots, Party after, Bugs) and `docs/walkthrough/data/NN_name.json` (the map's marker
 coordinates, the items and events legend, which wild tables to show, the trainers' teams); the team page reads `data/team.json`.
+**Places inside a town** (each building, the Gym, a dungeon entered from the town) are child pages named `NN_town--place.md` (and `data/NN_town--place.json`, an `AREAS` key in `gen_area.py` listing only that place's maps). Number their titles `# NN.k Name`: children are sorted by that number, get no tab, show a "← Town" link, and the town page lists them under "Places in Town". The town page itself keeps only the streets. Give a child a map section in `AREA_MAPSEC` only if it has wild Pokémon (a dungeon); otherwise its catches would be listed twice.
 Wild tables come from `src/data/wild_encounters.json`, so they are the game's own. Update `STATUS` in the script when a leg
 ends, rebuild and publish to the same artifact.
 

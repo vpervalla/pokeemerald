@@ -1,49 +1,19 @@
 {
- "sub": "Mart · Gym guide · Pokémon Center",
+ "sub": "The Gym guide · Museum · Brock",
  "map": {
   "name": "PewterCity",
   "markers": [
    [
-    "gift",
-    17,
-    25,
-    "1"
-   ],
-   [
-    "gift",
-    28,
-    18,
-    "2"
-   ],
-   [
-    "gift",
-    15,
-    16,
-    "3"
-   ],
-   [
-    "gift",
-    42,
-    22,
-    "4"
-   ],
-   [
-    "gift",
-    46,
-    21,
-    "5"
+    "cut",
+    30,
+    5,
+    "C"
    ],
    [
     "hidden",
     6,
     3,
     "6"
-   ],
-   [
-    "cut",
-    30,
-    5,
-    "C"
    ]
   ]
  },
@@ -94,5 +64,7 @@
  "trainers": [],
  "wild": [],
  "caught": [],
- "missing": []
+ "missing": [],
+ "title": "Pewter City",
+ "tab": "Pewter City"
 }

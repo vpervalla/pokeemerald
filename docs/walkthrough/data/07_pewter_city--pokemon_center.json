@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "The profile woman · the link room",
+ "title": "Pewter Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": [
+  {
+   "name": "PewterCity_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "PewterCity_PokemonCenter_2F",
+   "markers": []
+  }
+ ]
+}

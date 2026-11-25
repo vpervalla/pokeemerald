@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Poké Balls · Premier Ball bonus",
+ "title": "Cerulean Mart",
+ "tab": "Mart",
+ "map": {
+  "name": "CeruleanCity_Mart",
+  "markers": []
+ }
+}

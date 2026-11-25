@@ -1,0 +1,105 @@
+{
+ "trainers": [
+  {
+   "name": "Rival Blue",
+   "hint": "(5,4). Prize ¥80. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "bulbasaur",
+     5,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Blue",
+   "hint": "(5,4). Prize ¥80. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "charmander",
+     5,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Blue",
+   "hint": "(5,4). Prize ¥80. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "squirtle",
+     5,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "an item at (8,4).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "an item at (9,4).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "an item at (10,4).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [],
+ "sub": "Pikachu · the Pokédex · Poké Balls",
+ "title": "Oak's Lab",
+ "tab": "Oak's Lab",
+ "map": {
+  "name": "PalletTown_ProfessorOaksLab",
+  "markers": [
+   [
+    "item",
+    8,
+    4,
+    "1"
+   ],
+   [
+    "item",
+    9,
+    4,
+    "2"
+   ],
+   [
+    "item",
+    10,
+    4,
+    "3"
+   ],
+   [
+    "trainer",
+    5,
+    4,
+    "T1"
+   ],
+   [
+    "trainer",
+    5,
+    4,
+    "T2"
+   ],
+   [
+    "trainer",
+    5,
+    4,
+    "T3"
+   ]
+  ]
+ }
+}

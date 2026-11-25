@@ -1,0 +1,40 @@
+{
+ "trainers": [],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "an item at (2,1).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "an item at (3,1).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [],
+ "sub": "Healing",
+ "title": "Cerulean Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": {
+  "name": "CeruleanCity_PokemonCenter_1F",
+  "markers": [
+   [
+    "item",
+    2,
+    1,
+    "1"
+   ],
+   [
+    "item",
+    3,
+    1,
+    "2"
+   ]
+  ]
+ }
+}

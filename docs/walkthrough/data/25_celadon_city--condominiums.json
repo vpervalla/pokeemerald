@@ -1,0 +1,72 @@
+{
+ "trainers": [],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "an item at (6,6) (CeladonCity_Condominiums_2F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "an item at (5,6) (CeladonCity_Condominiums_2F).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "an item at (7,3) (CeladonCity_Condominiums_RoofRoom).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [],
+ "sub": "The Tea · Eevee · Game Freak",
+ "title": "Celadon Mansion (Condominiums)",
+ "tab": "Mansion",
+ "map": [
+  {
+   "name": "CeladonCity_Condominiums_1F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_Condominiums_2F",
+   "markers": [
+    [
+     "item",
+     6,
+     6,
+     "1"
+    ],
+    [
+     "item",
+     5,
+     6,
+     "2"
+    ]
+   ]
+  },
+  {
+   "name": "CeladonCity_Condominiums_3F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_Condominiums_Roof",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_Condominiums_RoofRoom",
+   "markers": [
+    [
+     "item",
+     7,
+     3,
+     "3"
+    ]
+   ]
+  }
+ ]
+}

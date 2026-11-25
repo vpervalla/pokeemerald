@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Fossils and the space exhibit",
+ "title": "Pewter Museum of Science",
+ "tab": "Museum",
+ "map": [
+  {
+   "name": "PewterCity_Museum_1F",
+   "markers": []
+  },
+  {
+   "name": "PewterCity_Museum_2F",
+   "markers": []
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Haunter into Gengar by double exchange",
+ "title": "Lavender Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": [
+  {
+   "name": "LavenderTown_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "LavenderTown_PokemonCenter_2F",
+   "markers": []
+  }
+ ]
+}

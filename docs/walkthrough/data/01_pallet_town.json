@@ -1,27 +1,8 @@
 {
- "sub": "Ethan's house · Prof. Oak's Lab · Pikachu",
+ "sub": "Ethan's home town · Oak's Lab",
  "map": {
   "name": "PalletTown",
-  "markers": [
-   [
-    "gift",
-    6,
-    7,
-    "1"
-   ],
-   [
-    "gift",
-    16,
-    13,
-    "2"
-   ],
-   [
-    "gift",
-    12,
-    2,
-    "3"
-   ]
-  ]
+  "markers": []
  },
  "items": [
   {
@@ -52,8 +33,8 @@
    "species": "pikachu",
    "nick": "PIKACHU",
    "met": 5,
-   "level": 33,
-   "where": "party",
+   "level": null,
+   "where": "box 1",
    "how": "gift from Prof. Oak"
   }
  ],
@@ -93,12 +74,6 @@
    "via": [
     "fishing"
    ]
-  },
-  {
-   "species": "tentacool",
-   "via": [
-    "water"
-   ]
   }
  ],
  "wild": [
@@ -112,5 +87,7 @@
    "fishing_mons",
    "Fishing"
   ]
- ]
+ ],
+ "title": "Pallet Town",
+ "tab": "Pallet Town"
 }

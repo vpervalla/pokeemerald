@@ -1,5 +1,5 @@
 {
- "sub": "Squirtle gift · rival Blue · every house",
+ "sub": "Blue on the bridge · Misty · the Squirtle",
  "map": {
   "name": "CeruleanCity",
   "markers": [
@@ -102,10 +102,10 @@
  ],
  "caught": [
   {
-   "species": "wartortle",
-   "nick": "WARTORTLE",
+   "species": "blastoise",
+   "nick": "BLASTOISE",
    "met": 12,
-   "level": 32,
+   "level": 46,
    "where": "party",
    "how": "wild"
   }
@@ -128,18 +128,8 @@
    "via": [
     "fishing"
    ]
-  },
-  {
-   "species": "psyduck",
-   "via": [
-    "fishing"
-   ]
-  },
-  {
-   "species": "tentacool",
-   "via": [
-    "water"
-   ]
   }
- ]
+ ],
+ "title": "Cerulean City",
+ "tab": "Cerulean City"
 }

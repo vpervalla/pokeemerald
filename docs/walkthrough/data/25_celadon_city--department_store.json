@@ -1,0 +1,38 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "TMs, stones, vitamins; three roof TMs",
+ "title": "Celadon Department Store",
+ "tab": "Dept. Store",
+ "map": [
+  {
+   "name": "CeladonCity_DepartmentStore_1F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_2F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_3F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_4F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_5F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_Roof",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_DepartmentStore_Elevator",
+   "markers": []
+  }
+ ]
+}

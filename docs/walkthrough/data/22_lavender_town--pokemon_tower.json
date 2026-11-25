@@ -1,0 +1,583 @@
+{
+ "trainers": [
+  {
+   "name": "Rival Blue",
+   "hint": "PokemonTower_2F at (16,5). Prize ¥900. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     25,
+     "—"
+    ],
+    [
+     "growlithe",
+     23,
+     "—"
+    ],
+    [
+     "exeggcute",
+     22,
+     "—"
+    ],
+    [
+     "kadabra",
+     20,
+     "—"
+    ],
+    [
+     "wartortle",
+     25,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Patricia",
+   "hint": "PokemonTower_3F at (10,14). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Carly",
+   "hint": "PokemonTower_3F at (9,9). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Hope",
+   "hint": "PokemonTower_3F at (12,4). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Laurel",
+   "hint": "PokemonTower_4F at (17,7). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     23,
+     "—"
+    ],
+    [
+     "gastly",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Jody",
+   "hint": "PokemonTower_4F at (15,13). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Paula",
+   "hint": "PokemonTower_4F at (4,12). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Ruth",
+   "hint": "PokemonTower_5F at (11,4). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Tammy",
+   "hint": "PokemonTower_5F at (19,7). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "haunter",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Karina",
+   "hint": "PokemonTower_5F at (7,12). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Janae",
+   "hint": "PokemonTower_5F at (11,16). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Angelica",
+   "hint": "PokemonTower_6F at (13,10). Prize ¥704. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     22,
+     "—"
+    ],
+    [
+     "gastly",
+     22,
+     "—"
+    ],
+    [
+     "gastly",
+     22,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Jennifer",
+   "hint": "PokemonTower_6F at (18,6). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Channeler Emilia",
+   "hint": "PokemonTower_6F at (9,6). Prize ¥768. <b>Beaten.</b>",
+   "team": [
+    [
+     "gastly",
+     24,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "PokemonTower_7F at (9,10). Prize ¥800. <b>Beaten.</b>",
+   "team": [
+    [
+     "zubat",
+     25,
+     "—"
+    ],
+    [
+     "zubat",
+     25,
+     "—"
+    ],
+    [
+     "golbat",
+     25,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "PokemonTower_7F at (13,8). Prize ¥832. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     26,
+     "—"
+    ],
+    [
+     "drowzee",
+     26,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Team Rocket Grunt",
+   "hint": "PokemonTower_7F at (9,6). Prize ¥736. <b>Beaten.</b>",
+   "team": [
+    [
+     "zubat",
+     23,
+     "—"
+    ],
+    [
+     "rattata",
+     23,
+     "—"
+    ],
+    [
+     "raticate",
+     23,
+     "—"
+    ],
+    [
+     "zubat",
+     23,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Escape Rope at (13,2) (PokemonTower_3F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "Elixir at (12,11) (PokemonTower_4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Awakening at (8,11) (PokemonTower_4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "4",
+   "text": "Great Ball at (11,16) (PokemonTower_4F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "5",
+   "text": "Nugget at (6,16) (PokemonTower_5F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "6",
+   "text": "Cleanse Tag at (11,9) (PokemonTower_5F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "7",
+   "text": "Hidden Big Mushroom at (7,3) (PokemonTower_5F).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "8",
+   "text": "Rare Candy at (5,15) (PokemonTower_6F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "9",
+   "text": "X Accuracy at (15,15) (PokemonTower_6F).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "10",
+   "text": "Hidden Soothe Bell at (11,4) (PokemonTower_7F).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_POKEMON_TOWER_3F",
+   "land_mons",
+   "Tall grass (PokemonTower_3F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_4F",
+   "land_mons",
+   "Tall grass (PokemonTower_4F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_5F",
+   "land_mons",
+   "Tall grass (PokemonTower_5F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_6F",
+   "land_mons",
+   "Tall grass (PokemonTower_6F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_7F",
+   "land_mons",
+   "Tall grass (PokemonTower_7F)"
+  ]
+ ],
+ "sub": "Blue · Channelers · the Marowak ghost · Mr. Fuji",
+ "title": "Pokémon Tower",
+ "tab": "Pokémon Tower",
+ "map": [
+  {
+   "name": "PokemonTower_1F",
+   "markers": []
+  },
+  {
+   "name": "PokemonTower_2F",
+   "markers": [
+    [
+     "trainer",
+     16,
+     5,
+     "T1"
+    ]
+   ]
+  },
+  {
+   "name": "PokemonTower_3F",
+   "markers": [
+    [
+     "item",
+     13,
+     2,
+     "1"
+    ],
+    [
+     "trainer",
+     10,
+     14,
+     "T2"
+    ],
+    [
+     "trainer",
+     9,
+     9,
+     "T3"
+    ],
+    [
+     "trainer",
+     12,
+     4,
+     "T4"
+    ]
+   ]
+  },
+  {
+   "name": "PokemonTower_4F",
+   "markers": [
+    [
+     "item",
+     12,
+     11,
+     "2"
+    ],
+    [
+     "item",
+     8,
+     11,
+     "3"
+    ],
+    [
+     "item",
+     11,
+     16,
+     "4"
+    ],
+    [
+     "trainer",
+     17,
+     7,
+     "T5"
+    ],
+    [
+     "trainer",
+     15,
+     13,
+     "T6"
+    ],
+    [
+     "trainer",
+     4,
+     12,
+     "T7"
+    ]
+   ]
+  },
+  {
+   "name": "PokemonTower_5F",
+   "markers": [
+    [
+     "item",
+     6,
+     16,
+     "5"
+    ],
+    [
+     "item",
+     11,
+     9,
+     "6"
+    ],
+    [
+     "hidden",
+     7,
+     3,
+     "7"
+    ],
+    [
+     "trainer",
+     11,
+     4,
+     "T8"
+    ],
+    [
+     "trainer",
+     19,
+     7,
+     "T9"
+    ],
+    [
+     "trainer",
+     7,
+     12,
+     "T10"
+    ],
+    [
+     "trainer",
+     11,
+     16,
+     "T11"
+    ]
+   ]
+  },
+  {
+   "name": "PokemonTower_6F",
+   "markers": [
+    [
+     "item",
+     5,
+     15,
+     "8"
+    ],
+    [
+     "item",
+     15,
+     15,
+     "9"
+    ],
+    [
+     "trainer",
+     13,
+     10,
+     "T12"
+    ],
+    [
+     "trainer",
+     18,
+     6,
+     "T13"
+    ],
+    [
+     "trainer",
+     9,
+     6,
+     "T14"
+    ]
+   ]
+  },
+  {
+   "name": "PokemonTower_7F",
+   "markers": [
+    [
+     "hidden",
+     11,
+     4,
+     "10"
+    ],
+    [
+     "trainer",
+     9,
+     10,
+     "T15"
+    ],
+    [
+     "trainer",
+     13,
+     8,
+     "T16"
+    ],
+    [
+     "trainer",
+     9,
+     6,
+     "T17"
+    ]
+   ]
+  }
+ ],
+ "caught": [
+  {
+   "species": "gengar",
+   "nick": "GENGAR",
+   "met": 15,
+   "level": 47,
+   "where": "party",
+   "how": "wild"
+  },
+  {
+   "species": "gastly",
+   "nick": "GASTLY",
+   "met": 17,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  },
+  {
+   "species": "cubone",
+   "nick": "CUBONE",
+   "met": 17,
+   "level": null,
+   "where": "box 1",
+   "how": "wild"
+  }
+ ],
+ "missing": []
+}

@@ -1,0 +1,156 @@
+{
+ "trainers": [
+  {
+   "name": "Black Belt Hitoshi",
+   "hint": "(11,10). Prize ¥992. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     31,
+     "—"
+    ],
+    [
+     "mankey",
+     31,
+     "—"
+    ],
+    [
+     "primeape",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Black Belt Hideki",
+   "hint": "(1,10). Prize ¥1024. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     32,
+     "—"
+    ],
+    [
+     "machoke",
+     32,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Black Belt Aaron",
+   "hint": "(11,8). Prize ¥1152. <b>Beaten.</b>",
+   "team": [
+    [
+     "primeape",
+     36,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Black Belt Mike",
+   "hint": "(1,8). Prize ¥992. <b>Beaten.</b>",
+   "team": [
+    [
+     "mankey",
+     31,
+     "—"
+    ],
+    [
+     "mankey",
+     31,
+     "—"
+    ],
+    [
+     "primeape",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Black Belt Koichi",
+   "hint": "(6,5). Prize ¥1184. <b>Beaten.</b>",
+   "team": [
+    [
+     "hitmonlee",
+     37,
+     "—"
+    ],
+    [
+     "hitmonchan",
+     37,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "an item at (5,3).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "an item at (7,3).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [],
+ "sub": "Hitmonchan",
+ "title": "Fighting Dojo",
+ "tab": "Dojo",
+ "map": {
+  "name": "SaffronCity_Dojo",
+  "markers": [
+   [
+    "item",
+    5,
+    3,
+    "1"
+   ],
+   [
+    "item",
+    7,
+    3,
+    "2"
+   ],
+   [
+    "trainer",
+    11,
+    10,
+    "T1"
+   ],
+   [
+    "trainer",
+    1,
+    10,
+    "T2"
+   ],
+   [
+    "trainer",
+    11,
+    8,
+    "T3"
+   ],
+   [
+    "trainer",
+    1,
+    8,
+    "T4"
+   ],
+   [
+    "trainer",
+    6,
+    5,
+    "T5"
+   ]
+  ]
+ }
+}

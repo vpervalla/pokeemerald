@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Oak's Parcel",
+ "title": "Viridian Mart",
+ "tab": "Mart",
+ "map": {
+  "name": "ViridianCity_Mart",
+  "markers": []
+ }
+}

@@ -1,113 +1,28 @@
 {
- "sub": "Oak's Parcel · catching tutorial · Poké Mart",
- "map": [
-  {
-   "name": "ViridianCity",
-   "markers": [
-    [
-     "gift",
-     36,
-     19,
-     "1"
-    ],
-    [
-     "gift",
-     21,
-     6,
-     "2"
-    ],
-    [
-     "item",
-     17,
-     5,
-     "3"
-    ],
-    [
-     "gift",
-     26,
-     26,
-     "4"
-    ],
-    [
-     "cut",
-     18,
-     5,
-     "C"
-    ],
-    [
-     "cut",
-     11,
-     24,
-     "C"
-    ]
+ "sub": "The old man's catching lesson · Teachy TV",
+ "map": {
+  "name": "ViridianCity",
+  "markers": [
+   [
+    "cut",
+    11,
+    24,
+    "C"
+   ],
+   [
+    "cut",
+    18,
+    5,
+    "C"
+   ],
+   [
+    "item",
+    17,
+    5,
+    "6"
    ]
-  },
-  {
-   "name": "ViridianCity_Gym",
-   "markers": [
-    [
-     "hidden",
-     2,
-     2,
-     "5"
-    ],
-    [
-     "trainer",
-     10,
-     2,
-     "T1"
-    ],
-    [
-     "trainer",
-     12,
-     10,
-     "T2"
-    ],
-    [
-     "trainer",
-     11,
-     14,
-     "T3"
-    ],
-    [
-     "trainer",
-     10,
-     10,
-     "T4"
-    ],
-    [
-     "trainer",
-     2,
-     21,
-     "T5"
-    ],
-    [
-     "trainer",
-     3,
-     11,
-     "T6"
-    ],
-    [
-     "trainer",
-     6,
-     8,
-     "T7"
-    ],
-    [
-     "trainer",
-     2,
-     2,
-     "T8"
-    ],
-    [
-     "trainer",
-     13,
-     7,
-     "T9"
-    ]
-   ]
-  }
- ],
+  ]
+ },
  "items": [
   {
    "kind": "gift",
@@ -143,6 +58,13 @@
    "text": "Hidden Macho Brace at (2,2) (ViridianCity_Gym).",
    "chip": "no",
    "chipText": "Not found"
+  },
+  {
+   "kind": "item",
+   "n": "6",
+   "text": "Potion at (17,5) (ViridianCity).",
+   "chip": "no",
+   "chipText": "Not collected"
   }
  ],
  "wild": [
@@ -157,215 +79,9 @@
    "Fishing"
   ]
  ],
- "trainers": [
-  {
-   "name": "Black Belt Takashi",
-   "hint": "ViridianCity_Gym at (10,2). Prize ¥1216. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "machoke",
-     38,
-     "—"
-    ],
-    [
-     "machop",
-     38,
-     "—"
-    ],
-    [
-     "machoke",
-     38,
-     "—"
-    ]
-   ]
-  },
-  {
-   "name": "Cooltrainer Yuji",
-   "hint": "ViridianCity_Gym at (12,10). Prize ¥1824. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "sandslash",
-     38,
-     "Slash, Swift, Sand Attack, Poison Sting"
-    ],
-    [
-     "graveler",
-     38,
-     "Rock Blast, Magnitude, Mud Sport, Defense Curl"
-    ],
-    [
-     "onix",
-     38,
-     "Dragon Breath, Sandstorm, Rock Throw, Bind"
-    ],
-    [
-     "graveler",
-     38,
-     "Rock Blast, Magnitude, Rollout, Defense Curl"
-    ],
-    [
-     "marowak",
-     38,
-     "Bonemerang, Headbutt, Leer, Growl"
-    ]
-   ]
-  },
-  {
-   "name": "Black Belt Atsushi",
-   "hint": "ViridianCity_Gym at (11,14). Prize ¥1280. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "machop",
-     40,
-     "—"
-    ],
-    [
-     "machoke",
-     40,
-     "—"
-    ]
-   ]
-  },
-  {
-   "name": "Tamer Jason",
-   "hint": "ViridianCity_Gym at (10,10). Prize ¥1720. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "rhyhorn",
-     43,
-     "—"
-    ]
-   ]
-  },
-  {
-   "name": "Tamer Cole",
-   "hint": "ViridianCity_Gym at (2,21). Prize ¥1560. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "arbok",
-     39,
-     "—"
-    ],
-    [
-     "tauros",
-     39,
-     "—"
-    ]
-   ]
-  },
-  {
-   "name": "Black Belt Kiyo",
-   "hint": "ViridianCity_Gym at (3,11). Prize ¥1376. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "machoke",
-     43,
-     "—"
-    ]
-   ]
-  },
-  {
-   "name": "Cooltrainer Samuel",
-   "hint": "ViridianCity_Gym at (6,8). Prize ¥1872. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "sandslash",
-     37,
-     "Slash, Swift, Sand Attack, Poison Sting"
-    ],
-    [
-     "sandslash",
-     37,
-     "Slash, Swift, Sand Attack, Poison Sting"
-    ],
-    [
-     "rhyhorn",
-     38,
-     "Take Down, Rock Blast, Fury Attack, Scary Face"
-    ],
-    [
-     "nidorino",
-     39,
-     "Fury Attack, Horn Attack, Poison Sting, Double Kick"
-    ],
-    [
-     "nidoking",
-     39,
-     "Thrash, Double Kick, Poison Sting, Focus Energy"
-    ]
-   ]
-  },
-  {
-   "name": "Leader Giovanni",
-   "hint": "ViridianCity_Gym at (2,2). Prize ¥5000. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "rhyhorn",
-     45,
-     "Take Down, Rock Blast, Scary Face, Earthquake"
-    ],
-    [
-     "dugtrio",
-     42,
-     "Slash, Sand Tomb, Mud Slap, Earthquake"
-    ],
-    [
-     "nidoqueen",
-     44,
-     "Body Slam, Double Kick, Poison Sting, Earthquake"
-    ],
-    [
-     "nidoking",
-     45,
-     "Thrash, Double Kick, Poison Sting, Earthquake"
-    ],
-    [
-     "rhyhorn",
-     50,
-     "Take Down, Rock Blast, Scary Face, Earthquake"
-    ]
-   ]
-  },
-  {
-   "name": "Cooltrainer Warren",
-   "hint": "ViridianCity_Gym at (13,7). Prize ¥1872. <b>Not fought yet.</b>",
-   "team": [
-    [
-     "marowak",
-     37,
-     "Bonemerang, Headbutt, Leer, Growl"
-    ],
-    [
-     "marowak",
-     37,
-     "Bonemerang, Headbutt, Leer, Growl"
-    ],
-    [
-     "rhyhorn",
-     38,
-     "Take Down, Rock Blast, Fury Attack, Scary Face"
-    ],
-    [
-     "nidorina",
-     39,
-     "Fury Swipes, Bite, Poison Sting, Double Kick"
-    ],
-    [
-     "nidoqueen",
-     39,
-     "Body Slam, Bite, Poison Sting, Double Kick"
-    ]
-   ]
-  }
- ],
+ "trainers": [],
  "caught": [],
  "missing": [
-  {
-   "species": "goldeen",
-   "via": [
-    "fishing"
-   ]
-  },
   {
    "species": "gyarados",
    "via": [
@@ -385,18 +101,13 @@
    ]
   },
   {
-   "species": "psyduck",
-   "via": [
-    "fishing",
-    "water"
-   ]
-  },
-  {
    "species": "slowpoke",
    "via": [
     "fishing",
     "water"
    ]
   }
- ]
+ ],
+ "title": "Viridian City",
+ "tab": "Viridian City"
 }

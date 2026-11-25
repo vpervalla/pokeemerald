@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "The status-condition blackboard",
+ "title": "Viridian school",
+ "tab": "School",
+ "map": {
+  "name": "ViridianCity_School",
+  "markers": []
+ }
+}

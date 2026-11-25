@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "The Bicycle for the voucher",
+ "title": "Bike Shop",
+ "tab": "Bike Shop",
+ "map": {
+  "name": "CeruleanCity_BikeShop",
+  "markers": []
+ }
+}

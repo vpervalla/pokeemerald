@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Potions",
+ "title": "Pewter Mart",
+ "tab": "Mart",
+ "map": {
+  "name": "PewterCity_Mart",
+  "markers": []
+ }
+}

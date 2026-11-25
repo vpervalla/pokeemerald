@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Coins for TMs and Pokémon",
+ "title": "Game Corner Prize Room",
+ "tab": "Prize Room",
+ "map": {
+  "name": "CeladonCity_GameCorner_PrizeRoom",
+  "markers": []
+ }
+}

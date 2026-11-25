@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "The weather forecaster",
+ "title": "Viridian Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": {
+  "name": "ViridianCity_PokemonCenter_1F",
+  "markers": []
+ }
+}

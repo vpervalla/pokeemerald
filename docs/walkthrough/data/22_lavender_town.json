@@ -1,0 +1,40 @@
+{
+ "sub": "The Pokémon Tower · Mr. Fuji · the Name Rater",
+ "title": "Lavender Town",
+ "tab": "Lavender Town",
+ "map": {
+  "name": "LavenderTown",
+  "markers": []
+ },
+ "items": [],
+ "wild": [
+  [
+   "MAP_POKEMON_TOWER_3F",
+   "land_mons",
+   "Tall grass (PokemonTower_3F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_4F",
+   "land_mons",
+   "Tall grass (PokemonTower_4F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_5F",
+   "land_mons",
+   "Tall grass (PokemonTower_5F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_6F",
+   "land_mons",
+   "Tall grass (PokemonTower_6F)"
+  ],
+  [
+   "MAP_POKEMON_TOWER_7F",
+   "land_mons",
+   "Tall grass (PokemonTower_7F)"
+  ]
+ ],
+ "trainers": [],
+ "caught": [],
+ "missing": []
+}

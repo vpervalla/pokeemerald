@@ -1,0 +1,33 @@
+{
+ "trainers": [],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Nugget at (2,1) (SaffronCity_CopycatsHouse_2F).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [],
+ "sub": "The Copycat and her dolls",
+ "title": "Copycat's house",
+ "tab": "Copycat",
+ "map": [
+  {
+   "name": "SaffronCity_CopycatsHouse_1F",
+   "markers": []
+  },
+  {
+   "name": "SaffronCity_CopycatsHouse_2F",
+   "markers": [
+    [
+     "hidden",
+     2,
+     1,
+     "1"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Heal, save; the Poké Flute hint",
+ "title": "Celadon Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": [
+  {
+   "name": "CeladonCity_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "CeladonCity_PokemonCenter_2F",
+   "markers": []
+  }
+ ]
+}

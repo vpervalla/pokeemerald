@@ -1,0 +1,12 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Hyper Potions, Max Repels",
+ "title": "Saffron Mart",
+ "tab": "Mart",
+ "map": {
+  "name": "SaffronCity_Mart",
+  "markers": []
+ }
+}

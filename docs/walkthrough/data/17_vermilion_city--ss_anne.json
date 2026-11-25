@@ -1,0 +1,713 @@
+{
+ "sub": "Captain's HM01 · 26 maps · two double battles",
+ "map": [
+  {
+   "name": "SSAnne_Exterior",
+   "markers": [
+    [
+     "hidden",
+     58,
+     28,
+     "1"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_1F_Corridor",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_1F_Room1",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_1F_Room2",
+   "markers": [
+    [
+     "item",
+     5,
+     7,
+     "2"
+    ],
+    [
+     "trainer",
+     5,
+     3,
+     "T1"
+    ],
+    [
+     "trainer",
+     0,
+     4,
+     "T2"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_1F_Room3",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_1F_Room4",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_1F_Room5",
+   "markers": [
+    [
+     "trainer",
+     2,
+     6,
+     "T3"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_1F_Room6",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_1F_Room7",
+   "markers": [
+    [
+     "trainer",
+     4,
+     3,
+     "T4"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_Kitchen",
+   "markers": [
+    [
+     "item",
+     1,
+     10,
+     "3"
+    ],
+    [
+     "hidden",
+     14,
+     8,
+     "4"
+    ],
+    [
+     "hidden",
+     14,
+     4,
+     "5"
+    ],
+    [
+     "hidden",
+     14,
+     6,
+     "6"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_2F_Corridor",
+   "markers": [
+    [
+     "trainer",
+     30,
+     2,
+     "T5"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_2F_Room1",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_2F_Room2",
+   "markers": [
+    [
+     "item",
+     3,
+     3,
+     "7"
+    ],
+    [
+     "trainer",
+     5,
+     5,
+     "T6"
+    ],
+    [
+     "trainer",
+     1,
+     4,
+     "T7"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_2F_Room3",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_2F_Room4",
+   "markers": [
+    [
+     "item",
+     2,
+     4,
+     "8"
+    ],
+    [
+     "trainer",
+     0,
+     5,
+     "T8"
+    ],
+    [
+     "trainer",
+     3,
+     3,
+     "T9"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_2F_Room5",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_2F_Room6",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_CaptainsOffice",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_3F_Corridor",
+   "markers": []
+  },
+  {
+   "name": "SSAnne_Deck",
+   "markers": [
+    [
+     "trainer",
+     12,
+     10,
+     "T10"
+    ],
+    [
+     "trainer",
+     6,
+     9,
+     "T11"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Corridor",
+   "markers": [
+    [
+     "hidden",
+     21,
+     5,
+     "9"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Room1",
+   "markers": [
+    [
+     "trainer",
+     5,
+     2,
+     "T12"
+    ],
+    [
+     "trainer",
+     3,
+     2,
+     "T13"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Room2",
+   "markers": [
+    [
+     "item",
+     3,
+     2,
+     "10"
+    ],
+    [
+     "trainer",
+     3,
+     5,
+     "T14"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Room3",
+   "markers": [
+    [
+     "item",
+     1,
+     5,
+     "11"
+    ],
+    [
+     "trainer",
+     4,
+     4,
+     "T15"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Room4",
+   "markers": [
+    [
+     "trainer",
+     3,
+     3,
+     "T16"
+    ],
+    [
+     "trainer",
+     2,
+     6,
+     "T17"
+    ]
+   ]
+  },
+  {
+   "name": "SSAnne_B1F_Room5",
+   "markers": [
+    [
+     "item",
+     2,
+     2,
+     "12"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Lava Cookie at (58,28) (SSAnne_Exterior).",
+   "chip": "no",
+   "chipText": "Not found"
+  },
+  {
+   "kind": "item",
+   "n": "2",
+   "text": "TM31 at (5,7) (SSAnne_1F_Room2).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "3",
+   "text": "Great Ball at (1,10) (SSAnne_Kitchen).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "4",
+   "text": "Hidden Chesto Berry at (14,8) (SSAnne_Kitchen).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "5",
+   "text": "Hidden Pecha Berry at (14,4) (SSAnne_Kitchen).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "6",
+   "text": "Hidden Cheri Berry at (14,6) (SSAnne_Kitchen).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "7",
+   "text": "Stardust at (3,3) (SSAnne_2F_Room2).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "item",
+   "n": "8",
+   "text": "X Attack at (2,4) (SSAnne_2F_Room4).",
+   "chip": "no",
+   "chipText": "Not collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "9",
+   "text": "Hidden Hyper Potion at (21,5) (SSAnne_B1F_Corridor).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "item",
+   "n": "10",
+   "text": "TM44 at (3,2) (SSAnne_B1F_Room2).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "11",
+   "text": "Ether at (1,5) (SSAnne_B1F_Room3).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "item",
+   "n": "12",
+   "text": "Super Potion at (2,2) (SSAnne_B1F_Room5).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "trainers": [
+  {
+   "name": "Lass Ann",
+   "hint": "SSAnne_1F_Room2 at (5,3). Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgey",
+     18,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Youngster Tyler",
+   "hint": "SSAnne_1F_Room2 at (0,4). Prize ¥336. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     21,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gentleman Arthur",
+   "hint": "SSAnne_1F_Room5 at (2,6). Prize ¥1520. <b>Beaten.</b>",
+   "team": [
+    [
+     "nidoran_m",
+     19,
+     "—"
+    ],
+    [
+     "nidoran_f",
+     19,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gentleman Thomas",
+   "hint": "SSAnne_1F_Room7 at (4,3). Prize ¥1440. <b>Beaten.</b>",
+   "team": [
+    [
+     "growlithe",
+     18,
+     "—"
+    ],
+    [
+     "growlithe",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Rival Blue",
+   "hint": "SSAnne_2F_Corridor at (30,2). Prize ¥720. <b>Beaten.</b>",
+   "team": [
+    [
+     "pidgeotto",
+     19,
+     "—"
+    ],
+    [
+     "raticate",
+     16,
+     "—"
+    ],
+    [
+     "kadabra",
+     18,
+     "—"
+    ],
+    [
+     "wartortle",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Dale",
+   "hint": "SSAnne_2F_Room2 at (5,5). Prize ¥680. <b>Beaten.</b>",
+   "team": [
+    [
+     "goldeen",
+     17,
+     "—"
+    ],
+    [
+     "tentacool",
+     17,
+     "—"
+    ],
+    [
+     "goldeen",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gentleman Brooks",
+   "hint": "SSAnne_2F_Room2 at (1,4). Prize ¥1840. <b>Not fought yet.</b>",
+   "team": [
+    [
+     "pikachu",
+     23,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Gentleman Lamar",
+   "hint": "SSAnne_2F_Room4 at (0,5). Prize ¥1360. <b>Beaten.</b>",
+   "team": [
+    [
+     "growlithe",
+     17,
+     "—"
+    ],
+    [
+     "ponyta",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Lass Dawn",
+   "hint": "SSAnne_2F_Room4 at (3,3). Prize ¥288. <b>Beaten.</b>",
+   "team": [
+    [
+     "rattata",
+     18,
+     "—"
+    ],
+    [
+     "pikachu",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Trevor",
+   "hint": "SSAnne_Deck at (12,10). Prize ¥544. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     17,
+     "—"
+    ],
+    [
+     "tentacool",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Edmond",
+   "hint": "SSAnne_Deck at (6,9). Prize ¥576. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     18,
+     "—"
+    ],
+    [
+     "shellder",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Barny",
+   "hint": "SSAnne_B1F_Room1 at (5,2). Prize ¥680. <b>Beaten.</b>",
+   "team": [
+    [
+     "tentacool",
+     17,
+     "—"
+    ],
+    [
+     "staryu",
+     17,
+     "—"
+    ],
+    [
+     "shellder",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Phillip",
+   "hint": "SSAnne_B1F_Room1 at (3,2). Prize ¥640. <b>Beaten.</b>",
+   "team": [
+    [
+     "machop",
+     20,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Huey",
+   "hint": "SSAnne_B1F_Room2 at (3,5). Prize ¥576. <b>Beaten.</b>",
+   "team": [
+    [
+     "tentacool",
+     18,
+     "—"
+    ],
+    [
+     "staryu",
+     18,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Dylan",
+   "hint": "SSAnne_B1F_Room3 at (4,4). Prize ¥544. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     17,
+     "—"
+    ],
+    [
+     "horsea",
+     17,
+     "—"
+    ],
+    [
+     "horsea",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Duncan",
+   "hint": "SSAnne_B1F_Room4 at (3,3). Prize ¥544. <b>Beaten.</b>",
+   "team": [
+    [
+     "horsea",
+     17,
+     "—"
+    ],
+    [
+     "shellder",
+     17,
+     "—"
+    ],
+    [
+     "tentacool",
+     17,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sailor Leonard",
+   "hint": "SSAnne_B1F_Room4 at (2,6). Prize ¥672. <b>Beaten.</b>",
+   "team": [
+    [
+     "shellder",
+     21,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "wild": [
+  [
+   "MAP_SSANNE_EXTERIOR",
+   "water_mons",
+   "Surfing (SSAnne_Exterior)"
+  ],
+  [
+   "MAP_SSANNE_EXTERIOR",
+   "fishing_mons",
+   "Fishing (SSAnne_Exterior)"
+  ]
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "staryu",
+   "via": [
+    "fishing"
+   ]
+  }
+ ]
+}

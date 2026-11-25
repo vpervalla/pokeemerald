@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Mom heals · the bedroom PC's Potion",
+ "title": "Player's house",
+ "tab": "Player's house",
+ "map": [
+  {
+   "name": "PalletTown_PlayersHouse_1F",
+   "markers": []
+  },
+  {
+   "name": "PalletTown_PlayersHouse_2F",
+   "markers": []
+  }
+ ]
+}

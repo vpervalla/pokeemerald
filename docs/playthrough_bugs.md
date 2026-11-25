@@ -27,7 +27,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 - **Steps:** enter the Game Corner, walk to (10,13) (or step onto it from (10,12)) and press down: nothing. Step left to (9,13) and press down: Celadon City. In the elevator, (1,5) does nothing and (2,5) leaves.
 - **Expected:** the whole doormat leaves. Same cause as #1: a warp event on a tile whose behaviour is not an arrow/door warp can never fire.
 - **Workaround:** use (9,13) and (2,5).
-- **Seen in:** [Game Corner and Rocket Hideout](walkthrough/26_game_corner_rocket_hideout.md).
+- **Seen in:** [Game Corner and Rocket Hideout](walkthrough/25_celadon_city--game_corner.md).
 
 ### 3. Spinner slides leave the camera position behind (Rocket Hideout B2F, B3F)
 
@@ -36,7 +36,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 - **Steps:** B3F from the stairs at (18,2): walk through the maze to (2,14), press left.
 - **Evidence:** the ObjectEvent said (2,14) and the save block (0,14); copying the ObjectEvent tile into `pos` made the move work.
 - **Workaround:** tools copy the object's tile into `pos` after every step (`tools/playthrough/emu.py: fix_pos`), and `rbfs.py` explores the real game with savestates because the static planner cannot predict slides. Not fixed in the ROM (a rebuild invalidates the savestates): the cause is in the spin movement not feeding `CameraObject`'s per-frame deltas.
-- **Seen in:** [Game Corner and Rocket Hideout](walkthrough/26_game_corner_rocket_hideout.md).
+- **Seen in:** [Game Corner and Rocket Hideout](walkthrough/25_celadon_city--game_corner.md).
 
 ### Observations (not bugs)
 
