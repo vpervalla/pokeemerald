@@ -22,6 +22,20 @@ def press_tiles(fl):
     return [(int(x), int(y), int(c)) for x, y, c in re.findall(r"setmetatile (\d+), (\d+), \w+, (\d)", m.group(1))]
 
 
+_hid = {}
+def hidden(flag):
+    """An object whose flag is set in the running game is not on the map (e.g. FLAG_HIDE_MANSION_RAIDERS)."""
+    if not flag or flag == "0":
+        return False
+    if flag not in _hid:
+        try:
+            import gen_area
+            _hid[flag] = bool(gen_area.flag_set(flag))
+        except Exception:
+            _hid[flag] = False
+    return _hid[flag]
+
+
 maps = {}
 for fl in FLOORS:
     name = "PokemonMansion_" + fl
@@ -39,7 +53,7 @@ for fl in FLOORS:
     s1 = base.copy()
     for x, y, c in press_tiles(fl):
         s1[y, x] = bool(c)
-    objs = {(o["x"], o["y"]) for o in mj["object_events"]}
+    objs = {(o["x"], o["y"]) for o in mj["object_events"] if not hidden(o.get("flag", "0"))}
     statues = {(bg["x"], bg["y"]) for bg in mj["bg_events"] if "Statue" in bg.get("script", "")}
     warps = []
     for wp in mj["warp_events"]:
@@ -86,6 +100,8 @@ def plan(start, goal_fl, gx, gy, adj):
             if M["grid"][s][ny, nx] or ((nx, ny) in M["objs"] and not (fl == goal_fl and (nx, ny) == (gx, gy))):
                 continue
             wp = next((wp for wp in M["warps"] if wp[0] == (nx, ny)), None)
+            if wp and wp[3] and wp[4] and wp[4] != {(1, 0): "R", (-1, 0): "L", (0, 1): "D", (0, -1): "U"}[(dx, dy)]:
+                continue   # arrow stairs are entered walking in the arrow's direction
             if wp and wp[3]:
                 d = warp_dest(wp[1], wp[2])
                 if d:
