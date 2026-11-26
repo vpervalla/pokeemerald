@@ -10,6 +10,7 @@ Found while playing the build headless (see `playthrough_guide.md`, "Goal"). One
 | 3 | RocketHideout_B2F, B3F (spinner mazes) | Camera/position desync | After a spinner slide the save-block position (camera) stays behind the player; walls and map edges then block moves that the map allows | open |
 | 4 | SafariZone_Center (Kanto Safari Zone), START > RETIRE | Wrong destination | Retiring, running out of SAFARI BALLs or of steps in the Kanto Safari Zone warps to Route 121's Hoenn Safari entrance, with no way back until a later badge (FLY) | **fixed** (commit f2a9d4e0d, merged; timeout verified: back to the Fuchsia entrance) |
 | 5 | FuchsiaCity_WardensHouse (11,6) and every Kanto boulder | Strength can't push | The boulder push check (`src/field_player_avatar.c:850`, also `src/fldeff_strength.c:20`) only accepts `OBJ_EVENT_GFX_PUSHABLE_BOULDER`; Kanto boulders use `OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER`, so STRENGTH activates but they never move | **fixed** (both checks accept the Kanto boulder; tested in the Warden's house) |
+| 6 | Build (`src/region_map.c`), kanto-hoenn commit d26e26329 | Doesn't compile | "Allow using Fly from the Town Map" uses `FIELD_MOVE_FLY` without including `constants/party_menu.h`: `make modern` stops with "'FIELD_MOVE_FLY' undeclared" | **fixed** (include added; Town Map Fly tested) |
 
 ## Details
 
@@ -56,3 +57,13 @@ START menu > RETIRE > YES in the Fuchsia Safari Zone (maps 34.63 and the other K
 In the Warden's house (FuchsiaCity_WardensHouse), the boulder at (11,6) guards a RARE CANDY at (11,5). With HM04 in the bag the game offers "Would you like to use STRENGTH?" and a borrowed MACHOP activates it ("Its STRENGTH made it possible to move boulders around!"; talking to the boulder again: "STRENGTH made it possible to move boulders around."), but pushing it from the right ((12,6), LEFT) or the left ((10,6), RIGHT) never moves it, although both destination tiles are free. Cause: `TryPushBoulder` in `src/field_player_avatar.c` (line 850) compares the object's graphics id with `OBJ_EVENT_GFX_PUSHABLE_BOULDER` only, and the Kanto maps' boulders are `OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER` (same check in `src/fldeff_strength.c:20`). Likely affects Victory Road, Seafoam Islands and every other Kanto boulder.
 
 **Fixed (2026-11-25):** `TryPushBoulder` (`src/field_player_avatar.c`) and `SetUpFieldMove_Strength` (`src/fldeff_strength.c`) now accept `OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER` as well as `OBJ_EVENT_GFX_PUSHABLE_BOULDER` (both functions take a u16 graphics id, so the Kanto value 343 fits). Tested on the rebuilt ROM from `ethan_hm03_hm04.sav`: the Warden's boulder moved left to (10,6) (the RARE CANDY at (11,5) was then taken), and after leaving and re-entering the house (STRENGTH off, boulder back at (11,6)) "Would you like to use STRENGTH?" YES and a push from (10,6) moved it right to (12,6).
+
+### 6. The Town Map Fly commit doesn't compile
+
+Merging `origin/kanto-hoenn` (d26e26329, "Allow using Fly from the Town Map") and running `make modern` failed: `src/region_map.c:2274: error: 'FIELD_MOVE_FLY' undeclared`. The new `TryPrepareFlyFromTownMap` uses the constant, which lives in `include/constants/party_menu.h`; `region_map.c` only includes `party_menu.h` (the functions). **Fixed:** `#include "constants/party_menu.h"` added to `src/region_map.c`; the ROM builds.
+
+**The feature, tested on the rebuilt ROM from `saves/ethan_route21.sav`** (6 badges, nobody knows FLY, HM02 in the bag): START > BAG > KEY ITEMS > TOWN MAP > USE opens the map.
+- On Route 21 (outdoors), A on Route 21 itself (a route) and on CINNABAR ISLAND (not visited yet) does nothing.
+- A on PALLET TOWN closes the map, the field returns, the player raises an arm, the PIDGEOT flight scene plays and the player lands at Pallet Town (6,8), in front of the house. It works with the borrowed PIDGEOT (no party member knows FLY). Unlike FLY from the HM in the bag, there is no "A wild PIDGEOT appeared! It looks willing to lend a hand!" message first.
+- Indoors (the player's house 1F), A on VIRIDIAN CITY does nothing (FLY isn't allowed indoors), and B closes the map back to the bag as before.
+

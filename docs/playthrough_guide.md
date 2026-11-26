@@ -522,6 +522,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_strength_fix.sav` | Warden's house on the ROM with the STRENGTH fix (bug 5): the RARE CANDY behind the boulder taken (47 in the bag, unused). |
 | `saves/ethan_marsh_badge.sav` | Saffron Center after Sabrina: **MARSH BADGE** (6 badges), TM04; BLASTOISE knows SURF; EXP. SHARE from Oak's aide; NUGGET and LEAF STONE from the Safari pond; FLY works (borrowed PIDGEOT). ¥157753. |
 | `saves/ethan_seafoam_door.sav` | Route 20 at the Seafoam Islands' west cave door (60,9), not entered: Routes 19 and 20 (east of the islands) swept; Irene (east island beach) and the trainers west of the islands left. BLASTOISE fainted, DRAGONAIR low. |
+| `saves/ethan_route21.sav` | Route 21 North at (7,44), surfing: healed by Mom in Pallet, TANGELA caught (Box 2), Ronald, Wade, Lil & Ian and Spencer beaten. SNORLAX L46 (Body Slam, Brick Break, Rest, Rollout). Saved just before the ROM rebuild with FLY from the TOWN MAP. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -651,3 +652,12 @@ A rebuild moves code addresses, and a savestate (`cur.ss`, `hist/`) keeps pointe
 ## Surfing routes
 
 `PATH_SURF=1` makes `path.py` treat surfable water as open; `sgoto X Y` walks or surfs to a tile (answers the SURF prompt at a shoreline, fights interruptions, throws ULTRA BALLs at new wild species via `newwild.py` and `ballthrow`). Trainers that swim over after spotting you stay in their new place and block the old path.
+
+## FLY from the TOWN MAP
+
+Since kanto-hoenn d26e26329 (plus the include fix, bug 6): START > BAG > KEY ITEMS > TOWN MAP > USE, move to a visited town and press A to fly there, if FLY could be used from the HM (the badge, a POKéMON that knows FLY or HM02 in the bag, an outdoor map). A on a route, an unvisited town, or anywhere indoors does nothing. Quicker than scrolling the TM case for HM02.
+
+## Training one Pokémon: `TYPES=move`
+
+`TYPES=1` switches out a lead that has no super effective move, so a trainee like SNORLAX never fights. `TYPES=move fight` (and `FTYPES=move sgoto`) picks its best move by type but never type-switches; `SWITCH=auto` still pulls it out when it would lose. A move-learn prompt in the middle of a `fight` stalls the tool (the learn guard refuses A): kill it, answer the prompt by hand, and resume.
+
