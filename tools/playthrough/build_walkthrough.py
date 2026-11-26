@@ -346,7 +346,9 @@ def place_notes(lines, keys):
                     segs[-1][1] += "; " + x
                 else:
                     head.append(x)
-            if len(segs) > 1 and len(" ".join(head).strip()) <= 20:   # a note that walks the floors, not a list under a heading
+            fm = re.search(r"\b" + FLOOR_TOK + r"\b", body, re.I)
+            pre = body[:fm.start()].strip().rstrip("*").rstrip() if fm else ""
+            if len(segs) > 1 and not pre.endswith(":"):   # a note that walks the floors, not a list under a heading ("Pads used: 3F ...")
                 if " ".join(head).strip(" .:;,"):
                     general.append("- " + "; ".join(head))
                 for k, x in segs:
