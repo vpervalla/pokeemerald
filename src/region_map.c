@@ -2478,6 +2478,8 @@ static void CB_ExitFlyMap(void)
                     break;
                 }
                 sFlyMapCancelCallback = NULL;
+                if (sTownMapExitCallback != NULL && GetFieldMoveMonId() == FIELD_MOVE_MON_BORROWED)
+                    SetFlyShowBorrowedMessage();   // the BAG's HM02 shows this message itself; the TOWN MAP doesn't
                 sTownMapExitCallback = NULL;
                 ReturnToFieldFromFlyMapSelect();
             }

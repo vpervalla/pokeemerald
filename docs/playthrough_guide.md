@@ -655,7 +655,7 @@ A rebuild moves code addresses, and a savestate (`cur.ss`, `hist/`) keeps pointe
 
 ## FLY from the TOWN MAP
 
-Since kanto-hoenn d26e26329 (plus the include fix, bug 6): START > BAG > KEY ITEMS > TOWN MAP > USE, move to a visited town and press A to fly there, if FLY could be used from the HM (the badge, a POKéMON that knows FLY or HM02 in the bag, an outdoor map). A on a route, an unvisited town, or anywhere indoors does nothing. Quicker than scrolling the TM case for HM02.
+Since kanto-hoenn d26e26329 (plus the include fix, bug 6): START > BAG > KEY ITEMS > TOWN MAP > USE, move to a visited town and press A to fly there, if FLY could be used from the HM (the badge, a POKéMON that knows FLY or HM02 in the bag, an outdoor map). A on a route, an unvisited town, or anywhere indoors does nothing. With a borrowed POKéMON the field shows "A wild PIDGEOT appeared! ... used FLY!" first (two A presses), then the flight. Quicker than scrolling the TM case for HM02.
 
 ## Training one Pokémon: `TYPES=move`
 
