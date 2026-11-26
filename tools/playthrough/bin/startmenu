@@ -1,0 +1,14 @@
+#!/bin/bash
+# startmenu INDEX : open the START menu and put its cursor on entry INDEX (0 POKéDEX, 1 POKéMON, 2 BAG, 3 the player,
+# 4 SAVE, 5 OPTION, 6 EXIT), reading sStartMenuCursorPos (the menu remembers its last entry and wraps around); then A.
+D=$(dirname "$0")
+g ST w40 >/dev/null
+addr=$(arm-none-eabi-nm "${PLAY_ROM%.gba}.elf" 2>/dev/null | awk '/ sStartMenuCursorPos$/{print $1}')
+[ -z "$addr" ] && addr=$(arm-none-eabi-nm "$D/../../../pokeemerald_modern.elf" | awk '/ sStartMenuCursorPos$/{print $1}')
+cur=$(cd "$D/.." && python3 -c "
+from emu import *
+e = Emu(sav=os.path.join(PLAY_DIR, 'peek.sav')); print(e.peek(0x$addr, 1)[0])")
+n=$(( $1 - cur ))
+if [ $n -gt 0 ]; then g $(for i in $(seq $n); do echo -n "hD3 w6 "; done) >/dev/null; fi
+if [ $n -lt 0 ]; then g $(for i in $(seq $((-n))); do echo -n "hU3 w6 "; done) >/dev/null; fi
+g A w70 >/dev/null

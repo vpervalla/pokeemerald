@@ -1,9 +1,12 @@
 #!/bin/bash
-# potion SLOT [N] : out of battle, use the first ITEMS entry (POTION) N times (default 1) on party slot SLOT (0-5), via START > BAG.
+# potion SLOT [N] : out of battle, use the ITEMS entry at position ${IDX:-0} (0 = the top, POTION) N times (default 1) on party
+# slot SLOT (0-5), via START > BAG.
 # Leaves the bag closed. The ITEMS pocket is reached with LEFT until `pocket` says 0.
-g B w20 B w20 >/dev/null 2>&1; g ST w30 >/dev/null 2>&1
-g hU4 w10 hU4 w10 hU4 w10 hD4 w10 hD4 w10 A w70 >/dev/null 2>&1       # the START menu's BAG (cursor reset to POKéDEX at the top)
+g B w20 B w20 >/dev/null 2>&1
+startmenu 2                                                              # the START menu's BAG (its cursor is remembered)
 for k in 1 2 3 4 5; do [ "$(pocket)" = "0" ] && break; g hL4 w30 >/dev/null 2>&1; done
+g $(for k in $(seq 40); do echo -n "hU3 w3 "; done) >/dev/null 2>&1                 # the pocket's top
+[ "${IDX:-0}" -gt 0 ] && g $(for k in $(seq $IDX); do echo -n "hD3 w4 "; done) >/dev/null 2>&1
 for i in $(seq 1 ${2:-1}); do
   g A w40 A w70 >/dev/null 2>&1                                          # the item, USE: opens the party list
   g hL4 w20 >/dev/null 2>&1                                              # the cursor is remembered: go to slot 0 first
