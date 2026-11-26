@@ -14,6 +14,7 @@ Env: SWITCH=auto  switch only when the opponent is more than 2 levels above the 
                   and when the lead has no super effective move (to one that has); max two switches for each opponent
                   POKeMON; otherwise the damaging move with the best power x effectiveness x STAB.
                   `trainer` turns it on by default (TYPES=0 to turn it off). Needs the type data from src/.
+     TYPES=move   the best move by type, but never a type switch (training: the trainee stays in; SWITCH=auto still applies).
      STOPEVO=1  stop as soon as the battle ends (to watch an evolution or a move prompt)"""
 import os, sys
 from emu import *
@@ -72,7 +73,8 @@ def pick_switch():
 
 
 # ---------- type-aware choices (TYPES=1) ----------
-TYPES = os.environ.get("TYPES", "0") == "1"
+TYPES = os.environ.get("TYPES", "0") in ("1", "move")
+MOVE_ONLY = os.environ.get("TYPES") == "move"   # best move by type, but no type switches (training a Pokémon that must stay in)
 _data = {}
 MOVE_FALLBACK_POWER = ("LOW_KICK", "LEVEL_DAMAGE", "FIXED_DAMAGE", "SUPER_FANG", "PSYWAVE", "RETURN", "FRUSTRATION", "ENDEAVOR")
 
@@ -270,7 +272,10 @@ for _ in range(3000):
             last_ei = ei
         if TYPES and not pending:
             plan = type_plan()
-            if plan and plan[0] == "switch":
+            if plan and plan[0] == "switch" and MOVE_ONLY:
+                bm = best_move(decode(S["gPlayerParty"], e.peek(S["gBattlerPartyIndexes"], 1)[0]), plan[3], banned)
+                if bm: slot = bm[1]
+            elif plan and plan[0] == "switch":
                 tn = d_tn = load_data()["tname"]
                 log.append(f"type-switch to slot {plan[1]}: {plan[2][3]} (x{plan[2][2]:g}), the foe's moves do x{plan[4]:g} to it" + (" [the foe threatened the lead]" if plan[5] else "") + f" vs {'/'.join(tn[t] for t in set(plan[3]))}")
                 SWITCH = plan[1]; pending = 1
