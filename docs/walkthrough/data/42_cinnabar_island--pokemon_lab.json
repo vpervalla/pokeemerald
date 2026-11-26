@@ -1,0 +1,26 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Omanyte from the Helix Fossil · three trades",
+ "title": "Pokémon Lab",
+ "tab": "Pokémon Lab",
+ "map": [
+  {
+   "name": "CinnabarIsland_PokemonLab_Entrance",
+   "markers": []
+  },
+  {
+   "name": "CinnabarIsland_PokemonLab_Lounge",
+   "markers": []
+  },
+  {
+   "name": "CinnabarIsland_PokemonLab_ResearchRoom",
+   "markers": []
+  },
+  {
+   "name": "CinnabarIsland_PokemonLab_ExperimentRoom",
+   "markers": []
+  }
+ ]
+}

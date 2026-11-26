@@ -7,8 +7,8 @@
    "metloc": 112,
    "mapsec": "MAPSEC_ROUTE_12",
    "metlevel": 30,
-   "exp": 137163,
-   "level": 47,
+   "exp": 196628,
+   "level": 53,
    "where": "party"
   },
   {
@@ -18,8 +18,8 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 102564,
-   "level": 47,
+   "exp": 104351,
+   "level": 48,
    "where": "party"
   },
   {
@@ -29,8 +29,8 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 107564,
-   "level": 48,
+   "exp": 114160,
+   "level": 49,
    "where": "party"
   },
   {
@@ -51,7 +51,7 @@
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 21,
-   "exp": 131838,
+   "exp": 133264,
    "level": 47,
    "where": "party"
   },
@@ -62,8 +62,8 @@
    "metloc": 91,
    "mapsec": "MAPSEC_CERULEAN_CITY",
    "metlevel": 12,
-   "exp": 94509,
-   "level": 46,
+   "exp": 96093,
+   "level": 47,
    "where": "party"
   },
   {
@@ -527,6 +527,72 @@
    "exp": 12167,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "koffing",
+   "id": 109,
+   "nick": "KOFFING",
+   "metloc": 135,
+   "mapsec": "MAPSEC_POKEMON_MANSION",
+   "metlevel": 28,
+   "exp": 21952,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "grimer",
+   "id": 88,
+   "nick": "GRIMER",
+   "metloc": 135,
+   "mapsec": "MAPSEC_POKEMON_MANSION",
+   "metlevel": 28,
+   "exp": 21952,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "omanyte",
+   "id": 138,
+   "nick": "OMANYTE",
+   "metloc": 96,
+   "mapsec": "MAPSEC_CINNABAR_ISLAND",
+   "metlevel": 5,
+   "exp": 125,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "ditto",
+   "id": 132,
+   "nick": "DITTO",
+   "metloc": 135,
+   "mapsec": "MAPSEC_POKEMON_MANSION",
+   "metlevel": 30,
+   "exp": 27000,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "weezing",
+   "id": 110,
+   "nick": "WEEZING",
+   "metloc": 135,
+   "mapsec": "MAPSEC_POKEMON_MANSION",
+   "metlevel": 34,
+   "exp": 39304,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "muk",
+   "id": 89,
+   "nick": "MUK",
+   "metloc": 135,
+   "mapsec": "MAPSEC_POKEMON_MANSION",
+   "metlevel": 32,
+   "exp": 32768,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -572,6 +638,8 @@
   72,
   74,
   84,
+  88,
+  89,
   90,
   92,
   93,
@@ -580,11 +648,15 @@
   96,
   104,
   107,
+  109,
+  110,
   114,
   118,
   129,
   131,
+  132,
   133,
+  138,
   143,
   147,
   148,

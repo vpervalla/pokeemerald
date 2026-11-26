@@ -3,8 +3,8 @@
   {
    "species": "snorlax",
    "name": "Snorlax",
-   "lv": 47,
-   "exp": 137163,
+   "lv": 53,
+   "exp": 196628,
    "types": [
     "Normal"
    ],
@@ -15,32 +15,32 @@
    "stats": [
     [
      "HP",
-     214,
+     241,
      0
     ],
     [
      "Attack",
-     116,
+     132,
      0
     ],
     [
      "Defense",
-     69,
+     83,
      0
     ],
     [
      "Sp. Atk",
-     80,
+     90,
      1
     ],
     [
      "Sp. Def",
-     121,
+     138,
      0
     ],
     [
      "Speed",
-     44,
+     57,
      -1
     ]
    ],
@@ -50,14 +50,14 @@
      "Normal",
      "85",
      "100%",
-     "15/15"
+     "13/15"
     ],
     [
      "Brick Break",
      "Fighting",
      "75",
      "100%",
-     "15/15"
+     "13/15"
     ],
     [
      "Rest",
@@ -78,8 +78,8 @@
   {
    "species": "gengar",
    "name": "Gengar",
-   "lv": 47,
-   "exp": 102564,
+   "lv": 48,
+   "exp": 104351,
    "types": [
     "Ghost",
     "Poison"
@@ -91,32 +91,32 @@
    "stats": [
     [
      "HP",
-     128,
+     130,
      0
     ],
     [
      "Attack",
-     73,
+     75,
      -1
     ],
     [
      "Defense",
-     78,
+     80,
      0
     ],
     [
      "Sp. Atk",
-     155,
+     159,
      1
     ],
     [
      "Sp. Def",
-     76,
+     79,
      0
     ],
     [
      "Speed",
-     122,
+     124,
      0
     ]
    ],
@@ -154,8 +154,8 @@
   {
    "species": "venusaur",
    "name": "Venusaur",
-   "lv": 48,
-   "exp": 107564,
+   "lv": 49,
+   "exp": 114160,
    "types": [
     "Grass",
     "Poison"
@@ -167,32 +167,32 @@
    "stats": [
     [
      "HP",
-     155,
+     159,
      0
     ],
     [
      "Attack",
-     101,
+     104,
      0
     ],
     [
      "Defense",
-     102,
+     105,
      0
     ],
     [
      "Sp. Atk",
-     107,
+     109,
      0
     ],
     [
      "Sp. Def",
-     90,
+     92,
      -1
     ],
     [
      "Speed",
-     101,
+     104,
      1
     ]
    ],
@@ -307,7 +307,7 @@
    "species": "dragonair",
    "name": "Dragonair",
    "lv": 47,
-   "exp": 131838,
+   "exp": 133264,
    "types": [
     "Dragon"
    ],
@@ -381,8 +381,8 @@
   {
    "species": "blastoise",
    "name": "Blastoise",
-   "lv": 46,
-   "exp": 94509,
+   "lv": 47,
+   "exp": 96093,
    "types": [
     "Water"
    ],
@@ -393,32 +393,32 @@
    "stats": [
     [
      "HP",
-     139,
+     142,
      0
     ],
     [
      "Attack",
-     88,
+     90,
      0
     ],
     [
      "Defense",
-     104,
+     106,
      0
     ],
     [
      "Sp. Atk",
-     97,
+     100,
      0
     ],
     [
      "Sp. Def",
-     115,
+     118,
      0
     ],
     [
      "Speed",
-     92,
+     95,
      0
     ]
    ],

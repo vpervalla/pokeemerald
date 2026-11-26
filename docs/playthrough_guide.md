@@ -524,6 +524,7 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_seafoam_door.sav` | Route 20 at the Seafoam Islands' west cave door (60,9), not entered: Routes 19 and 20 (east of the islands) swept; Irene (east island beach) and the trainers west of the islands left. BLASTOISE fainted, DRAGONAIR low. |
 | `saves/ethan_route21.sav` | Route 21 North at (7,44), surfing: healed by Mom in Pallet, TANGELA caught (Box 2), Ronald, Wade, Lil & Ian and Spencer beaten. SNORLAX L46 (Body Slam, Brick Break, Rest, Rollout). Saved just before the ROM rebuild with FLY from the TOWN MAP. |
 | `saves/ethan_cinnabar.sav` | Cinnabar Island Center, party healed: all nine Route 21 trainers beaten, SNORLAX L47 (Body Slam, Brick Break, Rest, Rollout). New ROM (FLY from the TOWN MAP). Cinnabar not explored yet; Route 21's fishing species not caught yet. |
+| `saves/ethan_mansion.sav` | Cinnabar Center after the Pokémon Mansion: every trainer and item (SECRET KEY, MEWTWONITE Y, TM14, TM22), OMANYTE from the Lab, DITTO, WEEZING, MUK, GRIMER, KOFFING caught; SNORLAX L53. Next: Blaine's Gym. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -661,4 +662,16 @@ Since kanto-hoenn d26e26329 (plus the include fix, bug 6): START > BAG > KEY ITE
 ## Training one Pokémon: `TYPES=move`
 
 `TYPES=1` switches out a lead that has no super effective move, so a trainee like SNORLAX never fights. `TYPES=move fight` (and `FTYPES=move sgoto`) picks its best move by type but never type-switches; `SWITCH=auto` still pulls it out when it would lose. A move-learn prompt in the middle of a `fight` stalls the tool (the learn guard refuses A): kill it, answer the prompt by hand, and resume.
+
+## The Pokémon Mansion (switch doors)
+
+The statues' secret switches flip one flag (`FLAG_POKEMON_MANSION_SWITCH_STATE`, a Kanto *extra* flag kept in `PokemonStorage.kantoExtraFlags`, not in SaveBlock1) and every floor's doors follow it. `mansion_plan.py START_FLOOR X Y STATE GOAL_FLOOR GX GY [adj]` plans over (floor, tile, state): the press-switch scripts give the flag-set tiles, warps are edges (arrow stairs only in their arrow's direction, holes one way, `MB_CAVE` landing spots never), statues flip the state, objects hidden by a set flag don't block. `mansion_go FLOOR X Y [adj]` reads the floor, tile and flag, plans, walks each leg in waypoints with `mgo1` (the real search runs out of steps on long walks) and takes stairs, holes and statues; `mansion_act` adds facing and A (items, trainers).
+
+## Hunting a rare wild species
+
+`hunt REGEX [MOVE] [N]`: paces with `train` until the species appears, weakens it once with move slot MOVE when above 60% HP, puts it to sleep with `SLEEP=slot`, then throws the ball under the BAG cursor. `train` needs room to pace: `PACE="L1 R1 ..."` in a horizontal corridor; on a stairs landing or against a wall it "fights" 100 empty rounds. A DITTO copies the lead (it copied SNORLAX and won): lead with something that can put it to sleep. Pokémon with SELFDESTRUCT (KOFFING, WEEZING, ELECTRODE) can knock a lead out in one turn.
+
+## Menus by position
+
+`startmenu INDEX` reads `sStartMenuCursorPos` (the START menu remembers its entry and wraps around). `potion SLOT [N]` with `IDX=` uses the ITEMS pocket entry at that position: read the bag first, the order changes as items are added (an ESCAPE ROPE was used by mistake when SUPER POTION moved).
 
