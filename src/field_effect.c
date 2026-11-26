@@ -5,6 +5,7 @@
 #include "field_control_avatar.h"
 #include "field_effect.h"
 #include "field_effect_helpers.h"
+#include "field_message_box.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
@@ -22,6 +23,7 @@
 #include "script.h"
 #include "sound.h"
 #include "sprite.h"
+#include "string_util.h"
 #include "task.h"
 #include "trainer_pokemon_sprites.h"
 #include "trig.h"
@@ -31,6 +33,7 @@
 #include "constants/maps.h"
 #include "constants/event_object_movement.h"
 #include "constants/metatile_behaviors.h"
+#include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
@@ -1436,6 +1439,17 @@ static void SpriteCB_KantoHallOfFameMonitor(struct Sprite *sprite)
 #undef sSpriteId
 #undef sEffectSpriteId
 
+// FLY chosen on the TOWN MAP with a borrowed POKéMON: the field shows the "willing to lend a hand" message
+// before the flight (FLY from the HM in the BAG shows it in the BAG instead).
+extern const u8 gMoveNames[MOVES_COUNT][MOVE_NAME_LENGTH + 1];
+static EWRAM_DATA bool8 sFlyShowBorrowedMessage = FALSE;
+static const u8 sText_BorrowedMonUsedFly[] = _("A wild {STR_VAR_1} appeared!\nIt looks willing to lend a hand!\pThe wild {STR_VAR_1} used {STR_VAR_2}!{PAUSE_UNTIL_PRESS}");
+
+void SetFlyShowBorrowedMessage(void)
+{
+    sFlyShowBorrowedMessage = TRUE;
+}
+
 void ReturnToFieldFromFlyMapSelect(void)
 {
     SetMainCallback2(CB2_ReturnToField);
@@ -1459,6 +1473,23 @@ static void Task_UseFly(u8 taskId)
     {
         if (!IsWeatherNotFadingIn())
             return;
+
+        if (sFlyShowBorrowedMessage)
+        {
+            if (!task->data[1])
+            {
+                GetFieldMoveUserName(FIELD_MOVE_MON_BORROWED, gStringVar1);
+                StringCopy(gStringVar2, gMoveNames[MOVE_FLY]);
+                StringExpandPlaceholders(gStringVar4, sText_BorrowedMonUsedFly);
+                ShowFieldMessage(gStringVar4);
+                task->data[1] = 1;
+                return;
+            }
+            if (!IsFieldMessageBoxHidden())
+                return;
+            HideFieldMessageBox();
+            sFlyShowBorrowedMessage = FALSE;
+        }
 
         gFieldEffectArguments[0] = GetFieldMoveMonId();
         if ((int)gFieldEffectArguments[0] > PARTY_SIZE - 1 && gFieldEffectArguments[0] != FIELD_MOVE_MON_BORROWED)

@@ -26,6 +26,7 @@
 #include "constants/field_specials.h"
 #include "constants/heal_locations.h"
 #include "constants/map_types.h"
+#include "constants/party_menu.h"
 #include "constants/rgb.h"
 #include "constants/weather.h"
 
@@ -2477,6 +2478,8 @@ static void CB_ExitFlyMap(void)
                     break;
                 }
                 sFlyMapCancelCallback = NULL;
+                if (sTownMapExitCallback != NULL && GetFieldMoveMonId() == FIELD_MOVE_MON_BORROWED)
+                    SetFlyShowBorrowedMessage();   // the BAG's HM02 shows this message itself; the TOWN MAP doesn't
                 sTownMapExitCallback = NULL;
                 ReturnToFieldFromFlyMapSelect();
             }
