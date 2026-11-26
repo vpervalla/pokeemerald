@@ -390,13 +390,14 @@ def legend(items):
     return f'<ol class="legend">{lis}</ol>'
 
 
-def trainer_cards(trainers):
+def trainer_cards(trainers, title="Trainers", numbered=None):
+    """Trainer cards; numbered = [(k, trainer)] keeps the page-wide T-numbers used on the maps (floor subsections)."""
     cards = ""
-    for k, t in enumerate(trainers, 1):
+    for k, t in (numbered if numbered is not None else enumerate(trainers, 1)):
         rows = "".join(f'<tr><td>{monname("SPECIES_" + s.upper())}</td><td class="n">{l}</td><td>{m}</td></tr>' for s, l, m in t["team"])
         cards += (f'<div class="trainer-card"><h4><span class="mk trainer">T{k}</span> {esc(t["name"])}</h4><p class="hint">{t.get("hint", "")}</p>'
                   f'<div class="tablewrap"><table><thead><tr><th>Pokémon</th><th>Lv</th><th>Moves / notes</th></tr></thead><tbody>{rows}</tbody></table></div></div>')
-    return f'<div class="panel wide"><h3>Trainers</h3><div class="trainers">{cards}</div></div>'
+    return f'<div class="panel wide"><h3>{title}</h3><div class="trainers">{cards}</div></div>'
 
 
 # ---------- pages ----------
@@ -498,6 +499,7 @@ def area_html(p, n):
     specs = d["map"] if isinstance(d.get("map"), list) else [d["map"]] if d.get("map") else []
     items = d.get("items") or []
     notes = s.get("Map notes", [])
+    left_trainers = []
     if len(specs) > 1:
         # dungeons and buildings with several floors: each floor's map is followed by its own items, events and notes
         fkeys = {floor_key(sp["name"]) for sp in specs}
@@ -508,6 +510,8 @@ def area_html(p, n):
             ref += f'<div class="panel wide"><h3>Notes for the whole place</h3>{render(notes).replace("<ul>", '<ul class="notes-list">', 1)}</div>'
             notes = []
         placed = set()
+        trs = list(enumerate(d.get("trainers") or [], 1))
+        wild = list(d.get("wild") or [])
         for spec in specs:
             fk = floor_key(spec["name"]) if fkeys else None
             keys = {(m[0], str(m[3])) for m in spec["markers"]}
@@ -516,13 +520,25 @@ def area_html(p, n):
             placed |= {id(i) for i in here}
             mine = [dict(i, text=i["text"].replace(f' ({spec["name"]})', "")) for i in here]
             ttl = esc(map_title(spec["name"]))
+            ref += f'<h3 class="floor-head">{ttl}</h3>'
             ref += map_panel(spec, map_title(spec["name"]))
             body = legend(mine) if mine else ""
             if per_note.get(fk):
                 body += render(per_note[fk]).replace("<ul>", '<ul class="notes-list">', 1)
             body = body or '<p class="note">No items or events on this floor.</p>'
             ref += f'<div class="panel wide floor-items"><h3>Items, events &amp; notes · {ttl}</h3>{body}</div>'
+            # the floor's wild Pokémon and trainers (a card's hint starts with its map's name on multi-map pages)
+            mw = [w for w in wild if re.sub(r"[^A-Z0-9]", "", w[0][4:]) == re.sub(r"[^A-Z0-9]", "", spec["name"].upper())]
+            wild = [w for w in wild if w not in mw]
+            if mw:
+                ref += wild_panels([[w[0], w[1], w[2].replace(f" ({spec['name']})", "")] for w in mw])
+            mt = [(k, tr) for k, tr in trs if re.match(re.escape(spec["name"]) + r"[ .]", tr.get("hint", ""))]
+            trs = [kt for kt in trs if kt not in mt]
+            if mt:
+                ref += trainer_cards(None, f"Trainers · {ttl}", [(k, dict(tr, hint=tr["hint"][len(spec["name"]) + 1:].lstrip())) for k, tr in mt])
         items = [i for i in items if id(i) not in placed]
+        d = dict(d, wild=wild, trainers=None)
+        left_trainers = trs
     else:
         for spec in specs:
             ref += map_panel(spec)
@@ -538,6 +554,8 @@ def area_html(p, n):
     ref += caught_panel(d)
     if d.get("trainers"):
         ref += trainer_cards(d["trainers"])
+    elif len(specs) > 1 and left_trainers:
+        ref += trainer_cards(None, "Other trainers", left_trainers)
     if any(l.strip() for l in s.get("Everyone and every building", [])):
         ref += f'<div class="panel wide"><h3>People and buildings</h3>{render(s["Everyone and every building"])}</div>'
     ref = f'<div class="ref">{ref}</div>' if ref else ""

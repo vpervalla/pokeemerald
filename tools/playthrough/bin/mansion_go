@@ -1,0 +1,41 @@
+#!/bin/bash
+# mansion_go FLOOR X Y [adj] : reach a tile in the Pokémon Mansion (floors 1F 2F 3F B1F) whatever the switch state.
+# Each round reads the floor, position and FLAG_POKEMON_MANSION_SWITCH_STATE, plans with mansion_plan.py, walks the first leg
+# in the real game (mgo1: wild battles handled, new species caught) and does its action: step onto stairs/a hole, or press
+# a statue (YES). Stops at the goal.
+D=$(dirname "$0"); P="$D/.."
+dirto(){ # direction from ($1,$2) to ($3,$4), one step
+  if [ "$3" -gt "$1" ]; then echo R; elif [ "$3" -lt "$1" ]; then echo L; elif [ "$4" -gt "$2" ]; then echo D; else echo U; fi; }
+for round in $(seq 1 ${ROUNDS:-14}); do
+  g B w30 B w30 >/dev/null
+  read fl x y < <(st | head -1 | sed -n 's/^map PokemonMansion_\([A-Z0-9]*\) ([0-9.]*) pos (\([0-9]*\),\([0-9]*\)).*/\1 \2 \3/p')
+  [ -z "$fl" ] && { echo "not in the Mansion: $(st | head -1)"; exit 1; }
+  s=$(cd "$P" && python3 -c "import gen_area as g; print(1 if g.flag_set('FLAG_POKEMON_MANSION_SWITCH_STATE') else 0)")
+  plan=$(python3 "$P/mansion_plan.py" "$fl" "$x" "$y" "$s" "$@")
+  echo "[$fl ($x,$y) state $s] $(echo "$plan" | head -2 | tr '\n' ';')"
+  echo "$plan" | grep -q "no route" && exit 1
+  ar=$(python3 -c "
+import sys; sys.path.insert(0, '$P'); sys.argv = ['x']
+import mansion_plan as m
+w = [w for w in m.maps['$fl']['warps'] if w[0] == ($x, $y) and w[3] and w[4]]
+print(w[0][4] if w else '')")
+  # on arrow stairs that the plan wants to take (it plans "step off, step back on"): press the arrow instead
+  if [ -n "$ar" ] && echo "$plan" | sed -n 2p | grep -q "^warp at ($x, $y)"; then g h${ar}8 w120 >/dev/null; g w60 >/dev/null; continue; fi
+  read _ wf wx wy rest < <(echo "$plan" | head -1)
+  if [ "$wx,$wy" != "$x,$y" ]; then
+    FTYPES=${FTYPES:-move} mgo1 "$wx" "$wy" | tail -1
+    continue                                   # re-read: a battle or a slide may have moved us
+  fi
+  echo "$plan" | head -1 | grep -q goal && { echo "at the goal"; exit 0; }
+  act=$(echo "$plan" | sed -n 2p)
+  case "$act" in
+    *goal*) echo "at the goal"; exit 0;;
+    warp*) tx=$(echo "$act" | sed 's/warp at (\([0-9]*\), \([0-9]*\)).*/\1/'); ty=$(echo "$act" | sed 's/warp at (\([0-9]*\), \([0-9]*\)).*/\2/')
+           ar=$(echo "$act" | sed 's/.* arrow //')
+           d=$(dirto $x $y $tx $ty); g h${d}6 w40 >/dev/null          # onto the tile (a hole drops at once)
+           [ "$ar" != "-" ] && g h${ar}8 w120 >/dev/null              # arrow stairs fire on their arrow's direction
+           g w60 >/dev/null;;
+    press*) g hU3 w6 A w60 >/dev/null; g A w60 >/dev/null; g A w80 >/dev/null; g A w40 B w30 B w30 >/dev/null; echo "pressed";;
+  esac
+done
+echo "gave up after $round rounds"; exit 1

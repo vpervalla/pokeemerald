@@ -1,0 +1,19 @@
+#!/bin/bash
+# mgo G N X Y [adj] : walk across floors with rbfs_g.py (stairs, holes, pads are edges); a wild battle on the way is handled
+# like sgoto does (a species not in the POKéDEX gets balls from the BAG's POKé BALLS pocket, anything else is fought with
+# SWITCH=auto TYPES=${FTYPES:-1}), then the walk resumes. Up to ${ROUNDS:-10} rounds.
+D=$(dirname "$0")
+battle_turn(){
+  w=$(python3 "$D/../newwild.py" 2>/dev/null)
+  case "$w" in NEW*) echo "new wild $w: catch"; for t in 1 2 3 4 5 6 7 8; do inbattle | grep -q battle || break; ballthrow >/dev/null 2>&1; done;; esac
+  inbattle | grep -q battle && SWITCH=auto TYPES=${FTYPES:-1} fight 0 40 | tail -1 | cut -c1-100
+  for i in 1 2 3; do g B w40 >/dev/null; done
+}
+g B w30 B w30 >/dev/null   # a leftover text box makes rbfs_g find no path
+for r in $(seq 1 ${ROUNDS:-10}); do
+  inbattle | grep -q battle && { battle_turn; continue; }
+  out=$(python3 "$D/../rbfs_g.py" "$@" 2>&1); echo "$out" | tail -1
+  inbattle | grep -q battle && { battle_turn; continue; }
+  break
+done
+st | head -1

@@ -1,0 +1,12 @@
+#!/bin/bash
+# mansion_act FLOOR X Y : mansion_go next to (X,Y), face it and press A (item ball, hidden item, person, trainer); a trainer
+# battle that starts is fought (SWITCH=auto TYPES=${FTYPES:-move}). Prints the text that came up.
+D=$(dirname "$0")
+mansion_go "$1" "$2" "$3" adj | tail -1
+p=$(st | head -1 | grep -o "pos ([0-9]*,[0-9]*)" | tr -d 'pos ()'); px=${p%,*}; py=${p#*,}
+if [ "$px" -lt "$2" ]; then k=hR3; elif [ "$px" -gt "$2" ]; then k=hL3; elif [ "$py" -lt "$3" ]; then k=hD3; else k=hU3; fi
+g $k w6 A w60 >/dev/null
+for i in 1 2 3 4 5; do inbattle | grep -q battle && break; python3 "$D/../tx.py" 2>/dev/null | head -1 | grep -qi "found\|obtained\|put away" && break; g A w60 >/dev/null; done
+if inbattle | grep -q battle; then SWITCH=auto TYPES=${FTYPES:-move} fight 0 40 | tail -1 | cut -c1-100; fi
+python3 "$D/../tx.py" 2>/dev/null | head -1
+g B w30 B w30 B w30 >/dev/null

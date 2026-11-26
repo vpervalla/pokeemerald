@@ -276,9 +276,22 @@ def _consts():
 _fl = {}
 
 
+def flag_value_cpp(name):
+    """A flag's number through the C preprocessor (for nested defines flag_value can't evaluate)."""
+    import subprocess
+    try:
+        out = subprocess.run(["cpp", "-I", os.path.join(R, "include"), "-P"], input=f'#include "constants/flags.h"\n{name}\n',
+                             capture_output=True, text=True).stdout.strip().splitlines()[-1]
+        return int(eval(out, {"__builtins__": {}}))
+    except Exception:
+        return None
+
+
 def flag_set(name):
     """Is the named flag set in cur.ss?  None when unknown."""
     v = flag_value(name)
+    if v is None:
+        v = flag_value_cpp(name)
     if v is None:
         return None
     try:
@@ -287,9 +300,13 @@ def flag_set(name):
             e = Emu(sav=os.path.join(PLAY_DIR, "peek.sav"))
             sb1 = e.u32(S["gSaveBlock1Ptr"])
             _fl["main"] = e.peek(sb1 + 0x1270, 0x12C)
-            _fl["kanto"] = e.peek(sb1 + 0x3D88, 96)
+            _fl["kanto"] = e.peek(sb1 + 0x3D88, 96)          # SaveBlock1.kantoFlags: Kanto story and trainer flags
+            _fl["extra"] = e.peek(e.u32(S["gPokemonStoragePtr"]) + 0x84D0, 64)   # PokemonStorage.kantoExtraFlags
             e.commit(keep=False)
             _fl["sb1"] = 1
+        if v >= 0x1000 + 768:                                # KANTO_EXTRA_FLAGS_START (see GetFlagPointer)
+            i = v - 0x1000 - 768
+            return bool(_fl["extra"][i // 8] >> (i % 8) & 1) if i < 512 else None
         if v >= 0x1000:
             i = v - 0x1000
             return bool(_fl["kanto"][i // 8] >> (i % 8) & 1)

@@ -108,6 +108,8 @@ code { font-family: var(--f-data); font-size: .88em; background: var(--line); pa
 .monname { display: inline-flex; align-items: center; gap: .15rem; }
 .mon { width: 32px; height: 32px; image-rendering: pixelated; margin: -8px 0; flex: none; }
 .run h3, .panel h3 { font-family: var(--f-data); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; font-weight: 600; }
+.ref .floor-head { grid-column: 1 / -1; margin: 1.6rem 0 -.3rem; padding: .35rem .7rem; font-family: var(--f-display); color: var(--wood-ink); background: var(--wood); border-radius: 6px; font-size: 1rem; letter-spacing: .02em; }
+.ref .floor-head:first-child { margin-top: 0; }
 .ref { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.1rem; display: grid; gap: .7rem; align-content: start; min-width: 0; }
 .panel.wide { grid-column: 1 / -1; }
