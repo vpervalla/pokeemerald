@@ -1,14 +1,14 @@
 {
  "mons": [
   {
-   "species": "blastoise",
-   "id": 9,
-   "nick": "BLASTOISE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 94509,
-   "level": 46,
+   "species": "snorlax",
+   "id": 143,
+   "nick": "SNORLAX",
+   "metloc": 112,
+   "mapsec": "MAPSEC_ROUTE_12",
+   "metlevel": 30,
+   "exp": 137163,
+   "level": 47,
    "where": "party"
   },
   {
@@ -18,7 +18,7 @@
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 101287,
+   "exp": 102564,
    "level": 47,
    "where": "party"
   },
@@ -29,7 +29,7 @@
    "metloc": 93,
    "mapsec": "MAPSEC_VERMILION_CITY",
    "metlevel": 20,
-   "exp": 104348,
+   "exp": 107564,
    "level": 48,
    "where": "party"
   },
@@ -56,14 +56,14 @@
    "where": "party"
   },
   {
-   "species": "snorlax",
-   "id": 143,
-   "nick": "SNORLAX",
-   "metloc": 112,
-   "mapsec": "MAPSEC_ROUTE_12",
-   "metlevel": 30,
-   "exp": 116343,
-   "level": 45,
+   "species": "blastoise",
+   "id": 9,
+   "nick": "BLASTOISE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 94509,
+   "level": 46,
    "where": "party"
   },
   {
@@ -516,6 +516,17 @@
    "exp": 270,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "tangela",
+   "id": 114,
+   "nick": "TANGELA",
+   "metloc": 121,
+   "mapsec": "MAPSEC_ROUTE_21",
+   "metlevel": 23,
+   "exp": 12167,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -569,6 +580,7 @@
   96,
   104,
   107,
+  114,
   118,
   129,
   131,

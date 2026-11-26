@@ -1,0 +1,18 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [],
+ "sub": "Heal and save",
+ "title": "Cinnabar Pokémon Center",
+ "tab": "Pokémon Center",
+ "map": [
+  {
+   "name": "CinnabarIsland_PokemonCenter_1F",
+   "markers": []
+  },
+  {
+   "name": "CinnabarIsland_PokemonCenter_2F",
+   "markers": []
+  }
+ ]
+}

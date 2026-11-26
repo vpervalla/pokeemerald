@@ -13,6 +13,7 @@
 1. In the bedroom, the PC (ITEM STORAGE, WITHDRAW ITEM) holds a **POTION**: taken. ![PC](img/01_pc_potion.png)
 2. Downstairs, MOM: "...Right. All boys leave home someday. It said so on TV." ![Mom](img/01_mom.png)
 3. On later visits MOM heals the whole party for free ("ETHAN! You should take a quick rest." ... "Oh, good! You and your POKéMON are looking great. Take care now!").
+4. Before Route 21 (FLY from Route 20, 6 badges): MOM healed the whole party, BLASTOISE fainted and DRAGONAIR low included (see [Route 21](41_route_21.md)).
 
 ## Bugs
 

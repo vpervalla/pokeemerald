@@ -1,0 +1,56 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [
+  [
+   "MAP_CINNABAR_ISLAND",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_CINNABAR_ISLAND",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "sub": "The Mansion, the Lab, Blaine's Gym",
+ "title": "Cinnabar Island",
+ "tab": "Cinnabar Island",
+ "map": {
+  "name": "CinnabarIsland",
+  "markers": []
+ },
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowbro",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "staryu",
+   "via": [
+    "fishing"
+   ]
+  }
+ ]
+}

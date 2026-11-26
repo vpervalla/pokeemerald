@@ -1,0 +1,339 @@
+{
+ "trainers": [
+  {
+   "name": "Fisherman Ronald",
+   "hint": "Route21_North at (7,27). Prize ¥1120. <b>Beaten.</b>",
+   "team": [
+    [
+     "seaking",
+     28,
+     "—"
+    ],
+    [
+     "goldeen",
+     28,
+     "—"
+    ],
+    [
+     "seaking",
+     28,
+     "—"
+    ],
+    [
+     "seaking",
+     28,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Wade",
+   "hint": "Route21_North at (16,26). Prize ¥1080. <b>Beaten.</b>",
+   "team": [
+    [
+     "magikarp",
+     27,
+     "—"
+    ],
+    [
+     "magikarp",
+     27,
+     "—"
+    ],
+    [
+     "magikarp",
+     27,
+     "—"
+    ],
+    [
+     "magikarp",
+     27,
+     "—"
+    ],
+    [
+     "magikarp",
+     27,
+     "—"
+    ],
+    [
+     "magikarp",
+     27,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Spencer",
+   "hint": "Route21_North at (12,44). Prize ¥264. <b>Beaten.</b>",
+   "team": [
+    [
+     "seadra",
+     33,
+     "—"
+    ],
+    [
+     "tentacruel",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Sis And Bro Lil & Ian",
+   "hint": "Route21_North at (14,35). Prize ¥396. <b>Beaten.</b>",
+   "team": [
+    [
+     "seadra",
+     33,
+     "—"
+    ],
+    [
+     "starmie",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Claude",
+   "hint": "Route21_South at (11,8). Prize ¥1240. <b>Beaten.</b>",
+   "team": [
+    [
+     "shellder",
+     31,
+     "—"
+    ],
+    [
+     "cloyster",
+     31,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Fisherman Nolan",
+   "hint": "Route21_South at (14,15). Prize ¥1320. <b>Beaten.</b>",
+   "team": [
+    [
+     "seaking",
+     33,
+     "—"
+    ],
+    [
+     "goldeen",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Jack",
+   "hint": "Route21_South at (15,24). Prize ¥296. <b>Beaten.</b>",
+   "team": [
+    [
+     "starmie",
+     37,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Jerome",
+   "hint": "Route21_South at (15,38). Prize ¥264. <b>Beaten.</b>",
+   "team": [
+    [
+     "staryu",
+     33,
+     "—"
+    ],
+    [
+     "wartortle",
+     33,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer M Roland",
+   "hint": "Route21_South at (10,29). Prize ¥256. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwhirl",
+     32,
+     "—"
+    ],
+    [
+     "tentacool",
+     32,
+     "—"
+    ],
+    [
+     "seadra",
+     32,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Pearl at (17,42) (Route21_North).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_ROUTE21_NORTH",
+   "land_mons",
+   "Tall grass (Route21_North)"
+  ],
+  [
+   "MAP_ROUTE21_NORTH",
+   "water_mons",
+   "Surfing (Route21_North)"
+  ],
+  [
+   "MAP_ROUTE21_NORTH",
+   "fishing_mons",
+   "Fishing (Route21_North)"
+  ],
+  [
+   "MAP_ROUTE21_SOUTH",
+   "land_mons",
+   "Tall grass (Route21_South)"
+  ],
+  [
+   "MAP_ROUTE21_SOUTH",
+   "water_mons",
+   "Surfing (Route21_South)"
+  ],
+  [
+   "MAP_ROUTE21_SOUTH",
+   "fishing_mons",
+   "Fishing (Route21_South)"
+  ]
+ ],
+ "sub": "Tangela · nine trainers on the sea",
+ "title": "Route 21",
+ "tab": "Route 21",
+ "map": [
+  {
+   "name": "Route21_North",
+   "markers": [
+    [
+     "hidden",
+     17,
+     42,
+     "1"
+    ],
+    [
+     "trainer",
+     7,
+     27,
+     "T1"
+    ],
+    [
+     "trainer",
+     16,
+     26,
+     "T2"
+    ],
+    [
+     "trainer",
+     12,
+     44,
+     "T3"
+    ],
+    [
+     "trainer",
+     14,
+     35,
+     "T4"
+    ]
+   ]
+  },
+  {
+   "name": "Route21_South",
+   "markers": [
+    [
+     "trainer",
+     11,
+     8,
+     "T5"
+    ],
+    [
+     "trainer",
+     14,
+     15,
+     "T6"
+    ],
+    [
+     "trainer",
+     15,
+     24,
+     "T7"
+    ],
+    [
+     "trainer",
+     15,
+     38,
+     "T8"
+    ],
+    [
+     "trainer",
+     10,
+     29,
+     "T9"
+    ]
+   ]
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kingler",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "seadra",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tangela",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

@@ -1,77 +1,77 @@
 {
  "mons": [
   {
-   "species": "blastoise",
-   "name": "Blastoise",
-   "lv": 46,
-   "exp": 94509,
+   "species": "snorlax",
+   "name": "Snorlax",
+   "lv": 47,
+   "exp": 137163,
    "types": [
-    "Water"
+    "Normal"
    ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
-   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
+   "nature": "Quiet (+Sp. Atk, −Speed)",
+   "ability": "Immunity",
+   "met": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
+   "role": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
    "stats": [
     [
      "HP",
-     139,
+     214,
      0
     ],
     [
      "Attack",
-     88,
+     116,
      0
     ],
     [
      "Defense",
-     104,
+     69,
      0
     ],
     [
      "Sp. Atk",
-     97,
-     0
+     80,
+     1
     ],
     [
      "Sp. Def",
-     115,
+     121,
      0
     ],
     [
      "Speed",
-     92,
-     0
+     44,
+     -1
     ]
    ],
    "moves": [
     [
-     "Water Gun",
-     "Water",
-     "40",
+     "Body Slam",
+     "Normal",
+     "85",
      "100%",
-     "12/25"
+     "15/15"
     ],
     [
-     "Protect",
-     "Normal",
+     "Brick Break",
+     "Fighting",
+     "75",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Rest",
+     "Psychic",
      "—",
      "—",
      "10/10"
     ],
     [
-     "Surf",
-     "Water",
-     "95",
-     "100%",
-     "0/15"
-    ],
-    [
-     "Rain Dance",
-     "Water",
-     "—",
-     "—",
-     "5/5"
+     "Rollout",
+     "Rock",
+     "30",
+     "90%",
+     "20/20"
     ]
    ]
   },
@@ -79,7 +79,7 @@
    "species": "gengar",
    "name": "Gengar",
    "lv": 47,
-   "exp": 101287,
+   "exp": 102564,
    "types": [
     "Ghost",
     "Poison"
@@ -126,7 +126,7 @@
      "Ghost",
      "60",
      "—",
-     "16/20"
+     "20/20"
     ],
     [
      "Dream Eater",
@@ -147,7 +147,7 @@
      "Psychic",
      "90",
      "100%",
-     "2/10"
+     "10/10"
     ]
    ]
   },
@@ -155,7 +155,7 @@
    "species": "venusaur",
    "name": "Venusaur",
    "lv": 48,
-   "exp": 104348,
+   "exp": 107564,
    "types": [
     "Grass",
     "Poison"
@@ -209,7 +209,7 @@
      "Poison",
      "—",
      "75%",
-     "34/35"
+     "35/35"
     ],
     [
      "Sleep Powder",
@@ -223,7 +223,7 @@
      "Grass",
      "55",
      "95%",
-     "0/25"
+     "25/25"
     ]
    ]
   },
@@ -353,14 +353,14 @@
      "Normal",
      "80",
      "75%",
-     "8/20"
+     "20/20"
     ],
     [
      "Dragon Rage",
      "Dragon",
      "1",
      "100%",
-     "9/10"
+     "10/10"
     ],
     [
      "Agility",
@@ -379,77 +379,77 @@
    ]
   },
   {
-   "species": "snorlax",
-   "name": "Snorlax",
-   "lv": 45,
-   "exp": 116343,
+   "species": "blastoise",
+   "name": "Blastoise",
+   "lv": 46,
+   "exp": 94509,
    "types": [
-    "Normal"
+    "Water"
    ],
-   "nature": "Quiet (+Sp. Atk, −Speed)",
-   "ability": "Immunity",
-   "met": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
-   "role": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
+   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
    "stats": [
     [
      "HP",
-     205,
+     139,
      0
     ],
     [
      "Attack",
-     111,
+     88,
      0
     ],
     [
      "Defense",
-     66,
+     104,
      0
     ],
     [
      "Sp. Atk",
-     75,
-     1
+     97,
+     0
     ],
     [
      "Sp. Def",
-     113,
+     115,
      0
     ],
     [
      "Speed",
-     41,
-     -1
+     92,
+     0
     ]
    ],
    "moves": [
     [
-     "Body Slam",
-     "Normal",
-     "85",
-     "100%",
-     "11/15"
-    ],
-    [
-     "Yawn",
-     "Normal",
-     "—",
-     "100%",
-     "10/10"
-    ],
-    [
-     "Rest",
-     "Psychic",
-     "—",
-     "—",
-     "10/10"
-    ],
-    [
-     "Snore",
-     "Normal",
+     "Water Gun",
+     "Water",
      "40",
      "100%",
+     "25/25"
+    ],
+    [
+     "Protect",
+     "Normal",
+     "—",
+     "—",
+     "10/10"
+    ],
+    [
+     "Surf",
+     "Water",
+     "95",
+     "100%",
      "15/15"
+    ],
+    [
+     "Rain Dance",
+     "Water",
+     "—",
+     "—",
+     "5/5"
     ]
    ]
   }

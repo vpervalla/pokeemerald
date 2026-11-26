@@ -118,6 +118,9 @@ AREAS = {
     "21c_rock_tunnel": ["RockTunnel_1F", "RockTunnel_B1F"],
     "23b_underground_path_east_west": ["UndergroundPath_EastWestTunnel"],
     "24b_route_7": ["Route7"],
+    "41_route_21": ["Route21_North", "Route21_South"],
+    "42_cinnabar_island": ["CinnabarIsland"],
+    "42_cinnabar_island--pokemon_center": ["CinnabarIsland_PokemonCenter_1F", "CinnabarIsland_PokemonCenter_2F"],
 }
 
 
@@ -476,6 +479,8 @@ AREA_MAPSEC = {
     "21c_rock_tunnel": ["MAPSEC_ROCK_TUNNEL"],
     "23b_underground_path_east_west": ["MAPSEC_UNDERGROUND_PATH"],
     "24b_route_7": ["MAPSEC_ROUTE_7"],
+    "41_route_21": ["MAPSEC_ROUTE_21"],
+    "42_cinnabar_island": ["MAPSEC_CINNABAR_ISLAND"],
 }
 # the area whose wild tables decide what is "still missing" (several data files share a map section)
 HOW = {("pikachu", "MAPSEC_PALLET_TOWN"): "gift from Prof. Oak", ("squirtle", "MAPSEC_CERULEAN_CITY"): "gift (the house at (17,11))",

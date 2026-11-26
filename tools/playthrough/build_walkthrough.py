@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Route 20, Seafoam Islands door (not entered)",
-    "party": "Blastoise L46, Gengar L47, Venusaur L48, Charizard L51, Dragonair L47, Snorlax L45",
+    "where": "Cinnabar Island, Pokémon Center",
+    "party": "Snorlax L47, Gengar L47, Venusaur L48, Charizard L51, Dragonair L47, Blastoise L46",
     "badges": "6",
-    "time": "194:15",
-    "save": "Route 20 (ethan_seafoam_door)",
+    "time": "205:51",
+    "save": "Cinnabar Center (ethan_cinnabar)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
