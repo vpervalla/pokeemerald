@@ -23,7 +23,19 @@ print(w[0][4] if w else '')")
   if [ -n "$ar" ] && echo "$plan" | sed -n 2p | grep -q "^warp at ($x, $y)"; then g h${ar}8 w120 >/dev/null; g w60 >/dev/null; continue; fi
   read _ wf wx wy rest < <(echo "$plan" | head -1)
   if [ "$wx,$wy" != "$x,$y" ]; then
-    FTYPES=${FTYPES:-move} mgo1 "$wx" "$wy" | tail -1
+    # the real search (rbfs) runs out of steps on long walks: follow the static route in waypoints 6 tiles apart
+    for wp in $(python3 -c "
+import sys; sys.path.insert(0, '$P'); sys.argv = ['x']
+import mansion_plan as m
+seq = m.plan(('$fl', $x, $y, $s), *(lambda a: (a[0], int(a[1]), int(a[2]), len(a) > 3))(sys.argv[1:] or '$*'.split()))
+leg = []
+for act, c in seq:
+    if act[0] != 'walk': break
+    leg.append(c)
+pts = leg[5::6] + leg[-1:]
+print(' '.join(f'{c[1]},{c[2]}' for c in pts))" ); do
+      FTYPES=${FTYPES:-move} mgo1 "${wp%,*}" "${wp#*,}" | tail -1
+    done
     continue                                   # re-read: a battle or a slide may have moved us
   fi
   echo "$plan" | head -1 | grep -q goal && { echo "at the goal"; exit 0; }
