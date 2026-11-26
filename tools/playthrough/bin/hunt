@@ -1,0 +1,17 @@
+#!/bin/bash
+# hunt REGEX [MOVE] [ROUNDS] : pace (train) until a wild species matching REGEX appears, weaken it once with move slot
+# ${2:-1} if it is above 60% HP, then throw the BAG's POKé BALLS pocket item under the cursor until it is caught or 15 balls
+# are gone. Other battles are fought (SWITCH=auto TYPES=move). Repeats up to ${3:-3} catches.
+D=$(dirname "$0")
+for r in $(seq 1 ${3:-3}); do
+  out=$(CATCH="$1" MINHP=${MINHP:-35} SWITCH=auto TYPES=move train ${N:-40} 2>&1); echo "$out" | grep -E "LOWHP" && exit 2
+  echo "$out" | grep -q CATCHME || { echo "no $1 in ${N:-40} battles"; continue; }
+  st | grep ENEMY | cut -c1-70
+  hp=$(st | grep ENEMY | sed 's/.* HP \([0-9]*\)\/\([0-9]*\).*/\1 \2/')
+  set -- "$1" "${2:-1}" "${3:-3}"; read a b <<< "$hp"
+  if [ $((a * 100 / b)) -gt 60 ]; then dmove $2; for i in 1 2 3 4 5 6; do g B w60 >/dev/null; inbattle | grep -q field && break; done; fi
+  for t in $(seq 15); do inbattle | grep -q battle || break; ballthrow >/dev/null 2>&1; done
+  python3 "$D/../tx.py" 2>/dev/null | head -1 | grep -o "Gotcha.*caught" || echo "not caught"
+  for i in 1 2 3 4; do g B w40 >/dev/null; done
+  [ -n "$ONCE" ] && exit 0
+done
