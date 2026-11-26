@@ -5,8 +5,8 @@
 ## Map notes
 
 - 1F (46x38): seven trainers, six item balls and a ring of breakable rocks. Ladders (5,6), (19,14), (31,16) lead to B1F.
-- A bald man at (42,7) stands inside a ring of rocks: **Rock Smash is needed** to reach him (see the picture above).
-- The first-floor corridor at (15,17) is only one tile wide, so a defeated trainer standing in it blocks the way; walk around the other side.
+- 1F: a bald man at (42,7) stands inside a ring of rocks: **Rock Smash is needed** to reach him (see the picture above).
+- 1F: the corridor at (15,17) is only one tile wide, so a defeated trainer standing in it blocks the way; walk around the other side.
 
 ## Story
 

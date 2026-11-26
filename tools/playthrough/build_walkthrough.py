@@ -266,6 +266,106 @@ def wild_panels(specs):
     return "".join(out)
 
 
+FLOOR_TOK = r"(?:B?\d+F|roof room|roofroom|roof|elevator)"
+
+
+def ALL_KEYS(specs):
+    return {(m[0], str(m[3])) for sp in specs for m in sp["markers"]}
+
+
+def nkey(s):
+    """A comparable key: "Roof room" -> ROOFROOM, "Route 15" -> ROUTE15."""
+    return re.sub(r"[^A-Z0-9]", "", s.upper())
+
+
+def floor_key(name):
+    """The part of a map's name that tells it from the page's other maps: MtMoon_B2F -> B2F, SafariZone_East -> EAST, Route15 -> ROUTE15."""
+    return nkey(name.split("_")[-1])
+
+
+def floors_in(text):
+    """The floors a note or event names: "B2F", "1F", "the roof", "roof room"."""
+    found = {m.upper() for m in re.findall(r"\b(B?\d+F)\b", text)}
+    low = text.lower()
+    if "roof room" in low or "roofroom" in low:
+        found.add("ROOFROOM")
+        low = low.replace("roof room", "").replace("roofroom", "")
+    if re.search(r"\broof\b", low):
+        found.add("ROOF")
+    if "elevator" in low:
+        found.add("ELEVATOR")
+    return found
+
+
+def lead_key(seg, keys):
+    """The floor or area a note opens with ("**1F:** ...", "1F (46x38) ...", "the **roof** ...", "**CENTER** (...)"), if it is one of keys."""
+    s = re.sub(r"^(?:-\s+)?(?:the\s+(?=\*\*))?", "", seg.strip(), flags=re.I)
+    m = re.match(r"\*\*([^*]+)\*\*", s)
+    if m:
+        lab = m.group(1).strip(" :,")
+        k = nkey(lab)
+        if k in keys:
+            return k
+        f = re.match(FLOOR_TOK + r"\b", lab, re.I)
+        return nkey(f.group(0)) if f and nkey(f.group(0)) in keys else None
+    f = re.match(FLOOR_TOK + r"\b", s, re.I)
+    return nkey(f.group(0)) if f and nkey(f.group(0)) in keys else None
+
+
+def note_bullets(lines):
+    """Split a Map notes section into top-level bullets (each with its indented continuation) and the other lines."""
+    bullets, other = [], []
+    for ln in lines:
+        if ln.startswith("- "):
+            bullets.append([ln])
+        elif bullets and ln.startswith((" ", "\t")) and ln.strip():
+            bullets[-1].append(ln)
+        elif ln.strip():
+            other.append(ln)
+    return ["\n".join(b) for b in bullets], other
+
+
+def place_notes(lines, keys):
+    """Hand each note to the floor (or area) it is about. A note that opens with a floor goes there; a note that walks through the floors
+    ("**1F:** ...; 2F ...; the **roof** ...", "**1F** ... **2F MARKET:** ...") is cut at each floor; a note that only names one floor goes
+    there; anything else is about the whole place. Returns ({key: [lines]}, [general lines])."""
+    per, general = {}, []
+    bullets, other = note_bullets(lines)
+    general += other
+    cut = re.compile(r"(?:;\s+|(?<=[.!?\"”)])\s+)(?=(?:the\s+)?(?:\*\*)?" + FLOOR_TOK + r"\b)", re.I)
+    for b in bullets:
+        body = b[2:]
+        parts = [x for x in cut.split(body) if x.strip()]
+        if len(parts) > 1:
+            segs, head = [], []
+            for x in parts:
+                k = lead_key(x, keys)
+                if k:
+                    segs.append([k, x])
+                elif segs:
+                    segs[-1][1] += "; " + x
+                else:
+                    head.append(x)
+            if len(segs) > 1 and len(" ".join(head).strip()) <= 20:   # a note that walks the floors, not a list under a heading
+                if " ".join(head).strip(" .:;,"):
+                    general.append("- " + "; ".join(head))
+                for k, x in segs:
+                    x = x.strip().rstrip(";")
+                    per.setdefault(k, []).append("- " + x[0].upper() + x[1:])
+                continue
+        k = lead_key(body, keys)
+        # "**EAST** (34.64), **NORTH** (34.65), **WEST**: ..." names several areas at once: the whole place
+        if k and not any(nkey(m) in keys - {k} for m in re.findall(r"\*\*([^*]+)\*\*", body[:60])):
+            per.setdefault(k, []).append(b)
+            continue
+        named = floors_in(b[:50]) & keys if floors_in(b) & keys == floors_in(b[:50]) & keys else set()   # one floor, named up front
+        if len(named) == 1:
+            per.setdefault(named.pop(), []).append(b)
+        else:
+            general.append(b)
+    return per, general
+
+
 def map_title(name):
     """PokemonTower_3F -> Pokemon Tower 3F (a floor's heading on multi-map pages)."""
     parts = [re.sub(r"(?<=[a-z])(?=[A-Z0-9])|(?<=[A-Z])(?=[A-Z][a-z])", " ", x) for x in name.split("_")]
@@ -395,18 +495,31 @@ def area_html(p, n):
     ref = ""
     specs = d["map"] if isinstance(d.get("map"), list) else [d["map"]] if d.get("map") else []
     items = d.get("items") or []
+    notes = s.get("Map notes", [])
     if len(specs) > 1:
-        # dungeons and buildings with several floors: each floor's map is followed by its own items & events
+        # dungeons and buildings with several floors: each floor's map is followed by its own items, events and notes
+        fkeys = {floor_key(sp["name"]) for sp in specs}
+        if len(fkeys) < len(specs):
+            fkeys = set()          # two maps share a name ending (rooms of a ship): no guessing
+        per_note, notes = place_notes(notes, fkeys)
+        if notes:                  # notes about the whole place come first, above the floor maps
+            ref += f'<div class="panel wide"><h3>Notes for the whole place</h3>{render(notes).replace("<ul>", '<ul class="notes-list">', 1)}</div>'
+            notes = []
         placed = set()
         for spec in specs:
+            fk = floor_key(spec["name"]) if fkeys else None
             keys = {(m[0], str(m[3])) for m in spec["markers"]}
-            here = [i for i in items if (i["kind"], str(i["n"])) in keys]
+            here = [i for i in items if (i["kind"], str(i["n"])) in keys
+                    or (fk and id(i) not in placed and (i["kind"], str(i["n"])) not in ALL_KEYS(specs) and floors_in(i["text"]) & fkeys == {fk})]
             placed |= {id(i) for i in here}
             mine = [dict(i, text=i["text"].replace(f' ({spec["name"]})', "")) for i in here]
             ttl = esc(map_title(spec["name"]))
             ref += map_panel(spec, map_title(spec["name"]))
-            body = legend(mine) if mine else '<p class="note">No items or events on this floor.</p>'
-            ref += f'<div class="panel wide floor-items"><h3>Items &amp; events · {ttl}</h3>{body}</div>'
+            body = legend(mine) if mine else ""
+            if per_note.get(fk):
+                body += render(per_note[fk]).replace("<ul>", '<ul class="notes-list">', 1)
+            body = body or '<p class="note">No items or events on this floor.</p>'
+            ref += f'<div class="panel wide floor-items"><h3>Items, events &amp; notes · {ttl}</h3>{body}</div>'
         items = [i for i in items if id(i) not in placed]
     else:
         for spec in specs:
@@ -414,10 +527,10 @@ def area_html(p, n):
     panel = ""
     if items:
         panel += legend(items)
-    if any(l.strip() for l in s.get("Map notes", [])):
-        panel += render(s["Map notes"]).replace("<ul>", '<ul class="notes-list">', 1)
+    if any(l.strip() for l in notes):
+        panel += render(notes).replace("<ul>", '<ul class="notes-list">', 1)
     if panel:
-        ref += f'<div class="panel"><h3>{"Other events &amp; notes" if len(specs) > 1 else "Items &amp; events"}</h3>{panel}</div>'
+        ref += f'<div class="panel"><h3>{"Other events" if len(specs) > 1 else "Items &amp; events"}</h3>{panel}</div>'
     if d.get("wild"):
         ref += wild_panels(d["wild"])
     ref += caught_panel(d)
