@@ -847,7 +847,11 @@ static bool8 TryPushBoulder(s16 x, s16 y, u8 direction)
     {
         u8 objectEventId = GetObjectEventIdByXY(x, y);
 
-        if (objectEventId != OBJECT_EVENTS_COUNT && GetObjectEventGraphicsId(&gObjectEvents[objectEventId]) == OBJ_EVENT_GFX_PUSHABLE_BOULDER)
+        u16 graphicsId = objectEventId != OBJECT_EVENTS_COUNT ? GetObjectEventGraphicsId(&gObjectEvents[objectEventId]) : 0;
+
+        // Kanto maps use their own boulder graphics; both kinds can be pushed
+        if (objectEventId != OBJECT_EVENTS_COUNT
+         && (graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER || graphicsId == OBJ_EVENT_GFX_KANTO_PUSHABLE_BOULDER))
         {
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
