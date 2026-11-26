@@ -2265,6 +2265,23 @@ static void CB_FadeInFlyMap(void)
     }
 }
 
+// FLY from the TOWN MAP: needs HM02's badge, a POKéMON that knows FLY (or HM02 in the BAG for a
+// borrowed one), and a map FLY can be used from. Picks who flies; FALSE if FLY can't be used.
+static bool8 TryPrepareFlyFromTownMap(void)
+{
+    u8 monId;
+
+    if (!HasBadgeForFieldMove(FIELD_MOVE_FLY))
+        return FALSE;
+    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) != TRUE)
+        return FALSE;
+    monId = GetFieldMoveUser(FIELD_MOVE_FLY);
+    if (monId == PARTY_SIZE)
+        return FALSE;
+    SetFieldMoveMonFromBag(monId);
+    return TRUE;
+}
+
 static void CB_HandleFlyMapInput(void)
 {
     if (sFlyMap->state == 0)
@@ -2290,7 +2307,7 @@ static void CB_HandleFlyMapInput(void)
             DrawFlyDestTextWindow();
             break;
         case MAP_INPUT_A_BUTTON:
-            if (sTownMapExitCallback != NULL)
+            if (sTownMapExitCallback != NULL && !TryPrepareFlyFromTownMap())
                 break;
             if (sFlyMap->regionMap.mapSecType == MAPSECTYPE_CITY_CANFLY || sFlyMap->regionMap.mapSecType == MAPSECTYPE_BATTLE_FRONTIER)
             {
@@ -2460,6 +2477,7 @@ static void CB_ExitFlyMap(void)
                     break;
                 }
                 sFlyMapCancelCallback = NULL;
+                sTownMapExitCallback = NULL;
                 ReturnToFieldFromFlyMapSelect();
             }
             else if (sTownMapExitCallback != NULL)
