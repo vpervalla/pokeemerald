@@ -682,4 +682,3 @@ The statues' secret switches flip one flag (`FLAG_POKEMON_MANSION_SWITCH_STATE`,
 ## Don't press A blindly through a dialogue
 
 BILL's "come with me to ONE ISLAND?" is a YES/NO box after a long speech; a loop of A presses answered YES. Step through dialogue one box at a time and stop on a question (a YES/NO box), as for the move-learn prompts. And `g undo` is unsafe after many calls: the history files are numbered by count, so `undo` can land on a very old state; restore by modification time (`find $PLAY_DIR/hist -newermt ... | sort`) instead.
-\n
