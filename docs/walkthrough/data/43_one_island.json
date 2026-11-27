@@ -1,0 +1,62 @@
+{
+ "trainers": [],
+ "items": [],
+ "wild": [
+  [
+   "MAP_ONE_ISLAND",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_ONE_ISLAND",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "sub": "Bill, Celio and the Tri-Pass",
+ "title": "One Island",
+ "tab": "One Island",
+ "map": {
+  "name": "OneIsland",
+  "markers": []
+ },
+ "caught": [],
+ "missing": [
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "kingler",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacruel",
+   "via": [
+    "water"
+   ]
+  }
+ ]
+}

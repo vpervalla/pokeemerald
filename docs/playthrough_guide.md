@@ -525,6 +525,8 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_route21.sav` | Route 21 North at (7,44), surfing: healed by Mom in Pallet, TANGELA caught (Box 2), Ronald, Wade, Lil & Ian and Spencer beaten. SNORLAX L46 (Body Slam, Brick Break, Rest, Rollout). Saved just before the ROM rebuild with FLY from the TOWN MAP. |
 | `saves/ethan_cinnabar.sav` | Cinnabar Island Center, party healed: all nine Route 21 trainers beaten, SNORLAX L47 (Body Slam, Brick Break, Rest, Rollout). New ROM (FLY from the TOWN MAP). Cinnabar not explored yet; Route 21's fishing species not caught yet. |
 | `saves/ethan_mansion.sav` | Cinnabar Center after the Pokémon Mansion: every trainer and item (SECRET KEY, MEWTWONITE Y, TM14, TM22), OMANYTE from the Lab, DITTO, WEEZING, MUK, GRIMER, KOFFING caught; SNORLAX L53. Next: Blaine's Gym. |
+| `saves/ethan_shadow_ball.sav` | Mansion 1F hall, new ROM (FRLG level-up learnsets): GENGAR's SHADOW PUNCH replaced by SHADOW BALL with `save_edit.py`. |
+| `saves/ethan_one_island.sav` | One Island Center: VOLCANO BADGE (7), TM38, the MEGA RING; BILL's METEORITE errand (Two Island), the TRI-PASS. SNORLAX L55. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -675,3 +677,9 @@ The statues' secret switches flip one flag (`FLAG_POKEMON_MANSION_SWITCH_STATE`,
 
 `startmenu INDEX` reads `sStartMenuCursorPos` (the START menu remembers its entry and wraps around). `potion SLOT [N]` with `IDX=` uses the ITEMS pocket entry at that position: read the bag first, the order changes as items are added (an ESCAPE ROPE was used by mistake when SUPER POTION moved).
 
+
+
+## Don't press A blindly through a dialogue
+
+BILL's "come with me to ONE ISLAND?" is a YES/NO box after a long speech; a loop of A presses answered YES. Step through dialogue one box at a time and stop on a question (a YES/NO box), as for the move-learn prompts. And `g undo` is unsafe after many calls: the history files are numbered by count, so `undo` can land on a very old state; restore by modification time (`find $PLAY_DIR/hist -newermt ... | sort`) instead.
+\n

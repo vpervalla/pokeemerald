@@ -124,6 +124,9 @@ AREAS = {
     "42_cinnabar_island--mart": ["CinnabarIsland_Mart"],
     "42_cinnabar_island--pokemon_lab": ["CinnabarIsland_PokemonLab_Entrance", "CinnabarIsland_PokemonLab_Lounge", "CinnabarIsland_PokemonLab_ResearchRoom", "CinnabarIsland_PokemonLab_ExperimentRoom"],
     "42_cinnabar_island--pokemon_mansion": ["PokemonMansion_1F", "PokemonMansion_2F", "PokemonMansion_3F", "PokemonMansion_B1F"],
+    "42_cinnabar_island--gym": ["CinnabarIsland_Gym"],
+    "43_one_island": ["OneIsland"],
+    "43_one_island--pokemon_center": ["OneIsland_PokemonCenter_1F"],
 }
 
 
@@ -502,6 +505,7 @@ AREA_MAPSEC = {
     "41_route_21": ["MAPSEC_ROUTE_21"],
     "42_cinnabar_island": ["MAPSEC_CINNABAR_ISLAND"],
     "42_cinnabar_island--pokemon_mansion": ["MAPSEC_POKEMON_MANSION"],
+    "43_one_island": ["MAPSEC_ONE_ISLAND"],
 }
 # the area whose wild tables decide what is "still missing" (several data files share a map section)
 HOW = {("pikachu", "MAPSEC_PALLET_TOWN"): "gift from Prof. Oak", ("squirtle", "MAPSEC_CERULEAN_CITY"): "gift (the house at (17,11))",

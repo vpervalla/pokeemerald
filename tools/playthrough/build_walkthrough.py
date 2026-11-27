@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Cinnabar Island, Pokémon Center (Mansion done)",
-    "party": "Snorlax L53, Gengar L48, Venusaur L49, Charizard L51, Dragonair L47, Blastoise L47",
-    "badges": "6",
-    "time": "≈212h",
-    "save": "Cinnabar Center (ethan_mansion)",
+    "where": "One Island, Pokémon Center",
+    "party": "Snorlax L55, Gengar L48, Venusaur L49, Charizard L51, Dragonair L47, Blastoise L47",
+    "badges": "7",
+    "time": "≈214h",
+    "save": "One Island Center (ethan_one_island)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",
