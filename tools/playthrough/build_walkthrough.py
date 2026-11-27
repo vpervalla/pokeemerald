@@ -23,11 +23,11 @@ WT = os.path.join(ROOT, "docs", "walkthrough")
 
 PAGES = []
 STATUS = {
-    "where": "Two Island, Pokémon Center (the Meteorite delivered)",
-    "party": "Gengar L49, Blastoise L49, Venusaur L49, Dragonair L49, Charizard L51, Snorlax L55",
-    "badges": "7",
-    "time": "≈236h",
-    "save": "Two Island Center (ethan_meteorite)",
+    "where": "Viridian City, Pokémon Center (Earth Badge won)",
+    "party": "Blastoise L50, Dragonair L50, Gengar L50, Venusaur L50, Charizard L51, Snorlax L55",
+    "badges": "8",
+    "time": "≈237h",
+    "save": "Viridian Center (ethan_earth_badge)",
 }
 
 TYPE_COL = {"Normal": "#9aa0a8", "Fire": "#e0642e", "Water": "#4f8fdf", "Electric": "#d9a21b", "Grass": "#5aa04a", "Ice": "#5fb8c4",

@@ -2,7 +2,7 @@
  "trainers": [
   {
    "name": "Black Belt Takashi",
-   "hint": "(10,2). Prize ¥1216. <b>Not fought yet.</b>",
+   "hint": "(10,2). Prize ¥1216. <b>Beaten.</b>",
    "team": [
     [
      "machoke",
@@ -23,7 +23,7 @@
   },
   {
    "name": "Cooltrainer Yuji",
-   "hint": "(12,10). Prize ¥1824. <b>Not fought yet.</b>",
+   "hint": "(12,10). Prize ¥1824. <b>Beaten.</b>",
    "team": [
     [
      "sandslash",
@@ -54,7 +54,7 @@
   },
   {
    "name": "Black Belt Atsushi",
-   "hint": "(11,14). Prize ¥1280. <b>Not fought yet.</b>",
+   "hint": "(11,14). Prize ¥1280. <b>Beaten.</b>",
    "team": [
     [
      "machop",
@@ -70,7 +70,7 @@
   },
   {
    "name": "Tamer Jason",
-   "hint": "(10,10). Prize ¥1720. <b>Not fought yet.</b>",
+   "hint": "(10,10). Prize ¥1720. <b>Beaten.</b>",
    "team": [
     [
      "rhyhorn",
@@ -81,7 +81,7 @@
   },
   {
    "name": "Tamer Cole",
-   "hint": "(2,21). Prize ¥1560. <b>Not fought yet.</b>",
+   "hint": "(2,21). Prize ¥1560. <b>Beaten.</b>",
    "team": [
     [
      "arbok",
@@ -97,7 +97,7 @@
   },
   {
    "name": "Black Belt Kiyo",
-   "hint": "(3,11). Prize ¥1376. <b>Not fought yet.</b>",
+   "hint": "(3,11). Prize ¥1376. <b>Beaten.</b>",
    "team": [
     [
      "machoke",
@@ -108,7 +108,7 @@
   },
   {
    "name": "Cooltrainer Samuel",
-   "hint": "(6,8). Prize ¥1872. <b>Not fought yet.</b>",
+   "hint": "(6,8). Prize ¥1872. <b>Beaten.</b>",
    "team": [
     [
      "sandslash",
@@ -139,7 +139,7 @@
   },
   {
    "name": "Leader Giovanni",
-   "hint": "(2,2). Prize ¥5000. <b>Not fought yet.</b>",
+   "hint": "(2,2). Prize ¥5000. <b>Beaten.</b>",
    "team": [
     [
      "rhyhorn",
@@ -170,7 +170,7 @@
   },
   {
    "name": "Cooltrainer Warren",
-   "hint": "(13,7). Prize ¥1872. <b>Not fought yet.</b>",
+   "hint": "(13,7). Prize ¥1872. <b>Beaten.</b>",
    "team": [
     [
      "marowak",
@@ -204,13 +204,13 @@
   {
    "kind": "hidden",
    "n": "1",
-   "text": "Hidden Macho Brace at (2,2).",
-   "chip": "no",
-   "chipText": "Not found"
+   "text": "Hidden Macho Brace at (2,2), under GIOVANNI: found after he left (stand on it, press A).",
+   "chip": "yes",
+   "chipText": "Found"
   }
  ],
  "wild": [],
- "sub": "Locked for now",
+ "sub": "Giovanni, Earth Badge",
  "title": "Viridian Gym",
  "tab": "Gym",
  "map": {
