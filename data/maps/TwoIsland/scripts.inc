@@ -172,19 +172,51 @@ TwoIsland_EventScript_Woman::
 	msgbox TwoIsland_Text_ShopkeepersBrotherWorksGameCorner, MSGBOX_NPC
 	end
 
+@ fixed by hand (bug 7): the generator dropped the item list; restored from pokefirered
+	.align 2
 TwoIsland_Items_ShopExpanded1::
+	.2byte ITEM_ULTRA_BALL
+	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_SODA_POP
+	.2byte ITEM_FRESH_WATER
+	.2byte ITEM_NONE
 	release
 	end
 
+@ fixed by hand (bug 7): the generator dropped the item list; restored from pokefirered
+	.align 2
 TwoIsland_Items_ShopExpanded2::
+	.2byte ITEM_ULTRA_BALL
+	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_LEMONADE
+	.2byte ITEM_SODA_POP
+	.2byte ITEM_FRESH_WATER
+	.2byte ITEM_MOOMOO_MILK
+	.2byte ITEM_NONE
 	release
 	end
 
+@ fixed by hand (bug 7): the generator dropped the item list; restored from pokefirered
+	.align 2
 TwoIsland_Items_ShopExpanded3::
+	.2byte ITEM_ULTRA_BALL
+	.2byte ITEM_REPEAT_BALL
+	.2byte ITEM_TIMER_BALL
+	.2byte ITEM_LEMONADE
+	.2byte ITEM_SODA_POP
+	.2byte ITEM_FRESH_WATER
+	.2byte ITEM_MOOMOO_MILK
+	.2byte ITEM_LAVA_COOKIE
+	.2byte ITEM_NONE
 	release
 	end
 
+@ fixed by hand (bug 7): the generator dropped the item list; restored from pokefirered
+	.align 2
 TwoIsland_Items_ShopInitial::
+	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_FRESH_WATER
+	.2byte ITEM_NONE
 	release
 	end
 
