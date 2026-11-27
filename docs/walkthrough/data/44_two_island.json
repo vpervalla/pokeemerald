@@ -1,0 +1,35 @@
+{
+ "trainers": [],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Revive at (39,16).",
+   "chip": "yes",
+   "chipText": "Collected"
+  }
+ ],
+ "wild": [],
+ "sub": "Lostelle is missing · the Joyful Game Corner",
+ "title": "Two Island",
+ "tab": "Two Island",
+ "map": {
+  "name": "TwoIsland",
+  "markers": [
+   [
+    "cut",
+    30,
+    16,
+    "C"
+   ],
+   [
+    "item",
+    39,
+    16,
+    "1"
+   ]
+  ]
+ },
+ "caught": [],
+ "missing": []
+}
