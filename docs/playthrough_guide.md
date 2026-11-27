@@ -528,6 +528,8 @@ The repo's `.gitignore` has `*.sa*`, so commit saves with `git add -f`.
 | `saves/ethan_shadow_ball.sav` | Mansion 1F hall, new ROM (FRLG level-up learnsets): GENGAR's SHADOW PUNCH replaced by SHADOW BALL with `save_edit.py`. |
 | `saves/ethan_one_island.sav` | One Island Center: VOLCANO BADGE (7), TM38, the MEGA RING; BILL's METEORITE errand (Two Island), the TRI-PASS. SNORLAX L55. |
 | `saves/ethan_two_island.sav` | Two Island Joyful Game Corner: LOSTELLE is missing (the METEORITE waits for her); the REVIVE behind the Cut tree; bug 7 (empty shop). DRAGONAIR leads, BLASTOISE holds the EXP. SHARE (autolead). |
+| `saves/ethan_cape_brink.sav` | Cape Brink house, ROM with bugs 7 and 8 fixed: PP MAX (underfoot) and RARE CANDY found. |
+| `saves/ethan_meteorite.sav` | Two Island Center: the bikers and Paxton beaten (Three Island), Bond Bridge swept, LOSTELLE rescued in Berry Forest, the METEORITE delivered (MOON STONE). Gengar, Blastoise, Venusaur, Dragonair L49. Not caught yet: the Berry Forest and Bond Bridge species. |
 | `saves/ethan_celadon.sav` | Celadon City streets swept (Leaf beaten, Ether, PP Up), ALAKAZAM L33 with CALM MIND; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, PIKACHU L34; ¥21807. Buildings not visited: Department Store, Game Corner (Silph Scope), Mansion (Tea), Gym (Erika). |
 | `saves/ethan_route12.sav` | Route 12's lookout (gatehouse 2F): Route 10 finished (Mark and the Max Ether need SURF), Route 12 swept down to the sleeping SNORLAX (4 fishermen, the young couple, the hidden Hyper Potion), TM27 taken; VENUSAUR L34, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L27, ALAKAZAM L32, PIKACHU L33; ¥19827. TM48 (18,36) unreachable; the wild grass is south of the Snorlax. |
 | `saves/ethan_route8.sav` | Route 8, in the west gatehouse (the Saffron guard wants TEA): Route 8 and the Underground Path's east tunnel swept (all trainers, 3 berries, 7 hidden items), GROWLITHE and VULPIX caught; VENUSAUR L33, WARTORTLE L32, CHARMELEON L35, DR VENKMAN (GENGAR) L26, ALAKAZAM L32, PIKACHU L33; ¥14531. Next: the tunnel's west end leads to Route 7 and Celadon. |
@@ -685,3 +687,8 @@ The statues' secret switches flip one flag (`FLAG_POKEMON_MANSION_SWITCH_STATE`,
 ## Don't press A blindly through a dialogue
 
 BILL's "come with me to ONE ISLAND?" is a YES/NO box after a long speech; a loop of A presses answered YES. Step through dialogue one box at a time and stop on a question (a YES/NO box), as for the move-learn prompts. And `g undo` is unsafe after many calls: the history files are numbered by count, so `undo` can land on a very old state; restore by modification time (`find $PLAY_DIR/hist -newermt ... | sort`) instead.
+
+## Abilities that block status moves
+
+Check the wild Pokémon's ability before a sleep-and-catch plan: HYPNO (and DROWZEE) with INSOMNIA can't sleep. The Berry Forest HYPNO knocked GENGAR out while HYPNOSIS kept failing. Weaken with a weak move instead, or paralyse.
+

@@ -1,0 +1,280 @@
+{
+ "trainers": [
+  {
+   "name": "Aroma Lady Nikki",
+   "hint": "(27,10). Prize ¥1480. <b>Beaten.</b>",
+   "team": [
+    [
+     "bellsprout",
+     37,
+     "—"
+    ],
+    [
+     "weepinbell",
+     37,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Aroma Lady Violet",
+   "hint": "(68,10). Prize ¥1440. <b>Beaten.</b>",
+   "team": [
+    [
+     "bulbasaur",
+     36,
+     "—"
+    ],
+    [
+     "ivysaur",
+     36,
+     "—"
+    ],
+    [
+     "ivysaur",
+     36,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Tuber Amira",
+   "hint": "(33,13). Prize ¥136. <b>Beaten.</b>",
+   "team": [
+    [
+     "poliwag",
+     34,
+     "—"
+    ],
+    [
+     "poliwhirl",
+     35,
+     "—"
+    ],
+    [
+     "poliwag",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Tuber Alexis",
+   "hint": "(50,11). Prize ¥136. <b>Beaten.</b>",
+   "team": [
+    [
+     "staryu",
+     34,
+     "—"
+    ],
+    [
+     "staryu",
+     34,
+     "—"
+    ],
+    [
+     "krabby",
+     34,
+     "—"
+    ],
+    [
+     "krabby",
+     34,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Swimmer F Tisha",
+   "hint": "(36,4). Prize ¥304. <b>Beaten.</b>",
+   "team": [
+    [
+     "kingler",
+     38,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Twins Joy & Meg",
+   "hint": "(77,5). Prize ¥444. <b>Beaten.</b>",
+   "team": [
+    [
+     "clefairy",
+     37,
+     "—"
+    ],
+    [
+     "clefairy",
+     37,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden Max Repel at (61,5).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Pearl at (44,12).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "3",
+   "text": "Hidden Stardust at (33,7).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_THREE_ISLAND_BOND_BRIDGE",
+   "land_mons",
+   "Tall grass"
+  ],
+  [
+   "MAP_THREE_ISLAND_BOND_BRIDGE",
+   "water_mons",
+   "Surfing"
+  ],
+  [
+   "MAP_THREE_ISLAND_BOND_BRIDGE",
+   "fishing_mons",
+   "Fishing"
+  ]
+ ],
+ "sub": "Seven trainers over the sea",
+ "title": "Bond Bridge",
+ "tab": "Bond Bridge",
+ "map": {
+  "name": "ThreeIsland_BondBridge",
+  "markers": [
+   [
+    "cut",
+    72,
+    8,
+    "C"
+   ],
+   [
+    "cut",
+    86,
+    13,
+    "C"
+   ],
+   [
+    "hidden",
+    61,
+    5,
+    "1"
+   ],
+   [
+    "hidden",
+    44,
+    12,
+    "2"
+   ],
+   [
+    "hidden",
+    33,
+    7,
+    "3"
+   ],
+   [
+    "trainer",
+    27,
+    10,
+    "T1"
+   ],
+   [
+    "trainer",
+    68,
+    10,
+    "T2"
+   ],
+   [
+    "trainer",
+    33,
+    13,
+    "T3"
+   ],
+   [
+    "trainer",
+    50,
+    11,
+    "T4"
+   ],
+   [
+    "trainer",
+    36,
+    4,
+    "T5"
+   ],
+   [
+    "trainer",
+    77,
+    5,
+    "T6"
+   ]
+  ]
+ },
+ "caught": [],
+ "missing": [
+  {
+   "species": "gloom",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "gyarados",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "horsea",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "krabby",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "persian",
+   "via": [
+    "land"
+   ]
+  },
+  {
+   "species": "seadra",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "slowpoke",
+   "via": [
+    "fishing"
+   ]
+  },
+  {
+   "species": "tentacruel",
+   "via": [
+    "water"
+   ]
+  }
+ ]
+}

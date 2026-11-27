@@ -1,0 +1,62 @@
+{
+ "trainers": [],
+ "items": [
+  {
+   "kind": "hidden",
+   "n": "1",
+   "text": "Hidden PP Max at (16,28) (TwoIsland_CapeBrink).",
+   "chip": "yes",
+   "chipText": "Found"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden Rare Candy at (15,13) (TwoIsland_CapeBrink).",
+   "chip": "yes",
+   "chipText": "Found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_TWO_ISLAND_CAPE_BRINK",
+   "land_mons",
+   "Tall grass (TwoIsland_CapeBrink)"
+  ],
+  [
+   "MAP_TWO_ISLAND_CAPE_BRINK",
+   "water_mons",
+   "Surfing (TwoIsland_CapeBrink)"
+  ],
+  [
+   "MAP_TWO_ISLAND_CAPE_BRINK",
+   "fishing_mons",
+   "Fishing (TwoIsland_CapeBrink)"
+  ]
+ ],
+ "sub": "The PP Max underfoot · the ultimate-move tutor",
+ "title": "Cape Brink",
+ "tab": "Cape Brink",
+ "map": [
+  {
+   "name": "TwoIsland_CapeBrink",
+   "markers": [
+    [
+     "hidden",
+     16,
+     28,
+     "1"
+    ],
+    [
+     "hidden",
+     15,
+     13,
+     "2"
+    ]
+   ]
+  },
+  {
+   "name": "TwoIsland_CapeBrink_House",
+   "markers": []
+  }
+ ]
+}

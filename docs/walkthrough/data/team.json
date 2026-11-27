@@ -1,85 +1,10 @@
 {
  "mons": [
   {
-   "species": "snorlax",
-   "name": "Snorlax",
-   "lv": 55,
-   "exp": 209694,
-   "types": [
-    "Normal"
-   ],
-   "nature": "Quiet (+Sp. Atk, −Speed)",
-   "ability": "Immunity",
-   "met": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
-   "role": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
-   "stats": [
-    [
-     "HP",
-     250,
-     0
-    ],
-    [
-     "Attack",
-     138,
-     0
-    ],
-    [
-     "Defense",
-     88,
-     0
-    ],
-    [
-     "Sp. Atk",
-     93,
-     1
-    ],
-    [
-     "Sp. Def",
-     143,
-     0
-    ],
-    [
-     "Speed",
-     63,
-     -1
-    ]
-   ],
-   "moves": [
-    [
-     "Body Slam",
-     "Normal",
-     "85",
-     "100%",
-     "0/15"
-    ],
-    [
-     "Brick Break",
-     "Fighting",
-     "75",
-     "100%",
-     "8/15"
-    ],
-    [
-     "Rest",
-     "Psychic",
-     "—",
-     "—",
-     "10/10"
-    ],
-    [
-     "Rollout",
-     "Rock",
-     "30",
-     "90%",
-     "20/20"
-    ]
-   ]
-  },
-  {
    "species": "gengar",
    "name": "Gengar",
-   "lv": 48,
-   "exp": 104351,
+   "lv": 49,
+   "exp": 111689,
    "types": [
     "Ghost",
     "Poison"
@@ -91,32 +16,32 @@
    "stats": [
     [
      "HP",
-     130,
+     133,
      0
     ],
     [
      "Attack",
-     75,
+     77,
      -1
     ],
     [
      "Defense",
-     80,
+     83,
      0
     ],
     [
      "Sp. Atk",
-     159,
+     162,
      1
     ],
     [
      "Sp. Def",
-     79,
+     80,
      0
     ],
     [
      "Speed",
-     124,
+     128,
      0
     ]
    ],
@@ -148,6 +73,81 @@
      "90",
      "100%",
      "10/10"
+    ]
+   ]
+  },
+  {
+   "species": "blastoise",
+   "name": "Blastoise",
+   "lv": 49,
+   "exp": 110697,
+   "types": [
+    "Water"
+   ],
+   "nature": "Bashful (neutral)",
+   "ability": "Torrent",
+   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
+   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
+   "stats": [
+    [
+     "HP",
+     147,
+     0
+    ],
+    [
+     "Attack",
+     95,
+     0
+    ],
+    [
+     "Defense",
+     111,
+     0
+    ],
+    [
+     "Sp. Atk",
+     105,
+     0
+    ],
+    [
+     "Sp. Def",
+     124,
+     0
+    ],
+    [
+     "Speed",
+     100,
+     0
+    ]
+   ],
+   "moves": [
+    [
+     "Water Gun",
+     "Water",
+     "40",
+     "100%",
+     "25/25"
+    ],
+    [
+     "Protect",
+     "Normal",
+     "—",
+     "—",
+     "10/10"
+    ],
+    [
+     "Surf",
+     "Water",
+     "95",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Rain Dance",
+     "Water",
+     "—",
+     "—",
+     "5/5"
     ]
    ]
   },
@@ -304,10 +304,85 @@
    ]
   },
   {
+   "species": "snorlax",
+   "name": "Snorlax",
+   "lv": 55,
+   "exp": 209694,
+   "types": [
+    "Normal"
+   ],
+   "nature": "Quiet (+Sp. Atk, −Speed)",
+   "ability": "Immunity",
+   "met": "Route 12 bridge, woken with the POKé FLUTE, wild L30 (Quiet, Immunity, LEFTOVERS)",
+   "role": "The bulky Normal type (140 HP, Sp. Def 77) that replaced PIKACHU: HEADBUTT, YAWN, REST and SNORE as caught; wants BODY SLAM or a TM.",
+   "stats": [
+    [
+     "HP",
+     250,
+     0
+    ],
+    [
+     "Attack",
+     138,
+     0
+    ],
+    [
+     "Defense",
+     88,
+     0
+    ],
+    [
+     "Sp. Atk",
+     93,
+     1
+    ],
+    [
+     "Sp. Def",
+     143,
+     0
+    ],
+    [
+     "Speed",
+     63,
+     -1
+    ]
+   ],
+   "moves": [
+    [
+     "Body Slam",
+     "Normal",
+     "85",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Brick Break",
+     "Fighting",
+     "75",
+     "100%",
+     "15/15"
+    ],
+    [
+     "Rest",
+     "Psychic",
+     "—",
+     "—",
+     "10/10"
+    ],
+    [
+     "Rollout",
+     "Rock",
+     "30",
+     "90%",
+     "20/20"
+    ]
+   ]
+  },
+  {
    "species": "dragonair",
    "name": "Dragonair",
-   "lv": 47,
-   "exp": 133264,
+   "lv": 49,
+   "exp": 147107,
    "types": [
     "Dragon"
    ],
@@ -318,32 +393,32 @@
    "stats": [
     [
      "HP",
-     119,
+     125,
      0
     ],
     [
      "Attack",
-     107,
+     113,
      1
     ],
     [
      "Defense",
-     80,
+     83,
      0
     ],
     [
      "Sp. Atk",
-     76,
+     80,
      -1
     ],
     [
      "Sp. Def",
-     82,
+     86,
      0
     ],
     [
      "Speed",
-     90,
+     96,
      0
     ]
    ],
@@ -375,81 +450,6 @@
      "40",
      "100%",
      "20/20"
-    ]
-   ]
-  },
-  {
-   "species": "blastoise",
-   "name": "Blastoise",
-   "lv": 47,
-   "exp": 102087,
-   "types": [
-    "Water"
-   ],
-   "nature": "Bashful (neutral)",
-   "ability": "Torrent",
-   "met": "Gift: the SQUIRTLE of the Cerulean house (Nugget Bridge); evolved into WARTORTLE, then into BLASTOISE at L36 (RARE CANDY)",
-   "role": "The Water type: WATER GUN, BUBBLE, PROTECT, RAIN DANCE; wants SURF (HM03) or a stronger Water move.",
-   "stats": [
-    [
-     "HP",
-     142,
-     0
-    ],
-    [
-     "Attack",
-     90,
-     0
-    ],
-    [
-     "Defense",
-     106,
-     0
-    ],
-    [
-     "Sp. Atk",
-     100,
-     0
-    ],
-    [
-     "Sp. Def",
-     118,
-     0
-    ],
-    [
-     "Speed",
-     95,
-     0
-    ]
-   ],
-   "moves": [
-    [
-     "Water Gun",
-     "Water",
-     "40",
-     "100%",
-     "25/25"
-    ],
-    [
-     "Protect",
-     "Normal",
-     "—",
-     "—",
-     "10/10"
-    ],
-    [
-     "Surf",
-     "Water",
-     "95",
-     "100%",
-     "11/15"
-    ],
-    [
-     "Rain Dance",
-     "Water",
-     "—",
-     "—",
-     "5/5"
     ]
    ]
   }

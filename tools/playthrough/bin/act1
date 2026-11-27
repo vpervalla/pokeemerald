@@ -1,0 +1,8 @@
+#!/bin/bash
+# act1 X Y : on the current map, walk next to (X,Y) with the real-game walker (mgo1), face it and press A; prints the text.
+mgo1 "$1" "$2" adj | tail -1
+p=$(st | head -1 | grep -o "pos ([0-9]*,[0-9]*)" | tr -d 'pos ()'); px=${p%,*}; py=${p#*,}
+if [ "$px" -lt "$1" ]; then k=hR3; elif [ "$px" -gt "$1" ]; then k=hL3; elif [ "$py" -lt "$2" ]; then k=hD3; else k=hU3; fi
+g $k w6 A w70 >/dev/null
+python3 "$(dirname "$0")/../tx.py" 2>/dev/null | head -1 | cut -c1-150
+g A w40 B w30 B w30 >/dev/null

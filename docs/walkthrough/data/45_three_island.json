@@ -1,0 +1,122 @@
+{
+ "trainers": [
+  {
+   "name": "Biker Goon",
+   "hint": "ThreeIsland. Prize ¥740. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     37,
+     "Haze, Smokescreen, Sludge, Tackle"
+    ],
+    [
+     "grimer",
+     37,
+     "Acid Armor, Screech, Minimize, Sludge"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Goon",
+   "hint": "ThreeIsland. Prize ¥760. <b>Beaten.</b>",
+   "team": [
+    [
+     "koffing",
+     38,
+     "Haze, Smokescreen, Sludge, Tackle"
+    ]
+   ]
+  },
+  {
+   "name": "Biker Goon",
+   "hint": "ThreeIsland. Prize ¥760. <b>Beaten.</b>",
+   "team": [
+    [
+     "grimer",
+     38,
+     "—"
+    ]
+   ]
+  },
+  {
+   "name": "Cue Ball Paxton",
+   "hint": "ThreeIsland. Prize ¥936. <b>Beaten.</b>",
+   "team": [
+    [
+     "weezing",
+     39,
+     "—"
+    ],
+    [
+     "muk",
+     39,
+     "—"
+    ]
+   ]
+  }
+ ],
+ "items": [
+  {
+   "kind": "item",
+   "n": "1",
+   "text": "Zinc at (18,17) (ThreeIsland).",
+   "chip": "yes",
+   "chipText": "Collected"
+  },
+  {
+   "kind": "hidden",
+   "n": "2",
+   "text": "Hidden PP Up at (5,13) (ThreeIsland).",
+   "chip": "no",
+   "chipText": "Not found"
+  }
+ ],
+ "wild": [
+  [
+   "MAP_THREE_ISLAND_PORT",
+   "land_mons",
+   "Tall grass (ThreeIsland_Port)"
+  ]
+ ],
+ "sub": "The biker gang and Cue Ball Paxton",
+ "title": "Three Island",
+ "tab": "Three Island",
+ "map": [
+  {
+   "name": "ThreeIsland",
+   "markers": [
+    [
+     "cut",
+     20,
+     7,
+     "C"
+    ],
+    [
+     "item",
+     18,
+     17,
+     "1"
+    ],
+    [
+     "hidden",
+     5,
+     13,
+     "2"
+    ]
+   ]
+  },
+  {
+   "name": "ThreeIsland_Port",
+   "markers": []
+  }
+ ],
+ "caught": [],
+ "missing": [
+  {
+   "species": "dunsparce",
+   "via": [
+    "land"
+   ]
+  }
+ ]
+}

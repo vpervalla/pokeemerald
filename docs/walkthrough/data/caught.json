@@ -1,25 +1,25 @@
 {
  "mons": [
   {
-   "species": "snorlax",
-   "id": 143,
-   "nick": "SNORLAX",
-   "metloc": 112,
-   "mapsec": "MAPSEC_ROUTE_12",
-   "metlevel": 30,
-   "exp": 209694,
-   "level": 55,
-   "where": "party"
-  },
-  {
    "species": "gengar",
    "id": 94,
    "nick": "GENGAR",
    "metloc": 140,
    "mapsec": "MAPSEC_POKEMON_TOWER",
    "metlevel": 15,
-   "exp": 104351,
-   "level": 48,
+   "exp": 111689,
+   "level": 49,
+   "where": "party"
+  },
+  {
+   "species": "blastoise",
+   "id": 9,
+   "nick": "BLASTOISE",
+   "metloc": 91,
+   "mapsec": "MAPSEC_CERULEAN_CITY",
+   "metlevel": 12,
+   "exp": 110697,
+   "level": 49,
    "where": "party"
   },
   {
@@ -45,25 +45,25 @@
    "where": "party"
   },
   {
+   "species": "snorlax",
+   "id": 143,
+   "nick": "SNORLAX",
+   "metloc": 112,
+   "mapsec": "MAPSEC_ROUTE_12",
+   "metlevel": 30,
+   "exp": 209694,
+   "level": 55,
+   "where": "party"
+  },
+  {
    "species": "dragonair",
    "id": 148,
    "nick": "DRAGONAIR",
    "metloc": 136,
    "mapsec": "MAPSEC_KANTO_SAFARI_ZONE",
    "metlevel": 21,
-   "exp": 133264,
-   "level": 47,
-   "where": "party"
-  },
-  {
-   "species": "blastoise",
-   "id": 9,
-   "nick": "BLASTOISE",
-   "metloc": 91,
-   "mapsec": "MAPSEC_CERULEAN_CITY",
-   "metlevel": 12,
-   "exp": 102087,
-   "level": 47,
+   "exp": 147107,
+   "level": 49,
    "where": "party"
   },
   {
@@ -593,6 +593,50 @@
    "exp": 32768,
    "level": null,
    "where": "box 2"
+  },
+  {
+   "species": "persian",
+   "id": 53,
+   "nick": "PERSIAN",
+   "metloc": 153,
+   "mapsec": "MAPSEC_BOND_BRIDGE",
+   "metlevel": 37,
+   "exp": 50653,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "noctowl",
+   "id": 164,
+   "nick": "NOCTOWL",
+   "metloc": 176,
+   "mapsec": "MAPSEC_BERRY_FOREST",
+   "metlevel": 37,
+   "exp": 50653,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "weepinbell",
+   "id": 70,
+   "nick": "WEEPINBELL",
+   "metloc": 176,
+   "mapsec": "MAPSEC_BERRY_FOREST",
+   "metlevel": 35,
+   "exp": 36435,
+   "level": null,
+   "where": "box 2"
+  },
+  {
+   "species": "exeggcute",
+   "id": 102,
+   "nick": "EXEGGCUTE",
+   "metloc": 176,
+   "mapsec": "MAPSEC_BERRY_FOREST",
+   "metlevel": 35,
+   "exp": 53593,
+   "level": null,
+   "where": "box 2"
   }
  ],
  "dex_owned": [
@@ -626,6 +670,7 @@
   50,
   51,
   52,
+  53,
   54,
   56,
   57,
@@ -635,6 +680,7 @@
   65,
   66,
   69,
+  70,
   72,
   74,
   84,
@@ -646,6 +692,7 @@
   94,
   95,
   96,
+  102,
   104,
   107,
   109,
@@ -661,6 +708,7 @@
   147,
   148,
   163,
+  164,
   167
  ]
 }
