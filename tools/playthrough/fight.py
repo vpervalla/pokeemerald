@@ -321,3 +321,7 @@ for _ in range(3000):
         log.append("stuck"); break
 e.commit()
 print(f"turns {turns}:", ", ".join(log))
+# the balance rule: after a battle the lowest-level fit member leads (AUTOLEAD=0 to keep a hand-picked lead)
+if os.environ.get("AUTOLEAD", "1") == "1" and log and log[-1] == "overworld":
+    import subprocess
+    subprocess.run(["python3", os.path.join(os.path.dirname(os.path.abspath(__file__)), "autolead.py")])
