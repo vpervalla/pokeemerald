@@ -69,6 +69,7 @@ static const struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *, u1
 static bool8 TryStartCoordEventScript(struct MapPosition *);
 static bool8 TryStartWarpEventScript(struct MapPosition *, u16);
 static bool8 TryStartMiscWalkingScripts(u16);
+static bool8 TryFindUnderfootHiddenItem(void);
 static bool8 TryStartStepCountScript(u16);
 static void UpdateFriendshipStepCounter(void);
 static bool8 UpdatePoisonStepCounter(void);
@@ -175,6 +176,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
+    if (input->pressedAButton && TryFindUnderfootHiddenItem() == TRUE)
+        return TRUE;
 
     if (input->heldDirection2 && input->dpadDirection == playerDirection)
     {
@@ -193,6 +196,27 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
 
     return FALSE;
+}
+
+// FireRed's "underfoot" hidden items (Cape Brink's PP MAX, the Pokemon Tower's SOOTHE BELL, ...) are found by pressing A
+// while standing on them; the Emerald map format has no underfoot flag, so A with nothing in front checks the player's own
+// tile for an unfound hidden item.
+static bool8 TryFindUnderfootHiddenItem(void)
+{
+    struct MapPosition position;
+    const struct BgEvent *bgEvent;
+
+    GetPlayerPosition(&position);
+    bgEvent = GetBackgroundEventAtPosition(&gMapHeader, position.x - MAP_OFFSET, position.y - MAP_OFFSET, position.elevation);
+    if (bgEvent == NULL || bgEvent->kind != BG_EVENT_HIDDEN_ITEM)
+        return FALSE;
+    gSpecialVar_0x8004 = ((u32)bgEvent->bgUnion.script >> 16) + FLAG_HIDDEN_ITEMS_START;
+    gSpecialVar_0x8005 = (u32)bgEvent->bgUnion.script;
+    if (FlagGet(gSpecialVar_0x8004) == TRUE)
+        return FALSE;
+    PlaySE(SE_SELECT);
+    ScriptContext_SetupScript(EventScript_HiddenItemScript);
+    return TRUE;
 }
 
 static void GetPlayerPosition(struct MapPosition *position)
