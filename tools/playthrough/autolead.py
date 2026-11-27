@@ -66,7 +66,8 @@ for i in range(n):
         fit.append((m[84], i))
 if fit:
     lvl, best = min(fit)
-    if best != 0 and lvl < mon(0)[84]:
+    lead_fit = any(i == 0 for _, i in fit)
+    if best != 0 and (lvl < mon(0)[84] or not lead_fit):     # a lower level, or the lead itself is too weak to fight
         pa, pb = e.peek(base, 100), e.peek(base + best * 100, 100)
         e.send(f"poke {base:x}:{pb.hex()}"); e.send(f"poke {base + best * 100:x}:{pa.hex()}")
         print(f"autolead: slot {best} (L{lvl}) to the front")

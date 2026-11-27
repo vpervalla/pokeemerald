@@ -1,0 +1,16 @@
+#!/bin/bash
+# scene [N] : step through a story scene one A at a time (printing each new text box); a battle that starts is fought
+# (SWITCH=auto TYPES=${FTYPES:-move}); stops at a question (a text ending in "?" that opens a YES/NO box) or after ${1:-40} steps.
+D=$(dirname "$0"); prev=""; quiet=0
+for i in $(seq ${1:-40}); do
+  if inbattle | grep -q battle; then st | grep ENEMY | cut -c1-60; SWITCH=auto TYPES=${FTYPES:-move} fight 0 60 | tail -1 | cut -c1-110; for k in 1 2 3; do g B w50 >/dev/null; done; prev=""; continue; fi
+  t=$(python3 "$D/../tx.py" 2>/dev/null | head -1 | cut -c1-150)
+  if [ "$t" != "$prev" ]; then echo "$t"; prev="$t"; quiet=0; else quiet=$((quiet+1)); fi
+  python3 -c "
+from PIL import Image; im=Image.open('$PLAY_DIR/last.png')
+# a YES/NO box: white menu frame at the right edge above the text box
+exit(0 if all(im.getpixel((x,140))[0]>230 for x in (340,420,460)) and im.getpixel((330,200))[0]>200 else 1)" && { echo "QUESTION (YES/NO box open)"; exit 0; }
+  [ $quiet -ge 6 ] && break
+  g A w80 >/dev/null
+done
+st | head -1
